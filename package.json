@@ -1,0 +1,43 @@
+{
+    "name": "hcloud-sdk",
+    "version": "0.0.1",
+    "description": "hcloud platform sdk",
+    "main": "index.js",
+    "types": "index.d.ts",
+    "scripts": {
+        "test": "mocha -r ts-node/register tests/**/*.test.ts",
+        "format": "prettier --write \"src/**/*.ts\" \"tests/**/*.test.ts\"",
+        "lint": "tslint -p tsconfig.json",
+        "build": "tsc"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/moovit-sp-gmbh/hcloud-sdk-js.git"
+    },
+    "keywords": [
+        "hcloud",
+        "sdk"
+    ],
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/moovit-sp-gmbh/hcloud-sdk-js/issues"
+    },
+    "author": "moovit-sp-gmbh",
+    "homepage": "https://github.com/moovit-sp-gmbh/hcloud-sdk-js#readme",
+    "devDependencies": {
+        "@types/chai": "^4.3.1",
+        "@types/mocha": "^9.1.1",
+        "@types/uuid": "^8.3.4",
+        "chai": "^4.3.6",
+        "mocha": "^10.0.0",
+        "prettier": "^2.6.2",
+        "ts-node": "^10.8.0",
+        "tslint": "^6.1.3",
+        "tslint-config-prettier": "^1.18.0",
+        "typescript": "^4.7.2",
+        "uuid": "^8.3.2"
+    },
+    "dependencies": {
+        "axios": "^0.27.2"
+    }
+}

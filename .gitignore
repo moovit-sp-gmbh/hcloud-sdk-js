@@ -1,0 +1,56 @@
+## NODE
+.npm
+.pnpm
+build
+dist
+node_modules
+
+## RUN
+pids
+*.pid
+*.seed
+*.pid.lock
+
+## LOG
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+yarn-debug.log*
+yarn-error.log*
+logs/
+*.log
+npm-debug.log*
+.pnpm-debug.log*
+
+# VUEPRESS
+_docs/src/.vuepress/dist
+
+## System Files
+Thumbs.db
+.DS_Store
+
+# System Files
+Thumbs.db
+Thumbs.db:encryptable
+.DS_Store
+
+## OTHER
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.msp
+*.lnk
+*.tsbuildinfo
+.eslintcache
+*.tgz
+.env
+.env.test
+.env.production
+.nuxt
+.grunt
+coverage
+*.lcov
+.nyc_output
+todo

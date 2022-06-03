@@ -7,18 +7,18 @@ doc:
 	pnpm doc:dev
 
 test:
-	npm run test
+	pnpm run test
 
 format:
-	npm run format
+	pnpm run format
 
 lint:
-	npm run lint
+	pnpm run lint
 
 build: format lint
-	npm run build
+	pnpm run build
 
 publish: build
 	cp package*.json build/
 	cp *.md build/
-	npm publish ./build
+	pnpm publish ./build

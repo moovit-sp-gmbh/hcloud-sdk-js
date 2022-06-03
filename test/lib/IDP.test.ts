@@ -62,7 +62,7 @@ describe("IDP", () => {
     });
 
     it("Authorize OK", () => {
-        h.setAuthToken(token)
+        h.setAuthToken(token);
         return h.IDP.authorize()
             .then((resp: User) => {
                 expect(resp.name).to.equal("sev");

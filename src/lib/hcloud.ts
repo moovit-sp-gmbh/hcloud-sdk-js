@@ -1,6 +1,7 @@
 import base, { Options } from "./base";
 import IDPService from "./service/IDP";
 import High5Service from "./service/High5";
+import axios from "axios";
 
 // tslint:disable-next-line
 export default class hcloud extends base {
@@ -12,5 +13,11 @@ export default class hcloud extends base {
 
         this.IDP = new IDPService(this.opts);
         this.High5 = new High5Service(this.opts);
+    }
+
+    setAuthToken(token: string) {
+        axios.defaults.headers.common = {
+            Authorization: token,
+        };
     }
 }

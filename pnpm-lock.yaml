@@ -1,4 +1,4 @@
-lockfileVersion: 5.3
+lockfileVersion: 5.4
 
 specifiers:
   '@types/chai': ^4.3.1
@@ -13,9 +13,11 @@ specifiers:
   tslint-config-prettier: ^1.18.0
   typescript: ^4.7.2
   uuid: ^8.3.2
+  vuepress-theme-default-prefers-color-scheme: ^2.0.0
 
 dependencies:
   axios: 0.27.2
+  vuepress-theme-default-prefers-color-scheme: 2.0.0
 
 devDependencies:
   '@types/chai': 4.3.1
@@ -927,6 +929,10 @@ packages:
   /v8-compile-cache-lib/3.0.1:
     resolution: {integrity: sha512-wa7YjyUGfNZngI/vtK0UHAN+lgDCxBPCylVXGp0zu59Fz5aiGtNXaq3DhIov063MorB+VfufLh3JlF2KdTK3xg==}
     dev: true
+
+  /vuepress-theme-default-prefers-color-scheme/2.0.0:
+    resolution: {integrity: sha512-4sA3DCiaIIHVjcIC5+mF00mf29IU27KSH97Ga4xb4nUwwlC6eYHg2qchEVOgV25XogCtGgpZ/DCrTkywxvuBcg==}
+    dev: false
 
   /workerpool/6.2.1:
     resolution: {integrity: sha512-ILEIE97kDZvF9Wb9f6h5aXK4swSlKGUcOEGiIYb2OOu/IrDU9iwj0fD//SsA6E5ibwJxpEvhullJY4Sl4GcpAw==}

@@ -8,8 +8,8 @@ export default class IDP extends base {
      * @param token
      * @returns User object
      */
-    authorize = async (token: string): Promise<User> => {
-        const resp = await axios.post<User>(this.getEndpoint("/v1/authenticate"), {}, { headers: { Authorization: token } }).catch((err: Error) => {
+    authorize = async (): Promise<User> => {
+        const resp = await axios.post<User>(this.getEndpoint("/v1/authenticate"), {}, {}).catch((err: Error) => {
             throw err;
         });
 

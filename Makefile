@@ -1,5 +1,11 @@
 .PHONY: test build
 
+prepare:
+	pnpm i
+
+doc:
+	pnpm doc:dev
+
 test:
 	npm run test
 

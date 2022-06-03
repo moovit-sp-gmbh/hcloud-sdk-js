@@ -62,7 +62,8 @@ describe("IDP", () => {
     });
 
     it("Authorize OK", () => {
-        return h.IDP.authorize(token)
+        h.setAuthToken(token)
+        return h.IDP.authorize()
             .then((resp: User) => {
                 expect(resp.name).to.equal("Severin Siebertz");
             })

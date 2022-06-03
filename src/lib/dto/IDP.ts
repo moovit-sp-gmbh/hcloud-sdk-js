@@ -8,12 +8,6 @@ export interface User {
 export interface Token {
     token: string;
 }
-
-export interface UserAndToken {
-    user: User;
-    token: Token;
-}
-
 export interface ErrorMessage {
     status: number;
     message: string;

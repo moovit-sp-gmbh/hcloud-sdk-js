@@ -1,4 +1,3 @@
-import AxiosService from "./Axios";
 import IDPService from "./service/IDP";
 
 export interface Options {
@@ -7,11 +6,8 @@ export interface Options {
 
 export default abstract class Base {
     protected opts: Options;
-    protected axios: AxiosService;
 
     constructor(opts: Options) {
         this.opts = opts;
-
-        this.axios = new AxiosService();
     }
 }

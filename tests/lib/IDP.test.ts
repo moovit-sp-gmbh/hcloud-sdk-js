@@ -47,7 +47,7 @@ describe("IDP", () => {
     it("AuthenticateReturnUser OK", () => {
         return h.IDP.authenticateReturnUser("s.siebertz@moovit-sp.com", "Sev2000Sev")
             .then((resp: User) => {
-                expect(resp.name).to.equal("sev");
+                expect(resp.name).to.equal("Severin Siebertz");
             })
             .catch((err: AxiosError) => {
                 throw err;
@@ -64,7 +64,7 @@ describe("IDP", () => {
     it("Authorize OK", () => {
         return h.IDP.authorize(token)
             .then((resp: User) => {
-                expect(resp.name).to.equal("sev");
+                expect(resp.name).to.equal("Severin Siebertz");
             })
             .catch((err: AxiosError) => {
                 throw err;

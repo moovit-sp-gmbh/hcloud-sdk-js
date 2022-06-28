@@ -60,15 +60,4 @@ describe("IDP", () => {
             expect(resp.status).to.equal(403);
         });
     });
-
-    it("Authorize OK", () => {
-        h.setAuthToken(token);
-        return h.IDP.authorize()
-            .then((resp: User) => {
-                expect(resp.name).to.equal("Severin Siebertz");
-            })
-            .catch((err: AxiosError) => {
-                throw err;
-            });
-    });
 });

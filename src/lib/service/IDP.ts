@@ -9,7 +9,7 @@ export default class IDP extends base {
      * @returns User object
      */
     authorize = async (): Promise<User> => {
-        const resp = await axios.post<User>(this.getEndpoint("/v1/authorize"), {}, {}).catch((err: Error) => {
+        const resp = await axios.get<User>(this.getEndpoint("/v1/authorize"), {}).catch((err: Error) => {
             throw err;
         });
 

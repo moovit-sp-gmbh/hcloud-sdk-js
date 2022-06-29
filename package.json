@@ -1,6 +1,6 @@
 {
     "name": "hcloud-sdk",
-    "version": "0.0.10",
+    "version": "0.0.11",
     "description": "hcloud platform sdk",
     "main": "index.js",
     "types": "index.d.ts",
@@ -38,12 +38,12 @@
         "tslint": "^6.1.3",
         "tslint-config-prettier": "^1.18.0",
         "typescript": "^4.7.2",
-        "uuid": "^8.3.2"
-    },
-    "dependencies": {
-        "axios": "^0.27.2",
+        "uuid": "^8.3.2",
         "dayjs": "^1.11.3",
         "vuepress": "^1.9.7",
         "vuepress-theme-default-prefers-color-scheme": "^2.0.0"
+    },
+    "dependencies": {
+        "axios": "^0.27.2"
     }
 }

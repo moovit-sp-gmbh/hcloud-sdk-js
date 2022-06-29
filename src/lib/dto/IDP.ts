@@ -9,6 +9,7 @@ export interface Token {
     token: string;
 }
 export interface ErrorMessage {
-    status: number;
+    code: string;
+    error: string;
     message: string;
 }

@@ -22,7 +22,8 @@ describe("IDP", () => {
     it("Register ERR", () => {
         return h.IDP.register("Severin Siebertz", "s.siebertz@moovit-sp.com", "Sev2000Sev").catch((err: AxiosError) => {
             const resp = err.response?.data as ErrorMessage;
-            expect(resp.status).to.equal(409);
+            expect(resp.code).to.equal("001.002.0001");
+            expect(resp.error).to.equal("user.already.exists");
         });
     });
 
@@ -40,7 +41,8 @@ describe("IDP", () => {
     it("Authenticate ERR", () => {
         return h.IDP.authenticate("s.siebertz@moovit-sp.com", "Sev2001Sev").catch((err: AxiosError) => {
             const resp = err.response?.data as ErrorMessage;
-            expect(resp.status).to.equal(403);
+            expect(resp.code).to.equal("001.001.0002");
+            expect(resp.error).to.equal("unauthorized");
         });
     });
 
@@ -57,7 +59,8 @@ describe("IDP", () => {
     it("AuthenticateReturnUser ERR", () => {
         return h.IDP.authenticateReturnUser("s.siebertz@moovit-sp.com", "Sev2001Sev").catch((err: AxiosError) => {
             const resp = err.response?.data as ErrorMessage;
-            expect(resp.status).to.equal(403);
+            expect(resp.code).to.equal("001.001.0002");
+            expect(resp.error).to.equal("unauthorized");
         });
     });
 });

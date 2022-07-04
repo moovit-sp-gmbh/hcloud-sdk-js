@@ -1,8 +1,21 @@
 import base from "../base";
 import axios from "axios";
-import { Token, User } from "../dto/IDP";
+import { Token, User } from "../interfaces/IDP";
+import { Version } from "../interfaces/Global";
 
 export default class IDP extends base {
+    /**
+     * Version requests the endpoint version
+     * @returns Version object
+     */
+    version = async (): Promise<Version> => {
+        const resp = await axios.get<Version>(this.getEndpoint("/v1/version"), {}).catch((err: Error) => {
+            throw err;
+        });
+
+        return resp.data;
+    };
+
     /**
      * Authorize validates a token
      * @param token

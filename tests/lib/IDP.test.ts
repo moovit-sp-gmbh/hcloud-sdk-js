@@ -1,12 +1,23 @@
 import hcloud from "../../src/lib/hcloud";
 import { expect } from "chai";
 import { AxiosError, AxiosResponse } from "axios";
-import { User, Token, ErrorMessage } from "../../src/lib/dto/IDP";
+import { User, Token } from "../../src/lib/interfaces/IDP";
+import { Version, ErrorMessage } from "../../src/lib/interfaces/Global";
 import { v4 as uuidv4 } from "uuid";
 
 describe("IDP", () => {
     const h = new hcloud({ api: "https://dev.app.helmut.cloud" });
     let token = "";
+
+    it("Version OK", () => {
+        return h.IDP.version()
+            .then((resp: Version) => {
+                expect(resp.version).to.be.a.string;
+            })
+            .catch((err: AxiosError) => {
+                throw err;
+            });
+    });
 
     it("Register OK", () => {
         const name = `Severin Siebertz ${uuidv4()}`;

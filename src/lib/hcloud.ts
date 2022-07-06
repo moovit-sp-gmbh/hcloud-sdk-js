@@ -13,7 +13,7 @@ export default class hcloud extends base {
 
     constructor(opts: Options) {
         super(opts);
-        
+
         this.Auditor = new AuditorService(this.opts);
         this.High5 = new High5Service(this.opts);
         this.IDP = new IDPService(this.opts);
@@ -23,9 +23,10 @@ export default class hcloud extends base {
         };
     }
 
-    setAuthToken(token: string) {
+    setAuthToken(token: string): hcloud {
         axios.defaults.headers.common = Object.assign(axios.defaults.headers.common, {
             Authorization: token,
         });
+        return this;
     }
 }

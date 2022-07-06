@@ -1,16 +1,16 @@
-enum Level {
+export enum Level {
     INFO = "info",
     WARN = "warn",
     ERROR = "error",
     DEBUG = "debug",
 }
 
-enum Origin {
+export enum Origin {
     IDP = "idp",
     High5 = "high5",
 }
 
-enum Event {
+export enum Event {
     Login = "login",
     Logout = "logout",
     User = "user",
@@ -20,7 +20,7 @@ enum Event {
     Stream = "stream",
 }
 
-enum Type {
+export enum Type {
     Read = "read",
     Create = "create",
     Update = "update",

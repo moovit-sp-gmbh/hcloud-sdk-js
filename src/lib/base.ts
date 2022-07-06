@@ -2,6 +2,11 @@ import IDPService from "./service/IDP";
 
 export interface Options {
     api: string;
+    auditor?: {
+        queue?: {
+            executionInterval?: number;
+        };
+    };
 }
 
 export default abstract class Base {

@@ -3,7 +3,7 @@ import IDPService from "./service/IDP";
 import AuditorService from "./service/Auditor";
 import High5Service from "./service/High5";
 import axios from "axios";
-import { version } from "../../package.json";
+import { version } from "../package.json";
 
 // tslint:disable-next-line
 export default class hcloud extends base {

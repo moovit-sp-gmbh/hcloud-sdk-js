@@ -62,14 +62,14 @@ describe("Auditor", () => {
     });
 
     it("AddAuditLogs ERR", () => {
-        return h.Auditor.addAuditLogs([]).catch((err: AxiosError) => {
+        return h.Auditor.internal.addAuditLogs([]).catch((err: AxiosError) => {
             expect(err.code).to.equal("ERR_BAD_REQUEST");
         });
     });
 
     it.skip("AddAuditLogs OK", async () => {
         const h = new hcloud({ api: "http://localhost:3004" }).setAuthToken(token);
-        const res = await h.Auditor.addAuditLogs([createTestAuditLog()]).catch((err: unknown) => {
+        const res = await h.Auditor.internal.addAuditLogs([createTestAuditLog()]).catch((err: unknown) => {
             console.log("failed", err);
         });
         console.log("success", res);
@@ -77,7 +77,7 @@ describe("Auditor", () => {
 
     it.skip("AddAuditLogsToQueue OK", async () => {
         const h = new hcloud({ api: "http://localhost:3004", auditor: { queue: { executionInterval: 100 } } }).setAuthToken(token);
-        h.Auditor.queueAuditLogs([createTestAuditLog(), createTestAuditLog(), createTestAuditLog()]);
+        h.Auditor.internal.queueAuditLogs([createTestAuditLog(), createTestAuditLog(), createTestAuditLog()]);
         await sleep(1000);
     });
 });

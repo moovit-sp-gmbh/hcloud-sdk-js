@@ -2,11 +2,16 @@ import base, { Options } from "../base";
 import axios from "axios";
 import { AuditLog } from "../interfaces/Auditor";
 import { Version } from "../interfaces/Global";
+import { AuditorInternal } from "./AuditorInternal";
 
 export default class Auditor extends base {
-    private queueExecutionInterval: number = this.opts.auditor?.queue?.executionInterval || 500;
-    private logQueue = [] as AuditLog[];
-    private logQueueTimer: ReturnType<typeof setTimeout> | undefined;
+    public internal: AuditorInternal;
+
+    constructor(opts: Options) {
+        super(opts);
+
+        this.internal = new AuditorInternal(opts);
+    }
 
     /**
      * Version requests the endpoint version
@@ -53,50 +58,6 @@ export default class Auditor extends base {
 
         return resp.data;
     };
-
-    /**
-     * AddAuditLogs adds log entries
-     *
-     * THIS ENDPOINT WORKS INTERNALLY ONLY
-     *
-     * CAN ONLY BE USED FROM BACKENDS WITHIN THE hcloud DEPLOYMENT AS THE ENDPOINT IS NOT PUBLICLY EXPOSED
-     * @param logs array (add multiple logs entries at once)
-     * @returns AuditLog array
-     */
-    addAuditLogs = async (logs: AuditLog[]): Promise<AuditLog[]> => {
-        const resp = await axios.post<AuditLog[]>(this.getEndpoint("/logs"), logs).catch((err: Error) => {
-            throw err;
-        });
-
-        return resp.data;
-    };
-
-    /**
-     * QueueAuditLogs adds log entries to a queue that will be processed periodically
-     *
-     * THIS COMES WITH DOWNSIDE OF LOG TIMESTAMPS BEING INACCURATE AS THEY ARE CREATED BY THE Auditor SERVER
-     *
-     * TIMESTAMPS MIGHT DIFFER AS MUCH AS: this.opts.auditor.queue.executionInterval || 500
-     * @param logs array (add multiple logs entries at once)
-     */
-    queueAuditLogs = async (logs: AuditLog[]): Promise<void> => {
-        if (!this.logQueueTimer) {
-            this.startQueue();
-        }
-
-        this.logQueue = this.logQueue.concat(logs);
-    };
-
-    private startQueue(): void {
-        if (!this.logQueueTimer) {
-            this.logQueueTimer = setTimeout(() => {
-                if (this.logQueue.length > 0) {
-                    this.addAuditLogs(this.logQueue);
-                    this.logQueue = [] as AuditLog[];
-                }
-            }, this.queueExecutionInterval);
-        }
-    }
 
     private getEndpoint(endpoint: string): string {
         return `${this.opts.api}/api/auditor${endpoint}`;

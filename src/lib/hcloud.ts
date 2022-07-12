@@ -2,6 +2,7 @@ import base, { Options } from "./base";
 import IDPService from "./service/IDP";
 import AuditorService from "./service/Auditor";
 import High5Service from "./service/High5";
+import MailerService from "./service/Mailer";
 import axios from "axios";
 import { version } from "../package.json";
 
@@ -10,6 +11,7 @@ export default class hcloud extends base {
     public Auditor: AuditorService;
     public High5: High5Service;
     public IDP: IDPService;
+    public Mailer: MailerService;
 
     constructor(opts: Options) {
         super(opts);
@@ -17,6 +19,7 @@ export default class hcloud extends base {
         this.Auditor = new AuditorService(this.opts);
         this.High5 = new High5Service(this.opts);
         this.IDP = new IDPService(this.opts);
+        this.Mailer = new MailerService(this.opts);
 
         axios.defaults.headers.common = {
             "User-Agent": "hcloud-sdk-js/v" + version,

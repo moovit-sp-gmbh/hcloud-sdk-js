@@ -43,8 +43,6 @@ export interface AuditLog {
     origin: Origin;
     organization?: string;
     event: Event;
-    user: string;
     type?: Type;
-    timestamp: number;
     message?: any;
 }

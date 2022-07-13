@@ -46,7 +46,8 @@ export class AuditorInternal extends base {
         if (!this.logQueueTimer) {
             this.logQueueTimer = setTimeout(() => {
                 if (this.logQueue.length > 0) {
-                    this.addAuditLogs(this.logQueue).catch();
+                    // tslint:disable-next-line
+                    this.addAuditLogs(this.logQueue).catch(() => {});
                     this.logQueue = [] as AuditLog[];
                 }
             }, this.queueExecutionInterval);

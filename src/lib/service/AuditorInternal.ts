@@ -27,6 +27,8 @@ export class AuditorInternal extends base {
     /**
      * QueueAuditLogs adds log entries to a queue that will be processed periodically
      *
+     * no exceptions are thrown in case of an error as this function runs periodically asynchronous
+     *
      * THIS COMES WITH DOWNSIDE OF LOG TIMESTAMPS BEING INACCURATE AS THEY ARE CREATED BY THE Auditor SERVER
      *
      * TIMESTAMPS MIGHT DIFFER AS MUCH AS: this.opts.auditor.queue.executionInterval || 500
@@ -44,7 +46,7 @@ export class AuditorInternal extends base {
         if (!this.logQueueTimer) {
             this.logQueueTimer = setTimeout(() => {
                 if (this.logQueue.length > 0) {
-                    this.addAuditLogs(this.logQueue);
+                    this.addAuditLogs(this.logQueue).catch();
                     this.logQueue = [] as AuditLog[];
                 }
             }, this.queueExecutionInterval);

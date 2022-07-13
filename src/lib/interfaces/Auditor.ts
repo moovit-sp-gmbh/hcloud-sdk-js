@@ -8,6 +8,8 @@ export enum Level {
 export enum Origin {
     IDP = "idp",
     High5 = "high5",
+    Auditor = "auditor",
+    Mailer = "mailer",
 }
 
 export enum Event {
@@ -18,10 +20,12 @@ export enum Event {
     App = "app",
     Event = "event",
     Stream = "stream",
+    Mail = "mail",
 }
 
 export enum Type {
     Read = "read",
+    Write = "write",
     Create = "create",
     Update = "update",
     Delete = "delete",
@@ -30,6 +34,8 @@ export enum Type {
     Disconnect = "disconnect",
     Add = "add",
     Remove = "remove",
+    Send = "send",
+    Receive = "receive",
 }
 
 export interface AuditLog {

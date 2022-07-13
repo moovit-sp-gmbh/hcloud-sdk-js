@@ -5,81 +5,83 @@ import { User, Token } from "../../src/lib/interfaces/IDP";
 import { Version, ErrorMessage } from "../../src/lib/interfaces/Global";
 import { v4 as uuidv4 } from "uuid";
 import { resolve } from "path/posix";
+import { doesNotMatch, rejects } from "assert";
 
-describe("IDP", () => {
+describe("IDP", function () {
+    this.timeout(10000);
     const h = new hcloud({ api: "https://dev.app.helmut.cloud" });
     let token = "";
 
-    it("Version OK", () => {
-        return h.IDP.version()
+    it("Version OK", done => {
+        h.IDP.version()
             .then((resp: Version) => {
                 expect(resp.version).to.be.a.string;
-                resolve();
+                done();
             })
             .catch((err: AxiosError) => {
                 throw err;
             });
     });
 
-    it("Register OK", () => {
+    it("Register OK", done => {
         const name = `Severin Siebertz ${uuidv4()}`;
-        return h.IDP.register(name, `s.siebertz@moovit-sp-${uuidv4()}.com`, "Sev2000Sev")
+        h.IDP.register(name, `s.siebertz@moovit-sp-${uuidv4()}.com`, "Sev2000Sev")
             .then((resp: User) => {
                 expect(resp.name).to.equal(name);
-                resolve();
+                done();
             })
             .catch((err: AxiosError) => {
                 throw err;
             });
     });
 
-    it("Register ERR", () => {
-        return h.IDP.register("Severin Siebertz", "s.siebertz@moovit-sp.com", "Sev2000Sev").catch((err: AxiosError) => {
+    it("Register ERR", done => {
+        h.IDP.register("Severin Siebertz", "s.siebertz@moovit-sp.com", "Sev2000Sev").catch((err: AxiosError) => {
             const resp = err.response?.data as ErrorMessage;
             expect(resp.code).to.equal("001.002.0001");
             expect(resp.error).to.equal("user.already.exists");
-            resolve();
+            done();
         });
     });
 
-    it("Authenticate OK", () => {
-        return h.IDP.authenticate("s.siebertz@moovit-sp.com", "Sev2000Sev")
+    it("Authenticate OK", done => {
+        h.IDP.authenticate("s.siebertz@moovit-sp.com", "Sev2000Sev")
             .then((resp: Token) => {
                 expect(resp.token).to.contain("Bearer ");
                 token = resp.token;
-                resolve();
+                done();
             })
             .catch((err: AxiosError) => {
                 throw err;
             });
     });
 
-    it("Authenticate ERR", () => {
-        return h.IDP.authenticate("s.siebertz@moovit-sp.com", "Sev2001Sev").catch((err: AxiosError) => {
+    it("Authenticate ERR", done => {
+        h.IDP.authenticate("s.siebertz@moovit-sp.com", "Sev2001Sev").catch((err: AxiosError) => {
             const resp = err.response?.data as ErrorMessage;
             expect(resp.code).to.equal("001.001.0002");
             expect(resp.error).to.equal("unauthorized");
-            resolve();
+            done();
         });
     });
 
-    it("AuthenticateReturnUser OK", () => {
-        return h.IDP.authenticateReturnUser("s.siebertz@moovit-sp.com", "Sev2000Sev")
+    it("AuthenticateReturnUser OK", done => {
+        h.IDP.authenticateReturnUser("s.siebertz@moovit-sp.com", "Sev2000Sev")
             .then((resp: User) => {
                 expect(resp.name).to.equal("Severin Siebertz");
-                resolve();
+                done();
             })
             .catch((err: AxiosError) => {
                 throw err;
             });
     });
 
-    it("AuthenticateReturnUser ERR", () => {
-        return h.IDP.authenticateReturnUser("s.siebertz@moovit-sp.com", "Sev2001Sev").catch((err: AxiosError) => {
+    it("AuthenticateReturnUser ERR", done => {
+        h.IDP.authenticateReturnUser("s.siebertz@moovit-sp.com", "Sev2001Sev").catch((err: AxiosError) => {
             const resp = err.response?.data as ErrorMessage;
             expect(resp.code).to.equal("001.001.0002");
             expect(resp.error).to.equal("unauthorized");
-            resolve();
+            done();
         });
     });
 });

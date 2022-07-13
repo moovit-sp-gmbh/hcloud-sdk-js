@@ -25,4 +25,4 @@ publish: build
 	cp LICENSE build/
 	mv build/src/* build/
 	rm -rf build/src/
-	pnpm publish ./build
+	pnpm publish ./build --no-git-checks

@@ -23,4 +23,4 @@ publish: build
 	cp package*.json build/
 	cp *.md build/
 	cp LICENSE build/
-	pnpm publish ./build
+	pnpm publish ./build --no-git-checks

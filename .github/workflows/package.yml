@@ -1,0 +1,60 @@
+name: Publish package to GitHub Packages
+
+on:
+    push:
+        branches:
+            - staging
+
+jobs:
+  build:
+    runs-on: ubuntu-latest 
+    permissions: 
+      contents: read
+      packages: write 
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+            version: 7.5.1
+
+      - name: Cache pnpm modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-            
+
+      - name: Update package.json name
+        uses: jossef/action-set-json-field@v2
+        with:
+          file: package.json
+          field: name
+          value: "@moovit-sp-gmbh/hcloud-sdk"
+
+      - name: Get current date-time
+        uses: josStorer/get-current-time@v2
+        id: current-time
+        with:
+          format: YYYY-MM-DDTHH-mm-ss
+
+      - name: Update package.json version
+        uses: jossef/action-set-json-field@v2
+        with:
+          file: package.json
+          field: version
+          value: "0.0.0-staging-${{ steps.current-time.outputs.formattedTime }}"
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16.14.2'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@moovit-sp-gmbh'
+      
+      - run: make prepare
+
+      - run: make publish 
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+

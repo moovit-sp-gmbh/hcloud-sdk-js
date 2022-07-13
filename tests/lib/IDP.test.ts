@@ -4,6 +4,7 @@ import { AxiosError, AxiosResponse } from "axios";
 import { User, Token } from "../../src/lib/interfaces/IDP";
 import { Version, ErrorMessage } from "../../src/lib/interfaces/Global";
 import { v4 as uuidv4 } from "uuid";
+import { resolve } from "path/posix";
 
 describe("IDP", () => {
     const h = new hcloud({ api: "https://dev.app.helmut.cloud" });
@@ -13,6 +14,7 @@ describe("IDP", () => {
         return h.IDP.version()
             .then((resp: Version) => {
                 expect(resp.version).to.be.a.string;
+                resolve();
             })
             .catch((err: AxiosError) => {
                 throw err;
@@ -24,6 +26,7 @@ describe("IDP", () => {
         return h.IDP.register(name, `s.siebertz@moovit-sp-${uuidv4()}.com`, "Sev2000Sev")
             .then((resp: User) => {
                 expect(resp.name).to.equal(name);
+                resolve();
             })
             .catch((err: AxiosError) => {
                 throw err;
@@ -35,6 +38,7 @@ describe("IDP", () => {
             const resp = err.response?.data as ErrorMessage;
             expect(resp.code).to.equal("001.002.0001");
             expect(resp.error).to.equal("user.already.exists");
+            resolve();
         });
     });
 
@@ -43,6 +47,7 @@ describe("IDP", () => {
             .then((resp: Token) => {
                 expect(resp.token).to.contain("Bearer ");
                 token = resp.token;
+                resolve();
             })
             .catch((err: AxiosError) => {
                 throw err;
@@ -54,6 +59,7 @@ describe("IDP", () => {
             const resp = err.response?.data as ErrorMessage;
             expect(resp.code).to.equal("001.001.0002");
             expect(resp.error).to.equal("unauthorized");
+            resolve();
         });
     });
 
@@ -61,6 +67,7 @@ describe("IDP", () => {
         return h.IDP.authenticateReturnUser("s.siebertz@moovit-sp.com", "Sev2000Sev")
             .then((resp: User) => {
                 expect(resp.name).to.equal("Severin Siebertz");
+                resolve();
             })
             .catch((err: AxiosError) => {
                 throw err;
@@ -72,6 +79,7 @@ describe("IDP", () => {
             const resp = err.response?.data as ErrorMessage;
             expect(resp.code).to.equal("001.001.0002");
             expect(resp.error).to.equal("unauthorized");
+            resolve();
         });
     });
 });

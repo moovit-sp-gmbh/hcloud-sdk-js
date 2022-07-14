@@ -8,11 +8,11 @@ import { v4 as uuidv4 } from "uuid";
 import { Template } from "../../src/lib/interfaces/Mail";
 
 describe("Mailer", () => {
-    const h = new hcloud({ api: "https://dev.app.helmut.cloud" });
+    const hcloudClient = new hcloud({ api: "https://dev.app.helmut.cloud" });
     let token = "";
 
     it("Version OK", () => {
-        return h.Mailer.version()
+        return hcloudClient.Mailer.version()
             .then((resp: Version) => {
                 expect(resp.version).to.be.a.string;
             })
@@ -22,11 +22,11 @@ describe("Mailer", () => {
     });
 
     it("Authenticate OK", () => {
-        return h.IDP.authenticate("s.siebertz@moovit-sp.com", "Sev2000Sev")
+        return hcloudClient.IDP.authenticate("s.siebertz@moovit-sp.com", "Sev2000Sev")
             .then((resp: Token) => {
                 expect(resp.token).to.contain("Bearer ");
                 token = resp.token;
-                h.setAuthToken(resp.token);
+                hcloudClient.setAuthToken(resp.token);
             })
             .catch((err: AxiosError) => {
                 throw err;
@@ -34,7 +34,7 @@ describe("Mailer", () => {
     });
 
     it.skip("SendMailTemplate OK", () => {
-        return h.Mailer.interal
+        return hcloudClient.Mailer.interal
             .sendMailTemplate({
                 recipients: ["svyxv3s4pb2vufqz@ethereal.email"],
                 template: Template.REGISTER,
@@ -47,7 +47,7 @@ describe("Mailer", () => {
     });
 
     it.skip("SendMailHtml OK", () => {
-        return h.Mailer.interal
+        return hcloudClient.Mailer.interal
             .sendMailHtml({
                 recipients: ["svyxv3s4pb2vufqz@ethereal.email"],
                 html: "PGh0bWw+PGJvZHk+PHByZT5tb288L3ByZT48L2JvZHk+PC9odG1sPg==",
@@ -59,7 +59,7 @@ describe("Mailer", () => {
     });
 
     it.skip("SendMailMustache OK", () => {
-        return h.Mailer.interal
+        return hcloudClient.Mailer.interal
             .sendMailMustache({
                 recipients: ["svyxv3s4pb2vufqz@ethereal.email"],
                 html: "PGh0bWw+PGhlYWQ+PHRpdGxlPnt7dGl0bGV9fTwvdGl0bGU+PC9oZWFkPjxib2R5PjxwcmU+bW9vPC9wcmU+PC9ib2R5PjwvaHRtbD4=",

@@ -7,11 +7,11 @@ import { Version, ErrorMessage } from "../../src/lib/interfaces/Global";
 import { v4 as uuidv4 } from "uuid";
 
 describe("Auditor", () => {
-    const h = new hcloud({ api: "https://dev.app.helmut.cloud" });
+    const hcloudClient = new hcloud({ api: "https://dev.app.helmut.cloud" });
     let token = "";
 
     it("Version OK", () => {
-        return h.Auditor.version()
+        return hcloudClient.Auditor.version()
             .then((resp: Version) => {
                 expect(resp.version).to.be.a.string;
             })
@@ -21,7 +21,7 @@ describe("Auditor", () => {
     });
 
     it("GetAuditLogs ERR", () => {
-        return h.Auditor.getAuditLogs(null, null, null).catch((err: AxiosError) => {
+        return hcloudClient.Auditor.getAuditLogs(null, null, null).catch((err: AxiosError) => {
             const resp = err.response?.data as ErrorMessage;
             expect(resp.code).to.equal("002.001.0001");
             expect(resp.error).to.equal("missing.auth.token");
@@ -30,7 +30,7 @@ describe("Auditor", () => {
 
     it("Register OK", () => {
         const name = `Severin Siebertz ${uuidv4()}`;
-        return h.IDP.register(name, `s.siebertz@moovit-sp-${uuidv4()}.com`, "Sev2000Sev")
+        return hcloudClient.IDP.register(name, `s.siebertz@moovit-sp-${uuidv4()}.com`, "Sev2000Sev")
             .then((resp: User) => {
                 expect(resp.name).to.equal(name);
             })
@@ -40,11 +40,11 @@ describe("Auditor", () => {
     });
 
     it("Authenticate OK", () => {
-        return h.IDP.authenticate("s.siebertz@moovit-sp.com", "Sev2000Sev")
+        return hcloudClient.IDP.authenticate("s.siebertz@moovit-sp.com", "Sev2000Sev")
             .then((resp: Token) => {
                 expect(resp.token).to.contain("Bearer ");
                 token = resp.token;
-                h.setAuthToken(resp.token);
+                hcloudClient.setAuthToken(resp.token);
             })
             .catch((err: AxiosError) => {
                 throw err;
@@ -52,7 +52,7 @@ describe("Auditor", () => {
     });
 
     it("GetAuditLogs OK", () => {
-        return h.Auditor.getAuditLogs(null, null, null)
+        return hcloudClient.Auditor.getAuditLogs(null, null, null)
             .then((resp: AuditLog[]) => {
                 expect(resp).to.be.an("array");
             })
@@ -62,22 +62,22 @@ describe("Auditor", () => {
     });
 
     it("AddAuditLogs ERR", () => {
-        return h.Auditor.internal.addAuditLogs([]).catch((err: AxiosError) => {
+        return hcloudClient.Auditor.internal.addAuditLogs([]).catch((err: AxiosError) => {
             expect(err.code).to.equal("ERR_BAD_REQUEST");
         });
     });
 
     it.skip("AddAuditLogs OK", async () => {
-        const h = new hcloud({ api: "http://localhost:3004" }).setAuthToken(token);
-        const res = await h.Auditor.internal.addAuditLogs([createTestAuditLog()]).catch((err: unknown) => {
+        const hcloudClient = new hcloud({ api: "http://localhost:3004" }).setAuthToken(token);
+        const res = await hcloudClient.Auditor.internal.addAuditLogs([createTestAuditLog()]).catch((err: unknown) => {
             console.log("failed", err);
         });
         console.log("success", res);
     });
 
     it.skip("AddAuditLogsToQueue OK", async () => {
-        const h = new hcloud({ api: "http://localhost:3004", auditor: { queue: { executionInterval: 100 } } }).setAuthToken(token);
-        h.Auditor.internal.queueAuditLogs([createTestAuditLog(), createTestAuditLog(), createTestAuditLog()]);
+        const hcloudClient = new hcloud({ api: "http://localhost:3004", auditor: { queue: { executionInterval: 100 } } }).setAuthToken(token);
+        hcloudClient.Auditor.internal.queueAuditLogs([createTestAuditLog(), createTestAuditLog(), createTestAuditLog()]);
         await sleep(1000);
     });
 });

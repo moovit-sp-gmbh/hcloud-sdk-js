@@ -9,11 +9,11 @@ import { doesNotMatch, rejects } from "assert";
 
 describe("IDP", function () {
     this.timeout(10000);
-    const h = new hcloud({ api: "https://dev.app.helmut.cloud" });
+    const hcloudClient = new hcloud({ api: "https://dev.app.helmut.cloud" });
     let token = "";
 
     it("Version OK", done => {
-        h.IDP.version()
+        hcloudClient.IDP.version()
             .then((resp: Version) => {
                 expect(resp.version).to.be.a.string;
                 done();
@@ -25,7 +25,7 @@ describe("IDP", function () {
 
     it("Register OK", done => {
         const name = `Severin Siebertz ${uuidv4()}`;
-        h.IDP.register(name, `s.siebertz@moovit-sp-${uuidv4()}.com`, "Sev2000Sev")
+        hcloudClient.IDP.register(name, `s.siebertz@moovit-sp-${uuidv4()}.com`, "Sev2000Sev")
             .then((resp: User) => {
                 expect(resp.name).to.equal(name);
                 done();
@@ -36,7 +36,7 @@ describe("IDP", function () {
     });
 
     it("Register ERR", done => {
-        h.IDP.register("Severin Siebertz", "s.siebertz@moovit-sp.com", "Sev2000Sev").catch((err: AxiosError) => {
+        hcloudClient.IDP.register("Severin Siebertz", "s.siebertz@moovit-sp.com", "Sev2000Sev").catch((err: AxiosError) => {
             const resp = err.response?.data as ErrorMessage;
             expect(resp.code).to.equal("001.002.0001");
             expect(resp.error).to.equal("user.already.exists");
@@ -45,7 +45,7 @@ describe("IDP", function () {
     });
 
     it("Authenticate OK", done => {
-        h.IDP.authenticate("s.siebertz@moovit-sp.com", "Sev2000Sev")
+        hcloudClient.IDP.authenticate("s.siebertz@moovit-sp.com", "Sev2000Sev")
             .then((resp: Token) => {
                 expect(resp.token).to.contain("Bearer ");
                 token = resp.token;
@@ -57,7 +57,7 @@ describe("IDP", function () {
     });
 
     it("Authenticate ERR", done => {
-        h.IDP.authenticate("s.siebertz@moovit-sp.com", "Sev2001Sev").catch((err: AxiosError) => {
+        hcloudClient.IDP.authenticate("s.siebertz@moovit-sp.com", "Sev2001Sev").catch((err: AxiosError) => {
             const resp = err.response?.data as ErrorMessage;
             expect(resp.code).to.equal("001.001.0002");
             expect(resp.error).to.equal("unauthorized");
@@ -66,7 +66,7 @@ describe("IDP", function () {
     });
 
     it("AuthenticateReturnUser OK", done => {
-        h.IDP.authenticateReturnUser("s.siebertz@moovit-sp.com", "Sev2000Sev")
+        hcloudClient.IDP.authenticateReturnUser("s.siebertz@moovit-sp.com", "Sev2000Sev")
             .then((resp: User) => {
                 expect(resp.name).to.equal("Severin Siebertz");
                 done();
@@ -77,7 +77,7 @@ describe("IDP", function () {
     });
 
     it("AuthenticateReturnUser ERR", done => {
-        h.IDP.authenticateReturnUser("s.siebertz@moovit-sp.com", "Sev2001Sev").catch((err: AxiosError) => {
+        hcloudClient.IDP.authenticateReturnUser("s.siebertz@moovit-sp.com", "Sev2001Sev").catch((err: AxiosError) => {
             const resp = err.response?.data as ErrorMessage;
             expect(resp.code).to.equal("001.001.0002");
             expect(resp.error).to.equal("unauthorized");

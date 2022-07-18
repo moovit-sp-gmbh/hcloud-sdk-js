@@ -85,7 +85,7 @@ export default class IDP extends base {
         return resp.data;
     };
 
-    private getEndpoint(endpoint: string): string {
+    protected getEndpoint(endpoint: string): string {
         return `${this.opts.api}/api/account${endpoint}`;
     }
 }

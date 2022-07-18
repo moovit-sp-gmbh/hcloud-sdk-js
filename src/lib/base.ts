@@ -1,5 +1,3 @@
-import IDPService from "./service/idp/IDP";
-
 export interface Options {
     api: string;
     auditor?: {
@@ -15,4 +13,6 @@ export default abstract class Base {
     constructor(opts: Options) {
         this.opts = opts;
     }
+
+    protected abstract getEndpoint(endoiint: string): string;
 }

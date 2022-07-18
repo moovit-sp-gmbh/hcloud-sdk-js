@@ -1,9 +1,18 @@
-import base from "../../base";
+import base, { Options } from "../../base";
 import axios from "axios";
 import { Token, User } from "../../interfaces/IDP";
 import { Version } from "../../interfaces/Global";
+import { IdpOrganization } from "./IdpOrganization";
 
 export default class IDP extends base {
+    public organization: IdpOrganization;
+
+    constructor(opts: Options) {
+        super(opts);
+
+        this.organization = new IdpOrganization(opts);
+    }
+    
     /**
      * Version requests the endpoint version
      * @returns Version object

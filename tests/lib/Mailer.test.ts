@@ -33,41 +33,43 @@ describe("Mailer", () => {
             });
     });
 
-    it.skip("SendMailTemplate OK", () => {
-        return hcloudClient.Mailer.interal
-            .sendMailTemplate({
-                recipients: ["svyxv3s4pb2vufqz@ethereal.email"],
-                template: Template.REGISTER,
-                replacements: [],
-                subject: "test subject",
-            })
-            .catch((err: AxiosError) => {
-                throw err;
-            });
-    });
+    describe("Send", () => {
+        it.skip("SendMailTemplate OK", () => {
+            return hcloudClient.Mailer.interal
+                .sendMailTemplate({
+                    recipients: ["svyxv3s4pb2vufqz@ethereal.email"],
+                    template: Template.REGISTER,
+                    replacements: [],
+                    subject: "test subject",
+                })
+                .catch((err: AxiosError) => {
+                    throw err;
+                });
+        });
 
-    it.skip("SendMailHtml OK", () => {
-        return hcloudClient.Mailer.interal
-            .sendMailHtml({
-                recipients: ["svyxv3s4pb2vufqz@ethereal.email"],
-                html: "PGh0bWw+PGJvZHk+PHByZT5tb288L3ByZT48L2JvZHk+PC9odG1sPg==",
-                subject: "test subject",
-            })
-            .catch((err: AxiosError) => {
-                throw err;
-            });
-    });
+        it.skip("SendMailHtml OK", () => {
+            return hcloudClient.Mailer.interal
+                .sendMailHtml({
+                    recipients: ["svyxv3s4pb2vufqz@ethereal.email"],
+                    html: "PGh0bWw+PGJvZHk+PHByZT5tb288L3ByZT48L2JvZHk+PC9odG1sPg==",
+                    subject: "test subject",
+                })
+                .catch((err: AxiosError) => {
+                    throw err;
+                });
+        });
 
-    it.skip("SendMailMustache OK", () => {
-        return hcloudClient.Mailer.interal
-            .sendMailMustache({
-                recipients: ["svyxv3s4pb2vufqz@ethereal.email"],
-                html: "PGh0bWw+PGhlYWQ+PHRpdGxlPnt7dGl0bGV9fTwvdGl0bGU+PC9oZWFkPjxib2R5PjxwcmU+bW9vPC9wcmU+PC9ib2R5PjwvaHRtbD4=",
-                subject: "test subject",
-                replacements: [{ key: "title", value: "a cool title" }],
-            })
-            .catch((err: AxiosError) => {
-                throw err;
-            });
+        it.skip("SendMailMustache OK", () => {
+            return hcloudClient.Mailer.interal
+                .sendMailMustache({
+                    recipients: ["svyxv3s4pb2vufqz@ethereal.email"],
+                    html: "PGh0bWw+PGhlYWQ+PHRpdGxlPnt7dGl0bGV9fTwvdGl0bGU+PC9oZWFkPjxib2R5PjxwcmU+bW9vPC9wcmU+PC9ib2R5PjwvaHRtbD4=",
+                    subject: "test subject",
+                    replacements: [{ key: "title", value: "a cool title" }],
+                })
+                .catch((err: AxiosError) => {
+                    throw err;
+                });
+        });
     });
 });

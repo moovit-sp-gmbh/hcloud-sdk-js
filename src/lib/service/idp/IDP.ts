@@ -15,7 +15,7 @@ export default class IDP extends base {
 
         this.organization = new IdpOrganization(opts);
     }
-    
+
     /**
      * Version requests the endpoint version
      * @returns Version object

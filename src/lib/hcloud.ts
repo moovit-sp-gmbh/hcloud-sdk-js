@@ -7,19 +7,17 @@ import axios from "axios";
 import { version } from "../package.json";
 
 // tslint:disable-next-line
-export default class hcloud extends base {
+export default class hcloud {
     public Auditor: AuditorService;
     public High5: High5Service;
     public IDP: IDPService;
     public Mailer: MailerService;
 
     constructor(opts: Options) {
-        super(opts);
-
-        this.Auditor = new AuditorService(this.opts);
-        this.High5 = new High5Service(this.opts);
-        this.IDP = new IDPService(this.opts);
-        this.Mailer = new MailerService(this.opts);
+        this.Auditor = new AuditorService(opts);
+        this.High5 = new High5Service(opts);
+        this.IDP = new IDPService(opts);
+        this.Mailer = new MailerService(opts);
 
         axios.defaults.headers.common = {
             "User-Agent": "hcloud-sdk-js/v" + version,

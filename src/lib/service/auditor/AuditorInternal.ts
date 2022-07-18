@@ -54,7 +54,7 @@ export class AuditorInternal extends base {
         }
     }
 
-    private getEndpoint(endpoint: string): string {
+    protected getEndpoint(endpoint: string): string {
         return `${this.opts.api}/api/auditor/internal${endpoint}`;
     }
 }

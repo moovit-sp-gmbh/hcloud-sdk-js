@@ -1,4 +1,4 @@
-import base, { Options } from "../base";
+import base, { Options } from "../../base";
 import { AxiosResponse } from "axios";
 
 export default class High5 extends base {

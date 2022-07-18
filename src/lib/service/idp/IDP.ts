@@ -1,7 +1,7 @@
-import base from "../base";
+import base from "../../base";
 import axios from "axios";
-import { Token, User } from "../interfaces/IDP";
-import { Version } from "../interfaces/Global";
+import { Token, User } from "../../interfaces/IDP";
+import { Version } from "../../interfaces/Global";
 
 export default class IDP extends base {
     /**

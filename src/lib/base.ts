@@ -1,4 +1,4 @@
-import IDPService from "./service/IDP";
+import IDPService from "./service/idp/IDP";
 
 export interface Options {
     api: string;

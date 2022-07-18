@@ -1,6 +1,6 @@
-import base, { Options } from "../base";
+import base, { Options } from "../../base";
 import axios from "axios";
-import { HtmlMail, MustacheMail, TemplateMail } from "../interfaces/Mail";
+import { HtmlMail, MustacheMail, TemplateMail } from "../../interfaces/Mail";
 
 export default class MailerInternal extends base {
     /**

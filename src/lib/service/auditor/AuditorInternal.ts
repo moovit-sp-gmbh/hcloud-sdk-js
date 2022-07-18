@@ -1,6 +1,6 @@
 import axios from "axios";
-import base from "../base";
-import { AuditLog } from "../interfaces/Auditor";
+import base from "../../base";
+import { AuditLog } from "../../interfaces/Auditor";
 
 export class AuditorInternal extends base {
     private queueExecutionInterval: number = this.opts.auditor?.queue?.executionInterval || 500;

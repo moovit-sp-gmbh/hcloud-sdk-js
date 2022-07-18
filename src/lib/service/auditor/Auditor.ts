@@ -1,7 +1,7 @@
-import base, { Options } from "../base";
+import base, { Options } from "../../base";
 import axios from "axios";
-import { AuditLog } from "../interfaces/Auditor";
-import { Version } from "../interfaces/Global";
+import { AuditLog } from "../../interfaces/Auditor";
+import { Version } from "../../interfaces/Global";
 import { AuditorInternal } from "./AuditorInternal";
 
 export default class Auditor extends base {

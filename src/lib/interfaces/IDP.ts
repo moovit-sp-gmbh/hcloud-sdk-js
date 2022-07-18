@@ -3,6 +3,7 @@ export interface User {
     name: string;
     email: string;
     company: string;
+    activeOrganizationId: string;
 }
 
 export interface Organization {

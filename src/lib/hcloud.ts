@@ -6,7 +6,6 @@ import MailerService from "./service/mailer/Mailer";
 import axios from "axios";
 import { version } from "../package.json";
 
-// tslint:disable-next-line
 export default class hcloud extends base {
     public Auditor: AuditorService;
     public High5: High5Service;

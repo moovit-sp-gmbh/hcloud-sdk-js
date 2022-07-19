@@ -1,7 +1,7 @@
 import hcloud from "../../src/lib/hcloud";
 import { expect } from "chai";
 import { AxiosError, AxiosResponse } from "axios";
-import { User, Token } from "../../src/lib/interfaces/IDP";
+import { User, SuccessfulAuth } from "../../src/lib/interfaces/IDP";
 import { AuditLog, Level, Origin, Type, Event } from "../../src/lib/interfaces/Auditor";
 import { Version, ErrorMessage } from "../../src/lib/interfaces/Global";
 import { v4 as uuidv4 } from "uuid";
@@ -33,7 +33,7 @@ describe("Auditor", () => {
 
     it("Authenticate OK", () => {
         return hcloudClient.IDP.authenticate("s.siebertz@moovit-sp.com", "Sev2000Sev")
-            .then((resp: Token) => {
+            .then((resp: SuccessfulAuth) => {
                 expect(resp.token).to.contain("Bearer ");
                 token = resp.token;
                 hcloudClient.setAuthToken(resp.token);

@@ -1,7 +1,7 @@
 import hcloud from "../../src/lib/hcloud";
 import { expect } from "chai";
 import { AxiosError, AxiosResponse } from "axios";
-import { User, Token, Organization, OrganizationMember, OrganizationMemberRole } from "../../src/lib/interfaces/IDP";
+import { User, SuccessfulAuth, Organization, OrganizationMember, OrganizationMemberRole } from "../../src/lib/interfaces/IDP";
 import { Version, ErrorMessage } from "../../src/lib/interfaces/Global";
 import { v4 as uuidv4 } from "uuid";
 import { resolve } from "path/posix";
@@ -51,8 +51,10 @@ describe("IDP", function () {
     describe("Authenticate", function () {
         it("Authenticate OK", done => {
             hcloudClient.IDP.authenticate("s.siebertz@moovit-sp.com", "Sev2000Sev")
-                .then((resp: Token) => {
+                .then((resp: SuccessfulAuth) => {
                     expect(resp.token).to.contain("Bearer ");
+                    expect(resp.user.name).to.equal("Severin Siebertz");
+                    user = resp.user;
                     token = resp.token;
                     done();
                 })
@@ -63,27 +65,6 @@ describe("IDP", function () {
 
         it("Authenticate ERR", done => {
             hcloudClient.IDP.authenticate("s.siebertz@moovit-sp.com", "Sev2001Sev").catch((err: AxiosError) => {
-                const resp = err.response?.data as ErrorMessage;
-                expect(resp.code).to.equal("001.001.0002");
-                expect(resp.error).to.equal("unauthorized");
-                done();
-            });
-        });
-
-        it("AuthenticateReturnUser OK", done => {
-            hcloudClient.IDP.authenticateReturnUser("s.siebertz@moovit-sp.com", "Sev2000Sev")
-                .then((resp: User) => {
-                    expect(resp.name).to.equal("Severin Siebertz");
-                    user = resp;
-                    done();
-                })
-                .catch((err: AxiosError) => {
-                    throw err;
-                });
-        });
-
-        it("AuthenticateReturnUser ERR", done => {
-            hcloudClient.IDP.authenticateReturnUser("s.siebertz@moovit-sp.com", "Sev2001Sev").catch((err: AxiosError) => {
                 const resp = err.response?.data as ErrorMessage;
                 expect(resp.code).to.equal("001.001.0002");
                 expect(resp.error).to.equal("unauthorized");

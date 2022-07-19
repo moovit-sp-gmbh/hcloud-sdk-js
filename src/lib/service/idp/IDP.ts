@@ -1,6 +1,6 @@
 import base, { Options } from "../../base";
 import axios from "axios";
-import { Token, User } from "../../interfaces/IDP";
+import { SuccessfulAuth, User } from "../../interfaces/IDP";
 import { Version } from "../../interfaces/Global";
 import { IdpOrganization } from "./IdpOrganization";
 
@@ -62,30 +62,15 @@ export default class IDP extends base {
      * Authenticate against the identity provider with a given email and password.
      * @param email
      * @param password
-     * @returns Bearer Token
+     * @returns SuccessfulAuth object holding the token and the user
      */
-    authenticate = async (email: string, password: string): Promise<Token> => {
+    authenticate = async (email: string, password: string): Promise<SuccessfulAuth> => {
         const resp = await axios.post<User>(this.getEndpoint("/v1/authenticate"), { email: email, password: password }).catch((err: Error) => {
             throw err;
         });
 
-        // tslint-disable: no-string-literal
-        const token: Token = { token: resp.headers.authorization };
-        return token;
-    };
-
-    /**
-     * authenticateReturnUser against the identity provider with a given email and password.
-     * @param email
-     * @param password
-     * @returns User object
-     */
-    authenticateReturnUser = async (email: string, password: string): Promise<User> => {
-        const resp = await axios.post<User>(this.getEndpoint("/v1/authenticate"), { email: email, password: password }).catch((err: Error) => {
-            throw err;
-        });
-
-        return resp.data;
+        const authed: SuccessfulAuth = { token: resp.headers.authorization, user: resp.data };
+        return authed;
     };
 
     protected getEndpoint(endpoint: string): string {

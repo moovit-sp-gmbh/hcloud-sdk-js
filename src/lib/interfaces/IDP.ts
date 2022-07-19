@@ -27,6 +27,7 @@ export enum OrganizationMemberRole {
     USER = "user",
 }
 
-export interface Token {
+export interface SuccessfulAuth {
+    user: User;
     token: string;
 }

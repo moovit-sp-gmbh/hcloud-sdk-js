@@ -51,7 +51,8 @@ export interface Stream {
 export interface Design {
     _id: string;
     name: string;
-    design: object;
+    design: any;
+    build?: any;
     streamId: string;
     eventId: string;
     appId: string;

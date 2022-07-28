@@ -42,12 +42,15 @@ export class High5Design extends base {
      * ereateDesign return the newly created design
      * @param streamId the stream's id the design should be created for
      * @param design design json payload (schema created by Stream Designer Studio)
+     * @param build rendered design json payload (schema created by Stream Designer Studio; ready to be executed by wave engine)
      * @returns Design
      */
-    public createDesign = async (streamId: string, name: string, design: any): Promise<Design> => {
-        const resp = await axios.post<Design>(this.getEndpoint(`/v1/design/${streamId}`), { name: name, design: design }).catch((err: Error) => {
-            throw err;
-        });
+    public createDesign = async (streamId: string, name: string, design: any, build?: any): Promise<Design> => {
+        const resp = await axios
+            .post<Design>(this.getEndpoint(`/v1/design/${streamId}`), { name: name, design: design, build: build })
+            .catch((err: Error) => {
+                throw err;
+            });
 
         return resp.data;
     };

@@ -7,7 +7,8 @@ import { Version, ErrorMessage } from "../../src/lib/interfaces/Global";
 import { v4 as uuidv4 } from "uuid";
 import { Template } from "../../src/lib/interfaces/Mail";
 
-describe("Mailer", () => {
+describe("Mailer", function () {
+    this.timeout(10000);
     const hcloudClient = new hcloud({ api: "https://dev.app.helmut.cloud" });
     let token = "";
 

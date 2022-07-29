@@ -2,8 +2,15 @@ export interface User {
     _id: string;
     name: string;
     email: string;
-    company: string;
+    company?: string;
     activeOrganizationId: string;
+}
+
+export interface PatchUser {
+    name?: string;
+    email?: string;
+    company?: string;
+    activeOrganizationId?: string;
 }
 
 export interface Organization {
@@ -23,7 +30,7 @@ export interface OrganizationMember {
 
 export enum OrganizationMemberRole {
     ADMIN = "admin",
-    MAINTINER = "maintainer",
+    MAINTAINER = "maintainer",
     USER = "user",
 }
 

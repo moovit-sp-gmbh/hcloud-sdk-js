@@ -17,6 +17,22 @@ export class IdpOrganization extends base {
     }
 
     /**
+     * updateOrganization update an organization
+     * @param id the id of the organization
+     * @param name a name for the new organization
+     * @param company an opitional company for the new organization
+     * @returns Organization object
+     */
+    public updateOrganization = async (id: string, name: string, company?: string): Promise<Organization> => {
+        const organization = { name: name, company: company } as Organization;
+        const resp = await axios.patch<Organization>(this.getEndpoint(`/v1/organization/${id}`), organization).catch((err: Error) => {
+            throw err;
+        });
+
+        return resp.data;
+    };
+
+    /**
      * createOrganization creates a new organization
      * @param name a name for the new organization
      * @param company an opitional company for the new organization

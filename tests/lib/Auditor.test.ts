@@ -6,7 +6,8 @@ import { AuditLog, Level, Origin, Type, Event } from "../../src/lib/interfaces/A
 import { Version, ErrorMessage } from "../../src/lib/interfaces/Global";
 import { v4 as uuidv4 } from "uuid";
 
-describe("Auditor", () => {
+describe("Auditor", function() {
+    this.timeout(10000);
     const hcloudClient = new hcloud({ api: "https://dev.app.helmut.cloud" });
     let token = "";
 
@@ -27,6 +28,7 @@ describe("Auditor", () => {
                 expect(resp.name).to.equal(name);
             })
             .catch((err: AxiosError) => {
+                console.log(err)
                 throw err;
             });
     });

@@ -38,6 +38,16 @@ describe("IDP", function () {
                 });
         });
 
+        it("Register", done => {
+            hcloudClient.IDP.register("Severin Siebertz", "s.siebertz@moovit-sp.com", "Sev2000Sev")
+                .then((resp: User) => {
+                    done();
+                })
+                .catch((err: AxiosError) => {
+                    done();
+                });
+        });
+
         it("Register ERR", done => {
             hcloudClient.IDP.register("Severin Siebertz", "s.siebertz@moovit-sp.com", "Sev2000Sev").catch((err: AxiosError) => {
                 const resp = err.response?.data as ErrorMessage;
@@ -53,7 +63,7 @@ describe("IDP", function () {
             hcloudClient.IDP.authenticate("s.siebertz@moovit-sp.com", "Sev2000Sev")
                 .then((resp: SuccessfulAuth) => {
                     expect(resp.token).to.contain("Bearer ");
-                    expect(resp.user.name).to.equal("Severin Siebertz");
+                    expect(resp.user.email).to.equal("s.siebertz@moovit-sp.com");
                     user = resp.user;
                     token = resp.token;
                     done();
@@ -87,9 +97,37 @@ describe("IDP", function () {
                 });
         });
 
+        it("OrganizationUpdate OK", done => {
+            const newName = uuidv4();
+            hcloudClient.IDP.organization
+                .updateOrganization(organization[0]._id, newName)
+                .then((resp: Organization) => {
+                    expect(resp).to.have.property("_id");
+                    expect(resp.name).to.equal(newName);
+                    organization.push(resp);
+                    done();
+                })
+                .catch((err: AxiosError) => {
+                    throw err;
+                });
+        });
+
+        it("OrganizationUpdateWithCompany OK", done => {
+            hcloudClient.IDP.organization
+                .updateOrganization(organization[0]._id, uuidv4(), "moo")
+                .then((resp: Organization) => {
+                    expect(resp.company).to.equal("moo");
+                    organization.push(resp);
+                    done();
+                })
+                .catch((err: AxiosError) => {
+                    throw err;
+                });
+        });
+
         it("OrganizationAddMemberByEmail OK", done => {
             hcloudClient.IDP.organization.member
-                .addOrganizationMemberByEmail(organization[0]._id, "s.siebertz@moovit-sp.com", OrganizationMemberRole.MAINTINER)
+                .addOrganizationMemberByEmail(organization[0]._id, user.email, OrganizationMemberRole.MAINTAINER)
                 .then((resp: OrganizationMember) => {
                     expect(resp).to.have.property("_id");
                     done();
@@ -138,7 +176,7 @@ describe("IDP", function () {
 
         it("OrganizationDeleteMemberById OK", done => {
             hcloudClient.IDP.organization.member
-                .removeOrganizationMemberById(organization[0]._id, user._id)
+                .removeOrganizationMemberById(organization[1]._id, user._id)
                 .then(() => {
                     done();
                 })
@@ -159,6 +197,32 @@ describe("IDP", function () {
         it("OrganizationDeleteById OK", done => {
             hcloudClient.IDP.organization
                 .deleteOrganizationById(organization[0]._id)
+                .then(() => {
+                    done();
+                })
+                .catch((err: AxiosError) => {
+                    throw err;
+                });
+        });
+    });
+
+    describe("User", function () {
+        it("UserPatch OK", done => {
+            const newName = "Severin Siebertz " + uuidv4();
+            hcloudClient.IDP.user
+                .patchUser({ name: newName })
+                .then((resp: User) => {
+                    expect(resp.name).to.equal(newName);
+                    done();
+                })
+                .catch((err: AxiosError) => {
+                    throw err;
+                });
+        });
+
+        it("UserDelete ERR", done => {
+            hcloudClient.IDP.user
+                .deleteUser()
                 .then(() => {
                     done();
                 })

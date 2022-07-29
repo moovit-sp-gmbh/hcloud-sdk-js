@@ -7,7 +7,8 @@ import { v4 as uuidv4 } from "uuid";
 import { App, AppPermission, Design, Event, Stream } from "../../src/lib/interfaces/High5";
 import { doesNotMatch } from "assert";
 
-describe("High5", () => {
+describe("High5", function () {
+    this.timeout(10000);
     const hcloudClient = new hcloud({ api: "https://dev.app.helmut.cloud" });
     let token = "";
     let user: User;
@@ -281,7 +282,7 @@ describe("High5", () => {
             return hcloudClient.High5.design
                 .createDesign(stream._id, designName, { foo: "bar" })
                 .then((resp: Design) => {
-                    expect(resp.name).to.equal(designName );
+                    expect(resp.name).to.equal(designName);
                     design = resp;
                 })
                 .catch((err: AxiosError) => {

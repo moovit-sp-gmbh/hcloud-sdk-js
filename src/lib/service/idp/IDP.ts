@@ -3,6 +3,7 @@ import axios from "axios";
 import { SuccessfulAuth, User } from "../../interfaces/IDP";
 import { Version } from "../../interfaces/Global";
 import { IdpOrganization } from "./IdpOrganization";
+import { IdpUser } from "./IdpUser";
 
 export default class IDP extends base {
     /**
@@ -10,10 +11,15 @@ export default class IDP extends base {
      */
     public organization: IdpOrganization;
 
+    /**
+     * user handles everything around a user
+     */
+    public user: IdpUser;
     constructor(opts: Options) {
         super(opts);
 
         this.organization = new IdpOrganization(opts);
+        this.user = new IdpUser(opts);
     }
 
     /**

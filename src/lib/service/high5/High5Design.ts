@@ -39,7 +39,7 @@ export class High5Design extends base {
     };
 
     /**
-     * ereateDesign return the newly created design
+     * createDesign return the newly created design
      * @param streamId the stream's id the design should be created for
      * @param design design json payload (schema created by Stream Designer Studio)
      * @param build rendered design json payload (schema created by Stream Designer Studio; ready to be executed by wave engine)

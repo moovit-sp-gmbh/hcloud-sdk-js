@@ -5,12 +5,14 @@ import { High5App } from "./High5App";
 import { High5Event } from "./High5Event";
 import { High5Stream } from "./High5Stream";
 import { High5Design } from "./High5Design";
+import { High5Node } from "./High5Node";
 
 export default class High5 extends base {
     public app: High5App;
     public event: High5Event;
     public stream: High5Stream;
     public design: High5Design;
+    public node: High5Node;
 
     constructor(opts: Options) {
         super(opts);
@@ -19,6 +21,7 @@ export default class High5 extends base {
         this.event = new High5Event(opts);
         this.stream = new High5Stream(opts);
         this.design = new High5Design(opts);
+        this.node = new High5Node(opts);
     }
 
     /**

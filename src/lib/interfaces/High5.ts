@@ -63,3 +63,25 @@ export interface Design {
      */
     createDate: number;
 }
+
+export enum NodeCategory {
+    CUSTOM = "CUSTOM",
+}
+export interface Node {
+    _id: string;
+    secret: string;
+    category: NodeCategory;
+    organizationId: string;
+    appId: string;
+    eventId: string;
+    streamId: string;
+    userId: string;
+    specification: object;
+    typescript: string;
+    javascript: string;
+    /**
+     * UTC+0 unix timestamp
+     */
+    createDate: number;
+    modifyDate: number;
+}

@@ -58,3 +58,11 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Update status to telegram
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_CHATID }}
+          token: ${{ secrets.TELEGRAM_SECRET }}
+          message: |  #https://help.github.com/en/actions/reference/contexts-and-expression-syntax-for-github-actions#github-context
+            New npm package with tag moovit-sp-gmbh/hcloud-sdk@0.0.0-staging-${{ steps.current-time.outputs.formattedTime }} by ${{ github.actor }}
+

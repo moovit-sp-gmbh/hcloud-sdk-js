@@ -40,12 +40,18 @@ export interface Stream {
     name: string;
     eventId: string;
     appId: string;
+    order:number;
     organizationId: string;
     creatorId: string;
     /**
      * UTC+0 unix timestamp
      */
     createDate: number;
+}
+
+export interface StreamPatchOrder {
+    streamId: string;
+    order:number;
 }
 
 export interface Design {

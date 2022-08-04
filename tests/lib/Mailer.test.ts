@@ -23,7 +23,7 @@ describe("Mailer", function () {
     });
 
     it("Authenticate OK", () => {
-        return hcloudClient.IDP.authenticate("s.siebertz@moovit-sp.com", "Sev2000Sev")
+        return hcloudClient.IDP.authenticate("s.siebertz@moovit-sp.com", "Sev2000Sev!")
             .then((resp: SuccessfulAuth) => {
                 expect(resp.token).to.contain("Bearer ");
                 token = resp.token;

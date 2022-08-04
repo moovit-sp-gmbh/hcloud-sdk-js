@@ -1,6 +1,6 @@
 import axios from "axios";
 import base, { Options } from "../../base";
-import { Event, Stream } from "../../interfaces/High5";
+import { Event, Stream, StreamPatchOrder } from "../../interfaces/High5";
 
 export class High5Stream extends base {
     constructor(opts: Options) {
@@ -46,6 +46,19 @@ export class High5Stream extends base {
      */
     public createStream = async (eventId: string, name: string): Promise<Stream> => {
         const resp = await axios.post<Stream>(this.getEndpoint(`/v1/stream/${eventId}`), { name: name }).catch((err: Error) => {
+            throw err;
+        });
+
+        return resp.data;
+    };
+
+    /**
+     * Patch the order all Streams of an event (require WRITE rights)
+     * @param StreamPatchOrder A list of all event streams with their new order
+     * @returns Stream[] array of the updated streams
+     */
+    public patchStreamOrder = async (eventId: string, streamList:StreamPatchOrder[]): Promise<Stream[]> => {
+        const resp = await axios.patch<Stream[]>(this.getEndpoint(`/v1/stream/${eventId}/order`), streamList).catch((err: Error) => {
             throw err;
         });
 

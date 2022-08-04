@@ -12,6 +12,7 @@ describe("IDP", function () {
     const hcloudClient = new hcloud({ api: "https://dev.app.helmut.cloud" });
     let token = "";
     let user = {} as User;
+    let userToBeDeleted = {} as User;
     let organization = [] as Organization[];
 
     it("Version OK", done => {
@@ -28,9 +29,10 @@ describe("IDP", function () {
     describe("Register", function () {
         it("Register OK", done => {
             const name = `Severin Siebertz ${uuidv4()}`;
-            hcloudClient.IDP.register(name, `s.siebertz@moovit-sp-${uuidv4()}.com`, "Sev2000Sev")
+            hcloudClient.IDP.register(name, `s.siebertz@moovit-sp-${uuidv4()}.com`, "Sev2000Sev!")
                 .then((resp: User) => {
                     expect(resp.name).to.equal(name);
+                    userToBeDeleted = resp;
                     done();
                 })
                 .catch((err: AxiosError) => {
@@ -39,7 +41,7 @@ describe("IDP", function () {
         });
 
         it("Register", done => {
-            hcloudClient.IDP.register("Severin Siebertz", "s.siebertz@moovit-sp.com", "Sev2000Sev")
+            hcloudClient.IDP.register("Severin Siebertz", "s.siebertz@moovit-sp.com", "Sev2000Sev!")
                 .then((resp: User) => {
                     done();
                 })
@@ -49,7 +51,7 @@ describe("IDP", function () {
         });
 
         it("Register ERR", done => {
-            hcloudClient.IDP.register("Severin Siebertz", "s.siebertz@moovit-sp.com", "Sev2000Sev").catch((err: AxiosError) => {
+            hcloudClient.IDP.register("Severin Siebertz", "s.siebertz@moovit-sp.com", "Sev2000Sev!").catch((err: AxiosError) => {
                 const resp = err.response?.data as ErrorMessage;
                 expect(resp.code).to.equal("001.002.0001");
                 expect(resp.error).to.equal("user.already.exists");
@@ -60,12 +62,13 @@ describe("IDP", function () {
 
     describe("Authenticate", function () {
         it("Authenticate OK", done => {
-            hcloudClient.IDP.authenticate("s.siebertz@moovit-sp.com", "Sev2000Sev")
+            hcloudClient.IDP.authenticate("s.siebertz@moovit-sp.com", "Sev2000Sev!")
                 .then((resp: SuccessfulAuth) => {
                     expect(resp.token).to.contain("Bearer ");
                     expect(resp.user.email).to.equal("s.siebertz@moovit-sp.com");
                     user = resp.user;
                     token = resp.token;
+                    hcloudClient.setAuthToken(resp.token);
                     done();
                 })
                 .catch((err: AxiosError) => {
@@ -93,6 +96,8 @@ describe("IDP", function () {
                     done();
                 })
                 .catch((err: AxiosError) => {
+                    console.log(err);
+
                     throw err;
                 });
         });
@@ -213,6 +218,19 @@ describe("IDP", function () {
                 .patchUser({ name: newName })
                 .then((resp: User) => {
                     expect(resp.name).to.equal(newName);
+                    done();
+                })
+                .catch((err: AxiosError) => {
+                    throw err;
+                });
+        });
+
+        it("Authenticate OK", done => {
+            hcloudClient.IDP.authenticate(userToBeDeleted.email, "Sev2000Sev!")
+                .then((resp: SuccessfulAuth) => {
+                    expect(resp.token).to.contain("Bearer ");
+                    token = resp.token;
+                    hcloudClient.setAuthToken(resp.token);
                     done();
                 })
                 .catch((err: AxiosError) => {

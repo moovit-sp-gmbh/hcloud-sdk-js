@@ -16,6 +16,8 @@ export class High5Node extends base {
      * @response Nodes[] array holding the Nodes
      */
     public async getNodes(streamId: string, limit?: number, page?: number): Promise<Node[]> {
+        limit = limit || 500;
+        page = page || 0;
         const resp = await axios.get<Node[]>(this.getEndpoint(`/v1/node/list/${streamId}?page=${page}&limit=${limit}`)).catch((err: Error) => {
             throw err;
         });

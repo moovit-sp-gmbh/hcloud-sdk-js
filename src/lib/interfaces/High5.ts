@@ -72,6 +72,7 @@ export interface Node {
     secret: string;
     category: NodeCategory;
     organizationId: string;
+    archived: boolean;
     appId: string;
     eventId: string;
     streamId: string;

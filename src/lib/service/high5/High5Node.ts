@@ -10,11 +10,13 @@ export class High5Node extends base {
     /**
      * Get a list of all Nodes within the active Organization (requires READ permission) that are assigned to a specific stream
      * @param streamId Id of the stream the nodes are assigned to
+     * @param limit the maximum results (defaults to 500)
+     * @param page the results to skip (page * limit)
      * @summary Get all nodes
      * @response Nodes[] array holding the Nodes
      */
-    public async getNodes(streamId: string): Promise<Node[]> {
-        const resp = await axios.get<Node[]>(this.getEndpoint(`/v1/node/list/${streamId}`)).catch((err: Error) => {
+    public async getNodes(streamId: string, limit?: number, page?: number): Promise<Node[]> {
+        const resp = await axios.get<Node[]>(this.getEndpoint(`/v1/node/list/${streamId}?page=${page}&limit=${limit}`)).catch((err: Error) => {
             throw err;
         });
 

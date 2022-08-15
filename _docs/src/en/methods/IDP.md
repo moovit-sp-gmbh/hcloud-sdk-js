@@ -6,14 +6,15 @@ The IDP handles everythign when it comes to user accounts, like registration, au
 You can register a new user using the following method(s).
 ```
 import HCloud from "hcloud-sdk"
-import { User } from "hcloud-sdk/lib/IDP";
+import { User } from "hcloud-sdk/lib/interfaces/IDP";
 import { AxiosError } from "axios";
 
 const h = new HCloud({api: "https://dev.app.helmut.cloud"})
 
 try {
     const newUser: User = await h.IDP.register("fullname", "email", "password")
-} catch (err: AxiosError) {
+} catch (thrown: unknown) {
+    const err = thrown as AxiosError;
     console.log("err", err)
 }
 ```
@@ -22,7 +23,7 @@ try {
 You can authenticate against the IDP using the follow method(s).
 ```
 import HCloud from "hcloud-sdk"
-import { Token } from "hcloud-sdk/lib/IDP";
+import { Token } from "hcloud-sdk/lib/interfaces/IDP";
 import { AxiosError } from "axios";
 
 const h = new HCloud({api: "https://dev.app.helmut.cloud"})
@@ -30,7 +31,8 @@ const h = new HCloud({api: "https://dev.app.helmut.cloud"})
 try {
     const token: Token = await h.IDP.authenticate("email", "password")
     h.setAuthToken(token.token)
-} catch (err: AxiosError) {
+} catch (thrown: unknown) {
+    const err = thrown as AxiosError;
     console.log("err", err)
 }
 ```
@@ -40,7 +42,7 @@ This sets the token globally to authorize future requests.
 To validate your token, you can authorize it.
 ```
 import HCloud from "hcloud-sdk"
-import { Token } from "hcloud-sdk/lib/IDP";
+import { Token } from "hcloud-sdk/lib/interfaces/IDP";
 import { AxiosError } from "axios";
 
 const h = new HCloud({api: "https://dev.app.helmut.cloud"})
@@ -50,7 +52,8 @@ try {
     h.setAuthToken(token.token)
 
     const currentUser: User = await h.IDP.authorize()
-} catch (err: AxiosError) {
+} catch (thrown: unknown) {
+    const err = thrown as AxiosError;
     console.log("err", err)
 }
 ```

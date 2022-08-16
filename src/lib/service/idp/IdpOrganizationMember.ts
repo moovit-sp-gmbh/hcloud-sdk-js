@@ -25,18 +25,17 @@ export class IdpOrganizationMember extends base {
      * addOrganizationMember adds a member to an organization
      * @returns OrganizationMember array
      */
-    public addOrganizationMember = async (
-        organizationId: string,
-        addOrganizationMember: AddOrganizationMember
-    ): Promise<OrganizationMember> => {
-        const resp = await axios.post<OrganizationMember>(this.getEndpoint(`/${organizationId}/member/${userId}`), addOrganizationMember).catch((err: Error) => {
-            throw err;
-        });
+    public addOrganizationMember = async (organizationId: string, addOrganizationMember: AddOrganizationMember): Promise<OrganizationMember> => {
+        const resp = await axios
+            .post<OrganizationMember>(this.getEndpoint(`/${organizationId}/member`), addOrganizationMember)
+            .catch((err: Error) => {
+                throw err;
+            });
 
         return resp.data;
     };
 
-     /**
+    /**
      * patchOrganizationMemberPermission patches a members permission in an organization
      * @param organzationId the organzation id
      * @param userId the users id

@@ -40,7 +40,7 @@ export interface Stream {
     name: string;
     eventId: string;
     appId: string;
-    order:number;
+    order: number;
     organizationId: string;
     creatorId: string;
     /**
@@ -51,7 +51,7 @@ export interface Stream {
 
 export interface StreamPatchOrder {
     streamId: string;
-    order:number;
+    order: number;
 }
 
 export interface Design {

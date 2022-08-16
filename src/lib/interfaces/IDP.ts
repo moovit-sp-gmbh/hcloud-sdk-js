@@ -25,13 +25,24 @@ export interface OrganizationMember {
     _id: string;
     organizationId: string;
     user: User;
-    roles: string[];
+    permission: OrganizationPermission;
 }
 
-export enum OrganizationMemberRole {
-    ADMIN = "admin",
-    MAINTAINER = "maintainer",
-    USER = "user",
+export interface AddOrganizationMember {
+    email: string;
+    permission: OrganizationPermission;
+}
+
+export enum OrganizationPermission {
+    READ = "READ", // Part of org, but cannot change anything
+    MANAGE = "MANAGE", // Can update members
+    ADMIN = "ADMIN", // Can update org and members
+    OWNER = "OWNER", // Can update org, members, and delete org
+}
+
+export interface PatchOrgMember {
+    patchUserId: string;
+    permission: OrganizationPermission;
 }
 
 export interface SuccessfulAuth {

@@ -1,6 +1,6 @@
 import axios from "axios";
 import base from "../../base";
-import { OrganizationMember, OrganizationMemberRole } from "../../interfaces/IDP";
+import { AddOrganizationMember, OrganizationMember, OrganizationPermission, PatchOrgMember } from "../../interfaces/IDP";
 
 export class IdpOrganizationMember extends base {
     /**
@@ -10,7 +10,7 @@ export class IdpOrganizationMember extends base {
      * @param page an opitional page to skip certain results (page * limit; defaults to 0)
      * @returns OrganizationMember array
      */
-    public listOrganizationMembersById = async (id: string, limit?: number, page?: number): Promise<OrganizationMember[]> => {
+    public listOrganizationMembers = async (id: string, limit?: number, page?: number): Promise<OrganizationMember[]> => {
         limit = limit || 500;
         page = page || 0;
 
@@ -22,18 +22,28 @@ export class IdpOrganizationMember extends base {
     };
 
     /**
-     * addOrganizationMemberByEmail adds a member to an organization by email
-     * @param organzationId the organzation id
-     * @param email the users email address
+     * addOrganizationMember adds a member to an organization
      * @returns OrganizationMember array
      */
-    public addOrganizationMemberByEmail = async (
+    public addOrganizationMember = async (
         organizationId: string,
-        email: string,
-        role: OrganizationMemberRole
+        addOrganizationMember: AddOrganizationMember
     ): Promise<OrganizationMember> => {
-        const memberRole = { role: role };
-        const resp = await axios.post<OrganizationMember>(this.getEndpoint(`/${organizationId}/member/${email}`), memberRole).catch((err: Error) => {
+        const resp = await axios.post<OrganizationMember>(this.getEndpoint(`/${organizationId}/member/${userId}`), addOrganizationMember).catch((err: Error) => {
+            throw err;
+        });
+
+        return resp.data;
+    };
+
+     /**
+     * patchOrganizationMemberPermission patches a members permission in an organization
+     * @param organzationId the organzation id
+     * @param userId the users id
+     * @returns OrganizationMember array
+     */
+    public patchOrganizationMemberPermission = async (organizationId: string, patchOrgMember: PatchOrgMember): Promise<OrganizationMember> => {
+        const resp = await axios.patch<OrganizationMember>(this.getEndpoint(`/${organizationId}/member`), patchOrgMember).catch((err: Error) => {
             throw err;
         });
 
@@ -41,11 +51,10 @@ export class IdpOrganizationMember extends base {
     };
 
     /**
-     * removeOrganizationMemberById removes a member of an organization by email
-     * @param organzationId the organzation id
-     * @param userId the users id
+     * removeOrganizationMember removes a member from an organization
+     * @param userId
      */
-    public removeOrganizationMemberById = async (organizationId: string, userId: string): Promise<void> => {
+    public removeOrganizationMember = async (organizationId: string, userId: string): Promise<void> => {
         const resp = await axios.delete<void>(this.getEndpoint(`/${organizationId}/member/${userId}`)).catch((err: Error) => {
             throw err;
         });

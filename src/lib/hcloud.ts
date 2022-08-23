@@ -26,4 +26,8 @@ export default class hcloud {
         });
         return this;
     }
+
+    getAuthToken(): string {
+        return axios.defaults.headers.common.Authorization.toString();
+    }
 }

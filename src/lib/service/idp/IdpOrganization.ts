@@ -80,7 +80,7 @@ export class IdpOrganization extends base {
         limit = limit || 500;
         page = page || 0;
 
-        const resp = await axios.get<Organization[]>(this.getEndpoint(`/v1/organization?page=${page}&limit=${limit}`)).catch((err: Error) => {
+        const resp = await axios.get<Organization[]>(this.getEndpoint(`/v1/organization?limit=${limit}&page=${page}`)).catch((err: Error) => {
             throw err;
         });
 

@@ -3,25 +3,45 @@ import { expect } from "chai";
 import { v4 as uuidv4 } from "uuid";
 import hcloud from "../../src/lib/hcloud";
 import { ErrorMessage } from "../../src/lib/interfaces/Global";
-import { Organization, OrganizationMember, OrganizationPermission, User } from "../../src/lib/interfaces/IDP";
-import {
-    constantTestOrgMemberUser,
-    constantTestUser,
-    getTestOrganization,
-    getTestOrgMemberUserHcloudClient,
-    getTestUserHcloudClient,
-} from "./helper/testHelper";
+import { Organization, OrganizationMember, OrganizationPermission } from "../../src/lib/interfaces/IDP";
 
-describe("IDP", async function () {
-    let hcloudClient: hcloud = await getTestUserHcloudClient();
-    let organizationForMemberTest: Organization = await getTestOrganization(hcloudClient);
-    let orgMemberHcloudClient: hcloud = await getTestOrgMemberUserHcloudClient();
+describe("IDP", function () {
+    describe.only("Organizations & Members", function () {
+        this.timeout(5000);
 
-    describe("Organizations & Members", function () {
-        this.timeout(2500);
+        const userOrgOwner = {
+            _id: "630495248232cd58e559170e",
+            name: "Test_Constant_User",
+            email: "test.user@msp.com",
+            password: "Test123!",
+        };
 
-        beforeEach(async () => {
-            await new Promise(resolve => setTimeout(resolve, 100));
+        const userOrgMember = {
+            _id: "6304c4828232cd58e559b2d9",
+            name: "Test_Constant_Org_Member_User",
+            email: "test.orgMemberUser@msp.com",
+            password: "Test123!",
+        };
+
+        const testOrganization = {
+            _id: "630dbf791d9abb46f30f7050",
+            name: "Constant_Test_Organization",
+            company: "Test_Company",
+        };
+
+        const hcloudClient = new hcloud({ api: "https://dev.app.helmut.cloud" });
+
+        it("logs in as organization owner", done => {
+            hcloudClient.IDP.authenticate(userOrgOwner.email, userOrgOwner.password)
+                .then(token => {
+                    hcloudClient.setAuthToken(token.token);
+                    done();
+                })
+                .catch((err: AxiosError) => {
+                    console.log(err);
+                    console.log(err.response?.data);
+                    throw err;
+                });
         });
 
         describe("Organization", function () {
@@ -108,15 +128,10 @@ describe("IDP", async function () {
         });
 
         describe("OrganizationMember", function () {
-            // Why doesn't this work without re-setting the token?
-            beforeEach(async () => {
-                hcloudClient.setAuthToken(hcloudClient.testToken);
-            });
-
             it("adds a member to the organization", done => {
                 hcloudClient.IDP.organization.member
-                    .addOrganizationMember(organizationForMemberTest._id, {
-                        email: constantTestOrgMemberUser.email,
+                    .addOrganizationMember(testOrganization._id, {
+                        email: userOrgMember.email,
                         permission: OrganizationPermission.READ,
                     })
                     .then((resp: OrganizationMember) => {
@@ -132,10 +147,11 @@ describe("IDP", async function () {
 
             it("fails to add a user that already is a member to the organization", done => {
                 hcloudClient.IDP.organization.member
-                    .addOrganizationMember(organizationForMemberTest._id, { email: constantTestOrgMemberUser.email, permission: OrganizationPermission.READ })
+                    .addOrganizationMember(testOrganization._id, {
+                        email: userOrgMember.email,
+                        permission: OrganizationPermission.READ,
+                    })
                     .catch((err: AxiosError) => {
-                        // console.log(err.response?.data);
-                        // console.log(err);
                         const resp = err.response?.data as ErrorMessage;
                         expect(resp.code).to.equal("001.004.0002");
                         expect(resp.error).to.equal("user.already.member");
@@ -145,7 +161,7 @@ describe("IDP", async function () {
 
             it("organizationMemberGetById OK", done => {
                 hcloudClient.IDP.organization.member
-                    .listOrganizationMembers(organizationForMemberTest._id)
+                    .listOrganizationMembers(testOrganization._id)
                     .then((resp: OrganizationMember[]) => {
                         expect(resp.length).to.be.greaterThanOrEqual(1);
                         done();
@@ -156,28 +172,28 @@ describe("IDP", async function () {
             });
 
             it("fails to update organization for member with read permission", done => {
-                orgMemberHcloudClient.setAuthToken(orgMemberHcloudClient.testToken); // No clue why this is needed
-                
-                orgMemberHcloudClient.IDP.organization
-                    .updateOrganization(organizationForMemberTest._id, "new_organization_name_" + uuidv4())
-                    .catch((err: AxiosError) => {
-                        const resp = err.response?.data as ErrorMessage;
-                        expect(resp.code).to.equal("001.003.0003");
-                        expect(resp.error).to.equal("organization.insufficient.permission");
-                        done();
-                    });
-            });
+                hcloudClient.IDP.authenticate(userOrgMember.email, userOrgMember.password)
+                    .then(token => {
+                        hcloudClient.setAuthToken(token.token);
 
-            it("patches the member's permission", done => {
-                hcloudClient.IDP.organization.member
-                    .patchOrganizationMemberPermission(organizationForMemberTest._id, {
-                        patchUserId: constantTestOrgMemberUser._id,
-                        permission: OrganizationPermission.ADMIN,
-                    })
-                    .then((resp: OrganizationMember) => {
-                        expect(resp).to.have.property("permission");
-                        expect(resp.permission).to.equal("ADMIN");
-                        done();
+                        hcloudClient.IDP.organization
+                            .updateOrganization(testOrganization._id, "new_organization_name_" + uuidv4())
+                            .catch((err: AxiosError) => {
+                                const resp = err.response?.data as ErrorMessage;
+                                expect(resp.code).to.equal("001.003.0003");
+                                expect(resp.error).to.equal("organization.insufficient.permission");
+
+                                hcloudClient.IDP.authenticate(userOrgOwner.email, userOrgOwner.password)
+                                    .then(token => {
+                                        hcloudClient.setAuthToken(token.token);
+                                        done();
+                                    })
+                                    .catch((err: AxiosError) => {
+                                        console.log(err);
+                                        console.log(err.response?.data);
+                                        throw err;
+                                    });
+                            });
                     })
                     .catch((err: AxiosError) => {
                         console.log(err);
@@ -186,23 +202,60 @@ describe("IDP", async function () {
                     });
             });
 
-            it("member with admin permission updates organization", done => {
-                const newOrgName = `new org name ${uuidv4()}`;
-                orgMemberHcloudClient.IDP.organization
-                    .updateOrganization(organizationForMemberTest._id, newOrgName)
-                    .then((resp: Organization) => {
-                        expect(resp).to.have.property("name");
-                        expect(resp.name).to.equal(newOrgName);
+            it("patches the member's permission", done => {
+                hcloudClient.IDP.organization.member
+                    .patchOrganizationMemberPermission(testOrganization._id, {
+                        patchUserId: userOrgMember._id,
+                        permission: OrganizationPermission.ADMIN,
+                    })
+                    .then((resp: OrganizationMember) => {
+                        expect(resp).to.have.property("permission");
+                        expect(resp.permission).to.equal("ADMIN");
                         done();
                     })
                     .catch((err: AxiosError) => {
+                        console.log(err.response?.data);
+                        throw err;
+                    });
+            });
+
+            it("member with admin permission updates organization", done => {
+                hcloudClient.IDP.authenticate(userOrgMember.email, userOrgMember.password)
+                    .then(token => {
+                        hcloudClient.setAuthToken(token.token);
+
+                        const newOrgName = `new org name ${uuidv4()}`;
+                        hcloudClient.IDP.organization
+                            .updateOrganization(testOrganization._id, newOrgName)
+                            .then((resp: Organization) => {
+                                expect(resp).to.have.property("name");
+                                expect(resp.name).to.equal(newOrgName);
+
+                                hcloudClient.IDP.authenticate(userOrgOwner.email, userOrgOwner.password)
+                                    .then(token => {
+                                        hcloudClient.setAuthToken(token.token);
+                                        done();
+                                    })
+                                    .catch((err: AxiosError) => {
+                                        console.log(err);
+                                        console.log(err.response?.data);
+                                        throw err;
+                                    });
+                            })
+                            .catch((err: AxiosError) => {
+                                throw err;
+                            });
+                    })
+                    .catch((err: AxiosError) => {
+                        console.log(err);
+                        console.log(err.response?.data);
                         throw err;
                     });
             });
 
             it("deletes the org member", done => {
                 hcloudClient.IDP.organization.member
-                    .removeOrganizationMember(organizationForMemberTest._id, constantTestOrgMemberUser._id)
+                    .removeOrganizationMember(testOrganization._id, userOrgMember._id)
                     .then((resp: any) => {
                         expect(resp).to.equal(undefined);
                         done();
@@ -214,15 +267,12 @@ describe("IDP", async function () {
             });
 
             it("fails do delete the already deleted org member", done => {
-                hcloudClient.IDP.organization.member
-                    .removeOrganizationMember(organizationForMemberTest._id, constantTestOrgMemberUser._id)
-                    .catch((err: AxiosError) => {
-                        // console.log(err.response?.data);
-                        const resp = err.response?.data as ErrorMessage;
-                        expect(resp.code).to.equal("001.004.0001");
-                        expect(resp.error).to.equal("missing.member");
-                        done();
-                    });
+                hcloudClient.IDP.organization.member.removeOrganizationMember(testOrganization._id, userOrgMember._id).catch((err: AxiosError) => {
+                    const resp = err.response?.data as ErrorMessage;
+                    expect(resp.code).to.equal("001.004.0001");
+                    expect(resp.error).to.equal("missing.member");
+                    done();
+                });
             });
         });
     });

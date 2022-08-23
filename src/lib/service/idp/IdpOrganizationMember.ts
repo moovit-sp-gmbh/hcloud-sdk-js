@@ -14,7 +14,7 @@ export class IdpOrganizationMember extends base {
         limit = limit || 500;
         page = page || 0;
 
-        const resp = await axios.get<OrganizationMember[]>(this.getEndpoint(`/${id}/member?page=${page}&limit=${limit}`)).catch((err: Error) => {
+        const resp = await axios.get<OrganizationMember[]>(this.getEndpoint(`/${id}/member?limit=${limit}&page=${page}`)).catch((err: Error) => {
             throw err;
         });
 

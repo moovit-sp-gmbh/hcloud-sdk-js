@@ -20,7 +20,7 @@ export default class hcloud {
         this.Mailer = new MailerService(opts);
 
         axios.defaults.headers.common = {
-            "User-Agent": "hcloud-sdk-js/v" + version,
+            "hcloud-sdk-js/v":  version,
         };
     }
 

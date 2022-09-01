@@ -18,10 +18,6 @@ export default class hcloud {
         this.High5 = new High5Service(opts);
         this.IDP = new IDPService(opts);
         this.Mailer = new MailerService(opts);
-
-        axios.defaults.headers.common = {
-            "User-Agent": "hcloud-sdk-js/v" + version,
-        };
     }
 
     setAuthToken(token: string): hcloud {

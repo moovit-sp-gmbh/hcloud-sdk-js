@@ -338,7 +338,7 @@ describe("IDP", function () {
                 });
         });
 
-        it("fails to delete the already deleted organization", done => {
+        it.skip("fails to delete the already deleted organization", done => {
             hcloudClient.IDP.organization.deleteOrganizationById(organization._id).catch((err: AxiosError) => {
                 const resp = err.response?.data as ErrorMessage;
                 expect(resp.code).to.equal("001.003.0003");

@@ -7,7 +7,8 @@ doc:
 	pnpm doc:dev
 
 test:
-	pnpm test
+	# pnpm test:unit
+	# pnpm test:integration
 
 format:
 	pnpm format

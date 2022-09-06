@@ -1,11 +1,11 @@
-import hcloud from "../../src/lib/hcloud";
+import hcloud from "../../../src/lib/hcloud";
 import { expect } from "chai";
 import { AxiosError, AxiosResponse } from "axios";
-import { User, SuccessfulAuth } from "../../src/lib/interfaces/IDP";
-import { AuditLog, Level, Origin, Type, Event } from "../../src/lib/interfaces/Auditor";
-import { Version, ErrorMessage } from "../../src/lib/interfaces/Global";
+import { User, SuccessfulAuth } from "../../../src/lib/interfaces/IDP";
+import { AuditLog, Level, Origin, Type, Event } from "../../../src/lib/interfaces/Auditor";
+import { Version, ErrorMessage } from "../../../src/lib/interfaces/Global";
 import { v4 as uuidv4 } from "uuid";
-import { Template } from "../../src/lib/interfaces/Mail";
+import { Template } from "../../../src/lib/interfaces/Mail";
 
 describe("Mailer", function () {
     this.timeout(10000);
@@ -35,7 +35,7 @@ describe("Mailer", function () {
     });
 
     describe("Send", () => {
-        it.skip("SendMailTemplate OK", () => {
+        it("SendMailTemplate OK", () => {
             return hcloudClient.Mailer.interal
                 .sendMailTemplate({
                     recipients: ["svyxv3s4pb2vufqz@ethereal.email"],
@@ -48,7 +48,7 @@ describe("Mailer", function () {
                 });
         });
 
-        it.skip("SendMailHtml OK", () => {
+        it("SendMailHtml OK", () => {
             return hcloudClient.Mailer.interal
                 .sendMailHtml({
                     recipients: ["svyxv3s4pb2vufqz@ethereal.email"],
@@ -60,7 +60,7 @@ describe("Mailer", function () {
                 });
         });
 
-        it.skip("SendMailMustache OK", () => {
+        it("SendMailMustache OK", () => {
             return hcloudClient.Mailer.interal
                 .sendMailMustache({
                     recipients: ["svyxv3s4pb2vufqz@ethereal.email"],

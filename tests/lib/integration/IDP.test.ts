@@ -1,9 +1,9 @@
 import { AxiosError } from "axios";
 import { expect } from "chai";
 import { v4 as uuidv4 } from "uuid";
-import hcloud from "../../src/lib/hcloud";
-import { ErrorMessage, Version } from "../../src/lib/interfaces/Global";
-import { Organization, OrganizationMember, OrganizationPermission, SuccessfulAuth, User } from "../../src/lib/interfaces/IDP";
+import hcloud from "../../../src/lib/hcloud";
+import { ErrorMessage, Version } from "../../../src/lib/interfaces/Global";
+import { Organization, OrganizationMember, OrganizationPermission, SuccessfulAuth, User } from "../../../src/lib/interfaces/IDP";
 
 describe("IDP", function () {
     this.timeout(10000);
@@ -338,7 +338,7 @@ describe("IDP", function () {
                 });
         });
 
-        it.skip("fails to delete the already deleted organization", done => {
+        it("fails to delete the already deleted organization", done => {
             hcloudClient.IDP.organization.deleteOrganizationById(organization._id).catch((err: AxiosError) => {
                 const resp = err.response?.data as ErrorMessage;
                 expect(resp.code).to.equal("001.003.0003");

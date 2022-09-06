@@ -1,9 +1,9 @@
 import { AxiosError } from "axios";
 import { expect } from "chai";
 import { v4 as uuidv4 } from "uuid";
-import hcloud from "../../src/lib/hcloud";
-import { ErrorMessage, Version } from "../../src/lib/interfaces/Global";
-import { SuccessfulAuth, User } from "../../src/lib/interfaces/IDP";
+import hcloud from "../../../src/lib/hcloud";
+import { ErrorMessage, Version } from "../../../src/lib/interfaces/Global";
+import { SuccessfulAuth, User } from "../../../src/lib/interfaces/IDP";
 
 describe("IDP", function () {
     describe("User", function () {

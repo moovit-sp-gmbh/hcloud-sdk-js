@@ -1,9 +1,9 @@
-import hcloud from "../../src/lib/hcloud";
+import hcloud from "../../../src/lib/hcloud";
 import { expect } from "chai";
 import { AxiosError, AxiosResponse } from "axios";
-import { User, SuccessfulAuth } from "../../src/lib/interfaces/IDP";
-import { AuditLog, Level, Origin, Type, Event } from "../../src/lib/interfaces/Auditor";
-import { Version, ErrorMessage } from "../../src/lib/interfaces/Global";
+import { User, SuccessfulAuth } from "../../../src/lib/interfaces/IDP";
+import { AuditLog, Level, Origin, Type, Event } from "../../../src/lib/interfaces/Auditor";
+import { Version, ErrorMessage } from "../../../src/lib/interfaces/Global";
 import { v4 as uuidv4 } from "uuid";
 
 describe("Auditor", function () {
@@ -74,7 +74,7 @@ describe("Auditor", function () {
             });
         });
 
-        it.skip("AddAuditLogs OK", async () => {
+        it("AddAuditLogs OK", async () => {
             const hcloudClient = new hcloud({ api: "http://localhost:3004" }).setAuthToken(token);
             const res = await hcloudClient.Auditor.internal.addAuditLogs([createTestAuditLog()]).catch((err: unknown) => {
                 console.log("failed", err);
@@ -82,7 +82,7 @@ describe("Auditor", function () {
             console.log("success", res);
         });
 
-        it.skip("AddAuditLogsToQueue OK", async () => {
+        it("AddAuditLogsToQueue OK", async () => {
             const hcloudClient = new hcloud({ api: "http://localhost:3004", auditor: { queue: { executionInterval: 100 } } }).setAuthToken(token);
             hcloudClient.Auditor.internal.queueAuditLogs([createTestAuditLog(), createTestAuditLog(), createTestAuditLog()]);
             await sleep(1000);

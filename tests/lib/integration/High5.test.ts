@@ -1,10 +1,10 @@
-import hcloud from "../../src/lib/hcloud";
+import hcloud from "../../../src/lib/hcloud";
 import { expect } from "chai";
 import { AxiosError } from "axios";
-import { User, SuccessfulAuth } from "../../src/lib/interfaces/IDP";
-import { Version } from "../../src/lib/interfaces/Global";
+import { User, SuccessfulAuth } from "../../../src/lib/interfaces/IDP";
+import { Version } from "../../../src/lib/interfaces/Global";
 import { v4 as uuidv4 } from "uuid";
-import { App, AppPermission, Design, Event, NodeCategory, Stream, Node } from "../../src/lib/interfaces/High5";
+import { App, AppPermission, Design, Event, NodeCategory, Stream, Node } from "../../../src/lib/interfaces/High5";
 
 describe("High5", function () {
     this.timeout(10000);

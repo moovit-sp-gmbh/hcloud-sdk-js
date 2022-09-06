@@ -76,7 +76,7 @@ export class IdpOrganization extends base {
      * @param page an opitional page to skip certain results (page * limit; defaults to 0)
      * @returns Organization array
      */
-    public listOrganizations = async (limit?: number, page?: number): Promise<Organization[]> => {
+    public listOrganizations = async (limit?: number, page?: number): Promise<[Organization[], number]> => {
         limit = limit || 500;
         page = page || 0;
 
@@ -84,7 +84,7 @@ export class IdpOrganization extends base {
             throw err;
         });
 
-        return resp.data;
+        return [resp.data, parseInt(resp.headers.total, 10)];
     };
 
     protected getEndpoint(endpoint: string): string {

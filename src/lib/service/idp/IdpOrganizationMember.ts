@@ -10,7 +10,7 @@ export class IdpOrganizationMember extends base {
      * @param page an opitional page to skip certain results (page * limit; defaults to 0)
      * @returns OrganizationMember array
      */
-    public listOrganizationMembers = async (id: string, limit?: number, page?: number): Promise<OrganizationMember[]> => {
+    public listOrganizationMembers = async (id: string, limit?: number, page?: number): Promise<[OrganizationMember[], number]> => {
         limit = limit || 500;
         page = page || 0;
 
@@ -18,7 +18,7 @@ export class IdpOrganizationMember extends base {
             throw err;
         });
 
-        return resp.data;
+        return [resp.data, parseInt(resp.headers.total, 10)];
     };
 
     /**

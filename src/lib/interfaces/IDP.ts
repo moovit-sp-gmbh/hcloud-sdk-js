@@ -55,3 +55,26 @@ export interface SuccessfulAuth {
     user: User;
     token: string;
 }
+
+export interface OrganizationSearchFilter {
+    name?: string;
+    creatorId?: string;
+    company?: string;
+    isUserOrganization?: boolean;
+    createDateFilter?: SearchDateFilter;
+    modifyDateFilter?: SearchDateFilter;
+}
+
+interface SearchDateFilter {
+    date: number;
+    searchDateOperator: SearchDateOperator;
+}
+
+enum SearchDateOperator {
+    "$eq", // equal
+    "$ne", // noEqual
+    "$gte", // greaterThanOrEqual
+    "$gt", // greaterThan
+    "$lte", // lowerThanOrEqual
+    "$lt", // lowerThan
+}

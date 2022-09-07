@@ -1,7 +1,7 @@
 import { AxiosInstance } from "axios";
 import base, { Options } from "../../base";
 import { AuditLog } from "../../interfaces/Auditor";
-import { Organization } from "../../interfaces/IDP";
+import {Organization, OrganizationSearchFilter} from "../../interfaces/IDP";
 import { IdpOrganizationMember } from "./IdpOrganizationMember";
 
 export class IdpOrganization extends base {
@@ -85,6 +85,23 @@ export class IdpOrganization extends base {
         });
 
         return [resp.data, parseInt(String(resp.headers["total"]), 10)];
+    };
+
+    /**
+     * searchOrganizations requests all organizations for a user by search filter
+     * @param limit an opitional response limit (1-1000; dafaults to 500)
+     * @param page an opitional page to skip certain results (page * limit; defaults to 0)
+     * @returns Organization array
+     */
+    public searchOrganizations = async (limit?: number, page?: number, searchFilter?: OrganizationSearchFilter): Promise<[Organization[], number]> => {
+        limit = limit || 500;
+        page = page || 0;
+
+        const resp = await axios.post<Organization[]>(this.getEndpoint(`/v1/organization/search?limit=${limit}&page=${page}`), searchFilter).catch((err: Error) => {
+            throw err;
+        });
+
+        return [resp.data, parseInt(resp.headers.total, 10)];
     };
 
     protected getEndpoint(endpoint: string): string {

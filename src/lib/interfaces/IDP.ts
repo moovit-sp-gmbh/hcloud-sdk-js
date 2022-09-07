@@ -4,6 +4,8 @@ export interface User {
     email: string;
     company?: string;
     activeOrganizationId: string;
+    createDate: number;
+    modifyDate: number;
 }
 
 export interface PatchUser {
@@ -19,6 +21,8 @@ export interface Organization {
     isUserOrganization: boolean;
     company: string;
     creator: User;
+    createDate: number;
+    modifyDate: number;
 }
 
 export interface OrganizationMember {
@@ -26,6 +30,8 @@ export interface OrganizationMember {
     organizationId: string;
     user: User;
     permission: OrganizationPermission;
+    createDate: number;
+    modifyDate: number;
 }
 
 export interface AddOrganizationMember {

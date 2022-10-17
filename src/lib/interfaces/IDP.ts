@@ -6,6 +6,7 @@ export interface User {
     activeOrganizationId: string;
     createDate: number;
     modifyDate: number;
+    session: string;
 }
 
 export interface PatchUser {

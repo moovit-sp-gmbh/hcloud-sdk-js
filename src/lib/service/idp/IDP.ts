@@ -48,6 +48,17 @@ export default class IDP extends base {
     };
 
     /**
+     * Logout logs out the user from hcloud
+     * @param token
+     * @returns 204 empty body
+     */
+    logout = async (): Promise<void> => {
+        await axios.get<void>(this.getEndpoint("/v1/logout"), {}).catch((err: Error) => {
+            throw err;
+        });
+    };
+
+    /**
      * Register against the identity provider
      * @param name
      * @param email

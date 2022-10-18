@@ -30,4 +30,15 @@ export default class hcloud {
     getAuthToken(): string {
         return axios.defaults.headers.common.Authorization.toString();
     }
+
+    overrideActiveOrganization(activeOrganizationId: string): hcloud {
+        axios.defaults.headers.common = Object.assign(axios.defaults.headers.common, {
+            "active-organization-id": activeOrganizationId,
+        });
+        return this;
+    }
+
+    resetActiveOrganization(): void {
+        delete axios.defaults.headers.common["active-organization-id"];
+    }
 }

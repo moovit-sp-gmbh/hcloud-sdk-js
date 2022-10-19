@@ -1,5 +1,5 @@
 import base, { Options } from "../../base";
-import axios from "axios";
+import { Axios } from "axios";
 import { AuditLog } from "../../interfaces/Auditor";
 import { Version } from "../../interfaces/Global";
 import { AuditorInternal } from "./AuditorInternal";
@@ -7,10 +7,10 @@ import { AuditorInternal } from "./AuditorInternal";
 export default class Auditor extends base {
     public internal: AuditorInternal;
 
-    constructor(opts: Options) {
-        super(opts);
+    constructor(opts: Options, axios: Axios) {
+        super(opts, axios);
 
-        this.internal = new AuditorInternal(opts);
+        this.internal = new AuditorInternal(opts, axios);
     }
 
     /**
@@ -18,7 +18,7 @@ export default class Auditor extends base {
      * @returns Version object
      */
     version = async (): Promise<Version> => {
-        const resp = await axios.get<Version>(this.getEndpoint("/v1/version"), {}).catch((err: Error) => {
+        const resp = await this.axios.get<Version>(this.getEndpoint("/v1/version"), {}).catch((err: Error) => {
             throw err;
         });
 
@@ -52,7 +52,7 @@ export default class Auditor extends base {
             url = "?" + parameters.join("&");
         }
 
-        const resp = await axios.get<AuditLog[]>(this.getEndpoint("/v1/logs") + url, {}).catch((err: Error) => {
+        const resp = await this.axios.get<AuditLog[]>(this.getEndpoint("/v1/logs") + url, {}).catch((err: Error) => {
             throw err;
         });
 

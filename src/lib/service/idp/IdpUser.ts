@@ -11,7 +11,7 @@ export class IdpUser extends base {
      * @returns User object
      */
     public patchUser = async (user: PatchUser): Promise<User> => {
-        const resp = await axios.patch<User>(this.getEndpoint(`/v1/user`), user).catch((err: Error) => {
+        const resp = await this.axios.patch<User>(this.getEndpoint(`/v1/user`), user).catch((err: Error) => {
             throw err;
         });
 
@@ -23,7 +23,7 @@ export class IdpUser extends base {
      * @returns User object
      */
     public deleteUser = async (): Promise<void> => {
-        const resp = await axios.delete<void>(this.getEndpoint(`/v1/user`)).catch((err: Error) => {
+        const resp = await this.axios.delete<void>(this.getEndpoint(`/v1/user`)).catch((err: Error) => {
             throw err;
         });
     };

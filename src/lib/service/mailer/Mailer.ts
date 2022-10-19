@@ -1,5 +1,5 @@
 import base, { Options } from "../../base";
-import axios from "axios";
+import { Axios } from "axios";
 import { AuditLog } from "../../interfaces/Auditor";
 import { Version } from "../../interfaces/Global";
 import MailerInternal from "./MailerInternal";
@@ -7,10 +7,10 @@ import MailerInternal from "./MailerInternal";
 export default class Mailer extends base {
     public interal: MailerInternal;
 
-    constructor(opts: Options) {
-        super(opts);
+    constructor(opts: Options, axios: Axios) {
+        super(opts, axios);
 
-        this.interal = new MailerInternal(opts);
+        this.interal = new MailerInternal(opts, axios);
     }
 
     /**
@@ -18,7 +18,7 @@ export default class Mailer extends base {
      * @returns Version object
      */
     version = async (): Promise<Version> => {
-        const resp = await axios.get<Version>(this.getEndpoint("/v1/version"), {}).catch((err: Error) => {
+        const resp = await this.axios.get<Version>(this.getEndpoint("/v1/version"), {}).catch((err: Error) => {
             throw err;
         });
 

@@ -12,7 +12,7 @@ export default class MailerInternal extends base {
      * @param mail TemplateMail
      */
     sendMailMustache = async (mail: MustacheMail): Promise<void> => {
-        const resp = await axios.post<void>(this.getEndpoint("/v1/send/mustache"), mail).catch((err: Error) => {
+        const resp = await this.axios.post<void>(this.getEndpoint("/v1/send/mustache"), mail).catch((err: Error) => {
             throw err;
         });
 
@@ -28,7 +28,7 @@ export default class MailerInternal extends base {
      * @param mail TemplateMail
      */
     sendMailHtml = async (mail: HtmlMail): Promise<void> => {
-        const resp = await axios.post<void>(this.getEndpoint("/v1/send/html"), mail).catch((err: Error) => {
+        const resp = await this.axios.post<void>(this.getEndpoint("/v1/send/html"), mail).catch((err: Error) => {
             throw err;
         });
 
@@ -44,7 +44,7 @@ export default class MailerInternal extends base {
      * @param mail TemplateMail
      */
     sendMailTemplate = async (mail: TemplateMail): Promise<void> => {
-        const resp = await axios.post<void>(this.getEndpoint("/v1/send/template"), mail).catch((err: Error) => {
+        const resp = await this.axios.post<void>(this.getEndpoint("/v1/send/template"), mail).catch((err: Error) => {
             throw err;
         });
 

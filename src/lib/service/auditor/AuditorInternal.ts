@@ -17,7 +17,7 @@ export class AuditorInternal extends base {
      * @returns AuditLog array
      */
     public addAuditLogs = async (logs: AuditLog[]): Promise<AuditLog[]> => {
-        const resp = await axios.post<AuditLog[]>(this.getEndpoint("/v1/logs"), logs).catch((err: Error) => {
+        const resp = await this.axios.post<AuditLog[]>(this.getEndpoint("/v1/logs"), logs).catch((err: Error) => {
             throw err;
         });
 

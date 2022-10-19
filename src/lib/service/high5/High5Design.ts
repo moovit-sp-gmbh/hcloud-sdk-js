@@ -3,10 +3,6 @@ import base, { Options } from "../../base";
 import { Design, Event, Stream } from "../../interfaces/High5";
 
 export class High5Design extends base {
-    constructor(opts: Options) {
-        super(opts);
-    }
-
     /**
      * getDesigns returns all designs for an event
      * @param streamId the streams's id
@@ -18,9 +14,11 @@ export class High5Design extends base {
         limit = limit || 500;
         page = page || 0;
 
-        const resp = await axios.get<Design[]>(this.getEndpoint(`/v1/design/list/${streamId}?page=${page}&limit=${limit}`)).catch((err: Error) => {
-            throw err;
-        });
+        const resp = await this.axios
+            .get<Design[]>(this.getEndpoint(`/v1/design/list/${streamId}?page=${page}&limit=${limit}`))
+            .catch((err: Error) => {
+                throw err;
+            });
 
         return resp.data;
     };
@@ -31,7 +29,7 @@ export class High5Design extends base {
      * @returns Design
      */
     public getDesignById = async (designId: string): Promise<Design> => {
-        const resp = await axios.get<Design>(this.getEndpoint(`/v1/design/${designId}`)).catch((err: Error) => {
+        const resp = await this.axios.get<Design>(this.getEndpoint(`/v1/design/${designId}`)).catch((err: Error) => {
             throw err;
         });
 
@@ -46,7 +44,7 @@ export class High5Design extends base {
      * @returns Design
      */
     public createDesign = async (streamId: string, name: string, design: any, build?: any): Promise<Design> => {
-        const resp = await axios
+        const resp = await this.axios
             .post<Design>(this.getEndpoint(`/v1/design/${streamId}`), { name: name, design: design, build: build })
             .catch((err: Error) => {
                 throw err;

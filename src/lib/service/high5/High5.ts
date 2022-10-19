@@ -1,5 +1,5 @@
 import base, { Options } from "../../base";
-import axios, { AxiosResponse } from "axios";
+import { Axios } from "axios";
 import { Version } from "../../interfaces/Global";
 import { High5App } from "./High5App";
 import { High5Event } from "./High5Event";
@@ -14,14 +14,14 @@ export default class High5 extends base {
     public design: High5Design;
     public node: High5Node;
 
-    constructor(opts: Options) {
-        super(opts);
+    constructor(opts: Options, axios: Axios) {
+        super(opts, axios);
 
-        this.app = new High5App(opts);
-        this.event = new High5Event(opts);
-        this.stream = new High5Stream(opts);
-        this.design = new High5Design(opts);
-        this.node = new High5Node(opts);
+        this.app = new High5App(opts, axios);
+        this.event = new High5Event(opts, axios);
+        this.stream = new High5Stream(opts, axios);
+        this.design = new High5Design(opts, axios);
+        this.node = new High5Node(opts, axios);
     }
 
     /**
@@ -29,7 +29,7 @@ export default class High5 extends base {
      * @returns Version object
      */
     version = async (): Promise<Version> => {
-        const resp = await axios.get<Version>(this.getEndpoint("/v1/version"), {}).catch((err: Error) => {
+        const resp = await this.axios.get<Version>(this.getEndpoint("/v1/version"), {}).catch((err: Error) => {
             throw err;
         });
 

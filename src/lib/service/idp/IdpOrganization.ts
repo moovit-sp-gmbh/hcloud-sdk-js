@@ -1,4 +1,4 @@
-import axios from "axios";
+import { Axios } from "axios";
 import base, { Options } from "../../base";
 import { AuditLog } from "../../interfaces/Auditor";
 import { Organization } from "../../interfaces/IDP";
@@ -10,10 +10,10 @@ export class IdpOrganization extends base {
      */
     public member: IdpOrganizationMember;
 
-    constructor(opts: Options) {
-        super(opts);
+    constructor(opts: Options, axios: Axios) {
+        super(opts, axios);
 
-        this.member = new IdpOrganizationMember(opts);
+        this.member = new IdpOrganizationMember(opts, axios);
     }
 
     /**
@@ -25,7 +25,7 @@ export class IdpOrganization extends base {
      */
     public updateOrganization = async (id: string, name: string, company?: string): Promise<Organization> => {
         const organization = { name: name, company: company } as Organization;
-        const resp = await axios.patch<Organization>(this.getEndpoint(`/v1/organization/${id}`), organization).catch((err: Error) => {
+        const resp = await this.axios.patch<Organization>(this.getEndpoint(`/v1/organization/${id}`), organization).catch((err: Error) => {
             throw err;
         });
 
@@ -40,7 +40,7 @@ export class IdpOrganization extends base {
      */
     public createOrganization = async (name: string, company?: string): Promise<Organization> => {
         const organization = { name: name, company: company } as Organization;
-        const resp = await axios.post<Organization>(this.getEndpoint(`/v1/organization`), organization).catch((err: Error) => {
+        const resp = await this.axios.post<Organization>(this.getEndpoint(`/v1/organization`), organization).catch((err: Error) => {
             throw err;
         });
 
@@ -53,7 +53,7 @@ export class IdpOrganization extends base {
      * @returns Organization object
      */
     public getOrganizationById = async (id: string): Promise<Organization> => {
-        const resp = await axios.get<Organization>(this.getEndpoint(`/v1/organization/${id}`)).catch((err: Error) => {
+        const resp = await this.axios.get<Organization>(this.getEndpoint(`/v1/organization/${id}`)).catch((err: Error) => {
             throw err;
         });
 
@@ -65,7 +65,7 @@ export class IdpOrganization extends base {
      * @param id the id of an organization
      */
     public deleteOrganizationById = async (id: string): Promise<void> => {
-        const resp = await axios.delete<void>(this.getEndpoint(`/v1/organization/${id}`)).catch((err: Error) => {
+        const resp = await this.axios.delete<void>(this.getEndpoint(`/v1/organization/${id}`)).catch((err: Error) => {
             throw err;
         });
     };
@@ -80,7 +80,7 @@ export class IdpOrganization extends base {
         limit = limit || 500;
         page = page || 0;
 
-        const resp = await axios.get<Organization[]>(this.getEndpoint(`/v1/organization?limit=${limit}&page=${page}`)).catch((err: Error) => {
+        const resp = await this.axios.get<Organization[]>(this.getEndpoint(`/v1/organization?limit=${limit}&page=${page}`)).catch((err: Error) => {
             throw err;
         });
 

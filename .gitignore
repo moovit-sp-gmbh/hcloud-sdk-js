@@ -33,6 +33,9 @@ Thumbs.db:encryptable
 .DS_Store
 
 ## OTHER
+### intelliJ
+/.idea
+/*.iml
 *~
 .fuse_hidden*
 .directory

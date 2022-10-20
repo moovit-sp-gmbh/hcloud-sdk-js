@@ -12,14 +12,14 @@ describe("IDP", function () {
         const userOrgOwner = {
             _id: "630495248232cd58e559170e",
             name: "Test_Constant_User",
-            email: "test.user@msp.com",
+            email: "test.user@moovit-sp.com",
             password: "Test123!",
         };
 
         const userOrgMember = {
             _id: "6304c4828232cd58e559b2d9",
             name: "Test_Constant_Org_Member_User",
-            email: "test.orgMemberUser@msp.com",
+            email: "test.orgMemberUser@moovit-sp.com",
             password: "Test123!",
         };
 
@@ -29,7 +29,7 @@ describe("IDP", function () {
             company: "Test_Company",
         };
 
-        const hcloudClient = new hcloud({ api: "https://dev.app.helmut.cloud" });
+        const hcloudClient = new hcloud({ server: "https://dev.app.helmut.cloud" });
 
         it("logs in as organization owner", done => {
             hcloudClient.IDP.authenticate(userOrgOwner.email, userOrgOwner.password)
@@ -38,7 +38,6 @@ describe("IDP", function () {
                     done();
                 })
                 .catch((err: AxiosError) => {
-                    console.log(err);
                     console.log(err.response?.data);
                     throw err;
                 });
@@ -99,7 +98,7 @@ describe("IDP", function () {
                         done();
                     })
                     .catch((err: AxiosError) => {
-                        console.log(err);
+                        console.log(err.response?.data);
                         throw err;
                     });
             });
@@ -127,7 +126,7 @@ describe("IDP", function () {
             });
         });
 
-        describe("OrganizationMember", function () {
+        describe.skip("OrganizationMember", function () {
             it("adds a member to the organization", done => {
                 hcloudClient.IDP.organization.member
                     .addOrganizationMember(testOrganization._id, {
@@ -162,8 +161,8 @@ describe("IDP", function () {
             it("organizationMemberGetById OK", done => {
                 hcloudClient.IDP.organization.member
                     .listOrganizationMembers(testOrganization._id)
-                    .then((resp: OrganizationMember[]) => {
-                        expect(resp.length).to.be.greaterThanOrEqual(1);
+                    .then((resp: [OrganizationMember[], number]) => {
+                        expect(resp[0].length).to.be.greaterThanOrEqual(1);
                         done();
                     })
                     .catch((err: AxiosError) => {
@@ -189,14 +188,14 @@ describe("IDP", function () {
                                         done();
                                     })
                                     .catch((err: AxiosError) => {
-                                        console.log(err);
+                                        console.log(err.response?.data);
                                         console.log(err.response?.data);
                                         throw err;
                                     });
                             });
                     })
                     .catch((err: AxiosError) => {
-                        console.log(err);
+                        console.log(err.response?.data);
                         console.log(err.response?.data);
                         throw err;
                     });
@@ -237,7 +236,7 @@ describe("IDP", function () {
                                         done();
                                     })
                                     .catch((err: AxiosError) => {
-                                        console.log(err);
+                                        console.log(err.response?.data);
                                         console.log(err.response?.data);
                                         throw err;
                                     });
@@ -247,7 +246,7 @@ describe("IDP", function () {
                             });
                     })
                     .catch((err: AxiosError) => {
-                        console.log(err);
+                        console.log(err.response?.data);
                         console.log(err.response?.data);
                         throw err;
                     });

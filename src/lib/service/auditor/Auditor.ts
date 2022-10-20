@@ -60,6 +60,6 @@ export default class Auditor extends base {
     };
 
     protected getEndpoint(endpoint: string): string {
-        return `${this.options.api}/api/auditor${endpoint}`;
+        return `${this.options.server}/api/auditor${endpoint}`;
     }
 }

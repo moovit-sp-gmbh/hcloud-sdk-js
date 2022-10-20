@@ -97,14 +97,14 @@ export class IdpOrganization extends base {
         limit = limit || 500;
         page = page || 0;
 
-        const resp = await axios.post<Organization[]>(this.getEndpoint(`/v1/organization/search?limit=${limit}&page=${page}`), searchFilter).catch((err: Error) => {
+        const resp = await this.axios.post<Organization[]>(this.getEndpoint(`/v1/organization/search?limit=${limit}&page=${page}`), searchFilter).catch((err: Error) => {
             throw err;
         });
 
-        return [resp.data, parseInt(resp.headers.total, 10)];
+        return [resp.data, parseInt(String(resp.headers.total), 10)];
     };
 
     protected getEndpoint(endpoint: string): string {
-        return `${this.options.api}/api/account${endpoint}`;
+        return `${this.options.server}/api/account${endpoint}`;
     }
 }

@@ -60,6 +60,6 @@ export class IdpOrganizationMember extends base {
     };
 
     protected getEndpoint(endpoint: string): string {
-        return `${this.options.api}/api/account/v1/organization${endpoint}`;
+        return `${this.options.server}/api/account/v1/organization${endpoint}`;
     }
 }

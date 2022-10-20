@@ -26,6 +26,6 @@ export default class Mailer extends base {
     };
 
     protected getEndpoint(endpoint: string): string {
-        return `${this.options.api}/api/mailer${endpoint}`;
+        return `${this.options.server}/api/mailer${endpoint}`;
     }
 }

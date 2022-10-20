@@ -8,7 +8,7 @@ import { SuccessfulAuth, User } from "../../../src/lib/interfaces/IDP";
 describe("IDP", function () {
     describe("User", function () {
         this.timeout(10000);
-        const hcloudClient = new hcloud({ api: "https://dev.app.helmut.cloud" });
+        const hcloudClient = new hcloud({ server: "https://dev.app.helmut.cloud" });
         let token = "";
         let user = {} as User;
         const userPassword = "Sev2000Sev!";
@@ -28,7 +28,7 @@ describe("IDP", function () {
         describe("Register", function () {
             it("Register OK", done => {
                 const name = `Severin Siebertz ${uuidv4()}`;
-                hcloudClient.IDP.register(name, `s.siebertz@moovit-sp-${uuidv4()}.com`, userPassword)
+                hcloudClient.IDP.register(name, `s.siebertz-${uuidv4()}@moovit-sp.com`, userPassword)
                     .then((resp: User) => {
                         expect(resp.name).to.equal(name);
                         userToBeDeleted = resp;

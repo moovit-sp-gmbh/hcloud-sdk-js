@@ -27,12 +27,12 @@ export default class hcloud {
     }
 
     setServer(server: string): hcloud {
-        this.options.api = server;
+        this.options.server = server;
         return this;
     }
 
     getServer(): string {
-        return this.options.api;
+        return this.options.server;
     }
 
     setAuthToken(token: string): hcloud {

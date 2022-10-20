@@ -8,7 +8,7 @@ import { App, AppPermission, Design, Event, NodeCategory, Stream, Node } from ".
 
 describe("High5", function () {
     this.timeout(10000);
-    const hcloudClient = new hcloud({ api: "https://dev.app.helmut.cloud" });
+    const hcloudClient = new hcloud({ server: "https://dev.app.helmut.cloud" });
     let token = "";
     let user: User;
     let app: App;
@@ -36,7 +36,7 @@ describe("High5", function () {
                 hcloudClient.setAuthToken(resp.token);
             })
             .catch((err: AxiosError) => {
-                console.log(err);
+                console.log(err.response?.data);
 
                 throw err;
             });
@@ -52,7 +52,7 @@ describe("High5", function () {
                     app = resp;
                 })
                 .catch((err: AxiosError) => {
-                    console.log(err);
+                    console.log(err.response?.data);
                     throw err;
                 });
         });
@@ -200,7 +200,7 @@ describe("High5", function () {
                     stream = resp;
                 })
                 .catch((err: AxiosError) => {
-                    console.log(err);
+                    console.log(err.response?.data);
                     throw err;
                 });
         });
@@ -213,7 +213,7 @@ describe("High5", function () {
                     stream = resp[0];
                 })
                 .catch((err: AxiosError) => {
-                    console.log(err);
+                    console.log(err.response?.data);
                     throw err;
                 });
         });

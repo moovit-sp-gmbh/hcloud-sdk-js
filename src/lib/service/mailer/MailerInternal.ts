@@ -52,6 +52,6 @@ export default class MailerInternal extends base {
     };
 
     protected getEndpoint(endpoint: string): string {
-        return `${this.options.api}/api/mailer/internal${endpoint}`;
+        return `${this.options.server}/api/mailer/internal${endpoint}`;
     }
 }

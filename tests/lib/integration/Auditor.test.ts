@@ -8,8 +8,9 @@ import { v4 as uuidv4 } from "uuid";
 
 describe("Auditor", function () {
     this.timeout(10000);
-    const hcloudClient = new hcloud({ api: "https://dev.app.helmut.cloud" });
+    const hcloudClient = new hcloud({ server: "https://dev.app.helmut.cloud" });
     let token = "";
+    const testMail = `s.siebertz-${uuidv4()}@moovit-sp.com`;
 
     it("Version OK", () => {
         return hcloudClient.Auditor.version()
@@ -23,25 +24,25 @@ describe("Auditor", function () {
 
     it("Register OK", () => {
         const name = `Severin Siebertz ${uuidv4()}`;
-        return hcloudClient.IDP.register(name, `s.siebertz@moovit-sp-${uuidv4()}.com`, "Sev2000Sev!")
+        return hcloudClient.IDP.register(name, testMail, "Sev2000Sev!")
             .then((resp: User) => {
                 expect(resp.name).to.equal(name);
             })
             .catch((err: AxiosError) => {
-                console.log(err);
+                console.log(err.response?.data);
                 throw err;
             });
     });
 
     it("Authenticate OK", () => {
-        return hcloudClient.IDP.authenticate("s.siebertz@moovit-sp.com", "Sev2000Sev!")
+        return hcloudClient.IDP.authenticate(testMail, "Sev2000Sev!")
             .then((resp: SuccessfulAuth) => {
                 expect(resp.token).to.contain("Bearer ");
                 token = resp.token;
                 hcloudClient.setAuthToken(resp.token);
             })
             .catch((err: AxiosError) => {
-                console.log(err);
+                console.log(err.response?.data);
 
                 throw err;
             });
@@ -75,7 +76,7 @@ describe("Auditor", function () {
         });
 
         it("AddAuditLogs OK", async () => {
-            const hcloudClient = new hcloud({ api: "http://localhost:3004" }).setAuthToken(token);
+            const hcloudClient = new hcloud({ server: "http://localhost:3004" }).setAuthToken(token);
             const res = await hcloudClient.Auditor.internal.addAuditLogs([createTestAuditLog()]).catch((err: unknown) => {
                 console.log("failed", err);
             });
@@ -83,7 +84,7 @@ describe("Auditor", function () {
         });
 
         it("AddAuditLogsToQueue OK", async () => {
-            const hcloudClient = new hcloud({ api: "http://localhost:3004", auditor: { queue: { executionInterval: 100 } } }).setAuthToken(token);
+            const hcloudClient = new hcloud({ server: "http://localhost:3004", auditor: { queue: { executionInterval: 100 } } }).setAuthToken(token);
             hcloudClient.Auditor.internal.queueAuditLogs([createTestAuditLog(), createTestAuditLog(), createTestAuditLog()]);
             await sleep(1000);
         });

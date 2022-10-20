@@ -5,8 +5,8 @@
     "main": "index.js",
     "types": "index.d.ts",
     "scripts": {
-        "test:unit": "mocha -r ts-node/register tests/unit/**/*.test.ts",
-        "test:integration": "mocha -r ts-node/register tests/integration/**/*.test.ts",
+        "test:unit": "mocha -r ts-node/register tests/lib/unit/**/*.test.ts",
+        "test:integration": "mocha -r ts-node/register tests/lib/integration/**/*.test.ts",
         "format": "prettier --write \"src/**/*.ts\" \"tests/**/*.test.ts\"",
         "lint": "tslint -p tsconfig.json",
         "doc:build": "vuepress build _docs/src",

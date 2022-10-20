@@ -112,6 +112,6 @@ export class High5Node extends base {
     }
 
     protected getEndpoint(endpoint: string): string {
-        return `${this.options.api}/api/high5${endpoint}`;
+        return `${this.options.server}/api/high5${endpoint}`;
     }
 }

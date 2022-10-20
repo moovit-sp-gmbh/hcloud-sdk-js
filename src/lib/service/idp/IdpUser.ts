@@ -29,6 +29,6 @@ export class IdpUser extends base {
     };
 
     protected getEndpoint(endpoint: string): string {
-        return `${this.options.api}/api/account${endpoint}`;
+        return `${this.options.server}/api/account${endpoint}`;
     }
 }

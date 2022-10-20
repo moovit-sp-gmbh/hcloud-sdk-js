@@ -1,7 +1,7 @@
 import { AxiosInstance } from "axios";
 
 export interface Options {
-    api: string;
+    server: string;
     auditor?: {
         queue?: {
             executionInterval?: number;

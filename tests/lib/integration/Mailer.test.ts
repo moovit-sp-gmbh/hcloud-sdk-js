@@ -9,7 +9,7 @@ import { Template } from "../../../src/lib/interfaces/Mail";
 
 describe("Mailer", function () {
     this.timeout(10000);
-    const hcloudClient = new hcloud({ api: "https://dev.app.helmut.cloud" });
+    const hcloudClient = new hcloud({ server: "https://dev.app.helmut.cloud" });
     let token = "";
 
     it("Version OK", () => {

@@ -9,7 +9,7 @@ import HCloud from "hcloud-sdk"
 import { User } from "hcloud-sdk/lib/interfaces/IDP";
 import { AxiosError } from "axios";
 
-const h = new HCloud({api: "https://dev.app.helmut.cloud"})
+const h = new HCloud({ server: "https://dev.app.helmut.cloud"})
 
 try {
     const newUser: User = await h.IDP.register("fullname", "email", "password")
@@ -26,7 +26,7 @@ import HCloud from "hcloud-sdk"
 import { Token } from "hcloud-sdk/lib/interfaces/IDP";
 import { AxiosError } from "axios";
 
-const h = new HCloud({api: "https://dev.app.helmut.cloud"})
+const h = new HCloud({ server: "https://dev.app.helmut.cloud"})
 
 try {
     const token: Token = await h.IDP.authenticate("email", "password")
@@ -45,7 +45,7 @@ import HCloud from "hcloud-sdk"
 import { Token } from "hcloud-sdk/lib/interfaces/IDP";
 import { AxiosError } from "axios";
 
-const h = new HCloud({api: "https://dev.app.helmut.cloud"})
+const h = new HCloud({ server: "https://dev.app.helmut.cloud"})
 
 try {
     const token: Token = await h.IDP.authenticate("email", "password")

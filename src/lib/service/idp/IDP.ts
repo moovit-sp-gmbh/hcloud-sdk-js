@@ -1,5 +1,5 @@
 import base, { Options } from "../../base";
-import axios from "axios";
+import { AxiosInstance } from "axios";
 import { SuccessfulAuth, User } from "../../interfaces/IDP";
 import { Version } from "../../interfaces/Global";
 import { IdpOrganization } from "./IdpOrganization";
@@ -15,11 +15,11 @@ export default class IDP extends base {
      * user handles everything around a user
      */
     public user: IdpUser;
-    constructor(opts: Options) {
-        super(opts);
+    constructor(options: Options, axios: AxiosInstance) {
+        super(options, axios);
 
-        this.organization = new IdpOrganization(opts);
-        this.user = new IdpUser(opts);
+        this.organization = new IdpOrganization(this.options, this.axios);
+        this.user = new IdpUser(this.options, this.axios);
     }
 
     /**
@@ -27,7 +27,7 @@ export default class IDP extends base {
      * @returns Version object
      */
     version = async (): Promise<Version> => {
-        const resp = await axios.get<Version>(this.getEndpoint("/v1/version"), {}).catch((err: Error) => {
+        const resp = await this.axios.get<Version>(this.getEndpoint("/v1/version"), {}).catch((err: Error) => {
             throw err;
         });
 
@@ -40,7 +40,7 @@ export default class IDP extends base {
      * @returns User object
      */
     authorize = async (): Promise<User> => {
-        const resp = await axios.get<User>(this.getEndpoint("/v1/authorize"), {}).catch((err: Error) => {
+        const resp = await this.axios.get<User>(this.getEndpoint("/v1/authorize"), {}).catch((err: Error) => {
             throw err;
         });
 
@@ -55,7 +55,7 @@ export default class IDP extends base {
      * @returns Bearer Token
      */
     register = async (name: string, email: string, password: string): Promise<User> => {
-        const resp = await axios
+        const resp = await this.axios
             .post<User>(this.getEndpoint("/v1/registration"), { name: name, email: email, password: password })
             .catch((err: Error) => {
                 throw err;
@@ -71,15 +71,15 @@ export default class IDP extends base {
      * @returns SuccessfulAuth object holding the token and the user
      */
     authenticate = async (email: string, password: string): Promise<SuccessfulAuth> => {
-        const resp = await axios.post<User>(this.getEndpoint("/v1/authenticate"), { email: email, password: password }).catch((err: Error) => {
+        const resp = await this.axios.post<User>(this.getEndpoint("/v1/authenticate"), { email: email, password: password }).catch((err: Error) => {
             throw err;
         });
 
-        const authed: SuccessfulAuth = { token: resp.headers.authorization, user: resp.data };
+        const authed: SuccessfulAuth = { token: resp.headers["authorization"]?.toString() || "", user: resp.data };
         return authed;
     };
 
     protected getEndpoint(endpoint: string): string {
-        return `${this.opts.api}/api/account${endpoint}`;
+        return `${this.options.api}/api/account${endpoint}`;
     }
 }

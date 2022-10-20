@@ -46,6 +46,6 @@
         "vuepress-theme-default-prefers-color-scheme": "^2.0.0"
     },
     "dependencies": {
-        "axios": "^0.27.2"
+        "axios": "1.1.0"
     }
 }

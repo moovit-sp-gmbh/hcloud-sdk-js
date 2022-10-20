@@ -1,12 +1,8 @@
-import axios from "axios";
+import { AxiosInstance } from "axios";
 import base, { Options } from "../../base";
 import { Event } from "../../interfaces/High5";
 
 export class High5Event extends base {
-    constructor(opts: Options) {
-        super(opts);
-    }
-
     /**
      * getEvents returns all event for an app
      * @param appId the app's id
@@ -18,7 +14,7 @@ export class High5Event extends base {
         limit = limit || 500;
         page = page || 0;
 
-        const resp = await axios.get<Event[]>(this.getEndpoint(`/v1/event/list/${appId}?page=${page}&limit=${limit}`)).catch((err: Error) => {
+        const resp = await this.axios.get<Event[]>(this.getEndpoint(`/v1/event/list/${appId}?page=${page}&limit=${limit}`)).catch((err: Error) => {
             throw err;
         });
 
@@ -31,7 +27,7 @@ export class High5Event extends base {
      * @returns Event
      */
     public getEventById = async (eventId: string): Promise<Event> => {
-        const resp = await axios.get<Event>(this.getEndpoint(`/v1/event/${eventId}`)).catch((err: Error) => {
+        const resp = await this.axios.get<Event>(this.getEndpoint(`/v1/event/${eventId}`)).catch((err: Error) => {
             throw err;
         });
 
@@ -45,7 +41,7 @@ export class High5Event extends base {
      * @returns event
      */
     public createEvent = async (appID: string, name: string): Promise<Event> => {
-        const resp = await axios.post<Event>(this.getEndpoint(`/v1/event/${appID}`), { name: name }).catch((err: Error) => {
+        const resp = await this.axios.post<Event>(this.getEndpoint(`/v1/event/${appID}`), { name: name }).catch((err: Error) => {
             throw err;
         });
 
@@ -57,12 +53,12 @@ export class High5Event extends base {
      * @param eventId the event's id
      */
     public deleteEventById = async (eventId: string): Promise<void> => {
-        await axios.delete<void>(this.getEndpoint(`/v1/event/${eventId}`)).catch((err: Error) => {
+        await this.axios.delete<void>(this.getEndpoint(`/v1/event/${eventId}`)).catch((err: Error) => {
             throw err;
         });
     };
 
     protected getEndpoint(endpoint: string): string {
-        return `${this.opts.api}/api/high5${endpoint}`;
+        return `${this.options.api}/api/high5${endpoint}`;
     }
 }

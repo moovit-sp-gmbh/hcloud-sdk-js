@@ -1,12 +1,8 @@
-import axios from "axios";
+import { AxiosInstance } from "axios";
 import base, { Options } from "../../base";
 import { Node, NodeCategory } from "../../interfaces/High5";
 
 export class High5Node extends base {
-    constructor(opts: Options) {
-        super(opts);
-    }
-
     /**
      * Get a list of all Nodes within the active Organization (requires READ permission) that are assigned to a specific stream
      * @param streamId Id of the stream the nodes are assigned to
@@ -18,7 +14,7 @@ export class High5Node extends base {
     public async getNodes(streamId: string, limit?: number, page?: number): Promise<Node[]> {
         limit = limit || 500;
         page = page || 0;
-        const resp = await axios.get<Node[]>(this.getEndpoint(`/v1/node/list/${streamId}?page=${page}&limit=${limit}`)).catch((err: Error) => {
+        const resp = await this.axios.get<Node[]>(this.getEndpoint(`/v1/node/list/${streamId}?page=${page}&limit=${limit}`)).catch((err: Error) => {
             throw err;
         });
 
@@ -32,7 +28,7 @@ export class High5Node extends base {
      * @response Node
      */
     public async getNodeById(nodeId: string): Promise<Node> {
-        const resp = await axios.get<Node>(this.getEndpoint(`/v1/node/${nodeId}`)).catch((err: Error) => {
+        const resp = await this.axios.get<Node>(this.getEndpoint(`/v1/node/${nodeId}`)).catch((err: Error) => {
             throw err;
         });
 
@@ -47,7 +43,7 @@ export class High5Node extends base {
      * @response Node
      */
     public async createNode(nodeCategory: NodeCategory, specification: string, typescript: string, streamId: string): Promise<Node> {
-        const resp = await axios
+        const resp = await this.axios
             .post<Node>(this.getEndpoint(`/v1/node/${streamId}`), {
                 category: nodeCategory,
                 specification: specification,
@@ -67,7 +63,7 @@ export class High5Node extends base {
      * @response 204 No content
      */
     public async deleteNodeById(nodeId: string): Promise<void> {
-        const resp = await axios.delete<void>(this.getEndpoint(`/v1/node/${nodeId}`)).catch((err: Error) => {
+        const resp = await this.axios.delete<void>(this.getEndpoint(`/v1/node/${nodeId}`)).catch((err: Error) => {
             throw err;
         });
     }
@@ -92,7 +88,7 @@ export class High5Node extends base {
             delete patchNode.typescript;
         }
 
-        const resp = await axios
+        const resp = await this.axios
             .patch<Node>(this.getEndpoint(`/v1/node/${nodeId}?regenerateSecret=${regernateSecret}`), patchNode)
             .catch((err: Error) => {
                 throw err;
@@ -108,7 +104,7 @@ export class High5Node extends base {
      * @response raw javascript representation of the Node's content
      */
     public async getNodeContent(secret: string): Promise<string> {
-        const resp = await axios.get<string>(this.getEndpoint(`/v1/node/${secret}/content`)).catch((err: Error) => {
+        const resp = await this.axios.get<string>(this.getEndpoint(`/v1/node/${secret}/content`)).catch((err: Error) => {
             throw err;
         });
 
@@ -116,6 +112,6 @@ export class High5Node extends base {
     }
 
     protected getEndpoint(endpoint: string): string {
-        return `${this.opts.api}/api/high5${endpoint}`;
+        return `${this.options.api}/api/high5${endpoint}`;
     }
 }

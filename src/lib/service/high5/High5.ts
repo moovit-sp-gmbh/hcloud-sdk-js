@@ -1,5 +1,5 @@
 import base, { Options } from "../../base";
-import axios, { AxiosResponse } from "axios";
+import { AxiosInstance } from "axios";
 import { Version } from "../../interfaces/Global";
 import { High5App } from "./High5App";
 import { High5Event } from "./High5Event";
@@ -14,14 +14,14 @@ export default class High5 extends base {
     public design: High5Design;
     public node: High5Node;
 
-    constructor(opts: Options) {
-        super(opts);
+    constructor(options: Options, axios: AxiosInstance) {
+        super(options, axios);
 
-        this.app = new High5App(opts);
-        this.event = new High5Event(opts);
-        this.stream = new High5Stream(opts);
-        this.design = new High5Design(opts);
-        this.node = new High5Node(opts);
+        this.app = new High5App(this.options, this.axios);
+        this.event = new High5Event(this.options, this.axios);
+        this.stream = new High5Stream(this.options, this.axios);
+        this.design = new High5Design(this.options, this.axios);
+        this.node = new High5Node(this.options, this.axios);
     }
 
     /**
@@ -29,7 +29,7 @@ export default class High5 extends base {
      * @returns Version object
      */
     version = async (): Promise<Version> => {
-        const resp = await axios.get<Version>(this.getEndpoint("/v1/version"), {}).catch((err: Error) => {
+        const resp = await this.axios.get<Version>(this.getEndpoint("/v1/version"), {}).catch((err: Error) => {
             throw err;
         });
 
@@ -37,6 +37,6 @@ export default class High5 extends base {
     };
 
     protected getEndpoint(endpoint: string): string {
-        return `${this.opts.api}/api/high5${endpoint}`;
+        return `${this.options.api}/api/high5${endpoint}`;
     }
 }

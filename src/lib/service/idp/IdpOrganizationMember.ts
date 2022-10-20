@@ -1,4 +1,4 @@
-import axios from "axios";
+import { AxiosInstance } from "axios";
 import base from "../../base";
 import { AddOrganizationMember, OrganizationMember, OrganizationPermission, PatchOrgMember } from "../../interfaces/IDP";
 
@@ -14,11 +14,11 @@ export class IdpOrganizationMember extends base {
         limit = limit || 500;
         page = page || 0;
 
-        const resp = await axios.get<OrganizationMember[]>(this.getEndpoint(`/${id}/member?limit=${limit}&page=${page}`)).catch((err: Error) => {
+        const resp = await this.axios.get<OrganizationMember[]>(this.getEndpoint(`/${id}/member?limit=${limit}&page=${page}`)).catch((err: Error) => {
             throw err;
         });
 
-        return [resp.data, parseInt(resp.headers.total, 10)];
+        return [resp.data, parseInt(String(resp.headers["total"]), 10)];
     };
 
     /**
@@ -26,7 +26,7 @@ export class IdpOrganizationMember extends base {
      * @returns OrganizationMember array
      */
     public addOrganizationMember = async (organizationId: string, addOrganizationMember: AddOrganizationMember): Promise<OrganizationMember> => {
-        const resp = await axios
+        const resp = await this.axios
             .post<OrganizationMember>(this.getEndpoint(`/${organizationId}/member`), addOrganizationMember)
             .catch((err: Error) => {
                 throw err;
@@ -42,7 +42,7 @@ export class IdpOrganizationMember extends base {
      * @returns OrganizationMember array
      */
     public patchOrganizationMemberPermission = async (organizationId: string, patchOrgMember: PatchOrgMember): Promise<OrganizationMember> => {
-        const resp = await axios.patch<OrganizationMember>(this.getEndpoint(`/${organizationId}/member`), patchOrgMember).catch((err: Error) => {
+        const resp = await this.axios.patch<OrganizationMember>(this.getEndpoint(`/${organizationId}/member`), patchOrgMember).catch((err: Error) => {
             throw err;
         });
 
@@ -54,12 +54,12 @@ export class IdpOrganizationMember extends base {
      * @param userId
      */
     public removeOrganizationMember = async (organizationId: string, userId: string): Promise<void> => {
-        const resp = await axios.delete<void>(this.getEndpoint(`/${organizationId}/member/${userId}`)).catch((err: Error) => {
+        const resp = await this.axios.delete<void>(this.getEndpoint(`/${organizationId}/member/${userId}`)).catch((err: Error) => {
             throw err;
         });
     };
 
     protected getEndpoint(endpoint: string): string {
-        return `${this.opts.api}/api/account/v1/organization${endpoint}`;
+        return `${this.options.api}/api/account/v1/organization${endpoint}`;
     }
 }

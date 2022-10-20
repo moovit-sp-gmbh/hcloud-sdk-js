@@ -3,8 +3,9 @@ import IDPService from "./service/idp/IDP";
 import AuditorService from "./service/auditor/Auditor";
 import High5Service from "./service/high5/High5";
 import MailerService from "./service/mailer/Mailer";
-import axios from "axios";
+import axios, { AxiosInstance } from "axios";
 import { version } from "../package.json";
+import Base from "./base";
 
 // tslint:disable-next-line
 export default class hcloud {
@@ -12,22 +13,43 @@ export default class hcloud {
     public High5: High5Service;
     public IDP: IDPService;
     public Mailer: MailerService;
+    private options: Options;
+    private axios: AxiosInstance;
 
-    constructor(opts: Options) {
-        this.Auditor = new AuditorService(opts);
-        this.High5 = new High5Service(opts);
-        this.IDP = new IDPService(opts);
-        this.Mailer = new MailerService(opts);
+    constructor(options: Options) {
+        this.options = options;
+        this.axios = axios.create();
+
+        this.Auditor = new AuditorService(this.options, this.axios);
+        this.High5 = new High5Service(this.options, this.axios);
+        this.IDP = new IDPService(this.options, this.axios);
+        this.Mailer = new MailerService(this.options, this.axios);
     }
 
-    setAuthToken(token: string): hcloud {
-        axios.defaults.headers.common = Object.assign(axios.defaults.headers.common, {
-            Authorization: token,
-        });
+    setServer(server: string): hcloud {
+        this.options.api = server;
         return this;
     }
 
-    getAuthToken(): string {
-        return axios.defaults.headers.common.Authorization.toString();
+    getServer(): string {
+        return this.options.api;
+    }
+
+    setAuthToken(token: string): hcloud {
+        this.axios.defaults.headers.common["authorization"] = token;
+        return this;
+    }
+
+    getAuthToken(): string | undefined {
+        return this.axios.defaults.headers.common["authorization"]?.toString();
+    }
+
+    setActiveOrganizationId(organizationId: string): hcloud {
+        this.axios.defaults.headers.common["x-active-organization-id"] = organizationId;
+        return this;
+    }
+
+    getActiveOrganizationId(): string | undefined {
+        return this.axios.defaults.headers.common["x-active-organization-id"]?.toString();
     }
 }

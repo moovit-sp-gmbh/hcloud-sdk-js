@@ -1,12 +1,8 @@
-import axios from "axios";
+import { AxiosInstance } from "axios";
 import base, { Options } from "../../base";
 import { App, AppPermission } from "../../interfaces/High5";
 
 export class High5App extends base {
-    constructor(opts: Options) {
-        super(opts);
-    }
-
     /**
      * getApps returns all app's with READ+ permission for the active organization
      * @param limit the maximum results (defaults to 500)
@@ -17,7 +13,7 @@ export class High5App extends base {
         limit = limit || 500;
         page = page || 0;
 
-        const resp = await axios.get<App[]>(this.getEndpoint(`/v1/app?page=${page}&limit=${limit}`)).catch((err: Error) => {
+        const resp = await this.axios.get<App[]>(this.getEndpoint(`/v1/app?page=${page}&limit=${limit}`)).catch((err: Error) => {
             throw err;
         });
 
@@ -30,7 +26,7 @@ export class High5App extends base {
      * @returns App
      */
     public getAppById = async (appId: string): Promise<App> => {
-        const resp = await axios.get<App>(this.getEndpoint(`/v1/app/${appId}`)).catch((err: Error) => {
+        const resp = await this.axios.get<App>(this.getEndpoint(`/v1/app/${appId}`)).catch((err: Error) => {
             throw err;
         });
 
@@ -43,7 +39,7 @@ export class High5App extends base {
      * @returns App
      */
     public createApp = async (name: string): Promise<App> => {
-        const resp = await axios.post<App>(this.getEndpoint(`/v1/app`), { name: name }).catch((err: Error) => {
+        const resp = await this.axios.post<App>(this.getEndpoint(`/v1/app`), { name: name }).catch((err: Error) => {
             throw err;
         });
 
@@ -55,7 +51,7 @@ export class High5App extends base {
      * @param appId the app's id
      */
     public deleteAppById = async (appId: string): Promise<void> => {
-        await axios.delete<void>(this.getEndpoint(`/v1/app/${appId}`)).catch((err: Error) => {
+        await this.axios.delete<void>(this.getEndpoint(`/v1/app/${appId}`)).catch((err: Error) => {
             throw err;
         });
     };
@@ -67,7 +63,7 @@ export class High5App extends base {
      * @param permission the target permission - user AppPermission.NONE to remove any persmission)
      */
     public patchAppPermission = async (appId: string, userId: string, permission: AppPermission): Promise<App> => {
-        const resp = await axios
+        const resp = await this.axios
             .patch<App>(this.getEndpoint(`/v1/app/${appId}/permission`), { userId: userId, permission: permission })
             .catch((err: Error) => {
                 throw err;
@@ -77,6 +73,6 @@ export class High5App extends base {
     };
 
     protected getEndpoint(endpoint: string): string {
-        return `${this.opts.api}/api/high5${endpoint}`;
+        return `${this.options.api}/api/high5${endpoint}`;
     }
 }

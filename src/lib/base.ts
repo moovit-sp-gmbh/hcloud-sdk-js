@@ -1,3 +1,5 @@
+import { AxiosInstance } from "axios";
+
 export interface Options {
     api: string;
     auditor?: {
@@ -8,10 +10,12 @@ export interface Options {
 }
 
 export default abstract class Base {
-    protected opts: Options;
+    protected options: Options;
+    protected axios: AxiosInstance;
 
-    constructor(opts: Options) {
-        this.opts = opts;
+    constructor(options: Options, axios: AxiosInstance) {
+        this.options = options;
+        this.axios = axios;
     }
 
     protected abstract getEndpoint(endoiint: string): string;

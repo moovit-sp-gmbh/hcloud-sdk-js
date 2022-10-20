@@ -1,9 +1,9 @@
-import axios from "axios";
+import { AxiosInstance } from "axios";
 import base from "../../base";
 import { AuditLog } from "../../interfaces/Auditor";
 
 export class AuditorInternal extends base {
-    private queueExecutionInterval: number = this.opts.auditor?.queue?.executionInterval || 500;
+    private queueExecutionInterval: number = this.options.auditor?.queue?.executionInterval || 500;
     private logQueue = [] as AuditLog[];
     private logQueueTimer: ReturnType<typeof setTimeout> | undefined;
 
@@ -17,7 +17,7 @@ export class AuditorInternal extends base {
      * @returns AuditLog array
      */
     public addAuditLogs = async (logs: AuditLog[]): Promise<AuditLog[]> => {
-        const resp = await axios.post<AuditLog[]>(this.getEndpoint("/v1/logs"), logs).catch((err: Error) => {
+        const resp = await this.axios.post<AuditLog[]>(this.getEndpoint("/v1/logs"), logs).catch((err: Error) => {
             throw err;
         });
 
@@ -31,7 +31,7 @@ export class AuditorInternal extends base {
      *
      * THIS COMES WITH DOWNSIDE OF LOG TIMESTAMPS BEING INACCURATE AS THEY ARE CREATED BY THE Auditor SERVER
      *
-     * TIMESTAMPS MIGHT DIFFER AS MUCH AS: this.opts.auditor.queue.executionInterval || 500
+     * TIMESTAMPS MIGHT DIFFER AS MUCH AS: this.options.auditor.queue.executionInterval || 500
      * @param logs array (add multiple logs entries at once)
      */
     public queueAuditLogs = async (logs: AuditLog[]): Promise<void> => {
@@ -55,6 +55,6 @@ export class AuditorInternal extends base {
     }
 
     protected getEndpoint(endpoint: string): string {
-        return `${this.opts.api}/api/auditor/internal${endpoint}`;
+        return `${this.options.api}/api/auditor/internal${endpoint}`;
     }
 }

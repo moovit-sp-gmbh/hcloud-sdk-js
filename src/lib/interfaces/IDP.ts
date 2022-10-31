@@ -6,6 +6,39 @@ export interface User {
     activeOrganizationId: string;
     createDate: number;
     modifyDate: number;
+    currentRequestScopes?: Scopes[];
+}
+
+export enum Scopes {
+    "hcloud:full" = "hcloud:full",
+    "idp:email:read" = "idp:email:read",
+    "idp:user:read" = "idp:user:read",
+    "idp:user:write" = "idp:user:write",
+    "idp:user:delete" = "idp:user:delete",
+    "idp:organization:read" = "idp:organization:read",
+    "idp:organization:write" = "idp:organization:write",
+    "idp:organization:delete" = "idp:organization:delete",
+    "high5:app:read" = "high5:app:read",
+    "high5:app:execute" = "high5:app:execute",
+    "high5:app:write" = "high5:app:write",
+    "high5:app:delete" = "high5:app:delete",
+}
+
+export interface Pat {
+    _id: string;
+    name: string;
+    expiration?: number;
+    scopes: Scopes[];
+    userId: string;
+    token: string;
+    jwt: string;
+    modifyDate: number;
+}
+
+export interface PatCreate {
+    name: string;
+    expiration?: number;
+    scopes: Scopes[];
 }
 
 export interface PatchUser {

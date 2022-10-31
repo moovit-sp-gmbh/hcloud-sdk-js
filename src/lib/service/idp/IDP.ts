@@ -75,7 +75,7 @@ export default class IDP extends base {
             throw err;
         });
 
-        const authed: SuccessfulAuth = { token: resp.headers["authorization"]?.toString() || "", user: resp.data };
+        const authed: SuccessfulAuth = { token: resp.headers["authorization"]?.toString() || "", user: resp.data };
         return authed;
     };
 

@@ -6,7 +6,7 @@ export interface User {
     activeOrganizationId: string;
     createDate: number;
     modifyDate: number;
-    currentRequestScopes: Scopes[];
+    activeScopes: Scopes[];
 }
 
 export enum Scopes {

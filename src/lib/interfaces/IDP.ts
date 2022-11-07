@@ -41,6 +41,11 @@ export interface PatCreate {
     scopes: Scopes[];
 }
 
+export interface PatUpdate {
+    name: string;
+    scopes: Scopes[];
+}
+
 export interface PatchUser {
     name?: string;
     email?: string;

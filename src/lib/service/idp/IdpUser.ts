@@ -1,7 +1,7 @@
 import { AxiosInstance } from "axios";
 import base, { Options } from "../../base";
 import { AuditLog } from "../../interfaces/Auditor";
-import { Organization, Pat, PatchUser, PatCreate, Scopes, User } from "../../interfaces/IDP";
+import { Organization, Pat, PatchUser, PatCreate, PatUpdate, Scopes, User } from "../../interfaces/IDP";
 import { IdpOrganizationMember } from "./IdpOrganizationMember";
 
 export class IdpUser extends base {
@@ -71,7 +71,20 @@ export class IdpUser extends base {
      * @returns the updated pat object
      */
     public regeneratePatToken = async (patId: string): Promise<Pat> => {
-        const resp = await this.axios.patch<Pat>(this.getEndpoint(`/v1/pat/${patId}`)).catch((err: Error) => {
+        const resp = await this.axios.get<Pat>(this.getEndpoint(`/v1/pat/${patId}`)).catch((err: Error) => {
+            throw err;
+        });
+
+        return resp.data;
+    };
+
+    /**
+     * regeneratePatToken renew a pat token with existing parameters like scopes and expiration
+     * @param patId the id of the pat object
+     * @returns the updated pat object
+     */
+    public updatePatToken = async (patId: string, patUpdate: PatUpdate): Promise<Pat> => {
+        const resp = await this.axios.patch<Pat>(this.getEndpoint(`/v1/pat/${patId}`), patUpdate).catch((err: Error) => {
             throw err;
         });
 

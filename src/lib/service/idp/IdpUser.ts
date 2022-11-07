@@ -29,18 +29,6 @@ export class IdpUser extends base {
     };
 
     /**
-     * getScopes requests all available scopes
-     * @returns Array of available scopes
-     */
-    public getScopes = async (): Promise<Scopes[]> => {
-        const resp = await this.axios.get<Scopes[]>(this.getEndpoint(`/v1/scopes`)).catch((err: Error) => {
-            throw err;
-        });
-
-        return resp.data;
-    };
-
-    /**
      * getPats requests all pats of a user
      * @returns all pats the request user created until now
      */

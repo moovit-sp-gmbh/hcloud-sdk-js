@@ -10,18 +10,18 @@ export interface User {
 }
 
 export enum Scopes {
-    "HCLOUD_FULL" = "hcloud:full",
-    "IDP_EMAIL_READ" = "idp:email:read",
-    "IDP_USER_READ" = "idp:user:read",
-    "IDP_USER_WRITE" = "idp:user:write",
-    "IDP_USER_DELETE" = "idp:user:delete",
-    "IDP_ORGANIZATION_READ" = "idp:organization:read",
-    "IDP_ORGANIZATION_WRITE" = "idp:organization:write",
-    "IDP_ORGANIZATION_DELETE" = "idp:organization:delete",
-    "HIGH5_APP_READ" = "high5:app:read",
-    "HIGH5_APP_EXECUTE" = "high5:app:execute",
-    "HIGH5_APP_WRITE" = "high5:app:write",
-    "HIGH5_APP_DELETE" = "high5:app:delete",
+    HCLOUD_FULL = "hcloud:full",
+    IDP_EMAIL_READ = "idp:email:read",
+    IDP_USER_READ = "idp:user:read",
+    IDP_USER_WRITE = "idp:user:write",
+    IDP_USER_DELETE = "idp:user:delete",
+    IDP_ORGANIZATION_READ = "idp:organization:read",
+    IDP_ORGANIZATION_WRITE = "idp:organization:write",
+    IDP_ORGANIZATION_DELETE = "idp:organization:delete",
+    HIGH5_APP_READ = "high5:app:read",
+    HIGH5_APP_EXECUTE = "high5:app:execute",
+    HIGH5_APP_WRITE = "high5:app:write",
+    HIGH5_APP_DELETE = "high5:app:delete",
 }
 
 export interface Pat {

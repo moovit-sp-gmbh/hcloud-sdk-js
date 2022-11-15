@@ -92,3 +92,60 @@ export interface Node {
     createDate: number;
     modifyDate: number;
 }
+
+export interface StreamNodeResolvedInputs {
+    name: string;
+    originalValue: any;
+    value: any;
+}
+
+export interface StreamNodeOutput {
+    name: string | undefined;
+    value: any;
+}
+
+export interface StreamNodeResultError {
+    code: number;
+    message: string;
+    detail?: string;
+    trace: string | undefined;
+}
+
+export interface StreamSingleNodeResult {
+    uuid: string;
+    nodeUuid: string;
+    failed: boolean;
+    startTimestamp: number;
+    endTimestamp: number;
+    name: string;
+    inputs?: StreamNodeResolvedInputs[];
+    outputs?: StreamNodeOutput[];
+    error?: StreamNodeResultError;
+}
+
+export interface StreamResult {
+    stream: Stream;
+    uuid: string;
+    host: string;
+    payload: any;
+    failed: boolean;
+    dry: boolean; // if node has been processed without execute() method
+    nodeResults: StreamSingleNodeResult[];
+    startTimestamp: number;
+    endTimestamp: number;
+}
+
+export interface StreamExecutionRequest {
+    data: string;
+    target: string;
+    waitForResult: boolean;
+    timeout: number;
+}
+
+export interface EventExecutionRequest {
+    eventName: string;
+    data: string;
+    target: string;
+    waitForResult: boolean;
+    timeout: number;
+}

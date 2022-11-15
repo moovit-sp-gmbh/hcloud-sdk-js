@@ -149,3 +149,45 @@ export interface EventExecutionRequest {
     waitForResult: boolean;
     timeout: number;
 }
+
+export interface Webhook {
+    _id: string;
+    name: string;
+    token: string;
+    url: string;
+    securityHeaders: KeyValuePair<string>[];
+    eventId: string;
+    appId: string;
+    target: string;
+    organizationId: string;
+    creatorId: string;
+    createDate: number;
+    modifyDate: number;
+}
+
+export interface WebhookCreation {
+    name: string;
+    token: string;
+    eventId: string;
+    appId: string;
+    target: string;
+    securityHeaders?: KeyValuePair<string>[];
+}
+
+export interface WebhookLog {
+    _id: string;
+    webhookId: string;
+    appId: string;
+    organizationId: string;
+    eventId: string;
+    timestamp: number;
+    sourceIp: string;
+    completeHeader: any;
+    requestBody: any;
+    responseStatusCode: number;
+    responseBody: string;
+}
+
+export interface KeyValuePair<T> {
+    [key: string]: T;
+}

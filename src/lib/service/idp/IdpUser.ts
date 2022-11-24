@@ -54,12 +54,12 @@ export class IdpUser extends base {
     };
 
     /**
-     * regeneratePatToken renew a pat token with existing parameters like scopes and expiration
+     * regeneratePatToken renews a personal access token (PAT) with existing parameters like scopes and expiration
      * @param patId the id of the pat object
      * @returns the updated pat object
      */
     public regeneratePatToken = async (patId: string): Promise<Pat> => {
-        const resp = await this.axios.get<Pat>(this.getEndpoint(`/v1/pat/${patId}`)).catch((err: Error) => {
+        const resp = await this.axios.patch<Pat>(this.getEndpoint(`/v1/pat/${patId}`)).catch((err: Error) => {
             throw err;
         });
 

@@ -9,6 +9,8 @@ specifiers:
   chai: ^4.3.6
   dayjs: ^1.11.3
   mocha: ^10.0.0
+  nats: ^2.9.0
+  nats.ws: ^1.10.0
   prettier: ^2.6.2
   ts-node: ^10.8.0
   tslint: ^6.1.3
@@ -20,6 +22,8 @@ specifiers:
 
 dependencies:
   axios: 1.1.0
+  nats: 2.9.0
+  nats.ws: 1.10.0
 
 devDependencies:
   '@types/chai': 4.3.3
@@ -1770,7 +1774,7 @@ packages:
       url-loader: 1.1.2_webpack@4.46.0
       vue: 2.7.13
       vue-loader: 15.10.0_56p4xh3enyhvhwm2ls7r5cknri
-      vue-router: 3.6.5
+      vue-router: 3.6.5_vue@2.7.13
       vue-server-renderer: 2.7.13
       vue-template-compiler: 2.7.13
       vuepress-html-webpack-plugin: 3.2.0_webpack@4.46.0
@@ -6644,6 +6648,20 @@ packages:
       - supports-color
     dev: true
 
+  /nats.ws/1.10.0:
+    resolution: {integrity: sha512-Zm4rwzcxCRMaHR7ExR9OWFTR40JizhKwzXjJaYOJwo+HqkSdNwLf6QNFY/SKofg3TuFcrPIpfLgs0d1JZcw7TQ==}
+    optionalDependencies:
+      nkeys.js: 1.0.3
+    dev: false
+
+  /nats/2.9.0:
+    resolution: {integrity: sha512-UBZg0ydCVs4vTp7sFWkmXWmV4oebt6vVRpFUgp+HUMhzjWyvcrBHq0t6hogIHnT5BYilIo0/koDH5FWzhBtSOQ==}
+    engines: {node: '>= 14.0.0'}
+    dependencies:
+      nkeys.js: 1.0.3
+      web-streams-polyfill: 3.2.1
+    dev: false
+
   /negotiator/0.6.3:
     resolution: {integrity: sha512-+EUsqGPLsM+j/zdChZjsnX51g4XrHFOIXwfnCVPGlQk/k5giakcKsuxCObBRu6DSm9opw/O6slWbJdghQM4bBg==}
     engines: {node: '>= 0.6'}
@@ -6656,6 +6674,14 @@ packages:
   /nice-try/1.0.5:
     resolution: {integrity: sha512-1nh45deeb5olNY7eX82BkPO7SSxR5SSYJiPTrTdFUVYwAl8CKMA5N9PjTYkHiRjisVcxcQ1HXdLhx2qxxJzLNQ==}
     dev: true
+
+  /nkeys.js/1.0.3:
+    resolution: {integrity: sha512-p5Bpb/acPaQmCrbe4gNmMBY/naZJV8Q7m2B9UkXT8BQRC6wjX8zqD2ya8eZu9mpSXQffodV46HCP9OckmxcwYA==}
+    engines: {node: '>=10.0.0'}
+    requiresBuild: true
+    dependencies:
+      tweetnacl: 1.0.3
+    dev: false
 
   /no-case/2.3.2:
     resolution: {integrity: sha512-rmTZ9kz+f3rCvK2TD1Ue/oZlns7OGoIWP4fc3llxxRXlOkHKoWPPWJOfFYpITabSow43QJbRIoHQXtt10VldyQ==}
@@ -8864,6 +8890,10 @@ packages:
     resolution: {integrity: sha512-KXXFFdAbFXY4geFIwoyNK+f5Z1b7swfXABfL7HXCmoIWMKU3dmS26672A4EeQtDzLKy7SXmfBu51JolvEKwtGA==}
     dev: true
 
+  /tweetnacl/1.0.3:
+    resolution: {integrity: sha512-6rt+RN7aOi1nGMyC4Xa5DdYiukl2UWCbcJft7YhxReBGQD7OAM8Pbxw6YMo4r2diNEA8FEmu32YOn9rhaiE5yw==}
+    dev: false
+
   /type-detect/4.0.8:
     resolution: {integrity: sha512-0fr/mIH1dlO+x7TlcMy+bIDqKPsw/70tVyeHW787goQjhmqaZe10uwLujubK9q9Lg6Fiho1KUKDYz0Z7k7g5/g==}
     engines: {node: '>=4'}
@@ -9258,8 +9288,12 @@ packages:
       - whiskers
     dev: true
 
-  /vue-router/3.6.5:
+  /vue-router/3.6.5_vue@2.7.13:
     resolution: {integrity: sha512-VYXZQLtjuvKxxcshuRAwjHnciqZVoXAjTjcqBTz4rKc8qih9g9pI3hbDjmqXaHdgL3v8pV6P8Z335XvHzESxLQ==}
+    peerDependencies:
+      vue: ^2
+    dependencies:
+      vue: 2.7.13
     dev: true
 
   /vue-server-renderer/2.7.13:
@@ -9438,6 +9472,11 @@ packages:
     dependencies:
       minimalistic-assert: 1.0.1
     dev: true
+
+  /web-streams-polyfill/3.2.1:
+    resolution: {integrity: sha512-e0MO3wdXWKrLbL0DgGnUV7WHVuw9OUvL4hjgnPkIeEvESk74gAITi5G606JtZPp39cd8HA9VQzCIvA49LpPN5Q==}
+    engines: {node: '>= 8'}
+    dev: false
 
   /webpack-chain/4.12.1:
     resolution: {integrity: sha512-BCfKo2YkDe2ByqkEWe1Rw+zko4LsyS75LVr29C6xIrxAg9JHJ4pl8kaIZ396SUSNp6b4815dRZPSTAS8LlURRQ==}

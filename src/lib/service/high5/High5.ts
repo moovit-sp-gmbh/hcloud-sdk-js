@@ -6,7 +6,7 @@ import { High5Event } from "./High5Event";
 import { High5Stream } from "./High5Stream";
 import { High5Design } from "./High5Design";
 import { High5Node } from "./High5Node";
-import {High5Execute} from "./High5Execute";
+import { High5Execute } from "./High5Execute";
 
 export default class High5 extends base {
     public app: High5App;

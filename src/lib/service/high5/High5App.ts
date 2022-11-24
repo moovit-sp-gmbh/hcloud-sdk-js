@@ -9,7 +9,7 @@ export class High5App extends base {
      * @param page the results to skip (page * limit)
      * @returns App array
      */
-    public getApps = async (limit?: number, page?: number): Promise<App[]> => {
+    public getApps = async (limit?: number, page?: number): Promise<[App[], number]> => {
         limit = limit || 500;
         page = page || 0;
 
@@ -17,7 +17,7 @@ export class High5App extends base {
             throw err;
         });
 
-        return resp.data;
+        return [resp.data, parseInt(String(resp.headers["total"]), 10)];
     };
 
     /**

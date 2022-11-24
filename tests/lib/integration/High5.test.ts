@@ -72,8 +72,8 @@ describe("High5", function () {
         it("GetApps OK", () => {
             return hcloudClient.High5.app
                 .getApps()
-                .then((resp: App[]) => {
-                    expect(resp.length).to.be.greaterThanOrEqual(1);
+                .then((resp: [App[], number]) => {
+                    expect(resp[0].length).to.be.greaterThanOrEqual(1);
                 })
                 .catch((err: AxiosError) => {
                     throw err;

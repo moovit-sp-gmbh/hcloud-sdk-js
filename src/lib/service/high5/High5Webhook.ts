@@ -1,5 +1,5 @@
 import base from "../../base";
-import { Webhook } from "../../interfaces/High5";
+import { Webhook, WebhookCreation } from "../../interfaces/High5";
 
 export class HighWebhook extends base {
     /**
@@ -25,7 +25,7 @@ export class HighWebhook extends base {
      * @returns the webhook
      */
     public getWebhookById = async (id: string): Promise<Webhook> => {
-        const resp = await this.axios.get<Webhook[]>(this.getEndpoint(`/v1/webhook/${id}`)).catch((err: Error) => {
+        const resp = await this.axios.get<Webhook>(this.getEndpoint(`/v1/webhook/${id}`)).catch((err: Error) => {
             throw err;
         });
 
@@ -38,7 +38,7 @@ export class HighWebhook extends base {
      * @returns the webhook with the regenerated URL
      */
     public regenerateWebhookUrl = async (id: string): Promise<Webhook> => {
-        const resp = await this.axios.put<Webhook[]>(this.getEndpoint(`/v1/webhook/${id}/regenerateUrl`)).catch((err: Error) => {
+        const resp = await this.axios.put<Webhook>(this.getEndpoint(`/v1/webhook/${id}/regenerateUrl`)).catch((err: Error) => {
             throw err;
         });
 
@@ -51,7 +51,7 @@ export class HighWebhook extends base {
      * @returns the newly created webhook
      */
     public createWebhook = async (webhookCreation: WebhookCreation): Promise<Webhook> => {
-        const resp = await this.axios.post<Webhook[]>(this.getEndpoint(`/v1/webhook`)).catch((err: Error) => {
+        const resp = await this.axios.post<Webhook>(this.getEndpoint(`/v1/webhook`)).catch((err: Error) => {
             throw err;
         });
 
@@ -65,7 +65,7 @@ export class HighWebhook extends base {
      * @returns the updated webhook
      */
     public updateWebhook = async (id: string, webhookCreation: WebhookCreation): Promise<Webhook> => {
-        const resp = await this.axios.put<Webhook[]>(this.getEndpoint(`/v1/webhook/${id}`)).catch((err: Error) => {
+        const resp = await this.axios.put<Webhook>(this.getEndpoint(`/v1/webhook/${id}`)).catch((err: Error) => {
             throw err;
         });
 
@@ -100,7 +100,7 @@ export class HighWebhook extends base {
      * @returns the provided challenge string
      */
     public validateWebhookUrl = async (url: string, challenge: string): Promise<string> => {
-        const resp = await this.axios.get<void>(this.getEndpoint(`${url}?challenge=${challenge}`)).catch((err: Error) => {
+        const resp = await this.axios.get<string>(this.getEndpoint(`${url}?challenge=${challenge}`)).catch((err: Error) => {
             throw err;
         });
         return resp.data;

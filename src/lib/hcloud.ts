@@ -1,8 +1,8 @@
 import base, { Options } from "./base";
-import IDPService from "./service/idp/IDP";
-import AuditorService from "./service/auditor/Auditor";
-import High5Service from "./service/high5/High5";
-import MailerService from "./service/mailer/Mailer";
+import IDPService from "./service/idp";
+import AuditorService from "./service/auditor";
+import High5Service from "./service/high5";
+import MailerService from "./service/mailer";
 import axios, { AxiosInstance } from "axios";
 import { version } from "../package.json";
 import Base from "./base";

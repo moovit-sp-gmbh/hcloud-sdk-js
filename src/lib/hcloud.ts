@@ -3,6 +3,7 @@ import IDPService from "./service/idp";
 import AuditorService from "./service/auditor";
 import High5Service from "./service/high5";
 import MailerService from "./service/mailer";
+import NatsService from "./service/nats";
 import axios, { AxiosInstance } from "axios";
 import { version } from "../package.json";
 import Base from "./base";
@@ -13,6 +14,7 @@ export default class hcloud {
     public High5: High5Service;
     public IDP: IDPService;
     public Mailer: MailerService;
+    public Nats: NatsService;
     private options: Options;
     private axios: AxiosInstance;
 
@@ -24,6 +26,7 @@ export default class hcloud {
         this.High5 = new High5Service(this.options, this.axios);
         this.IDP = new IDPService(this.options, this.axios);
         this.Mailer = new MailerService(this.options, this.axios);
+        this.Nats = NatsService.getInstance();
     }
 
     setServer(server: string): hcloud {

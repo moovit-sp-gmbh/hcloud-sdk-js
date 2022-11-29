@@ -6,7 +6,7 @@ enum NatsSubject {
     IDP_USER_SETTINGS_PATS = "hcloud.idp.user.${userId}.settings.pats",
     IDP_USER_SETTINGS_OAUTH = "hcloud.idp.user.${userId}.settings.oauth",
 
-    IDP_ORGANIZATION_GENERAL = "hcloud.idp.organization.${organizationId}",
+    IDP_ORGANIZATION_GENERAL = "hcloud.idp.organization.${organizationId}.general",
     IDP_ORGANIZATION_MEMBERS = "hcloud.idp.organization.${organizationId}.members",
 
     HIGH5_APPS = "hcloud.high5.organization.${organizationId}.apps",

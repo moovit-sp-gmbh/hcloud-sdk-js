@@ -6,7 +6,8 @@ enum NatsSubject {
     IDP_USER_SETTINGS_PATS = "hcloud.idp.user.${userId}.settings.pats",
     IDP_USER_SETTINGS_OAUTH = "hcloud.idp.user.${userId}.settings.oauth",
 
-    IDP_ORGANIZATION_MEMBERS = "hcloud.idp.organization.${organizationId}.,members",
+    IDP_ORGANIZATION_GENERAL = "hcloud.idp.organization.${organizationId}",
+    IDP_ORGANIZATION_MEMBERS = "hcloud.idp.organization.${organizationId}.members",
 
     HIGH5_APPS = "hcloud.high5.organization.${organizationId}.apps",
     HIGH5_EVENTS = "hcloud.high5.organization.${organizationId}.app.${appId}.events",
@@ -38,6 +39,9 @@ class NatsSubjects {
             };
         };
         static Organization = class {
+            static GENERAL = (organizationId: string) => {
+                return NatsSubjects.replace(NatsSubject.IDP_ORGANIZATION_GENERAL, { organizationId } as NatsSubjectReplacements);
+            };
             static MEMBERS = (organizationId: string) => {
                 return NatsSubjects.replace(NatsSubject.IDP_ORGANIZATION_MEMBERS, { organizationId } as NatsSubjectReplacements);
             };

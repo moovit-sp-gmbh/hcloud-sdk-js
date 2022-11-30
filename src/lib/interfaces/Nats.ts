@@ -102,6 +102,7 @@ enum NatsMessageType {
     ADD = "ADD",
     UPDATE = "UPDATE",
     DELETE = "DELETE",
+    EXECUTE = "EXECUTE"
 }
 interface NatsMessage {
     type: NatsMessageType;

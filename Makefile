@@ -16,6 +16,10 @@ format:
 lint:
 	pnpm lint
 
+debug_build: 
+	rm -rf build/
+	pnpm build
+
 build: format lint
 	rm -rf build/
 	pnpm build

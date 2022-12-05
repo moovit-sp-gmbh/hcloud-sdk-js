@@ -121,7 +121,7 @@ class Nats {
     }
 
     public unsub(subject: string | Subscription): void {
-        if (subject instanceof String) {
+        if (typeof subject === "string") {
             this.subMap.forEach((s: SubMapEntry) => {
                 if (s.subject === subject) {
                     s.sub.unsubscribe();

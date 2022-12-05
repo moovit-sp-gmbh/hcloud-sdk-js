@@ -18,6 +18,7 @@ export enum Scopes {
     IDP_ORGANIZATION_READ = "idp:organization:read",
     IDP_ORGANIZATION_WRITE = "idp:organization:write",
     IDP_ORGANIZATION_DELETE = "idp:organization:delete",
+    IDP_ORGANIZATION_ADMIN = "idp:organization:admin",
     HIGH5_APP_READ = "high5:app:read",
     HIGH5_APP_EXECUTE = "high5:app:execute",
     HIGH5_APP_WRITE = "high5:app:write",

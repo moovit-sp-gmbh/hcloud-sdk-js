@@ -36,7 +36,7 @@ describe("Mailer", function () {
 
     describe("Send", () => {
         it("SendMailTemplate OK", () => {
-            return hcloudClient.Mailer.interal
+            return hcloudClient.Mailer.internal
                 .sendMailTemplate({
                     recipients: ["svyxv3s4pb2vufqz@ethereal.email"],
                     template: Template.REGISTER,
@@ -49,7 +49,7 @@ describe("Mailer", function () {
         });
 
         it("SendMailHtml OK", () => {
-            return hcloudClient.Mailer.interal
+            return hcloudClient.Mailer.internal
                 .sendMailHtml({
                     recipients: ["svyxv3s4pb2vufqz@ethereal.email"],
                     html: "PGh0bWw+PGJvZHk+PHByZT5tb288L3ByZT48L2JvZHk+PC9odG1sPg==",
@@ -61,7 +61,7 @@ describe("Mailer", function () {
         });
 
         it("SendMailMustache OK", () => {
-            return hcloudClient.Mailer.interal
+            return hcloudClient.Mailer.internal
                 .sendMailMustache({
                     recipients: ["svyxv3s4pb2vufqz@ethereal.email"],
                     html: "PGh0bWw+PGhlYWQ+PHRpdGxlPnt7dGl0bGV9fTwvdGl0bGU+PC9oZWFkPjxib2R5PjxwcmU+bW9vPC9wcmU+PC9ib2R5PjwvaHRtbD4=",

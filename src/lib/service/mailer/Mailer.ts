@@ -5,12 +5,12 @@ import { Version } from "../../interfaces/Global";
 import MailerInternal from "./MailerInternal";
 
 export default class Mailer extends base {
-    public interal: MailerInternal;
+    public internal: MailerInternal;
 
     constructor(options: Options, axios: AxiosInstance) {
         super(options, axios);
 
-        this.interal = new MailerInternal(this.options, this.axios);
+        this.internal = new MailerInternal(this.options, this.axios);
     }
 
     /**

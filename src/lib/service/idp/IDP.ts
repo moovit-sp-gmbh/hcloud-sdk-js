@@ -68,10 +68,15 @@ export default class IDP extends base {
      * Authenticate against the identity provider with a given email and password.
      * @param email
      * @param password
+     * @param token Optional token if 2FA-TOTP is enabled
      * @returns SuccessfulAuth object holding the token and the user
      */
-    authenticate = async (email: string, password: string): Promise<SuccessfulAuth> => {
-        const resp = await this.axios.post<User>(this.getEndpoint("/v1/authenticate"), { email: email, password: password }).catch((err: Error) => {
+    authenticate = async (email: string, password: string, token?: string): Promise<SuccessfulAuth> => {
+        let body = { email: email, password: password };
+        if (token) {
+            body = { ...body, ...{ token: token } };
+        }
+        const resp = await this.axios.post<User>(this.getEndpoint("/v1/authenticate"), body).catch((err: Error) => {
             throw err;
         });
 

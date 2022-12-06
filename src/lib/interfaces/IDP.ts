@@ -4,6 +4,9 @@ export interface User {
     email: string;
     company?: string;
     activeOrganizationId: string;
+    twoFactor?: {
+        totp: boolean;
+    };
     createDate: number;
     modifyDate: number;
     activeScopes: Scopes[];

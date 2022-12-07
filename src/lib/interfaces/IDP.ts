@@ -120,3 +120,17 @@ enum SearchDateOperator {
     "$lte", // lowerThanOrEqual
     "$lt", // lowerThan
 }
+
+export interface DeactivatedTotp {
+    activated: boolean;
+    otpAuthUrl: string;
+    qrcode: string;
+    createDate: number;
+    modifyDate: number;
+}
+export interface ActivatedTotp {
+    activated: boolean;
+    recoverCodes: string[];
+    createDate: number;
+    modifyDate: number;
+}

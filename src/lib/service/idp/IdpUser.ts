@@ -3,8 +3,20 @@ import base, { Options } from "../../base";
 import { AuditLog } from "../../interfaces/Auditor";
 import { Organization, Pat, PatchUser, PatCreate, PatUpdate, Scopes, User } from "../../interfaces/IDP";
 import { IdpOrganizationMember } from "./IdpOrganizationMember";
+import { IdpSettings } from "./user/IdpSettings";
 
 export class IdpUser extends base {
+    /**
+     * settings handles everything around a user's settings
+     */
+    public settings: IdpSettings;
+
+    constructor(options: Options, axios: AxiosInstance) {
+        super(options, axios);
+
+        this.settings = new IdpSettings(options, axios);
+    }
+
     /**
      * patchUser update an entity of a user partially
      * @param user the user object
@@ -24,76 +36,6 @@ export class IdpUser extends base {
      */
     public deleteUser = async (): Promise<void> => {
         const resp = await this.axios.delete<void>(this.getEndpoint(`/v1/user`)).catch((err: Error) => {
-            throw err;
-        });
-    };
-
-    /**
-     * getPats requests all pats of a user
-     * @returns all pats the request user created until now
-     */
-    public getPats = async (): Promise<Pat[]> => {
-        const resp = await this.axios.get<Pat[]>(this.getEndpoint(`/v1/pat`)).catch((err: Error) => {
-            throw err;
-        });
-
-        return resp.data;
-    };
-
-    /**
-     * generatePat create a new personal access token for request user
-     * @param patCreate the pat object to be created
-     * @returns the created pat object
-     */
-    public generatePat = async (patCreate: PatCreate): Promise<Pat> => {
-        const resp = await this.axios.post<Pat>(this.getEndpoint(`/v1/pat`), patCreate).catch((err: Error) => {
-            throw err;
-        });
-
-        return resp.data;
-    };
-
-    /**
-     * regeneratePatToken renews a personal access token (PAT) with existing parameters like scopes and expiration
-     * @param patId the id of the pat object
-     * @returns the updated pat object
-     */
-    public regeneratePatToken = async (patId: string): Promise<Pat> => {
-        const resp = await this.axios.patch<Pat>(this.getEndpoint(`/v1/pat/${patId}`)).catch((err: Error) => {
-            throw err;
-        });
-
-        return resp.data;
-    };
-
-    /**
-     * regeneratePatToken renew a pat token with existing parameters like scopes and expiration
-     * @param patId the id of the pat object
-     * @returns the updated pat object
-     */
-    public updatePatToken = async (patId: string, patUpdate: PatUpdate): Promise<Pat> => {
-        const resp = await this.axios.patch<Pat>(this.getEndpoint(`/v1/pat/${patId}`), patUpdate).catch((err: Error) => {
-            throw err;
-        });
-
-        return resp.data;
-    };
-
-    /**
-     * deletePat deletes a pat of a user
-     * @param patId the id of the pat
-     */
-    public deletePat = async (patId: string): Promise<void> => {
-        const resp = await this.axios.delete<void>(this.getEndpoint(`/v1/pat/${patId}`)).catch((err: Error) => {
-            throw err;
-        });
-    };
-
-    /**
-     * deleteAllPats deletes all pats of a user
-     */
-    public deleteAllPats = async (): Promise<void> => {
-        const resp = await this.axios.delete<void>(this.getEndpoint(`/v1/pat`)).catch((err: Error) => {
             throw err;
         });
     };

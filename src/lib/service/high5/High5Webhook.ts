@@ -12,9 +12,11 @@ export class High5Webhook extends base {
         limit = limit || 500;
         page = page || 0;
 
-        const resp = await this.axios.get<Webhook[]>(this.getEndpoint(`/v1/webhook/list/${appId}?limit=${limit}&page=${page}`)).catch((err: Error) => {
-            throw err;
-        });
+        const resp = await this.axios
+            .get<Webhook[]>(this.getEndpoint(`/v1/webhook/list/${appId}?limit=${limit}&page=${page}`))
+            .catch((err: Error) => {
+                throw err;
+            });
 
         return [resp.data, parseInt(String(resp.headers["total"]), 10)];
     };
@@ -51,7 +53,7 @@ export class High5Webhook extends base {
      * @returns the newly created webhook
      */
     public createWebhook = async (webhookCreation: WebhookCreation): Promise<Webhook> => {
-        const resp = await this.axios.post<Webhook>(this.getEndpoint(`/v1/webhook`)).catch((err: Error) => {
+        const resp = await this.axios.post<Webhook>(this.getEndpoint(`/v1/webhook`), webhookCreation).catch((err: Error) => {
             throw err;
         });
 
@@ -65,7 +67,7 @@ export class High5Webhook extends base {
      * @returns the updated webhook
      */
     public updateWebhook = async (id: string, webhookCreation: WebhookCreation): Promise<Webhook> => {
-        const resp = await this.axios.put<Webhook>(this.getEndpoint(`/v1/webhook/${id}`)).catch((err: Error) => {
+        const resp = await this.axios.put<Webhook>(this.getEndpoint(`/v1/webhook/${id}`),webhookCreation).catch((err: Error) => {
             throw err;
         });
 

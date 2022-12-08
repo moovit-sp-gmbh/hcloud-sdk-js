@@ -119,7 +119,7 @@ describe("High5", function () {
 
         it("Create event OK", () => {
             const eventName = "test." + makeid(20);
-            return hcloudClient.High5.event
+            return hcloudClient.High5.app.event
                 .createEvent(app._id, eventName)
                 .then((resp: Event) => {
                     expect(resp.name).to.equal(eventName);
@@ -131,7 +131,7 @@ describe("High5", function () {
         });
 
         it("Get events OK", () => {
-            return hcloudClient.High5.event
+            return hcloudClient.High5.app.event
                 .getEvents(app._id)
                 .then((resp: Event[]) => {
                     expect(resp.length).to.equal(1);
@@ -142,7 +142,7 @@ describe("High5", function () {
         });
 
         it("Get event by ID OK", () => {
-            return hcloudClient.High5.event
+            return hcloudClient.High5.app.event
                 .getEventById(event._id)
                 .then((resp: Event) => {
                     expect(resp._id).to.equal(event._id);
@@ -153,7 +153,7 @@ describe("High5", function () {
         });
 
         it("Delete event by ID OK", () => {
-            return hcloudClient.High5.event
+            return hcloudClient.High5.app.event
                 .deleteEventById(event._id)
                 .then((resp: any) => {
                     expect(resp).to.equal(undefined);
@@ -180,7 +180,7 @@ describe("High5", function () {
 
         it("Create event OK", () => {
             const eventName = "test." + makeid(20);
-            return hcloudClient.High5.event
+            return hcloudClient.High5.app.event
                 .createEvent(app._id, eventName)
                 .then((resp: Event) => {
                     expect(resp.name).to.equal(eventName);
@@ -193,7 +193,7 @@ describe("High5", function () {
 
         it("Create stream OK", () => {
             const streamName = "test";
-            return hcloudClient.High5.stream
+            return hcloudClient.High5.app.event.stream
                 .createStream(event._id, streamName)
                 .then((resp: Stream) => {
                     expect(resp.name).to.equal(streamName);
@@ -206,7 +206,7 @@ describe("High5", function () {
         });
 
         it("Patch stream order OK", () => {
-            return hcloudClient.High5.stream
+            return hcloudClient.High5.app.event.stream
                 .patchStreamOrder(event._id, [{ streamId: stream._id, order: 1 }])
                 .then((resp: Stream[]) => {
                     expect(resp[0].order).to.equal(1);
@@ -219,7 +219,7 @@ describe("High5", function () {
         });
 
         it("Get streams OK", () => {
-            return hcloudClient.High5.stream
+            return hcloudClient.High5.app.event.stream
                 .getStreams(event._id)
                 .then((resp: Stream[]) => {
                     expect(resp.length).to.equal(1);
@@ -230,7 +230,7 @@ describe("High5", function () {
         });
 
         it("Get stream by ID OK", () => {
-            return hcloudClient.High5.stream
+            return hcloudClient.High5.app.event.stream
                 .getStreamById(stream._id)
                 .then((resp: Stream) => {
                     expect(resp._id).to.equal(stream._id);
@@ -241,7 +241,7 @@ describe("High5", function () {
         });
 
         it("Delete stream by ID OK", () => {
-            return hcloudClient.High5.stream
+            return hcloudClient.High5.app.event.stream
                 .deleteStreamById(stream._id)
                 .then((resp: any) => {
                     expect(resp).to.equal(undefined);
@@ -268,7 +268,7 @@ describe("High5", function () {
 
         it("Create event OK", () => {
             const eventName = "test." + makeid(20);
-            return hcloudClient.High5.event
+            return hcloudClient.High5.app.event
                 .createEvent(app._id, eventName)
                 .then((resp: Event) => {
                     expect(resp.name).to.equal(eventName);
@@ -281,7 +281,7 @@ describe("High5", function () {
 
         it("Create stream OK", () => {
             const streamName = "test";
-            return hcloudClient.High5.stream
+            return hcloudClient.High5.app.event.stream
                 .createStream(event._id, streamName)
                 .then((resp: Stream) => {
                     expect(resp.name).to.equal(streamName);
@@ -294,7 +294,7 @@ describe("High5", function () {
 
         it("Create design OK", () => {
             const designName = "test";
-            return hcloudClient.High5.design
+            return hcloudClient.High5.app.event.stream.design
                 .createDesign(stream._id, designName, { foo: "bar" })
                 .then((resp: Design) => {
                     expect(resp.name).to.equal(designName);
@@ -306,7 +306,7 @@ describe("High5", function () {
         });
 
         it("Get designs OK", () => {
-            return hcloudClient.High5.design
+            return hcloudClient.High5.app.event.stream.design
                 .getDesigns(stream._id)
                 .then((resp: Design[]) => {
                     expect(resp.length).to.equal(1);
@@ -317,7 +317,7 @@ describe("High5", function () {
         });
 
         it("Get design by ID OK", () => {
-            return hcloudClient.High5.design
+            return hcloudClient.High5.app.event.stream.design
                 .getDesignById(design._id)
                 .then((resp: Design) => {
                     expect(resp._id).to.equal(design._id);
@@ -335,7 +335,7 @@ describe("High5", function () {
             const typescript =
                 "aW1wb3J0IHsKICBTdHJlYW1Ob2RlU3BlY2lmaWNhdGlvbiwKICBTdHJlYW1Ob2RlU3BlY2lmaWNhdGlvbkNhdGVnb3J5LAogIFN0cmVhbU5vZGVTcGVjaWZpY2F0aW9uSW5wdXRPdXRwdXRUeXBlLAogIFN0cmVhbU5vZGVTcGVjaWZpY2F0aW9uUGFja2FnZSwKICBTdHJlYW1Ob2RlU3BlY2lmaWNhdGlvblR5cGUsCn0gZnJvbSAiLi4vLi4vLi4vbW9kZWxzL1N0cmVhbU5vZGVTcGVjaWZpY2F0aW9uIjsKaW1wb3J0IEFjdGlvbk5vZGUgZnJvbSAiLi4vQWN0aW9uTm9kZSI7CgpleHBvcnQgZGVmYXVsdCBjbGFzcyBMb3dlckNhc2VBY3Rpb24gZXh0ZW5kcyBBY3Rpb25Ob2RlIHsKICBwcm90ZWN0ZWQgc3BlY2lmaWNhdGlvbjogU3RyZWFtTm9kZVNwZWNpZmljYXRpb24gPSB7CiAgICBuYW1lOiAiTG93ZXIgQ2FzZSBBY3Rpb24iLAogICAgZGVzY3JpcHRpb246ICJUcmFuc2Zvcm0gYSBzdHJpbmcgdG8gbG93ZXIgY2FzZSIsCiAgICB0eXBlOiBTdHJlYW1Ob2RlU3BlY2lmaWNhdGlvblR5cGUuQUNUSU9OLAogICAgcGFja2FnZTogU3RyZWFtTm9kZVNwZWNpZmljYXRpb25QYWNrYWdlLkNPUkUsCiAgICBjYXRlZ29yeTogU3RyZWFtTm9kZVNwZWNpZmljYXRpb25DYXRlZ29yeS5TVFJJTkcsCiAgICB2ZXJzaW9uOiB7CiAgICAgIG1ham9yOiAxLAogICAgICBtaW5vcjogMCwKICAgICAgcGF0Y2g6IDAsCiAgICAgIGNoYW5nZWxvZzpbXSwKICAgIH0sCiAgICBhdXRob3I6IHsKICAgICAgbmFtZTogIlNldmVyaW4gU2llYmVydHoiLAogICAgICBjb21wYW55OiAiTW9vdklUIEdtYkgiLAogICAgICBlbWFpbDogInMuc2llYmVydHpAbW9vdml0LmRlIiwKICAgIH0sCiAgICBpbnB1dHM6IFsKICAgICAgewogICAgICAgIG5hbWU6ICJTdHJpbmciLAogICAgICAgIGRlc2NyaXB0aW9uOiAiVGhlIHN0cmluZyB0byBsb3dlciBjYXNlIiwKICAgICAgICB0eXBlOiBTdHJlYW1Ob2RlU3BlY2lmaWNhdGlvbklucHV0T3V0cHV0VHlwZS5TVFJJTkcsCiAgICAgICAgZXhhbXBsZTogIkZPTy1CQVIiLAogICAgICAgIG1hbmRhdG9yeTogdHJ1ZSwKICAgICAgfSwKICAgIF0sCiAgICBvdXRwdXRzOiBbCiAgICAgIHsKICAgICAgICBuYW1lOiAiU3RyaW5nIiwKICAgICAgICBkZXNjcmlwdGlvbjogIlRoZSBsb3dlciBjYXNlZCBzdHJpbmciLAogICAgICAgIHR5cGU6IFN0cmVhbU5vZGVTcGVjaWZpY2F0aW9uSW5wdXRPdXRwdXRUeXBlLlNUUklORywKICAgICAgICBleGFtcGxlOiAiZm9vLWJhciIsCiAgICAgIH0sCiAgICBdLAogIH07CgogIGFzeW5jIGV4ZWN1dGUoKTogUHJvbWlzZTx2b2lkPiB7CiAgICBjb25zdCByZXN1bHQgPSB0aGlzLmZpbmRJbnB1dCgKICAgICAgdGhpcy5nZXROb2RlU3BlY2lmaWNhdGlvbigpLmlucHV0cz8uWzBdCiAgICApPy52YWx1ZS50b0xvd2VyQ2FzZSgpOwoKICAgIHRoaXMuYWRkT3VwdXQodGhpcy5nZXROb2RlU3BlY2lmaWNhdGlvbigpLm91dHB1dHM/LlswXSwgcmVzdWx0KTsKICB9Cn0K";
 
-            return hcloudClient.High5.node
+            return hcloudClient.High5.app.event.stream.node
                 .createNode(NodeCategory.CUSTOM, specification, typescript, stream._id)
                 .then((resp: Node) => {
                     expect(resp.organizationId).to.equal(user.activeOrganizationId);
@@ -352,7 +352,7 @@ describe("High5", function () {
         });
 
         it("Get nodes OK", () => {
-            return hcloudClient.High5.node
+            return hcloudClient.High5.app.event.stream.node
                 .getNodes(stream._id)
                 .then((resp: Node[]) => {
                     expect(resp[0].streamId).to.equal(stream._id);
@@ -363,7 +363,7 @@ describe("High5", function () {
         });
 
         it("Get node by id OK", () => {
-            return hcloudClient.High5.node
+            return hcloudClient.High5.app.event.stream.node
                 .getNodeById(node._id)
                 .then((resp: Node) => {
                     expect(resp._id).to.equal(node._id);
@@ -376,7 +376,7 @@ describe("High5", function () {
         it("Patch node by id OK", () => {
             const typescript =
                 "aW1wb3J0IHsKICBTdHJlYW1Ob2RlU3BlY2lmaWNhdGlvbiwKICBTdHJlYW1Ob2RlU3BlY2lmaWNhdGlvbkNhdGVnb3J5LAogIFN0cmVhbU5vZGVTcGVjaWZpY2F0aW9uSW5wdXRPdXRwdXRUeXBlLAogIFN0cmVhbU5vZGVTcGVjaWZpY2F0aW9uUGFja2FnZSwKICBTdHJlYW1Ob2RlU3BlY2lmaWNhdGlvblR5cGUsCn0gZnJvbSAiLi4vLi4vLi4vbW9kZWxzL1N0cmVhbU5vZGVTcGVjaWZpY2F0aW9uIjsKaW1wb3J0IEFjdGlvbk5vZGUgZnJvbSAiLi4vQWN0aW9uTm9kZSI7CgpleHBvcnQgZGVmYXVsdCBjbGFzcyBMb3dlckNhc2VBY3Rpb24gZXh0ZW5kcyBBY3Rpb25Ob2RlIHsKICBwcm90ZWN0ZWQgc3BlY2lmaWNhdGlvbjogU3RyZWFtTm9kZVNwZWNpZmljYXRpb24gPSB7CiAgICBuYW1lOiAiTG93ZXIgQ2FzZSBBY3Rpb24iLAogICAgZGVzY3JpcHRpb246ICJUcmFuc2Zvcm0gYSBzdHJpbmcgdG8gbG93ZXIgY2FzZSIsCiAgICB0eXBlOiBTdHJlYW1Ob2RlU3BlY2lmaWNhdGlvblR5cGUuQUNUSU9OLAogICAgcGFja2FnZTogU3RyZWFtTm9kZVNwZWNpZmljYXRpb25QYWNrYWdlLkNPUkUsCiAgICBjYXRlZ29yeTogU3RyZWFtTm9kZVNwZWNpZmljYXRpb25DYXRlZ29yeS5TVFJJTkcsCiAgICB2ZXJzaW9uOiB7CiAgICAgIG1ham9yOiAxLAogICAgICBtaW5vcjogMCwKICAgICAgcGF0Y2g6IDAsCiAgICAgIGNoYW5nZWxvZzpbXSwKICAgIH0sCiAgICBhdXRob3I6IHsKICAgICAgbmFtZTogIlNldmVyaW4gU2llYmVydHoiLAogICAgICBjb21wYW55OiAiTW9vdklUIFNQIEdtYkgiLAogICAgICBlbWFpbDogInMuc2llYmVydHpAbW9vdml0LXNwLmNvbSIsCiAgICB9LAogICAgaW5wdXRzOiBbCiAgICAgIHsKICAgICAgICBuYW1lOiAiU3RyaW5nIiwKICAgICAgICBkZXNjcmlwdGlvbjogIlRoZSBzdHJpbmcgdG8gbG93ZXIgY2FzZSIsCiAgICAgICAgdHlwZTogU3RyZWFtTm9kZVNwZWNpZmljYXRpb25JbnB1dE91dHB1dFR5cGUuU1RSSU5HLAogICAgICAgIGV4YW1wbGU6ICJUaGlzIGlzIGFuIGV4YW1wbGUiLAogICAgICAgIG1hbmRhdG9yeTogdHJ1ZSwKICAgICAgfSwKICAgIF0sCiAgICBvdXRwdXRzOiBbCiAgICAgIHsKICAgICAgICBuYW1lOiAiU3RyaW5nIiwKICAgICAgICBkZXNjcmlwdGlvbjogIlRoZSBsb3dlciBjYXNlZCBzdHJpbmciLAogICAgICAgIHR5cGU6IFN0cmVhbU5vZGVTcGVjaWZpY2F0aW9uSW5wdXRPdXRwdXRUeXBlLlNUUklORywKICAgICAgICBleGFtcGxlOiAiZm9vLWJhciIsCiAgICAgIH0sCiAgICBdLAogIH07CgogIGFzeW5jIGV4ZWN1dGUoKTogUHJvbWlzZTx2b2lkPiB7CiAgICBjb25zdCByZXN1bHQgPSB0aGlzLmZpbmRJbnB1dCgKICAgICAgdGhpcy5nZXROb2RlU3BlY2lmaWNhdGlvbigpLmlucHV0cz8uWzBdCiAgICApPy52YWx1ZS50b0xvd2VyQ2FzZSgpOwoKICAgIHRoaXMuYWRkT3VwdXQodGhpcy5nZXROb2RlU3BlY2lmaWNhdGlvbigpLm91dHB1dHM/LlswXSwgcmVzdWx0KTsKICB9Cn0K";
-            return hcloudClient.High5.node
+            return hcloudClient.High5.app.event.stream.node
                 .patchNode(node._id, true, typescript, typescript)
                 .then((resp: Node) => {
                     expect(resp.secret).to.not.equal(node.secret);
@@ -388,7 +388,7 @@ describe("High5", function () {
         });
 
         it("Get node content OK", () => {
-            return hcloudClient.High5.node
+            return hcloudClient.High5.app.event.stream.node
                 .getNodeContent(node.secret)
                 .then((resp: string) => {
                     expect(resp.length).greaterThan(0);
@@ -399,7 +399,7 @@ describe("High5", function () {
         });
 
         it("Delete node OK", () => {
-            return hcloudClient.High5.node
+            return hcloudClient.High5.app.event.stream.node
                 .deleteNodeById(node._id)
                 .then(resp => {
                     expect(resp).to.be.undefined;

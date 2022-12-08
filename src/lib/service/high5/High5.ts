@@ -2,35 +2,18 @@ import base, { Options } from "../../base";
 import { AxiosInstance } from "axios";
 import { Version } from "../../interfaces/Global";
 import { High5App } from "./High5App";
-import { High5Event } from "./High5Event";
-import { High5Stream } from "./High5Stream";
-import { High5Design } from "./High5Design";
-import { High5Node } from "./High5Node";
-import { High5Execute } from "./High5Execute";
-import { High5Webhook } from "./High5Webhook";
-import { High5WebhookLog } from "./High5WebhookLog";
+import { High5Event } from "./app/High5Event";
+import { High5Stream } from "./app/event/High5Stream";
+import { High5Design } from "./app/event/stream/High5Design";
+import { High5Execute } from "./app/High5Execute";
 
 export default class High5 extends base {
     public app: High5App;
-    public event: High5Event;
-    public stream: High5Stream;
-    public design: High5Design;
-    public node: High5Node;
-    public webhook: High5Webhook;
-    public webhookLog: High5WebhookLog;
-    public execute: High5Execute;
 
     constructor(options: Options, axios: AxiosInstance) {
         super(options, axios);
 
         this.app = new High5App(this.options, this.axios);
-        this.event = new High5Event(this.options, this.axios);
-        this.stream = new High5Stream(this.options, this.axios);
-        this.design = new High5Design(this.options, this.axios);
-        this.node = new High5Node(this.options, this.axios);
-        this.webhook = new High5Webhook(this.options, this.axios);
-        this.webhookLog = new High5WebhookLog(this.options, this.axios);
-        this.execute = new High5Execute(this.options, this.axios);
     }
 
     /**

@@ -1,6 +1,6 @@
 import { AxiosInstance } from "axios";
-import base, { Options } from "../../base";
-import { Design, Event, Stream } from "../../interfaces/High5";
+import base, { Options } from "../../../../../base";
+import { Design, Event, Stream } from "../../../../../interfaces/High5";
 
 export class High5Design extends base {
     /**

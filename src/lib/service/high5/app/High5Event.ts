@@ -1,8 +1,17 @@
 import { AxiosInstance } from "axios";
-import base, { Options } from "../../base";
-import { Event } from "../../interfaces/High5";
+import base, { Options } from "../../../base";
+import { Event } from "../../../interfaces/High5";
+import { High5Execute } from "./High5Execute";
+import { High5Stream } from "./event/High5Stream";
 
 export class High5Event extends base {
+    public stream: High5Stream;
+
+    constructor(options: Options, axios: AxiosInstance) {
+        super(options, axios);
+        this.stream = new High5Stream(this.options, this.axios);
+    }
+
     /**
      * getEvents returns all event for an app
      * @param appId the app's id

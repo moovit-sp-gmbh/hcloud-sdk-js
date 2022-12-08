@@ -1,7 +1,12 @@
-import base from "../../base";
-import { WebhookLog } from "../../interfaces/High5";
+import { AxiosInstance } from "axios";
+import base, { Options } from "../../../../base";
+import { WebhookLog } from "../../../../interfaces/High5";
 
 export class High5WebhookLog extends base {
+    constructor(options: Options, axios: AxiosInstance) {
+        super(options, axios);
+    }
+
     /**
      * getWebhookLogs requests all webhook logs for the specified webhook
      * @param limit an optional response limit (1-1000; defaults to 500)

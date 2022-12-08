@@ -15,7 +15,7 @@ export class AuditorInternal extends base {
      * CAN ONLY BE USED FROM BACKENDS WITHIN THE hcloud DEPLOYMENT AS THE ENDPOINT IS NOT PUBLICLY EXPOSED
      * @param logs array (add multiple logs entries at once)
      * @returns AuditLog array
-     * 
+     *
      * @deprecated Use queueAuditLogs instead
      */
     public addAuditLogs = async (logs: AuditLog[]): Promise<AuditLog[]> => {

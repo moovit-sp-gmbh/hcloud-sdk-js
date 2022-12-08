@@ -1,8 +1,22 @@
 import { AxiosInstance } from "axios";
 import base, { Options } from "../../base";
 import { App, AppPermission } from "../../interfaces/High5";
+import { High5Event } from "./app/High5Event";
+import { High5Execute } from "./app/High5Execute";
+import { High5Webhook } from "./app/High5Webhook";
 
 export class High5App extends base {
+    public event: High5Event;
+    public execute: High5Execute;
+    public webhook: High5Webhook;
+
+    constructor(options: Options, axios: AxiosInstance) {
+        super(options, axios);
+        this.event = new High5Event(this.options, this.axios);
+        this.execute = new High5Execute(this.options, this.axios);
+        this.webhook = new High5Webhook(this.options, this.axios);
+    }
+
     /**
      * getApps returns all app's with READ+ permission for the active organization
      * @param limit the maximum results (defaults to 500)

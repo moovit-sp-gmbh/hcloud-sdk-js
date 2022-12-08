@@ -2,7 +2,7 @@ import { AxiosInstance } from "axios";
 import base, { Options } from "../../base";
 import { AuditLog } from "../../interfaces/Auditor";
 import { Organization, OrganizationSearchFilter } from "../../interfaces/IDP";
-import { IdpOrganizationMember } from "./IdpOrganizationMember";
+import { IdpOrganizationMember } from "./organization/IdpOrganizationMember";
 
 export class IdpOrganization extends base {
     /**

@@ -1,7 +1,16 @@
-import base from "../../base";
-import { Webhook, WebhookCreation } from "../../interfaces/High5";
+import { AxiosInstance, AxiosRequestHeaders } from "axios";
+import base, { Options } from "../../../base";
+import { KeyValuePair, Webhook, WebhookCreation } from "../../../interfaces/High5";
+import { High5WebhookLog } from "./webhook/High5WebhookLog";
 
 export class High5Webhook extends base {
+    public log: High5WebhookLog;
+
+    constructor(options: Options, axios: AxiosInstance) {
+        super(options, axios);
+        this.log = new High5WebhookLog(this.options, this.axios);
+    }
+
     /**
      * getWebhooks requests all webhooks for the user's active organization
      * @param limit an optional response limit (1-1000; defaults to 500)
@@ -67,7 +76,7 @@ export class High5Webhook extends base {
      * @returns the updated webhook
      */
     public updateWebhook = async (id: string, webhookCreation: WebhookCreation): Promise<Webhook> => {
-        const resp = await this.axios.put<Webhook>(this.getEndpoint(`/v1/webhook/${id}`),webhookCreation).catch((err: Error) => {
+        const resp = await this.axios.put<Webhook>(this.getEndpoint(`/v1/webhook/${id}`), webhookCreation).catch((err: Error) => {
             throw err;
         });
 
@@ -92,6 +101,25 @@ export class High5Webhook extends base {
      */
     public triggerWebhook = async (url: string): Promise<void> => {
         const resp = await this.axios.post<void>(this.getEndpoint(`${url}`)).catch((err: Error) => {
+            throw err;
+        });
+    };
+
+    /**
+     * Executes a webhook by its URL
+     * @param webhookUrl from the webhookDto
+     * @param payload the payload to be used in the event execution that will be triggered by the webhook, as JSON.
+     * @param headers optional security headers.
+     * @returns void the webhook is executed asynchronously, and we do not wait for a result or response
+     */
+    public executeWebhookByUrl = async (webhookUrl: string, payload: any, headers?: KeyValuePair<string>): Promise<void> => {
+        const h = {} as { [key: string]: string };
+        if (headers) {
+            Object.keys(headers).forEach((key: string) => {
+                h[key] = headers[key];
+            });
+        }
+        await this.axios.post<void>(this.getEndpoint(webhookUrl), payload, { headers: h }).catch((err: Error) => {
             throw err;
         });
     };

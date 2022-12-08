@@ -1,8 +1,20 @@
 import { AxiosInstance } from "axios";
-import base, { Options } from "../../base";
-import { Event, Stream, StreamPatchOrder } from "../../interfaces/High5";
+import base, { Options } from "../../../../base";
+import { Event, Stream, StreamPatchOrder } from "../../../../interfaces/High5";
+import { High5Execute } from "../High5Execute";
+import { High5Design } from "./stream/High5Design";
+import { High5Node } from "./stream/High5Node";
 
 export class High5Stream extends base {
+    public design: High5Design;
+    public node: High5Node;
+
+    constructor(options: Options, axios: AxiosInstance) {
+        super(options, axios);
+        this.design = new High5Design(this.options, this.axios);
+        this.node = new High5Node(this.options, this.axios);
+    }
+
     /**
      * getStreams returns all streams for an event
      * @param eventId the event's id

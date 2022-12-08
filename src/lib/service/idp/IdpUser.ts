@@ -2,9 +2,7 @@ import { AxiosInstance } from "axios";
 import base, { Options } from "../../base";
 import { AuditLog } from "../../interfaces/Auditor";
 import { Organization, Pat, PatchUser, PatCreate, PatUpdate, Scopes, User } from "../../interfaces/IDP";
-import { IdpOrganizationMember } from "./IdpOrganizationMember";
 import { IdpSettings } from "./user/IdpSettings";
-
 export class IdpUser extends base {
     /**
      * settings handles everything around a user's settings

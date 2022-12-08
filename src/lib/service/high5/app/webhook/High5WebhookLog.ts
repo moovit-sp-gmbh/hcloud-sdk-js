@@ -18,7 +18,7 @@ export class High5WebhookLog extends base {
         page = page || 0;
 
         const resp = await this.axios
-            .get<WebhookLog[]>(this.getEndpoint(`/v1/webhook/log/list/:webhookId/${id}?limit=${limit}&page=${page}`))
+            .get<WebhookLog[]>(this.getEndpoint(`/v1/webhook/log/list/${id}?limit=${limit}&page=${page}`))
             .catch((err: Error) => {
                 throw err;
             });

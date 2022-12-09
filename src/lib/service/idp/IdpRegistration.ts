@@ -1,8 +1,6 @@
 import { AxiosInstance } from "axios";
 import base, { Options } from "../../base";
-import { AuditLog } from "../../interfaces/Auditor";
-import { Organization, Pat, PatchUser, PatCreate, PatUpdate, Scopes, SuccessfulAuth, User } from "../../interfaces/IDP";
-import { IdpSettings } from "./user/IdpSettings";
+import { SuccessfulAuth, User } from "../../interfaces/IDP";
 export class IdpRegistration extends base {
     constructor(options: Options, axios: AxiosInstance) {
         super(options, axios);

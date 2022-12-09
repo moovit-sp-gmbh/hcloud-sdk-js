@@ -4,12 +4,18 @@ import { SuccessfulAuth, User } from "../../interfaces/IDP";
 import { Version } from "../../interfaces/Global";
 import { IdpOrganization } from "./IdpOrganization";
 import { IdpUser } from "./IdpUser";
+import { IdpRegistration } from "./IdpRegistration";
 
 export default class IDP extends base {
     /**
      * organization handles everything around organizations
      */
     public organization: IdpOrganization;
+
+    /**
+     * registration handles everything around registration
+     */
+    public registration: IdpRegistration;
 
     /**
      * user handles everything around a user
@@ -20,6 +26,7 @@ export default class IDP extends base {
 
         this.organization = new IdpOrganization(this.options, this.axios);
         this.user = new IdpUser(this.options, this.axios);
+        this.registration = new IdpRegistration(this.options, this.axios);
     }
 
     /**
@@ -43,23 +50,6 @@ export default class IDP extends base {
         const resp = await this.axios.get<User>(this.getEndpoint("/v1/authorize"), {}).catch((err: Error) => {
             throw err;
         });
-
-        return resp.data;
-    };
-
-    /**
-     * Register against the identity provider
-     * @param name
-     * @param email
-     * @param password
-     * @returns Bearer Token
-     */
-    register = async (name: string, email: string, password: string): Promise<User> => {
-        const resp = await this.axios
-            .post<User>(this.getEndpoint("/v1/registration"), { name: name, email: email, password: password })
-            .catch((err: Error) => {
-                throw err;
-            });
 
         return resp.data;
     };

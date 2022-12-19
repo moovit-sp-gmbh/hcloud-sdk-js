@@ -134,3 +134,46 @@ export interface ActivatedTotp {
     createDate: number;
     modifyDate: number;
 }
+
+export interface OAuthTokenRequest {
+    code: string;
+    clientId: string;
+    clientSecret: string;
+    redirectUri: string;
+}
+
+export default interface OAuthAppCreation {
+    name: string;
+    secretName: string;
+    avatar?: string;
+    description?: string;
+    homepage?: string;
+    callback: string;
+}
+
+export default interface OAuthApp {
+    _id: string;
+    name: string;
+    organizationId: string;
+    creatorId: string;
+    avatar?: string;
+    description?: string;
+    homepage?: string;
+    callback: string;
+    hcloudClientId: string;
+    clientSecrets: OAuthAppClientSecret[];
+    scopes: Scopes[];
+    patId?: string;
+    createDate: number;
+    modifyDate: number;
+}
+
+export interface OAuthAppClientSecret {
+    name: string;
+    secret: string;
+    uuid: string;
+    creatorId: string;
+    used: boolean;
+    createDate: number;
+    modifyDate: number;
+}

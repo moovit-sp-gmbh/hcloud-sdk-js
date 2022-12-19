@@ -1,4 +1,5 @@
 import { Msg } from "nats";
+import { Products } from "./Debugging";
 
 enum NatsSubject {
     IDP_USER_GENERAL = "hcloud.idp.user.${userId}.general",
@@ -14,6 +15,8 @@ enum NatsSubject {
     HIGH5_STREAMS = "hcloud.high5.organization.${organizationId}.app.${appId}.event.${eventId}.streams",
     HIGH5_SETTINGS_GENERAL = "hcloud.high5.organization.${organizationId}.app.${appId}.settings.general",
     HIGH5_SETTINGS_WEBHOOKS = "hcloud.high5.organization.${organizationId}.app.${appId}.settings.webhooks",
+
+    DEBUG_NAMESPACE = "hcloud.debug.namespace.${product}",
 }
 
 /**
@@ -75,6 +78,10 @@ class NatsSubjects {
         };
     };
 
+    static Logging = (product: Products) => {
+        return NatsSubjects.replace(NatsSubject.DEBUG_NAMESPACE, { product } as NatsSubjectReplacements);
+    };
+
     private static replace = (subject: string, replacements: NatsSubjectReplacements): string => {
         subject = subject.replace("${userId}", replacements.userId || "null");
         subject = subject.replace("${organizationId}", replacements.organizationId || "null");
@@ -83,6 +90,7 @@ class NatsSubjects {
         subject = subject.replace("${streamId}", replacements.streamId || "null");
         subject = subject.replace("${designId}", replacements.designId || "null");
         subject = subject.replace("${nodeId}", replacements.nodeId || "null");
+        subject = subject.replace("${product}", replacements.product || "null");
 
         return subject;
     };
@@ -96,6 +104,7 @@ type NatsSubjectReplacements = {
     streamId?: string;
     designId?: string;
     nodeId?: string;
+    product?: Products;
 };
 
 enum NatsMessageType {

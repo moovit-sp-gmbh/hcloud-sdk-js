@@ -37,7 +37,7 @@ export class IdpOAuth extends base {
         if (!queryString.startsWith("?")) {
             queryString = `?${queryString}`;
         }
-        const response = await this.axios.get(this.getEndpoint(`/v1/authentication/oauth/authorize${queryString}`)).catch((err: Error) => {
+        const response = await this.axios.post(this.getEndpoint(`/v1/authentication/oauth/authorize${queryString}`)).catch((err: Error) => {
             throw err;
         });
         return response.data.redirectUrl;

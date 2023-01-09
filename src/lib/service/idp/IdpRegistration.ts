@@ -11,11 +11,12 @@ export class IdpRegistration extends base {
      * @param name
      * @param email
      * @param password
+     * @param captcha
      * @returns Bearer Token
      */
-    register = async (name: string, email: string, password: string): Promise<User> => {
+    register = async (name: string, email: string, password: string, captcha: string, company?: string): Promise<User> => {
         const resp = await this.axios
-            .post<User>(this.getEndpoint("/v1/registration"), { name: name, email: email, password: password })
+            .post<User>(this.getEndpoint("/v1/registration"), { name: name, email: email, password: password, captcha: captcha, company })
             .catch((err: Error) => {
                 throw err;
             });

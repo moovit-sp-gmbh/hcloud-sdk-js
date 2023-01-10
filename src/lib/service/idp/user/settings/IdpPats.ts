@@ -12,7 +12,7 @@ export class IdpPat extends base {
      * @returns all pats the request user created until now
      */
     public getPats = async (): Promise<Pat[]> => {
-        const resp = await this.axios.get<Pat[]>(this.getEndpoint(`/v1/pat`)).catch((err: Error) => {
+        const resp = await this.axios.get<Pat[]>(this.getEndpoint(`/v1/user/pat`)).catch((err: Error) => {
             throw err;
         });
 
@@ -25,7 +25,7 @@ export class IdpPat extends base {
      * @returns the created pat object
      */
     public generatePat = async (patCreate: PatCreate): Promise<Pat> => {
-        const resp = await this.axios.post<Pat>(this.getEndpoint(`/v1/pat`), patCreate).catch((err: Error) => {
+        const resp = await this.axios.post<Pat>(this.getEndpoint(`/v1/user/pat`), patCreate).catch((err: Error) => {
             throw err;
         });
 
@@ -38,7 +38,7 @@ export class IdpPat extends base {
      * @returns the updated pat object
      */
     public regeneratePatToken = async (patId: string): Promise<Pat> => {
-        const resp = await this.axios.patch<Pat>(this.getEndpoint(`/v1/pat/${patId}`)).catch((err: Error) => {
+        const resp = await this.axios.patch<Pat>(this.getEndpoint(`/v1/user/pat/${patId}`)).catch((err: Error) => {
             throw err;
         });
 
@@ -51,7 +51,7 @@ export class IdpPat extends base {
      * @returns the updated pat object
      */
     public updatePatToken = async (patId: string, patUpdate: PatUpdate): Promise<Pat> => {
-        const resp = await this.axios.patch<Pat>(this.getEndpoint(`/v1/pat/${patId}`), patUpdate).catch((err: Error) => {
+        const resp = await this.axios.patch<Pat>(this.getEndpoint(`/v1/user/pat/${patId}`), patUpdate).catch((err: Error) => {
             throw err;
         });
 
@@ -63,7 +63,7 @@ export class IdpPat extends base {
      * @param patId the id of the pat
      */
     public deletePat = async (patId: string): Promise<void> => {
-        const resp = await this.axios.delete<void>(this.getEndpoint(`/v1/pat/${patId}`)).catch((err: Error) => {
+        const resp = await this.axios.delete<void>(this.getEndpoint(`/v1/user/pat/${patId}`)).catch((err: Error) => {
             throw err;
         });
     };
@@ -72,7 +72,7 @@ export class IdpPat extends base {
      * deleteAllPats deletes all pats of a user
      */
     public deleteAllPats = async (): Promise<void> => {
-        const resp = await this.axios.delete<void>(this.getEndpoint(`/v1/pat`)).catch((err: Error) => {
+        const resp = await this.axios.delete<void>(this.getEndpoint(`/v1/user/pat`)).catch((err: Error) => {
             throw err;
         });
     };

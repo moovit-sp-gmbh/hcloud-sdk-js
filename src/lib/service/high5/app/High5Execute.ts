@@ -1,5 +1,5 @@
 import base from "../../../base";
-import { EventExecutionRequest, StreamExecutionRequest, StreamResult } from "../../../interfaces/High5";
+import { EventExecutionRequest, StreamExecutionPackage, StreamExecutionRequest, StreamResult } from "../../../interfaces/High5";
 
 export class High5Execute extends base {
     /**
@@ -45,6 +45,19 @@ export class High5Execute extends base {
             throw err;
         });
         return resp.data.toString();
+    };
+
+    /**
+     * Requests the StreamExecutionPackage from high5
+     * @param streamId the id of the stream
+     * @param secret the secret of the stream execution object
+     * @returns StreamExecutionPackage
+     */
+    public getStreamExecutionPackage = async (streamId: string, secret: string): Promise<StreamExecutionPackage> => {
+        const resp = await this.axios.get<StreamExecutionPackage>(this.getEndpoint(`/v1/execute/stream/${streamId}/secret/${secret}`)).catch((err: Error) => {
+            throw err;
+        });
+        return resp.data;
     };
 
     protected getEndpoint(endpoint: string): string {

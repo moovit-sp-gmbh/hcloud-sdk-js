@@ -135,8 +135,18 @@ export interface StreamResult {
     endTimestamp: number;
 }
 
-export interface StreamExecutionRequest {
+export enum StreamPayloadType {
+    JSON = "JSON",
+    GENERIC = "GENERIC",
+}
+
+export interface StreamExecutionPayload {
+    type: StreamPayloadType;
     data: string;
+}
+
+export interface StreamExecutionRequest {
+    payload: StreamExecutionPayload;
     target: string;
     waitForResult: boolean;
     timeout: number;
@@ -144,10 +154,20 @@ export interface StreamExecutionRequest {
 
 export interface EventExecutionRequest {
     eventName: string;
-    data: string;
+    payload: StreamExecutionPayload;
     target: string;
     waitForResult: boolean;
     timeout: number;
+}
+
+export interface DesignBuild {
+    nodes: any[];
+    startNode: string;
+}
+
+export interface StreamExecutionPackage {
+    design: DesignBuild;
+    payload: StreamExecutionPayload;
 }
 
 export interface Webhook {

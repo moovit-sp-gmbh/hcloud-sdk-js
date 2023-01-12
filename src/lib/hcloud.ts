@@ -39,6 +39,11 @@ export default class hcloud {
         return this.options.server;
     }
 
+    setBasicAuth(username: string, password: string): hcloud {
+        this.axios.defaults.headers.common["authorization"] = `Basic ${Buffer.from(username + ":" + password).toString("base64")}`;
+        return this;
+    }
+
     setAuthToken(token: string): hcloud {
         this.axios.defaults.headers.common["authorization"] = token;
         return this;

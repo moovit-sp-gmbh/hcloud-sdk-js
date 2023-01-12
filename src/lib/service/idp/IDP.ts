@@ -2,10 +2,10 @@ import base, { Options } from "../../base";
 import { AxiosInstance } from "axios";
 import { SuccessfulAuth, User } from "../../interfaces/IDP";
 import { Version } from "../../interfaces/Global";
-import { IdpOrganization } from "./IdpOrganization";
-import { IdpUser } from "./IdpUser";
+import { IdpOrganization } from "./organization/IdpOrganization";
+import { IdpUser } from "./user/IdpUser";
 import { IdpRegistration } from "./IdpRegistration";
-import {IdpOAuth} from "./IdpOAuth";
+import {IdpOAuth} from "./organization/settings/oauth/IdpOAuth";
 import {IdpOAuthApp} from "./IdpOAuthApp";
 
 export default class IDP extends base {

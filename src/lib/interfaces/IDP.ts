@@ -18,6 +18,7 @@ export enum Scopes {
     IDP_USER_READ = "idp:user:read",
     IDP_USER_WRITE = "idp:user:write",
     IDP_USER_DELETE = "idp:user:delete",
+    IDP_USER_OPEN_ID = "openid", // This is a special scope for OpenID Connect in the OAuth flow
     IDP_ORGANIZATION_READ = "idp:organization:read",
     IDP_ORGANIZATION_WRITE = "idp:organization:write",
     IDP_ORGANIZATION_DELETE = "idp:organization:delete",

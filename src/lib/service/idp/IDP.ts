@@ -5,8 +5,8 @@ import { Version } from "../../interfaces/Global";
 import { IdpOrganization } from "./IdpOrganization";
 import { IdpUser } from "./IdpUser";
 import { IdpRegistration } from "./IdpRegistration";
-import {IdpOAuth} from "./IdpOAuth";
-import {IdpOAuthApp} from "./IdpOAuthApp";
+import { IdpOAuth } from "./IdpOAuth";
+import { IdpOAuthApp } from "./IdpOAuthApp";
 
 export default class IDP extends base {
     /**

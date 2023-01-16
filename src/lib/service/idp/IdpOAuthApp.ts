@@ -1,5 +1,5 @@
-import {AxiosInstance} from "axios";
-import base, {Options} from "../../base";
+import { AxiosInstance } from "axios";
+import base, { Options } from "../../base";
 import OAuthApp, { Scopes } from "../../interfaces/IDP";
 import OAuthAppCreation from "../../interfaces/IDP";
 
@@ -18,9 +18,11 @@ export class IdpOAuthApp extends base {
         limit = limit || 500;
         page = page || 0;
 
-        const resp = await this.axios.get<OAuthApp[]>(this.getEndpoint(`/v1/organization/oauth/list?limit=${limit}&page=${page}`)).catch((err: Error) => {
-            throw err;
-        });
+        const resp = await this.axios
+            .get<OAuthApp[]>(this.getEndpoint(`/v1/organization/oauth/list?limit=${limit}&page=${page}`))
+            .catch((err: Error) => {
+                throw err;
+            });
 
         return [resp.data, parseInt(String(resp.headers["total"]), 10)];
     };
@@ -84,7 +86,7 @@ export class IdpOAuthApp extends base {
      * @returns OAuthApp
      */
     public createOAuthAppSecret = async (id: string, secretName: string): Promise<OAuthApp> => {
-        const resp = await this.axios.post<OAuthApp>(this.getEndpoint(`/v1/organization/oauth/${id}`), {secretName}).catch((err: Error) => {
+        const resp = await this.axios.post<OAuthApp>(this.getEndpoint(`/v1/organization/oauth/${id}`), { secretName }).catch((err: Error) => {
             throw err;
         });
 
@@ -99,9 +101,11 @@ export class IdpOAuthApp extends base {
      * @returns OAuthApp
      */
     public patchOAuthAppSecretName = async (id: string, uuid: string, secretName: string): Promise<OAuthApp> => {
-        const resp = await this.axios.patch<OAuthApp>(this.getEndpoint(`/v1/organization/oauth/${id}/${uuid}`), {secretName}).catch((err: Error) => {
-            throw err;
-        });
+        const resp = await this.axios
+            .patch<OAuthApp>(this.getEndpoint(`/v1/organization/oauth/${id}/${uuid}`), { secretName })
+            .catch((err: Error) => {
+                throw err;
+            });
 
         return resp.data;
     };

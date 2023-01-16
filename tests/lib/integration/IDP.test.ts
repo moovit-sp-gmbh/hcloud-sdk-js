@@ -27,7 +27,8 @@ describe.skip("IDP", function () {
     describe.skip("Register", () => {
         it.skip("Register OK", done => {
             const name = `Severin Siebertz ${uuidv4()}`;
-            hcloudClient.IDP.registration.register(name, `s.siebertz-${uuidv4()}@moovit-sp.com`, userPassword)
+            hcloudClient.IDP.registration
+                .register(name, `s.siebertz-${uuidv4()}@moovit-sp.com`, userPassword)
                 .then((resp: User) => {
                     expect(resp.name).to.equal(name);
                     userToBeDeleted = resp;
@@ -39,7 +40,8 @@ describe.skip("IDP", function () {
         });
 
         it.skip("Register", done => {
-            hcloudClient.IDP.registration.register("Severin Siebertz", "s.siebertz@moovit-sp.com", "Sev2000Sev!")
+            hcloudClient.IDP.registration
+                .register("Severin Siebertz", "s.siebertz@moovit-sp.com", "Sev2000Sev!")
                 .then((resp: User) => {
                     done();
                 })
@@ -107,7 +109,8 @@ describe.skip("IDP", function () {
         const newOrgMemberPassword = "Tester2000!";
 
         it.skip("creates the newOrgMember", done => {
-            hcloudClient.IDP.registration.register(`tester_${newOrgMemberUuid}`, `t.ester@${newOrgMemberUuid}-moovit-sp.com`, newOrgMemberPassword)
+            hcloudClient.IDP.registration
+                .register(`tester_${newOrgMemberUuid}`, `t.ester@${newOrgMemberUuid}-moovit-sp.com`, newOrgMemberPassword)
                 .then((resp: User) => {
                     newOrgMemberUser = resp;
                     done();

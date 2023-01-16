@@ -24,7 +24,8 @@ describe("Auditor", function () {
 
     it("Register OK", () => {
         const name = `Severin Siebertz ${uuidv4()}`;
-        return hcloudClient.IDP.registration.register(name, testMail, "Sev2000Sev!")
+        return hcloudClient.IDP.registration
+            .register(name, testMail, "Sev2000Sev!")
             .then((resp: User) => {
                 expect(resp.name).to.equal(name);
             })

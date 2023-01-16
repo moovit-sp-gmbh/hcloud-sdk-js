@@ -10,9 +10,8 @@ export enum Products {
     auditor = "auditor",
     mailer = "mailer",
     high5 = "high5",
-    all = "all"
+    all = "all",
 }
-
 
 export enum Entity {
     controller = "controller",

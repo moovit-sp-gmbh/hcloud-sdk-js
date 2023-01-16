@@ -1,9 +1,8 @@
-import { rejects } from "assert";
 import { NatsConnection, SubscriptionOptions, NatsError, Msg, Subscription, PublishOptions, RequestOptions } from "nats";
 
 import { connect as connectNode } from "nats";
 import { connect as connectWs } from "nats.ws";
-import { NatsMessage, NatsCallback, NatsMessageType } from "../../interfaces/Nats";
+import { NatsMessage, NatsCallback, NatsMessageType, RawMsg } from "../../interfaces/Nats";
 
 interface SubMapEntry {
     subject: string;
@@ -140,6 +139,16 @@ class Nats {
     public request(subject: string, type: NatsMessageType, object: any, options?: RequestOptions): void {
         const data = new TextEncoder().encode(JSON.stringify({ type: type, object: object } as NatsMessage));
         this.getConnection()?.request(subject, data, options);
+    }
+
+    public async requestAndWaitForResponse(subject: string, type: NatsMessageType, object: any, options?: RequestOptions): Promise<Msg | undefined> {
+        const data = new TextEncoder().encode(JSON.stringify({ type: type, object: object } as NatsMessage));
+        return this.getConnection()?.request(subject, data, options) || undefined;
+    }
+
+    public respond(msg: Msg | RawMsg, data: any): void {
+        data = new TextEncoder().encode(JSON.stringify(data));
+        msg.respond(data);
     }
 }
 

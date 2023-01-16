@@ -135,6 +135,12 @@ export interface StreamResult {
     endTimestamp: number;
 }
 
+export interface StreamExecutionNatsResponse {
+    failed: boolean;
+    message: string;
+    stream?: Stream;
+}
+
 export interface StreamLog {
     _id: string;
     streamId: string;

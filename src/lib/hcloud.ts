@@ -61,4 +61,13 @@ export default class hcloud {
     getActiveOrganizationId(): string | undefined {
         return this.axios.defaults.headers.common["x-active-organization-id"]?.toString();
     }
+
+    setCorrelationId(correlationId: string): hcloud {
+        this.axios.defaults.headers.common["X-Hcloud-Correlation-ID"] = correlationId;
+        return this;
+    }
+
+    getCorrelationId(): string | undefined {
+        return this.axios.defaults.headers.common["X-Hcloud-Correlation-ID"]?.toString();
+    }
 }

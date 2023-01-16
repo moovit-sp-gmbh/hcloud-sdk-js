@@ -1,5 +1,5 @@
 import base from "../../../base";
-import { EventExecutionRequest, StreamExecutionPackage, StreamExecutionRequest, StreamResult } from "../../../interfaces/High5";
+import { EventExecutionRequest, StreamExecutionPackage, StreamExecutionRequest, StreamLog, StreamResult } from "../../../interfaces/High5";
 
 export class High5Execute extends base {
     /**
@@ -54,9 +54,27 @@ export class High5Execute extends base {
      * @returns StreamExecutionPackage
      */
     public getStreamExecutionPackage = async (streamId: string, secret: string): Promise<StreamExecutionPackage> => {
-        const resp = await this.axios.get<StreamExecutionPackage>(this.getEndpoint(`/v1/execute/stream/${streamId}/secret/${secret}`)).catch((err: Error) => {
-            throw err;
-        });
+        const resp = await this.axios
+            .get<StreamExecutionPackage>(this.getEndpoint(`/v1/execute/stream/${streamId}/secret/${secret}`))
+            .catch((err: Error) => {
+                throw err;
+            });
+        return resp.data;
+    };
+
+    /**
+     * Publishes the stream results to high5
+     * @param streamId the id of the stream
+     * @param secret the secret of the stream execution object
+     * @param streamResult the result of the stream
+     * @returns StreamLog
+     */
+    public writeStreamLog = async (streamId: string, secret: string, streamResult: StreamResult): Promise<StreamLog> => {
+        const resp = await this.axios
+            .post<StreamLog>(this.getEndpoint(`/v1/execute/stream/${streamId}/secret/${secret}/log`), streamResult)
+            .catch((err: Error) => {
+                throw err;
+            });
         return resp.data;
     };
 

@@ -11,6 +11,7 @@ enum NatsSubject {
     IDP_ORGANIZATION_MEMBERS = "hcloud.idp.organization.${organizationId}.members",
 
     HIGH5_APPS = "hcloud.high5.organization.${organizationId}.apps",
+    HIGH5_STREAM_EXECUTE = "hcloud.high5.organization.${organizationId}.stream.execute.${base64email}",
     HIGH5_EVENTS = "hcloud.high5.organization.${organizationId}.app.${appId}.events",
     HIGH5_STREAMS = "hcloud.high5.organization.${organizationId}.app.${appId}.event.${eventId}.streams",
     HIGH5_SETTINGS_GENERAL = "hcloud.high5.organization.${organizationId}.app.${appId}.settings.general",
@@ -52,6 +53,10 @@ class NatsSubjects {
     };
 
     static High5 = class {
+        static EXECUTE = (organizationId: string, base64email: string) => {
+            return NatsSubjects.replace(NatsSubject.HIGH5_STREAM_EXECUTE, { organizationId, base64email } as NatsSubjectReplacements);
+        };
+
         static APPS = (organizationId: string) => {
             return NatsSubjects.replace(NatsSubject.HIGH5_APPS, { organizationId } as NatsSubjectReplacements);
         };
@@ -91,6 +96,7 @@ class NatsSubjects {
         subject = subject.replace("${designId}", replacements.designId || "null");
         subject = subject.replace("${nodeId}", replacements.nodeId || "null");
         subject = subject.replace("${product}", replacements.product || "null");
+        subject = subject.replace("${base64email}", replacements.base64email || "null");
 
         return subject;
     };
@@ -105,6 +111,7 @@ type NatsSubjectReplacements = {
     designId?: string;
     nodeId?: string;
     product?: Products;
+    base64email?: string;
 };
 
 enum NatsMessageType {

@@ -12,6 +12,11 @@ export interface User {
     activeScopes: Scopes[];
 }
 
+export enum GrantType {
+    AUTHORIZATION_CODE = "authorization_code",
+    REFRESH_TOKEN = "refresh_token"
+}
+
 export enum Scopes {
     HCLOUD_FULL = "hcloud:full",
     IDP_EMAIL_READ = "idp:email:read",

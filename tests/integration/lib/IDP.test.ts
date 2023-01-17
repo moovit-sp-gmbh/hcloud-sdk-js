@@ -25,23 +25,9 @@ describe.skip("IDP", function () {
     });
 
     describe.skip("Register", () => {
-        it.skip("Register OK", done => {
-            const name = `Severin Siebertz ${uuidv4()}`;
-            hcloudClient.IDP.registration
-                .register(name, `s.siebertz-${uuidv4()}@moovit-sp.com`, userPassword)
-                .then((resp: User) => {
-                    expect(resp.name).to.equal(name);
-                    userToBeDeleted = resp;
-                    done();
-                })
-                .catch((err: AxiosError) => {
-                    throw err;
-                });
-        });
-
         it.skip("Register", done => {
             hcloudClient.IDP.registration
-                .register("Severin Siebertz", "s.siebertz@moovit-sp.com", "Sev2000Sev!")
+                .register("Severin Siebertz", "s.siebertz@moovit-sp.com", "Sev2000Sev!", "no-captcha")
                 .then((resp: User) => {
                     done();
                 })
@@ -51,10 +37,10 @@ describe.skip("IDP", function () {
         });
 
         it.skip("Register ERR", done => {
-            hcloudClient.IDP.registration.register("Severin Siebertz", "s.siebertz@moovit-sp.com", "Sev2000Sev!").catch((err: AxiosError) => {
+            hcloudClient.IDP.registration.register("Severin Siebertz", "s.siebertz@moovit-sp.com", "Sev2000Sev!", "no-captcha").catch((err: AxiosError) => {
                 const resp = err.response?.data as ErrorMessage;
-                expect(resp.code).to.equal("001.002.0001");
-                expect(resp.error).to.equal("user.already.exists");
+                expect(resp.code).to.equal("001.006.0002");
+                expect(resp.error).to.equal("registration.invalid.captcha");
                 done();
             });
         });
@@ -107,18 +93,6 @@ describe.skip("IDP", function () {
         let newOrgMemberUser = {} as User;
         const newOrgMemberUuid = uuidv4();
         const newOrgMemberPassword = "Tester2000!";
-
-        it.skip("creates the newOrgMember", done => {
-            hcloudClient.IDP.registration
-                .register(`tester_${newOrgMemberUuid}`, `t.ester@${newOrgMemberUuid}-moovit-sp.com`, newOrgMemberPassword)
-                .then((resp: User) => {
-                    newOrgMemberUser = resp;
-                    done();
-                })
-                .catch((err: AxiosError) => {
-                    throw err;
-                });
-        });
 
         it.skip("creates an organization", done => {
             hcloudClient.IDP.organization

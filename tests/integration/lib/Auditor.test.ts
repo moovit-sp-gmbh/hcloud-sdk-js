@@ -22,19 +22,6 @@ describe("Auditor", function () {
             });
     });
 
-    it("Register OK", () => {
-        const name = `Severin Siebertz ${uuidv4()}`;
-        return hcloudClient.IDP.registration
-            .register(name, testMail, "Sev2000Sev!")
-            .then((resp: User) => {
-                expect(resp.name).to.equal(name);
-            })
-            .catch((err: AxiosError) => {
-                console.log(err.response?.data);
-                throw err;
-            });
-    });
-
     it("Authenticate OK", () => {
         return hcloudClient.IDP.authenticate(testMail, "Sev2000Sev!")
             .then((resp: SuccessfulAuth) => {

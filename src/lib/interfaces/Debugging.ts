@@ -10,6 +10,7 @@ export enum Products {
     auditor = "auditor",
     mailer = "mailer",
     high5 = "high5",
+    fuse = "fuse",
     all = "all",
 }
 

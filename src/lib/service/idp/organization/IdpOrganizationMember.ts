@@ -59,6 +59,19 @@ export class IdpOrganizationMember extends base {
         });
     };
 
+    /**
+     * validateMemberPermission validates whether the current user has the provided permission in the specified organization
+     * @param organizationId the organization id
+     * @returns provided permission if valid, else throws error
+     */
+    public validateMemberPermission = async (organizationId: string, permission: OrganizationPermission): Promise<OrganizationPermission> => {
+        const resp = await this.axios.get<OrganizationPermission>(this.getEndpoint(`/${organizationId}/member/validate?permission=${permission}`)).catch((err: Error) => {
+            throw err;
+        });
+
+        return resp.data;
+    };
+
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/account/v1/organization${endpoint}`;
     }

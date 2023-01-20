@@ -17,6 +17,8 @@ export enum Event {
     Logout = "logout",
     User = "user",
     Organization = "organization",
+    OrganizationMember = "organizationMember",
+    Team = "team",
     App = "app",
     Event = "event",
     Stream = "stream",

@@ -14,7 +14,7 @@ export interface User {
 
 export enum GrantType {
     AUTHORIZATION_CODE = "authorization_code",
-    REFRESH_TOKEN = "refresh_token"
+    REFRESH_TOKEN = "refresh_token",
 }
 
 export enum Scopes {

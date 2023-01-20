@@ -9,6 +9,7 @@ enum NatsSubject {
 
     IDP_ORGANIZATION_GENERAL = "hcloud.idp.organization.${organizationId}.general",
     IDP_ORGANIZATION_MEMBERS = "hcloud.idp.organization.${organizationId}.members",
+    IDP_ORGANIZATION_TEAMS = "hcloud.idp.organization.${organizationId}.teams",
 
     HIGH5_APPS = "hcloud.high5.organization.${organizationId}.apps",
     HIGH5_STREAM_EXECUTE = "hcloud.high5.organization.${organizationId}.stream.execute.${base64email}",
@@ -48,6 +49,9 @@ class NatsSubjects {
             };
             static MEMBERS = (organizationId: string) => {
                 return NatsSubjects.replace(NatsSubject.IDP_ORGANIZATION_MEMBERS, { organizationId } as NatsSubjectReplacements);
+            };
+            static TEAMS = (organizationId: string) => {
+                return NatsSubjects.replace(NatsSubject.IDP_ORGANIZATION_TEAMS, { organizationId } as NatsSubjectReplacements);
             };
         };
     };

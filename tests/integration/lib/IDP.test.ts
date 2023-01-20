@@ -37,12 +37,14 @@ describe.skip("IDP", function () {
         });
 
         it.skip("Register ERR", done => {
-            hcloudClient.IDP.registration.register("Severin Siebertz", "s.siebertz@moovit-sp.com", "Sev2000Sev!", "no-captcha").catch((err: AxiosError) => {
-                const resp = err.response?.data as ErrorMessage;
-                expect(resp.code).to.equal("001.006.0002");
-                expect(resp.error).to.equal("registration.invalid.captcha");
-                done();
-            });
+            hcloudClient.IDP.registration
+                .register("Severin Siebertz", "s.siebertz@moovit-sp.com", "Sev2000Sev!", "no-captcha")
+                .catch((err: AxiosError) => {
+                    const resp = err.response?.data as ErrorMessage;
+                    expect(resp.code).to.equal("001.006.0002");
+                    expect(resp.error).to.equal("registration.invalid.captcha");
+                    done();
+                });
         });
     });
 

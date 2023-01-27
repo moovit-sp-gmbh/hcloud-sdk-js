@@ -124,11 +124,34 @@ enum NatsMessageType {
     DELETE = "DELETE",
     EXECUTE = "EXECUTE",
 }
+
+enum NatsObjectType {
+    DEBUG = "DEBUG",
+
+    USER = "USER",
+    OAUTH = "OAUTH",
+    ORGANIZATION = "ORGANIZATION",
+    PAT = "PAT",
+    TEAM = "TEAM",
+
+    APP = "APP",
+    DESIGN = "DESIGN",
+    EXECUTION = "EXECUTION",
+    NODE = "NODE",
+    STREAM = "STREAM",
+    WEBHOOK = "WEBHOOK",
+    WEBHOOK_LOG = "WEBHOOK_LOG",
+
+    AUDIT_LOG = "AUDIT_LOG",
+    MAIL = "MAIL",
+}
+
 interface NatsMessage {
     type: NatsMessageType;
     object: any;
+    objectType: NatsObjectType;
 }
 
 type NatsCallback = (msg: NatsMessage, rawMsg: Msg) => void;
 
-export { NatsSubjects, NatsMessageType, NatsMessage, NatsCallback, Msg as RawMsg };
+export { NatsSubjects, NatsMessageType, NatsObjectType, NatsMessage, NatsCallback, Msg as RawMsg };

@@ -2,7 +2,7 @@ import { NatsConnection, SubscriptionOptions, NatsError, Msg, Subscription, Publ
 
 import { connect as connectNode } from "nats";
 import { connect as connectWs } from "nats.ws";
-import { NatsMessage, NatsCallback, NatsMessageType, RawMsg } from "../../interfaces/Nats";
+import { NatsMessage, NatsCallback, NatsMessageType, NatsObjectType, RawMsg } from "../../interfaces/Nats";
 
 interface SubMapEntry {
     subject: string;
@@ -131,18 +131,24 @@ class Nats {
         }
     }
 
-    public publish(subject: string, type: NatsMessageType, object: any, options?: PublishOptions): void {
-        const data = new TextEncoder().encode(JSON.stringify({ type: type, object: object } as NatsMessage));
+    public publish(subject: string, type: NatsMessageType, objectType: NatsObjectType, object: any, options?: PublishOptions): void {
+        const data = new TextEncoder().encode(JSON.stringify({ type: type, objectType: objectType, object: object } as NatsMessage));
         this.getConnection()?.publish(subject, data, options);
     }
 
-    public request(subject: string, type: NatsMessageType, object: any, options?: RequestOptions): void {
-        const data = new TextEncoder().encode(JSON.stringify({ type: type, object: object } as NatsMessage));
+    public request(subject: string, type: NatsMessageType, objectType: NatsObjectType, object: any, options?: RequestOptions): void {
+        const data = new TextEncoder().encode(JSON.stringify({ type: type, objectType: objectType, object: object } as NatsMessage));
         this.getConnection()?.request(subject, data, options);
     }
 
-    public async requestAndWaitForResponse(subject: string, type: NatsMessageType, object: any, options?: RequestOptions): Promise<Msg | undefined> {
-        const data = new TextEncoder().encode(JSON.stringify({ type: type, object: object } as NatsMessage));
+    public async requestAndWaitForResponse(
+        subject: string,
+        type: NatsMessageType,
+        objectType: NatsObjectType,
+        object: any,
+        options?: RequestOptions
+    ): Promise<Msg | undefined> {
+        const data = new TextEncoder().encode(JSON.stringify({ type: type, objectType: objectType, object: object } as NatsMessage));
         return this.getConnection()?.request(subject, data, options) || undefined;
     }
 

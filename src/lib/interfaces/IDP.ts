@@ -32,6 +32,10 @@ export enum Scopes {
     HIGH5_APP_EXECUTE = "high5:app:execute",
     HIGH5_APP_WRITE = "high5:app:write",
     HIGH5_APP_DELETE = "high5:app:delete",
+    FUSE_APP_READ = "fuse:app:read",
+    FUSE_APP_EXECUTE = "fuse:app:execute",
+    FUSE_APP_WRITE = "fuse:app:write",
+    FUSE_APP_DELETE = "fuse:app:delete",
 }
 
 export interface Pat {

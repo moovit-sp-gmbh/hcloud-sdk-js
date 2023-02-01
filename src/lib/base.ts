@@ -18,5 +18,5 @@ export default abstract class Base {
         this.axios = axios;
     }
 
-    protected abstract getEndpoint(endoiint: string): string;
+    protected abstract getEndpoint(endpoint: string): string;
 }

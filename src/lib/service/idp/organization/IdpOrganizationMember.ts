@@ -65,9 +65,11 @@ export class IdpOrganizationMember extends base {
      * @returns provided permission if valid, else throws error
      */
     public validateMemberPermission = async (organizationId: string, permission: OrganizationPermission): Promise<OrganizationPermission> => {
-        const resp = await this.axios.get<OrganizationPermission>(this.getEndpoint(`/${organizationId}/member/validate?permission=${permission}`)).catch((err: Error) => {
-            throw err;
-        });
+        const resp = await this.axios
+            .get<OrganizationPermission>(this.getEndpoint(`/${organizationId}/member/validate?permission=${permission}`))
+            .catch((err: Error) => {
+                throw err;
+            });
 
         return resp.data;
     };

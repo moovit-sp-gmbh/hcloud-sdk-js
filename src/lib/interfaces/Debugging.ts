@@ -5,15 +5,6 @@ export enum Level {
     DEBUG = "debug",
 }
 
-export enum Products {
-    idp = "idp",
-    auditor = "auditor",
-    mailer = "mailer",
-    high5 = "high5",
-    fuse = "fuse",
-    all = "all",
-}
-
 export enum Entity {
     controller = "controller",
     service = "service",

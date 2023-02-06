@@ -1,5 +1,5 @@
 import { Msg } from "nats";
-import { Products } from "./Debugging";
+import { Products } from "./Global";
 
 enum NatsSubject {
     IDP_USER_GENERAL = "hcloud.idp.user.${userId}.general",

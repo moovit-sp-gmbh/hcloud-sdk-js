@@ -14,6 +14,7 @@ export enum Products {
     mailer = "mailer",
     high5 = "high5",
     fuse = "fuse",
+    client = "client",
     all = "all",
 }
 

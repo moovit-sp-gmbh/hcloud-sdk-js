@@ -19,7 +19,7 @@ export class IdpOAuth extends base {
         if (!queryString.startsWith("?")) {
             queryString = `?${queryString}`;
         }
-        const response = await this.axios.get(this.getEndpoint(`/v1/authentication/oauth/authorize${queryString}`)).catch((err: Error) => {
+        const response = await this.axios.get(this.getEndpoint(`/v1/login/oauth/authorize${queryString}`)).catch((err: Error) => {
             throw err;
         });
         return response.data.redirectUrl;
@@ -37,7 +37,7 @@ export class IdpOAuth extends base {
         if (!queryString.startsWith("?")) {
             queryString = `?${queryString}`;
         }
-        const response = await this.axios.post(this.getEndpoint(`/v1/authentication/oauth/authorize${queryString}`)).catch((err: Error) => {
+        const response = await this.axios.post(this.getEndpoint(`/v1/login/oauth/authorize${queryString}`)).catch((err: Error) => {
             throw err;
         });
         return response.data.redirectUrl;
@@ -48,7 +48,7 @@ export class IdpOAuth extends base {
      * @param tokenRequest contains the code, client_id, client_secret and redirect_uri
      */
     public exchangeCodeForToken = async (tokenRequest: OAuthTokenRequest): Promise<any> => {
-        const response = await this.axios.post(this.getEndpoint(`/v1/authentication/oauth/access_token`), tokenRequest).catch((err: Error) => {
+        const response = await this.axios.post(this.getEndpoint(`/v1/login/oauth/access_token`), tokenRequest).catch((err: Error) => {
             throw err;
         });
         return response.data;

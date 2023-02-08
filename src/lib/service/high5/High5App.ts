@@ -19,15 +19,16 @@ export class High5App extends base {
 
     /**
      * getApps returns all app's with READ+ permission for the active organization
+     * @param orgName the organizations's name
      * @param limit the maximum results (defaults to 500)
      * @param page the results to skip (page * limit)
      * @returns App array
      */
-    public getApps = async (limit?: number, page?: number): Promise<[App[], number]> => {
+    public getApps = async (orgName: string, limit?: number, page?: number): Promise<[App[], number]> => {
         limit = limit || 500;
         page = page || 0;
 
-        const resp = await this.axios.get<App[]>(this.getEndpoint(`/v1/app?page=${page}&limit=${limit}`)).catch((err: Error) => {
+        const resp = await this.axios.get<App[]>(this.getEndpoint(`/v1/org/${orgName}/apps?page=${page}&limit=${limit}`)).catch((err: Error) => {
             throw err;
         });
 
@@ -35,12 +36,13 @@ export class High5App extends base {
     };
 
     /**
-     * getAppById returns an app by its ID
+     * getAppByName returns an app by its name
+     * @param orgName the organizations's name
      * @param appId the app's id
      * @returns App
      */
-    public getAppById = async (appId: string): Promise<App> => {
-        const resp = await this.axios.get<App>(this.getEndpoint(`/v1/app/${appId}`)).catch((err: Error) => {
+    public getAppByName = async (orgName: string, appName: string): Promise<App> => {
+        const resp = await this.axios.get<App>(this.getEndpoint(`/v1/org/${orgName}/apps/${appName}`)).catch((err: Error) => {
             throw err;
         });
 
@@ -49,11 +51,12 @@ export class High5App extends base {
 
     /**
      * createApp returns the newly created app
+     * @param orgName the organizations's name
      * @param name the name for the new app
      * @returns App
      */
-    public createApp = async (name: string): Promise<App> => {
-        const resp = await this.axios.post<App>(this.getEndpoint(`/v1/app`), { name: name }).catch((err: Error) => {
+    public createApp = async (orgName: string, name: string): Promise<App> => {
+        const resp = await this.axios.post<App>(this.getEndpoint(`/v1/org/${orgName}/apps`), { name: name }).catch((err: Error) => {
             throw err;
         });
 
@@ -61,24 +64,26 @@ export class High5App extends base {
     };
 
     /**
-     * deleteAppById delete an app by its ID
-     * @param appId the app's id
+     * deleteAppByName delete an app by its name
+     * @param orgName the organizations's name
+     * @param appName the app's name
      */
-    public deleteAppById = async (appId: string): Promise<void> => {
-        await this.axios.delete<void>(this.getEndpoint(`/v1/app/${appId}`)).catch((err: Error) => {
+    public deleteAppByName = async (orgName: string, appName: string): Promise<void> => {
+        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/apps/${appName}`)).catch((err: Error) => {
             throw err;
         });
     };
 
     /**
-     * patchhAppPermission return the patched app
-     * @param appId the app's id
+     * patchAppPermission return the patched app
+     * @param orgName the organizations's name
+     * @param appName the app's name
      * @param userId the target user
-     * @param permission the target permission - user AppPermission.NONE to remove any persmission)
+     * @param permission the target permission - user AppPermission.NONE to remove any permission)
      */
-    public patchAppPermission = async (appId: string, userId: string, permission: AppPermission): Promise<App> => {
+    public patchAppPermission = async (orgName: string, appName: string, userId: string, permission: AppPermission): Promise<App> => {
         const resp = await this.axios
-            .patch<App>(this.getEndpoint(`/v1/app/${appId}/permission`), { userId: userId, permission: permission })
+            .patch<App>(this.getEndpoint(`/v1/org/${orgName}/apps/${appName}/permissions`), { userId: userId, permission: permission })
             .catch((err: Error) => {
                 throw err;
             });

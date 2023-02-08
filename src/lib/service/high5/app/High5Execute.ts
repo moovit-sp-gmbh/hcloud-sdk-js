@@ -4,13 +4,20 @@ import { EventExecutionRequest, StreamExecutionPackage, StreamExecutionRequest, 
 export class High5Execute extends base {
     /**
      * executeStreamById executes a single stream by its ID and an execution request
+     * @param orgName the organizations's name
+     * @param appName the apps's name
      * @param streamId to identify the stream
      * @param executionRequest the stream execution request, containing the data, target, wait boolean and timeout
      * @returns the stream result
      */
-    public executeStreamById = async (streamId: string, executionRequest: StreamExecutionRequest): Promise<StreamResult> => {
+    public executeStreamById = async (
+        orgName: string,
+        appName: string,
+        streamId: string,
+        executionRequest: StreamExecutionRequest
+    ): Promise<StreamResult> => {
         const resp = await this.axios
-            .post<StreamResult>(this.getEndpoint(`/v1/execute/stream/id/${streamId}`), executionRequest)
+            .post<StreamResult>(this.getEndpoint(`/v1/org/${orgName}/apps/${appName}/execute/stream/id/${streamId}`), executionRequest)
             .catch((err: Error) => {
                 throw err;
             });
@@ -20,13 +27,20 @@ export class High5Execute extends base {
 
     /**
      * executeEventByName executes all streams within an event by its app ID as well as the event execution request. The request contains the event name.
-     * @param appId the app that the event is subordinate to
+     * @param orgName the organizations's name
+     * @param appName the apps's name
+     * @param eventName the event's name
      * @param eventExecutionRequest the event execution request, containing the event name, data, target, wait bool and timeout
      * @returns an array of stream results
      */
-    public executeEventByName = async (appId: string, executionRequest: EventExecutionRequest): Promise<StreamResult[]> => {
+    public executeEventByName = async (
+        orgName: string,
+        appName: string,
+        eventName: string,
+        executionRequest: EventExecutionRequest
+    ): Promise<StreamResult[]> => {
         const resp = await this.axios
-            .post<StreamResult[]>(this.getEndpoint(`/v1/execute/event/name/${appId}`), executionRequest)
+            .post<StreamResult[]>(this.getEndpoint(`/v1/org/${orgName}/apps/${appName}/execute/event/name/${eventName}`), executionRequest)
             .catch((err: Error) => {
                 throw err;
             });
@@ -49,13 +63,20 @@ export class High5Execute extends base {
 
     /**
      * Requests the StreamExecutionPackage from high5
+     * @param orgName the organizations's name
+     * @param appName the apps's name
      * @param streamId the id of the stream
      * @param secret the secret of the stream execution object
      * @returns StreamExecutionPackage
      */
-    public getStreamExecutionPackage = async (streamId: string, secret: string): Promise<StreamExecutionPackage> => {
+    public getStreamExecutionPackage = async (
+        orgName: string,
+        appName: string,
+        streamId: string,
+        secret: string
+    ): Promise<StreamExecutionPackage> => {
         const resp = await this.axios
-            .get<StreamExecutionPackage>(this.getEndpoint(`/v1/execute/stream/${streamId}/secret/${secret}`))
+            .get<StreamExecutionPackage>(this.getEndpoint(`/v1/org/${orgName}/apps/${appName}/execute/stream/id/${streamId}/package/${secret}`))
             .catch((err: Error) => {
                 throw err;
             });
@@ -64,14 +85,22 @@ export class High5Execute extends base {
 
     /**
      * Publishes the stream results to high5
+     * @param orgName the organizations's name
+     * @param appName the apps's name
      * @param streamId the id of the stream
      * @param secret the secret of the stream execution object
      * @param streamResult the result of the stream
      * @returns StreamLog
      */
-    public writeStreamLog = async (streamId: string, secret: string, streamResult: StreamResult): Promise<StreamLog> => {
+    public writeStreamLog = async (
+        orgName: string,
+        appName: string,
+        streamId: string,
+        secret: string,
+        streamResult: StreamResult
+    ): Promise<StreamLog> => {
         const resp = await this.axios
-            .post<StreamLog>(this.getEndpoint(`/v1/execute/stream/${streamId}/secret/${secret}/log`), streamResult)
+            .post<StreamLog>(this.getEndpoint(`/v1/org/${orgName}/apps/${appName}/execute/stream/id/${streamId}/package/${secret}`), streamResult)
             .catch((err: Error) => {
                 throw err;
             });

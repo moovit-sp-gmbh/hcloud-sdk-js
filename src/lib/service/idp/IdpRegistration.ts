@@ -16,7 +16,7 @@ export class IdpRegistration extends base {
      */
     register = async (name: string, email: string, password: string, captcha: string, company?: string): Promise<User> => {
         const resp = await this.axios
-            .post<User>(this.getEndpoint("/v1/registration"), { name: name, email: email, password: password, captcha: captcha, company })
+            .post<User>(this.getEndpoint("/v1/register"), { name: name, email: email, password: password, captcha: captcha, company })
             .catch((err: Error) => {
                 throw err;
             });
@@ -32,7 +32,7 @@ export class IdpRegistration extends base {
      */
     validateRegistration = async (email: string, verificationCode: string): Promise<SuccessfulAuth> => {
         const resp = await this.axios
-            .patch<User>(this.getEndpoint("/v1/registration/verify"), { email: email, verificationCode: verificationCode })
+            .patch<User>(this.getEndpoint("/v1/register/verify"), { email: email, verificationCode: verificationCode })
             .catch((err: Error) => {
                 throw err;
             });

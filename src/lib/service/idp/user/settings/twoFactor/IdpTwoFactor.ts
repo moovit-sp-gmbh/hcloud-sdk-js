@@ -1,6 +1,6 @@
 import { AxiosInstance } from "axios";
-import base, { Options } from "../../../../base";
-import { IdpTotp } from "./twoFactor/IdpTotp";
+import base, { Options } from "../../../../../base";
+import { IdpTotp } from "./IdpTotp";
 
 export class IdpTwoFactor extends base {
     /**

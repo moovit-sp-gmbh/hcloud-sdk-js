@@ -1,7 +1,7 @@
 import { AxiosInstance } from "axios";
 import base, { Options } from "../../../base";
 import { IdpPat } from "./settings/IdpPats";
-import { IdpTwoFactor } from "./settings/IdpTwoFactor";
+import { IdpTwoFactor } from "./settings/twoFactor/IdpTwoFactor";
 
 export class IdpSettings extends base {
     /**

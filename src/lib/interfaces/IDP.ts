@@ -77,6 +77,17 @@ export interface Organization {
     modifyDate: number;
 }
 
+export interface OrganizationWithPermission {
+    _id: string;
+    name: string;
+    isUserOrganization: boolean;
+    company: string;
+    creator: User;
+    createDate: number;
+    modifyDate: number;
+    permission: OrganizationPermission;
+}
+
 export interface OrganizationMember {
     _id: string;
     organizationId: string;
@@ -99,7 +110,6 @@ export enum OrganizationPermission {
 }
 
 export interface PatchOrgMember {
-    patchUserId: string;
     permission: OrganizationPermission;
 }
 

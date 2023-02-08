@@ -12,7 +12,7 @@ export class IdpTotp extends base {
      * @returns a qrcode and the according orpAuthUrl
      */
     public createTotp = async (): Promise<DeactivatedTotp> => {
-        const resp = await this.axios.post<DeactivatedTotp>(this.getEndpoint(`/v1/user/2fa/totp`)).catch((err: Error) => {
+        const resp = await this.axios.post<DeactivatedTotp>(this.getEndpoint(`/v1/user/settings/security/2fa/totp`)).catch((err: Error) => {
             throw err;
         });
 
@@ -24,7 +24,7 @@ export class IdpTotp extends base {
      * @returns a list of recover codes in case of TOTP authenticator loss
      */
     public activateTotp = async (token: string): Promise<ActivatedTotp> => {
-        const resp = await this.axios.patch<ActivatedTotp>(this.getEndpoint(`/v1/user/2fa/totp/activate`), { token }).catch((err: Error) => {
+        const resp = await this.axios.patch<ActivatedTotp>(this.getEndpoint(`/v1/user/settings/security/2fa/totp`), { token }).catch((err: Error) => {
             throw err;
         });
 
@@ -36,7 +36,7 @@ export class IdpTotp extends base {
      * @returns an empty body
      */
     public deactivateTotp = async (token: string): Promise<void> => {
-        await this.axios.delete<void>(this.getEndpoint(`/v1/user/2fa/totp`), { data: { token } }).catch((err: Error) => {
+        await this.axios.delete<void>(this.getEndpoint(`/v1/user/settings/security/2fa/totp`), { data: { token } }).catch((err: Error) => {
             throw err;
         });
     };
@@ -46,7 +46,7 @@ export class IdpTotp extends base {
      * @returns an empty body
      */
     public deactivateTotpByRecoverCode = async (email: string, password: string, code: string): Promise<void> => {
-        await this.axios.delete<void>(this.getEndpoint(`/v1/user/2fa/totp/recover`), { data: { email, password, code } }).catch((err: Error) => {
+        await this.axios.delete<void>(this.getEndpoint(`/v1/user/recover/totp`), { data: { email, password, code } }).catch((err: Error) => {
             throw err;
         });
     };

@@ -1,7 +1,7 @@
 import { AxiosInstance } from "axios";
-import base, { Options } from "../../../../../base";
-import OAuthApp, { Scopes } from "../../../../../interfaces/IDP";
-import OAuthAppCreation from "../../../../../interfaces/IDP";
+import base, { Options } from "../../../../base";
+import OAuthApp, { Scopes } from "../../../../interfaces/IDP";
+import OAuthAppCreation from "../../../../interfaces/IDP";
 
 export class IdpOAuthApp extends base {
     constructor(options: Options, axios: AxiosInstance) {

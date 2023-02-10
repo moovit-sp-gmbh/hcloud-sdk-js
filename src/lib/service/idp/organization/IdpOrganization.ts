@@ -2,8 +2,20 @@ import { AxiosInstance } from "axios";
 import base, { Options } from "../../../base";
 import { Organization, OrganizationSearchFilter, OrganizationWithPermission } from "../../../interfaces/IDP";
 import { IdpOrganizationMember } from "./IdpOrganizationMember";
+import { IdpOAuth } from "./oauth/IdpOAuth";
+import { IdpOAuthApp } from "./oauth/IdpOAuthApp";
 
 export class IdpOrganization extends base {
+    /**
+     * oAuthApp handles everything around open authorization applications
+     */
+    public oAuthApp: IdpOAuthApp;
+
+    /**
+     * oAuth handles everything around open authorization and openId requests
+     */
+    public oAuth: IdpOAuth;
+
     /**
      * member handles everything around organization members
      */
@@ -13,6 +25,8 @@ export class IdpOrganization extends base {
         super(options, axios);
 
         this.member = new IdpOrganizationMember(this.options, this.axios);
+        this.oAuth = new IdpOAuth(this.options, this.axios);
+        this.oAuthApp = new IdpOAuthApp(this.options, this.axios);
     }
 
     /**

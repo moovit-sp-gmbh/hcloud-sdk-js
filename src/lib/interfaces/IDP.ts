@@ -103,7 +103,7 @@ export interface AddOrganizationMember {
 }
 
 export enum OrganizationPermission {
-    READ = "READ", // Part of org, but cannot change anything
+    MEMBER = "MEMBER", // Part of org, but cannot change anything
     MANAGE = "MANAGE", // Can update members
     ADMIN = "ADMIN", // Can update org and members
     OWNER = "OWNER", // Can update org, members, and delete org

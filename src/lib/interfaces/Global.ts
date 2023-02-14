@@ -26,3 +26,27 @@ export enum Views {
     mailer = "/mailer",
     fuse = "/fuse",
 }
+
+export enum AppPermission {
+    NONE = "NONE",
+    READ = "READ",
+    EXECUTE = "EXECUTE",
+    WRITE = "WRITE",
+    MANAGE = "MANAGE",
+    OWNER = "OWNER",
+}
+export interface AppUserPermission {
+    userId: string;
+    permission: AppPermission;
+}
+
+export interface App {
+    _id: string;
+    name: string;
+    organizationId: string;
+    creatorId: string;
+    permissions: AppUserPermission[];
+    createDate: number;
+    modifyDate: number;
+}
+

@@ -1,6 +1,7 @@
 import { AxiosInstance } from "axios";
 import base, { Options } from "../../base";
-import { App, AppPermission } from "../../interfaces/High5";
+import { High5App as App } from "../../interfaces/High5";
+import { AppPermission } from "../../interfaces/Global";
 import { High5Event } from "./app/High5Event";
 import { High5Execute } from "./app/High5Execute";
 import { High5Webhook } from "./app/High5Webhook";

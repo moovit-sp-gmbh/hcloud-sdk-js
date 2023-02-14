@@ -1,6 +1,6 @@
 import { AxiosInstance } from "axios";
 import base, { Options } from "../../base";
-import { OAuthTokenRequest, PublicConfig } from "../../interfaces/IDP";
+import { PublicConfig } from "../../interfaces/IDP";
 
 export class IdpGlobalPreference extends base {
     constructor(options: Options, axios: AxiosInstance) {

@@ -166,13 +166,33 @@ export interface StreamExecutionPackage {
     payload: StreamExecutionPayload;
 }
 
+export enum WebhookType {
+    GENERIC = "GENERIC",
+    FRAME_IO = "FRAME_IO",
+}
+
+export interface Generic {
+    eventName: string;
+    securityHeaders: SecurityHeader[];
+}
+
+export interface SecurityHeader {
+    key: string;
+    value: string;
+}
+
+export interface FrameIo {
+    secret: string;
+    eventNames: string[];
+}
+
 export interface Webhook {
     _id: string;
     name: string;
     token: string;
     url: string;
-    securityHeaders: KeyValuePair<string>[];
-    eventId: string;
+    type: WebhookType;
+    sub: Generic | FrameIo;
     appId: string;
     target: string;
     organizationId: string;
@@ -184,10 +204,9 @@ export interface Webhook {
 export interface WebhookCreation {
     name: string;
     token: string;
-    eventId: string;
-    appId: string;
     target: string;
-    securityHeaders?: KeyValuePair<string>[];
+    type: WebhookType;
+    sub: Generic | FrameIo;
 }
 
 export interface WebhookLog {

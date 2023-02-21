@@ -338,7 +338,7 @@ describe("High5", function () {
             return hcloudClient.High5.app.event.stream.node
                 .createNode(NodeCategory.CUSTOM, specification, typescript, stream._id)
                 .then((resp: Node) => {
-                    expect(resp.organizationId).to.equal(user.activeOrganizationId);
+                    expect(resp.organizationId).to.equal(user.activeOrganization);
                     expect(resp.appId).to.equal(app._id);
                     expect(resp.eventId).to.equal(event._id);
                     expect(resp.streamId).to.equal(stream._id);

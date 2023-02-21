@@ -80,7 +80,7 @@ describe("IDP", function () {
                         expect(resp._id).to.equal(user._id);
                         expect(resp.name).to.equal(user.name);
                         expect(resp.email).to.equal(user.email);
-                        expect(resp.activeOrganizationId).to.equal(user.activeOrganizationId);
+                        expect(resp.activeOrganization).to.equal(user.activeOrganization);
                         done();
                     })
                     .catch((err: AxiosError) => {

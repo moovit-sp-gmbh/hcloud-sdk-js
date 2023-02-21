@@ -3,7 +3,7 @@ export interface User {
     name: string;
     email: string;
     company?: string;
-    activeOrganizationId: string;
+    activeOrganization: string;
     twoFactor?: {
         totp: boolean;
     };
@@ -64,7 +64,7 @@ export interface PatchUser {
     name?: string;
     email?: string;
     company?: string;
-    activeOrganizationId?: string;
+    activeOrganization?: string;
 }
 
 export interface Organization {

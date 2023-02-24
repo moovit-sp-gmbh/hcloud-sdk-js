@@ -1,4 +1,5 @@
 import { Msg } from "nats";
+import { Cronjob } from "./Fuse";
 import { Products } from "./Global";
 
 enum NatsSubject {
@@ -17,6 +18,9 @@ enum NatsSubject {
     HIGH5_STREAMS = "hcloud.high5.organization.${organizationId}.app.${appId}.event.${eventId}.streams",
     HIGH5_SETTINGS_GENERAL = "hcloud.high5.organization.${organizationId}.app.${appId}.settings.general",
     HIGH5_SETTINGS_WEBHOOKS = "hcloud.high5.organization.${organizationId}.app.${appId}.settings.webhooks",
+
+    FUSE_JOBS = "hcloud.fuse.jobs",
+    FUSE_JOBS_TRIGGER = "hcloud.fuse.jobs.trigger",
 
     DEBUG_NAMESPACE = "hcloud.debug.namespace.${product}",
 }
@@ -53,6 +57,12 @@ class NatsSubjects {
             static TEAMS = (organizationId: string) => {
                 return NatsSubjects.replace(NatsSubject.IDP_ORGANIZATION_TEAMS, { organizationId } as NatsSubjectReplacements);
             };
+        };
+    };
+
+    static Fuse = class {
+        static JOBS = () => {
+            return NatsSubject.FUSE_JOBS.toString();
         };
     };
 
@@ -146,6 +156,9 @@ enum NatsObjectType {
 
     AUDIT_LOG = "AUDIT_LOG",
     MAIL = "MAIL",
+
+    CRONJOB = "CRONJOB",
+    CRONJOB_ID = "CRONJOB_ID",
 }
 
 interface NatsMessage {

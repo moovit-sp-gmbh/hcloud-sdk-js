@@ -50,3 +50,15 @@ export interface App {
     modifyDate: number;
 }
 
+export enum HttpMethodEnum {
+    GET = "GET",
+    POST = "POST",
+    PUT = "PUT",
+    PATCH = "PATCH",
+    DELETE = "DELETE",
+}
+
+export interface Header {
+    key: string;
+    value: string;
+}

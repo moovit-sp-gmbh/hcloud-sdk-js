@@ -9,9 +9,6 @@ doc:
 test:
 	pnpm test
 
-test+integration:
-	pnpm test:integration
-
 format:
 	pnpm format
 

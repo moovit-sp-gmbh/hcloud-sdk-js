@@ -47,7 +47,7 @@ export class IdpOAuth extends base {
      * A valid code can be used to request a new API token.
      * @param tokenRequest contains the code, client_id, client_secret and redirect_uri
      */
-    public exchangeCodeForToken = async (tokenRequest: OAuthTokenRequest): Promise<any> => {
+    public exchangeCodeForToken = async (tokenRequest: OAuthTokenRequest): Promise<unknown> => {
         const response = await this.axios.post(this.getEndpoint(`/v1/login/oauth/access_token`), tokenRequest).catch((err: Error) => {
             throw err;
         });

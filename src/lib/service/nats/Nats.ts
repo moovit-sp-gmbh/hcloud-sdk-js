@@ -1,6 +1,4 @@
-import { NatsConnection, SubscriptionOptions, NatsError, Msg, Subscription, PublishOptions, RequestOptions } from "nats";
-
-import { connect as connectNode } from "nats";
+import { NatsConnection, SubscriptionOptions, NatsError, Msg, Subscription, PublishOptions, RequestOptions, connect as connectNode } from "nats";
 import { connect as connectWs } from "nats.ws";
 import { NatsMessage, NatsCallback, NatsMessageType, NatsObjectType, RawMsg } from "../../interfaces/Nats";
 
@@ -43,11 +41,13 @@ type ConnectParamsPassword = {
 
 const isBrowser = typeof window !== "undefined";
 class Nats {
+    // eslint-disable-next-line no-use-before-define
     private static instance: Nats;
     private natsConnection: NatsConnection | undefined;
     private subMap = [] as SubMapEntry[];
     private connection = isBrowser ? connectWs : connectNode;
 
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     private constructor() {}
 
     public static getInstance() {
@@ -57,6 +57,7 @@ class Nats {
         return this.instance;
     }
 
+    // eslint-disable-next-line complexity
     public async connect(params: ConnectParamsJwt | ConnectParamsPassword): Promise<NatsConnection> {
         if (params.forceWebsocket) {
             this.connection = connectWs;
@@ -98,14 +99,15 @@ class Nats {
 
         // add delay just in case the connection has not been established yet
         return new Promise<Subscription>((resolve, reject) => {
+            const newOptions = {
+                ...options,
+                callback: (err: NatsError | null, msg: Msg) => {
+                    const data = new TextDecoder("utf-8").decode(msg.data);
+                    callback(JSON.parse(data) as NatsMessage, msg);
+                },
+            };
+
             setTimeout(() => {
-                options = {
-                    ...options,
-                    callback: (err: NatsError | null, msg: Msg) => {
-                        const data = new TextDecoder("utf-8").decode(msg.data);
-                        callback(JSON.parse(data) as NatsMessage, msg);
-                    },
-                };
                 if (!this.getConnection() || !this.getConnection()?.isClosed) {
                     reject(new Error("connection not established, can not subscribe"));
                 }
@@ -115,6 +117,8 @@ class Nats {
                     this.subMap.push({ subject, sub: sub } as SubMapEntry);
                     return resolve(sub);
                 }
+
+                return reject(new Error("could not subscribe"));
             }, delay);
         });
     }
@@ -131,12 +135,12 @@ class Nats {
         }
     }
 
-    public publish(subject: string, type: NatsMessageType, objectType: NatsObjectType, object: any, options?: PublishOptions): void {
+    public publish(subject: string, type: NatsMessageType, objectType: NatsObjectType, object: unknown, options?: PublishOptions): void {
         const data = new TextEncoder().encode(JSON.stringify({ type: type, objectType: objectType, object: object } as NatsMessage));
         this.getConnection()?.publish(subject, data, options);
     }
 
-    public request(subject: string, type: NatsMessageType, objectType: NatsObjectType, object: any, options?: RequestOptions): void {
+    public request(subject: string, type: NatsMessageType, objectType: NatsObjectType, object: unknown, options?: RequestOptions): void {
         const data = new TextEncoder().encode(JSON.stringify({ type: type, objectType: objectType, object: object } as NatsMessage));
         this.getConnection()?.request(subject, data, options);
     }
@@ -145,16 +149,16 @@ class Nats {
         subject: string,
         type: NatsMessageType,
         objectType: NatsObjectType,
-        object: any,
+        object: unknown,
         options?: RequestOptions
     ): Promise<Msg | undefined> {
         const data = new TextEncoder().encode(JSON.stringify({ type: type, objectType: objectType, object: object } as NatsMessage));
         return this.getConnection()?.request(subject, data, options) || undefined;
     }
 
-    public respond(msg: Msg | RawMsg, data: any): void {
-        data = new TextEncoder().encode(JSON.stringify(data));
-        msg.respond(data);
+    public respond(msg: Msg | RawMsg, data: unknown): void {
+        const encodedData = new TextEncoder().encode(JSON.stringify(data));
+        msg.respond(encodedData);
     }
 }
 

@@ -47,5 +47,5 @@ export interface AuditLog {
     organization?: string;
     event: Event;
     type?: Type;
-    message?: any;
+    message?: unknown;
 }

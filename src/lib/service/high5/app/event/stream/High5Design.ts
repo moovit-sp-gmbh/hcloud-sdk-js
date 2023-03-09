@@ -70,8 +70,8 @@ export class High5Design extends base {
         eventName: string,
         streamId: string,
         name: string,
-        design: any,
-        build?: any
+        design: unknown,
+        build?: unknown
     ): Promise<Design> => {
         const resp = await this.axios
             .post<Design>(this.getEndpoint(`/v1/org/${orgName}/apps/${appName}/events/${eventName}/streams/${streamId}/designs`), {

@@ -1,6 +1,6 @@
 import { App } from "./Global";
 
-// tslint:disable-next-line no-empty-interface
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface High5App extends App {}
 
 export interface Event {
@@ -37,8 +37,8 @@ export interface StreamPatchOrder {
 export interface Design {
     _id: string;
     name: string;
-    design: any;
-    build?: any;
+    design: unknown;
+    build?: unknown;
     streamId: string;
     eventId: string;
     appId: string;
@@ -75,13 +75,13 @@ export interface Node {
 
 export interface StreamNodeResolvedInputs {
     name: string;
-    originalValue: any;
-    value: any;
+    originalValue: unknown;
+    value: unknown;
 }
 
 export interface StreamNodeOutput {
     name: string | undefined;
-    value: any;
+    value: unknown;
 }
 
 export interface StreamNodeResultError {
@@ -107,7 +107,7 @@ export interface StreamResult {
     stream: Stream;
     uuid: string;
     host: string;
-    payload: any;
+    payload: unknown;
     failed: boolean;
     dry: boolean; // if node has been processed without execute() method
     nodeResults: StreamSingleNodeResult[];
@@ -157,7 +157,7 @@ export interface EventExecutionRequest {
 }
 
 export interface DesignBuild {
-    nodes: any[];
+    nodes: unknown[];
     startNode: string;
 }
 
@@ -171,14 +171,14 @@ export enum WebhookType {
     FRAME_IO = "FRAME_IO",
 }
 
-export interface Generic {
-    eventName: string;
-    securityHeaders: SecurityHeader[];
-}
-
 export interface SecurityHeader {
     key: string;
     value: string;
+}
+
+export interface Generic {
+    eventName: string;
+    securityHeaders: SecurityHeader[];
 }
 
 export interface FrameIo {
@@ -217,8 +217,8 @@ export interface WebhookLog {
     eventId: string;
     timestamp: number;
     sourceIp: string;
-    completeHeader: any;
-    requestBody: any;
+    completeHeader: unknown;
+    requestBody: unknown;
     responseStatusCode: number;
     responseBody: string;
 }

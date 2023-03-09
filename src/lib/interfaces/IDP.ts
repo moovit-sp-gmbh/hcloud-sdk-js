@@ -1,17 +1,3 @@
-export interface User {
-    _id: string;
-    name: string;
-    email: string;
-    company?: string;
-    activeOrganization: string;
-    twoFactor?: {
-        totp: boolean;
-    };
-    createDate: number;
-    modifyDate: number;
-    activeScopes: Scopes[];
-}
-
 export enum GrantType {
     AUTHORIZATION_CODE = "authorization_code",
     REFRESH_TOKEN = "refresh_token",
@@ -36,6 +22,20 @@ export enum Scopes {
     FUSE_APP_EXECUTE = "fuse:app:execute",
     FUSE_APP_WRITE = "fuse:app:write",
     FUSE_APP_DELETE = "fuse:app:delete",
+}
+
+export interface User {
+    _id: string;
+    name: string;
+    email: string;
+    company?: string;
+    activeOrganization: string;
+    twoFactor?: {
+        totp: boolean;
+    };
+    createDate: number;
+    modifyDate: number;
+    activeScopes: Scopes[];
 }
 
 export interface Pat {
@@ -77,15 +77,11 @@ export interface Organization {
     modifyDate: number;
 }
 
-export interface OrganizationWithPermission {
-    _id: string;
-    name: string;
-    isUserOrganization: boolean;
-    company: string;
-    creatorId: string;
-    createDate: number;
-    modifyDate: number;
-    permission: OrganizationPermission;
+export enum OrganizationPermission {
+    MEMBER = "MEMBER", // Part of org, but cannot change anything
+    MANAGE = "MANAGE", // Can update members
+    ADMIN = "ADMIN", // Can update org and members
+    OWNER = "OWNER", // Can update org, members, and delete org
 }
 
 export interface OrganizationMember {
@@ -102,11 +98,15 @@ export interface AddOrganizationMember {
     permission: OrganizationPermission;
 }
 
-export enum OrganizationPermission {
-    MEMBER = "MEMBER", // Part of org, but cannot change anything
-    MANAGE = "MANAGE", // Can update members
-    ADMIN = "ADMIN", // Can update org and members
-    OWNER = "OWNER", // Can update org, members, and delete org
+export interface OrganizationWithPermission {
+    _id: string;
+    name: string;
+    isUserOrganization: boolean;
+    company: string;
+    creatorId: string;
+    createDate: number;
+    modifyDate: number;
+    permission: OrganizationPermission;
 }
 
 export interface PatchOrgMember {
@@ -118,20 +118,6 @@ export interface SuccessfulAuth {
     token: string;
 }
 
-export interface OrganizationSearchFilter {
-    name?: string;
-    creatorId?: string;
-    company?: string;
-    isUserOrganization?: boolean;
-    createDateFilter?: SearchDateFilter;
-    modifyDateFilter?: SearchDateFilter;
-}
-
-interface SearchDateFilter {
-    date: number;
-    searchDateOperator: SearchDateOperator;
-}
-
 enum SearchDateOperator {
     "$eq", // equal
     "$ne", // noEqual
@@ -139,6 +125,20 @@ enum SearchDateOperator {
     "$gt", // greaterThan
     "$lte", // lowerThanOrEqual
     "$lt", // lowerThan
+}
+
+interface SearchDateFilter {
+    date: number;
+    searchDateOperator: SearchDateOperator;
+}
+
+export interface OrganizationSearchFilter {
+    name?: string;
+    creatorId?: string;
+    company?: string;
+    isUserOrganization?: boolean;
+    createDateFilter?: SearchDateFilter;
+    modifyDateFilter?: SearchDateFilter;
 }
 
 export interface DeactivatedTotp {
@@ -162,7 +162,7 @@ export interface OAuthTokenRequest {
     redirectUri: string;
 }
 
-export default interface OAuthAppCreation {
+export interface OAuthAppCreation {
     name: string;
     secretName: string;
     avatar?: string;
@@ -171,7 +171,17 @@ export default interface OAuthAppCreation {
     callback: string;
 }
 
-export default interface OAuthApp {
+export interface OAuthAppClientSecret {
+    name: string;
+    secret: string;
+    uuid: string;
+    creatorId: string;
+    used: boolean;
+    createDate: number;
+    modifyDate: number;
+}
+
+export interface OAuthApp {
     _id: string;
     name: string;
     organizationId: string;
@@ -184,16 +194,6 @@ export default interface OAuthApp {
     clientSecrets: OAuthAppClientSecret[];
     scopes: Scopes[];
     patId?: string;
-    createDate: number;
-    modifyDate: number;
-}
-
-export interface OAuthAppClientSecret {
-    name: string;
-    secret: string;
-    uuid: string;
-    creatorId: string;
-    used: boolean;
     createDate: number;
     modifyDate: number;
 }

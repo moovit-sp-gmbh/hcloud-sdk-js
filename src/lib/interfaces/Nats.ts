@@ -25,6 +25,59 @@ enum NatsSubject {
     DEBUG_NAMESPACE = "hcloud.debug.namespace.${product}",
 }
 
+type NatsSubjectReplacements = {
+    userId?: string;
+    organizationId?: string;
+    appId?: string;
+    eventId?: string;
+    streamId?: string;
+    designId?: string;
+    nodeId?: string;
+    product?: Products;
+    base64email?: string;
+};
+
+enum NatsMessageType {
+    ADD = "ADD",
+    UPDATE = "UPDATE",
+    DELETE = "DELETE",
+    EXECUTE = "EXECUTE",
+}
+
+enum NatsObjectType {
+    DEBUG = "DEBUG",
+
+    USER = "USER",
+    OAUTH = "OAUTH",
+    ORGANIZATION = "ORGANIZATION",
+    ORGANIZATION_MEMBER = "ORGANIZATION_MEMBER",
+    PAT = "PAT",
+    TEAM = "TEAM",
+
+    APP = "APP",
+    DESIGN = "DESIGN",
+    EVENT = "EVENT",
+    EXECUTION = "EXECUTION",
+    NODE = "NODE",
+    STREAM = "STREAM",
+    WEBHOOK = "WEBHOOK",
+    WEBHOOK_LOG = "WEBHOOK_LOG",
+
+    AUDIT_LOG = "AUDIT_LOG",
+    MAIL = "MAIL",
+
+    CRONJOB = "CRONJOB",
+    CRONJOB_ID = "CRONJOB_ID",
+}
+
+interface NatsMessage {
+    type: NatsMessageType;
+    object: unknown;
+    objectType: NatsObjectType;
+}
+
+type NatsCallback = (msg: NatsMessage, rawMsg: Msg) => void;
+
 /**
  * NatsSubjects creates subject strings to be used with nats.subscribe and nats.publish
  */
@@ -101,6 +154,7 @@ class NatsSubjects {
         return NatsSubjects.replace(NatsSubject.DEBUG_NAMESPACE, { product } as NatsSubjectReplacements);
     };
 
+    // eslint-disable-next-line complexity
     private static replace = (subject: string, replacements: NatsSubjectReplacements): string => {
         subject = subject.replace("${userId}", replacements.userId || "null");
         subject = subject.replace("${organizationId}", replacements.organizationId || "null");
@@ -115,58 +169,5 @@ class NatsSubjects {
         return subject;
     };
 }
-
-type NatsSubjectReplacements = {
-    userId?: string;
-    organizationId?: string;
-    appId?: string;
-    eventId?: string;
-    streamId?: string;
-    designId?: string;
-    nodeId?: string;
-    product?: Products;
-    base64email?: string;
-};
-
-enum NatsMessageType {
-    ADD = "ADD",
-    UPDATE = "UPDATE",
-    DELETE = "DELETE",
-    EXECUTE = "EXECUTE",
-}
-
-enum NatsObjectType {
-    DEBUG = "DEBUG",
-
-    USER = "USER",
-    OAUTH = "OAUTH",
-    ORGANIZATION = "ORGANIZATION",
-    ORGANIZATION_MEMBER = "ORGANIZATION_MEMBER",
-    PAT = "PAT",
-    TEAM = "TEAM",
-
-    APP = "APP",
-    DESIGN = "DESIGN",
-    EVENT = "EVENT",
-    EXECUTION = "EXECUTION",
-    NODE = "NODE",
-    STREAM = "STREAM",
-    WEBHOOK = "WEBHOOK",
-    WEBHOOK_LOG = "WEBHOOK_LOG",
-
-    AUDIT_LOG = "AUDIT_LOG",
-    MAIL = "MAIL",
-
-    CRONJOB = "CRONJOB",
-    CRONJOB_ID = "CRONJOB_ID",
-}
-
-interface NatsMessage {
-    type: NatsMessageType;
-    object: any;
-    objectType: NatsObjectType;
-}
-
-type NatsCallback = (msg: NatsMessage, rawMsg: Msg) => void;
 
 export { NatsSubjects, NatsMessageType, NatsObjectType, NatsMessage, NatsCallback, Msg as RawMsg };

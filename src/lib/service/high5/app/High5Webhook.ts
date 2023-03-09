@@ -134,7 +134,7 @@ export class High5Webhook extends base {
      * @param headers optional security headers.
      * @returns void the webhook is executed asynchronously, and we do not wait for a result or response
      */
-    public executeWebhookByUrl = async (webhookUrl: string, payload: any, headers?: KeyValuePair<string>): Promise<void> => {
+    public executeWebhookByUrl = async (webhookUrl: string, payload: unknown, headers?: KeyValuePair<string>): Promise<void> => {
         const h = {} as { [key: string]: string };
         if (headers) {
             Object.keys(headers).forEach((key: string) => {

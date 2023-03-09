@@ -1,7 +1,6 @@
 import { AxiosInstance } from "axios";
 import base, { Options } from "../../../../../base";
-import OAuthApp, { Scopes } from "../../../../../interfaces/IDP";
-import OAuthAppCreation from "../../../../../interfaces/IDP";
+import { OAuthApp, OAuthAppCreation, Scopes } from "../../../../../interfaces/IDP";
 
 export class IdpOAuthApp extends base {
     constructor(options: Options, axios: AxiosInstance) {
@@ -118,7 +117,9 @@ export class IdpOAuthApp extends base {
      */
     public patchOAuthAppSecretName = async (orgName: string, oauthAppId: string, secret: string, secretName: string): Promise<OAuthApp> => {
         const resp = await this.axios
-            .patch<OAuthApp>(this.getEndpoint(`/v1/org/${orgName}/settings/applications/oauth/${oauthAppId}/secret/${secret}`), { secretName })
+            .patch<OAuthApp>(this.getEndpoint(`/v1/org/${orgName}/settings/applications/oauth/${oauthAppId}/secret/${secret}`), {
+                secretName,
+            })
             .catch((err: Error) => {
                 throw err;
             });
@@ -136,22 +137,6 @@ export class IdpOAuthApp extends base {
     public deleteOAuthAppSecret = async (orgName: string, oauthAppId: string, secret: string): Promise<OAuthApp> => {
         const resp = await this.axios
             .delete<OAuthApp>(this.getEndpoint(`/v1/org/${orgName}/settings/applications/oauth/${oauthAppId}/secret/${secret}`))
-            .catch((err: Error) => {
-                throw err;
-            });
-
-        return resp.data;
-    };
-
-    /**
-     * deleteOAuthAppPat will delete the PAT (personal access token) of the OAuthApp
-     * @param orgName the organization name
-     * @param oauthAppId of the OAuthApp that the new secret will be added to
-     * @returns OAuthApp
-     */
-    public deleteOAuthAppPat = async (orgName: string, oauthAppId: string): Promise<OAuthApp> => {
-        const resp = await this.axios
-            .delete<OAuthApp>(this.getEndpoint(`/v1/org/${orgName}/settings/applications/oauth/${oauthAppId}/pat`))
             .catch((err: Error) => {
                 throw err;
             });

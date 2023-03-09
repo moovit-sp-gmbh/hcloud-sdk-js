@@ -1,9 +1,0 @@
-{
-    "extends": ["tslint:recommended", "tslint-config-prettier"],
-    "rules": {
-        "object-literal-shorthand": false,
-        "no-string-literal": false,
-        "max-classes-per-file": false,
-        "no-console": [true, "log"]
-    }
-}

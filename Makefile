@@ -1,6 +1,7 @@
 .PHONY: test build
 
 prepare:
+	git config core.hooksPath .hooks
 	pnpm i
 
 doc:

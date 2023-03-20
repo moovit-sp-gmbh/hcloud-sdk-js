@@ -72,7 +72,7 @@ export interface Organization {
     name: string;
     isUserOrganization: boolean;
     company: string;
-    creator: User;
+    creatorId: string;
     createDate: number;
     modifyDate: number;
 }
@@ -82,7 +82,7 @@ export interface OrganizationWithPermission {
     name: string;
     isUserOrganization: boolean;
     company: string;
-    creator: User;
+    creatorId: string;
     createDate: number;
     modifyDate: number;
     permission: OrganizationPermission;
@@ -91,7 +91,7 @@ export interface OrganizationWithPermission {
 export interface OrganizationMember {
     _id: string;
     organizationId: string;
-    user: User;
+    userId: string;
     permission: OrganizationPermission;
     createDate: number;
     modifyDate: number;

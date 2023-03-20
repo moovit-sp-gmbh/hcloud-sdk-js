@@ -12,5 +12,5 @@ export enum Entity {
     helper = "helper",
     interceptor = "interceptor",
     database = "database",
-    module = "module"
+    module = "module",
 }

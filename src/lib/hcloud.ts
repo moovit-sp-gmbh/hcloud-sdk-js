@@ -1,18 +1,19 @@
-import base, { Options } from "./base";
-import IDPService from "./service/idp";
-import AuditorService from "./service/auditor";
-import High5Service from "./service/high5";
-import MailerService from "./service/mailer";
-import NatsService from "./service/nats";
 import axios, { AxiosInstance } from "axios";
 import { version } from "../package.json";
-import Base from "./base";
+import { Options } from "./base";
+import AuditorService from "./service/auditor";
+import FuseService from "./service/fuse";
+import High5Service from "./service/high5";
+import IDPService from "./service/idp";
+import MailerService from "./service/mailer";
+import NatsService from "./service/nats";
 
 // tslint:disable-next-line
 export default class hcloud {
     public Auditor: AuditorService;
     public High5: High5Service;
     public IDP: IDPService;
+    public Fuse: FuseService;
     public Mailer: MailerService;
     public Nats: NatsService;
     private options: Options;
@@ -26,6 +27,7 @@ export default class hcloud {
         this.Auditor = new AuditorService(this.options, this.axios);
         this.High5 = new High5Service(this.options, this.axios);
         this.IDP = new IDPService(this.options, this.axios);
+        this.Fuse = new FuseService(this.options, this.axios);
         this.Mailer = new MailerService(this.options, this.axios);
         this.Nats = NatsService.getInstance();
     }

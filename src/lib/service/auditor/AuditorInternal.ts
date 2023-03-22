@@ -56,6 +56,21 @@ export class AuditorInternal extends base {
         }
     }
 
+    /**
+     * AddAuditLogs deletes all audit logs of an organization
+     *
+     * THIS ENDPOINT WORKS INTERNALLY ONLY
+     *
+     * CAN ONLY BE USED FROM BACKENDS WITHIN THE hcloud DEPLOYMENT AS THE ENDPOINT IS NOT PUBLICLY EXPOSED
+     * @param orgName the organizations's name
+     * @returns void
+     */
+    public deleteAllAuditLogsOfOrganization = async (orgName: string): Promise<void> => {
+        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/logs`)).catch((err: Error) => {
+            throw err;
+        });
+    };
+
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/auditor/internal${endpoint}`;
     }

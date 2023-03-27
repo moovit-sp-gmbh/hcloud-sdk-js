@@ -2,7 +2,6 @@ import base from "../../../../base";
 import { EventExecutionRequest, StreamExecutionPackage, StreamExecutionRequest, StreamLog, StreamResult } from "../../../../interfaces/High5";
 
 export class FuseCronjobLog extends base {
-
     /**
      * getCronjobLogs returns all logs for a cronjob
      * @param orgName the organizations's name
@@ -33,9 +32,11 @@ export class FuseCronjobLog extends base {
      * @returns CronjobLog
      */
     public getCronjobLogById = async (orgName: string, appName: string, cronjobId: string, cronjobLogId: string): Promise<FuseCronjobLog> => {
-        const resp = await this.axios.get<FuseCronjobLog>(this.getEndpoint(`/v1/org/${orgName}/apps/${appName}/jobs/${cronjobId}/logs/${cronjobLogId}`)).catch((err: Error) => {
-            throw err;
-        });
+        const resp = await this.axios
+            .get<FuseCronjobLog>(this.getEndpoint(`/v1/org/${orgName}/apps/${appName}/jobs/${cronjobId}/logs/${cronjobLogId}`))
+            .catch((err: Error) => {
+                throw err;
+            });
 
         return resp.data;
     };
@@ -48,9 +49,11 @@ export class FuseCronjobLog extends base {
      * @returns CronjobLog
      */
     public createCronjobLog = async (orgName: string, appName: string, cronjobId: string, log: string): Promise<FuseCronjobLog> => {
-        const resp = await this.axios.post<FuseCronjobLog>(this.getEndpoint(`/v1/org/${orgName}/apps/${appName}/jobs/${cronjobId}/logs}`), {log: log}).catch((err: Error) => {
-            throw err;
-        });
+        const resp = await this.axios
+            .post<FuseCronjobLog>(this.getEndpoint(`/v1/org/${orgName}/apps/${appName}/jobs/${cronjobId}/logs}`), { log: log })
+            .catch((err: Error) => {
+                throw err;
+            });
 
         return resp.data;
     };
@@ -62,9 +65,11 @@ export class FuseCronjobLog extends base {
      * @param cronjobId the event's name
      */
     public deleteCronjobLogById = async (orgName: string, appName: string, cronjobId: string, cronjobLogId: string): Promise<void> => {
-        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/apps/${appName}/jobs/${cronjobId}/logs/${cronjobLogId}`)).catch((err: Error) => {
-            throw err;
-        });
+        await this.axios
+            .delete<void>(this.getEndpoint(`/v1/org/${orgName}/apps/${appName}/jobs/${cronjobId}/logs/${cronjobLogId}`))
+            .catch((err: Error) => {
+                throw err;
+            });
     };
 
     protected getEndpoint(endpoint: string): string {

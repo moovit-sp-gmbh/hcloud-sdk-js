@@ -73,9 +73,11 @@ export class FuseCronjob extends base {
      * @returns Cronjob
      */
     public createCronjob = async (orgName: string, appName: string, createCronjob: CreateCronjob): Promise<Cronjob> => {
-        const resp = await this.axios.post<Cronjob>(this.getEndpoint(`/v1/org/${orgName}/apps/${appName}/jobs`), createCronjob).catch((err: Error) => {
-            throw err;
-        });
+        const resp = await this.axios
+            .post<Cronjob>(this.getEndpoint(`/v1/org/${orgName}/apps/${appName}/jobs`), createCronjob)
+            .catch((err: Error) => {
+                throw err;
+            });
 
         return resp.data;
     };

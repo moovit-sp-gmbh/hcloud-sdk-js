@@ -223,3 +223,14 @@ export interface PublicConfig {
     regions: Region[];
     umami: Umami;
 }
+
+export interface Domain {
+    _id: string;
+    name: string;
+    organization: ReducedOrganization;
+    verified: boolean;
+    uuid: string;
+    creator: ReducedUser;
+    createDate: number;
+    modifyDate: number;
+}

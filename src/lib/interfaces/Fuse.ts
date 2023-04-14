@@ -1,4 +1,5 @@
 import { App, AppPermission, Header, HttpMethodEnum } from "./Global";
+import { ReducedOrganization, ReducedUser } from "./IDP";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface FuseApp extends App {}
@@ -7,9 +8,9 @@ export interface Cronjob {
     _id: string;
     name: string;
     expression: string;
-    organizationId: string;
-    creatorId: string;
-    appId: string;
+    organization: ReducedOrganization;
+    creator: ReducedUser;
+    app: string;
     targetUrl: string;
     httpMethod: HttpMethodEnum;
     acceptInvalidSSL: boolean;

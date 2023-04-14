@@ -1,4 +1,5 @@
 import { App } from "./Global";
+import { ReducedOrganization, ReducedUser } from "./IDP";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface High5App extends App {}
@@ -6,9 +7,9 @@ export interface High5App extends App {}
 export interface Event {
     _id: string;
     name: string;
-    appId: string;
-    organizationId: string;
-    creatorId: string;
+    app: string;
+    organization: ReducedOrganization;
+    creator: ReducedUser;
     /**
      * UTC+0 unix timestamp
      */
@@ -18,11 +19,11 @@ export interface Event {
 export interface Stream {
     _id: string;
     name: string;
-    eventId: string;
-    appId: string;
+    event: string;
+    app: string;
     order: number;
-    organizationId: string;
-    creatorId: string;
+    organization: ReducedOrganization;
+    creator: ReducedUser;
     /**
      * UTC+0 unix timestamp
      */
@@ -40,10 +41,10 @@ export interface Design {
     design: unknown;
     build?: unknown;
     streamId: string;
-    eventId: string;
-    appId: string;
-    organizationId: string;
-    creatorId: string;
+    event: string;
+    app: string;
+    organization: ReducedOrganization;
+    creator: ReducedUser;
     /**
      * UTC+0 unix timestamp
      */
@@ -57,12 +58,12 @@ export interface Node {
     _id: string;
     secret: string;
     category: NodeCategory;
-    organizationId: string;
+    organization: ReducedOrganization;
     archived: boolean;
-    appId: string;
-    eventId: string;
+    app: string;
+    event: string;
     streamId: string;
-    userId: string;
+    creator: ReducedUser;
     specification: string;
     typescript: string;
     javascript: string;
@@ -193,10 +194,10 @@ export interface Webhook {
     url: string;
     type: WebhookType;
     sub: Generic | FrameIo;
-    appId: string;
+    app: string;
     target: string;
-    organizationId: string;
-    creatorId: string;
+    organization: ReducedOrganization;
+    creator: ReducedUser;
     createDate: number;
     modifyDate: number;
 }
@@ -212,8 +213,8 @@ export interface WebhookCreation {
 export interface WebhookLog {
     _id: string;
     webhookId: string;
-    appId: string;
-    organizationId: string;
+    app: string;
+    organization: ReducedOrganization;
     eventId: string;
     timestamp: number;
     sourceIp: string;

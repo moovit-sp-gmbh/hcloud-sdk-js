@@ -24,6 +24,16 @@ export enum Scopes {
     FUSE_APP_DELETE = "fuse:app:delete",
 }
 
+export interface ReducedUser {
+    _id: string;
+    name: string;
+}
+
+export interface ReducedOrganization {
+    _id: string;
+    name: string;
+}
+
 export interface User {
     _id: string;
     name: string;
@@ -43,7 +53,7 @@ export interface Pat {
     name: string;
     expiration?: number;
     scopes: Scopes[];
-    userId: string;
+    user: ReducedUser;
     token: string;
     jwt: string;
     modifyDate: number;
@@ -72,7 +82,7 @@ export interface Organization {
     name: string;
     isUserOrganization: boolean;
     company: string;
-    creatorId: string;
+    creator: ReducedUser;
     createDate: number;
     modifyDate: number;
 }
@@ -86,8 +96,8 @@ export enum OrganizationPermission {
 
 export interface OrganizationMember {
     _id: string;
-    organizationId: string;
-    userId: string;
+    organization: ReducedOrganization;
+    user: ReducedUser;
     permission: OrganizationPermission;
     createDate: number;
     modifyDate: number;
@@ -184,8 +194,8 @@ export interface OAuthAppClientSecret {
 export interface OAuthApp {
     _id: string;
     name: string;
-    organizationId: string;
-    creatorId: string;
+    organization: ReducedOrganization;
+    creator: ReducedUser;
     avatar?: string;
     description?: string;
     homepage?: string;

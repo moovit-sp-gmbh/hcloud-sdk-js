@@ -2,7 +2,6 @@ import { AxiosInstance } from "axios";
 import base, { Options } from "../../base";
 import { UpdateFuseApp } from "../../interfaces/Fuse";
 import { AppPermission } from "../../interfaces/Global";
-import { High5App as App } from "../../interfaces/High5";
 import { FuseCronjob } from "./app/FuseCronjob";
 
 export class FuseApp extends base {
@@ -43,6 +42,16 @@ export class FuseApp extends base {
         });
 
         return resp.data;
+    };
+
+    /**
+     * deleteAllAppsOfOrganization deletes all apps of an organization by its name
+     * @param orgName the organizations's name
+     */
+    public deleteAllAppsOfOrganization = async (orgName: string): Promise<void> => {
+        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/apps`)).catch((err: Error) => {
+            throw err;
+        });
     };
 
     /**

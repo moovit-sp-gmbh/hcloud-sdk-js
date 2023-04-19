@@ -1,19 +1,18 @@
-import base, { Options } from "../../base";
 import { AxiosInstance } from "axios";
+import base, { Options } from "../../base";
 import { Version } from "../../interfaces/Global";
 import { High5App } from "./High5App";
-import { High5Event } from "./app/High5Event";
-import { High5Stream } from "./app/event/High5Stream";
-import { High5Design } from "./app/event/stream/High5Design";
-import { High5Execute } from "./app/High5Execute";
+import { High5AppInternal } from "./High5AppInternal";
 
 export default class High5 extends base {
     public app: High5App;
+    public appInternal: High5AppInternal;
 
     constructor(options: Options, axios: AxiosInstance) {
         super(options, axios);
 
         this.app = new High5App(this.options, this.axios);
+        this.appInternal = new High5AppInternal(this.options, this.axios);
     }
 
     /**

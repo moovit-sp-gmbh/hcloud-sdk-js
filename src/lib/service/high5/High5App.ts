@@ -76,16 +76,6 @@ export class High5App extends base {
     };
 
     /**
-     * deleteAllAppsOfOrganization deletes all apps of an organization
-     * @param orgName the organizations's name
-     */
-    public deleteAllAppsOfOrganization = async (orgName: string): Promise<void> => {
-        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/apps`)).catch((err: Error) => {
-            throw err;
-        });
-    };
-
-    /**
      * patchAppPermission return the patched app
      * @param orgName the organizations's name
      * @param appName the app's name

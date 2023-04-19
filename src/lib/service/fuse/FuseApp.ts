@@ -45,16 +45,6 @@ export class FuseApp extends base {
     };
 
     /**
-     * deleteAllAppsOfOrganization deletes all apps of an organization by its name
-     * @param orgName the organizations's name
-     */
-    public deleteAllAppsOfOrganization = async (orgName: string): Promise<void> => {
-        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/apps`)).catch((err: Error) => {
-            throw err;
-        });
-    };
-
-    /**
      * createApp returns the newly created app
      * @param orgName the organizations's name
      * @param name the name for the new app

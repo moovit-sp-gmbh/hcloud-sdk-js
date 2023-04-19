@@ -1,6 +1,6 @@
 import { AxiosInstance } from "axios";
 import base, { Options } from "../../../base";
-import { Organization, OrganizationSearchFilter, OrganizationWithPermission } from "../../../interfaces/IDP";
+import { Organization, OrganizationWithPermission } from "../../../interfaces/IDP";
 import { IdpOrganizationMember } from "./IdpOrganizationMember";
 
 export class IdpOrganization extends base {

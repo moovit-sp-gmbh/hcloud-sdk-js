@@ -1,6 +1,15 @@
 import { AxiosInstance } from "axios";
 import base, { Options } from "../../../base";
-import { Organization, OrganizationSearchFilter, PatchUser, User } from "../../../interfaces/IDP";
+import { SearchFilterDTO } from "../../../helper/searchFilter";
+import {
+    SearchFilter,
+    SearchFilterComparatorString,
+    SearchFilterMultiSelect,
+    SearchFilterType,
+    SortDirection,
+    Sorting,
+} from "../../../interfaces/Global";
+import { Organization, PatchUser, User } from "../../../interfaces/IDP";
 import { IdpSettings } from "./IdpSettings";
 export class IdpUser extends base {
     /**
@@ -72,22 +81,32 @@ export class IdpUser extends base {
     };
 
     /**
-     * searchOrganizations requests organizations for a user by a filter
-     * @param orgSearchFilter a search filter
+     * searchOrganizations requests organizations for a user using one or more search filters
+     * @param orgSearchFilter an array of search filters
+     * @param sort an optional sorting direction
      * @param limit an optional response limit (1-1000; defaults to 500)
      * @param page an optional page to skip certain results (page * limit; defaults to 0)
      * @returns Organization array
      */
-    public searchOrganizations = async (
-        orgSearchFilter: OrganizationSearchFilter,
-        limit?: number,
-        page?: number
-    ): Promise<[Organization[], number]> => {
-        limit = limit || 500;
-        page = page || 0;
+    public searchOrganizations = async (params: {
+        filters: SearchFilter[];
+        sorting?: Sorting;
+        limit?: number;
+        page?: number;
+    }): Promise<[Organization[], number]> => {
+        const limit = params.limit || 500;
+        const page = params.page || 0;
+
+        // convert SearchFilters to DTO
+        const filtersDTO = params.filters.map((f: SearchFilter) => {
+            return new SearchFilterDTO(f);
+        });
 
         const resp = await this.axios
-            .post<Organization[]>(this.getEndpoint(`/v1/user/orgs/search?limit=${limit}&page=${page}`), orgSearchFilter)
+            .post<Organization[]>(this.getEndpoint(`/v1/user/orgs/search?limit=${limit}&page=${page}`), {
+                filters: filtersDTO,
+                sorting: params.sorting,
+            })
             .catch((err: Error) => {
                 throw err;
             });

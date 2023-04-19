@@ -1,3 +1,5 @@
+export * from "./global/searchFilters";
+
 export interface Version {
     version: string;
 }

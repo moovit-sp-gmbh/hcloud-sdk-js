@@ -1,5 +1,4 @@
 import base from "../../../../base";
-import { EventExecutionRequest, StreamExecutionPackage, StreamExecutionRequest, StreamLog, StreamResult } from "../../../../interfaces/High5";
 
 export class FuseCronjobLog extends base {
     /**
@@ -39,37 +38,6 @@ export class FuseCronjobLog extends base {
             });
 
         return resp.data;
-    };
-
-    /**
-     * createCronjobLog returns the newly created cronjobLog
-     * @param orgName the organizations's name
-     * @param appName the apps's name
-     * @param createCronjob the cronjob to create
-     * @returns CronjobLog
-     */
-    public createCronjobLog = async (orgName: string, appName: string, cronjobId: string, log: string): Promise<FuseCronjobLog> => {
-        const resp = await this.axios
-            .post<FuseCronjobLog>(this.getEndpoint(`/v1/org/${orgName}/apps/${appName}/jobs/${cronjobId}/logs}`), { log: log })
-            .catch((err: Error) => {
-                throw err;
-            });
-
-        return resp.data;
-    };
-
-    /**
-     * deleteCronjobLogById delete a cronjob log by its ID
-     * @param orgName the organizations's name
-     * @param appName the apps's name
-     * @param cronjobId the event's name
-     */
-    public deleteCronjobLogById = async (orgName: string, appName: string, cronjobId: string, cronjobLogId: string): Promise<void> => {
-        await this.axios
-            .delete<void>(this.getEndpoint(`/v1/org/${orgName}/apps/${appName}/jobs/${cronjobId}/logs/${cronjobLogId}`))
-            .catch((err: Error) => {
-                throw err;
-            });
     };
 
     protected getEndpoint(endpoint: string): string {

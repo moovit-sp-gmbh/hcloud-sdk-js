@@ -1,15 +1,17 @@
 import { AxiosInstance } from "axios";
 import base, { Options } from "../../../base";
 import { CreateCronjob, Cronjob } from "../../../interfaces/Fuse";
-import { Event } from "../../../interfaces/High5";
 import { FuseCronjobLog } from "./log/FuseCronjobLog";
+import { FuseCronjobLogInternal } from "./log/FuseCronjobLogInternal";
 
 export class FuseCronjob extends base {
     public cronjobLog: FuseCronjobLog;
+    public cronjobLogInternal: FuseCronjobLogInternal;
 
     constructor(options: Options, axios: AxiosInstance) {
         super(options, axios);
         this.cronjobLog = new FuseCronjobLog(this.options, this.axios);
+        this.cronjobLogInternal = new FuseCronjobLogInternal(this.options, this.axios);
     }
 
     /**

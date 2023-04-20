@@ -41,3 +41,23 @@ export interface UpdateFuseApp {
     permissions?: AppPermission[];
     organizationId?: string;
 }
+
+export interface CronjobLogCreation {
+    statusCode: number;
+    headers?: Header[];
+    body: string;
+}
+
+export interface CronjobLogDto {
+    _id: string;
+    cronjobId: string;
+    statusCode: number;
+    organization: ReducedOrganization;
+    creator: ReducedUser;
+    creatorId: string;
+    app: string;
+    headers?: Header[];
+    body?: string;
+    createDate: number;
+    modifyDate: number;
+}

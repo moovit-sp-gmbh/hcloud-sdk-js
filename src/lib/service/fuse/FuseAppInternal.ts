@@ -1,9 +1,13 @@
 import { AxiosInstance } from "axios";
 import base, { Options } from "../../base";
+import { FuseCronjobInternal } from "./app/FuseCronjobInternal";
 
 export class FuseAppInternal extends base {
+    public cronjob: FuseCronjobInternal;
+
     constructor(options: Options, axios: AxiosInstance) {
         super(options, axios);
+        this.cronjob = new FuseCronjobInternal(this.options, this.axios);
     }
 
     /**

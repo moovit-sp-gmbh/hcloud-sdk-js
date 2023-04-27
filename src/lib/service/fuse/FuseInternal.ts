@@ -1,17 +1,11 @@
 import { AxiosInstance } from "axios";
-import base, { Options } from "../../base";
-import { CronjobLogCreation, CronjobLogDto } from "../../interfaces/Fuse";
+import { Options } from "../../base";
 import { FuseAppInternal } from "./FuseAppInternal";
 
-export class FuseInternal extends base {
+export class FuseInternal {
     public app: FuseAppInternal;
 
     constructor(options: Options, axios: AxiosInstance) {
-        super(options, axios);
-        this.app = new FuseAppInternal(this.options, this.axios);
-    }
-
-    protected getEndpoint(endpoint: string): string {
-        return `${this.options.server}/api/fuse/internal${endpoint}`;
+        this.app = new FuseAppInternal(options, axios);
     }
 }

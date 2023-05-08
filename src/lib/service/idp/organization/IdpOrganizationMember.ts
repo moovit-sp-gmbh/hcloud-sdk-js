@@ -24,6 +24,20 @@ export class IdpOrganizationMember extends base {
     };
 
     /**
+     * getOrganizationMembersByUserId requests a single organization member by his IDP user ID
+     * @param orgName the organization name
+     * @param userId the user's ID (from IDP)
+     * @returns the OrganizationMember
+     */
+    public getOrganizationMemberByUserId = async (orgName: string, userId: string): Promise<OrganizationMember> => {
+        const resp = await this.axios.get<OrganizationMember>(this.getEndpoint(`/${orgName}/members/${userId}`)).catch((err: Error) => {
+            throw err;
+        });
+
+        return resp.data;
+    };
+
+    /**
      * addOrganizationMember adds a member to an organization
      * @param orgName the organization name
      * @param addOrganizationMember the add member object

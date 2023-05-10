@@ -1,3 +1,5 @@
+import { ReducedOrganization, ReducedUser } from "./IDP";
+
 export * from "./global/searchFilters";
 
 export interface Version {
@@ -45,9 +47,10 @@ export interface AppUserPermission {
 export interface App {
     _id: string;
     name: string;
-    organizationId: string;
-    creatorId: string;
+    organization: ReducedOrganization;
+    creator: ReducedUser;
     permissions: AppUserPermission[];
+    waveEngine: string;
     createDate: number;
     modifyDate: number;
 }

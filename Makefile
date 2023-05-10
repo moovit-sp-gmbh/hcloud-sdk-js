@@ -29,3 +29,7 @@ publish: build
 	cp *.md build/
 	cp LICENSE build/
 	pnpm publish ./build --no-git-checks
+
+scan:
+	docker pull opensecurity/njsscan
+	docker run -v  $(shell pwd)/src/:/src opensecurity/njsscan /src

@@ -119,7 +119,6 @@ export interface StreamResult {
 export interface StreamExecutionNatsResponse {
     failed: boolean;
     message: string;
-    stream?: Stream;
 }
 
 export interface StreamLog {
@@ -165,6 +164,7 @@ export interface DesignBuild {
 export interface StreamExecutionPackage {
     design: DesignBuild;
     payload: StreamExecutionPayload;
+    waveEngine: string;
 }
 
 export enum WebhookType {

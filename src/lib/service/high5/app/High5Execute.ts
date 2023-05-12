@@ -1,5 +1,6 @@
 import base from "../../../base";
-import { EventExecutionRequest, StreamExecutionPackage, StreamExecutionRequest, StreamLog, StreamResult } from "../../../interfaces/High5";
+import * as High5 from "../../../interfaces/High5";
+import { WaveEngine, WaveRelease } from "../../../interfaces/High5";
 
 export class High5Execute extends base {
     /**
@@ -14,10 +15,10 @@ export class High5Execute extends base {
         orgName: string,
         appName: string,
         streamId: string,
-        executionRequest: StreamExecutionRequest
-    ): Promise<StreamResult> => {
+        executionRequest: High5.StreamExecutionRequest
+    ): Promise<High5.StreamResult> => {
         const resp = await this.axios
-            .post<StreamResult>(this.getEndpoint(`/v1/org/${orgName}/apps/${appName}/execute/stream/id/${streamId}`), executionRequest)
+            .post<High5.StreamResult>(this.getEndpoint(`/v1/org/${orgName}/apps/${appName}/execute/stream/id/${streamId}`), executionRequest)
             .catch((err: Error) => {
                 throw err;
             });
@@ -37,10 +38,10 @@ export class High5Execute extends base {
         orgName: string,
         appName: string,
         eventName: string,
-        executionRequest: EventExecutionRequest
-    ): Promise<StreamResult[]> => {
+        executionRequest: High5.EventExecutionRequest
+    ): Promise<High5.StreamResult[]> => {
         const resp = await this.axios
-            .post<StreamResult[]>(this.getEndpoint(`/v1/org/${orgName}/apps/${appName}/execute/event/name/${eventName}`), executionRequest)
+            .post<High5.StreamResult[]>(this.getEndpoint(`/v1/org/${orgName}/apps/${appName}/execute/event/name/${eventName}`), executionRequest)
             .catch((err: Error) => {
                 throw err;
             });
@@ -55,7 +56,7 @@ export class High5Execute extends base {
      * @returns the provided challenge string as plaint text
      */
     public validateWebhookUrl = async (webhookUrl: string, challenge: string): Promise<string> => {
-        const resp = await this.axios.get<StreamResult[]>(webhookUrl + "?challenge=" + challenge).catch((err: Error) => {
+        const resp = await this.axios.get<High5.StreamResult[]>(webhookUrl + "?challenge=" + challenge).catch((err: Error) => {
             throw err;
         });
         return resp.data.toString();
@@ -74,9 +75,9 @@ export class High5Execute extends base {
         appName: string,
         streamId: string,
         secret: string
-    ): Promise<StreamExecutionPackage> => {
+    ): Promise<High5.StreamExecutionPackage> => {
         const resp = await this.axios
-            .get<StreamExecutionPackage>(this.getEndpoint(`/v1/org/${orgName}/apps/${appName}/execute/stream/id/${streamId}/package/${secret}`))
+            .get<High5.StreamExecutionPackage>(this.getEndpoint(`/v1/org/${orgName}/apps/${appName}/execute/stream/id/${streamId}/package/${secret}`))
             .catch((err: Error) => {
                 throw err;
             });
@@ -97,13 +98,41 @@ export class High5Execute extends base {
         appName: string,
         streamId: string,
         secret: string,
-        streamResult: StreamResult
-    ): Promise<StreamLog> => {
+        streamResult: High5.StreamResult
+    ): Promise<High5.StreamLog> => {
         const resp = await this.axios
-            .post<StreamLog>(this.getEndpoint(`/v1/org/${orgName}/apps/${appName}/execute/stream/id/${streamId}/package/${secret}`), streamResult)
+            .post<High5.StreamLog>(
+                this.getEndpoint(`/v1/org/${orgName}/apps/${appName}/execute/stream/id/${streamId}/package/${secret}`),
+                streamResult
+            )
             .catch((err: Error) => {
                 throw err;
             });
+        return resp.data;
+    };
+
+    /**
+     * Requests all available wave engine releases and reports a short info object
+     * @param orgName the organizations's name
+     * @returns WaveReleaseDto[]
+     */
+    public fetchAllWaveEngineReleaseTags = async (orgName: string): Promise<WaveRelease[]> => {
+        const resp = await this.axios.get<WaveRelease[]>(this.getEndpoint(`/v1/org/${orgName}/wave/releases`)).catch((err: Error) => {
+            throw err;
+        });
+        return resp.data;
+    };
+
+    /**
+     * Requests a single wave engine release version
+     * @param orgName the organizations's name
+     * @param releaseVersion the release version in the following format v0.0.1 or v0.0.1-5
+     * @returns WaveRelease
+     */
+    public fetchWaveEngineRelease = async (orgName: string, releaseVersion: string): Promise<WaveEngine> => {
+        const resp = await this.axios.get<WaveEngine>(this.getEndpoint(`/v1/org/${orgName}/wave/releases/${releaseVersion}`)).catch((err: Error) => {
+            throw err;
+        });
         return resp.data;
     };
 

@@ -112,7 +112,7 @@ class Nats {
                     reject(new Error("connection not established, can not subscribe"));
                 }
 
-                const sub = this.getConnection()?.subscribe(subject, options);
+                const sub = this.getConnection()?.subscribe(subject, newOptions);
                 if (sub) {
                     this.subMap.push({ subject, sub: sub } as SubMapEntry);
                     return resolve(sub);

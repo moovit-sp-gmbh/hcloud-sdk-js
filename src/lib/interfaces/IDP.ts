@@ -83,6 +83,7 @@ export interface Organization {
     isUserOrganization: boolean;
     company: string;
     creator: ReducedUser;
+    membersCount?: number;
     createDate: number;
     modifyDate: number;
 }

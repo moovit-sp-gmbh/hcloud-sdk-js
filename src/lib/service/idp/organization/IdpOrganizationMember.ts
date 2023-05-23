@@ -1,4 +1,3 @@
-import { AxiosInstance } from "axios";
 import base from "../../../base";
 import { AddOrganizationMember, OrganizationMember, OrganizationPermission, PatchOrgMember } from "../../../interfaces/IDP";
 

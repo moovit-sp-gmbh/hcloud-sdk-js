@@ -3,6 +3,7 @@ import base, { Options } from "../../../base";
 import { Organization, OrganizationWithPermission } from "../../../interfaces/IDP";
 import { IdpOrganizationMember } from "./IdpOrganizationMember";
 import { IdpDomain } from "./settings/domain/IdpDomain";
+import { IdpOrganizationTeams } from "./IdpOrganizationTeams";
 
 export class IdpOrganization extends base {
     /**
@@ -15,11 +16,17 @@ export class IdpOrganization extends base {
      */
     public domains: IdpDomain;
 
+    /**
+     * domains handles related to custom domains of organizations.
+     */
+    public teams: IdpOrganizationTeams;
+
     constructor(options: Options, axios: AxiosInstance) {
         super(options, axios);
 
         this.member = new IdpOrganizationMember(this.options, this.axios);
         this.domains = new IdpDomain(this.options, this.axios);
+        this.teams = new IdpOrganizationTeams(this.options, this.axios);
     }
 
     /**

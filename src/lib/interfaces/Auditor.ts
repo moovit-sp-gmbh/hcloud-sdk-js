@@ -50,3 +50,13 @@ export interface AuditLog {
     type?: Type;
     message?: unknown;
 }
+
+export interface AuditLogFilter {
+    origin?: Origin;
+    level?: Level;
+    event?: Event;
+    type?: Type;
+    timestamp?: number;
+    message?: string;
+    userName?: string;
+}

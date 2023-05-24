@@ -1,6 +1,6 @@
 import base, { Options } from "../../base";
 import { AxiosInstance } from "axios";
-import { AuditLog } from "../../interfaces/Auditor";
+import { AuditLog, AuditLogFilter, Event, Level, Origin, Type } from "../../interfaces/Auditor";
 import { Version } from "../../interfaces/Global";
 import { AuditorInternal } from "./AuditorInternal";
 
@@ -26,38 +26,40 @@ export default class Auditor extends base {
     };
 
     /**
-     * GetAuditLog requests logs from
-     * @param organizationId an optional organization ID to receive audit logs for
-     * @param limit an opitional response limit (1-1000; dafaults to 500)
-     * @param page an opitional page to skip certain results (page * limit; defaults to 0)
-     * @returns User object
+     * GetAuditLog requests logs by optional filter and limited to provided organization
+     * @param organizationName an optional organization ID to receive audit logs for
+     * @param limit an optional response limit (1-1000; defaults to 500)
+     * @param page an optional page to skip certain results (page * limit; defaults to 0)
+     * @param filter an optional filter object that holds optional filter fields
+     * @returns A list of audit logs
      */
-    getAuditLogs = async (organizationId: string | null, limit: number | null, page: number | null): Promise<AuditLog[]> => {
+    /* eslint-disable complexity */
+    getAuditLogs = async (organizationName: string, limit?: number, page?: number, filter?: AuditLogFilter): Promise<AuditLog[]> => {
         const parameters = [];
-        let url = "";
+        let paramsUrl = "";
 
-        if (organizationId !== null) {
-            parameters.push("organization=" + organizationId);
+        parameters.push("limit" + limit || 500);
+        parameters.push((page = page || 0));
+
+        if (filter) {
+            if (filter.origin) parameters.push("origin=" + filter.origin);
+            if (filter.level) parameters.push("level=" + filter.level);
+            if (filter.event) parameters.push("event=" + filter.event);
+            if (filter.type) parameters.push("type=" + filter.type);
+            if (filter.timestamp) parameters.push("timestamp=" + filter.timestamp);
+            if (filter.message) parameters.push("message=" + filter.message);
+            if (filter.userName) parameters.push("userName=" + filter.userName);
         }
 
-        if (limit !== null) {
-            parameters.push("limit=" + limit);
-        }
+        if (parameters.length > 0) paramsUrl = "?" + parameters.join("&");
 
-        if (page !== null) {
-            parameters.push("page=" + page);
-        }
-
-        if (parameters.length > 0) {
-            url = "?" + parameters.join("&");
-        }
-
-        const resp = await this.axios.get<AuditLog[]>(this.getEndpoint("/v1/logs") + url, {}).catch((err: Error) => {
+        const resp = await this.axios.get<AuditLog[]>(this.getEndpoint(`/v1/org/${organizationName}/logs`) + paramsUrl).catch((err: Error) => {
             throw err;
         });
 
         return resp.data;
     };
+    /* eslint-disable complexity */
 
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/auditor${endpoint}`;

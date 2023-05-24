@@ -18,6 +18,7 @@ enum NatsSubject {
     HIGH5_STREAMS = "hcloud.high5.organization.${organizationId}.app.${appId}.event.${eventId}.streams",
     HIGH5_SETTINGS_GENERAL = "hcloud.high5.organization.${organizationId}.app.${appId}.settings.general",
     HIGH5_SETTINGS_WEBHOOKS = "hcloud.high5.organization.${organizationId}.app.${appId}.settings.webhooks",
+    HIGH5_SETTINGS_SECRETS = "hcloud.high5.organization.${organizationId}.app.${appId}.settings.secrets",
 
     FUSE_JOBS = "hcloud.fuse.jobs",
     FUSE_JOBS_TRIGGER = "hcloud.fuse.jobs.trigger",
@@ -62,6 +63,7 @@ enum NatsObjectType {
     STREAM = "STREAM",
     WEBHOOK = "WEBHOOK",
     WEBHOOK_LOG = "WEBHOOK_LOG",
+    SECRET = "SECRET",
 
     AUDIT_LOG = "AUDIT_LOG",
     MAIL = "MAIL",
@@ -145,6 +147,9 @@ class NatsSubjects {
                 };
                 static WEBHOOKS = (organizationId: string, appId: string) => {
                     return NatsSubjects.replace(NatsSubject.HIGH5_SETTINGS_WEBHOOKS, { organizationId, appId } as NatsSubjectReplacements);
+                };
+                static SECRETS = (organizationId: string, appId: string) => {
+                    return NatsSubjects.replace(NatsSubject.HIGH5_SETTINGS_SECRETS, { organizationId, appId } as NatsSubjectReplacements);
                 };
             };
         };

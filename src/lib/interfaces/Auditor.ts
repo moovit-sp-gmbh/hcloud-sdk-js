@@ -24,6 +24,7 @@ export enum Event {
     Stream = "stream",
     Mail = "mail",
     Webhook = "webhook",
+    Secret = "secret",
 }
 
 export enum Type {

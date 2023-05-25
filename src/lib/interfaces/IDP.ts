@@ -1,3 +1,5 @@
+import { Views } from "./Global";
+
 export enum GrantType {
     AUTHORIZATION_CODE = "authorization_code",
     REFRESH_TOKEN = "refresh_token",
@@ -164,6 +166,11 @@ export interface ActivatedTotp {
     recoverCodes: string[];
     createDate: number;
     modifyDate: number;
+}
+
+export interface UserTotp {
+    email: string;
+    token: string;
 }
 
 export interface OAuthTokenRequest {

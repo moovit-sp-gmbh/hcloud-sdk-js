@@ -20,6 +20,19 @@ export class IdpPat extends base {
     };
 
     /**
+     * regeneratePat regenerates the token of a pat
+     * @param patId the id of the pat
+     * @returns the Pat object holding the new patToken
+     */
+    public regeneratePat = async (patId: string): Promise<Pat> => {
+        const resp = await this.axios.get<Pat>(this.getEndpoint(`/v1/user/settings/pats/${patId}`)).catch((err: Error) => {
+            throw err;
+        });
+
+        return resp.data;
+    };
+
+    /**
      * generatePat create a new personal access token for request user
      * @param patCreate the pat object to be created
      * @returns the created pat object
@@ -33,11 +46,11 @@ export class IdpPat extends base {
     };
 
     /**
-     * regeneratePatToken renew a pat token with existing parameters expiration and potentially change the scope
+     * updatePat renew a pat token with existing parameters expiration and potentially change the scope
      * @param patId the id of the pat object
      * @returns the updated pat object
      */
-    public updatePatToken = async (patId: string, patUpdate: PatUpdate): Promise<Pat> => {
+    public updatePat = async (patId: string, patUpdate: PatUpdate): Promise<Pat> => {
         const resp = await this.axios.patch<Pat>(this.getEndpoint(`/v1/user/settings/pats/${patId}`), patUpdate).catch((err: Error) => {
             throw err;
         });

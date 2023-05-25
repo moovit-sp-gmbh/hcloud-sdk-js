@@ -1,6 +1,6 @@
 import { AxiosInstance } from "axios";
 import base, { Options } from "../../../../../base";
-import { ActivatedTotp, DeactivatedTotp } from "../../../../../interfaces/IDP";
+import { ActivatedTotp, DeactivatedTotp, UserTotp } from "../../../../../interfaces/IDP";
 
 export class IdpTotp extends base {
     constructor(options: Options, axios: AxiosInstance) {
@@ -25,6 +25,18 @@ export class IdpTotp extends base {
      */
     public activateTotp = async (token: string): Promise<ActivatedTotp> => {
         const resp = await this.axios.patch<ActivatedTotp>(this.getEndpoint(`/v1/user/settings/security/2fa/totp`), { token }).catch((err: Error) => {
+            throw err;
+        });
+
+        return resp.data;
+    };
+
+    /**
+     * verifyTotp endpoint for totp code verification
+     * @returns 204 no content
+     */
+    public verifyTotp = async (userTotp: UserTotp): Promise<void> => {
+        const resp = await this.axios.patch<void>(this.getEndpoint(`/v1/login/verify/totp`), { userTotp }).catch((err: Error) => {
             throw err;
         });
 

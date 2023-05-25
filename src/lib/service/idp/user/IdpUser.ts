@@ -50,6 +50,16 @@ export class IdpUser extends base {
     };
 
     /**
+     * deleteUserSession resets all user sessions and therewith logs him out of hcloud on all devices
+     * @returns 204 no content
+     */
+    public deleteUserSession = async (): Promise<void> => {
+        const resp = await this.axios.delete<void>(this.getEndpoint(`/v1/user/sessions`)).catch((err: Error) => {
+            throw err;
+        });
+    };
+
+    /**
      * deleteUser deletes a user from the system
      * @returns User object
      */

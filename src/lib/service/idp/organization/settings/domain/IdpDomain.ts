@@ -15,7 +15,7 @@ export class IdpDomain extends Base {
     };
 
     /**
-     * Associates the organization with the given domain name by creatiing a new domain object
+     * Associates the organization with the given domain name by creating a new domain object
      *
      * @param orgName Name of the organization
      * @param domainName Domain name. Must be a FQDN

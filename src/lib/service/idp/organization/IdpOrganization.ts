@@ -18,11 +18,6 @@ export class IdpOrganization extends base {
     public domains: IdpDomain;
 
     /**
-     * oauth handles everything around oauth apps of organizations.
-     */
-    public oauth: IdpOAuthApp;
-
-    /**
      * teams handles everything around teams of organizations.
      */
     public teams: IdpOrganizationTeams;
@@ -33,7 +28,6 @@ export class IdpOrganization extends base {
         this.member = new IdpOrganizationMember(this.options, this.axios);
         this.domains = new IdpDomain(this.options, this.axios);
         this.teams = new IdpOrganizationTeams(this.options, this.axios);
-        this.oauth = new IdpOAuthApp(this.options, this.axios);
     }
 
     /**

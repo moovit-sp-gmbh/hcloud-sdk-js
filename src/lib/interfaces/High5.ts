@@ -105,14 +105,9 @@ export interface StreamSingleNodeResult {
 }
 
 export interface StreamResult {
-    stream: Stream;
-    uuid: string;
     host: string;
-    payload: unknown;
     failed: boolean;
-    dry: boolean; // if node has been processed without execute() method
     nodeResults: StreamSingleNodeResult[];
-    startTimestamp: number;
     endTimestamp: number;
 }
 

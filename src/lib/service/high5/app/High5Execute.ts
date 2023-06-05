@@ -93,18 +93,9 @@ export class High5Execute extends base {
      * @param streamResult the result of the stream
      * @returns StreamLog
      */
-    public writeStreamLog = async (
-        orgName: string,
-        appName: string,
-        streamId: string,
-        secret: string,
-        streamResult: High5.StreamResult
-    ): Promise<High5.StreamLog> => {
+    public writeStreamLog = async (orgName: string, appName: string, secret: string, streamResult: High5.StreamResult): Promise<High5.StreamLog> => {
         const resp = await this.axios
-            .post<High5.StreamLog>(
-                this.getEndpoint(`/v1/org/${orgName}/apps/${appName}/execute/stream/id/${streamId}/package/${secret}`),
-                streamResult
-            )
+            .patch<High5.StreamLog>(this.getEndpoint(`/v1/org/${orgName}/apps/${appName}/execute/logs/${secret}`), streamResult)
             .catch((err: Error) => {
                 throw err;
             });

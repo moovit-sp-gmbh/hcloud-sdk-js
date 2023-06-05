@@ -15,12 +15,12 @@ export class High5Webhook extends base {
      * getWebhooks requests all webhooks for the user's active organization
      * @param orgName the organizations's name
      * @param appName the apps's name
-     * @param limit an optional response limit (1-1000; defaults to 500)
+     * @param limit an optional response limit limit (1-100; defaults to 25)
      * @param page an optional page to skip certain results (page * limit; defaults to 0)
      * @returns an array of webhooks and the total number of webhooks (independent of the limit and page)
      */
     public getWebhooks = async (orgName: string, appName: string, limit?: number, page?: number): Promise<[Webhook[], number]> => {
-        limit = limit || 500;
+        limit = limit || 25;
         page = page || 0;
 
         const resp = await this.axios

@@ -28,7 +28,7 @@ export default class Auditor extends base {
     /**
      * GetAuditLog requests logs by optional filter and limited to provided organization
      * @param organizationName an optional organization ID to receive audit logs for
-     * @param limit an optional response limit (1-1000; defaults to 500)
+     * @param limit an optional response limit (1-100; defaults to 25)
      * @param page an optional page to skip certain results (page * limit; defaults to 0)
      * @param filter an optional filter object that holds optional filter fields
      * @returns A list of audit logs
@@ -38,7 +38,7 @@ export default class Auditor extends base {
         const parameters = [];
         let paramsUrl = "";
 
-        parameters.push("limit" + limit || 500);
+        parameters.push("limit" + limit || 25);
         parameters.push((page = page || 0));
 
         if (filter) {

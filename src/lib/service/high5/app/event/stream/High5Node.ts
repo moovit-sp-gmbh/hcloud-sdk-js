@@ -9,13 +9,13 @@ export class High5Node extends base {
      * @param appName the apps's name
      * @param eventName the event's name
      * @param streamId the stream's id
-     * @param limit the maximum results (defaults to 500)
+     * @param limit the maximum results limit (1-100; defaults to 25)
      * @param page the results to skip (page * limit)
      * @summary Get all nodes
      * @response Nodes[] array holding the Nodes
      */
     public async getNodes(orgName: string, appName: string, eventName: string, streamId: string, limit?: number, page?: number): Promise<Node[]> {
-        limit = limit || 500;
+        limit = limit || 25;
         page = page || 0;
         const resp = await this.axios
             .get<Node[]>(

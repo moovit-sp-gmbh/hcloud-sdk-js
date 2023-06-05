@@ -18,12 +18,12 @@ export class FuseCronjob extends base {
      * getCronjobs returns all cronjobs for an app
      * @param orgName the organizations's name
      * @param appName the apps's name
-     * @param limit the maximum results (defaults to 500)
+     * @param limit the maximum results limit (1-100; defaults to 25)
      * @param page the results to skip (page * limit)
      * @returns Cronjob array
      */
     public getCronjobs = async (orgName: string, appName: string, limit?: number, page?: number): Promise<Cronjob[]> => {
-        limit = limit || 500;
+        limit = limit || 25;
         page = page || 0;
 
         const resp = await this.axios

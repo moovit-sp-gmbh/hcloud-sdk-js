@@ -6,12 +6,12 @@ export class FuseCronjobLog extends base {
      * @param orgName the organizations's name
      * @param appName the apps's name
      * @param cronjobId the cronjob's ID
-     * @param limit the maximum results (defaults to 500)
+     * @param limit the maximum results limit (1-100; defaults to 25)
      * @param page the results to skip (page * limit)
      * @returns CronjobLog array
      */
     public getCronjobLogs = async (orgName: string, appName: string, cronjobId: string, limit?: number, page?: number): Promise<FuseCronjobLog[]> => {
-        limit = limit || 500;
+        limit = limit || 25;
         page = page || 0;
 
         const resp = await this.axios

@@ -16,12 +16,12 @@ export class High5Event extends base {
      * getEvents returns all event for an app
      * @param orgName the organizations's name
      * @param appName the apps's name
-     * @param limit the maximum results (defaults to 500)
+     * @param limit the maximum results limit (1-100; defaults to 25)
      * @param page the results to skip (page * limit)
      * @returns App array
      */
     public getEvents = async (orgName: string, appName: string, limit?: number, page?: number): Promise<Event[]> => {
-        limit = limit || 500;
+        limit = limit || 25;
         page = page || 0;
 
         const resp = await this.axios

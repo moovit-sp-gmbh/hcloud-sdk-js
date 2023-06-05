@@ -21,12 +21,12 @@ export class High5App extends base {
     /**
      * getApps returns all app's with READ+ permission for the active organization
      * @param orgName the organizations's name
-     * @param limit the maximum results (defaults to 500)
+     * @param limit the maximum results limit (1-100; defaults to 25)
      * @param page the results to skip (page * limit)
      * @returns App array
      */
     public getApps = async (orgName: string, limit?: number, page?: number): Promise<[App[], number]> => {
-        limit = limit || 500;
+        limit = limit || 25;
         page = page || 0;
 
         const resp = await this.axios.get<App[]>(this.getEndpoint(`/v1/org/${orgName}/apps?page=${page}&limit=${limit}`)).catch((err: Error) => {

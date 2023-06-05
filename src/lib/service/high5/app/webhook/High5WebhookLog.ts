@@ -12,7 +12,7 @@ export class High5WebhookLog extends base {
      * @param orgName the organizations's name
      * @param appName the apps's name
      * @param webhookId the webhook's id
-     * @param limit an optional response limit (1-1000; defaults to 500)
+     * @param limit an optional response limit limit (1-100; defaults to 25)
      * @param page an optional page to skip certain results (page * limit; defaults to 0)
      * @returns WebhookLog array and total number of webhook logs of that webhook (independent of the limit and page)
      */
@@ -23,7 +23,7 @@ export class High5WebhookLog extends base {
         limit?: number,
         page?: number
     ): Promise<[WebhookLog[], number]> => {
-        limit = limit || 500;
+        limit = limit || 25;
         page = page || 0;
 
         const resp = await this.axios

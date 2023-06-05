@@ -10,12 +10,12 @@ export class IdpOAuthApp extends base {
     /**
      * listOauthAppsOfOrganization requests all OAuth apps for the user's active organization
      * @param orgName the organization name
-     * @param limit an optional response limit (1-1000; defaults to 500)
+     * @param limit an optional response limit limit (1-100; defaults to 25)
      * @param page an optional page to skip certain results (page * limit; defaults to 0)
      * @returns OAuthApp array and the total number of OAuth apps
      */
     public listOauthAppsOfOrganization = async (orgName: string, limit?: number, page?: number): Promise<[OAuthApp[], number]> => {
-        limit = limit || 500;
+        limit = limit || 25;
         page = page || 0;
 
         const resp = await this.axios

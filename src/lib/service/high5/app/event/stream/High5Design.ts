@@ -9,7 +9,7 @@ export class High5Design extends base {
      * @param appName the apps's name
      * @param eventName the event's name
      * @param streamId the streams's id
-     * @param limit the maximum results (defaults to 500)
+     * @param limit the maximum results limit (1-100; defaults to 25)
      * @param page the results to skip (page * limit)
      * @returns Design array
      */
@@ -21,7 +21,7 @@ export class High5Design extends base {
         limit?: number,
         page?: number
     ): Promise<Design[]> => {
-        limit = limit || 500;
+        limit = limit || 25;
         page = page || 0;
 
         const resp = await this.axios

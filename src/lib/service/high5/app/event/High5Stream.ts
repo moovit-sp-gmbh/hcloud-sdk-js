@@ -20,12 +20,12 @@ export class High5Stream extends base {
      * @param orgName the organizations's name
      * @param appName the apps's name
      * @param eventName the event's name
-     * @param limit the maximum results (defaults to 500)
+     * @param limit the maximum results limit (1-100; defaults to 25)
      * @param page the results to skip (page * limit)
      * @returns App array
      */
     public getStreams = async (orgName: string, appName: string, eventName: string, limit?: number, page?: number): Promise<Stream[]> => {
-        limit = limit || 500;
+        limit = limit || 25;
         page = page || 0;
 
         const resp = await this.axios

@@ -71,12 +71,12 @@ export class IdpOrganizationTeams extends base {
     /**
      * listTeams list all teams of an organization
      * @param orgName the organization name
-     * @param limit an optional response limit (1-1000; defaults to 500)
+     * @param limit an optional response limit limit (1-100; defaults to 25)
      * @param page an optional page to skip certain results (page * limit; defaults to 0)
      * @returns a list of team objects
      */
     public listTeams = async (orgName: string, limit?: number, page?: number): Promise<Team[]> => {
-        limit = limit || 500;
+        limit = limit || 25;
         page = page || 0;
 
         const resp = await this.axios.get<Team[]>(this.getEndpoint(`/${orgName}/teams?limit=${limit}&page=${page}`)).catch((err: Error) => {

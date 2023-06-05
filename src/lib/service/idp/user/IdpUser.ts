@@ -75,12 +75,12 @@ export class IdpUser extends base {
 
     /**
      * getOrganizations requests all organizations for a user
-     * @param limit an optional response limit (1-1000; defaults to 500)
+     * @param limit an optional response limit limit (1-100; defaults to 25)
      * @param page an optional page to skip certain results (page * limit; defaults to 0)
      * @returns Organization array
      */
     public getOrganizations = async (limit?: number, page?: number): Promise<[Organization[], number]> => {
-        limit = limit || 500;
+        limit = limit || 25;
         page = page || 0;
 
         const resp = await this.axios.get<Organization[]>(this.getEndpoint(`/v1/user/orgs?limit=${limit}&page=${page}`)).catch((err: Error) => {
@@ -94,7 +94,7 @@ export class IdpUser extends base {
      * searchOrganizations requests organizations for a user using one or more search filters
      * @param orgSearchFilter an array of search filters
      * @param sort an optional sorting direction
-     * @param limit an optional response limit (1-1000; defaults to 500)
+     * @param limit an optional response limit limit (1-100; defaults to 25)
      * @param page an optional page to skip certain results (page * limit; defaults to 0)
      * @returns Organization array
      */
@@ -104,7 +104,7 @@ export class IdpUser extends base {
         limit?: number;
         page?: number;
     }): Promise<[Organization[], number]> => {
-        const limit = params.limit || 500;
+        const limit = params.limit || 25;
         const page = params.page || 0;
 
         // convert SearchFilters to DTO

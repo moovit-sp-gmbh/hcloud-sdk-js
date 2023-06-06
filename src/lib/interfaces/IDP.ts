@@ -180,6 +180,15 @@ export interface OAuthTokenRequest {
     redirectUri: string;
 }
 
+export interface OAuthToken {
+    id_token?: string;
+    access_token?: string;
+    refresh_token?: string;
+    token_type?: string;
+    expires_in?: number;
+    scope?: Scopes[];
+}
+
 export interface OAuthAppCreation {
     name: string;
     secretName: string;

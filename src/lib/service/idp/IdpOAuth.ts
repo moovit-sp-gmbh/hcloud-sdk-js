@@ -1,6 +1,6 @@
 import { AxiosInstance } from "axios";
 import base, { Options } from "../../base";
-import { OAuthTokenRequest } from "../../interfaces/IDP";
+import { OAuthToken, OAuthTokenRequest } from "../../interfaces/IDP";
 
 export class IdpOAuth extends base {
     constructor(options: Options, axios: AxiosInstance) {
@@ -47,8 +47,8 @@ export class IdpOAuth extends base {
      * A valid code can be used to request a new API token.
      * @param tokenRequest contains the code, client_id, client_secret and redirect_uri
      */
-    public exchangeCodeForToken = async (tokenRequest: OAuthTokenRequest): Promise<unknown> => {
-        const response = await this.axios.post(this.getEndpoint(`/v1/login/oauth/access_token`), tokenRequest).catch((err: Error) => {
+    public exchangeCodeForToken = async (tokenRequest: OAuthTokenRequest): Promise<OAuthToken> => {
+        const response = await this.axios.post<OAuthToken>(this.getEndpoint(`/v1/login/oauth/access_token`), tokenRequest).catch((err: Error) => {
             throw err;
         });
         return response.data;

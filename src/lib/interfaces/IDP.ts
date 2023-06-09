@@ -115,6 +115,7 @@ export interface OrganizationWithPermission {
     _id: string;
     name: string;
     isUserOrganization: boolean;
+    membersCount: number;
     company: string;
     creatorId: string;
     createDate: number;

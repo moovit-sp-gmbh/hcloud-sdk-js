@@ -139,16 +139,12 @@ export interface StreamExecutionPayload {
 export interface StreamExecutionRequest {
     payload: StreamExecutionPayload;
     target: string;
-    waitForResult: boolean;
-    timeout: number;
 }
 
 export interface EventExecutionRequest {
     eventName: string;
     payload: StreamExecutionPayload;
     target: string;
-    waitForResult: boolean;
-    timeout: number;
 }
 
 export interface DesignBuild {

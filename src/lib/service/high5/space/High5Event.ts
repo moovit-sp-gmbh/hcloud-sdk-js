@@ -13,19 +13,19 @@ export class High5Event extends base {
     }
 
     /**
-     * getEvents returns all event for an app
+     * getEvents returns all event for a space
      * @param orgName the organizations's name
-     * @param appName the apps's name
+     * @param spaceName the spaces's name
      * @param limit the maximum results limit (1-100; defaults to 25)
      * @param page the results to skip (page * limit)
-     * @returns App array
+     * @returns Space array
      */
-    public getEvents = async (orgName: string, appName: string, limit?: number, page?: number): Promise<Event[]> => {
+    public getEvents = async (orgName: string, spaceName: string, limit?: number, page?: number): Promise<Event[]> => {
         limit = limit || 25;
         page = page || 0;
 
         const resp = await this.axios
-            .get<Event[]>(this.getEndpoint(`/v1/org/${orgName}/apps/${appName}/events?page=${page}&limit=${limit}`))
+            .get<Event[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events?page=${page}&limit=${limit}`))
             .catch((err: Error) => {
                 throw err;
             });
@@ -36,14 +36,16 @@ export class High5Event extends base {
     /**
      * getEventByName returns an event by it's name
      * @param orgName the organizations's name
-     * @param appName the apps's name
+     * @param spaceName the spaces's name
      * @param eventName the event's name
      * @returns Event
      */
-    public getEventByName = async (orgName: string, appName: string, eventName: string): Promise<Event> => {
-        const resp = await this.axios.get<Event>(this.getEndpoint(`/v1/org/${orgName}/apps/${appName}/events/${eventName}`)).catch((err: Error) => {
-            throw err;
-        });
+    public getEventByName = async (orgName: string, spaceName: string, eventName: string): Promise<Event> => {
+        const resp = await this.axios
+            .get<Event>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}`))
+            .catch((err: Error) => {
+                throw err;
+            });
 
         return resp.data;
     };
@@ -51,13 +53,13 @@ export class High5Event extends base {
     /**
      * createEvent returns the newly created event
      * @param orgName the organizations's name
-     * @param appName the apps's name
+     * @param spaceName the spaces's name
      * @param name the name for the new event
      * @returns event
      */
-    public createEvent = async (orgName: string, appName: string, name: string): Promise<Event> => {
+    public createEvent = async (orgName: string, spaceName: string, name: string): Promise<Event> => {
         const resp = await this.axios
-            .post<Event>(this.getEndpoint(`/v1/org/${orgName}/apps/${appName}/events`), { name: name })
+            .post<Event>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events`), { name: name })
             .catch((err: Error) => {
                 throw err;
             });
@@ -68,11 +70,11 @@ export class High5Event extends base {
     /**
      * deleteEventByName delete an event by it's name
      * @param orgName the organizations's name
-     * @param appName the apps's name
+     * @param spaceName the spaces's name
      * @param eventName the event's name
      */
-    public deleteEventByName = async (orgName: string, appName: string, eventName: string): Promise<void> => {
-        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/apps/${appName}/events/${eventName}`)).catch((err: Error) => {
+    public deleteEventByName = async (orgName: string, spaceName: string, eventName: string): Promise<void> => {
+        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}`)).catch((err: Error) => {
             throw err;
         });
     };

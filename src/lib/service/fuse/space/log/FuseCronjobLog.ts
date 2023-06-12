@@ -4,18 +4,24 @@ export class FuseCronjobLog extends base {
     /**
      * getCronjobLogs returns all logs for a cronjob
      * @param orgName the organizations's name
-     * @param appName the apps's name
+     * @param spaceName the spaces's name
      * @param cronjobId the cronjob's ID
      * @param limit the maximum results limit (1-100; defaults to 25)
      * @param page the results to skip (page * limit)
      * @returns CronjobLog array
      */
-    public getCronjobLogs = async (orgName: string, appName: string, cronjobId: string, limit?: number, page?: number): Promise<FuseCronjobLog[]> => {
+    public getCronjobLogs = async (
+        orgName: string,
+        spaceName: string,
+        cronjobId: string,
+        limit?: number,
+        page?: number
+    ): Promise<FuseCronjobLog[]> => {
         limit = limit || 25;
         page = page || 0;
 
         const resp = await this.axios
-            .get<FuseCronjobLog[]>(this.getEndpoint(`/v1/org/${orgName}/apps/${appName}/jobs/${cronjobId}/logs?page=${page}&limit=${limit}`))
+            .get<FuseCronjobLog[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs/${cronjobId}/logs?page=${page}&limit=${limit}`))
             .catch((err: Error) => {
                 throw err;
             });
@@ -26,13 +32,13 @@ export class FuseCronjobLog extends base {
     /**
      * getCronjobLogById returns a cronjob log by it's ID
      * @param orgName the organizations's name
-     * @param appName the apps's name
+     * @param spaceName the spaces's name
      * @param cronjobId the cronjob's ID
      * @returns CronjobLog
      */
-    public getCronjobLogById = async (orgName: string, appName: string, cronjobId: string, cronjobLogId: string): Promise<FuseCronjobLog> => {
+    public getCronjobLogById = async (orgName: string, spaceName: string, cronjobId: string, cronjobLogId: string): Promise<FuseCronjobLog> => {
         const resp = await this.axios
-            .get<FuseCronjobLog>(this.getEndpoint(`/v1/org/${orgName}/apps/${appName}/jobs/${cronjobId}/logs/${cronjobLogId}`))
+            .get<FuseCronjobLog>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs/${cronjobId}/logs/${cronjobLogId}`))
             .catch((err: Error) => {
                 throw err;
             });

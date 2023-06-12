@@ -10,7 +10,7 @@ export class High5WebhookLog extends base {
     /**
      * getWebhookLogs requests all webhook logs for the specified webhook
      * @param orgName the organizations's name
-     * @param appName the apps's name
+     * @param spaceName the spaces's name
      * @param webhookId the webhook's id
      * @param limit an optional response limit limit (1-100; defaults to 25)
      * @param page an optional page to skip certain results (page * limit; defaults to 0)
@@ -18,7 +18,7 @@ export class High5WebhookLog extends base {
      */
     public getWebhookLogs = async (
         orgName: string,
-        appName: string,
+        spaceName: string,
         webhookId: string,
         limit?: number,
         page?: number
@@ -27,7 +27,7 @@ export class High5WebhookLog extends base {
         page = page || 0;
 
         const resp = await this.axios
-            .get<WebhookLog[]>(this.getEndpoint(`/v1/org/${orgName}/apps/${appName}/webhooks/${webhookId}/logs?limit=${limit}&page=${page}`))
+            .get<WebhookLog[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/webhooks/${webhookId}/logs?limit=${limit}&page=${page}`))
             .catch((err: Error) => {
                 throw err;
             });

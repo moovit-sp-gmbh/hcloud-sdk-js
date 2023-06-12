@@ -1,17 +1,17 @@
 import base, { Options } from "../../base";
 import { AxiosInstance } from "axios";
 import { Version } from "../../interfaces/Global";
-import { FuseApp } from "./FuseApp";
+import { FuseSpace } from "./FuseSpace";
 import { FuseInternal } from "./FuseInternal";
 
 export default class Fuse extends base {
-    public app: FuseApp;
+    public space: FuseSpace;
     public internal: FuseInternal;
 
     constructor(options: Options, axios: AxiosInstance) {
         super(options, axios);
 
-        this.app = new FuseApp(this.options, this.axios);
+        this.space = new FuseSpace(this.options, this.axios);
         this.internal = new FuseInternal(this.options, this.axios);
     }
 

@@ -1,5 +1,3 @@
-import { Views } from "./Global";
-
 export enum GrantType {
     AUTHORIZATION_CODE = "authorization_code",
     REFRESH_TOKEN = "refresh_token",
@@ -16,14 +14,14 @@ export enum Scopes {
     IDP_ORGANIZATION_WRITE = "idp:organization:write",
     IDP_ORGANIZATION_DELETE = "idp:organization:delete",
     IDP_ORGANIZATION_ADMIN = "idp:organization:admin",
-    HIGH5_APP_READ = "high5:app:read",
-    HIGH5_APP_EXECUTE = "high5:app:execute",
-    HIGH5_APP_WRITE = "high5:app:write",
-    HIGH5_APP_DELETE = "high5:app:delete",
-    FUSE_APP_READ = "fuse:app:read",
-    FUSE_APP_EXECUTE = "fuse:app:execute",
-    FUSE_APP_WRITE = "fuse:app:write",
-    FUSE_APP_DELETE = "fuse:app:delete",
+    HIGH5_SPACE_READ = "high5:space:read",
+    HIGH5_SPACE_EXECUTE = "high5:space:execute",
+    HIGH5_SPACE_WRITE = "high5:space:write",
+    HIGH5_SPACE_DELETE = "high5:space:delete",
+    FUSE_SPACE_READ = "fuse:space:read",
+    FUSE_SPACE_EXECUTE = "fuse:space:execute",
+    FUSE_SPACE_WRITE = "fuse:space:write",
+    FUSE_SPACE_DELETE = "fuse:space:delete",
 }
 
 export interface ReducedUser {

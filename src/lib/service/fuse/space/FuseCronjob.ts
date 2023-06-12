@@ -15,19 +15,19 @@ export class FuseCronjob extends base {
     }
 
     /**
-     * getCronjobs returns all cronjobs for an app
+     * getCronjobs returns all cronjobs for a space
      * @param orgName the organizations's name
-     * @param appName the apps's name
+     * @param spaceName the spaces's name
      * @param limit the maximum results limit (1-100; defaults to 25)
      * @param page the results to skip (page * limit)
      * @returns Cronjob array
      */
-    public getCronjobs = async (orgName: string, appName: string, limit?: number, page?: number): Promise<Cronjob[]> => {
+    public getCronjobs = async (orgName: string, spaceName: string, limit?: number, page?: number): Promise<Cronjob[]> => {
         limit = limit || 25;
         page = page || 0;
 
         const resp = await this.axios
-            .get<Cronjob[]>(this.getEndpoint(`/v1/org/${orgName}/apps/${appName}/jobs?page=${page}&limit=${limit}`))
+            .get<Cronjob[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs?page=${page}&limit=${limit}`))
             .catch((err: Error) => {
                 throw err;
             });
@@ -38,14 +38,16 @@ export class FuseCronjob extends base {
     /**
      * getCronjobById returns a cronjob by it's ID
      * @param orgName the organizations's name
-     * @param appName the apps's name
+     * @param spaceName the spaces's name
      * @param cronjobId the cronjob's ID
      * @returns Cronjob
      */
-    public getCronjobById = async (orgName: string, appName: string, cronjobId: string): Promise<Cronjob> => {
-        const resp = await this.axios.get<Cronjob>(this.getEndpoint(`/v1/org/${orgName}/apps/${appName}/jobs/${cronjobId}`)).catch((err: Error) => {
-            throw err;
-        });
+    public getCronjobById = async (orgName: string, spaceName: string, cronjobId: string): Promise<Cronjob> => {
+        const resp = await this.axios
+            .get<Cronjob>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs/${cronjobId}`))
+            .catch((err: Error) => {
+                throw err;
+            });
 
         return resp.data;
     };
@@ -53,13 +55,13 @@ export class FuseCronjob extends base {
     /**
      * getNextCronjobExecutionsById returns an array of the next n cronjob executions as UTC timestamps
      * @param orgName the organizations's name
-     * @param appName the apps's name
+     * @param spaceName the spaces's name
      * @param cronjobId the cronjob's ID
      * @returns Unix timestamp number array
      */
-    public getNextCronjobExecutionsById = async (orgName: string, appName: string, cronjobId: string): Promise<number[]> => {
+    public getNextCronjobExecutionsById = async (orgName: string, spaceName: string, cronjobId: string): Promise<number[]> => {
         const resp = await this.axios
-            .get<number[]>(this.getEndpoint(`/v1/org/${orgName}/apps/${appName}/jobs/${cronjobId}/next`))
+            .get<number[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs/${cronjobId}/next`))
             .catch((err: Error) => {
                 throw err;
             });
@@ -70,13 +72,13 @@ export class FuseCronjob extends base {
     /**
      * createCronjob returns the newly created cronjob
      * @param orgName the organizations's name
-     * @param appName the apps's name
+     * @param spaceName the spaces's name
      * @param createCronjob the cronjob to create
      * @returns Cronjob
      */
-    public createCronjob = async (orgName: string, appName: string, createCronjob: CreateCronjob): Promise<Cronjob> => {
+    public createCronjob = async (orgName: string, spaceName: string, createCronjob: CreateCronjob): Promise<Cronjob> => {
         const resp = await this.axios
-            .post<Cronjob>(this.getEndpoint(`/v1/org/${orgName}/apps/${appName}/jobs`), createCronjob)
+            .post<Cronjob>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs`), createCronjob)
             .catch((err: Error) => {
                 throw err;
             });
@@ -87,13 +89,13 @@ export class FuseCronjob extends base {
     /**
      * updateCronjob returns the updated cronjob
      * @param orgName the organizations's name
-     * @param appName the apps's name
+     * @param spaceName the spaces's name
      * @param createCronjob the cronjob to update
      * @returns Cronjob
      */
-    public updateCronjob = async (orgName: string, appName: string, cronjobId: string, createCronjob: CreateCronjob): Promise<Cronjob> => {
+    public updateCronjob = async (orgName: string, spaceName: string, cronjobId: string, createCronjob: CreateCronjob): Promise<Cronjob> => {
         const resp = await this.axios
-            .put<Cronjob>(this.getEndpoint(`/v1/org/${orgName}/apps/${appName}/jobs/${cronjobId}`), createCronjob)
+            .put<Cronjob>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs/${cronjobId}`), createCronjob)
             .catch((err: Error) => {
                 throw err;
             });
@@ -104,13 +106,13 @@ export class FuseCronjob extends base {
     /**
      * patchCronjobExpression returns the patched cronjob
      * @param orgName the organizations's name
-     * @param appName the apps's name
+     * @param spaceName the spaces's name
      * @param updateCronjob the cronjob to update
      * @returns Cronjob
      */
-    public patchCronjobExpression = async (orgName: string, appName: string, cronjobId: string, expression: string): Promise<Cronjob> => {
+    public patchCronjobExpression = async (orgName: string, spaceName: string, cronjobId: string, expression: string): Promise<Cronjob> => {
         const resp = await this.axios
-            .patch<Cronjob>(this.getEndpoint(`/v1/org/${orgName}/apps/${appName}/jobs/${cronjobId}/expression`), { expression: expression })
+            .patch<Cronjob>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs/${cronjobId}/expression`), { expression: expression })
             .catch((err: Error) => {
                 throw err;
             });
@@ -121,11 +123,11 @@ export class FuseCronjob extends base {
     /**
      * deleteEventByName delete an event by it's name
      * @param orgName the organizations's name
-     * @param appName the apps's name
+     * @param spaceName the spaces's name
      * @param cronjobId the event's name
      */
-    public deleteCronjobById = async (orgName: string, appName: string, cronjobId: string): Promise<void> => {
-        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/apps/${appName}/jobs/${cronjobId}`)).catch((err: Error) => {
+    public deleteCronjobById = async (orgName: string, spaceName: string, cronjobId: string): Promise<void> => {
+        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs/${cronjobId}`)).catch((err: Error) => {
             throw err;
         });
     };

@@ -1,8 +1,8 @@
 import { AxiosInstance } from "axios";
 import base, { Options } from "../../base";
-import { FuseCronjobInternal } from "./app/FuseCronjobInternal";
+import { FuseCronjobInternal } from "./space/FuseCronjobInternal";
 
-export class FuseAppInternal extends base {
+export class FuseSpaceInternal extends base {
     public cronjob: FuseCronjobInternal;
 
     constructor(options: Options, axios: AxiosInstance) {
@@ -11,10 +11,10 @@ export class FuseAppInternal extends base {
     }
 
     /**
-     * deleteAllAppsOfOrganization deletes all apps of an organization by its name
+     * deleteAllSpacesOfOrganization deletes all spaces of an organization by its name
      * @param orgName the organizations's name
      */
-    public deleteAllAppsOfOrganization = async (orgName: string): Promise<void> => {
+    public deleteAllSpacesOfOrganization = async (orgName: string): Promise<void> => {
         await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}`)).catch((err: Error) => {
             throw err;
         });

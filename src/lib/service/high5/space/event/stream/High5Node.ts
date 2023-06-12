@@ -6,7 +6,7 @@ export class High5Node extends base {
     /**
      * Get a list of all Nodes within the active Organization (requires READ permission) that are assigned to a specific stream
      * @param orgName the organizations's name
-     * @param appName the apps's name
+     * @param spaceName the spaces's name
      * @param eventName the event's name
      * @param streamId the stream's id
      * @param limit the maximum results limit (1-100; defaults to 25)
@@ -14,12 +14,12 @@ export class High5Node extends base {
      * @summary Get all nodes
      * @response Nodes[] array holding the Nodes
      */
-    public async getNodes(orgName: string, appName: string, eventName: string, streamId: string, limit?: number, page?: number): Promise<Node[]> {
+    public async getNodes(orgName: string, spaceName: string, eventName: string, streamId: string, limit?: number, page?: number): Promise<Node[]> {
         limit = limit || 25;
         page = page || 0;
         const resp = await this.axios
             .get<Node[]>(
-                this.getEndpoint(`/v1/org/${orgName}/apps/${appName}/events/${eventName}/streams/${streamId}/nodes?page=${page}&limit=${limit}`)
+                this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/nodes?page=${page}&limit=${limit}`)
             )
             .catch((err: Error) => {
                 throw err;
@@ -31,16 +31,16 @@ export class High5Node extends base {
     /**
      * Get a Node by ID within the active organization (requires READ permission)
      * @param orgName the organizations's name
-     * @param appName the apps's name
+     * @param spaceName the spaces's name
      * @param eventName the event's name
      * @param streamId the stream's id
      * @param nodeId Id of the node
      * @summary Get a Node by ID
      * @response Node
      */
-    public async getNodeById(orgName: string, appName: string, eventName: string, streamId: string, nodeId: string): Promise<Node> {
+    public async getNodeById(orgName: string, spaceName: string, eventName: string, streamId: string, nodeId: string): Promise<Node> {
         const resp = await this.axios
-            .get<Node>(this.getEndpoint(`/v1/org/${orgName}/apps/${appName}/events/${eventName}/streams/${streamId}/nodes/${nodeId}`))
+            .get<Node>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/nodes/${nodeId}`))
             .catch((err: Error) => {
                 throw err;
             });
@@ -52,7 +52,7 @@ export class High5Node extends base {
      * Create a new Node
      * @body An object holding the minimal data required for node creation
      * @param orgName the organizations's name
-     * @param appName the apps's name
+     * @param spaceName the spaces's name
      * @param eventName the event's name
      * @param streamId the stream's id
      * @summary Create a new Node
@@ -60,7 +60,7 @@ export class High5Node extends base {
      */
     public async createNode(
         orgName: string,
-        appName: string,
+        spaceName: string,
         eventName: string,
         streamId: string,
         nodeCategory: NodeCategory,
@@ -68,7 +68,7 @@ export class High5Node extends base {
         typescript: string
     ): Promise<Node> {
         const resp = await this.axios
-            .post<Node>(this.getEndpoint(`/v1/org/${orgName}/apps/${appName}/events/${eventName}/streams/${streamId}/nodes`), {
+            .post<Node>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/nodes`), {
                 category: nodeCategory,
                 specification: specification,
                 typescript: typescript,
@@ -83,16 +83,16 @@ export class High5Node extends base {
     /**
      * Delete a Node by ID (requires WRITE permission)
      * @param orgName the organizations's name
-     * @param appName the apps's name
+     * @param spaceName the spaces's name
      * @param eventName the event's name
      * @param streamId the stream's id
      * @param nodeId Id of the node
      * @summary Delete an Node by ID
      * @response 204 No content
      */
-    public async deleteNodeById(orgName: string, appName: string, eventName: string, streamId: string, nodeId: string): Promise<void> {
+    public async deleteNodeById(orgName: string, spaceName: string, eventName: string, streamId: string, nodeId: string): Promise<void> {
         const resp = await this.axios
-            .delete<void>(this.getEndpoint(`/v1/org/${orgName}/apps/${appName}/events/${eventName}/streams/${streamId}/nodes/${nodeId}`))
+            .delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/nodes/${nodeId}`))
             .catch((err: Error) => {
                 throw err;
             });
@@ -101,7 +101,7 @@ export class High5Node extends base {
     /**
      * Patch a Node's content - typescript/javascript fields (requires WRITE permission)
      * @param orgName the organizations's name
-     * @param appName the apps's name
+     * @param spaceName the spaces's name
      * @param eventName the event's name
      * @param streamId the stream's id
      * @param nodeId Id of the node
@@ -112,7 +112,7 @@ export class High5Node extends base {
      */
     public async patchNode(
         orgName: string,
-        appName: string,
+        spaceName: string,
         eventName: string,
         streamId: string,
         nodeId: string,
@@ -134,7 +134,7 @@ export class High5Node extends base {
         const resp = await this.axios
             .patch<Node>(
                 this.getEndpoint(
-                    `/v1/org/${orgName}/apps/${appName}/events/${eventName}/streams/${streamId}/nodes/${nodeId}?regenerateSecret=${regenerateSecret}`
+                    `/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/nodes/${nodeId}?regenerateSecret=${regenerateSecret}`
                 ),
                 patchNode
             )
@@ -148,7 +148,7 @@ export class High5Node extends base {
     /**
      * Get a Node's content by it's secret
      * @param orgName the organizations's name
-     * @param appName the apps's name
+     * @param spaceName the spaces's name
      * @param eventName the event's name
      * @param streamId the stream's id
      * @param nodeId the node's id
@@ -158,7 +158,7 @@ export class High5Node extends base {
      */
     public async getNodeContent(
         orgName: string,
-        appName: string,
+        spaceName: string,
         eventName: string,
         streamId: string,
         nodeId: string,
@@ -166,7 +166,7 @@ export class High5Node extends base {
     ): Promise<string> {
         const resp = await this.axios
             .get<string>(
-                this.getEndpoint(`/v1/org/${orgName}/apps/${appName}/events/${eventName}/streams/${streamId}/nodes/${nodeId}/content/${secret}`)
+                this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/nodes/${nodeId}/content/${secret}`)
             )
             .catch((err: Error) => {
                 throw err;

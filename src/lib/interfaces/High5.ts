@@ -1,13 +1,13 @@
-import { App } from "./Global";
+import { Space } from "./Global";
 import { ReducedOrganization, ReducedUser } from "./IDP";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface High5App extends App {}
+export interface High5Space extends Space { }
 
 export interface Event {
     _id: string;
     name: string;
-    app: string;
+    space: string;
     organization: ReducedOrganization;
     creator: ReducedUser;
     /**
@@ -20,7 +20,7 @@ export interface Stream {
     _id: string;
     name: string;
     event: string;
-    app: string;
+    space: string;
     order: number;
     organization: ReducedOrganization;
     creator: ReducedUser;
@@ -42,7 +42,7 @@ export interface Design {
     build?: unknown;
     streamId: string;
     event: string;
-    app: string;
+    space: string;
     organization: ReducedOrganization;
     creator: ReducedUser;
     /**
@@ -60,7 +60,7 @@ export interface Node {
     category: NodeCategory;
     organization: ReducedOrganization;
     archived: boolean;
-    app: string;
+    space: string;
     event: string;
     streamId: string;
     creator: ReducedUser;
@@ -185,7 +185,7 @@ export interface Webhook {
     url: string;
     type: WebhookType;
     sub: Generic | FrameIo;
-    app: string;
+    space: string;
     target: string;
     organization: ReducedOrganization;
     creator: ReducedUser;
@@ -204,7 +204,7 @@ export interface WebhookCreation {
 export interface WebhookLog {
     _id: string;
     webhookId: string;
-    app: string;
+    space: string;
     organization: ReducedOrganization;
     eventId: string;
     timestamp: number;

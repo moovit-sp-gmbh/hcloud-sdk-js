@@ -12,13 +12,13 @@ enum NatsSubject {
     IDP_ORGANIZATION_MEMBERS = "hcloud.idp.organization.${organizationId}.members",
     IDP_ORGANIZATION_TEAMS = "hcloud.idp.organization.${organizationId}.teams",
 
-    HIGH5_APPS = "hcloud.high5.organization.${organizationId}.apps",
+    HIGH5_SPACES = "hcloud.high5.organization.${organizationId}.spaces",
     HIGH5_STREAM_EXECUTE = "hcloud.high5.organization.${organizationId}.stream.execute.${base64email}",
-    HIGH5_EVENTS = "hcloud.high5.organization.${organizationId}.app.${appId}.events",
-    HIGH5_STREAMS = "hcloud.high5.organization.${organizationId}.app.${appId}.event.${eventId}.streams",
-    HIGH5_SETTINGS_GENERAL = "hcloud.high5.organization.${organizationId}.app.${appId}.settings.general",
-    HIGH5_SETTINGS_WEBHOOKS = "hcloud.high5.organization.${organizationId}.app.${appId}.settings.webhooks",
-    HIGH5_SETTINGS_SECRETS = "hcloud.high5.organization.${organizationId}.app.${appId}.settings.secrets",
+    HIGH5_EVENTS = "hcloud.high5.organization.${organizationId}.space.${spaceId}.events",
+    HIGH5_STREAMS = "hcloud.high5.organization.${organizationId}.space.${spaceId}.event.${eventId}.streams",
+    HIGH5_SETTINGS_GENERAL = "hcloud.high5.organization.${organizationId}.space.${spaceId}.settings.general",
+    HIGH5_SETTINGS_WEBHOOKS = "hcloud.high5.organization.${organizationId}.space.${spaceId}.settings.webhooks",
+    HIGH5_SETTINGS_SECRETS = "hcloud.high5.organization.${organizationId}.space.${spaceId}.settings.secrets",
 
     FUSE_JOBS = "hcloud.fuse.jobs",
     FUSE_JOBS_TRIGGER = "hcloud.fuse.jobs.trigger",
@@ -29,7 +29,7 @@ enum NatsSubject {
 type NatsSubjectReplacements = {
     userId?: string;
     organizationId?: string;
-    appId?: string;
+    spaceId?: string;
     eventId?: string;
     streamId?: string;
     designId?: string;
@@ -55,7 +55,7 @@ enum NatsObjectType {
     PAT = "PAT",
     TEAM = "TEAM",
 
-    APP = "APP",
+    SPACE = "SPACE",
     DESIGN = "DESIGN",
     EVENT = "EVENT",
     EXECUTION = "EXECUTION",
@@ -126,30 +126,30 @@ class NatsSubjects {
             return NatsSubjects.replace(NatsSubject.HIGH5_STREAM_EXECUTE, { organizationId, base64email } as NatsSubjectReplacements);
         };
 
-        static APPS = (organizationId: string) => {
-            return NatsSubjects.replace(NatsSubject.HIGH5_APPS, { organizationId } as NatsSubjectReplacements);
+        static SPACES = (organizationId: string) => {
+            return NatsSubjects.replace(NatsSubject.HIGH5_SPACES, { organizationId } as NatsSubjectReplacements);
         };
 
-        static App = class {
-            static EVENTS = (organizationId: string, appId: string) => {
-                return NatsSubjects.replace(NatsSubject.HIGH5_EVENTS, { organizationId, appId } as NatsSubjectReplacements);
+        static Space = class {
+            static EVENTS = (organizationId: string, spaceId: string) => {
+                return NatsSubjects.replace(NatsSubject.HIGH5_EVENTS, { organizationId, spaceId } as NatsSubjectReplacements);
             };
 
             static Event = class {
-                static STREAMS = (organizationId: string, appId: string, eventId: string) => {
-                    return NatsSubjects.replace(NatsSubject.HIGH5_STREAMS, { organizationId, appId, eventId } as NatsSubjectReplacements);
+                static STREAMS = (organizationId: string, spaceId: string, eventId: string) => {
+                    return NatsSubjects.replace(NatsSubject.HIGH5_STREAMS, { organizationId, spaceId, eventId } as NatsSubjectReplacements);
                 };
             };
 
             static Settings = class {
-                static GENERAL = (organizationId: string, appId: string) => {
-                    return NatsSubjects.replace(NatsSubject.HIGH5_SETTINGS_GENERAL, { organizationId, appId } as NatsSubjectReplacements);
+                static GENERAL = (organizationId: string, spaceId: string) => {
+                    return NatsSubjects.replace(NatsSubject.HIGH5_SETTINGS_GENERAL, { organizationId, spaceId } as NatsSubjectReplacements);
                 };
-                static WEBHOOKS = (organizationId: string, appId: string) => {
-                    return NatsSubjects.replace(NatsSubject.HIGH5_SETTINGS_WEBHOOKS, { organizationId, appId } as NatsSubjectReplacements);
+                static WEBHOOKS = (organizationId: string, spaceId: string) => {
+                    return NatsSubjects.replace(NatsSubject.HIGH5_SETTINGS_WEBHOOKS, { organizationId, spaceId } as NatsSubjectReplacements);
                 };
-                static SECRETS = (organizationId: string, appId: string) => {
-                    return NatsSubjects.replace(NatsSubject.HIGH5_SETTINGS_SECRETS, { organizationId, appId } as NatsSubjectReplacements);
+                static SECRETS = (organizationId: string, spaceId: string) => {
+                    return NatsSubjects.replace(NatsSubject.HIGH5_SETTINGS_SECRETS, { organizationId, spaceId } as NatsSubjectReplacements);
                 };
             };
         };
@@ -163,7 +163,7 @@ class NatsSubjects {
     private static replace = (subject: string, replacements: NatsSubjectReplacements): string => {
         subject = subject.replace("${userId}", replacements.userId || "null");
         subject = subject.replace("${organizationId}", replacements.organizationId || "null");
-        subject = subject.replace("${appId}", replacements.appId || "null");
+        subject = subject.replace("${spaceId}", replacements.spaceId || "null");
         subject = subject.replace("${eventId}", replacements.eventId || "null");
         subject = subject.replace("${streamId}", replacements.streamId || "null");
         subject = subject.replace("${designId}", replacements.designId || "null");

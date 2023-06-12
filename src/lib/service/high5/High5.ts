@@ -1,18 +1,18 @@
 import { AxiosInstance } from "axios";
 import base, { Options } from "../../base";
 import { Version } from "../../interfaces/Global";
-import { High5App } from "./High5App";
-import { High5AppInternal } from "./High5AppInternal";
+import { High5Space } from "./High5Space";
+import { High5SpaceInternal } from "./High5SpaceInternal";
 
 export default class High5 extends base {
-    public app: High5App;
-    public appInternal: High5AppInternal;
+    public space: High5Space;
+    public spaceInternal: High5SpaceInternal;
 
     constructor(options: Options, axios: AxiosInstance) {
         super(options, axios);
 
-        this.app = new High5App(this.options, this.axios);
-        this.appInternal = new High5AppInternal(this.options, this.axios);
+        this.space = new High5Space(this.options, this.axios);
+        this.spaceInternal = new High5SpaceInternal(this.options, this.axios);
     }
 
     /**

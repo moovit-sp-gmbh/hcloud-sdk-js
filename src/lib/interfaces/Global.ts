@@ -31,7 +31,7 @@ export enum Views {
     fuse = "/fuse",
 }
 
-export enum AppPermission {
+export enum SpacePermission {
     NONE = "NONE",
     READ = "READ",
     EXECUTE = "EXECUTE",
@@ -39,17 +39,17 @@ export enum AppPermission {
     MANAGE = "MANAGE",
     OWNER = "OWNER",
 }
-export interface AppUserPermission {
+export interface SpaceUserPermission {
     userId: string;
-    permission: AppPermission;
+    permission: SpacePermission;
 }
 
-export interface App {
+export interface Space {
     _id: string;
     name: string;
     organization: ReducedOrganization;
     creator: ReducedUser;
-    permissions: AppUserPermission[];
+    permissions: SpaceUserPermission[];
     waveEngine: string;
     createDate: number;
     modifyDate: number;

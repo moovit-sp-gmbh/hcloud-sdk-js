@@ -19,7 +19,7 @@ export enum Event {
     Organization = "organization",
     OrganizationMember = "organizationMember",
     Team = "team",
-    App = "app",
+    Space = "space",
     Event = "event",
     Stream = "stream",
     Mail = "mail",

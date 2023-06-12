@@ -1,8 +1,8 @@
-import { App, AppPermission, Header, HttpMethodEnum } from "./Global";
+import { Space, SpacePermission, Header, HttpMethodEnum } from "./Global";
 import { ReducedOrganization, ReducedUser } from "./IDP";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface FuseApp extends App {}
+export interface FuseSpace extends Space { }
 
 export interface Cronjob {
     _id: string;
@@ -10,7 +10,7 @@ export interface Cronjob {
     expression: string;
     organization: ReducedOrganization;
     creator: ReducedUser;
-    app: string;
+    space: string;
     targetUrl: string;
     httpMethod: HttpMethodEnum;
     acceptInvalidSSL: boolean;
@@ -36,9 +36,9 @@ export interface CreateCronjob {
     enabled?: boolean;
 }
 
-export interface UpdateFuseApp {
+export interface UpdateFuseSpace {
     name?: string;
-    permissions?: AppPermission[];
+    permissions?: SpacePermission[];
     organizationId?: string;
 }
 
@@ -55,7 +55,7 @@ export interface CronjobLogDto {
     organization: ReducedOrganization;
     creator: ReducedUser;
     creatorId: string;
-    app: string;
+    space: string;
     headers?: Header[];
     body?: string;
     createDate: number;

@@ -6,7 +6,7 @@ export class High5Design extends base {
     /**
      * getDesigns returns all designs for an event
      * @param orgName the organizations's name
-     * @param appName the apps's name
+     * @param spaceName the spaces's name
      * @param eventName the event's name
      * @param streamId the streams's id
      * @param limit the maximum results limit (1-100; defaults to 25)
@@ -15,7 +15,7 @@ export class High5Design extends base {
      */
     public getDesigns = async (
         orgName: string,
-        appName: string,
+        spaceName: string,
         eventName: string,
         streamId: string,
         limit?: number,
@@ -26,7 +26,7 @@ export class High5Design extends base {
 
         const resp = await this.axios
             .get<Design[]>(
-                this.getEndpoint(`/v1/org/${orgName}/apps/${appName}/events/${eventName}/streams/${streamId}/designs?page=${page}&limit=${limit}`)
+                this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/designs?page=${page}&limit=${limit}`)
             )
             .catch((err: Error) => {
                 throw err;
@@ -38,15 +38,15 @@ export class High5Design extends base {
     /**
      * getStreamById returns a design by its ID
      * @param orgName the organizations's name
-     * @param appName the apps's name
+     * @param spaceName the spaces's name
      * @param eventName the event's name
      * @param streamId the stream's id
      * @param designId the design's id
      * @returns Design
      */
-    public getDesignById = async (orgName: string, appName: string, eventName: string, streamId: string, designId: string): Promise<Design> => {
+    public getDesignById = async (orgName: string, spaceName: string, eventName: string, streamId: string, designId: string): Promise<Design> => {
         const resp = await this.axios
-            .get<Design>(this.getEndpoint(`/v1/org/${orgName}/apps/${appName}/events/${eventName}/streams/${streamId}/designs/${designId}`))
+            .get<Design>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/designs/${designId}`))
             .catch((err: Error) => {
                 throw err;
             });
@@ -57,7 +57,7 @@ export class High5Design extends base {
     /**
      * createDesign return the newly created design
      * @param orgName the organizations's name
-     * @param appName the apps's name
+     * @param spaceName the spaces's name
      * @param eventName the event's name
      * @param streamId the stream's id
      * @param design design json payload (schema created by Stream Designer Studio)
@@ -66,7 +66,7 @@ export class High5Design extends base {
      */
     public createDesign = async (
         orgName: string,
-        appName: string,
+        spaceName: string,
         eventName: string,
         streamId: string,
         name: string,
@@ -74,7 +74,7 @@ export class High5Design extends base {
         build?: unknown
     ): Promise<Design> => {
         const resp = await this.axios
-            .post<Design>(this.getEndpoint(`/v1/org/${orgName}/apps/${appName}/events/${eventName}/streams/${streamId}/designs`), {
+            .post<Design>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/designs`), {
                 name: name,
                 design: design,
                 build: build,

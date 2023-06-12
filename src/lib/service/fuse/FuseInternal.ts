@@ -1,11 +1,11 @@
 import { AxiosInstance } from "axios";
 import { Options } from "../../base";
-import { FuseAppInternal } from "./FuseAppInternal";
+import { FuseSpaceInternal } from "./FuseSpaceInternal";
 
 export class FuseInternal {
-    public app: FuseAppInternal;
+    public space: FuseSpaceInternal;
 
     constructor(options: Options, axios: AxiosInstance) {
-        this.app = new FuseAppInternal(options, axios);
+        this.space = new FuseSpaceInternal(options, axios);
     }
 }

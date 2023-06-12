@@ -14,17 +14,17 @@ export class High5Webhook extends base {
     /**
      * getWebhooks requests all webhooks for the user's active organization
      * @param orgName the organizations's name
-     * @param appName the apps's name
+     * @param spaceName the spaces's name
      * @param limit an optional response limit limit (1-100; defaults to 25)
      * @param page an optional page to skip certain results (page * limit; defaults to 0)
      * @returns an array of webhooks and the total number of webhooks (independent of the limit and page)
      */
-    public getWebhooks = async (orgName: string, appName: string, limit?: number, page?: number): Promise<[Webhook[], number]> => {
+    public getWebhooks = async (orgName: string, spaceName: string, limit?: number, page?: number): Promise<[Webhook[], number]> => {
         limit = limit || 25;
         page = page || 0;
 
         const resp = await this.axios
-            .get<Webhook[]>(this.getEndpoint(`/v1/org/${orgName}/apps/${appName}/webhooks?limit=${limit}&page=${page}`))
+            .get<Webhook[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/webhooks?limit=${limit}&page=${page}`))
             .catch((err: Error) => {
                 throw err;
             });
@@ -35,13 +35,13 @@ export class High5Webhook extends base {
     /**
      * getWebhookById requests the specified webhook by ID
      * @param orgName the organizations's name
-     * @param appName the apps's name
+     * @param spaceName the spaces's name
      * @param webhookId the ID of the webhook to be retrieved
      * @returns the webhook
      */
-    public getWebhookById = async (orgName: string, appName: string, webhookId: string): Promise<Webhook> => {
+    public getWebhookById = async (orgName: string, spaceName: string, webhookId: string): Promise<Webhook> => {
         const resp = await this.axios
-            .get<Webhook>(this.getEndpoint(`/v1/org/${orgName}/apps/${appName}/webhooks/${webhookId}`))
+            .get<Webhook>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/webhooks/${webhookId}`))
             .catch((err: Error) => {
                 throw err;
             });
@@ -52,13 +52,13 @@ export class High5Webhook extends base {
     /**
      * regenerateWebhookUrl creates a new URL for the specified webhook. This is suggested if a leak of the current URL is likely.
      * @param orgName the organizations's name
-     * @param appName the apps's name
+     * @param spaceName the spaces's name
      * @param webhookId of the webhook to be retrieved
      * @returns the webhook with the regenerated URL
      */
-    public regenerateWebhookUrl = async (orgName: string, appName: string, webhookId: string): Promise<Webhook> => {
+    public regenerateWebhookUrl = async (orgName: string, spaceName: string, webhookId: string): Promise<Webhook> => {
         const resp = await this.axios
-            .patch<Webhook>(this.getEndpoint(`/v1/org/${orgName}/apps/${appName}/webhooks/${webhookId}/regenerateUrl`))
+            .patch<Webhook>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/webhooks/${webhookId}/regenerateUrl`))
             .catch((err: Error) => {
                 throw err;
             });
@@ -69,13 +69,13 @@ export class High5Webhook extends base {
     /**
      * createWebhook creates a new webhook for the user's active organization
      * @param orgName the organizations's name
-     * @param appName the apps's name
-     * @param webhookCreation is an object/JSON containing the name, token, eventId, appId, target and (optionally) security headers for the new webhook
+     * @param spaceName the spaces's name
+     * @param webhookCreation is an object/JSON containing the name, token, eventId, spaceId, target and (optionally) security headers for the new webhook
      * @returns the newly created webhook
      */
-    public createWebhook = async (orgName: string, appName: string, webhookCreation: WebhookCreation): Promise<Webhook> => {
+    public createWebhook = async (orgName: string, spaceName: string, webhookCreation: WebhookCreation): Promise<Webhook> => {
         const resp = await this.axios
-            .post<Webhook>(this.getEndpoint(`/v1/org/${orgName}/apps/${appName}/webhooks`), webhookCreation)
+            .post<Webhook>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/webhooks`), webhookCreation)
             .catch((err: Error) => {
                 throw err;
             });
@@ -86,14 +86,14 @@ export class High5Webhook extends base {
     /**
      * updateWebhook updates an existing webhook
      * @param orgName the organizations's name
-     * @param appName the apps's name
+     * @param spaceName the spaces's name
      * @param webhookId of the webhook to be updated
-     * @param webhookCreation is an object/JSON containing the name, token, eventId, appId, target and (optionally) security headers for the updated webhook
+     * @param webhookCreation is an object/JSON containing the name, token, eventId, spaceId, target and (optionally) security headers for the updated webhook
      * @returns the updated webhook
      */
-    public updateWebhook = async (orgName: string, appName: string, webhookId: string, webhookCreation: WebhookCreation): Promise<Webhook> => {
+    public updateWebhook = async (orgName: string, spaceName: string, webhookId: string, webhookCreation: WebhookCreation): Promise<Webhook> => {
         const resp = await this.axios
-            .put<Webhook>(this.getEndpoint(`/v1/org/${orgName}/apps/${appName}/webhooks/${webhookId}`), webhookCreation)
+            .put<Webhook>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/webhooks/${webhookId}`), webhookCreation)
             .catch((err: Error) => {
                 throw err;
             });
@@ -104,13 +104,13 @@ export class High5Webhook extends base {
     /**
      * deleteWebhook deletes the specified webhook
      * @param orgName the organizations's name
-     * @param appName the apps's name
+     * @param spaceName the spaces's name
      * @param webhookId the ID of the webhook to be deleted
      * @returns void
      */
-    public deleteWebhook = async (orgName: string, appName: string, webhookId: string): Promise<void> => {
+    public deleteWebhook = async (orgName: string, spaceName: string, webhookId: string): Promise<void> => {
         const resp = await this.axios
-            .delete<Webhook[]>(this.getEndpoint(`/v1/org/${orgName}/apps/${appName}/webhook/${webhookId}`))
+            .delete<Webhook[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/webhook/${webhookId}`))
             .catch((err: Error) => {
                 throw err;
             });

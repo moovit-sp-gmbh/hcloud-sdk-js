@@ -10,6 +10,7 @@ export enum Origin {
     High5 = "high5",
     Auditor = "auditor",
     Mailer = "mailer",
+    Fuse = "fuse",
 }
 
 export enum Event {
@@ -24,6 +25,7 @@ export enum Event {
     Stream = "stream",
     Mail = "mail",
     Webhook = "webhook",
+    Cronjob = "cronjob",
     Secret = "secret",
 }
 

@@ -51,6 +51,8 @@ export interface AuditLog {
     event: Event;
     type?: Type;
     message?: unknown;
+    user: string;
+    timestamp: number;
 }
 
 export interface AuditLogFilter {

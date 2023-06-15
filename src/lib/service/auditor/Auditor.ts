@@ -34,7 +34,7 @@ export default class Auditor extends base {
      * @returns A list of audit logs
      */
     /* eslint-disable complexity */
-    getAuditLogs = async (organizationName: string, limit?: number, page?: number, filter?: AuditLogFilter): Promise<AuditLog[]> => {
+    getAuditLogs = async (organizationName: string, limit?: number, page?: number, filter?: AuditLogFilter): Promise<[AuditLog[], Number]> => {
         const parameters = [];
         let paramsUrl = "";
 
@@ -57,7 +57,7 @@ export default class Auditor extends base {
             throw err;
         });
 
-        return resp.data;
+        return [resp.data, parseInt(String(resp.headers["total"]), 10)];
     };
     /* eslint-disable complexity */
 

@@ -75,7 +75,7 @@ export class IdpOrganizationTeams extends base {
      * @param page an optional page to skip certain results (page * limit; defaults to 0)
      * @returns a list of team objects
      */
-    public listTeams = async (orgName: string, limit?: number, page?: number): Promise<Team[]> => {
+    public listTeams = async (orgName: string, limit?: number, page?: number): Promise<[Team[], number]> => {
         limit = limit || 25;
         page = page || 0;
 
@@ -83,7 +83,7 @@ export class IdpOrganizationTeams extends base {
             throw err;
         });
 
-        return resp.data;
+        return [resp.data, parseInt(String(resp.headers["total"]), 10)];
     };
 
     protected getEndpoint(endpoint: string): string {

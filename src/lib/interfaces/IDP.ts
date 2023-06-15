@@ -190,7 +190,6 @@ export interface OAuthToken {
 
 export interface OAuthAppCreation {
     name: string;
-    secretName: string;
     avatar?: string;
     description?: string;
     homepage?: string;

@@ -34,7 +34,7 @@ export default class Auditor extends base {
      * @returns A list of audit logs
      */
     /* eslint-disable complexity */
-    getAuditLogs = async (organizationName: string, limit?: number, page?: number, filter?: AuditLogFilter): Promise<[AuditLog[], Number]> => {
+    getAuditLogs = async (organizationName: string, limit?: number, page?: number, filter?: AuditLogFilter): Promise<[AuditLog[], number]> => {
         const parameters = [];
         let paramsUrl = "";
 

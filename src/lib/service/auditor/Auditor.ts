@@ -38,8 +38,12 @@ export default class Auditor extends base {
         const parameters = [];
         let paramsUrl = "";
 
-        parameters.push("limit" + limit || 25);
-        parameters.push((page = page || 0));
+        if (limit) {
+            parameters.push("limit=" + limit);
+        }
+        if (page) {
+            parameters.push("page=" + page);
+        }
 
         if (filter) {
             if (filter.origin) parameters.push("origin=" + filter.origin);

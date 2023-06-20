@@ -227,6 +227,12 @@ export interface WaveEngine {
     content: string;
 }
 
+export interface WaveEngineReleaseAsset {
+    releaseTag: string;
+    browserUrl: string;
+    latest?: boolean;
+}
+
 export interface KeyValuePair<T> {
     [key: string]: T;
 }

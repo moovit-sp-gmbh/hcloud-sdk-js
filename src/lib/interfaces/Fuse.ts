@@ -2,7 +2,7 @@ import { Space, SpacePermission, Header, HttpMethodEnum } from "./Global";
 import { ReducedOrganization, ReducedUser } from "./IDP";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface FuseSpace extends Space { }
+export interface FuseSpace extends Space {}
 
 export interface Cronjob {
     _id: string;

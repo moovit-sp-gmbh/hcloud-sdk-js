@@ -75,6 +75,34 @@ export default class IDP extends base {
         return authed;
     };
 
+    /**
+     * Start the login process via OIDC
+     * @param origin         The starting URL of the process. After obtaining the credentials, the user will be redirected back to this url.
+     * @param [oidcProvider] The provider to use for the process. Only optional if the user is part of an organization
+     *                       that has a preferred OIDC provider and an associated email that matches the user's.
+     *                       The list of available providers can be found in the public config endpoint.
+     * @param [hint]         A valid email address of the user that wants to login. Hint must be defined when provider is not.
+     * @returns string the URL that must be accessed via a browser to continue the login process.
+     */
+    loginWithOIDC = async (origin: string, oidcProvider?: string, hint?: string): Promise<string> => {
+        const resp = await this.axios.get(this.getEndpoint("/v1/login/oidc"), {
+            params: {
+                origin,
+                provider: oidcProvider,
+                hint,
+            },
+            maxRedirects: 0,
+            validateStatus: status => {
+                return status >= 300 && status < 400;
+            },
+        });
+        const location = resp.headers.location;
+        if (!location) {
+            throw new Error("Location header is undefined.");
+        }
+        return location;
+    };
+
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/account${endpoint}`;
     }

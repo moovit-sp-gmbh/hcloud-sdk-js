@@ -103,6 +103,30 @@ export default class IDP extends base {
         return location;
     };
 
+    /**
+     * Start the login process via SAML 2.0
+     * @param origin The starting URL of the process. After obtaining the credentials, the user will be redirected back to this url.
+     * @param email  The user's email. The email domain will be used to determine the appropriate SAML 2.0 provider to use going forward.
+     * @returns string the URL that must be accessed via a browser to continue the login process.
+     */
+    loginWithSAML = async (origin: string, email: string): Promise<string> => {
+        const resp = await this.axios.get(this.getEndpoint("/v1/login/saml"), {
+            params: {
+                origin,
+                email,
+            },
+            maxRedirects: 0,
+            validateStatus: status => {
+                return status >= 300 && status < 400;
+            },
+        });
+        const location = resp.headers.location;
+        if (!location) {
+            throw new Error("Location header is undefined.");
+        }
+        return location;
+    };
+
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/account${endpoint}`;
     }

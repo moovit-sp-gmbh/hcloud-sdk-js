@@ -39,8 +39,8 @@ export enum SpacePermission {
     MANAGE = "MANAGE",
     OWNER = "OWNER",
 }
-export interface SpaceUserPermission {
-    userId: string;
+export interface SpaceEntityPermission {
+    entityId: string;
     permission: SpacePermission;
 }
 
@@ -49,7 +49,7 @@ export interface Space {
     name: string;
     organization: ReducedOrganization;
     creator: ReducedUser;
-    permissions: SpaceUserPermission[];
+    permissions: SpaceEntityPermission[];
     waveEngine: string;
     createDate: number;
     modifyDate: number;

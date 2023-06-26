@@ -92,12 +92,12 @@ export class FuseSpace extends base {
      * patchSpacePermission return the patched space
      * @param orgName the organizations's name
      * @param spaceName the space's name
-     * @param userId the target user
+     * @param entityId the target user
      * @param permission the target permission - user SpacePermission.NONE to remove any permission)
      */
-    public patchSpacePermission = async (orgName: string, spaceName: string, userId: string, permission: SpacePermission): Promise<FuseSpace> => {
+    public patchSpacePermission = async (orgName: string, spaceName: string, entityId: string, permission: SpacePermission): Promise<FuseSpace> => {
         const resp = await this.axios
-            .patch<FuseSpace>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/permissions`), { userId: userId, permission: permission })
+            .patch<FuseSpace>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/permissions`), { entityId: entityId, permission: permission })
             .catch((err: Error) => {
                 throw err;
             });

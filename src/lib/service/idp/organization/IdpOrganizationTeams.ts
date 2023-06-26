@@ -1,4 +1,6 @@
 import base from "../../../base";
+import { SearchFilterDTO } from "../../../helper/searchFilter";
+import { SearchFilter, Sorting } from "../../../interfaces/global/searchFilters";
 import { Team, TeamUsersPatchOperation } from "../../../interfaces/IDP";
 
 export class IdpOrganizationTeams extends base {
@@ -86,6 +88,41 @@ export class IdpOrganizationTeams extends base {
         return [resp.data, parseInt(String(resp.headers["total"]), 10)];
     };
 
+    /**
+     * searchTeams requests teams for an organization using one or more search filters
+     * @param params.organizationName Name of the organization
+     * @param params.filters an array of search filters
+     * @param params.sorting an optional sorting direction
+     * @param params.limit an optional response limit limit (1-100; defaults to 25)
+     * @param params.page an optional page to skip certain results (page * limit; defaults to 0)
+     * @returns Organization array
+     */
+    public searchTeams = async (params: {
+        organizationName: string;
+        filters: SearchFilter[];
+        sorting?: Sorting;
+        limit?: number;
+        page?: number;
+    }): Promise<[Team[], number]> => {
+        const limit = params.limit || 25;
+        const page = params.page || 0;
+
+        // convert SearchFilters to DTO
+        const filtersDTO = params.filters.map((f: SearchFilter) => {
+            return new SearchFilterDTO(f);
+        });
+
+        const resp = await this.axios
+            .post<Team[]>(this.getEndpoint(`/${params.organizationName}/teams/search?limit=${limit}&page=${page}`), {
+                filters: filtersDTO,
+                sorting: params.sorting,
+            })
+            .catch((err: Error) => {
+                throw err;
+            });
+
+        return [resp.data, parseInt(String(resp.headers["total"]), 10)];
+    };
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/account/v1/org${endpoint}`;
     }

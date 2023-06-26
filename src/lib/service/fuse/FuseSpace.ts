@@ -105,6 +105,33 @@ export class FuseSpace extends base {
         return resp.data;
     };
 
+    /**
+     * patchTeamSpacePermission patch the permissions of a Team
+     * A team cannot be an owner of a Space.
+     * @param orgName the organizations's name
+     * @param spaceName the space's name
+     * @param entityId the target team
+     * @param permission the target permission - user SpacePermission.NONE to remove any permission)
+     * @returns the patched space
+     */
+    public patchTeamSpacePermission = async (
+        orgName: string,
+        spaceName: string,
+        entityId: string,
+        permission: SpacePermission
+    ): Promise<FuseSpace> => {
+        const resp = await this.axios
+            .patch<FuseSpace>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/team/permissions`), {
+                entityId: entityId,
+                permission: permission,
+            })
+            .catch((err: Error) => {
+                throw err;
+            });
+
+        return resp.data;
+    };
+
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/fuse${endpoint}`;
     }

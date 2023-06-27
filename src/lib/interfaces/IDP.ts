@@ -157,6 +157,7 @@ export interface DeactivatedTotp {
     activated: boolean;
     otpAuthUrl: string;
     qrcode: string;
+    secret: string;
     createDate: number;
     modifyDate: number;
 }

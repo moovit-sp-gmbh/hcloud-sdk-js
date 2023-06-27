@@ -3,15 +3,18 @@ import { AxiosInstance } from "axios";
 import { Version } from "../../interfaces/Global";
 import { FuseSpace } from "./FuseSpace";
 import { FuseInternal } from "./FuseInternal";
+import { FuseSpaceInternal } from "./FuseSpaceInternal";
 
 export default class Fuse extends base {
     public space: FuseSpace;
     public internal: FuseInternal;
+    public spaceInternal: FuseSpaceInternal;
 
     constructor(options: Options, axios: AxiosInstance) {
         super(options, axios);
 
         this.space = new FuseSpace(this.options, this.axios);
+        this.spaceInternal = new FuseSpaceInternal(this.options, this.axios);
         this.internal = new FuseInternal(this.options, this.axios);
     }
 

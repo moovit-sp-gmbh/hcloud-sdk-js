@@ -2,7 +2,7 @@ import { AxiosInstance } from "axios";
 import Base, { Options } from "../../../../base";
 import { OAuthApp } from "../../../../interfaces/IDP";
 
-export class OAuthApps extends Base {
+export class IdpOAuthApps extends Base {
     constructor(options: Options, axios: AxiosInstance) {
         super(options, axios);
     }

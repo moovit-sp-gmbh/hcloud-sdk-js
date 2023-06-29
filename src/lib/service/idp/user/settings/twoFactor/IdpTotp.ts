@@ -24,9 +24,11 @@ export class IdpTotp extends base {
      * @returns a list of recover codes in case of TOTP authenticator loss
      */
     public activateTotp = async (token: string): Promise<ActivatedTotp> => {
-        const resp = await this.axios.patch<ActivatedTotp>(this.getEndpoint(`/v1/user/settings/security/2fa/totp/activate`), { token }).catch((err: Error) => {
-            throw err;
-        });
+        const resp = await this.axios
+            .patch<ActivatedTotp>(this.getEndpoint(`/v1/user/settings/security/2fa/totp/activate`), { token })
+            .catch((err: Error) => {
+                throw err;
+            });
 
         return resp.data;
     };

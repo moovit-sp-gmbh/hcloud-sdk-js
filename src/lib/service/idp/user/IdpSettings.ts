@@ -3,6 +3,7 @@ import base, { Options } from "../../../base";
 import { IdpPat } from "./settings/IdpPats";
 import { IdpTwoFactor } from "./settings/twoFactor/IdpTwoFactor";
 import { IdpGeneral } from "./settings/IdpGeneral";
+import { IdpOAuthApps } from "./settings/IdpOAuthApps";
 
 export class IdpSettings extends base {
     /**
@@ -16,6 +17,11 @@ export class IdpSettings extends base {
     public general: IdpGeneral;
 
     /**
+     * OAuthApps manages user's OAuth applications
+     */
+    public oAuthApps: IdpOAuthApps;
+
+    /**
      * twoFactor handles everything around a user's two factor authentication
      */
     public twoFactor: IdpTwoFactor;
@@ -25,6 +31,7 @@ export class IdpSettings extends base {
         this.pat = new IdpPat(options, axios);
         this.twoFactor = new IdpTwoFactor(options, axios);
         this.general = new IdpGeneral(options, axios);
+        this.oAuthApps = new IdpOAuthApps(options, axios);
     }
 
     protected getEndpoint(endpoint: string): string {

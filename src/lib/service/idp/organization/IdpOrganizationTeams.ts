@@ -20,13 +20,13 @@ export class IdpOrganizationTeams extends base {
     };
 
     /**
-     * deleteTeam deletes a new team by id
+     * deleteTeam deletes a new team by name
      * @param orgName the organization name
-     * @param teamId the id of the team
+     * @param teamName the name of the team
      * @returns 204 no content
      */
-    public deleteTeam = async (orgName: string, teamId: string): Promise<void> => {
-        await this.axios.delete<void>(this.getEndpoint(`/${orgName}/teams/${teamId}`)).catch((err: Error) => {
+    public deleteTeam = async (orgName: string, teamName: string): Promise<void> => {
+        await this.axios.delete<void>(this.getEndpoint(`/${orgName}/teams/${teamName}`)).catch((err: Error) => {
             throw err;
         });
     };
@@ -34,7 +34,7 @@ export class IdpOrganizationTeams extends base {
     /**
      * patchTeam updates parameter of existing team
      * @param orgName the organization name
-     * @param teamId the id of the team
+     * @param teamName the name of the team
      * @param newName (optional) the new name of the team
      * @param userIds (optional) a list of user ids that should be added to or deleted from or set to the team depending on @param usersOperation. Max 1k ids allowed at a time.
      * @param teamUsersPatchOperation (optional) add, set, remove -> that operation will be performed on that array. Not found ids will be ignored
@@ -42,13 +42,17 @@ export class IdpOrganizationTeams extends base {
      */
     public patchTeam = async (
         orgName: string,
-        teamId: string,
+        teamName: string,
         newName?: string,
         userIds?: string[],
         teamUsersPatchOperation?: TeamUsersPatchOperation
     ): Promise<Team> => {
         const resp = await this.axios
-            .patch<Team>(this.getEndpoint(`/${orgName}/teams/${teamId}`), { name: newName, users: userIds, usersOperation: teamUsersPatchOperation })
+            .patch<Team>(this.getEndpoint(`/${orgName}/teams/${teamName}`), {
+                name: newName,
+                users: userIds,
+                usersOperation: teamUsersPatchOperation,
+            })
             .catch((err: Error) => {
                 throw err;
             });
@@ -57,13 +61,13 @@ export class IdpOrganizationTeams extends base {
     };
 
     /**
-     * getTeam get a team by it's id
+     * getTeam get a team by it's name
      * @param orgName the organization name
-     * @param teamId the id of the team
+     * @param teamName the name of the team
      * @returns team object
      */
-    public getTeam = async (orgName: string, teamId: string): Promise<Team> => {
-        const resp = await this.axios.get<Team>(this.getEndpoint(`/${orgName}/teams/${teamId}`)).catch((err: Error) => {
+    public getTeam = async (orgName: string, teamName: string): Promise<Team> => {
+        const resp = await this.axios.get<Team>(this.getEndpoint(`/${orgName}/teams/${teamName}`)).catch((err: Error) => {
             throw err;
         });
 

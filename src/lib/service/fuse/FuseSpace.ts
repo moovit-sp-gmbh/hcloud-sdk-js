@@ -1,7 +1,8 @@
 import { AxiosInstance } from "axios";
 import base, { Options } from "../../base";
+import { SearchFilterDTO } from "../../helper/searchFilter";
 import { UpdateFuseSpace } from "../../interfaces/Fuse";
-import { SpacePermission } from "../../interfaces/Global";
+import { SearchFilter, Sorting, SpacePermission } from "../../interfaces/Global";
 import { FuseCronjob } from "./space/FuseCronjob";
 
 export class FuseSpace extends base {
@@ -11,26 +12,6 @@ export class FuseSpace extends base {
         super(options, axios);
         this.cronjob = new FuseCronjob(this.options, this.axios);
     }
-
-    /**
-     * getSpaces returns all space's with READ+ permission for the organization
-     * @param orgName the organizations's name
-     * @param limit the maximum results limit (1-100; defaults to 25)
-     * @param page the results to skip (page * limit)
-     * @returns Space array
-     */
-    public getSpaces = async (orgName: string, limit?: number, page?: number): Promise<[FuseSpace[], number]> => {
-        limit = limit || 25;
-        page = page || 0;
-
-        const resp = await this.axios
-            .get<FuseSpace[]>(this.getEndpoint(`/v1/org/${orgName}/spaces?page=${page}&limit=${limit}`))
-            .catch((err: Error) => {
-                throw err;
-            });
-
-        return [resp.data, parseInt(String(resp.headers["total"]), 10)];
-    };
 
     /**
      * getSpaceByName returns a space by its name
@@ -130,6 +111,37 @@ export class FuseSpace extends base {
             });
 
         return resp.data;
+    };
+
+    /**
+     * searchSpaces search for spaces of an Organization
+     * @param orgName the organizations's name
+     * @param [filters] the search filter to be used
+     * @param [limit] page size
+     * @param [page] page number
+     * @returns list of filtered spaces
+     */
+    public searchSpaces = async (
+        orgName: string,
+        filters?: SearchFilter[],
+        sorting?: Sorting,
+        limit = 25,
+        page = 0
+    ): Promise<[FuseSpace[], number]> => {
+        const filtersDTO = filters?.map((f: SearchFilter) => {
+            return new SearchFilterDTO(f);
+        });
+
+        const resp = await this.axios
+            .post<FuseSpace[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/search?limit=${limit}&page=${page}`), {
+                filters: filtersDTO,
+                sorting,
+            })
+            .catch((err: Error) => {
+                throw err;
+            });
+
+        return [resp.data, parseInt(String(resp.headers["total"]), 10)];
     };
 
     protected getEndpoint(endpoint: string): string {

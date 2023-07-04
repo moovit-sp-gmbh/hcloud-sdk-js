@@ -35,7 +35,7 @@ export class FuseSpace extends base {
     /**
      * getSpaceByName returns a space by its name
      * @param orgName the organizations's name
-     * @param spaceId the space's id
+     * @param spaceName the space's name
      * @returns Space
      */
     public getSpaceByName = async (orgName: string, spaceName: string): Promise<FuseSpace> => {

@@ -1,6 +1,8 @@
 import { AxiosInstance } from "axios";
 import base, { Options } from "../../../base";
+import { SearchFilterDTO } from "../../../helper/searchFilter";
 import { CreateCronjob, Cronjob } from "../../../interfaces/Fuse";
+import { SearchFilter, Sorting } from "../../../interfaces/Global";
 import { FuseCronjobLog } from "./log/FuseCronjobLog";
 import { FuseCronjobLogInternal } from "./log/FuseCronjobLogInternal";
 
@@ -13,27 +15,6 @@ export class FuseCronjob extends base {
         this.cronjobLog = new FuseCronjobLog(this.options, this.axios);
         this.cronjobLogInternal = new FuseCronjobLogInternal(this.options, this.axios);
     }
-
-    /**
-     * getCronjobs returns all cronjobs for a space
-     * @param orgName the organizations's name
-     * @param spaceName the spaces's name
-     * @param limit the maximum results limit (1-100; defaults to 25)
-     * @param page the results to skip (page * limit)
-     * @returns Cronjob array
-     */
-    public getCronjobs = async (orgName: string, spaceName: string, limit?: number, page?: number): Promise<Cronjob[]> => {
-        limit = limit || 25;
-        page = page || 0;
-
-        const resp = await this.axios
-            .get<Cronjob[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs?page=${page}&limit=${limit}`))
-            .catch((err: Error) => {
-                throw err;
-            });
-
-        return resp.data;
-    };
 
     /**
      * getCronjobById returns a cronjob by it's ID
@@ -130,6 +111,39 @@ export class FuseCronjob extends base {
         await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs/${cronjobId}`)).catch((err: Error) => {
             throw err;
         });
+    };
+
+    /**
+     * searchCronjobs search for jobs of a space
+     * @param orgName the organizations's name
+     * @param spaceName the space's name
+     * @param [searchFilter] the search filter to be used
+     * @param [limit] page size
+     * @param [page] page number
+     * @returns filtered cronjobs list
+     */
+    public searchCronjobs = async <TFilter extends SearchFilter>(
+        orgName: string,
+        spaceName: string,
+        filters?: TFilter[],
+        sorting?: Sorting,
+        limit = 25,
+        page = 0
+    ): Promise<[Cronjob[], number]> => {
+        const filtersDTO = filters?.map((f: SearchFilter) => {
+            return new SearchFilterDTO(f);
+        });
+
+        const resp = await this.axios
+            .post<Cronjob[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs/search?limit=${limit}&page=${page}`), {
+                filters: filtersDTO,
+                sorting,
+            })
+            .catch((err: Error) => {
+                throw err;
+            });
+
+        return [resp.data, parseInt(String(resp.headers["total"]), 10)];
     };
 
     protected getEndpoint(endpoint: string): string {

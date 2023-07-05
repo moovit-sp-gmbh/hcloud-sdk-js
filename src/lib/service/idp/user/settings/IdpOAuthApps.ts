@@ -1,5 +1,7 @@
 import { AxiosInstance } from "axios";
 import Base, { Options } from "../../../../base";
+import { SearchFilterDTO } from "../../../../helper/searchFilter";
+import { SearchFilter, Sorting } from "../../../../interfaces/Global";
 import { OAuthApp } from "../../../../interfaces/IDP";
 
 export class IdpOAuthApps extends Base {
@@ -7,15 +9,20 @@ export class IdpOAuthApps extends Base {
         super(options, axios);
     }
 
-    public getAllOAuthApps = async (limit?: number, page?: number): Promise<OAuthApp[]> => {
-        limit = limit || 25;
-        page = page || 0;
-
-        const response = await this.axios.get(this.getEndpoint(`/v1/user/settings/oauth/list?limit=${limit}&page=${page}`)).catch((err: Error) => {
-            throw err;
+    public searchOAuthApps = async (filters?: SearchFilter[], sorting?: Sorting, limit = 25, page = 0): Promise<[OAuthApp[], number]> => {
+        const filtersDTO = filters?.map((f: SearchFilter) => {
+            return new SearchFilterDTO(f);
         });
+        const response = await this.axios
+            .post<OAuthApp[]>(this.getEndpoint(`/v1/user/settings/oauth/search?limit=${limit}&page=${page}`), {
+                filters: filtersDTO,
+                sorting: sorting,
+            })
+            .catch((err: Error) => {
+                throw err;
+            });
 
-        return response.data;
+        return [response.data, parseInt(String(response.headers.total), 10)];
     };
 
     public revokeOAuthAppAccess = async (oAuthAppId: string): Promise<void> => {

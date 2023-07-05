@@ -1,7 +1,7 @@
 import base from "../../../base";
 import { SearchFilterDTO } from "../../../helper/searchFilter";
 import { SearchFilter, Sorting } from "../../../interfaces/global/searchFilters";
-import { Team, TeamUsersPatchOperation } from "../../../interfaces/IDP";
+import { ReducedUser, Team, TeamUsersPatchOperation } from "../../../interfaces/IDP";
 
 export class IdpOrganizationTeams extends base {
     /**
@@ -127,6 +127,45 @@ export class IdpOrganizationTeams extends base {
 
         return [resp.data, parseInt(String(resp.headers["total"]), 10)];
     };
+
+    /**
+     * searchTeamMembers search for members of a team using one or more search filters
+     * @param {string} organizationName Name of the organization
+     * @param {string} teamName Name of the team
+     * @param {SearchFilter[]} [filters] an array of search filters
+     * @param {Sorting} [sorting] an optional sorting direction
+     * @param {number} [limit=25] an optional response limit limit (1-100; defaults to 25)
+     * @param {number} [page=0] - an optional page to skip certain results (page * limit; defaults to 0)
+     * @returns ReducedUser + email array
+     */
+    public searchTeamMembers = async (
+        organizationName: string,
+        teamName: string,
+        filters?: SearchFilter[],
+        sorting?: Sorting,
+        limit = 25,
+        page = 0
+    ): Promise<[(ReducedUser & { email: string })[], number]> => {
+        // convert SearchFilters to DTO
+        const filtersDTO = filters?.map((f: SearchFilter) => {
+            return new SearchFilterDTO(f);
+        });
+
+        const resp = await this.axios
+            .post<(ReducedUser & { email: string })[]>(
+                this.getEndpoint(`/${organizationName}/teams/${teamName}/members/search?limit=${limit}&page=${page}`),
+                {
+                    filters: filtersDTO,
+                    sorting: sorting,
+                }
+            )
+            .catch((err: Error) => {
+                throw err;
+            });
+
+        return [resp.data, parseInt(String(resp.headers["total"]), 10)];
+    };
+
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/account/v1/org${endpoint}`;
     }

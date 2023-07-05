@@ -15,27 +15,6 @@ export class High5Event extends base {
     }
 
     /**
-     * getEvents returns all event for a space
-     * @param orgName the organizations's name
-     * @param spaceName the spaces's name
-     * @param limit the maximum results limit (1-100; defaults to 25)
-     * @param page the results to skip (page * limit)
-     * @returns Space array
-     */
-    public getEvents = async (orgName: string, spaceName: string, limit?: number, page?: number): Promise<Event[]> => {
-        limit = limit || 25;
-        page = page || 0;
-
-        const resp = await this.axios
-            .get<Event[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events?page=${page}&limit=${limit}`))
-            .catch((err: Error) => {
-                throw err;
-            });
-
-        return resp.data;
-    };
-
-    /**
      * searchEvents returns all events for a space that match the search filter
      * @param orgName the organizations's name
      * @param spaceName the spaces's name

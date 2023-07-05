@@ -20,24 +20,6 @@ export class High5Space extends base {
     }
 
     /**
-     * getSpaces returns all spaces with READ+ permission for the active organization
-     * @param orgName the organizations's name
-     * @param limit the maximum results limit (1-100; defaults to 25)
-     * @param page the results to skip (page * limit)
-     * @returns Space array
-     */
-    public getSpaces = async (orgName: string, limit?: number, page?: number): Promise<[Space[], number]> => {
-        limit = limit || 25;
-        page = page || 0;
-
-        const resp = await this.axios.get<Space[]>(this.getEndpoint(`/v1/org/${orgName}/spaces?page=${page}&limit=${limit}`)).catch((err: Error) => {
-            throw err;
-        });
-
-        return [resp.data, parseInt(String(resp.headers["total"]), 10)];
-    };
-
-    /**
      * searchSpaces returns all spaces matching the search filter and which have READ+ permission for the active organization
      * @param orgName the organizations's name
      * @param filters an optional array of searchFilter objects

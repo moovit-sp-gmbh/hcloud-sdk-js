@@ -14,27 +14,6 @@ export class High5Webhook extends base {
     }
 
     /**
-     * getWebhooks requests all webhooks for the user's active organization
-     * @param orgName the organizations's name
-     * @param spaceName the spaces's name
-     * @param limit an optional response limit limit (1-100; defaults to 25)
-     * @param page an optional page to skip certain results (page * limit; defaults to 0)
-     * @returns an array of webhooks and the total number of webhooks (independent of the limit and page)
-     */
-    public getWebhooks = async (orgName: string, spaceName: string, limit?: number, page?: number): Promise<[Webhook[], number]> => {
-        limit = limit || 25;
-        page = page || 0;
-
-        const resp = await this.axios
-            .get<Webhook[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/webhooks?limit=${limit}&page=${page}`))
-            .catch((err: Error) => {
-                throw err;
-            });
-
-        return [resp.data, parseInt(String(resp.headers["total"]), 10)];
-    };
-
-    /**
      * searchWebhooks returns all webhooks for the user's active organization that match the search filter
      * @param orgName the organizations's name
      * @param spaceName the spaces's name

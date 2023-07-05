@@ -18,28 +18,6 @@ export class High5Stream extends base {
     }
 
     /**
-     * getStreams returns all streams for an event
-     * @param orgName the organizations's name
-     * @param spaceName the spaces's name
-     * @param eventName the event's name
-     * @param limit the maximum results limit (1-100; defaults to 25)
-     * @param page the results to skip (page * limit)
-     * @returns Space array
-     */
-    public getStreams = async (orgName: string, spaceName: string, eventName: string, limit?: number, page?: number): Promise<Stream[]> => {
-        limit = limit || 25;
-        page = page || 0;
-
-        const resp = await this.axios
-            .get<Stream[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams?page=${page}&limit=${limit}`))
-            .catch((err: Error) => {
-                throw err;
-            });
-
-        return resp.data;
-    };
-
-    /**
      * searchStreams returns all streams for an event that match the search filter
      * @param orgName the organizations's name
      * @param spaceName the spaces's name

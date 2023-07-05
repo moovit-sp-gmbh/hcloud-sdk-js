@@ -27,8 +27,8 @@ export class High5Event extends base {
     public searchEvents = async (
         orgName: string,
         spaceName: string,
-        filters: SearchFilter[],
-        sorting: Sorting,
+        filters?: SearchFilter[],
+        sorting?: Sorting,
         limit = 25,
         page = 0
     ): Promise<[Event[], number]> => {

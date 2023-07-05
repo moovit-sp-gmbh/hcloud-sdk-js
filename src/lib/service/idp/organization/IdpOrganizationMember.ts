@@ -1,20 +1,33 @@
 import base from "../../../base";
-import { AddOrganizationMember, OrganizationMember, OrganizationPermission, PatchOrgMember } from "../../../interfaces/IDP";
+import { SearchFilterDTO } from "../../../helper/searchFilter";
+import { SearchFilter, Sorting } from "../../../interfaces/Global";
+import { AddOrganizationMember, OrganizationMember, PatchOrgMember } from "../../../interfaces/IDP";
 
 export class IdpOrganizationMember extends base {
     /**
-     * listOrganizationMembersById requests all organization members
+     * searchOrganizationMembers search all organization members using search filters
      * @param orgName the organization name
+     * @param filters optional search filters to use
+     * @param sorting optional sorting parameters for the returned collection
      * @param limit an optional response limit limit (1-100; defaults to 25)
      * @param page an optional page to skip certain results (page * limit; defaults to 0)
      * @returns An array of OrganizationMembers assigned to the organization
      */
-    public listOrganizationMembers = async (orgName: string, limit?: number, page?: number): Promise<[OrganizationMember[], number]> => {
-        limit = limit || 25;
-        page = page || 0;
-
+    public searchOrganizationMembers = async (
+        orgName: string,
+        filters?: SearchFilter[],
+        sorting?: Sorting,
+        limit = 25,
+        page = 0
+    ): Promise<[OrganizationMember[], number]> => {
+        const filtersDTO = filters?.map((f: SearchFilter) => {
+            return new SearchFilterDTO(f);
+        });
         const resp = await this.axios
-            .get<OrganizationMember[]>(this.getEndpoint(`/${orgName}/members?limit=${limit}&page=${page}`))
+            .post<OrganizationMember[]>(this.getEndpoint(`/${orgName}/members/search?limit=${limit}&page=${page}`), {
+                filters: filtersDTO,
+                sorting: sorting,
+            })
             .catch((err: Error) => {
                 throw err;
             });

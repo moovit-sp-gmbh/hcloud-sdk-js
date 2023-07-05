@@ -32,8 +32,8 @@ export class High5Stream extends base {
         orgName: string,
         spaceName: string,
         eventName: string,
-        filters: SearchFilter[],
-        sorting: Sorting,
+        filters?: SearchFilter[],
+        sorting?: Sorting,
         limit = 25,
         page = 0
     ): Promise<[Stream[], number]> => {

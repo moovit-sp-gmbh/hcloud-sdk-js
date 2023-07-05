@@ -1,10 +1,11 @@
 import { AxiosInstance } from "axios";
 import base, { Options } from "../../base";
 import { High5Space as Space } from "../../interfaces/High5";
-import { SpacePermission } from "../../interfaces/Global";
+import { SearchFilter, Sorting, SpacePermission } from "../../interfaces/Global";
 import { High5Event } from "./space/High5Event";
 import { High5Execute } from "./space/High5Execute";
 import { High5Webhook } from "./space/High5Webhook";
+import { SearchFilterDTO } from "../../helper/searchFilter";
 
 export class High5Space extends base {
     public event: High5Event;
@@ -19,7 +20,7 @@ export class High5Space extends base {
     }
 
     /**
-     * getSpaces returns all space's with READ+ permission for the active organization
+     * getSpaces returns all spaces with READ+ permission for the active organization
      * @param orgName the organizations's name
      * @param limit the maximum results limit (1-100; defaults to 25)
      * @param page the results to skip (page * limit)
@@ -32,6 +33,30 @@ export class High5Space extends base {
         const resp = await this.axios.get<Space[]>(this.getEndpoint(`/v1/org/${orgName}/spaces?page=${page}&limit=${limit}`)).catch((err: Error) => {
             throw err;
         });
+
+        return [resp.data, parseInt(String(resp.headers["total"]), 10)];
+    };
+
+    /**
+     * searchSpaces returns all spaces matching the search filter and which have READ+ permission for the active organization
+     * @param orgName the organizations's name
+     * @param filters an optional array of searchFilter objects
+     * @param sorting an optional sorting object
+     * @param limit the maximum results limit (1-100; defaults to 25)
+     * @param page the results to skip (page * limit)
+     * @returns Space array and total number of matched spaces
+     */
+    public searchSpaces = async (orgName: string, filters?: SearchFilter[], sorting?: Sorting, limit = 25, page = 0): Promise<[Space[], number]> => {
+        const filtersDTO = filters?.map((f: SearchFilter) => new SearchFilterDTO(f));
+
+        const resp = await this.axios
+            .post<Space[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/search?page=${page}&limit=${limit}`), {
+                filters: filtersDTO,
+                sorting: sorting,
+            })
+            .catch((err: Error) => {
+                throw err;
+            });
 
         return [resp.data, parseInt(String(resp.headers["total"]), 10)];
     };

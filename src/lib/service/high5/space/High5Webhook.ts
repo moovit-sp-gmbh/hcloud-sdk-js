@@ -2,6 +2,8 @@ import { AxiosInstance, AxiosRequestHeaders } from "axios";
 import base, { Options } from "../../../base";
 import { KeyValuePair, Webhook, WebhookCreation } from "../../../interfaces/High5";
 import { High5WebhookLog } from "./webhook/High5WebhookLog";
+import { SearchFilter, Sorting } from "../../../interfaces/Global";
+import { SearchFilterDTO } from "../../../helper/searchFilter";
 
 export class High5Webhook extends base {
     public log: High5WebhookLog;
@@ -25,6 +27,38 @@ export class High5Webhook extends base {
 
         const resp = await this.axios
             .get<Webhook[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/webhooks?limit=${limit}&page=${page}`))
+            .catch((err: Error) => {
+                throw err;
+            });
+
+        return [resp.data, parseInt(String(resp.headers["total"]), 10)];
+    };
+
+    /**
+     * searchWebhooks returns all webhooks for the user's active organization that match the search filter
+     * @param orgName the organizations's name
+     * @param spaceName the spaces's name
+     * @param filters an optional array of searchFilter objects
+     * @param sorting an optional sorting object
+     * @param limit an optional response limit limit (1-100; defaults to 25)
+     * @param page an optional page to skip certain results (page * limit; defaults to 0)
+     * @returns an array of webhooks and the total number of webhooks (independent of the limit and page)
+     */
+    public searchWebhooks = async (
+        orgName: string,
+        spaceName: string,
+        filters?: SearchFilter[],
+        sorting?: Sorting,
+        limit = 25,
+        page = 0
+    ): Promise<[Webhook[], number]> => {
+        const filtersDTO = filters?.map((f: SearchFilter) => new SearchFilterDTO(f));
+
+        const resp = await this.axios
+            .post<Webhook[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/webhooks/search?limit=${limit}&page=${page}`), {
+                filters: filtersDTO,
+                sorting: sorting,
+            })
             .catch((err: Error) => {
                 throw err;
             });

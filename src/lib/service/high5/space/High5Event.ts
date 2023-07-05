@@ -3,6 +3,8 @@ import base, { Options } from "../../../base";
 import { Event } from "../../../interfaces/High5";
 import { High5Execute } from "./High5Execute";
 import { High5Stream } from "./event/High5Stream";
+import { SearchFilter, Sorting } from "../../../interfaces/Global";
+import { SearchFilterDTO } from "../../../helper/searchFilter";
 
 export class High5Event extends base {
     public stream: High5Stream;
@@ -31,6 +33,38 @@ export class High5Event extends base {
             });
 
         return resp.data;
+    };
+
+    /**
+     * searchEvents returns all events for a space that match the search filter
+     * @param orgName the organizations's name
+     * @param spaceName the spaces's name
+     * @param filters an optional array of searchFilter objects
+     * @param sorting an optional sorting object
+     * @param limit the maximum results limit (1-100; defaults to 25)
+     * @param page the results to skip (page * limit)
+     * @returns Space array
+     */
+    public searchEvents = async (
+        orgName: string,
+        spaceName: string,
+        filters: SearchFilter[],
+        sorting: Sorting,
+        limit = 25,
+        page = 0
+    ): Promise<[Event[], number]> => {
+        const filtersDTO = filters?.map((f: SearchFilter) => new SearchFilterDTO(f));
+
+        const resp = await this.axios
+            .post<Event[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/search?page=${page}&limit=${limit}`), {
+                filters: filtersDTO,
+                sorting: sorting,
+            })
+            .catch((err: Error) => {
+                throw err;
+            });
+
+        return [resp.data, parseInt(String(resp.headers["total"]), 10)];
     };
 
     /**

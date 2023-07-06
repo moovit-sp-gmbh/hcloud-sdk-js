@@ -40,8 +40,13 @@ export enum SpacePermission {
     MANAGE = "MANAGE",
     OWNER = "OWNER",
 }
+export enum SpaceEntity {
+    TEAM = "team",
+    USER = "user",
+}
 export interface SpaceEntityPermission {
     entityId: string;
+    type: SpaceEntity;
     permission: SpacePermission;
 }
 

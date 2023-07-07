@@ -2,6 +2,7 @@ import { Views } from "../../Global";
 
 export enum Language {
     ENGLISH = "en",
+    GERMAN = "de",
 }
 
 export function languagefromTag(tag?: string): Language | undefined {

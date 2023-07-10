@@ -4,7 +4,7 @@ import { Event, Stream, StreamPatchOrder } from "../../../../interfaces/High5";
 import { High5Execute } from "../High5Execute";
 import { High5Design } from "./stream/High5Design";
 import { High5Node } from "./stream/High5Node";
-import { SearchFilter, Sorting } from "../../../../interfaces/Global";
+import { SearchFilter, SearchParams } from "../../../../interfaces/Global";
 import { SearchFilterDTO } from "../../../../helper/searchFilter";
 
 export class High5Stream extends base {
@@ -19,24 +19,25 @@ export class High5Stream extends base {
 
     /**
      * searchStreams returns all streams for an event that match the search filter
-     * @param orgName the organizations's name
-     * @param spaceName the spaces's name
-     * @param eventName the event's name
-     * @param filters an optional array of searchFilter objects
-     * @param sorting an optional sorting object
-     * @param limit the maximum results limit (1-100; defaults to 25)
-     * @param page the results to skip (page * limit)
+     * @param {SearchParams & { orgName: string, spaceName: string, eventName: string }} params Search parameters
+     * @param {string} params.orgName Name of the organization
+     * @param {string} params.spaceName Name of the space
+     * @param {string} params.eventName Name of the event
+     * @param {SearchFilter[]} [params.filters] an array of search filters
+     * @param {Sorting} [params.sorting] an optional sorting direction
+     * @param {number} [params.limit=25] an optional response limit limit (1-100; defaults to 25)
+     * @param {number} [params.page=0] - an optional page to skip certain results (page * limit; defaults to 0)
      * @returns Space array
      */
-    public searchStreams = async (
-        orgName: string,
-        spaceName: string,
-        eventName: string,
-        filters?: SearchFilter[],
-        sorting?: Sorting,
+    public searchStreams = async ({
+        orgName,
+        spaceName,
+        eventName,
+        filters,
+        sorting,
         limit = 25,
-        page = 0
-    ): Promise<[Stream[], number]> => {
+        page = 0,
+    }: SearchParams & { orgName: string; spaceName: string; eventName: string }): Promise<[Stream[], number]> => {
         const filtersDTO = filters?.map((f: SearchFilter) => new SearchFilterDTO(f));
 
         const resp = await this.axios

@@ -2,7 +2,7 @@ import { AxiosInstance } from "axios";
 import base, { Options } from "../../base";
 import { SearchFilterDTO } from "../../helper/searchFilter";
 import { UpdateFuseSpace } from "../../interfaces/Fuse";
-import { SearchFilter, Sorting, SpacePermission } from "../../interfaces/Global";
+import { SearchFilter, SearchParams, SpacePermission } from "../../interfaces/Global";
 import { FuseCronjob } from "./space/FuseCronjob";
 
 export class FuseSpace extends base {
@@ -115,19 +115,21 @@ export class FuseSpace extends base {
 
     /**
      * searchSpaces search for spaces of an Organization
-     * @param orgName the organizations's name
-     * @param [filters] the search filter to be used
-     * @param [limit] page size
-     * @param [page] page number
+     * @param {SearchParams & { orgName: string }} params Search parameters
+     * @param {string} params.orgName Name of the organization
+     * @param {SearchFilter[]} [params.filters] an array of search filters
+     * @param {Sorting} [params.sorting] an optional sorting direction
+     * @param {number} [params.limit=25] an optional response limit limit (1-100; defaults to 25)
+     * @param {number} [params.page=0] - an optional page to skip certain results (page * limit; defaults to 0)
      * @returns list of filtered spaces
      */
-    public searchSpaces = async (
-        orgName: string,
-        filters?: SearchFilter[],
-        sorting?: Sorting,
+    public searchSpaces = async ({
+        orgName,
+        filters,
+        sorting,
         limit = 25,
-        page = 0
-    ): Promise<[FuseSpace[], number]> => {
+        page = 0,
+    }: SearchParams & { orgName: string }): Promise<[FuseSpace[], number]> => {
         const filtersDTO = filters?.map((f: SearchFilter) => {
             return new SearchFilterDTO(f);
         });

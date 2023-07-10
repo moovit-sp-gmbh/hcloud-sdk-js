@@ -1,6 +1,6 @@
 import base from "../../../base";
 import { SearchFilterDTO } from "../../../helper/searchFilter";
-import { SearchFilter, Sorting } from "../../../interfaces/global/searchFilters";
+import { SearchFilter, SearchParams, Sorting } from "../../../interfaces/global/searchFilters";
 import { ReducedUser, Team, TeamUsersPatchOperation } from "../../../interfaces/IDP";
 
 export class IdpOrganizationTeams extends base {
@@ -130,22 +130,23 @@ export class IdpOrganizationTeams extends base {
 
     /**
      * searchTeamMembers search for members of a team using one or more search filters
-     * @param {string} organizationName Name of the organization
-     * @param {string} teamName Name of the team
-     * @param {SearchFilter[]} [filters] an array of search filters
-     * @param {Sorting} [sorting] an optional sorting direction
-     * @param {number} [limit=25] an optional response limit limit (1-100; defaults to 25)
-     * @param {number} [page=0] - an optional page to skip certain results (page * limit; defaults to 0)
+     * @param {SearchParams & { organizationName: string, teamName: string }} params Search parameters
+     * @param {string} params.organizationName Name of the organization
+     * @param {string} params.teamName Name of the team
+     * @param {SearchFilter[]} [params.filters] an array of search filters
+     * @param {Sorting} [params.sorting] an optional sorting direction
+     * @param {number} [params.limit=25] an optional response limit limit (1-100; defaults to 25)
+     * @param {number} [params.page=0] - an optional page to skip certain results (page * limit; defaults to 0)
      * @returns ReducedUser + email array
      */
-    public searchTeamMembers = async (
-        organizationName: string,
-        teamName: string,
-        filters?: SearchFilter[],
-        sorting?: Sorting,
+    public searchTeamMembers = async ({
+        organizationName,
+        teamName,
+        filters,
+        sorting,
         limit = 25,
-        page = 0
-    ): Promise<[(ReducedUser & { email: string })[], number]> => {
+        page = 0,
+    }: SearchParams & { organizationName: string; teamName: string }): Promise<[(ReducedUser & { email: string })[], number]> => {
         // convert SearchFilters to DTO
         const filtersDTO = filters?.map((f: SearchFilter) => {
             return new SearchFilterDTO(f);

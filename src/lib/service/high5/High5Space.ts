@@ -1,7 +1,7 @@
 import { AxiosInstance } from "axios";
 import base, { Options } from "../../base";
 import { High5Space as Space } from "../../interfaces/High5";
-import { SearchFilter, Sorting, SpacePermission } from "../../interfaces/Global";
+import { SearchFilter, SearchParams, Sorting, SpacePermission } from "../../interfaces/Global";
 import { High5Event } from "./space/High5Event";
 import { High5Execute } from "./space/High5Execute";
 import { High5Webhook } from "./space/High5Webhook";
@@ -21,14 +21,21 @@ export class High5Space extends base {
 
     /**
      * searchSpaces returns all spaces matching the search filter and which have READ+ permission for the active organization
-     * @param orgName the organizations's name
-     * @param filters an optional array of searchFilter objects
-     * @param sorting an optional sorting object
-     * @param limit the maximum results limit (1-100; defaults to 25)
-     * @param page the results to skip (page * limit)
+     * @param {SearchParams & { orgName: string }} params Search parameters
+     * @param {string} params.orgName Name of the organization
+     * @param {SearchFilter[]} [params.filters] an array of search filters
+     * @param {Sorting} [params.sorting] an optional sorting direction
+     * @param {number} [params.limit=25] an optional response limit limit (1-100; defaults to 25)
+     * @param {number} [params.page=0] - an optional page to skip certain results (page * limit; defaults to 0)
      * @returns Space array and total number of matched spaces
      */
-    public searchSpaces = async (orgName: string, filters?: SearchFilter[], sorting?: Sorting, limit = 25, page = 0): Promise<[Space[], number]> => {
+    public searchSpaces = async ({
+        orgName,
+        filters,
+        sorting,
+        limit = 25,
+        page = 0,
+    }: SearchParams & { orgName: string }): Promise<[Space[], number]> => {
         const filtersDTO = filters?.map((f: SearchFilter) => new SearchFilterDTO(f));
 
         const resp = await this.axios

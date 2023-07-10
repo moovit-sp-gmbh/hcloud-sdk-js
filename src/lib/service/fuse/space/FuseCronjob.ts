@@ -2,7 +2,7 @@ import { AxiosInstance } from "axios";
 import base, { Options } from "../../../base";
 import { SearchFilterDTO } from "../../../helper/searchFilter";
 import { CreateCronjob, Cronjob } from "../../../interfaces/Fuse";
-import { SearchFilter, Sorting } from "../../../interfaces/Global";
+import { SearchFilter, SearchParams, Sorting } from "../../../interfaces/Global";
 import { FuseCronjobLog } from "./log/FuseCronjobLog";
 import { FuseCronjobLogInternal } from "./log/FuseCronjobLogInternal";
 
@@ -115,21 +115,23 @@ export class FuseCronjob extends base {
 
     /**
      * searchCronjobs search for jobs of a space
-     * @param orgName the organizations's name
-     * @param spaceName the space's name
-     * @param [searchFilter] the search filter to be used
-     * @param [limit] page size
-     * @param [page] page number
+     * @param {SearchParams & { orgName: string, spaceName: string }} params Search parameters
+     * @param {string} params.orgName Name of the organization
+     * @param {string} params.spaceName Name of the space
+     * @param {SearchFilter[]} [params.filters] an array of search filters
+     * @param {Sorting} [params.sorting] an optional sorting direction
+     * @param {number} [params.limit=25] an optional response limit limit (1-100; defaults to 25)
+     * @param {number} [params.page=0] - an optional page to skip certain results (page * limit; defaults to 0)
      * @returns filtered cronjobs list
      */
-    public searchCronjobs = async <TFilter extends SearchFilter>(
-        orgName: string,
-        spaceName: string,
-        filters?: TFilter[],
-        sorting?: Sorting,
+    public searchCronjobs = async ({
+        orgName,
+        spaceName,
+        filters,
+        sorting,
         limit = 25,
-        page = 0
-    ): Promise<[Cronjob[], number]> => {
+        page = 0,
+    }: SearchParams & { orgName: string; spaceName: string }): Promise<[Cronjob[], number]> => {
         const filtersDTO = filters?.map((f: SearchFilter) => {
             return new SearchFilterDTO(f);
         });

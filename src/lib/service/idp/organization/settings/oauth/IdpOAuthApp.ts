@@ -1,8 +1,8 @@
 import { AxiosInstance } from "axios";
 import base, { Options } from "../../../../../base";
 import { SearchFilterDTO } from "../../../../../helper/searchFilter";
-import { SearchFilter, Sorting } from "../../../../../interfaces/Global";
-import { OAuthApp, OAuthAppCreation, Scopes } from "../../../../../interfaces/IDP";
+import { SearchFilter, SearchParams } from "../../../../../interfaces/Global";
+import { OAuthApp, OAuthAppCreation } from "../../../../../interfaces/IDP";
 
 export class IdpOAuthApp extends base {
     constructor(options: Options, axios: AxiosInstance) {
@@ -12,18 +12,21 @@ export class IdpOAuthApp extends base {
     /**
      * searchOauthAppsOfOrganization search all OAuth apps for the user's active organization using
      * search filters
-     * @param organizationName the organization name
-     * @param limit an optional response limit limit (1-100; defaults to 25)
-     * @param page an optional page to skip certain results (page * limit; defaults to 0)
+     * @param {SearchParams & { organizationName: string }} params Search parameters
+     * @param {string} params.orgName Name of the organization
+     * @param {SearchFilter[]} [params.filters] an array of search filters
+     * @param {Sorting} [params.sorting] an optional sorting direction
+     * @param {number} [params.limit=25] an optional response limit limit (1-100; defaults to 25)
+     * @param {number} [params.page=0] - an optional page to skip certain results (page * limit; defaults to 0)
      * @returns OAuthApp array and the total number of OAuth apps
      */
-    public searchOauthAppsOfOrganization = async (
-        organizationName: string,
-        filters?: SearchFilter[],
-        sorting?: Sorting,
+    public searchOauthAppsOfOrganization = async ({
+        organizationName,
+        filters,
+        sorting,
         limit = 25,
-        page = 0
-    ): Promise<[OAuthApp[], number]> => {
+        page = 0,
+    }: SearchParams & { organizationName: string }): Promise<[OAuthApp[], number]> => {
         const filtersDTO = filters?.map((f: SearchFilter) => {
             return new SearchFilterDTO(f);
         });

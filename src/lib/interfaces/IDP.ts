@@ -34,6 +34,11 @@ export interface ReducedOrganization {
     name: string;
 }
 
+export interface ReducedTeam {
+    _id: string;
+    name: string;
+}
+
 export interface User {
     _id: string;
     name: string;
@@ -119,6 +124,10 @@ export interface OrganizationWithPermission {
     createDate: number;
     modifyDate: number;
     permission: OrganizationPermission;
+}
+
+export interface OrganizationWithPermissionAndTeams extends OrganizationWithPermission {
+    teams: ReducedTeam[];
 }
 
 export interface PatchOrgMember {

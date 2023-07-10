@@ -1,6 +1,6 @@
 import { AxiosInstance } from "axios";
 import base, { Options } from "../../../base";
-import { Organization, OrganizationWithPermission } from "../../../interfaces/IDP";
+import { Organization, OrganizationWithPermission, OrganizationWithPermissionAndTeams } from "../../../interfaces/IDP";
 import { IdpOrganizationMember } from "./IdpOrganizationMember";
 import { IdpDomain } from "./settings/domain/IdpDomain";
 import { IdpOrganizationTeams } from "./IdpOrganizationTeams";
@@ -64,15 +64,39 @@ export class IdpOrganization extends base {
     /**
      * getOrganizationByName requests an organization by it's name
      * @param orgName the organization name
+     * @param [options] options object
+     * @param [options.teams] True if the response object should hold the teams of the organization
+     * that the user is a part of
      * @returns Organization object
      */
-    public getOrganizationByName = async (orgName: string): Promise<OrganizationWithPermission> => {
-        const resp = await this.axios.get<OrganizationWithPermission>(this.getEndpoint(`/v1/org/${orgName}`)).catch((err: Error) => {
-            throw err;
-        });
+    /* eslint-disable no-dupe-class-members */
+    public async getOrganizationByName(orgName: string, options: undefined): Promise<OrganizationWithPermission>;
+    public async getOrganizationByName(orgName: string, options: { teams: false }): Promise<OrganizationWithPermission>;
+    public async getOrganizationByName(orgName: string, options: { teams: true }): Promise<OrganizationWithPermissionAndTeams>;
+    public async getOrganizationByName(
+        orgName: string,
+        options?: { teams: boolean }
+    ): Promise<OrganizationWithPermission | OrganizationWithPermissionAndTeams> {
+        let resp;
+        if (options?.teams) {
+            resp = await this.axios
+                .get<OrganizationWithPermissionAndTeams>(this.getEndpoint(`/v1/org/${orgName}`), {
+                    params: {
+                        teams: options.teams,
+                    },
+                })
+                .catch((err: Error) => {
+                    throw err;
+                });
+        } else {
+            resp = await this.axios.get<OrganizationWithPermission>(this.getEndpoint(`/v1/org/${orgName}`)).catch((err: Error) => {
+                throw err;
+            });
+        }
 
         return resp.data;
-    };
+    }
+    /* eslint-enable no-dupe-class-members */
 
     /**
      * deleteOrganizationByName delete an organization by it's name

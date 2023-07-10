@@ -1,25 +1,26 @@
 import base from "../../../base";
 import { SearchFilterDTO } from "../../../helper/searchFilter";
-import { SearchFilter, Sorting } from "../../../interfaces/Global";
+import { SearchFilter, SearchParams } from "../../../interfaces/Global";
 import { AddOrganizationMember, OrganizationMember, PatchOrgMember } from "../../../interfaces/IDP";
 
 export class IdpOrganizationMember extends base {
     /**
      * searchOrganizationMembers search all organization members using search filters
-     * @param orgName the organization name
-     * @param filters optional search filters to use
-     * @param sorting optional sorting parameters for the returned collection
-     * @param limit an optional response limit limit (1-100; defaults to 25)
-     * @param page an optional page to skip certain results (page * limit; defaults to 0)
+     * @param {SearchParams & { orgName: string }} params Search parameters
+     * @param {string} params.orgName Name of the organization
+     * @param {SearchFilter[]} [params.filters] an array of search filters
+     * @param {Sorting} [params.sorting] an optional sorting direction
+     * @param {number} [params.limit=25] an optional response limit limit (1-100; defaults to 25)
+     * @param {number} [params.page=0] - an optional page to skip certain results (page * limit; defaults to 0)
      * @returns An array of OrganizationMembers assigned to the organization
      */
-    public searchOrganizationMembers = async (
-        orgName: string,
-        filters?: SearchFilter[],
-        sorting?: Sorting,
+    public searchOrganizationMembers = async ({
+        orgName,
+        filters,
+        sorting,
         limit = 25,
-        page = 0
-    ): Promise<[OrganizationMember[], number]> => {
+        page = 0,
+    }: SearchParams & { orgName: string }): Promise<[OrganizationMember[], number]> => {
         const filtersDTO = filters?.map((f: SearchFilter) => {
             return new SearchFilterDTO(f);
         });

@@ -96,3 +96,10 @@ export interface Sorting {
     direction: SortDirection;
     fields?: string[];
 }
+
+export interface SearchParams {
+    filters?: SearchFilter[];
+    sorting?: Sorting;
+    limit?: number;
+    page?: number;
+}

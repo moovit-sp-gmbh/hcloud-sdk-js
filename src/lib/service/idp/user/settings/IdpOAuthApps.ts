@@ -1,7 +1,7 @@
 import { AxiosInstance } from "axios";
 import Base, { Options } from "../../../../base";
 import { SearchFilterDTO } from "../../../../helper/searchFilter";
-import { SearchFilter, Sorting } from "../../../../interfaces/Global";
+import { SearchFilter, SearchParams } from "../../../../interfaces/Global";
 import { OAuthApp } from "../../../../interfaces/IDP";
 
 export class IdpOAuthApps extends Base {
@@ -9,7 +9,7 @@ export class IdpOAuthApps extends Base {
         super(options, axios);
     }
 
-    public searchOAuthApps = async (filters?: SearchFilter[], sorting?: Sorting, limit = 25, page = 0): Promise<[OAuthApp[], number]> => {
+    public searchOAuthApps = async ({ filters, sorting, limit = 25, page = 0 }: SearchParams): Promise<[OAuthApp[], number]> => {
         const filtersDTO = filters?.map((f: SearchFilter) => {
             return new SearchFilterDTO(f);
         });

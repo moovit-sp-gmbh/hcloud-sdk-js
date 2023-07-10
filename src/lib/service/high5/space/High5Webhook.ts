@@ -2,7 +2,7 @@ import { AxiosInstance, AxiosRequestHeaders } from "axios";
 import base, { Options } from "../../../base";
 import { KeyValuePair, Webhook, WebhookCreation } from "../../../interfaces/High5";
 import { High5WebhookLog } from "./webhook/High5WebhookLog";
-import { SearchFilter, Sorting } from "../../../interfaces/Global";
+import { SearchFilter, SearchParams, Sorting } from "../../../interfaces/Global";
 import { SearchFilterDTO } from "../../../helper/searchFilter";
 
 export class High5Webhook extends base {
@@ -15,22 +15,23 @@ export class High5Webhook extends base {
 
     /**
      * searchWebhooks returns all webhooks for the user's active organization that match the search filter
-     * @param orgName the organizations's name
-     * @param spaceName the spaces's name
-     * @param filters an optional array of searchFilter objects
-     * @param sorting an optional sorting object
-     * @param limit an optional response limit limit (1-100; defaults to 25)
-     * @param page an optional page to skip certain results (page * limit; defaults to 0)
+     * @param {SearchParams & { orgName: string, spaceName: string }} params Search parameters
+     * @param {string} params.orgName Name of the organization
+     * @param {string} params.spaceName Name of the space
+     * @param {SearchFilter[]} [params.filters] an array of search filters
+     * @param {Sorting} [params.sorting] an optional sorting direction
+     * @param {number} [params.limit=25] an optional response limit limit (1-100; defaults to 25)
+     * @param {number} [params.page=0] - an optional page to skip certain results (page * limit; defaults to 0)
      * @returns an array of webhooks and the total number of webhooks (independent of the limit and page)
      */
-    public searchWebhooks = async (
-        orgName: string,
-        spaceName: string,
-        filters?: SearchFilter[],
-        sorting?: Sorting,
+    public searchWebhooks = async ({
+        orgName,
+        spaceName,
+        filters,
+        sorting,
         limit = 25,
-        page = 0
-    ): Promise<[Webhook[], number]> => {
+        page = 0,
+    }: SearchParams & { orgName: string; spaceName: string }): Promise<[Webhook[], number]> => {
         const filtersDTO = filters?.map((f: SearchFilter) => new SearchFilterDTO(f));
 
         const resp = await this.axios

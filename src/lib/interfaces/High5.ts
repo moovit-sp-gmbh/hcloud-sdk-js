@@ -236,3 +236,9 @@ export interface WaveEngineReleaseAsset {
 export interface KeyValuePair<T> {
     [key: string]: T;
 }
+
+export interface Secret {
+    key: string;
+    createDate: number;
+    modifyDate: number;
+}

@@ -56,7 +56,6 @@ export interface Space {
     organization: ReducedOrganization;
     creator: ReducedUser;
     permissions: (SpaceEntityPermission & { name: string })[];
-    waveEngine: string;
     createDate: number;
     modifyDate: number;
 }

@@ -2,7 +2,9 @@ import { Space } from "./Global";
 import { ReducedOrganization, ReducedUser } from "./IDP";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface High5Space extends Space {}
+export interface High5Space extends Space {
+    waveEngine: string;
+}
 
 export interface Event {
     _id: string;

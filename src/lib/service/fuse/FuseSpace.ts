@@ -1,9 +1,9 @@
 import { AxiosInstance } from "axios";
 import base, { Options } from "../../base";
 import { SearchFilterDTO } from "../../helper/searchFilter";
-import { UpdateFuseSpace } from "../../interfaces/Fuse";
 import { SearchFilter, SearchParams, SpacePermission } from "../../interfaces/Global";
 import { FuseCronjob } from "./space/FuseCronjob";
+import { FuseSpace as IFuseSpace } from "../../interfaces/Fuse";
 
 export class FuseSpace extends base {
     public cronjob: FuseCronjob;
@@ -19,8 +19,8 @@ export class FuseSpace extends base {
      * @param spaceName the space's name
      * @returns Space
      */
-    public getSpace = async (orgName: string, spaceName: string): Promise<FuseSpace> => {
-        const resp = await this.axios.get<FuseSpace>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}`)).catch((err: Error) => {
+    public getSpace = async (orgName: string, spaceName: string): Promise<IFuseSpace> => {
+        const resp = await this.axios.get<IFuseSpace>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}`)).catch((err: Error) => {
             throw err;
         });
 
@@ -33,8 +33,8 @@ export class FuseSpace extends base {
      * @param name the name for the new space
      * @returns Space
      */
-    public createSpace = async (orgName: string, name: string): Promise<FuseSpace> => {
-        const resp = await this.axios.post<FuseSpace>(this.getEndpoint(`/v1/org/${orgName}/spaces`), { name: name }).catch((err: Error) => {
+    public createSpace = async (orgName: string, name: string): Promise<IFuseSpace> => {
+        const resp = await this.axios.post<IFuseSpace>(this.getEndpoint(`/v1/org/${orgName}/spaces`), { name: name }).catch((err: Error) => {
             throw err;
         });
 
@@ -83,9 +83,9 @@ export class FuseSpace extends base {
         spaceName: string,
         teamName: string,
         permission: SpacePermission
-    ): Promise<FuseSpace> => {
+    ): Promise<IFuseSpace> => {
         const resp = await this.axios
-            .patch<FuseSpace>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/permission/team`), {
+            .patch<IFuseSpace>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/permission/team`), {
                 teamName,
                 permission,
             })
@@ -112,13 +112,13 @@ export class FuseSpace extends base {
         sorting,
         limit = 25,
         page = 0,
-    }: SearchParams & { orgName: string }): Promise<[FuseSpace[], number]> => {
+    }: SearchParams & { orgName: string }): Promise<[IFuseSpace[], number]> => {
         const filtersDTO = filters?.map((f: SearchFilter) => {
             return new SearchFilterDTO(f);
         });
 
         const resp = await this.axios
-            .post<FuseSpace[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/search?limit=${limit}&page=${page}`), {
+            .post<IFuseSpace[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/search?limit=${limit}&page=${page}`), {
                 filters: filtersDTO,
                 sorting,
             })

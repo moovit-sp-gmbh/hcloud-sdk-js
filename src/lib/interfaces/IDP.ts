@@ -24,6 +24,25 @@ export enum Scopes {
     FUSE_SPACE_DELETE = "fuse:space:delete",
 }
 
+export const ScopeDependencies = {
+    [Scopes.HCLOUD_FULL]: [Object.values(Scopes)[0]],
+    [Scopes.IDP_USER_READ]: [Scopes.IDP_EMAIL_READ],
+    [Scopes.IDP_USER_OPEN_ID]: [Scopes.IDP_EMAIL_READ],
+    [Scopes.IDP_USER_WRITE]: [Scopes.IDP_USER_READ],
+    [Scopes.IDP_USER_DELETE]: [Scopes.IDP_USER_READ, Scopes.IDP_USER_WRITE],
+    [Scopes.IDP_ORGANIZATION_READ]: [Scopes.IDP_USER_READ],
+    [Scopes.IDP_ORGANIZATION_WRITE]: [Scopes.IDP_USER_READ, Scopes.IDP_ORGANIZATION_READ],
+    [Scopes.IDP_ORGANIZATION_DELETE]: [Scopes.IDP_USER_READ, Scopes.IDP_ORGANIZATION_READ, Scopes.IDP_ORGANIZATION_WRITE],
+    [Scopes.IDP_ORGANIZATION_ADMIN]: [Scopes.IDP_USER_READ, Scopes.IDP_ORGANIZATION_READ, Scopes.IDP_ORGANIZATION_WRITE, Scopes.IDP_ORGANIZATION_ADMIN],
+    [Scopes.HIGH5_SPACE_READ]: [Scopes.IDP_USER_READ],
+    [Scopes.HIGH5_SPACE_EXECUTE]: [Scopes.IDP_USER_READ, Scopes.HIGH5_SPACE_READ],
+    [Scopes.HIGH5_SPACE_WRITE]: [Scopes.IDP_USER_READ, Scopes.HIGH5_SPACE_READ, Scopes.HIGH5_SPACE_EXECUTE],
+    [Scopes.HIGH5_SPACE_DELETE]: [Scopes.IDP_USER_READ, Scopes.HIGH5_SPACE_READ, Scopes.HIGH5_SPACE_EXECUTE, Scopes.HIGH5_SPACE_WRITE],
+    [Scopes.FUSE_SPACE_READ]: [Scopes.IDP_USER_READ],
+    [Scopes.FUSE_SPACE_WRITE]: [Scopes.IDP_USER_READ, Scopes.FUSE_SPACE_READ],
+    [Scopes.FUSE_SPACE_DELETE]: [Scopes.IDP_USER_READ, Scopes.FUSE_SPACE_READ, Scopes.FUSE_SPACE_WRITE],
+}
+
 export interface ReducedUser {
     _id: string;
     name: string;

@@ -47,13 +47,13 @@ export class High5Webhook extends base {
     };
 
     /**
-     * getWebhookById requests the specified webhook by ID
+     * getWebhook requests the specified webhook by ID
      * @param orgName the organizations's name
      * @param spaceName the spaces's name
      * @param webhookId the ID of the webhook to be retrieved
      * @returns the webhook
      */
-    public getWebhookById = async (orgName: string, spaceName: string, webhookId: string): Promise<Webhook> => {
+    public getWebhook = async (orgName: string, spaceName: string, webhookId: string): Promise<Webhook> => {
         const resp = await this.axios
             .get<Webhook>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/webhooks/${webhookId}`))
             .catch((err: Error) => {

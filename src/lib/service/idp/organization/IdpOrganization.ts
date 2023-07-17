@@ -62,7 +62,7 @@ export class IdpOrganization extends base {
     };
 
     /**
-     * getOrganizationByName requests an organization by it's name
+     * getOrganization requests an organization by it's name
      * @param orgName the organization name
      * @param [options] options object
      * @param [options.teams] True if the response object should hold the teams of the organization
@@ -70,10 +70,10 @@ export class IdpOrganization extends base {
      * @returns Organization object
      */
     /* eslint-disable no-dupe-class-members */
-    public async getOrganizationByName(orgName: string, options: undefined): Promise<OrganizationWithPermission>;
-    public async getOrganizationByName(orgName: string, options: { teams: false }): Promise<OrganizationWithPermission>;
-    public async getOrganizationByName(orgName: string, options: { teams: true }): Promise<OrganizationWithPermissionAndTeams>;
-    public async getOrganizationByName(
+    public async getOrganization(orgName: string, options: undefined): Promise<OrganizationWithPermission>;
+    public async getOrganization(orgName: string, options: { teams: false }): Promise<OrganizationWithPermission>;
+    public async getOrganization(orgName: string, options: { teams: true }): Promise<OrganizationWithPermissionAndTeams>;
+    public async getOrganization(
         orgName: string,
         options?: { teams: boolean }
     ): Promise<OrganizationWithPermission | OrganizationWithPermissionAndTeams> {
@@ -99,11 +99,11 @@ export class IdpOrganization extends base {
     /* eslint-enable no-dupe-class-members */
 
     /**
-     * deleteOrganizationByName delete an organization by it's name
+     * deleteOrganization delete an organization by it's name
      * @param orgName the organization name
      * @returns 204 no content
      */
-    public deleteOrganizationByName = async (orgName: string): Promise<void> => {
+    public deleteOrganization = async (orgName: string): Promise<void> => {
         const resp = await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}`)).catch((err: Error) => {
             throw err;
         });

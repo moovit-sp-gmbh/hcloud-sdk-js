@@ -4,7 +4,7 @@ import { Design, Event, Stream } from "../../../../../interfaces/High5";
 
 export class High5Design extends base {
     /**
-     * getDesigns returns all designs for an event
+     * getAllDesigns returns all designs for an event
      * @param orgName the organizations's name
      * @param spaceName the spaces's name
      * @param eventName the event's name
@@ -13,7 +13,7 @@ export class High5Design extends base {
      * @param page the results to skip (page * limit)
      * @returns Design array
      */
-    public getDesigns = async (
+    public getAllDesigns = async (
         orgName: string,
         spaceName: string,
         eventName: string,
@@ -36,7 +36,7 @@ export class High5Design extends base {
     };
 
     /**
-     * getStreamById returns a design by its ID
+     * getDesign returns a design by its ID
      * @param orgName the organizations's name
      * @param spaceName the spaces's name
      * @param eventName the event's name
@@ -44,7 +44,7 @@ export class High5Design extends base {
      * @param designId the design's id
      * @returns Design
      */
-    public getDesignById = async (orgName: string, spaceName: string, eventName: string, streamId: string, designId: string): Promise<Design> => {
+    public getDesign = async (orgName: string, spaceName: string, eventName: string, streamId: string, designId: string): Promise<Design> => {
         const resp = await this.axios
             .get<Design>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/designs/${designId}`))
             .catch((err: Error) => {

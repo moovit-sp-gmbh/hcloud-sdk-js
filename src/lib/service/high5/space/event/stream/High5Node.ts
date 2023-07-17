@@ -14,7 +14,14 @@ export class High5Node extends base {
      * @summary Get all nodes
      * @response Nodes[] array holding the Nodes
      */
-    public async getNodes(orgName: string, spaceName: string, eventName: string, streamId: string, limit?: number, page?: number): Promise<Node[]> {
+    public async getAllNodes(
+        orgName: string,
+        spaceName: string,
+        eventName: string,
+        streamId: string,
+        limit?: number,
+        page?: number
+    ): Promise<Node[]> {
         limit = limit || 25;
         page = page || 0;
         const resp = await this.axios
@@ -38,7 +45,7 @@ export class High5Node extends base {
      * @summary Get a Node by ID
      * @response Node
      */
-    public async getNodeById(orgName: string, spaceName: string, eventName: string, streamId: string, nodeId: string): Promise<Node> {
+    public async getNode(orgName: string, spaceName: string, eventName: string, streamId: string, nodeId: string): Promise<Node> {
         const resp = await this.axios
             .get<Node>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/nodes/${nodeId}`))
             .catch((err: Error) => {
@@ -90,7 +97,7 @@ export class High5Node extends base {
      * @summary Delete an Node by ID
      * @response 204 No content
      */
-    public async deleteNodeById(orgName: string, spaceName: string, eventName: string, streamId: string, nodeId: string): Promise<void> {
+    public async deleteNode(orgName: string, spaceName: string, eventName: string, streamId: string, nodeId: string): Promise<void> {
         const resp = await this.axios
             .delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/nodes/${nodeId}`))
             .catch((err: Error) => {

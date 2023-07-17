@@ -56,14 +56,14 @@ export class High5Stream extends base {
     };
 
     /**
-     * getStreamById returns a stream by its ID
+     * getStream returns a stream by its ID
      * @param orgName the organizations's name
      * @param spaceName the spaces's name
      * @param eventName the event's name
      * @param streamId the stream's id
      * @returns Event
      */
-    public getStreamById = async (orgName: string, spaceName: string, eventName: string, streamId: string): Promise<Stream> => {
+    public getStream = async (orgName: string, spaceName: string, eventName: string, streamId: string): Promise<Stream> => {
         const resp = await this.axios
             .get<Stream>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}`))
             .catch((err: Error) => {
@@ -110,13 +110,13 @@ export class High5Stream extends base {
     };
 
     /**
-     * deleteStreamById delete an stream by its ID
+     * deleteStream delete an stream by its ID
      * @param orgName the organizations's name
      * @param spaceName the spaces's name
      * @param eventName the event's name
      * @param streamId the stream's id
      */
-    public deleteStreamById = async (orgName: string, spaceName: string, eventName: string, streamId: string): Promise<void> => {
+    public deleteStream = async (orgName: string, spaceName: string, eventName: string, streamId: string): Promise<void> => {
         await this.axios
             .delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}`))
             .catch((err: Error) => {

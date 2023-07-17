@@ -9,14 +9,14 @@ export class High5Execute extends base {
     }
 
     /**
-     * executeStreamById executes a single stream by its ID and an execution request
+     * executeStream executes a single stream by its ID and an execution request
      * @param orgName the organizations's name
      * @param spaceName the spaces's name
      * @param streamId to identify the stream
      * @param executionRequest the stream execution request, containing the data, target, wait boolean and timeout
      * @returns the stream result
      */
-    public executeStreamById = async (
+    public executeStream = async (
         orgName: string,
         spaceName: string,
         streamId: string,
@@ -32,14 +32,14 @@ export class High5Execute extends base {
     };
 
     /**
-     * executeEventByName executes all streams within an event by its space ID as well as the event execution request. The request contains the event name.
+     * executeEvent executes all streams within an event by its space ID as well as the event execution request. The request contains the event name.
      * @param orgName the organizations's name
      * @param spaceName the spaces's name
      * @param eventName the event's name
      * @param eventExecutionRequest the event execution request, containing the event name, data, target, wait bool and timeout
      * @returns an array of stream results
      */
-    public executeEventByName = async (
+    public executeEvent = async (
         orgName: string,
         spaceName: string,
         eventName: string,

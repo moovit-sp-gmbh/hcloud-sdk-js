@@ -2,7 +2,7 @@ import base from "../../../../base";
 
 export class FuseCronjobLog extends base {
     /**
-     * getCronjobLogs returns all logs for a cronjob
+     * getAllCronjobLogs returns all logs for a cronjob
      * @param orgName the organizations's name
      * @param spaceName the spaces's name
      * @param cronjobId the cronjob's ID
@@ -10,7 +10,7 @@ export class FuseCronjobLog extends base {
      * @param page the results to skip (page * limit)
      * @returns CronjobLog array
      */
-    public getCronjobLogs = async (
+    public getAllCronjobLogs = async (
         orgName: string,
         spaceName: string,
         cronjobId: string,
@@ -30,13 +30,13 @@ export class FuseCronjobLog extends base {
     };
 
     /**
-     * getCronjobLogById returns a cronjob log by it's ID
+     * getCronjobLog returns a cronjob log by it's ID
      * @param orgName the organizations's name
      * @param spaceName the spaces's name
      * @param cronjobId the cronjob's ID
      * @returns CronjobLog
      */
-    public getCronjobLogById = async (orgName: string, spaceName: string, cronjobId: string, cronjobLogId: string): Promise<FuseCronjobLog> => {
+    public getCronjobLog = async (orgName: string, spaceName: string, cronjobId: string, cronjobLogId: string): Promise<FuseCronjobLog> => {
         const resp = await this.axios
             .get<FuseCronjobLog>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs/${cronjobId}/logs/${cronjobLogId}`))
             .catch((err: Error) => {

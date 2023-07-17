@@ -54,12 +54,12 @@ export class High5Space extends base {
     };
 
     /**
-     * getSpaceByName returns a space by its name
+     * getSpace returns a space by its name
      * @param orgName the organizations's name
      * @param spaceId the space's id
      * @returns Space
      */
-    public getSpaceByName = async (orgName: string, spaceName: string): Promise<Space> => {
+    public getSpace = async (orgName: string, spaceName: string): Promise<Space> => {
         const resp = await this.axios.get<Space>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}`)).catch((err: Error) => {
             throw err;
         });
@@ -82,11 +82,11 @@ export class High5Space extends base {
     };
 
     /**
-     * deleteSpaceByName delete a space by its name
+     * deleteSpace delete a space by its name
      * @param orgName the organizations's name
      * @param spaceName the space's name
      */
-    public deleteSpaceByName = async (orgName: string, spaceName: string): Promise<void> => {
+    public deleteSpace = async (orgName: string, spaceName: string): Promise<void> => {
         await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}`)).catch((err: Error) => {
             throw err;
         });

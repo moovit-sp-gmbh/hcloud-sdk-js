@@ -14,12 +14,12 @@ export class FuseSpace extends base {
     }
 
     /**
-     * getSpaceByName returns a space by its name
+     * getSpace returns a space by its name
      * @param orgName the organizations's name
      * @param spaceName the space's name
      * @returns Space
      */
-    public getSpaceByName = async (orgName: string, spaceName: string): Promise<FuseSpace> => {
+    public getSpace = async (orgName: string, spaceName: string): Promise<FuseSpace> => {
         const resp = await this.axios.get<FuseSpace>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}`)).catch((err: Error) => {
             throw err;
         });
@@ -42,11 +42,11 @@ export class FuseSpace extends base {
     };
 
     /**
-     * deleteSpaceByName delete a space by its name
+     * deleteSpace delete a space by its name
      * @param orgName the organizations's name
      * @param spaceName the space's name
      */
-    public deleteSpaceByName = async (orgName: string, spaceName: string): Promise<void> => {
+    public deleteSpace = async (orgName: string, spaceName: string): Promise<void> => {
         await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}`)).catch((err: Error) => {
             throw err;
         });

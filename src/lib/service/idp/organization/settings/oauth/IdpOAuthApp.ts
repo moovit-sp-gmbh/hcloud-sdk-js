@@ -44,12 +44,12 @@ export class IdpOAuthApp extends base {
     };
 
     /**
-     * getOAuthAppById requests an OAuthApp by its id
+     * getOAuthApp requests an OAuthApp by its id
      * @param orgName the organization name
      * @param oauthAppId the id of an OAuthApp
      * @returns OAuthApp object
      */
-    public getOAuthAppById = async (orgName: string, oauthAppId: string): Promise<OAuthApp> => {
+    public getOAuthApp = async (orgName: string, oauthAppId: string): Promise<OAuthApp> => {
         const resp = await this.axios
             .get<OAuthApp>(this.getEndpoint(`/v1/org/${orgName}/settings/applications/oauth/${oauthAppId}`))
             .catch((err: Error) => {
@@ -95,12 +95,12 @@ export class IdpOAuthApp extends base {
     };
 
     /**
-     * deleteOAuthAppById deletes an OAuthApp by its id
+     * deleteOAuthApp deletes an OAuthApp by its id
      * @param orgName the organization name
      * @param oauthAppId the id of an OAuthApp
      * @returns 204 no content
      */
-    public deleteOAuthAppById = async (orgName: string, oauthAppId: string): Promise<void> => {
+    public deleteOAuthApp = async (orgName: string, oauthAppId: string): Promise<void> => {
         await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/settings/applications/oauth/${oauthAppId}`)).catch((err: Error) => {
             throw err;
         });

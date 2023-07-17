@@ -47,13 +47,13 @@ export class High5Event extends base {
     };
 
     /**
-     * getEventByName returns an event by it's name
+     * getEvent returns an event by it's name
      * @param orgName the organizations's name
      * @param spaceName the spaces's name
      * @param eventName the event's name
      * @returns Event
      */
-    public getEventByName = async (orgName: string, spaceName: string, eventName: string): Promise<Event> => {
+    public getEvent = async (orgName: string, spaceName: string, eventName: string): Promise<Event> => {
         const resp = await this.axios
             .get<Event>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}`))
             .catch((err: Error) => {
@@ -81,12 +81,12 @@ export class High5Event extends base {
     };
 
     /**
-     * deleteEventByName delete an event by it's name
+     * deleteEvent delete an event by it's name
      * @param orgName the organizations's name
      * @param spaceName the spaces's name
      * @param eventName the event's name
      */
-    public deleteEventByName = async (orgName: string, spaceName: string, eventName: string): Promise<void> => {
+    public deleteEvent = async (orgName: string, spaceName: string, eventName: string): Promise<void> => {
         await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}`)).catch((err: Error) => {
             throw err;
         });

@@ -1,7 +1,7 @@
 import { AxiosInstance } from "axios";
 import base, { Options } from "../../base";
 import { High5Space as Space } from "../../interfaces/High5";
-import { SearchFilter, SearchParams, Sorting, SpacePermission } from "../../interfaces/Global";
+import { SearchFilter, SearchParams, SpacePermission } from "../../interfaces/Global";
 import { High5Event } from "./space/High5Event";
 import { High5Execute } from "./space/High5Execute";
 import { High5Webhook } from "./space/High5Webhook";

@@ -20,12 +20,24 @@ export class IdpPat extends base {
     };
 
     /**
+     * getPat requests a single pat by it's id
+     * @returns the Pat object without the token
+     */
+    public getPat = async (patId: string): Promise<Pat> => {
+        const resp = await this.axios.get<Pat>(this.getEndpoint(`/v1/user/settings/pats/${patId}`)).catch((err: Error) => {
+            throw err;
+        });
+
+        return resp.data;
+    };
+
+    /**
      * regeneratePat regenerates the token of a pat
      * @param patId the id of the pat
      * @returns the Pat object holding the new patToken
      */
     public regeneratePat = async (patId: string): Promise<Pat> => {
-        const resp = await this.axios.get<Pat>(this.getEndpoint(`/v1/user/settings/pats/${patId}`)).catch((err: Error) => {
+        const resp = await this.axios.patch<Pat>(this.getEndpoint(`/v1/user/settings/pats/${patId}`)).catch((err: Error) => {
             throw err;
         });
 

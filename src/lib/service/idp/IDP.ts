@@ -20,11 +20,6 @@ export default class IDP extends base {
     public registration: IdpRegistration;
 
     /**
-     * oAuthApp handles everything around open authorization applications
-     */
-    public oAuthApp: IdpOAuthApp;
-
-    /**
      * oAuth handles everything around open authorization and openId requests
      */
     public oAuth: IdpOAuth;
@@ -40,7 +35,6 @@ export default class IDP extends base {
         this.user = new IdpUser(this.options, this.axios);
         this.registration = new IdpRegistration(this.options, this.axios);
         this.oAuth = new IdpOAuth(this.options, this.axios);
-        this.oAuthApp = new IdpOAuthApp(this.options, this.axios);
     }
 
     /**

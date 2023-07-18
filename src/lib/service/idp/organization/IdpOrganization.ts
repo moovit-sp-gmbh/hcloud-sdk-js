@@ -2,9 +2,8 @@ import { AxiosInstance } from "axios";
 import base, { Options } from "../../../base";
 import { Organization, OrganizationWithPermission, OrganizationWithPermissionAndTeams } from "../../../interfaces/IDP";
 import { IdpOrganizationMember } from "./IdpOrganizationMember";
-import { IdpDomain } from "./settings/domain/IdpDomain";
 import { IdpOrganizationTeams } from "./IdpOrganizationTeams";
-import { IdpOAuthApp } from "./settings/oauth/IdpOAuthApp";
+import IdpOrganizationSettings from "./settings/IdpOrganizationSettings";
 
 export class IdpOrganization extends base {
     /**
@@ -13,9 +12,9 @@ export class IdpOrganization extends base {
     public member: IdpOrganizationMember;
 
     /**
-     * domains handles everything around domains of organizations.
+     * settings handles everything around organization settings
      */
-    public domains: IdpDomain;
+    public settings: IdpOrganizationSettings;
 
     /**
      * teams handles everything around teams of organizations.
@@ -26,8 +25,8 @@ export class IdpOrganization extends base {
         super(options, axios);
 
         this.member = new IdpOrganizationMember(this.options, this.axios);
-        this.domains = new IdpDomain(this.options, this.axios);
         this.teams = new IdpOrganizationTeams(this.options, this.axios);
+        this.settings = new IdpOrganizationSettings(this.options, this.axios);
     }
 
     /**

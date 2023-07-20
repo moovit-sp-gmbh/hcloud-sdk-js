@@ -70,15 +70,15 @@ export class FuseSpace extends base {
     };
 
     /**
-     * patchSpacePermission return the patched space
+     * patchUserSpacePermission return the patched space
      * @param orgName the organizations's name
      * @param spaceName the space's name
-     * @param entityId the target user
+     * @param userId the target user's ID
      * @param permission the target permission - user SpacePermission.NONE to remove any permission)
      */
-    public patchSpacePermission = async (orgName: string, spaceName: string, entityId: string, permission: SpacePermission): Promise<FuseSpace> => {
+    public patchUserSpacePermission = async (orgName: string, spaceName: string, userId: string, permission: SpacePermission): Promise<FuseSpace> => {
         const resp = await this.axios
-            .patch<FuseSpace>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/permissions`), { entityId: entityId, permission: permission })
+            .patch<FuseSpace>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/permission/user`), { userId, permission })
             .catch((err: Error) => {
                 throw err;
             });
@@ -91,20 +91,20 @@ export class FuseSpace extends base {
      * A team cannot be an owner of a Space.
      * @param orgName the organizations's name
      * @param spaceName the space's name
-     * @param entityId the target team
+     * @param teamName the target team's name
      * @param permission the target permission - user SpacePermission.NONE to remove any permission)
      * @returns the patched space
      */
     public patchTeamSpacePermission = async (
         orgName: string,
         spaceName: string,
-        entityId: string,
+        teamName: string,
         permission: SpacePermission
     ): Promise<FuseSpace> => {
         const resp = await this.axios
-            .patch<FuseSpace>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/team/permissions`), {
-                entityId: entityId,
-                permission: permission,
+            .patch<FuseSpace>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/permission/team`), {
+                teamName,
+                permission,
             })
             .catch((err: Error) => {
                 throw err;

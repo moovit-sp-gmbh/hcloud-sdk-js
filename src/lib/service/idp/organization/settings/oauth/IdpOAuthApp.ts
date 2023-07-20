@@ -124,26 +124,6 @@ export class IdpOAuthApp extends base {
     };
 
     /**
-     * patchOAuthAppSecretName will update the name of an existing OAuthApp secret
-     * @param orgName the organization name
-     * @param oauthAppId of the OAuthApp that the new secret will be added to
-     * @param uuid of the secret that will be updated
-     * @param secretName
-     * @returns OAuthApp
-     */
-    public patchOAuthAppSecretName = async (orgName: string, oauthAppId: string, secret: string, secretName: string): Promise<OAuthApp> => {
-        const resp = await this.axios
-            .patch<OAuthApp>(this.getEndpoint(`/v1/org/${orgName}/settings/applications/oauth/${oauthAppId}/secret/${secret}`), {
-                secretName,
-            })
-            .catch((err: Error) => {
-                throw err;
-            });
-
-        return resp.data;
-    };
-
-    /**
      * deleteOAuthAppSecret will delete the specified OAuthApp secret
      * @param orgName the organization name
      * @param oauthAppId of the OAuthApp that the new secret will be added to

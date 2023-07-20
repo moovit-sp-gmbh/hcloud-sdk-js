@@ -53,23 +53,6 @@ export class FuseSpace extends base {
     };
 
     /**
-     * updateSpaceByName return the updated space
-     * @param orgName the organizations's name
-     * @param spaceName the space's name
-     * @param userId the target user
-     * @param updatedFuseSpace the target permission - user SpacePermission.NONE to remove any permission)
-     */
-    public updateSpaceByName = async (orgName: string, spaceName: string, updatedFuseSpace: UpdateFuseSpace): Promise<FuseSpace> => {
-        const resp = await this.axios
-            .put<FuseSpace>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/permissions`), updatedFuseSpace)
-            .catch((err: Error) => {
-                throw err;
-            });
-
-        return resp.data;
-    };
-
-    /**
      * patchUserSpacePermission return the patched space
      * @param orgName the organizations's name
      * @param spaceName the space's name

@@ -1,6 +1,7 @@
 export enum Template {
     REGISTER = "register",
     RESET_PASSWORD = "reset_password",
+    INVITE_TO_ORG = "invite_to_org",
 }
 
 export interface Mail {

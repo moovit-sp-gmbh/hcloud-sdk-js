@@ -73,24 +73,6 @@ export class High5ExecuteLog extends base {
         return resp.data;
     };
 
-    /**
-     * Publishes the stream results to high5
-     * @param orgName the organizations's name
-     * @param spaceName the spaces's name
-     * @param streamId the id of the stream
-     * @param secret the secret of the stream execution object
-     * @param streamResult the result of the stream
-     * @returns StreamLog
-     */
-    public writeStreamLog = async (orgName: string, spaceName: string, secret: string, streamResult: StreamResult): Promise<StreamLog> => {
-        const resp = await this.axios
-            .patch<StreamLog>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execute/logs/${secret}`), streamResult)
-            .catch((err: Error) => {
-                throw err;
-            });
-        return resp.data;
-    };
-
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/high5${endpoint}`;
     }

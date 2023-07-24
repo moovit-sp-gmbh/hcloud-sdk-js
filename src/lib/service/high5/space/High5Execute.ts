@@ -1,4 +1,5 @@
-import base from "../../../base";
+import { AxiosInstance } from "axios";
+import base, { Options } from "../../../base";
 import * as High5 from "../../../interfaces/High5";
 import { WaveEngine, WaveRelease } from "../../../interfaces/High5";
 import { High5ExecuteLog } from "./log/High5ExecuteLog";

@@ -1,8 +1,16 @@
 import base from "../../../base";
 import * as High5 from "../../../interfaces/High5";
 import { WaveEngine, WaveRelease } from "../../../interfaces/High5";
+import { High5ExecuteLog } from "./log/High5ExecuteLog";
 
 export class High5Execute extends base {
+    public log: High5ExecuteLog;
+
+    constructor(options: Options, axios: AxiosInstance) {
+        super(options, axios);
+        this.log = new High5ExecuteLog(this.options, this.axios);
+    }
+
     /**
      * executeStreamById executes a single stream by its ID and an execution request
      * @param orgName the organizations's name

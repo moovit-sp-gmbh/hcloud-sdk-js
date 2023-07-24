@@ -156,7 +156,7 @@ export class High5Node extends base {
      * @summary Get a Node's content by it's secret
      * @response raw javascript representation of the Node's content
      */
-    public async getNodeContent(
+    public async getNodeContentBySecret(
         orgName: string,
         spaceName: string,
         eventName: string,

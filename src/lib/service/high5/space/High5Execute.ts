@@ -1,8 +1,13 @@
-import base from "../../../base";
+import { AxiosInstance } from "axios";
+import base, { Options } from "../../../base";
 import * as High5 from "../../../interfaces/High5";
 import { WaveEngine, WaveRelease } from "../../../interfaces/High5";
 
 export class High5Execute extends base {
+    constructor(options: Options, axios: AxiosInstance) {
+        super(options, axios);
+    }
+
     /**
      * executeStreamById executes a single stream by its ID and an execution request
      * @param orgName the organizations's name

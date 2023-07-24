@@ -1,7 +1,12 @@
-import Base from "../../../base";
+import { AxiosInstance } from "axios";
+import Base, { Options } from "../../../base";
 import { Secret } from "../../../interfaces/High5";
 
 export default class High5Secret extends Base {
+    constructor(options: Options, axios: AxiosInstance) {
+        super(options, axios);
+    }
+
     /**
      * getSecrets paginated request to get secrets of a space
      *            Only the secret keys are sent back in the response. Not the encrypted values.

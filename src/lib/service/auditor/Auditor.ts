@@ -1,15 +1,16 @@
 import base, { Options } from "../../base";
 import { AxiosInstance } from "axios";
 import { AuditLog, AuditLogFilter, Event, Level, Origin, Type } from "../../interfaces/Auditor";
-import { Version } from "../../interfaces/Global";
+import { SearchFilter, Sorting, Version } from "../../interfaces/Global";
 import { AuditorInternal } from "./AuditorInternal";
+import { SearchParams } from "../../interfaces/Global";
+import { SearchFilterDTO } from "../../helper/searchFilter";
 
 export default class Auditor extends base {
     public internal: AuditorInternal;
 
     constructor(options: Options, axios: AxiosInstance) {
         super(options, axios);
-
         this.internal = new AuditorInternal(this.options, this.axios);
     }
 
@@ -26,44 +27,35 @@ export default class Auditor extends base {
     };
 
     /**
-     * GetAuditLog requests logs by optional filter and limited to provided organization
-     * @param organizationName an optional organization ID to receive audit logs for
-     * @param limit an optional response limit (1-100; defaults to 25)
-     * @param page an optional page to skip certain results (page * limit; defaults to 0)
-     * @param filter an optional filter object that holds optional filter fields
-     * @returns A list of audit logs
+     * Returns all audit logs for an organization which match the search filter
+     * @param {SearchParams & { orgName: string, spaceName: string }} params Search parameters
+     * @param {string} params.organizationName The name of the organization
+     * @param {SearchFilter[]} [params.filters] (optional) An array of search filters
+     * @param {Sorting} [params.sorting] (optional) A sorting object
+     * @param {number} [params.limit=25] (optional) Max number of results (1-100; defaults to 25)
+     * @param {number} [params.page = 0] - (optional) Page number to skip the first page * limit results (defaults to 0)
+     * @returns Array of audit logs
      */
-    /* eslint-disable complexity */
-    getAuditLogs = async (organizationName: string, limit?: number, page?: number, filter?: AuditLogFilter): Promise<[AuditLog[], number]> => {
-        const parameters = [];
-        let paramsUrl = "";
+    public searchAuditLogs = async ({
+        organizationName,
+        filters,
+        sorting,
+        limit = 25,
+        page = 0,
+    }: SearchParams & { organizationName: string }): Promise<[AuditLog[], number]> => {
+        const filtersDTO = filters?.map((f: SearchFilter) => new SearchFilterDTO(f));
 
-        if (limit) {
-            parameters.push("limit=" + limit);
-        }
-        if (page) {
-            parameters.push("page=" + page);
-        }
-
-        if (filter) {
-            if (filter.origin) parameters.push("origin=" + filter.origin);
-            if (filter.level) parameters.push("level=" + filter.level);
-            if (filter.event) parameters.push("event=" + filter.event);
-            if (filter.type) parameters.push("type=" + filter.type);
-            if (filter.timestamp) parameters.push("timestamp=" + filter.timestamp);
-            if (filter.message) parameters.push("message=" + filter.message);
-            if (filter.userName) parameters.push("userName=" + filter.userName);
-        }
-
-        if (parameters.length > 0) paramsUrl = "?" + parameters.join("&");
-
-        const resp = await this.axios.get<AuditLog[]>(this.getEndpoint(`/v1/org/${organizationName}/logs`) + paramsUrl).catch((err: Error) => {
-            throw err;
-        });
+        const resp = await this.axios
+            .post<AuditLog[]>(this.getEndpoint(`/v1/org/${organizationName}/logs/search?page=${page}&limit=${limit}`), {
+                filters: filtersDTO,
+                sorting: sorting,
+            })
+            .catch((err: Error) => {
+                throw err;
+            });
 
         return [resp.data, parseInt(String(resp.headers["total"]), 10)];
     };
-    /* eslint-disable complexity */
 
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/auditor${endpoint}`;

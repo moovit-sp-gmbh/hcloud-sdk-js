@@ -144,6 +144,7 @@ export interface OrganizationWithPermission {
     isUserOrganization: boolean;
     membersCount: number;
     company: string;
+    avatar_url: string;
     creatorId: string;
     createDate: number;
     modifyDate: number;

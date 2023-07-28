@@ -3,6 +3,7 @@ import { version } from "../package.json";
 import { Options } from "./base";
 import AuditorService from "./service/auditor";
 import FuseService from "./service/fuse";
+import DaliService from "./service/dali";
 import High5Service from "./service/high5";
 import IDPService from "./service/idp";
 import MailerService from "./service/mailer";
@@ -14,6 +15,7 @@ export default class hcloud {
     public High5: High5Service;
     public IDP: IDPService;
     public Fuse: FuseService;
+    public Dali: DaliService;
     public Mailer: MailerService;
     public Nats: NatsService;
     private options: Options;
@@ -28,6 +30,7 @@ export default class hcloud {
         this.High5 = new High5Service(this.options, this.axios);
         this.IDP = new IDPService(this.options, this.axios);
         this.Fuse = new FuseService(this.options, this.axios);
+        this.Dali = new DaliService(this.options, this.axios);
         this.Mailer = new MailerService(this.options, this.axios);
         this.Nats = NatsService.getInstance();
     }

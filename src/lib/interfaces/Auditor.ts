@@ -47,7 +47,7 @@ export enum Type {
 export interface AuditLog {
     level: Level;
     origin: Origin;
-    organization?: string;
+    organizationId: string;
     event: Event;
     type?: Type;
     message?: unknown;

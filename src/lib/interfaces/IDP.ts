@@ -296,7 +296,7 @@ export interface Team {
     _id: string;
     name: string;
     organization: ReducedOrganization;
-    users: ReducedUser;
+    users: ReducedUser[];
     createDate: number;
     modifyDate: number;
     creator: ReducedUser[];

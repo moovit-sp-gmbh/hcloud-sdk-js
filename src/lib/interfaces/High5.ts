@@ -142,9 +142,9 @@ export interface StreamExecutionRequest {
 }
 
 export interface EventExecutionRequest {
-    eventName: string;
     payload: StreamExecutionPayload;
     target: string;
+    dry: boolean;
 }
 
 export interface DesignBuild {

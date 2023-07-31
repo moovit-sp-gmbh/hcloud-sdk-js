@@ -30,11 +30,13 @@ export default class High5Secret extends Base {
      * @param {string} spaceName - Name of the space
      * @param {string} key - Key of the key-value pair
      * @param {string} value - Value of the key-value pair
+     * @param {boolean} [encrypted] - Boolean flag. If the value should be stored encrypted.
      */
-    async addSecret(orgName: string, spaceName: string, key: string, value: string): Promise<Secret> {
+    async addSecret(orgName: string, spaceName: string, key: string, value: string, encrypted = false): Promise<Secret> {
         const resp = await this.axios.post<Secret>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/settings/secrets`), {
             key,
             value,
+            encrypted,
         });
 
         return resp.data;
@@ -47,10 +49,12 @@ export default class High5Secret extends Base {
      * @param {string} spaceName - Name of the space
      * @param {string} key - Key of the key-value pair
      * @param {string} value - The new value of the key-value pair
+     * @param {boolean} [encrypted] - Boolean flag. If the value should be stored encrypted.
      */
-    async updateSecret(orgName: string, spaceName: string, key: string, value: string): Promise<Secret> {
+    async updateSecret(orgName: string, spaceName: string, key: string, value: string, encrypted = false): Promise<Secret> {
         const resp = await this.axios.put<Secret>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/settings/secrets/${key}`), {
             value,
+            encrypted,
         });
 
         return resp.data;

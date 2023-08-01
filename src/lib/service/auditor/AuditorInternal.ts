@@ -64,11 +64,11 @@ export class AuditorInternal extends base {
      * THIS ENDPOINT WORKS INTERNALLY ONLY
      *
      * CAN ONLY BE USED FROM BACKENDS WITHIN THE hcloud DEPLOYMENT AS THE ENDPOINT IS NOT PUBLICLY EXPOSED
-     * @param orgName the organizations's name
+     * @param orgId the organizations's ID
      * @returns void
      */
-    public deleteAllAuditLogsOfOrganization = async (orgName: string): Promise<void> => {
-        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/logs`)).catch((err: Error) => {
+    public deleteAllAuditLogsOfOrganization = async (orgId: string): Promise<void> => {
+        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgId}/logs`)).catch((err: Error) => {
             throw err;
         });
     };

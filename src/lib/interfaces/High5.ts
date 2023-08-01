@@ -39,6 +39,11 @@ export interface SingleStreamPatchOrder {
     direction: MoveDirection;
 }
 
+export interface StreamPatchOrder {
+    streamId: string;
+    order: number;
+}
+
 export interface Design {
     _id: string;
     name: string;

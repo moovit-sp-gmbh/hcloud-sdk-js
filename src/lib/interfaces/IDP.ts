@@ -299,7 +299,7 @@ export interface Team {
     users: ReducedUser;
     createDate: number;
     modifyDate: number;
-    creator: ReducedUser;
+    creator: ReducedUser[];
 }
 
 export enum TeamUsersPatchOperation {

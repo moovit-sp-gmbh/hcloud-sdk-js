@@ -15,13 +15,12 @@ export class DaliUser extends base {
         const resp = await this.axios.post<AvatarCreated>(this.getEndpoint(`/v1/avatar/user`), {}).catch((err: Error) => {
             throw err;
         });
-
         return resp.data;
     };
 
     /**
      * deleteAvatar deletes the avatar for current user
-     * @returns void after successful deletion
+     * @returns nothing after successful deletion
      */
     public deleteAvatar = async (): Promise<void> => {
         const resp = await this.axios.delete<string>(this.getEndpoint(`/v1/avatar/user`)).catch((err: Error) => {

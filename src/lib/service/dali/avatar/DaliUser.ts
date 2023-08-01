@@ -19,6 +19,16 @@ export class DaliUser extends base {
         return resp.data;
     };
 
+    /**
+     * deleteAvatar deletes the avatar for current user
+     * @returns void after successful deletion
+     */
+    public deleteAvatar = async (): Promise<void> => {
+        const resp = await this.axios.delete<string>(this.getEndpoint(`/v1/avatar/user`)).catch((err: Error) => {
+            throw err;
+        });
+    };
+
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/dali${endpoint}`;
     }

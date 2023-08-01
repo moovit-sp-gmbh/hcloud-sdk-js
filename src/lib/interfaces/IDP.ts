@@ -228,7 +228,7 @@ export interface OAuthAppCreation {
     avatar?: string;
     description?: string;
     homepage?: string;
-    callback: string;
+    callback: string[];
 }
 
 export interface OAuthAppClientSecret {
@@ -249,7 +249,7 @@ export interface OAuthApp {
     avatar?: string;
     description?: string;
     homepage?: string;
-    callback: string;
+    callback: string[];
     hcloudClientId: string;
     clientSecrets: OAuthAppClientSecret[];
     scopes: Scopes[];

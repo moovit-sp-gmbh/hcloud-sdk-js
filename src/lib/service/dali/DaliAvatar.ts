@@ -5,6 +5,7 @@ import { DaliTeam } from "./avatar/DaliTeam";
 import { DaliOrganization } from "./avatar/DaliOrganization";
 import { DaliHigh5 } from "./avatar/DaliHigh5";
 import { DaliFuse } from "./avatar/DaliFuse";
+import { DaliOAuthApp } from "./avatar/DaliOAuthApp";
 
 export class DaliAvatar extends base {
     /**
@@ -32,6 +33,11 @@ export class DaliAvatar extends base {
      */
     public fuse: DaliFuse;
 
+    /**
+     * oauth handles everything around OAuth applications avatars
+     */
+    public oauth: DaliOAuthApp;
+
     constructor(options: Options, axios: AxiosInstance) {
         super(options, axios);
 
@@ -40,6 +46,7 @@ export class DaliAvatar extends base {
         this.organization = new DaliOrganization(this.options, this.axios);
         this.high5 = new DaliHigh5(this.options, this.axios);
         this.fuse = new DaliFuse(this.options, this.axios);
+        this.oauth = new DaliOAuthApp(this.options, this.axios);
     }
 
     protected getEndpoint(endpoint: string): string {

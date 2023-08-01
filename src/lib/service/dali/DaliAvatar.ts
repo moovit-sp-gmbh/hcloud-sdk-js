@@ -4,6 +4,7 @@ import { DaliUser } from "./avatar/DaliUser";
 import { DaliTeam } from "./avatar/DaliTeam";
 import { DaliOrganization } from "./avatar/DaliOrganization";
 import { DaliHigh5 } from "./avatar/DaliHigh5";
+import { DaliFuse } from "./avatar/DaliFuse";
 
 export class DaliAvatar extends base {
     /**
@@ -26,6 +27,11 @@ export class DaliAvatar extends base {
      */
     public high5: DaliHigh5;
 
+    /**
+     * fuse handles everything around fuse spaces avatars
+     */
+    public fuse: DaliFuse;
+
     constructor(options: Options, axios: AxiosInstance) {
         super(options, axios);
 
@@ -33,6 +39,7 @@ export class DaliAvatar extends base {
         this.team = new DaliTeam(this.options, this.axios);
         this.organization = new DaliOrganization(this.options, this.axios);
         this.high5 = new DaliHigh5(this.options, this.axios);
+        this.fuse = new DaliFuse(this.options, this.axios);
     }
 
     protected getEndpoint(endpoint: string): string {

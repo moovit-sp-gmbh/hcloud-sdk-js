@@ -1,6 +1,6 @@
 import { AxiosInstance } from "axios";
 import base, { Options } from "../../../../base";
-import { Event, Stream, StreamPatchOrder } from "../../../../interfaces/High5";
+import { Event, Stream, SingleStreamPatchOrder } from "../../../../interfaces/High5";
 import { High5Execute } from "../High5Execute";
 import { High5Design } from "./stream/High5Design";
 import { High5Node } from "./stream/High5Node";
@@ -92,16 +92,26 @@ export class High5Stream extends base {
     };
 
     /**
-     * Patch the order all Streams of an event (require WRITE rights)
+     * Move an stream up or down in the existing streams order (require WRITE rights)
      * @param orgName the organizations's name
      * @param spaceName the spaces's name
      * @param eventName the event's name
-     * @param StreamPatchOrder A list of all event streams with their new order
+     * @param streamId the streams's id
+     * @param SingleStreamPatchOrder Object defining if stream order increases or decreases
      * @returns Stream[] array of the updated streams
      */
-    public patchStreamOrder = async (orgName: string, spaceName: string, eventName: string, streamList: StreamPatchOrder[]): Promise<Stream[]> => {
+    public patchStreamOrder = async (
+        orgName: string,
+        spaceName: string,
+        eventName: string,
+        streamId: string,
+        singleStreamPatchOrder: SingleStreamPatchOrder
+    ): Promise<Stream[]> => {
         const resp = await this.axios
-            .patch<Stream[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams`), streamList)
+            .patch<Stream[]>(
+                this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/order`),
+                singleStreamPatchOrder
+            )
             .catch((err: Error) => {
                 throw err;
             });

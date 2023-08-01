@@ -30,9 +30,13 @@ export interface Stream {
     createDate: number;
 }
 
-export interface StreamPatchOrder {
-    streamId: string;
-    order: number;
+export enum MoveDirection {
+    UP = "UP",
+    DOWN = "DOWN",
+}
+
+export interface SingleStreamPatchOrder {
+    direction: MoveDirection;
 }
 
 export interface Design {

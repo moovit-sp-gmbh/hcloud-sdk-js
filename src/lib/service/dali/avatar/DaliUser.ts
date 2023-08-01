@@ -1,4 +1,5 @@
 import { AxiosInstance } from "axios";
+import { promises as fsPromises } from "fs";
 import base, { Options } from "../../../base";
 import { AvatarCreated } from "../../../interfaces/Dali";
 
@@ -26,6 +27,19 @@ export class DaliUser extends base {
         const resp = await this.axios.delete<string>(this.getEndpoint(`/v1/avatar/user`)).catch((err: Error) => {
             throw err;
         });
+    };
+
+    /**
+     * uploadAvatar uploads the custom avatar for current user
+     * @returns {AvatarCreated} the public url to the uploaded avatar
+     */
+    public uploadAvatar = async (filename: string): Promise<AvatarCreated> => {
+        let form = new FormData();
+        form.append("file", await fsPromises.fileRead(filename), filename);
+        const resp = await this.axios.put<AvatarCreated>(this.getEndpoint(`/v1/avatar/user`), form).catch((err: Error) => {
+            throw err;
+        });
+        return resp.data;
     };
 
     protected getEndpoint(endpoint: string): string {

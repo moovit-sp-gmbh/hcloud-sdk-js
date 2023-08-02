@@ -3,8 +3,8 @@ import base, { Options } from "../../base";
 import { DaliUser } from "./avatar/DaliUser";
 import { DaliTeam } from "./avatar/DaliTeam";
 import { DaliOrganization } from "./avatar/DaliOrganization";
-import { DaliHigh5 } from "./avatar/DaliHigh5";
-import { DaliFuse } from "./avatar/DaliFuse";
+import { DaliHigh5 } from "./avatar/DaliHigh5Space";
+import { DaliFuse } from "./avatar/DaliFuseSpace";
 import { DaliOAuthApp } from "./avatar/DaliOAuthApp";
 
 export class DaliAvatar extends base {
@@ -24,14 +24,14 @@ export class DaliAvatar extends base {
     public organization: DaliOrganization;
 
     /**
-     * high5 handles everything around high5 spaces avatars
+     * high5Space handles everything around high5 spaces avatars
      */
-    public high5: DaliHigh5;
+    public high5Space: DaliHigh5;
 
     /**
-     * fuse handles everything around fuse spaces avatars
+     * fuseSpace handles everything around fuse spaces avatars
      */
-    public fuse: DaliFuse;
+    public fuseSpace: DaliFuse;
 
     /**
      * oauth handles everything around OAuth applications avatars
@@ -44,8 +44,8 @@ export class DaliAvatar extends base {
         this.user = new DaliUser(this.options, this.axios);
         this.team = new DaliTeam(this.options, this.axios);
         this.organization = new DaliOrganization(this.options, this.axios);
-        this.high5 = new DaliHigh5(this.options, this.axios);
-        this.fuse = new DaliFuse(this.options, this.axios);
+        this.high5Space = new DaliHigh5(this.options, this.axios);
+        this.fuseSpace = new DaliFuse(this.options, this.axios);
         this.oauth = new DaliOAuthApp(this.options, this.axios);
     }
 

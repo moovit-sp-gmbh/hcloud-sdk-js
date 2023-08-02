@@ -37,6 +37,28 @@ export class DaliOAuthApp extends base {
             });
     };
 
+    /**
+     * updateAvatar returns the uploaded and processed avatar as URL
+     * @param {string} orgName the name of the organization
+     * @param {string} appId the ID of the OAuth application
+     * @param {string} file the image as file
+     * @returns {AvatarCreated} AvatarCreated
+     */
+    public updateAvatar = async (orgName: string, appId: string, file: File): Promise<AvatarCreated> => {
+        const data = new FormData();
+        data.append("avatar", file);
+
+        const resp = await this.axios
+            .put<AvatarCreated>(this.getEndpoint(`/v1/avatar/org/${orgName}/applications/oauth/${appId}`), data, {
+                headers: { "Content-Type": "multipart/form-data" },
+            })
+            .catch((err: Error) => {
+                throw err;
+            });
+
+        return resp.data;
+    };
+
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/dali${endpoint}`;
     }

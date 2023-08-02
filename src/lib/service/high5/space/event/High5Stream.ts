@@ -99,7 +99,12 @@ export class High5Stream extends base {
      * @param StreamPatchOrder A list of all event streams with their new order
      * @returns Stream[] array of the updated streams
      */
-    public patchStreamOrderMulti = async (orgName: string, spaceName: string, eventName: string, streamList: StreamPatchOrder[]): Promise<Stream[]> => {
+    public patchStreamOrderMulti = async (
+        orgName: string,
+        spaceName: string,
+        eventName: string,
+        streamList: StreamPatchOrder[]
+    ): Promise<Stream[]> => {
         const resp = await this.axios
             .patch<Stream[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/order`), streamList)
             .catch((err: Error) => {

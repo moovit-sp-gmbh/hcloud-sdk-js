@@ -39,7 +39,7 @@ export class DaliOrganization extends base {
     /**
      * updateAvatar returns the uploaded and processed avatar as URL
      * @param {string} orgName the organizations's name
-     * @param {string} image the image as file
+     * @param {string} file the image as file
      * @returns {AvatarCreated} AvatarCreated
      */
     public updateAvatar = async (orgName: string, file: File): Promise<AvatarCreated> => {

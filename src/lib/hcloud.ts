@@ -60,22 +60,4 @@ export default class hcloud {
     getAuthToken(): string | undefined {
         return this.axios.defaults.headers.common["authorization"]?.toString();
     }
-
-    setActiveOrganization(organizationName: string): hcloud {
-        this.axios.defaults.headers.common["x-active-organization"] = organizationName;
-        return this;
-    }
-
-    getActiveOrganization(): string | undefined {
-        return this.axios.defaults.headers.common["x-active-organization"]?.toString();
-    }
-
-    setCorrelationId(correlationId: string): hcloud {
-        this.axios.defaults.headers.common["X-Hcloud-Correlation-ID"] = correlationId;
-        return this;
-    }
-
-    getCorrelationId(): string | undefined {
-        return this.axios.defaults.headers.common["X-Hcloud-Correlation-ID"]?.toString();
-    }
 }

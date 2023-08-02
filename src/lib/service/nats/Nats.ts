@@ -42,20 +42,9 @@ type ConnectParamsPassword = {
 const isBrowser = typeof window !== "undefined";
 class Nats {
     // eslint-disable-next-line no-use-before-define
-    private static instance: Nats;
     private natsConnection: NatsConnection | undefined;
     private subMap = [] as SubMapEntry[];
     private connection = isBrowser ? connectWs : connectNode;
-
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    private constructor() {}
-
-    public static getInstance() {
-        if (!this.instance) {
-            this.instance = new Nats();
-        }
-        return this.instance;
-    }
 
     // eslint-disable-next-line complexity
     public async connect(params: ConnectParamsJwt | ConnectParamsPassword): Promise<NatsConnection> {

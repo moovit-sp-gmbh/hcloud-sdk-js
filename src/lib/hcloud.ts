@@ -38,7 +38,7 @@ export default class hcloud {
         this.Fuse = new FuseService(this.options, this.axios);
         this.Dali = new DaliService(this.options, this.axios);
         this.Mailer = new MailerService(this.options, this.axios);
-        this.Nats = NatsService.getInstance();
+        this.Nats = new NatsService();
     }
 
     setServer(server: string): hcloud {
@@ -71,5 +71,9 @@ export default class hcloud {
 
     getCorrelationId(): string | undefined {
         return this.axios.defaults.headers.common["X-Hcloud-Correlation-ID"]?.toString();
+    }
+
+    getNatsService(): NatsService {
+        return this.Nats;
     }
 }

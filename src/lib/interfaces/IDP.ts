@@ -1,3 +1,5 @@
+import hcloud from "../hcloud";
+
 export enum GrantType {
     AUTHORIZATION_CODE = "authorization_code",
     REFRESH_TOKEN = "refresh_token",
@@ -164,6 +166,12 @@ export interface PatchOrgMember {
 export interface SuccessfulAuth {
     user: User;
     token: string;
+}
+
+export interface SuccessfulHcloudAuth {
+    user: User;
+    token: string;
+    hcl: hcloud;
 }
 
 enum SearchDateOperator {

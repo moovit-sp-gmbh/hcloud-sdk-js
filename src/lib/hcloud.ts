@@ -1,4 +1,4 @@
-import axios, { AxiosInstance } from "axios";
+import axios, { AxiosError, AxiosInstance, AxiosResponse } from "axios";
 import { version } from "../package.json";
 import { Options } from "./base";
 import AuditorService from "./service/auditor";
@@ -21,6 +21,8 @@ export default class hcloud {
     private options: Options;
     private axios: AxiosInstance;
 
+    private lastCorrelationId: string = "";
+
     constructor(options: Options) {
         this.options = options;
         this.axios = axios.create({
@@ -28,6 +30,16 @@ export default class hcloud {
             transformResponse: axios.defaults.transformResponse,
         });
         this.axios.defaults.headers.common["user-agent"] = "hcloud-sdk-js/v" + version;
+        this.axios.interceptors.response.use(
+            (response: AxiosResponse) => {
+                this.lastCorrelationId = response.headers["x-hcloud-correlation-id"] || "";
+                return response;
+            },
+            (error: AxiosError) => {
+                this.lastCorrelationId = error.response?.headers["x-hcloud-correlation-id"] || "";
+                return Promise.reject(error);
+            }
+        );
 
         this.Auditor = new AuditorService(this.options, this.axios);
         this.High5 = new High5Service(this.options, this.axios);
@@ -59,5 +71,9 @@ export default class hcloud {
 
     getAuthToken(): string | undefined {
         return this.axios.defaults.headers.common["authorization"]?.toString();
+    }
+
+    getLastCorrelationId(): string {
+        return this.lastCorrelationId;
     }
 }

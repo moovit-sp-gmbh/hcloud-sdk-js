@@ -23,7 +23,10 @@ export default class hcloud {
 
     constructor(options: Options) {
         this.options = options;
-        this.axios = axios.create();
+        this.axios = axios.create({
+            transformRequest: axios.defaults.transformRequest,
+            transformResponse: axios.defaults.transformResponse,
+        });
         this.axios.defaults.headers.common["user-agent"] = "hcloud-sdk-js/v" + version;
 
         this.Auditor = new AuditorService(this.options, this.axios);

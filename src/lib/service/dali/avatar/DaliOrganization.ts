@@ -2,6 +2,11 @@ import { AxiosInstance } from "axios";
 import base, { Options } from "../../../base";
 import { AvatarCreated } from "../../../interfaces/Dali";
 
+interface MFormData {
+    body: string;
+    contentType: string;
+}
+
 export class DaliOrganization extends base {
     constructor(options: Options, axios: AxiosInstance) {
         super(options, axios);
@@ -29,6 +34,27 @@ export class DaliOrganization extends base {
         const resp = await this.axios.delete<string>(this.getEndpoint(`/v1/avatar/org/${orgName}`)).catch((err: Error) => {
             throw err;
         });
+    };
+
+    /**
+     * updateAvatar returns the uploaded and processed avatar as URL
+     * @param {string} orgName the organizations's name
+     * @param {string} image the image as file
+     * @returns {AvatarCreated} AvatarCreated
+     */
+    public updateAvatar = async (orgName: string, file: File): Promise<AvatarCreated> => {
+        const data = new FormData();
+        data.append("avatar", file);
+
+        const resp = await this.axios
+            .put<AvatarCreated>(this.getEndpoint(`/v1/avatar/org/${orgName}`), data, {
+                headers: { "Content-Type": "multipart/form-data" },
+            })
+            .catch((err: Error) => {
+                throw err;
+            });
+
+        return resp.data;
     };
 
     protected getEndpoint(endpoint: string): string {

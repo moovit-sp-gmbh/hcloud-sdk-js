@@ -7,6 +7,9 @@ export interface Options {
             executionInterval?: number;
         };
     };
+    agent?: {
+        server: string;
+    };
 }
 
 export default abstract class Base {

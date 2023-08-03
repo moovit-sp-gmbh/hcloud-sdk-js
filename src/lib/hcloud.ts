@@ -1,6 +1,7 @@
 import axios, { AxiosInstance } from "axios";
 import { version } from "../package.json";
 import { Options } from "./base";
+import AgentService from "./service/agent";
 import AuditorService from "./service/auditor";
 import FuseService from "./service/fuse";
 import DaliService from "./service/dali";
@@ -11,6 +12,7 @@ import NatsService from "./service/nats";
 
 // tslint:disable-next-line
 export default class hcloud {
+    public Agent: AgentService;
     public Auditor: AuditorService;
     public High5: High5Service;
     public IDP: IDPService;
@@ -29,6 +31,7 @@ export default class hcloud {
         });
         this.axios.defaults.headers.common["user-agent"] = "hcloud-sdk-js/v" + version;
 
+        this.Agent = new AgentService(this.options, this.axios);
         this.Auditor = new AuditorService(this.options, this.axios);
         this.High5 = new High5Service(this.options, this.axios);
         this.IDP = new IDPService(this.options, this.axios);

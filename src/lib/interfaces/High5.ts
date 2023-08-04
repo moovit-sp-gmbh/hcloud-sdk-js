@@ -168,7 +168,8 @@ export interface StreamExecutionPackage {
 }
 
 export enum WebhookType {
-    GENERIC = "GENERIC",
+    EVENT = "EVENT",
+    SPACE = "SPACE",
     FRAME_IO = "FRAME_IO",
 }
 
@@ -177,24 +178,35 @@ export interface SecurityHeader {
     value: string;
 }
 
-export interface Generic {
+export interface EventWebhook {
     eventName: string;
-    securityHeaders: SecurityHeader[];
 }
 
-export interface FrameIo {
+export interface SpaceWebhook {
+    eventPrefix: string;
+    jsonPathMapping: string;
+}
+
+export interface FrameIoWebhook {
+    eventName: string;
     secret: string;
-    eventNames: string[];
+}
+
+export interface WebhookEncryptionSettings {
+    hmacHeaderName: string;
+    hmacAlgorithm: string;
+    hmacSecret: string;
 }
 
 export interface Webhook {
     _id: string;
     name: string;
-    token: string;
     url: string;
     type: WebhookType;
-    sub: Generic | FrameIo;
-    space: string;
+    sub: EventWebhook | SpaceWebhook | FrameIoWebhook;
+    webhookEncryptionSettings?: WebhookEncryptionSettings;
+    securityHeaders?: SecurityHeader[];
+    spaceId: string;
     target: string;
     organization: ReducedOrganization;
     creator: ReducedUser;
@@ -204,10 +216,22 @@ export interface Webhook {
 
 export interface WebhookCreation {
     name: string;
-    token: string;
     target: string;
     type: WebhookType;
-    sub: Generic | FrameIo;
+    sub: EventWebhook | SpaceWebhook | FrameIoWebhook;
+    webhookEncryptionSettings?: WebhookEncryptionSettings;
+    securityHeaders?: SecurityHeader[];
+}
+
+export interface WebhookUpdate {
+    name?: string;
+    target?: string;
+    type?: WebhookType;
+    sub?: EventWebhook | SpaceWebhook | FrameIoWebhook;
+    webhookEncryptionSettings?: WebhookEncryptionSettings;
+    deleteWebhookEncryptionSettings?: boolean;
+    securityHeaders?: SecurityHeader[];
+    deleteSecurityHeaders?: boolean;
 }
 
 export interface WebhookLog {

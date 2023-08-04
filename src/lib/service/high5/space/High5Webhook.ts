@@ -1,6 +1,6 @@
 import { AxiosInstance, AxiosRequestHeaders } from "axios";
 import base, { Options } from "../../../base";
-import { KeyValuePair, Webhook, WebhookCreation } from "../../../interfaces/High5";
+import { KeyValuePair, Webhook, WebhookCreation, WebhookUpdate } from "../../../interfaces/High5";
 import { High5WebhookLog } from "./webhook/High5WebhookLog";
 import { SearchFilter, SearchParams, Sorting } from "../../../interfaces/Global";
 import { SearchFilterDTO } from "../../../helper/searchFilter";
@@ -105,9 +105,9 @@ export class High5Webhook extends base {
      * @param webhookCreation is an object/JSON containing the name, token, eventId, spaceId, target and (optionally) security headers for the updated webhook
      * @returns the updated webhook
      */
-    public updateWebhook = async (orgName: string, spaceName: string, webhookId: string, webhookCreation: WebhookCreation): Promise<Webhook> => {
+    public updateWebhook = async (orgName: string, spaceName: string, webhookId: string, webhookUpdate: WebhookUpdate): Promise<Webhook> => {
         const resp = await this.axios
-            .put<Webhook>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/webhooks/${webhookId}`), webhookCreation)
+            .patch<Webhook>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/webhooks/${webhookId}`), webhookUpdate)
             .catch((err: Error) => {
                 throw err;
             });
@@ -124,7 +124,7 @@ export class High5Webhook extends base {
      */
     public deleteWebhook = async (orgName: string, spaceName: string, webhookId: string): Promise<void> => {
         const resp = await this.axios
-            .delete<Webhook[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/webhook/${webhookId}`))
+            .delete<Webhook[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/webhooks/${webhookId}`))
             .catch((err: Error) => {
                 throw err;
             });

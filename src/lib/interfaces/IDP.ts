@@ -68,6 +68,7 @@ export interface User {
     name: string;
     email: string;
     company?: string;
+    avatarUrl: string;
     activeOrganization: string;
     twoFactor?: {
         totp: boolean;
@@ -112,6 +113,7 @@ export interface Organization {
     isUserOrganization: boolean;
     company: string;
     creator: ReducedUser;
+    avatarUrl: string;
     membersCount?: number;
     createDate: number;
     modifyDate: number;
@@ -144,7 +146,7 @@ export interface OrganizationWithPermission {
     isUserOrganization: boolean;
     membersCount: number;
     company: string;
-    avatar_url: string;
+    avatarUrl: string;
     creatorId: string;
     createDate: number;
     modifyDate: number;
@@ -225,7 +227,6 @@ export interface OAuthToken {
 
 export interface OAuthAppCreation {
     name: string;
-    avatar?: string;
     description?: string;
     homepage?: string;
     callback: string[];
@@ -246,7 +247,7 @@ export interface OAuthApp {
     name: string;
     organization: ReducedOrganization;
     creator: ReducedUser;
-    avatar?: string;
+    avatarUrl: string;
     description?: string;
     homepage?: string;
     callback: string[];
@@ -297,6 +298,7 @@ export interface Team {
     name: string;
     organization: ReducedOrganization;
     users: ReducedUser[];
+    avatarUrl: string;
     createDate: number;
     modifyDate: number;
     creator: ReducedUser[];

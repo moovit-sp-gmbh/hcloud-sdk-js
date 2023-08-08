@@ -18,14 +18,15 @@ export class FuseCronjob extends base {
 
     /**
      * getCronjob returns a cronjob by it's ID
-     * @param orgName the organizations's name
-     * @param spaceName the spaces's name
-     * @param cronjobId the cronjob's ID
+     * @param {string} orgName the organizations's name
+     * @param {string} spaceName the spaces's name
+     * @param {string} cronjobId the cronjob's ID
+     * @param {boolean} [exposeNextExecution] - optional parameter to trigger the exposure of the next execution in unix timestamp in the response object(s)
      * @returns Cronjob
      */
-    public getCronjob = async (orgName: string, spaceName: string, cronjobId: string): Promise<Cronjob> => {
+    public getCronjob = async (orgName: string, spaceName: string, cronjobId: string, exposeNextExecution = false): Promise<Cronjob> => {
         const resp = await this.axios
-            .get<Cronjob>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs/${cronjobId}`))
+            .get<Cronjob>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs/${cronjobId}?nextExecution=${exposeNextExecution}`))
             .catch((err: Error) => {
                 throw err;
             });
@@ -34,10 +35,10 @@ export class FuseCronjob extends base {
     };
 
     /**
-     * getNextCronjobExecutions returns an array of the next n cronjob executions as UTC timestamps
-     * @param orgName the organizations's name
-     * @param spaceName the spaces's name
-     * @param cronjobId the cronjob's ID
+     * getNextCronjobExecutions returns an array of the next n cronjob executions as UTC unix timestamps
+     * @param {string} orgName the organizations's name
+     * @param {string} spaceName the spaces's name
+     * @param {string} cronjobId the cronjob's ID
      * @returns Unix timestamp number array
      */
     public getNextCronjobExecutions = async (orgName: string, spaceName: string, cronjobId: string): Promise<number[]> => {
@@ -52,14 +53,20 @@ export class FuseCronjob extends base {
 
     /**
      * createCronjob returns the newly created cronjob
-     * @param orgName the organizations's name
-     * @param spaceName the spaces's name
-     * @param createCronjob the cronjob to create
+     * @param {string} orgName the organizations's name
+     * @param {string} spaceName the spaces's name
+     * @param {CreateCronjob} createCronjob the cronjob to create
+     * @param {boolean} [exposeNextExecution] - optional parameter to trigger the exposure of the next execution in unix timestamp in the response object(s)
      * @returns Cronjob
      */
-    public createCronjob = async (orgName: string, spaceName: string, createCronjob: CreateCronjob): Promise<Cronjob> => {
+    public createCronjob = async (
+        orgName: string,
+        spaceName: string,
+        createCronjob: CreateCronjob,
+        exposeNextExecution = false
+    ): Promise<Cronjob> => {
         const resp = await this.axios
-            .post<Cronjob>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs`), createCronjob)
+            .post<Cronjob>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs?nextExecution=${exposeNextExecution}`), createCronjob)
             .catch((err: Error) => {
                 throw err;
             });
@@ -69,14 +76,24 @@ export class FuseCronjob extends base {
 
     /**
      * updateCronjob returns the updated cronjob
-     * @param orgName the organizations's name
-     * @param spaceName the spaces's name
-     * @param createCronjob the cronjob to update
+     * @param {string} orgName the organizations's name
+     * @param {string} spaceName the spaces's name
+     * @param {CreateCronjob} createCronjob the cronjob to update
+     * @param {boolean} [exposeNextExecution] - optional parameter to trigger the exposure of the next execution in unix timestamp in the response object(s)
      * @returns Cronjob
      */
-    public updateCronjob = async (orgName: string, spaceName: string, cronjobId: string, createCronjob: CreateCronjob): Promise<Cronjob> => {
+    public updateCronjob = async (
+        orgName: string,
+        spaceName: string,
+        cronjobId: string,
+        createCronjob: CreateCronjob,
+        exposeNextExecution = false
+    ): Promise<Cronjob> => {
         const resp = await this.axios
-            .put<Cronjob>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs/${cronjobId}`), createCronjob)
+            .put<Cronjob>(
+                this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs/${cronjobId}?nextExecution=${exposeNextExecution}`),
+                createCronjob
+            )
             .catch((err: Error) => {
                 throw err;
             });
@@ -86,14 +103,25 @@ export class FuseCronjob extends base {
 
     /**
      * patchCronjobExpression returns the patched cronjob
-     * @param orgName the organizations's name
-     * @param spaceName the spaces's name
-     * @param updateCronjob the cronjob to update
+     * @param {string} orgName the organizations's name
+     * @param {string} spaceName the spaces's name
+     * @param {string} cronjobId the cronjob's ID
+     * @param {string} expression the new cronjob's expression
+     * @param {boolean} [exposeNextExecution] - optional parameter to trigger the exposure of the next execution in unix timestamp in the response object(s)
      * @returns Cronjob
      */
-    public patchCronjobExpression = async (orgName: string, spaceName: string, cronjobId: string, expression: string): Promise<Cronjob> => {
+    public patchCronjobExpression = async (
+        orgName: string,
+        spaceName: string,
+        cronjobId: string,
+        expression: string,
+        exposeNextExecution = false
+    ): Promise<Cronjob> => {
         const resp = await this.axios
-            .patch<Cronjob>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs/${cronjobId}/expression`), { expression: expression })
+            .patch<Cronjob>(
+                this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs/${cronjobId}/expression?nextExecution=${exposeNextExecution}`),
+                { expression: expression }
+            )
             .catch((err: Error) => {
                 throw err;
             });
@@ -103,9 +131,9 @@ export class FuseCronjob extends base {
 
     /**
      * deleteEvent delete an event by it's name
-     * @param orgName the organizations's name
-     * @param spaceName the spaces's name
-     * @param cronjobId the event's name
+     * @param {string} orgName the organizations's name
+     * @param {string} spaceName the spaces's name
+     * @param {string} cronjobId the cronjob's ID
      */
     public deleteCronjob = async (orgName: string, spaceName: string, cronjobId: string): Promise<void> => {
         await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs/${cronjobId}`)).catch((err: Error) => {
@@ -122,25 +150,27 @@ export class FuseCronjob extends base {
      * @param {Sorting} [params.sorting] an optional sorting direction
      * @param {number} [params.limit=25] an optional response limit limit (1-100; defaults to 25)
      * @param {number} [params.page=0] - an optional page to skip certain results (page * limit; defaults to 0)
+     * @param {boolean} [exposeNextExecution] - optional parameter to trigger the exposure of the next execution in unix timestamp in the response object(s)
      * @returns filtered cronjobs list
      */
-    public searchCronjobs = async ({
-        orgName,
-        spaceName,
-        filters,
-        sorting,
-        limit = 25,
-        page = 0,
-    }: SearchParams & { orgName: string; spaceName: string }): Promise<[Cronjob[], number]> => {
+    public searchCronjobs = async (
+        { orgName, spaceName, filters, sorting, limit = 25, page = 0 }: SearchParams & { orgName: string; spaceName: string },
+        exposeNextExecution = false
+    ): Promise<[Cronjob[], number]> => {
         const filtersDTO = filters?.map((f: SearchFilter) => {
             return new SearchFilterDTO(f);
         });
 
         const resp = await this.axios
-            .post<Cronjob[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs/search?limit=${limit}&page=${page}`), {
-                filters: filtersDTO,
-                sorting,
-            })
+            .post<Cronjob[]>(
+                this.getEndpoint(
+                    `/v1/org/${orgName}/spaces/${spaceName}/jobs/search?limit=${limit}&page=${page}&nextExecution=${exposeNextExecution}`
+                ),
+                {
+                    filters: filtersDTO,
+                    sorting,
+                }
+            )
             .catch((err: Error) => {
                 throw err;
             });

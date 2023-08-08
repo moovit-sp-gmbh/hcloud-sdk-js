@@ -21,6 +21,7 @@ export interface Cronjob {
     enabled?: boolean;
     createDate: number;
     modifyDate: number;
+    nextExecution?: number;
 }
 
 export interface CreateCronjob {

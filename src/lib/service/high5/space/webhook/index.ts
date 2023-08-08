@@ -130,18 +130,18 @@ export class High5Webhook extends Base {
 
     /**
      * triggerWebhook triggers all events and streams of the specified webhook
-     * @param url of the webhook to be triggered / executed
+     * @param webhookUrl of the webhook to be triggered / executed (your hcloud domain + webhook.relativeUrl)
      * @returns void
      */
-    public triggerWebhook = async (url: string): Promise<void> => {
-        await this.axios.post<void>(this.getEndpoint(`${url}`)).catch((err: Error) => {
+    public triggerWebhook = async (webhookUrl: string): Promise<void> => {
+        await this.axios.post<void>(this.getEndpoint(webhookUrl)).catch((err: Error) => {
             throw err;
         });
     };
 
     /**
      * Executes a webhook by its URL
-     * @param webhookUrl from the webhookDto
+     * @param webhookUrl of the webhook to be triggered / executed (your hcloud domain + webhook.relativeUrl)
      * @param payload the payload to be used in the event execution that will be triggered by the webhook, as JSON.
      * @param headers optional security headers.
      * @returns void the webhook is executed asynchronously, and we do not wait for a result or response
@@ -160,11 +160,11 @@ export class High5Webhook extends Base {
 
     /**
      * validateWebhookUrl will return the challenge
-     * @param url of the webhook to be validated
+     * @param webhookUrl of the webhook to be triggered / executed (your hcloud domain + webhook.relativeUrl)
      * @returns the provided challenge string
      */
-    public validateWebhookUrl = async (url: string, challenge: string): Promise<string> => {
-        const resp = await this.axios.get<string>(this.getEndpoint(`${url}?challenge=${challenge}`)).catch((err: Error) => {
+    public validateWebhookUrl = async (webhookUrl: string, challenge: string): Promise<string> => {
+        const resp = await this.axios.get<string>(this.getEndpoint(`${webhookUrl}?challenge=${challenge}`)).catch((err: Error) => {
             throw err;
         });
         return resp.data;

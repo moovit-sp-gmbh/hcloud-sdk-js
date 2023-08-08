@@ -54,6 +54,7 @@ export interface Space {
     _id: string;
     name: string;
     organization: ReducedOrganization;
+    avatarUrl: string;
     creator: ReducedUser;
     permissions: (SpaceEntityPermission & { name: string })[];
     createDate: number;

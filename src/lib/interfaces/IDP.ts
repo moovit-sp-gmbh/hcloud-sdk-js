@@ -53,16 +53,19 @@ export const ScopeDependencies = {
 export interface ReducedUser {
     _id: string;
     name: string;
+    avatarUrl: string;
 }
 
 export interface ReducedOrganization {
     _id: string;
     name: string;
+    avatarUrl: string;
 }
 
 export interface ReducedTeam {
     _id: string;
     name: string;
+    avatarUrl: string;
 }
 
 export interface User {

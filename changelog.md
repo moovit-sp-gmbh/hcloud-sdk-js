@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.31
+
+- Update reduced interfaces to contain avatarUrl
+
 ## 0.0.30
 
 - Update webhook interfaces. Endpoints remain the same

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.32
+
+- Add missing endpoints related to stream-execution-logs
+
 ## 0.0.31
 
 - Update reduced interfaces to contain avatarUrl

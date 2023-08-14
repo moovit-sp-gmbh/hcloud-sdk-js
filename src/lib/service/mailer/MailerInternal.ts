@@ -1,5 +1,5 @@
 import base from "../../base";
-import { HtmlMail, MailjetMailDTO, MustacheMail, TemplateMail } from "../../interfaces/Mail";
+import { HtmlMail, MailjetMailDTO, MustacheMail, TemplateMail } from "../../interfaces/mailer/Mail";
 
 export default class MailerInternal extends base {
     /**

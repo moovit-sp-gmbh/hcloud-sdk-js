@@ -1,7 +1,7 @@
 import base, { Options } from "../../base";
 import { AxiosInstance } from "axios";
-import { AuditLog } from "../../interfaces/Auditor";
-import { SearchFilter, SearchParams, Version } from "../../interfaces/Global";
+import { AuditLog } from "../../interfaces/auditor/AuditLog";
+import { SearchFilter, SearchParams, Version } from "../../interfaces/global";
 import { AuditorInternal } from "./AuditorInternal";
 import { SearchFilterDTO } from "../../helper/searchFilter";
 

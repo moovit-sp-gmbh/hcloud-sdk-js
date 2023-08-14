@@ -1,8 +1,8 @@
 import { AxiosInstance } from "axios";
 import base, { Options } from "../../../../../base";
 import { SearchFilterDTO } from "../../../../../helper/searchFilter";
-import { SearchFilter, SearchParams } from "../../../../../interfaces/Global";
-import { OAuthApp, OAuthAppCreation } from "../../../../../interfaces/IDP";
+import { SearchFilter, SearchParams } from "../../../../../interfaces/global";
+import { OAuthApp, OAuthAppCreation } from "../../../../../interfaces/idp/oauth/OAuthApp";
 
 export class IdpOAuthApp extends base {
     constructor(options: Options, axios: AxiosInstance) {

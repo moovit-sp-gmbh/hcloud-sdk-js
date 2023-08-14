@@ -1,6 +1,6 @@
 import { AxiosInstance } from "axios";
 import base, { Options } from "../../../../base";
-import { WebhookLog } from "../../../../interfaces/High5";
+import { WebhookLog } from "../../../../interfaces/high5/Webhook";
 
 export class High5WebhookLog extends base {
     constructor(options: Options, axios: AxiosInstance) {

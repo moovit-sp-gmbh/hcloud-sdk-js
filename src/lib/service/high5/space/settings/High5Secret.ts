@@ -1,6 +1,6 @@
 import { AxiosInstance } from "axios";
 import Base, { Options } from "../../../../base";
-import { Secret } from "../../../../interfaces/High5";
+import { Secret } from "../../../../interfaces/high5/Secret";
 
 export default class High5Secret extends Base {
     constructor(options: Options, axios: AxiosInstance) {

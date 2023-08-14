@@ -1,6 +1,7 @@
 import { AxiosInstance } from "axios";
 import base, { Options } from "../../base";
-import { SuccessfulAuth, User } from "../../interfaces/IDP";
+import { User } from "../../interfaces/idp/user/User";
+import { SuccessfulAuth } from "../../interfaces/idp/user/SuccessfulAuth";
 export class IdpRegistration extends base {
     constructor(options: Options, axios: AxiosInstance) {
         super(options, axios);

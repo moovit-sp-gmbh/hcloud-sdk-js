@@ -1,9 +1,9 @@
 import { AxiosInstance } from "axios";
 import base, { Options } from "../../../../base";
-import { Stream, SingleStreamPatchOrder, StreamPatchOrder } from "../../../../interfaces/High5";
+import { Stream, SingleStreamPatchOrder, StreamPatchOrder } from "../../../../interfaces/high5/Stream";
 import { High5Design } from "./stream/High5Design";
 import { High5Node } from "./stream/High5Node";
-import { SearchFilter, SearchParams } from "../../../../interfaces/Global";
+import { SearchFilter, SearchParams } from "../../../../interfaces/global";
 import { SearchFilterDTO } from "../../../../helper/searchFilter";
 
 export class High5Stream extends base {

@@ -1,6 +1,6 @@
 import { AxiosInstance } from "axios";
 import Base, { Options } from "../../base";
-import { AgentVersions, Version } from "../../interfaces/Agent";
+import { AgentVersions, Version } from "../../interfaces/agent/Version";
 
 export default class Agent extends Base {
     private sourceServer: string;

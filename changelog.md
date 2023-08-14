@@ -1,7 +1,9 @@
 # Changelog
-## 0.0.31
+
+## 0.0.32
 
 - Enable no-unused-vars and delete all unused vars
+- Re-organize interface folder structure and delete interfaces that don't belong in SDK
 
 ## 0.0.34
 

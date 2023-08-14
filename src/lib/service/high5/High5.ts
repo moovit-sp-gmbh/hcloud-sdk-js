@@ -1,6 +1,6 @@
 import { AxiosInstance } from "axios";
 import base, { Options } from "../../base";
-import { Version } from "../../interfaces/Global";
+import { Version } from "../../interfaces/global";
 import { High5Space } from "./High5Space";
 import { High5SpaceInternal } from "./High5SpaceInternal";
 import { High5Wave } from "./High5Wave";

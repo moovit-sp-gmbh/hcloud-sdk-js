@@ -1,4 +1,4 @@
-import { Views } from "../../Global";
+import { Views } from "../../global/Views";
 
 export enum Language {
     ENGLISH = "en",

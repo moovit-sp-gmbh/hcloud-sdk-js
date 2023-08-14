@@ -1,4 +1,3 @@
-// search filter
 export enum SearchFilterComparatorString {
     IS = "is",
     IS_NOT = "is not",

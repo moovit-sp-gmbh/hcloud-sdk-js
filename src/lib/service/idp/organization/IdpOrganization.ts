@@ -1,6 +1,6 @@
 import { AxiosInstance } from "axios";
 import base, { Options } from "../../../base";
-import { Organization, OrganizationWithPermission, OrganizationWithPermissionAndTeams } from "../../../interfaces/IDP";
+import { Organization, OrganizationWithPermission, OrganizationWithPermissionAndTeams } from "../../../interfaces/idp/organization/Organization";
 import { IdpOrganizationMember } from "./IdpOrganizationMember";
 import { IdpOrganizationTeams } from "./IdpOrganizationTeams";
 import IdpOrganizationSettings from "./settings/IdpOrganizationSettings";

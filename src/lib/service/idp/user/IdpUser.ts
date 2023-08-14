@@ -1,8 +1,9 @@
 import { AxiosInstance } from "axios";
 import base, { Options } from "../../../base";
 import { SearchFilterDTO } from "../../../helper/searchFilter";
-import { SearchFilter, Sorting } from "../../../interfaces/global/searchFilters";
-import { Organization, PatchUser, User } from "../../../interfaces/IDP";
+import { SearchFilter, Sorting } from "../../../interfaces/global/SearchFilters";
+import { Organization } from "../../../interfaces/idp/organization/Organization";
+import { User, PatchUser } from "../../../interfaces/idp/user/User";
 import { IdpSettings } from "./IdpSettings";
 export class IdpUser extends base {
     /**

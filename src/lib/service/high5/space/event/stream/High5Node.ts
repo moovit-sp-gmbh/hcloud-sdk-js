@@ -1,5 +1,5 @@
 import base from "../../../../../base";
-import { Node, NodeCategory } from "../../../../../interfaces/High5";
+import { Node, NodeCategory } from "../../../../../interfaces/high5/Stream";
 
 export class High5Node extends base {
     /**

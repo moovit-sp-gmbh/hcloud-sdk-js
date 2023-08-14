@@ -1,7 +1,8 @@
 import base from "../../../base";
 import { SearchFilterDTO } from "../../../helper/searchFilter";
-import { SearchFilter, SearchParams, Sorting } from "../../../interfaces/global/searchFilters";
-import { ReducedUser, Team, TeamUsersPatchOperation } from "../../../interfaces/IDP";
+import { SearchFilter, SearchParams, Sorting } from "../../../interfaces/global/SearchFilters";
+import { Team, TeamUsersPatchOperation } from "../../../interfaces/idp/team/Team";
+import { ReducedUser } from "../../../interfaces/idp/user/User";
 
 export class IdpOrganizationTeams extends base {
     /**

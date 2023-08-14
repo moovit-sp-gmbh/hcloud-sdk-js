@@ -1,6 +1,6 @@
 import { AxiosInstance } from "axios";
 import base, { Options } from "../../../../base";
-import { Pat, PatCreate, PatUpdate } from "../../../../interfaces/IDP";
+import { Pat, PatCreate, PatUpdate } from "../../../../interfaces/idp/user/PAT";
 
 export class IdpPat extends base {
     constructor(options: Options, axios: AxiosInstance) {

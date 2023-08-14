@@ -75,7 +75,7 @@ export class IdpPat extends base {
      * @param patId the id of the pat
      */
     public deletePat = async (patId: string): Promise<void> => {
-        const resp = await this.axios.delete<void>(this.getEndpoint(`/v1/user/settings/pats/${patId}`)).catch((err: Error) => {
+        await this.axios.delete<void>(this.getEndpoint(`/v1/user/settings/pats/${patId}`)).catch((err: Error) => {
             throw err;
         });
     };
@@ -84,7 +84,7 @@ export class IdpPat extends base {
      * deleteAllPats deletes all pats of a user
      */
     public deleteAllPats = async (): Promise<void> => {
-        const resp = await this.axios.delete<void>(this.getEndpoint(`/v1/user/settings/pats`)).catch((err: Error) => {
+        await this.axios.delete<void>(this.getEndpoint(`/v1/user/settings/pats`)).catch((err: Error) => {
             throw err;
         });
     };

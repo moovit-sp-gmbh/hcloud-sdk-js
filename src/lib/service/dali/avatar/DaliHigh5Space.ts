@@ -30,7 +30,7 @@ export class DaliHigh5 extends base {
      * @returns nothing after successful deletion
      */
     public deleteAvatar = async (orgName: string, spaceName: string): Promise<void> => {
-        const resp = await this.axios.delete<string>(this.getEndpoint(`/v1/avatar/org/${orgName}/spaces/high5/${spaceName}`)).catch((err: Error) => {
+        await this.axios.delete<string>(this.getEndpoint(`/v1/avatar/org/${orgName}/spaces/high5/${spaceName}`)).catch((err: Error) => {
             throw err;
         });
     };

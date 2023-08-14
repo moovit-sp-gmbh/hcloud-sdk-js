@@ -30,11 +30,9 @@ export class DaliOAuthApp extends base {
      * @returns nothing after successful deletion
      */
     public deleteAvatar = async (orgName: string, appId: string): Promise<void> => {
-        const resp = await this.axios
-            .delete<string>(this.getEndpoint(`/v1/avatar/org/${orgName}/applications/oauth/${appId}`))
-            .catch((err: Error) => {
-                throw err;
-            });
+        await this.axios.delete<string>(this.getEndpoint(`/v1/avatar/org/${orgName}/applications/oauth/${appId}`)).catch((err: Error) => {
+            throw err;
+        });
     };
 
     /**

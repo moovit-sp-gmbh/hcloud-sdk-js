@@ -26,7 +26,7 @@ export class IdpOAuthApps extends Base {
     };
 
     public revokeOAuthAppAccess = async (oAuthAppId: string): Promise<void> => {
-        const response = await this.axios.delete(this.getEndpoint(`/v1/user/settings/oauth/${oAuthAppId}/revoke`)).catch((err: Error) => {
+        await this.axios.delete(this.getEndpoint(`/v1/user/settings/oauth/${oAuthAppId}/revoke`)).catch((err: Error) => {
             throw err;
         });
     };

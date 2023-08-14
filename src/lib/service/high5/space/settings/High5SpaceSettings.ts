@@ -13,7 +13,7 @@ export default class High5SpaceSettings extends Base {
         this.secrets = new High5Secret(this.options, this.axios);
     }
 
-    protected getEndpoint(endpoint: string): string {
+    protected getEndpoint(): string {
         throw new Error("Method not implemented.");
     }
 }

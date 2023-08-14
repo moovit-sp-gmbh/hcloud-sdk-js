@@ -1,5 +1,4 @@
 import { Msg } from "nats";
-import { Cronjob } from "./Fuse";
 import { Products } from "./Global";
 
 enum NatsSubject {

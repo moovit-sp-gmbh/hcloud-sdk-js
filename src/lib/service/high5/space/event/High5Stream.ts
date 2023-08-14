@@ -1,7 +1,6 @@
 import { AxiosInstance } from "axios";
 import base, { Options } from "../../../../base";
-import { Event, Stream, SingleStreamPatchOrder, StreamPatchOrder } from "../../../../interfaces/High5";
-import { High5Execute } from "../High5Execute";
+import { Stream, SingleStreamPatchOrder, StreamPatchOrder } from "../../../../interfaces/High5";
 import { High5Design } from "./stream/High5Design";
 import { High5Node } from "./stream/High5Node";
 import { SearchFilter, SearchParams } from "../../../../interfaces/Global";

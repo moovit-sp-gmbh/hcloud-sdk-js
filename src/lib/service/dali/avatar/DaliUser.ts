@@ -23,7 +23,7 @@ export class DaliUser extends base {
      * @returns nothing after successful deletion
      */
     public deleteAvatar = async (): Promise<void> => {
-        const resp = await this.axios.delete<string>(this.getEndpoint(`/v1/avatar/user`)).catch((err: Error) => {
+        await this.axios.delete<string>(this.getEndpoint(`/v1/avatar/user`)).catch((err: Error) => {
             throw err;
         });
     };

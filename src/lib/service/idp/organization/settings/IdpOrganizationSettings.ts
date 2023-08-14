@@ -20,7 +20,7 @@ export default class IdpOrganizationSettings extends Base {
         this.oAuthApp = new IdpOAuthApp(this.options, this.axios);
     }
 
-    protected getEndpoint(endpoint: string): string {
+    protected getEndpoint(): string {
         throw new Error("Method not implemented.");
     }
 }

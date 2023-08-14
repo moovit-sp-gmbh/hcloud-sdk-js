@@ -1,6 +1,5 @@
 import base, { Options } from "../../base";
 import { AxiosInstance } from "axios";
-import { AuditLog } from "../../interfaces/Auditor";
 import { Version } from "../../interfaces/Global";
 import MailerInternal from "./MailerInternal";
 

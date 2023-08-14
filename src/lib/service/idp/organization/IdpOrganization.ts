@@ -103,7 +103,7 @@ export class IdpOrganization extends base {
      * @returns 204 no content
      */
     public deleteOrganization = async (orgName: string): Promise<void> => {
-        const resp = await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}`)).catch((err: Error) => {
+        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}`)).catch((err: Error) => {
             throw err;
         });
     };

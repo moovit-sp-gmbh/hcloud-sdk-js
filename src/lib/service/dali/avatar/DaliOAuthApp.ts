@@ -1,6 +1,6 @@
 import { AxiosInstance } from "axios";
 import base, { Options } from "../../../base";
-import { AvatarCreated } from "../../../interfaces/Dali";
+import { AvatarCreated } from "../../../interfaces/dali/Avatar";
 
 export class DaliOAuthApp extends base {
     constructor(options: Options, axios: AxiosInstance) {

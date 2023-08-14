@@ -1,7 +1,8 @@
 import base, { Options } from "../../base";
 import { AxiosInstance } from "axios";
-import { SuccessfulAuth, User } from "../../interfaces/IDP";
-import { Version } from "../../interfaces/Global";
+import { User } from "../../interfaces/idp/user/User";
+import { SuccessfulAuth } from "../../interfaces/idp/user/SuccessfulAuth";
+import { Version } from "../../interfaces/global";
 import { IdpOrganization } from "./organization/IdpOrganization";
 import { IdpUser } from "./user/IdpUser";
 import { IdpRegistration } from "./IdpRegistration";

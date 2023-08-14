@@ -1,7 +1,7 @@
 import { AxiosInstance } from "axios";
 import base, { Options } from "../../../base";
-import * as High5 from "../../../interfaces/High5";
-import { WaveEngine, WaveRelease } from "../../../interfaces/High5";
+import { StreamExecutionRequest, StreamResult, EventExecutionRequest, StreamExecutionPackage, StreamLog } from "../../../interfaces/high5/Stream";
+import { WaveEngine, WaveRelease } from "../../../interfaces/high5/Wave";
 
 export class High5Execute extends base {
     constructor(options: Options, axios: AxiosInstance) {
@@ -20,10 +20,10 @@ export class High5Execute extends base {
         orgName: string,
         spaceName: string,
         streamId: string,
-        executionRequest: High5.StreamExecutionRequest
-    ): Promise<High5.StreamResult> => {
+        executionRequest: StreamExecutionRequest
+    ): Promise<StreamResult> => {
         const resp = await this.axios
-            .post<High5.StreamResult>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execute/stream/id/${streamId}`), executionRequest)
+            .post<StreamResult>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execute/stream/id/${streamId}`), executionRequest)
             .catch((err: Error) => {
                 throw err;
             });
@@ -43,10 +43,10 @@ export class High5Execute extends base {
         orgName: string,
         spaceName: string,
         eventName: string,
-        executionRequest: High5.EventExecutionRequest
-    ): Promise<High5.StreamResult[]> => {
+        executionRequest: EventExecutionRequest
+    ): Promise<StreamResult[]> => {
         const resp = await this.axios
-            .post<High5.StreamResult[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execute/event/name/${eventName}`), executionRequest)
+            .post<StreamResult[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execute/event/name/${eventName}`), executionRequest)
             .catch((err: Error) => {
                 throw err;
             });
@@ -61,7 +61,7 @@ export class High5Execute extends base {
      * @returns the provided challenge string as plaint text
      */
     public validateWebhookUrl = async (webhookUrl: string, challenge: string): Promise<string> => {
-        const resp = await this.axios.get<High5.StreamResult[]>(webhookUrl + "?challenge=" + challenge).catch((err: Error) => {
+        const resp = await this.axios.get<StreamResult[]>(webhookUrl + "?challenge=" + challenge).catch((err: Error) => {
             throw err;
         });
         return resp.data.toString();
@@ -80,11 +80,9 @@ export class High5Execute extends base {
         spaceName: string,
         streamId: string,
         secret: string
-    ): Promise<High5.StreamExecutionPackage> => {
+    ): Promise<StreamExecutionPackage> => {
         const resp = await this.axios
-            .get<High5.StreamExecutionPackage>(
-                this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execute/stream/id/${streamId}/package/${secret}`)
-            )
+            .get<StreamExecutionPackage>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execute/stream/id/${streamId}/package/${secret}`))
             .catch((err: Error) => {
                 throw err;
             });
@@ -92,6 +90,27 @@ export class High5Execute extends base {
     };
 
     /**
+<<<<<<< HEAD
+=======
+     * Publishes the stream results to high5
+     * @param orgName the organizations's name
+     * @param spaceName the spaces's name
+     * @param streamId the id of the stream
+     * @param secret the secret of the stream execution object
+     * @param streamResult the result of the stream
+     * @returns StreamLog
+     */
+    public writeStreamLog = async (orgName: string, spaceName: string, secret: string, streamResult: StreamResult): Promise<StreamLog> => {
+        const resp = await this.axios
+            .patch<StreamLog>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execute/logs/${secret}`), streamResult)
+            .catch((err: Error) => {
+                throw err;
+            });
+        return resp.data;
+    };
+
+    /**
+>>>>>>> 67a57e8 (Re-organize interfaces folder structure)
      * Requests all available wave engine releases and reports a short info object
      * @param orgName the organizations's name
      * @returns WaveReleaseDto[]

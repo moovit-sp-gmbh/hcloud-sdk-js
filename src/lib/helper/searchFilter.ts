@@ -5,7 +5,7 @@ import {
     SearchFilterComparatorNumber,
     SearchFilterComparatorString,
     SearchFilterType,
-} from "../interfaces/global/searchFilters";
+} from "../interfaces/global/SearchFilters";
 
 class SearchFilterDTO {
     private type: SearchFilterType;

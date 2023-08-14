@@ -1,6 +1,6 @@
 import { AxiosInstance } from "axios";
 import base, { Options } from "../../base";
-import { OAuthToken, OAuthTokenRequest } from "../../interfaces/IDP";
+import { OAuthToken, OAuthTokenRequest } from "../../interfaces/idp/oauth/OAuthApp";
 
 export class IdpOAuth extends base {
     constructor(options: Options, axios: AxiosInstance) {

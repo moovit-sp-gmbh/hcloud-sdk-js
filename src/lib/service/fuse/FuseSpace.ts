@@ -1,9 +1,9 @@
 import { AxiosInstance } from "axios";
 import base, { Options } from "../../base";
 import { SearchFilterDTO } from "../../helper/searchFilter";
-import { SearchFilter, SearchParams, SpacePermission } from "../../interfaces/Global";
+import { SearchFilter, SearchParams, SpacePermission } from "../../interfaces/global";
 import { FuseCronjob } from "./space/FuseCronjob";
-import { FuseSpace as IFuseSpace } from "../../interfaces/Fuse";
+import { FuseSpace as IFuseSpace } from "../../interfaces/fuse/FuseSpace";
 
 export class FuseSpace extends base {
     public cronjob: FuseCronjob;

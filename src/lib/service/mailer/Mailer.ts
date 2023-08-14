@@ -1,6 +1,6 @@
 import base, { Options } from "../../base";
 import { AxiosInstance } from "axios";
-import { Version } from "../../interfaces/Global";
+import { Version } from "../../interfaces/global";
 import MailerInternal from "./MailerInternal";
 
 export default class Mailer extends base {

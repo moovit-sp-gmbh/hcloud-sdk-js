@@ -1,6 +1,6 @@
 import { NatsConnection, SubscriptionOptions, NatsError, Msg, Subscription, PublishOptions, RequestOptions, connect as connectNode } from "nats";
 import { connect as connectWs } from "nats.ws";
-import { NatsMessage, NatsCallback, NatsMessageType, NatsObjectType, RawMsg } from "../../interfaces/Nats";
+import { NatsMessage, NatsCallback, NatsMessageType, NatsObjectType, RawMsg } from "../../interfaces/nats/Nats";
 
 interface SubMapEntry {
     subject: string;

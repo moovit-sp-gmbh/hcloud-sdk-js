@@ -1,5 +1,5 @@
 import base from "../../base";
-import { AuditLog } from "../../interfaces/Auditor";
+import { AuditLog } from "../../interfaces/auditor/AuditLog";
 
 export class AuditorInternal extends base {
     private queueExecutionInterval: number = this.options.auditor?.queue?.executionInterval || 500;

@@ -1,5 +1,5 @@
 import Base from "../../../../../../base";
-import { FullSAMLProvider, SAMLProvider, SAMLProviderCreateDto } from "../../../../../../interfaces/IDP";
+import { FullSAMLProvider, SAMLProvider, SAMLProviderCreateDto } from "../../../../../../interfaces/idp/organization/SAMLProvider";
 
 export class IdpSAMLProvider extends Base {
     /**

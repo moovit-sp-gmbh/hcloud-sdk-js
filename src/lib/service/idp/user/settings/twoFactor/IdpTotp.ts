@@ -1,6 +1,6 @@
 import { AxiosInstance } from "axios";
 import base, { Options } from "../../../../../base";
-import { ActivatedTotp, DeactivatedTotp, UserTotp } from "../../../../../interfaces/IDP";
+import { ActivatedTotp, DeactivatedTotp, UserTotp } from "../../../../../interfaces/idp/user/TOTP";
 
 export class IdpTotp extends base {
     constructor(options: Options, axios: AxiosInstance) {

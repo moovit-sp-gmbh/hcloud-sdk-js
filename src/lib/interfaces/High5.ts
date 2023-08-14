@@ -130,9 +130,12 @@ export interface StreamExecutionNatsResponse {
 export interface StreamLog {
     _id: string;
     streamId: string;
+    host: string;
     payload: string;
-    nodeResults: StreamSingleNodeResult[];
+    started: boolean;
+    failed: boolean;
     dry: boolean;
+    nodeResults: StreamSingleNodeResult[];
     startTimestamp: number;
     endTimestamp: number;
 }

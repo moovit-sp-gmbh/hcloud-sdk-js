@@ -92,29 +92,6 @@ export class High5Execute extends base {
     };
 
     /**
-     * Publishes the stream results to high5
-     * @param orgName the organizations's name
-     * @param spaceName the spaces's name
-     * @param streamId the id of the stream
-     * @param secret the secret of the stream execution object
-     * @param streamResult the result of the stream
-     * @returns StreamLog
-     */
-    public writeStreamLog = async (
-        orgName: string,
-        spaceName: string,
-        secret: string,
-        streamResult: High5.StreamResult
-    ): Promise<High5.StreamLog> => {
-        const resp = await this.axios
-            .patch<High5.StreamLog>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execute/logs/${secret}`), streamResult)
-            .catch((err: Error) => {
-                throw err;
-            });
-        return resp.data;
-    };
-
-    /**
      * Requests all available wave engine releases and reports a short info object
      * @param orgName the organizations's name
      * @returns WaveReleaseDto[]

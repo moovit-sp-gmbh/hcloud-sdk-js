@@ -5,11 +5,6 @@ export enum Language {
     GERMAN = "de",
 }
 
-export function languagefromTag(tag?: string): Language | undefined {
-    if (!tag) return undefined;
-    return Object.values(Language).find(v => v === tag);
-}
-
 export enum DateFormat {
     ISO_8601_24 = "YYYY-MM-DDTHH:mm:ss",
     ISO_8601_12 = "YYYY-MM-DD hh:mm:ss a",

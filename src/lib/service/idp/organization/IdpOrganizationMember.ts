@@ -94,7 +94,7 @@ export class IdpOrganizationMember extends base {
      * @returns 204 no content
      */
     public removeOrganizationMember = async (orgName: string, userId: string): Promise<void> => {
-        const resp = await this.axios.delete<void>(this.getEndpoint(`/${orgName}/members/${userId}`)).catch((err: Error) => {
+        await this.axios.delete<void>(this.getEndpoint(`/${orgName}/members/${userId}`)).catch((err: Error) => {
             throw err;
         });
     };

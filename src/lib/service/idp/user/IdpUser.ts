@@ -47,7 +47,7 @@ export class IdpUser extends base {
      * @returns 204 no content
      */
     public deleteUserSession = async (): Promise<void> => {
-        const resp = await this.axios.delete<void>(this.getEndpoint(`/v1/user/sessions`)).catch((err: Error) => {
+        await this.axios.delete<void>(this.getEndpoint(`/v1/user/sessions`)).catch((err: Error) => {
             throw err;
         });
     };
@@ -57,7 +57,7 @@ export class IdpUser extends base {
      * @returns User object
      */
     public deleteUser = async (): Promise<void> => {
-        const resp = await this.axios.delete<void>(this.getEndpoint(`/v1/user`)).catch((err: Error) => {
+        await this.axios.delete<void>(this.getEndpoint(`/v1/user`)).catch((err: Error) => {
             throw err;
         });
     };

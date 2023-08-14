@@ -1,4 +1,7 @@
 # Changelog
+## 0.0.31
+
+- Enable no-unused-vars and delete all unused vars
 
 ## 0.0.34
 

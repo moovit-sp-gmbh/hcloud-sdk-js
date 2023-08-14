@@ -6,7 +6,6 @@ import { IdpOrganization } from "./organization/IdpOrganization";
 import { IdpUser } from "./user/IdpUser";
 import { IdpRegistration } from "./IdpRegistration";
 import { IdpOAuth } from "./IdpOAuth";
-import { IdpOAuthApp } from "./organization/settings/oauth/IdpOAuthApp";
 
 export default class IDP extends base {
     /**

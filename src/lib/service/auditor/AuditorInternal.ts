@@ -1,4 +1,3 @@
-import { AxiosInstance } from "axios";
 import base from "../../base";
 import { AuditLog } from "../../interfaces/Auditor";
 
@@ -49,9 +48,7 @@ export class AuditorInternal extends base {
             this.logQueueTimer = setTimeout(() => {
                 if (this.logQueue.length > 0) {
                     // tslint:disable-next-line
-                    this.addAuditLogs(this.logQueue).catch(ignored => {
-                        // ignore
-                    });
+                    this.addAuditLogs(this.logQueue);
                     this.logQueue = [] as AuditLog[];
                 }
             }, this.queueExecutionInterval);

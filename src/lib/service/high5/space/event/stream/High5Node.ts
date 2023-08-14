@@ -1,5 +1,4 @@
-import { AxiosInstance } from "axios";
-import base, { Options } from "../../../../../base";
+import base from "../../../../../base";
 import { Node, NodeCategory } from "../../../../../interfaces/High5";
 
 export class High5Node extends base {
@@ -98,7 +97,7 @@ export class High5Node extends base {
      * @response 204 No content
      */
     public async deleteNode(orgName: string, spaceName: string, eventName: string, streamId: string, nodeId: string): Promise<void> {
-        const resp = await this.axios
+        await this.axios
             .delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/nodes/${nodeId}`))
             .catch((err: Error) => {
                 throw err;

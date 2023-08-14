@@ -28,7 +28,7 @@ export class DaliTeam extends base {
      * @returns nothing after successful deletion
      */
     public deleteAvatar = async (orgName: string, teamName: string): Promise<void> => {
-        const resp = await this.axios.delete<string>(this.getEndpoint(`/v1/avatar/org/${orgName}/teams/${teamName}`)).catch((err: Error) => {
+        await this.axios.delete<string>(this.getEndpoint(`/v1/avatar/org/${orgName}/teams/${teamName}`)).catch((err: Error) => {
             throw err;
         });
     };

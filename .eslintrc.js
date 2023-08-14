@@ -50,11 +50,11 @@ module.exports = {
         "new-cap": 2,
         "no-invalid-this": 2,
         "no-shadow-restricted-names": 2,
-        "no-unused-vars": 0, /* should be 2, but atm corrupted */
         "no-useless-catch": 1,
+        "no-unused-vars": 0 /* should be 2, but atm corrupted. Workaround is the next line. More Info: https://stackoverflow.com/questions/68626276/node-must-be-provided-when-reporting-error-if-location-is-not-provided-error-wi */,
+        "@typescript-eslint/no-unused-vars": [2, { argsIgnorePattern: "^_" }],
         "@typescript-eslint/no-this-alias": 0,
         "@typescript-eslint/no-empty-function": 1,
-        "@typescript-eslint/no-unused-vars": 0,
     },
     overrides: [
         {

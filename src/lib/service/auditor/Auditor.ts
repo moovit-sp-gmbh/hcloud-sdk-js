@@ -1,9 +1,8 @@
 import base, { Options } from "../../base";
 import { AxiosInstance } from "axios";
-import { AuditLog, AuditLogFilter, Event, Level, Origin, Type } from "../../interfaces/Auditor";
-import { SearchFilter, Sorting, Version } from "../../interfaces/Global";
+import { AuditLog } from "../../interfaces/Auditor";
+import { SearchFilter, SearchParams, Version } from "../../interfaces/Global";
 import { AuditorInternal } from "./AuditorInternal";
-import { SearchParams } from "../../interfaces/Global";
 import { SearchFilterDTO } from "../../helper/searchFilter";
 
 export default class Auditor extends base {

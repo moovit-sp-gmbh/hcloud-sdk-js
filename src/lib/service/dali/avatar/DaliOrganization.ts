@@ -2,11 +2,6 @@ import { AxiosInstance } from "axios";
 import base, { Options } from "../../../base";
 import { AvatarCreated } from "../../../interfaces/Dali";
 
-interface MFormData {
-    body: string;
-    contentType: string;
-}
-
 export class DaliOrganization extends base {
     constructor(options: Options, axios: AxiosInstance) {
         super(options, axios);
@@ -31,7 +26,7 @@ export class DaliOrganization extends base {
      * @returns nothing after successful deletion
      */
     public deleteAvatar = async (orgName: string): Promise<void> => {
-        const resp = await this.axios.delete<string>(this.getEndpoint(`/v1/avatar/org/${orgName}`)).catch((err: Error) => {
+        await this.axios.delete<string>(this.getEndpoint(`/v1/avatar/org/${orgName}`)).catch((err: Error) => {
             throw err;
         });
     };

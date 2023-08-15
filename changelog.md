@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.34
+
+- Fix return type of getCronjobLog() / getCronjobLogs() and also return total number of results
+
 ## 0.0.33
 
 - Remove hcloud.getNatsService()

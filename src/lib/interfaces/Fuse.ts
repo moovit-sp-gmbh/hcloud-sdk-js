@@ -52,10 +52,8 @@ export interface CronjobLogCreation {
 export interface CronjobLogDto {
     _id: string;
     cronjobId: string;
-    statusCode: number;
     organization: ReducedOrganization;
     creator: ReducedUser;
-    creatorId: string;
     space: string;
     headers?: Header[];
     body?: string;

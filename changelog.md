@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.33
+
+- Remove hcloud.getNatsService()
+
 ## 0.0.32
 
 - Add missing endpoints related to stream-execution-logs

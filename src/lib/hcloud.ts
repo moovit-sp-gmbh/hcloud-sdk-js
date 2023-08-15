@@ -72,8 +72,4 @@ export default class hcloud {
     getCorrelationId(): string | undefined {
         return this.axios.defaults.headers.common["X-Hcloud-Correlation-ID"]?.toString();
     }
-
-    getNatsService(): NatsService {
-        return this.Nats;
-    }
 }

@@ -1,13 +1,12 @@
 import { AxiosInstance } from "axios";
 import Base, { Options } from "../../../../Base";
-import {
-    StreamExecutionRequest,
-    StreamResult,
-    EventExecutionRequest,
-    StreamLog,
-} from "../../../../interfaces/high5/space/event/stream";
 import { WaveEngine, WaveRelease } from "../../../../interfaces/high5/wave";
-import { High5ExecutionPackage } from "../../../../interfaces/High5";
+import {
+    High5ExecutionPackage,
+    High5ExecutionPatch,
+    High5ExecutionRequest,
+    High5ExecutionResponse,
+} from "../../../../interfaces/high5/space/execution";
 
 export class High5Execute extends Base {
     constructor(options: Options, axios: AxiosInstance) {
@@ -15,21 +14,24 @@ export class High5Execute extends Base {
     }
 
     /**
-     * Executes a single stream by its ID.
-     * @param orgName Name of the Organization
-     * @param spaceName Name of the Space
-     * @param streamId ID of the Stream
-     * @param executionRequest Stream execution request containing payload and target
-     * @returns The Stream result
+     * executeStream executes a single stream by its ID and an execution request
+     * @param orgName the organizations's name
+     * @param spaceName the spaces's name
+     * @param streamId to identify the stream
+     * @param high5ExecutionRequest the stream execution request, containing the data, target, wait boolean and timeout
+     * @returns the stream result
      */
-    public executeStream = async (
+    public executeHigh5Stream = async (
         orgName: string,
         spaceName: string,
         streamId: string,
-        executionRequest: StreamExecutionRequest
-    ): Promise<StreamResult> => {
+        high5ExecutionRequest: High5ExecutionRequest
+    ): Promise<High5ExecutionResponse> => {
         const resp = await this.axios
-            .post<StreamResult>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execute/stream/id/${streamId}`), executionRequest)
+            .post<High5ExecutionResponse>(
+                this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execute/stream/id/${streamId}`),
+                high5ExecutionRequest
+            )
             .catch((err: Error) => {
                 throw err;
             });
@@ -45,14 +47,17 @@ export class High5Execute extends Base {
      * @param eventExecutionRequest Event execution request containing payload, target and a boolean specifying if it should be a dry run
      * @returns Array of stream results
      */
-    public executeEvent = async (
+    public executeHigh5Event = async (
         orgName: string,
         spaceName: string,
         eventName: string,
-        executionRequest: EventExecutionRequest
-    ): Promise<StreamResult[]> => {
+        high5EventExecutionRequest: High5ExecutionRequest
+    ): Promise<High5ExecutionResponse[]> => {
         const resp = await this.axios
-            .post<StreamResult[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execute/event/name/${eventName}`), executionRequest)
+            .post<High5ExecutionResponse[]>(
+                this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execute/event/name/${eventName}`),
+                high5EventExecutionRequest
+            )
             .catch((err: Error) => {
                 throw err;
             });
@@ -75,9 +80,7 @@ export class High5Execute extends Base {
         secret: string
     ): Promise<High5ExecutionPackage> => {
         const resp = await this.axios
-            .get<High5ExecutionPackage>(
-                this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execute/stream/id/${streamId}/package/${secret}`)
-            )
+            .get<High5ExecutionPackage>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execute/stream/id/${streamId}/package/${secret}`))
             .catch((err: Error) => {
                 throw err;
             });
@@ -85,7 +88,7 @@ export class High5Execute extends Base {
     };
 
     /**
-     * Publishes the stream results to high5
+     * Publishes the stream status and logs to high5
      * @param orgName the organizations's name
      * @param spaceName the spaces's name
      * @param streamId the id of the stream
@@ -93,13 +96,17 @@ export class High5Execute extends Base {
      * @param streamResult the result of the stream
      * @returns StreamLog
      */
-    public writeStreamLog = async (orgName: string, spaceName: string, secret: string, streamResult: StreamResult): Promise<StreamLog> => {
-        const resp = await this.axios
-            .patch<StreamLog>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execute/logs/${secret}`), streamResult)
+    public high5ExecutionStatusAndLogResponse = async (
+        orgName: string,
+        spaceName: string,
+        secret: string,
+        high5ExecutionResponse: High5ExecutionPatch
+    ): Promise<void> => {
+        await this.axios
+            .patch<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execution/streams/${secret}`), high5ExecutionResponse)
             .catch((err: Error) => {
                 throw err;
             });
-        return resp.data;
     };
 
     /**

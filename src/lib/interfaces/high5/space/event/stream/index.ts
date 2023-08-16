@@ -45,11 +45,7 @@ export interface StreamExecutionNatsResponse {
 export interface StreamLog {
     _id: string;
     streamId: string;
-    payload: string;
     nodeResults: StreamSingleNodeResult[];
-    dry: boolean;
-    startTimestamp: number;
-    endTimestamp: number;
 }
 
 export enum StreamPayloadType {

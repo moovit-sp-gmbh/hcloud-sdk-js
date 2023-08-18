@@ -1,5 +1,5 @@
-import { ReducedOrganization } from "../../../idp/organization/Organization";
-import { ReducedUser } from "../../../idp/user/User";
+import { ReducedOrganization } from "../../../idp/organization";
+import { ReducedUser } from "../../../idp/user";
 import { Header } from "../../../global";
 
 export interface CronjobLogCreation {

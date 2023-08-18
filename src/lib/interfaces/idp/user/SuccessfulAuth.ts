@@ -1,4 +1,4 @@
-import { User } from "./User";
+import { User } from ".";
 
 export interface SuccessfulAuth {
     user: User;

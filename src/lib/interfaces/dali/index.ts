@@ -1,1 +1,3 @@
-export * from "./Avatar";
+export interface AvatarCreated {
+    url: string;
+}

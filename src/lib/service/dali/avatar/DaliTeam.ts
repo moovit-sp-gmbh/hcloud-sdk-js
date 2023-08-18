@@ -1,8 +1,8 @@
 import { AxiosInstance } from "axios";
-import base, { Options } from "../../../base";
-import { AvatarCreated } from "../../../interfaces/dali/Avatar";
+import Base, { Options } from "../../../Base";
+import { AvatarCreated } from "../../../interfaces/dali";
 
-export class DaliTeam extends base {
+export class DaliTeam extends Base {
     constructor(options: Options, axios: AxiosInstance) {
         super(options, axios);
     }

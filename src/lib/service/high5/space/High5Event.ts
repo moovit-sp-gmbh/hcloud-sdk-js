@@ -1,6 +1,6 @@
 import { AxiosInstance } from "axios";
 import base, { Options } from "../../../base";
-import { Event } from "../../../interfaces/high5/Event";
+import { Event } from "../../../interfaces/high5/space/event/Event";
 import { High5Stream } from "./event/High5Stream";
 import { SearchFilter, SearchParams } from "../../../interfaces/global";
 import { SearchFilterDTO } from "../../../helper/searchFilter";

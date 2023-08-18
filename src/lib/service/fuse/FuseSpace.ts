@@ -3,7 +3,7 @@ import base, { Options } from "../../base";
 import { SearchFilterDTO } from "../../helper/searchFilter";
 import { SearchFilter, SearchParams, SpacePermission } from "../../interfaces/global";
 import { FuseCronjob } from "./space/FuseCronjob";
-import { FuseSpace as IFuseSpace } from "../../interfaces/fuse/FuseSpace";
+import { FuseSpace as IFuseSpace } from "../../interfaces/fuse/space/Space";
 
 export class FuseSpace extends base {
     public cronjob: FuseCronjob;

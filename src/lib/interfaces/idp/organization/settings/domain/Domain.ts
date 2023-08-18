@@ -1,5 +1,5 @@
-import { ReducedOrganization } from "./Organization";
-import { ReducedUser } from "../user/User";
+import { ReducedOrganization } from "../../Organization";
+import { ReducedUser } from "../../../user/User";
 
 enum VerificationStatus {
     verified = "verified",

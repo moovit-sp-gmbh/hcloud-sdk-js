@@ -1,5 +1,5 @@
-import { ReducedOrganization } from "../organization/Organization";
-import { ReducedUser } from "../user/User";
+import { ReducedOrganization } from "../Organization";
+import { ReducedUser } from "../../user/User";
 
 export interface Team {
     _id: string;

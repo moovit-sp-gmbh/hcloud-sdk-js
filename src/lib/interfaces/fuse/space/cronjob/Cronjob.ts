@@ -1,6 +1,6 @@
-import { ReducedOrganization } from "../idp/organization/Organization";
-import { ReducedUser } from "../idp/user/User";
-import { HttpMethod, Header } from "../global";
+import { ReducedOrganization } from "../../../idp/organization/Organization";
+import { ReducedUser } from "../../../idp/user/User";
+import { HttpMethod, Header } from "../../../global";
 
 export interface Cronjob {
     _id: string;
@@ -33,22 +33,4 @@ export interface CreateCronjob {
     headers?: Header[];
     body?: string;
     enabled?: boolean;
-}
-
-export interface CronjobLogCreation {
-    statusCode: number;
-    headers?: Header[];
-    body: string;
-}
-
-export interface CronjobLogDto {
-    _id: string;
-    cronjobId: string;
-    organization: ReducedOrganization;
-    creator: ReducedUser;
-    space: string;
-    headers?: Header[];
-    body?: string;
-    createDate: number;
-    modifyDate: number;
 }

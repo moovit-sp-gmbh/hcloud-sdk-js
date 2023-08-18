@@ -2,8 +2,9 @@
 
 ## 0.0.35
 
+- **BREAKING**: Re-organize interface folder structure and delete interfaces that don't belong in SDK
+- **BREAKING**: Re-organize service folder structure and use index files to avoid duplicate namings
 - Enable no-unused-vars and delete all unused vars
-- Re-organize interface folder structure and delete interfaces that don't belong in SDK
 
 ## 0.0.34
 

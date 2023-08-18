@@ -1,5 +1,5 @@
 import { ReducedUser } from "../user/User";
-import { ReducedTeam } from "../team/Team";
+import { ReducedTeam } from "./team/Team";
 
 export enum OrganizationPermission {
     MEMBER = "MEMBER", // Part of org, but cannot change anything

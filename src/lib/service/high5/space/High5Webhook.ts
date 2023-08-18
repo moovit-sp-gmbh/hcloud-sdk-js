@@ -1,6 +1,6 @@
 import { AxiosInstance } from "axios";
 import base, { Options } from "../../../base";
-import { KeyValuePair, Webhook, WebhookCreation, WebhookUpdate } from "../../../interfaces/high5/Webhook";
+import { KeyValuePair, Webhook, WebhookCreation, WebhookUpdate } from "../../../interfaces/high5/space/webhook/Webhook";
 import { High5WebhookLog } from "./webhook/High5WebhookLog";
 import { SearchFilter, SearchParams } from "../../../interfaces/global";
 import { SearchFilterDTO } from "../../../helper/searchFilter";

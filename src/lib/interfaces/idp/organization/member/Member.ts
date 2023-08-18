@@ -1,5 +1,5 @@
-import { ReducedOrganization, OrganizationPermission } from "./Organization";
-import { ReducedUser } from "../user/User";
+import { ReducedOrganization, OrganizationPermission } from "../Organization";
+import { ReducedUser } from "../../user/User";
 
 export interface OrganizationMember {
     _id: string;

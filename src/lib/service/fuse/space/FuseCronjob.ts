@@ -1,7 +1,7 @@
 import { AxiosInstance } from "axios";
 import base, { Options } from "../../../base";
 import { SearchFilterDTO } from "../../../helper/searchFilter";
-import { CreateCronjob, Cronjob } from "../../../interfaces/fuse/Cronjob";
+import { CreateCronjob, Cronjob } from "../../../interfaces/fuse/space/cronjob/Cronjob";
 import { SearchFilter, SearchParams } from "../../../interfaces/global";
 import { FuseCronjobLog } from "./log/FuseCronjobLog";
 import { FuseCronjobLogInternal } from "./log/FuseCronjobLogInternal";

@@ -1,6 +1,6 @@
 import { AxiosInstance } from "axios";
 import base, { Options } from "../../base";
-import { WaveEngine, WaveEngineReleaseAsset } from "../../interfaces/high5/Wave";
+import { WaveEngine, WaveEngineReleaseAsset } from "../../interfaces/high5/wave/Wave";
 
 export class High5Wave extends base {
     constructor(options: Options, axios: AxiosInstance) {

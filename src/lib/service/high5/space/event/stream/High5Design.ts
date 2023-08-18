@@ -1,5 +1,5 @@
 import base from "../../../../../base";
-import { Design } from "../../../../../interfaces/high5/Design";
+import { Design } from "../../../../../interfaces/high5/space/event/stream/design/Design";
 
 export class High5Design extends base {
     /**

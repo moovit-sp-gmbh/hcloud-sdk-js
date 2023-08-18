@@ -1,6 +1,6 @@
 import { AxiosInstance } from "axios";
 import Base, { Options } from "../../../../../base";
-import { Domain } from "../../../../../interfaces/idp/organization/Domain";
+import { Domain } from "../../../../../interfaces/idp/organization/settings/domain/Domain";
 import { IdpSAMLProvider } from "./saml/IdpSAMLProvider";
 
 export class IdpDomain extends Base {

@@ -1,7 +1,7 @@
 import base from "../../../base";
 import { SearchFilterDTO } from "../../../helper/searchFilter";
 import { SearchFilter, SearchParams } from "../../../interfaces/global";
-import { AddOrganizationMember, OrganizationMember, PatchOrgMember } from "../../../interfaces/idp/organization/OrganizationMember";
+import { AddOrganizationMember, OrganizationMember, PatchOrgMember } from "../../../interfaces/idp/organization/member/Member";
 
 export class IdpOrganizationMember extends base {
     /**

@@ -1,7 +1,13 @@
 import { AxiosInstance } from "axios";
 import base, { Options } from "../../../base";
-import { StreamExecutionRequest, StreamResult, EventExecutionRequest, StreamExecutionPackage, StreamLog } from "../../../interfaces/high5/Stream";
-import { WaveEngine, WaveRelease } from "../../../interfaces/high5/Wave";
+import {
+    StreamExecutionRequest,
+    StreamResult,
+    EventExecutionRequest,
+    StreamExecutionPackage,
+    StreamLog,
+} from "../../../interfaces/high5/space/event/stream/Stream";
+import { WaveEngine, WaveRelease } from "../../../interfaces/high5/wave/Wave";
 
 export class High5Execute extends base {
     constructor(options: Options, axios: AxiosInstance) {

@@ -64,7 +64,7 @@ export class IdpNewRegistrationMailjetMailDTO extends MailjetMailDTO {
     }
 }
 
-export class IdpResetPasswprdMailjetMailDTO extends MailjetMailDTO {
+export class IdpResetPasswordMailjetMailDTO extends MailjetMailDTO {
     constructor(recipients: string[], resetPasswordLink: string) {
         super(recipients, MailjetTemplate.IDP_RESET_PASSWORD, {
             HCLOUD_RESET_PASSWORD_LINK: resetPasswordLink,

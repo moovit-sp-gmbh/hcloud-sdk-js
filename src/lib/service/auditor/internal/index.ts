@@ -47,8 +47,9 @@ export class AuditorInternal extends Base {
         if (!this.logQueueTimer) {
             this.logQueueTimer = setTimeout(() => {
                 if (this.logQueue.length > 0) {
+                    // DO NOT REMOVE THE IGNORE CATCH AS IT WOULD LEAD TO UNHANDLED PROMISE REJECTION IN OTHER ENDPOINTS AND THEIR CRASH
                     // tslint:disable-next-line
-                    this.addAuditLogs(this.logQueue);
+                    this.addAuditLogs(this.logQueue).catch(ignored => ignored);
                     this.logQueue = [] as AuditLog[];
                 }
             }, this.queueExecutionInterval);

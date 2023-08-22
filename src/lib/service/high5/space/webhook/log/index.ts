@@ -8,13 +8,13 @@ export class High5WebhookLog extends Base {
     }
 
     /**
-     * getWebhookLogs requests all webhook logs for the specified webhook
-     * @param orgName the organizations's name
-     * @param spaceName the spaces's name
-     * @param webhookId the webhook's id
-     * @param limit an optional response limit limit (1-100; defaults to 25)
-     * @param page an optional page to skip certain results (page * limit; defaults to 0)
-     * @returns WebhookLog array and total number of webhook logs of that webhook (independent of the limit and page)
+     * Retrieves all Webhook logs for the specified Webhook.
+     * @param orgName Name of the Organization
+     * @param spaceName Name of the Space
+     * @param webhookId ID of the Webhook
+     * @param limit (optional) Max number of results (1-100; defaults to 25)
+     * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
+     * @returns Array of Webhook logs and the total number of results found in the database (independent of limit and page)
      */
     public getWebhookLogs = async (
         orgName: string,

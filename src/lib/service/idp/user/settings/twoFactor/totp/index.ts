@@ -8,8 +8,8 @@ export class IdpTotp extends Base {
     }
 
     /**
-     * createTotp creates a new TOTP code
-     * @returns a qrcode and the according orpAuthUrl
+     * Creates a new TOTP for the requesting User.
+     * @returns A deactivated TOTP object containing a QR code and the OTPAuth URL
      */
     public createTotp = async (): Promise<DeactivatedTotp> => {
         const resp = await this.axios.post<DeactivatedTotp>(this.getEndpoint(`/v1/user/settings/security/2fa/totp`)).catch((err: Error) => {
@@ -20,8 +20,8 @@ export class IdpTotp extends Base {
     };
 
     /**
-     * activateTotp activate a previously created TOTP
-     * @returns a list of recover codes in case of TOTP authenticator loss
+     * Activates a previously created TOTP.
+     * @returns Object containing a list of recover codes in case of TOTP authenticator loss
      */
     public activateTotp = async (token: string): Promise<ActivatedTotp> => {
         const resp = await this.axios
@@ -34,20 +34,18 @@ export class IdpTotp extends Base {
     };
 
     /**
-     * verifyTotp endpoint for totp code verification
-     * @returns 204 no content
+     * Verifies a TOTP.
+     * @param userTotp TOTP to verify
      */
     public verifyTotp = async (userTotp: UserTotp): Promise<void> => {
-        const resp = await this.axios.patch<void>(this.getEndpoint(`/v1/login/verify/totp`), { userTotp }).catch((err: Error) => {
+        await this.axios.patch<void>(this.getEndpoint(`/v1/login/verify/totp`), { userTotp }).catch((err: Error) => {
             throw err;
         });
-
-        return resp.data;
     };
 
     /**
-     * deactivateTotp deactivate (delete) a previously activated TOTP
-     * @returns an empty body
+     * Deactivates (deletes) a previously activated TOTP.
+     * @param token TOTP to deactivate
      */
     public deactivateTotp = async (token: string): Promise<void> => {
         await this.axios.delete<void>(this.getEndpoint(`/v1/user/settings/security/2fa/totp`), { data: { token } }).catch((err: Error) => {
@@ -56,8 +54,10 @@ export class IdpTotp extends Base {
     };
 
     /**
-     * deactivateTotpByRecoverCode deactivate (delete) a previously activated TOTP by using a recover code
-     * @returns an empty body
+     * Deactivates (deletes) a previously activated TOTP by using a recovery code.
+     * @param email Email of the User
+     * @param password Password
+     * @param code Recovery code
      */
     public deactivateTotpByRecoverCode = async (email: string, password: string, code: string): Promise<void> => {
         await this.axios.delete<void>(this.getEndpoint(`/v1/user/recover/totp`), { data: { email, password, code } }).catch((err: Error) => {

@@ -19,7 +19,7 @@ export default class High5 extends Base {
     }
 
     /**
-     * Version requests the endpoint version
+     * Requests the endpoint version
      * @returns Version object
      */
     version = async (): Promise<Version> => {

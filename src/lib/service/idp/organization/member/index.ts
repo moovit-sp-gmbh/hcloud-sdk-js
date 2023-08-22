@@ -5,13 +5,13 @@ import { AddOrganizationMember, OrganizationMember, PatchOrgMember } from "../..
 
 export class IdpOrganizationMember extends Base {
     /**
-     * Retrieves organization members that match the provided search filters. Will return all members of the organization if no search filter is provided.
-     * @param orgName Name of the organization
+     * Retrieves all organization members that match the provided search filter(s). Will return all members of the organization if no search filter is provided.
+     * @param orgName Name of the Organization
      * @param filters (optional) Array of search filters
-     * @param sorting (optional) Sorting direction
-     * @param limit (optional) Maximal number of results (1-100; defaults to 25)
+     * @param sorting (optional) Sorting object
+     * @param limit (optional) Max number of results (1-100; defaults to 25)
      * @param page (optional) Page number to skip the first (page * limit) results (defaults to 0)
-     * @returns Array with two fields: organization members (as an array) and the total number of results
+     * @returns Array of Organization Members and the total number of results found in the database (independent of limit and page)
      */
     public searchOrganizationMembers = async ({
         orgName,
@@ -36,10 +36,10 @@ export class IdpOrganizationMember extends Base {
     };
 
     /**
-     * Retrieves an organization member by its user ID
+     * Retrieves an organization member by its user ID.
      * @param orgName Name of the organization
      * @param userId ID of the user
-     * @returns Object of type OrganizationMember
+     * @returns The requested Organization Member
      */
     public getOrganizationMember = async (orgName: string, userId: string): Promise<OrganizationMember> => {
         const resp = await this.axios.get<OrganizationMember>(this.getEndpoint(`/${orgName}/members/${userId}`)).catch((err: Error) => {
@@ -50,10 +50,10 @@ export class IdpOrganizationMember extends Base {
     };
 
     /**
-     * Add a member to an organization
-     * @param orgName Name of the organization
+     * Invites a User to an Organization.
+     * @param orgName Name of the Organization
      * @param addOrganizationMember Object containing the email and permission of the user to be invited
-     * @returns The created OrganizationMember object
+     * @returns The created OrganizationMember
      */
     public addOrganizationMember = async (orgName: string, addOrganizationMember: AddOrganizationMember): Promise<OrganizationMember> => {
         const resp = await this.axios
@@ -66,11 +66,11 @@ export class IdpOrganizationMember extends Base {
     };
 
     /**
-     * Patches a members permission in an organization
-     * @param orgName the organization name
-     * @param userId the users id
-     * @param patchOrgMember the new permissions
-     * @returns The updated OrganizationMember object
+     * Updates the permission a User has in the specified Organization.
+     * @param orgName Name of the Organization
+     * @param userId ID of the User
+     * @param patchOrgMember New permission
+     * @returns The updated OrganizationMember
      */
     public patchOrganizationMemberPermission = async (
         orgName: string,
@@ -87,10 +87,9 @@ export class IdpOrganizationMember extends Base {
     };
 
     /**
-     * removeOrganizationMember removes a member from an organization
-     * @param orgName the organization name
-     * @param userId the id of the user
-     * @returns 204 no content
+     * Removes a Member from an Organization.
+     * @param orgName Name of the Organization
+     * @param userId ID of the User
      */
     public removeOrganizationMember = async (orgName: string, userId: string): Promise<void> => {
         await this.axios.delete<void>(this.getEndpoint(`/${orgName}/members/${userId}`)).catch((err: Error) => {

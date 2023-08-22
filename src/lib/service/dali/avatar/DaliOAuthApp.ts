@@ -8,10 +8,10 @@ export class DaliOAuthApp extends Base {
     }
 
     /**
-     * createAvatar returns the newly created avatar as URL
-     * @param {string} orgName the name of the organization
-     * @param {string} appId the ID of the OAuth application
-     * @returns {AvatarCreated} public url to the created avatar
+     * Creates a default avatar for the specified OAuth app.
+     * @param orgName Name of the organization
+     * @param appId ID of the OAuth app
+     * @returns Public URL of the created avatar
      */
     public createAvatar = async (orgName: string, appId: string): Promise<AvatarCreated> => {
         const resp = await this.axios
@@ -24,10 +24,9 @@ export class DaliOAuthApp extends Base {
     };
 
     /**
-     * deleteAvatar deletes the avatar for specified OAuth application
-     * @param {string} orgName the name of the organization
-     * @param {string} appId the ID of the OAuth application
-     * @returns nothing after successful deletion
+     * Deletes the avatar of the OAuth app from cloud storage. If you want to update it instead, use updateAvatar().
+     * @param orgName Name of the organization
+     * @param appId ID of the OAuth app
      */
     public deleteAvatar = async (orgName: string, appId: string): Promise<void> => {
         await this.axios.delete<string>(this.getEndpoint(`/v1/avatar/org/${orgName}/applications/oauth/${appId}`)).catch((err: Error) => {
@@ -36,11 +35,11 @@ export class DaliOAuthApp extends Base {
     };
 
     /**
-     * updateAvatar returns the uploaded and processed avatar as URL
-     * @param {string} orgName the name of the organization
-     * @param {string} appId the ID of the OAuth application
-     * @param {string} file the image as file
-     * @returns {AvatarCreated} AvatarCreated
+     * Updates the avatar of the specified OAuth app.
+     * @param orgName Name of the organization
+     * @param appId ID of the OAuth app
+     * @param file Image as Javascript File
+     * @returns Public URL of the new avatar
      */
     public updateAvatar = async (orgName: string, appId: string, file: File): Promise<AvatarCreated> => {
         const data = new FormData();

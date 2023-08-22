@@ -5,7 +5,7 @@ import { DaliAvatar } from "./DaliAvatar";
 
 export default class Dali extends Base {
     /**
-     * avatar handles everything around avatars
+     * Handles everything around avatars
      */
     public avatar: DaliAvatar;
 
@@ -16,8 +16,7 @@ export default class Dali extends Base {
     }
 
     /**
-     * Version requests the endpoint version
-     * @returns Version object
+     * @returns An object containing the endpoint version as a string
      */
     version = async (): Promise<Version> => {
         const resp = await this.axios.get<Version>(this.getEndpoint("/v1/version")).catch((err: Error) => {

@@ -8,7 +8,7 @@ import { IdpSettings } from "./settings";
 
 export class IdpUser extends Base {
     /**
-     * settings handles everything around a user's settings
+     * Handles everything around a user's settings
      */
     public settings: IdpSettings;
 
@@ -19,8 +19,7 @@ export class IdpUser extends Base {
     }
 
     /**
-     * getUser validates a token and returns the user object - whoami
-     * @param token
+     * Retrieves the User database entry for the requesting user.
      * @returns User object
      */
     getUser = async (): Promise<User> => {
@@ -32,8 +31,8 @@ export class IdpUser extends Base {
     };
 
     /**
-     * patchUser update an entity of a user partially
-     * @param user the user object
+     * Updates the User database entry of the requesting user.
+     * @param user PatchUser object holding the new User values
      * @returns User object
      */
     public patchUser = async (user: PatchUser): Promise<User> => {
@@ -45,8 +44,7 @@ export class IdpUser extends Base {
     };
 
     /**
-     * deleteUserSession resets all user sessions and therewith logs him out of hcloud on all devices
-     * @returns 204 no content
+     * Deletes user session and logs him out of HCloud on all devices.
      */
     public deleteUserSession = async (): Promise<void> => {
         await this.axios.delete<void>(this.getEndpoint(`/v1/user/sessions`)).catch((err: Error) => {
@@ -55,8 +53,7 @@ export class IdpUser extends Base {
     };
 
     /**
-     * deleteUser deletes a user from the system
-     * @returns User object
+     * Deletes the requesting user.
      */
     public deleteUser = async (): Promise<void> => {
         await this.axios.delete<void>(this.getEndpoint(`/v1/user`)).catch((err: Error) => {
@@ -64,34 +61,13 @@ export class IdpUser extends Base {
         });
     };
 
-    protected getEndpoint(endpoint: string): string {
-        return `${this.options.server}/api/account${endpoint}`;
-    }
-
     /**
-     * getOrganizations requests all organizations for a user
-     * @param limit an optional response limit limit (1-100; defaults to 25)
-     * @param page an optional page to skip certain results (page * limit; defaults to 0)
-     * @returns Organization array
-     */
-    public getOrganizations = async (limit?: number, page?: number): Promise<[Organization[], number]> => {
-        limit = limit || 25;
-        page = page || 0;
-
-        const resp = await this.axios.get<Organization[]>(this.getEndpoint(`/v1/user/orgs?limit=${limit}&page=${page}`)).catch((err: Error) => {
-            throw err;
-        });
-
-        return [resp.data, parseInt(String(resp.headers["total"]), 10)];
-    };
-
-    /**
-     * searchOrganizations requests organizations for a user using one or more search filters
-     * @param orgSearchFilter an array of search filters
-     * @param sort an optional sorting direction
-     * @param limit an optional response limit limit (1-100; defaults to 25)
-     * @param page an optional page to skip certain results (page * limit; defaults to 0)
-     * @returns Organization array
+     * Retrieves all Organizations of a user that match the provided search filter(s). Returns all Organizations of the user if no search filter is provided.
+     * @param filters (optional) Array of search filters
+     * @param sorting (optional) Sorting object
+     * @param limit (optional) Max number of results (1-100; defaults to 25)
+     * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
+     * @returns Array of Organizations and the total number of results found in the database (independent of limit and page)
      */
     public searchOrganizations = async (params: {
         filters: SearchFilter[];
@@ -118,4 +94,8 @@ export class IdpUser extends Base {
 
         return [resp.data, parseInt(String(resp.headers["total"]), 10)];
     };
+
+    protected getEndpoint(endpoint: string): string {
+        return `${this.options.server}/api/account${endpoint}`;
+    }
 }

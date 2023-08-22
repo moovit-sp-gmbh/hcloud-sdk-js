@@ -17,12 +17,12 @@ export class FuseCronjob extends Base {
     }
 
     /**
-     * getCronjob returns a cronjob by it's ID
-     * @param {string} orgName the organizations's name
-     * @param {string} spaceName the spaces's name
-     * @param {string} cronjobId the cronjob's ID
-     * @param {boolean} [exposeNextExecution] - optional parameter to trigger the exposure of the next execution in unix timestamp in the response object(s)
-     * @returns Cronjob
+     * Retrieves a cronjob by it's ID.
+     * @param orgName Name of the organization
+     * @param spaceName Name of the Fuse space
+     * @param cronjobId ID of the cronjob
+     * @param exposeNextExecution (optional) Show the next execution as a Unix timestamp (in milliseconds) in the response object
+     * @returns The requested cronjob
      */
     public getCronjob = async (orgName: string, spaceName: string, cronjobId: string, exposeNextExecution = false): Promise<Cronjob> => {
         const resp = await this.axios
@@ -35,11 +35,11 @@ export class FuseCronjob extends Base {
     };
 
     /**
-     * getNextCronjobExecutions returns an array of the next n cronjob executions as UTC unix timestamps
-     * @param {string} orgName the organizations's name
-     * @param {string} spaceName the spaces's name
-     * @param {string} cronjobId the cronjob's ID
-     * @returns Unix timestamp number array
+     * Retrieves the next n cronjob executions as Unix timestamps (in milliseconds).
+     * @param orgName Name of the organization
+     * @param spaceName Name of the space
+     * @param cronjobId ID of the cronjob
+     * @returns Array of Unix timestamps
      */
     public getNextCronjobExecutions = async (orgName: string, spaceName: string, cronjobId: string): Promise<number[]> => {
         const resp = await this.axios
@@ -52,12 +52,12 @@ export class FuseCronjob extends Base {
     };
 
     /**
-     * createCronjob returns the newly created cronjob
-     * @param {string} orgName the organizations's name
-     * @param {string} spaceName the spaces's name
-     * @param {CreateCronjob} createCronjob the cronjob to create
-     * @param {boolean} [exposeNextExecution] - optional parameter to trigger the exposure of the next execution in unix timestamp in the response object(s)
-     * @returns Cronjob
+     * Creates a new cronjob in the specified Fuse space.
+     * @param orgName Name of the organisation
+     * @param spaceName Name of the Fuse space
+     * @param createCronjob Cronjob to be created
+     * @param exposeNextExecution (optional) Show the next execution as a Unix timestamp (in milliseconds) in the response object
+     * @returns The created cronjob
      */
     public createCronjob = async (
         orgName: string,
@@ -75,12 +75,12 @@ export class FuseCronjob extends Base {
     };
 
     /**
-     * updateCronjob returns the updated cronjob
-     * @param {string} orgName the organizations's name
-     * @param {string} spaceName the spaces's name
-     * @param {CreateCronjob} createCronjob the cronjob to update
-     * @param {boolean} [exposeNextExecution] - optional parameter to trigger the exposure of the next execution in unix timestamp in the response object(s)
-     * @returns Cronjob
+     * Updates an existing cronjob.
+     * @param orgName Name of the organization
+     * @param spaceName Name of the spacec
+     * @param createCronjob Cronjob to be updated
+     * @param exposeNextExecution (optional) Show the next execution as a Unix timestamp (in milliseconds) in the response object
+     * @returns The updated cronjob
      */
     public updateCronjob = async (
         orgName: string,
@@ -102,13 +102,13 @@ export class FuseCronjob extends Base {
     };
 
     /**
-     * patchCronjobExpression returns the patched cronjob
-     * @param {string} orgName the organizations's name
-     * @param {string} spaceName the spaces's name
-     * @param {string} cronjobId the cronjob's ID
-     * @param {string} expression the new cronjob's expression
-     * @param {boolean} [exposeNextExecution] - optional parameter to trigger the exposure of the next execution in unix timestamp in the response object(s)
-     * @returns Cronjob
+     * Change the cron expression of an existing cronjob
+     * @param orgName Name of the organization
+     * @param spaceName Name of the space
+     * @param cronjobId ID of the cronjob
+     * @param expression New cron expression
+     * @param exposeNextExecution (optional) Show the next execution as a Unix timestamp (in milliseconds) in the response object
+     * @returns The patched cronjob
      */
     public patchCronjobExpression = async (
         orgName: string,
@@ -130,10 +130,10 @@ export class FuseCronjob extends Base {
     };
 
     /**
-     * deleteEvent delete an event by it's name
-     * @param {string} orgName the organizations's name
-     * @param {string} spaceName the spaces's name
-     * @param {string} cronjobId the cronjob's ID
+     * Deletes a cronjob by its ID
+     * @param orgName Name of the organization
+     * @param spaceName Name of the space
+     * @param cronjobId ID of the cronjob
      */
     public deleteCronjob = async (orgName: string, spaceName: string, cronjobId: string): Promise<void> => {
         await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs/${cronjobId}`)).catch((err: Error) => {
@@ -142,16 +142,15 @@ export class FuseCronjob extends Base {
     };
 
     /**
-     * searchCronjobs search for jobs of a space
-     * @param {SearchParams & { orgName: string, spaceName: string }} params Search parameters
-     * @param {string} params.orgName Name of the organization
-     * @param {string} params.spaceName Name of the space
-     * @param {SearchFilter[]} [params.filters] an array of search filters
-     * @param {Sorting} [params.sorting] an optional sorting direction
-     * @param {number} [params.limit=25] an optional response limit limit (1-100; defaults to 25)
-     * @param {number} [params.page=0] - an optional page to skip certain results (page * limit; defaults to 0)
-     * @param {boolean} [exposeNextExecution] - optional parameter to trigger the exposure of the next execution in unix timestamp in the response object(s)
-     * @returns filtered cronjobs list
+     * Retrieves all cronjobs of a Fuse space which match the provided search filter(s). Will return all cronjobs if no filter is provided.
+     * @param orgName Name of the organization
+     * @param spaceName Name of the space
+     * @param filters (optional) Array of search filters
+     * @param sorting (optional) Sorting object
+     * @param limit (optional) Max number of results (1-100; defaults to 25)
+     * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
+     * @param exposeNextExecution (optional) Show the next execution as a Unix timestamp (in milliseconds) in the returned cronjob objects
+     * @returns Array of filtered cronjobs as well as the total number of results found in the database (independent of limit and page)
      */
     public searchCronjobs = async (
         { orgName, spaceName, filters, sorting, limit = 25, page = 0 }: SearchParams & { orgName: string; spaceName: string },

@@ -8,7 +8,7 @@ export class IdpGeneral extends Base {
     }
 
     /**
-     * getGeneralSettings requests the current active user settings
+     * Retrieves the current active user settings.
      * @returns the current active user settings
      */
     public getGeneralSettings = async (): Promise<GeneralSettings> => {
@@ -20,9 +20,9 @@ export class IdpGeneral extends Base {
     };
 
     /**
-     * patchGeneralSettings change the user settings
-     * @param patId the id of the pat object
-     * @returns the updated pat object
+     * Changes the user settings.
+     * @param generalSettingsPatch Object containing the new user settings
+     * @returns the updated user settings
      */
     public patchGeneralSettings = async (generalSettingsPatch: GeneralSettingsPatch): Promise<GeneralSettings> => {
         const resp = await this.axios

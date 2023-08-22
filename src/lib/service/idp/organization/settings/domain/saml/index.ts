@@ -3,9 +3,9 @@ import { FullSAMLProvider, SAMLProvider, SAMLProviderCreateDto } from "../../../
 
 export class IdpSAMLProvider extends Base {
     /**
-     * Retrieves all SAML providers associated with a given organization
-     * @param orgName The name of the organization
-     * @returns an array of SAML providers
+     * Retrieves all SAML providers associated with a given Organization.
+     * @param orgName Name of the Organization
+     * @returns Array of SAML providers
      */
     public getAllSAMLProvidersOfOrganization = async (orgName: string): Promise<FullSAMLProvider[]> => {
         const resp = await this.axios.get<FullSAMLProvider[]>(this.getEndpoint(`/v1/org/${orgName}/settings/domains/saml`));
@@ -14,11 +14,11 @@ export class IdpSAMLProvider extends Base {
     };
 
     /**
-     * Creates a SAML provider for the specified domain
-     * @param orgName The name of the organization
-     * @param domainName The name of the domain
-     * @param provider The SAML provider object containing the login URL, logout URL, certificates and a boolean to allow unencrypted assertion
-     * @returns the created SAML provider
+     * Creates a new SAML provider for the specified domain.
+     * @param orgName Name of the Organization
+     * @param domainName Name of the Domain
+     * @param provider SAML provider object containing the login URL, logout URL, certificates and a boolean to allow unencrypted assertion
+     * @returns The created SAML provider
      */
     public createProvider = async (orgName: string, domainName: string, provider: SAMLProviderCreateDto): Promise<SAMLProvider> => {
         const formData = this.convertProviderToFormData(provider);
@@ -29,10 +29,10 @@ export class IdpSAMLProvider extends Base {
 
     /**
      * Updates a SAML provider for the specified domain
-     * @param orgName The name of the organization
-     * @param domainName The name of the domain
-     * @param provider The SAML provider object containing the login URL, logout URL, certificates and a boolean to allow unencrypted assertion
-     * @returns the updated SAML provider
+     * @param orgName Name of the Organization
+     * @param domainName Name of the Domain
+     * @param provider SAML provider object containing the login URL, logout URL, certificates and a boolean to allow unencrypted assertion
+     * @returns The updated SAML provider
      */
     public updateProvider = async (orgName: string, domainName: string, provider: SAMLProviderCreateDto): Promise<SAMLProvider> => {
         const formData = this.convertProviderToFormData(provider);
@@ -43,10 +43,10 @@ export class IdpSAMLProvider extends Base {
 
     /**
      * Adds certificates to a SAML provider
-     * @param orgName The name of the organization
-     * @param domainName The name of the domain
-     * @param certificates The certificates to add
-     * @returns the updated SAML provider
+     * @param orgName Name of the Organization
+     * @param domainName Name of the Domain
+     * @param certificates Certificates to add
+     * @returns The updated SAML provider
      */
     public addCertificatesToProvider = async (orgName: string, domainName: string, certificates: string[]): Promise<SAMLProvider> => {
         const formData = new FormData();
@@ -60,9 +60,9 @@ export class IdpSAMLProvider extends Base {
     };
 
     /**
-     * Deletes the SAML provider of the specified domain
-     * @param orgName The name of the organization
-     * @param domainName The name of the domain
+     * Removes a SAML provider from the specified domain
+     * @param orgName Name of the Organization
+     * @param domainName Name of the Domain
      */
     public deleteProvider = async (orgName: string, domainName: string): Promise<void> => {
         await this.axios.delete<SAMLProvider>(this.getEndpoint(`/v1/org/${orgName}/settings/domains/${domainName}/saml`));

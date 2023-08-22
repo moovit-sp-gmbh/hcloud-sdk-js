@@ -7,8 +7,10 @@ export class High5SpaceInternal extends Base {
     }
 
     /**
-     * deleteAllSpacesOfOrganization deletes all spaces of an organization
-     * @param orgName the organizations's name
+     * Deletes all spaces of an organization.
+     *
+     * THIS IS AN INTERNAL ENDPOINT AND CAN ONLY BE USED FROM BACKENDS WITHIN THE HCLOUD DEPLOYMENT
+     * @param orgName Name of the organization
      */
     public deleteAllSpacesOfOrganization = async (orgName: string): Promise<void> => {
         await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}`)).catch((err: Error) => {
@@ -17,9 +19,11 @@ export class High5SpaceInternal extends Base {
     };
 
     /**
-     * removeUserFromAllSpacesOfOrganization deletes the user from all spaces of an organization
-     * @param orgName the organizations's name
-     * @param userId the user's id
+     * Removes the user from all spaces of an organization.
+     *
+     * THIS IS AN INTERNAL ENDPOINT AND CAN ONLY BE USED FROM BACKENDS WITHIN THE HCLOUD DEPLOYMENT
+     * @param orgName Name of the organization
+     * @param userId ID of the user
      */
     public removeUserFromAllSpacesOfOrganization = async (orgName: string, userId: string): Promise<void> => {
         await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/user/${userId}`)).catch((err: Error) => {

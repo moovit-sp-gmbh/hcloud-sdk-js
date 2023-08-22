@@ -8,11 +8,11 @@ export class High5Wave extends Base {
     }
 
     /**
-     * getWaveEngineReleaseTags returns all available wave engine release tags
-     * @param orgName the organizations's name
-     * @param limit the maximum results limit (1-100; defaults to 25)
-     * @param page the results to skip (page * limit)
-     * @returns An array holding WaveEngineReleaseAssets
+     * Retrieves all available wave engine release tags (paginated request)
+     * @param orgName Name of the Organization
+     * @param limit (optional) Max number of results (1-100; defaults to 25)
+     * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
+     * @returns Array holding the WaveEngineReleaseAssets
      */
     public getReleaseTags = async (orgName: string, limit?: number, page?: number): Promise<[WaveEngineReleaseAsset[], number]> => {
         limit = limit || 25;
@@ -28,9 +28,9 @@ export class High5Wave extends Base {
     };
 
     /**
-     * getWaveEngine returns the content of a wave engine (base64 encoded engine.js file with additional parameters)
-     * @param orgName the organizations's name
-     * @param releaseVersion the release tag version of the wave engine
+     * Retrieves the content of a wave engine (base64 encoded engine.js file with additional parameters)
+     * @param orgName Name of the Organization
+     * @param releaseVersion Release tag version of the wave engine
      * @returns WaveEngine
      */
     public getWaveEngine = async (orgName: string, releaseVersion: string): Promise<WaveEngine> => {
@@ -42,9 +42,9 @@ export class High5Wave extends Base {
     };
 
     /**
-     * getNodeCatalogue returns the content of a wave engines node catalogue (base64 encoded catalogue.json file with additional parameters)
-     * @param orgName the organizations's name
-     * @param spaceName the space for which the catalogue is requested
+     * Retrieves the content of a wave engines node catalogue (base64 encoded catalogue.json file with additional parameters) for a provided Space.
+     * @param orgName Name of the Organization
+     * @param spaceName Name of the Space
      * @returns WaveEngine
      */
     public getNodeCatalogue = async (orgName: string, spaceName: string): Promise<WaveEngine> => {

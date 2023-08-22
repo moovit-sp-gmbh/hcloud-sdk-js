@@ -14,8 +14,7 @@ export default class Auditor extends Base {
     }
 
     /**
-     * Version requests the endpoint version
-     * @returns Version object
+     * @returns An object containing the endpoint version as a string
      */
     version = async (): Promise<Version> => {
         const resp = await this.axios.get<Version>(this.getEndpoint("/v1/version"), {}).catch((err: Error) => {
@@ -27,13 +26,12 @@ export default class Auditor extends Base {
 
     /**
      * Returns all audit logs for an organization which match the search filter
-     * @param {SearchParams & { orgName: string, spaceName: string }} params Search parameters
-     * @param {string} params.organizationName The name of the organization
-     * @param {SearchFilter[]} [params.filters] (optional) An array of search filters
-     * @param {Sorting} [params.sorting] (optional) A sorting object
-     * @param {number} [params.limit=25] (optional) Max number of results (1-100; defaults to 25)
-     * @param {number} [params.page = 0] - (optional) Page number to skip the first page * limit results (defaults to 0)
-     * @returns Array of audit logs
+     * @param organizationName Name of the organization
+     * @param filters (optional) Array of search filters
+     * @param sorting (optional) Sorting object
+     * @param limit (optional) Max number of results (1-100; defaults to 25)
+     * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
+     * @returns Array containing an array of audit logs and the total number of results found in the database (independent of limit and page)
      */
     public searchAuditLogs = async ({
         organizationName,

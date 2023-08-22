@@ -8,10 +8,10 @@ export class DaliFuse extends Base {
     }
 
     /**
-     * createAvatar returns the newly created avatar as URL
-     * @param {string} orgName the name of the organization
-     * @param {string} spaceName the name of the space
-     * @returns {AvatarCreated} public url to the created avatar
+     * Creates a default avatar for the specified Fuse space.
+     * @param orgName Name of the organization
+     * @param spaceName Name of the space
+     * @returns Public URL of the created avatar
      */
     public createAvatar = async (orgName: string, spaceName: string): Promise<AvatarCreated> => {
         const resp = await this.axios
@@ -24,10 +24,9 @@ export class DaliFuse extends Base {
     };
 
     /**
-     * deleteAvatar deletes the avatar for specified space
-     * @param {string} orgName the name of the organization
-     * @param {string} spaceName the name of the space
-     * @returns nothing after successful deletion
+     * Deletes the avatar of the Fuse space from cloud storage. If you want to update it instead, use updateAvatar().
+     * @param orgName Name of the organization
+     * @param spaceName Name of the space
      */
     public deleteAvatar = async (orgName: string, spaceName: string): Promise<void> => {
         await this.axios.delete<string>(this.getEndpoint(`/v1/avatar/org/${orgName}/spaces/fuse/${spaceName}`)).catch((err: Error) => {
@@ -36,11 +35,11 @@ export class DaliFuse extends Base {
     };
 
     /**
-     * updateAvatar returns the uploaded and processed avatar as URL
-     * @param {string} orgName the name of the organization
-     * @param {string} spaceName the name of the space
-     * @param {string} file the image as file
-     * @returns {AvatarCreated} AvatarCreated
+     * Updates the avatar of the specified Fuse space
+     * @param orgName Name of the organization
+     * @param spaceName Name of the space
+     * @param file Image as Javascript File
+     * @returns Public URL of the new avatar
      */
     public updateAvatar = async (orgName: string, spaceName: string, file: File): Promise<AvatarCreated> => {
         const data = new FormData();

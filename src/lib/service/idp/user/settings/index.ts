@@ -7,22 +7,22 @@ import { IdpOAuthApps } from "./oauthApps";
 
 export class IdpSettings extends Base {
     /**
-     * pat handles everything around a user's pats (Personal Access Tokens)
+     * Handles everything around a user's pats (Personal Access Tokens)
      */
     public pat: IdpPat;
 
     /**
-     * general settings are handling everything around a user's profile
+     * Handles everything around a user's profile
      */
     public general: IdpGeneral;
 
     /**
-     * OAuthApps manages user's OAuth applications
+     * Manages user's OAuth applications
      */
     public oAuthApps: IdpOAuthApps;
 
     /**
-     * twoFactor handles everything around a user's two factor authentication
+     * Handles everything around a user's two factor authentication
      */
     public twoFactor: IdpTwoFactor;
     constructor(options: Options, axios: AxiosInstance) {

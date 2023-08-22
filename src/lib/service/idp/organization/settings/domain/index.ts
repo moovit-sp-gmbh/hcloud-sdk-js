@@ -15,10 +15,9 @@ export class IdpDomain extends Base {
     }
 
     /**
-     * Retrieves all the domains associated with a given organization
-     *
-     * @param orgName The name of organization
-     * @returns a Promise that resolves to an array of domains
+     * Retrieves all the Domains associated with a given Organization.
+     * @param orgName Name of Organization
+     * @returns Array of Domains
      */
     public getDomains = async (orgName: string): Promise<Domain[]> => {
         const resp = await this.axios.get<Domain[]>(this.getEndpoint(`/v1/org/${orgName}/settings/domains`));
@@ -27,10 +26,9 @@ export class IdpDomain extends Base {
     };
 
     /**
-     * Associates the organization with the given domain name by creating a new domain object
-     *
-     * @param orgName Name of the organization
-     * @param domainName Domain name. Must be a FQDN
+     * Creates a new Domain for the given Organization
+     * @param orgName Name of the Organization
+     * @param domainName Name of the Domain
      * @returns the created Domain
      */
     public createDomain = async (orgName: string, domainName: string): Promise<Domain> => {
@@ -42,11 +40,10 @@ export class IdpDomain extends Base {
     };
 
     /**
-     * Tries to verify the domain
-     *
+     * Verifies the provided Domain.
      * @param orgName Name of the organization
-     * @param domainName Domain name
-     * @returns the domain. If the verification was successful, domain.verified will equal true
+     * @param domainName Name of the Domain
+     * @returns Domain object with domain.verified set to 'true' if verification was succesful.
      */
     public verifyDomain = async (orgName: string, domainName: string): Promise<Domain> => {
         const resp = await this.axios.patch<Domain>(this.getEndpoint(`/v1/org/${orgName}/settings/domains/${domainName}/verify`));
@@ -55,8 +52,7 @@ export class IdpDomain extends Base {
     };
 
     /**
-     * Deletes a domain
-     *
+     * Deletes a domain.
      * @param orgName Name of the organization
      * @param domainName Name of the domain
      */

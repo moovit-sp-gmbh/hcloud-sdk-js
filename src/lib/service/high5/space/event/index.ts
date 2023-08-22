@@ -14,15 +14,14 @@ export class High5Event extends Base {
     }
 
     /**
-     * searchEvents returns all events for a space that match the search filter
-     * @param {SearchParams & { orgName: string, spaceName: string }} params Search parameters
-     * @param {string} params.orgName Name of the organization
-     * @param {string} params.spaceName Name of the space
-     * @param {SearchFilter[]} [params.filters] an array of search filters
-     * @param {Sorting} [params.sorting] an optional sorting direction
-     * @param {number} [params.limit=25] an optional response limit limit (1-100; defaults to 25)
-     * @param {number} [params.page=0] - an optional page to skip certain results (page * limit; defaults to 0)
-     * @returns Space array
+     * Retrieves all Events of a High5 Space which match the provided search filter(s). Will return all Events of the Space if no filter is provided.
+     * @param orgName Name of the Organization
+     * @param spaceName Name of the Space
+     * @param filters (optional) Array of search filters
+     * @param sorting (optional) Sorting object
+     * @param limit (optional) Max number of results (1-100; defaults to 25)
+     * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
+     * @returns Array of Events and the total number of results found in the database (independent of limit and page)
      */
     public searchEvents = async ({
         orgName,
@@ -47,11 +46,11 @@ export class High5Event extends Base {
     };
 
     /**
-     * getEvent returns an event by it's name
-     * @param orgName the organizations's name
-     * @param spaceName the spaces's name
-     * @param eventName the event's name
-     * @returns Event
+     * Retrieves an Event by its name.
+     * @param orgName Name of the Organization
+     * @param spaceName Name of the Space
+     * @param eventName Name of the Event
+     * @returns The requested Event
      */
     public getEvent = async (orgName: string, spaceName: string, eventName: string): Promise<Event> => {
         const resp = await this.axios
@@ -64,11 +63,11 @@ export class High5Event extends Base {
     };
 
     /**
-     * createEvent returns the newly created event
-     * @param orgName the organizations's name
-     * @param spaceName the spaces's name
-     * @param name the name for the new event
-     * @returns event
+     * Creates a new Event in the provided Space.
+     * @param orgName Name of the Organization
+     * @param spaceName Name of the Space
+     * @param name Name of the new Event
+     * @returns The created Event
      */
     public createEvent = async (orgName: string, spaceName: string, name: string): Promise<Event> => {
         const resp = await this.axios
@@ -81,10 +80,10 @@ export class High5Event extends Base {
     };
 
     /**
-     * deleteEvent delete an event by it's name
-     * @param orgName the organizations's name
-     * @param spaceName the spaces's name
-     * @param eventName the event's name
+     * Deletes an Event by its name.
+     * @param orgName Name of the Organization
+     * @param spaceName Name of the Space
+     * @param eventName Name of the Event
      */
     public deleteEvent = async (orgName: string, spaceName: string, eventName: string): Promise<void> => {
         await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}`)).catch((err: Error) => {

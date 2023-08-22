@@ -8,8 +8,7 @@ export class IdpGlobalPreference extends Base {
     }
 
     /**
-     * getGlobalPreference
-     * It returns the reCaptcha ID and regions
+     * Retrieves global preferances like reCaptcha ID and regions.
      * @returns object containing reCaptcha ID and regions
      */
     public getGlobalPreference = async (): Promise<PublicConfig> => {

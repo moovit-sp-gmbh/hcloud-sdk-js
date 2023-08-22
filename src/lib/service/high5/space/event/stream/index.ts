@@ -17,16 +17,15 @@ export class High5Stream extends Base {
     }
 
     /**
-     * searchStreams returns all streams for an event that match the search filter
-     * @param {SearchParams & { orgName: string, spaceName: string, eventName: string }} params Search parameters
-     * @param {string} params.orgName Name of the organization
-     * @param {string} params.spaceName Name of the space
-     * @param {string} params.eventName Name of the event
-     * @param {SearchFilter[]} [params.filters] an array of search filters
-     * @param {Sorting} [params.sorting] an optional sorting direction
-     * @param {number} [params.limit=25] an optional response limit limit (1-100; defaults to 25)
-     * @param {number} [params.page=0] - an optional page to skip certain results (page * limit; defaults to 0)
-     * @returns Space array
+     * Retrieves all Streams of an Event which match the provided search filter(s). Will return all Streams if no filter is provided.
+     * @param orgName Name of the organization
+     * @param spaceName Name of the space
+     * @param eventName Name of the event
+     * @param filters (optional) Array of search filters
+     * @param sorting (optional) Sorting object
+     * @param limit (optional) Max number of results (1-100; defaults to 25)
+     * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
+     * @returns Array of streams as well as the total number of results found in the database (independent of limit and page)
      */
     public searchStreams = async ({
         orgName,
@@ -55,12 +54,12 @@ export class High5Stream extends Base {
     };
 
     /**
-     * getStream returns a stream by its ID
-     * @param orgName the organizations's name
-     * @param spaceName the spaces's name
-     * @param eventName the event's name
-     * @param streamId the stream's id
-     * @returns Event
+     * Retrieves a Stream by its ID.
+     * @param orgName Name of the organization
+     * @param spaceName Name of the space
+     * @param eventName Name of the event
+     * @param streamId ID of the stream
+     * @returns The requested stream
      */
     public getStream = async (orgName: string, spaceName: string, eventName: string, streamId: string): Promise<Stream> => {
         const resp = await this.axios
@@ -73,12 +72,12 @@ export class High5Stream extends Base {
     };
 
     /**
-     * createStream returns the newly created stream
-     * @param orgName the organizations's name
-     * @param spaceName the spaces's name
-     * @param eventName the event's name
-     * @param name the name for the new stream
-     * @returns event
+     * Creates a new Stream for the specified Event.
+     * @param orgName Name of the organization
+     * @param spaceName Name of the space
+     * @param eventName Name of the event
+     * @param name Name for the new stream
+     * @returns The created stream
      */
     public createStream = async (orgName: string, spaceName: string, eventName: string, name: string): Promise<Stream> => {
         const resp = await this.axios
@@ -91,12 +90,12 @@ export class High5Stream extends Base {
     };
 
     /**
-     * Patch the order all Streams of an event (require WRITE rights)
-     * @param orgName the organizations's name
-     * @param appName the apps's name
-     * @param eventName the event's name
-     * @param StreamPatchOrder A list of all event streams with their new order
-     * @returns Stream[] array of the updated streams
+     * Patches the order of Streams for an Event.
+     * @param orgName Name of the organization
+     * @param spaceName Name of the space
+     * @param eventName Name of the event
+     * @param StreamPatchOrder List of all event streams with their new order
+     * @returns Array of updated Streams
      */
     public patchStreamOrderMulti = async (
         orgName: string,
@@ -114,13 +113,13 @@ export class High5Stream extends Base {
     };
 
     /**
-     * Move an stream up or down in the existing streams order (require WRITE rights)
-     * @param orgName the organizations's name
-     * @param spaceName the spaces's name
-     * @param eventName the event's name
-     * @param streamId the streams's id
-     * @param SingleStreamPatchOrder Object defining if stream order increases or decreases
-     * @returns Stream[] array of the updated streams
+     * Moves a Stream up or down in the existing Streams order.
+     * @param orgName Name of the organization
+     * @param spaceName Name of the space
+     * @param eventName Name of the event
+     * @param streamId ID of the stream
+     * @param SingleStreamPatchOrder Object defining if stream should move up or down
+     * @returns Array of updated Streams
      */
     public patchStreamOrder = async (
         orgName: string,
@@ -142,11 +141,11 @@ export class High5Stream extends Base {
     };
 
     /**
-     * deleteStream delete an stream by its ID
-     * @param orgName the organizations's name
-     * @param spaceName the spaces's name
-     * @param eventName the event's name
-     * @param streamId the stream's id
+     * Deletes a Stream by its ID.
+     * @param orgName Name of the organization
+     * @param spaceName Name of the space
+     * @param eventName Name of the event
+     * @param streamId ID of the stream
      */
     public deleteStream = async (orgName: string, spaceName: string, eventName: string, streamId: string): Promise<void> => {
         await this.axios

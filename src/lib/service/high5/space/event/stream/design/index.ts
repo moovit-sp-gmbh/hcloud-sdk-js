@@ -3,14 +3,14 @@ import { Design } from "../../../../../../interfaces/high5/space/event/stream/de
 
 export class High5Design extends Base {
     /**
-     * getAllDesigns returns all designs for an event
-     * @param orgName the organizations's name
-     * @param spaceName the spaces's name
-     * @param eventName the event's name
-     * @param streamId the streams's id
-     * @param limit the maximum results limit (1-100; defaults to 25)
-     * @param page the results to skip (page * limit)
-     * @returns Design array
+     * Retrieves all designs of the specified stream.
+     * @param orgName Name of the organization
+     * @param spaceName Name of the space
+     * @param eventName Name of the event
+     * @param streamId ID of the stream
+     * @param limit Max number of results (1-100; defaults to 25)
+     * @param page Skip the first (page * limit) results (defaults to 0)
+     * @returns Array of design objects
      */
     public getAllDesigns = async (
         orgName: string,
@@ -35,13 +35,13 @@ export class High5Design extends Base {
     };
 
     /**
-     * getDesign returns a design by its ID
-     * @param orgName the organizations's name
-     * @param spaceName the spaces's name
-     * @param eventName the event's name
-     * @param streamId the stream's id
-     * @param designId the design's id
-     * @returns Design
+     * Retrieves a design by its ID.
+     * @param orgName Name of the organization
+     * @param spaceName Name of the space
+     * @param eventName Name of the event
+     * @param streamId ID of the stream
+     * @param designId ID of the design
+     * @returns The requested design
      */
     public getDesign = async (orgName: string, spaceName: string, eventName: string, streamId: string, designId: string): Promise<Design> => {
         const resp = await this.axios
@@ -54,14 +54,14 @@ export class High5Design extends Base {
     };
 
     /**
-     * createDesign return the newly created design
-     * @param orgName the organizations's name
-     * @param spaceName the spaces's name
-     * @param eventName the event's name
-     * @param streamId the stream's id
-     * @param design design json payload (schema created by Stream Designer Studio)
-     * @param build rendered design json payload (schema created by Stream Designer Studio; ready to be executed by wave engine)
-     * @returns Design
+     * Creates a new design for the specified stream.
+     * @param orgName Name of the organization
+     * @param spaceName Name of the space
+     * @param eventName Name of the event
+     * @param streamId ID of the stream
+     * @param design Design as Json payload (schema created by Stream Designer Studio)
+     * @param build Rendered design as Json payload (schema created by Stream Designer Studio; ready to be executed by wave engine)
+     * @returns The created design
      */
     public createDesign = async (
         orgName: string,

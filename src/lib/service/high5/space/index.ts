@@ -23,14 +23,13 @@ export class High5Space extends Base {
     }
 
     /**
-     * searchSpaces returns all spaces matching the search filter and which have READ+ permission for the active organization
-     * @param {SearchParams & { orgName: string }} params Search parameters
-     * @param {string} params.orgName Name of the organization
-     * @param {SearchFilter[]} [params.filters] an array of search filters
-     * @param {Sorting} [params.sorting] an optional sorting direction
-     * @param {number} [params.limit=25] an optional response limit limit (1-100; defaults to 25)
-     * @param {number} [params.page=0] - an optional page to skip certain results (page * limit; defaults to 0)
-     * @returns Space array and total number of matched spaces
+     * Retrieves all High5 Spaces of the specified Organization matching the search filter(s). Will return all Spaces if no search filter is provided.
+     * @param orgName Name of the organization
+     * @param filters (optional) Array of search filters
+     * @param sorting (optional) Sorting object
+     * @param limit (optional) Max number of results (1-100; defaults to 25)
+     * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
+     * @returns Array of High5 Spaces and the total number of results found in the database (independent of limit and page)
      */
     public searchSpaces = async ({
         orgName,
@@ -54,10 +53,10 @@ export class High5Space extends Base {
     };
 
     /**
-     * getSpace returns a space by its name
-     * @param orgName the organizations's name
-     * @param spaceId the space's id
-     * @returns Space
+     * Retrieves a High5 Space by its name.
+     * @param orgName Name of the Organization
+     * @param spaceId ID of the High5 Space
+     * @returns The requested Space
      */
     public getSpace = async (orgName: string, spaceName: string): Promise<Space> => {
         const resp = await this.axios.get<Space>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}`)).catch((err: Error) => {
@@ -68,10 +67,10 @@ export class High5Space extends Base {
     };
 
     /**
-     * createSpace returns the newly created space
-     * @param orgName the organizations's name
-     * @param name the name for the new space
-     * @returns Space
+     * Creates a new High5 Space in the specified Organization.
+     * @param orgName Name of the Organization
+     * @param name Name for the new Space
+     * @returns The created Space
      */
     public createSpace = async (orgName: string, name: string): Promise<Space> => {
         const resp = await this.axios.post<Space>(this.getEndpoint(`/v1/org/${orgName}/spaces`), { name: name }).catch((err: Error) => {
@@ -82,9 +81,9 @@ export class High5Space extends Base {
     };
 
     /**
-     * deleteSpace delete a space by its name
-     * @param orgName the organizations's name
-     * @param spaceName the space's name
+     * Delete a space by its name.
+     * @param orgName Name of the Organization
+     * @param spaceName Name of the Space
      */
     public deleteSpace = async (orgName: string, spaceName: string): Promise<void> => {
         await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}`)).catch((err: Error) => {
@@ -93,11 +92,12 @@ export class High5Space extends Base {
     };
 
     /**
-     * patchUserSpacePermission return the patched space
-     * @param orgName the organizations's name
-     * @param spaceName the space's name
-     * @param userId the target user's ID
-     * @param permission the target permission - user SpacePermission.NONE to remove any permission)
+     * Updates the permission a User has in the specified High5 Space.
+     * @param orgName Name of the Organization
+     * @param spaceName Name of the Space
+     * @param userId ID of the User
+     * @param permission New permission
+     * @returns The Space with updated permissions
      */
     public patchUserSpacePermission = async (orgName: string, spaceName: string, userId: string, permission: SpacePermission): Promise<Space> => {
         const resp = await this.axios
@@ -110,13 +110,12 @@ export class High5Space extends Base {
     };
 
     /**
-     * patchTeamSpacePermission patch the permissions of a Team
-     * A team cannot be an owner of a Space.
-     * @param orgName the organizations's name
-     * @param spaceName the space's name
-     * @param teamName the target team's name
-     * @param permission the target permission - user SpacePermission.NONE to remove any permission)
-     * @returns the patched space
+     * Updates the permission a Team has in the specified High5 Space.
+     * @param orgName Name of the Organization
+     * @param spaceName Name of the Space
+     * @param teamName Name of the Team
+     * @param permission New permission
+     * @returns The Space with updated permissions
      */
     public patchTeamSpacePermission = async (
         orgName: string,

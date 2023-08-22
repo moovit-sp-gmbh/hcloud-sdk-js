@@ -8,10 +8,10 @@ export class DaliTeam extends Base {
     }
 
     /**
-     * createAvatar returns the newly created avatar as URL
-     * @param {string} orgName the name of the organization
-     * @param {string} teamName the name of the team
-     * @returns {AvatarCreated} public url to the created avatar
+     * Creates a default avatar for the specified team.
+     * @param orgName Name of the organization
+     * @param teamName Name of the team
+     * @returns Public URL of the created avatar
      */
     public createAvatar = async (orgName: string, teamName: string): Promise<AvatarCreated> => {
         const resp = await this.axios.post<AvatarCreated>(this.getEndpoint(`/v1/avatar/org/${orgName}/teams/${teamName}`), {}).catch((err: Error) => {
@@ -22,10 +22,9 @@ export class DaliTeam extends Base {
     };
 
     /**
-     * deleteAvatar deletes the avatar for specified team
-     * @param {string} orgName the name of the organization
-     * @param {string} teamName the name of the team
-     * @returns nothing after successful deletion
+     * Deletes the avatar of the team from cloud storage. If you want to update it instead, use updateAvatar().
+     * @param orgName Name of the organization
+     * @param teamName Name of the team
      */
     public deleteAvatar = async (orgName: string, teamName: string): Promise<void> => {
         await this.axios.delete<string>(this.getEndpoint(`/v1/avatar/org/${orgName}/teams/${teamName}`)).catch((err: Error) => {
@@ -34,11 +33,11 @@ export class DaliTeam extends Base {
     };
 
     /**
-     * updateAvatar returns the uploaded and processed avatar as URL
-     * @param {string} orgName the name of the organization
-     * @param {string} teamName the name of the team
-     * @param {string} file the image as file
-     * @returns {AvatarCreated} AvatarCreated
+     * Updates the avatar of the specified team.
+     * @param orgName Name of the organization
+     * @param teamName Name of the team
+     * @param file Image as Javascript File
+     * @returns Public URL of the new avatar
      */
     public updateAvatar = async (orgName: string, teamName: string, file: File): Promise<AvatarCreated> => {
         const data = new FormData();

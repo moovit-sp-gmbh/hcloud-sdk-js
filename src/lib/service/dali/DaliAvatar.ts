@@ -9,32 +9,32 @@ import { DaliOAuthApp } from "./avatar/DaliOAuthApp";
 
 export class DaliAvatar extends Base {
     /**
-     * user handles everything around user avatars
+     * Handles everything around user avatars
      */
     public user: DaliUser;
 
     /**
-     * team handles everything around team avatars
+     * Handles everything around team avatars
      */
     public team: DaliTeam;
 
     /**
-     * organization handles everything around organization avatars
+     * Handles everything around organization avatars
      */
     public organization: DaliOrganization;
 
     /**
-     * high5Space handles everything around high5 spaces avatars
+     * Handles everything around high5 spaces avatars
      */
     public high5Space: DaliHigh5;
 
     /**
-     * fuseSpace handles everything around fuse spaces avatars
+     * Handles everything around fuse spaces avatars
      */
     public fuseSpace: DaliFuse;
 
     /**
-     * oauth handles everything around OAuth applications avatars
+     * Handles everything around OAuth applications avatars
      */
     public oauth: DaliOAuthApp;
 

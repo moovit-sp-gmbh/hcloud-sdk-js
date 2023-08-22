@@ -8,11 +8,13 @@ export class FuseCronjobLogInternal extends Base {
     }
 
     /**
-     * createCronjobLog returns the newly created cronjobLogDto
-     * @param orgName the organizations's name
-     * @param spaceName the spaces's name
-     * @param createCronjob the cronjob to create
-     * @returns CronjobLogDto
+     * Creates a log for a cronjob.
+     *
+     * THIS IS AN INTERNAL ENDPOINT AND CAN ONLY BE USED FROM BACKENDS WITHIN THE HCLOUD DEPLOYMENT
+     * @param orgName Name of the organization
+     * @param spaceName Name of the Fuse space
+     * @param createCronjob Cronjob log to be created
+     * @returns the created cronjob log with metadata
      */
     public createCronjobLog = async (orgName: string, spaceName: string, cronjobId: string, log: CronjobLogCreation): Promise<CronjobLogDto> => {
         const resp = await this.axios

@@ -7,17 +7,17 @@ import IdpOrganizationSettings from "./settings";
 
 export class IdpOrganization extends Base {
     /**
-     * member handles everything around organization members
+     * Handles everything around organization members
      */
     public member: IdpOrganizationMember;
 
     /**
-     * settings handles everything around organization settings
+     * Handles everything around organization settings
      */
     public settings: IdpOrganizationSettings;
 
     /**
-     * teams handles everything around teams of organizations.
+     * Handles everything around teams of organizations.
      */
     public teams: IdpOrganizationTeams;
 
@@ -30,11 +30,11 @@ export class IdpOrganization extends Base {
     }
 
     /**
-     * updateOrganization update an organization
-     * @param orgName the organization name
-     * @param newName the new name for the organization
-     * @param company an optional company for the new organization
-     * @returns Organization object
+     * Updates an Organization.
+     * @param orgName Current name of the Organization
+     * @param newName New name for the organization
+     * @param company (optional) New company name
+     * @returns The updated Organization
      */
     public updateOrganization = async (orgName: string, newName: string, company?: string): Promise<Organization> => {
         const organization = { name: newName, company: company } as Organization;
@@ -46,10 +46,10 @@ export class IdpOrganization extends Base {
     };
 
     /**
-     * createOrganization creates a new organization
-     * @param name a name for the new organization
-     * @param company an optional company for the new organization
-     * @returns Organization object
+     * Creates a new Organization.
+     * @param name Name of the new Organization
+     * @param company (optional) Company name for the new Organization
+     * @returns The created Organization
      */
     public createOrganization = async (name: string, company?: string): Promise<Organization> => {
         const organization = { name: name, company: company } as Organization;
@@ -61,12 +61,10 @@ export class IdpOrganization extends Base {
     };
 
     /**
-     * getOrganization requests an organization by it's name
-     * @param orgName the organization name
-     * @param [options] options object
-     * @param [options.teams] True if the response object should hold the teams of the organization
-     * that the user is a part of
-     * @returns Organization object
+     * Retrieves an Organization by its name.
+     * @param orgName Name of the Organization
+     * @param options Object holding a teams property (boolean) which defines if the Teams of the Organization should be included in the response object.
+     * @returns The requested Organization
      */
     /* eslint-disable no-dupe-class-members */
     public async getOrganization(orgName: string, options: undefined): Promise<OrganizationWithPermission>;
@@ -98,9 +96,8 @@ export class IdpOrganization extends Base {
     /* eslint-enable no-dupe-class-members */
 
     /**
-     * deleteOrganization delete an organization by it's name
-     * @param orgName the organization name
-     * @returns 204 no content
+     * Deletes an Organization. This will also delete all dependencies that the Organization has (Teams, Spaces, apps, ...).
+     * @param orgName Name of the Organization to be deleted
      */
     public deleteOrganization = async (orgName: string): Promise<void> => {
         await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}`)).catch((err: Error) => {

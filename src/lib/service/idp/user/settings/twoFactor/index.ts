@@ -4,7 +4,7 @@ import { IdpTotp } from "./totp";
 
 export class IdpTwoFactor extends Base {
     /**
-     * pat handles everything around a user's pats (Personal Access Tokens)
+     * Handles everything around a user's pats (Personal Access Tokens)
      */
     public totp: IdpTotp;
 

@@ -14,10 +14,10 @@ export class FuseSpace extends Base {
     }
 
     /**
-     * getSpace returns a space by its name
-     * @param orgName the organizations's name
-     * @param spaceName the space's name
-     * @returns Space
+     * Retrieves a Fuse space by its name
+     * @param orgName Name of the organization
+     * @param spaceName Name of the space
+     * @returns The requested space
      */
     public getSpace = async (orgName: string, spaceName: string): Promise<IFuseSpace> => {
         const resp = await this.axios.get<IFuseSpace>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}`)).catch((err: Error) => {
@@ -28,10 +28,10 @@ export class FuseSpace extends Base {
     };
 
     /**
-     * createSpace returns the newly created space
-     * @param orgName the organizations's name
-     * @param name the name for the new space
-     * @returns Space
+     * Creates a new Fuse space
+     * @param orgName Name of the organization
+     * @param name Name of the space to be created
+     * @returns The created space
      */
     public createSpace = async (orgName: string, name: string): Promise<IFuseSpace> => {
         const resp = await this.axios.post<IFuseSpace>(this.getEndpoint(`/v1/org/${orgName}/spaces`), { name: name }).catch((err: Error) => {
@@ -42,9 +42,9 @@ export class FuseSpace extends Base {
     };
 
     /**
-     * deleteSpace delete a space by its name
-     * @param orgName the organizations's name
-     * @param spaceName the space's name
+     * Deletes a space by its name
+     * @param orgName Name of the organization
+     * @param spaceName Name of the space
      */
     public deleteSpace = async (orgName: string, spaceName: string): Promise<void> => {
         await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}`)).catch((err: Error) => {
@@ -53,11 +53,12 @@ export class FuseSpace extends Base {
     };
 
     /**
-     * patchUserSpacePermission return the patched space
-     * @param orgName the organizations's name
-     * @param spaceName the space's name
-     * @param userId the target user's ID
-     * @param permission the target permission - user SpacePermission.NONE to remove any permission)
+     * Updates the permission a user has in the specified space
+     * @param orgName Name of the organization
+     * @param spaceName Name of the space
+     * @param userId ID of the user
+     * @param permission New permission
+     * @returns The Fuse space with the updated permissions
      */
     public patchUserSpacePermission = async (orgName: string, spaceName: string, userId: string, permission: SpacePermission): Promise<FuseSpace> => {
         const resp = await this.axios
@@ -70,13 +71,12 @@ export class FuseSpace extends Base {
     };
 
     /**
-     * patchTeamSpacePermission patch the permissions of a Team
-     * A team cannot be an owner of a Space.
-     * @param orgName the organizations's name
-     * @param spaceName the space's name
-     * @param teamName the target team's name
-     * @param permission the target permission - user SpacePermission.NONE to remove any permission)
-     * @returns the patched space
+     * Updates the permission a team has in the specified space. Note: A team cannot be an owner of a Space.
+     * @param orgName Name of the organization
+     * @param spaceName Name of the space
+     * @param teamName Name of the team
+     * @param permission New permission
+     * @returns The Fuse space with the updated permissions
      */
     public patchTeamSpacePermission = async (
         orgName: string,
@@ -97,14 +97,13 @@ export class FuseSpace extends Base {
     };
 
     /**
-     * searchSpaces search for spaces of an Organization
-     * @param {SearchParams & { orgName: string }} params Search parameters
-     * @param {string} params.orgName Name of the organization
-     * @param {SearchFilter[]} [params.filters] an array of search filters
-     * @param {Sorting} [params.sorting] an optional sorting direction
-     * @param {number} [params.limit=25] an optional response limit limit (1-100; defaults to 25)
-     * @param {number} [params.page=0] - an optional page to skip certain results (page * limit; defaults to 0)
-     * @returns list of filtered spaces
+     * Retrieves all Fuse spaces of an organization which match the provided search filter(s). Will return all spaces of the organization if no filter is provided.
+     * @param orgName Name of the organization
+     * @param filters (optional) Array of search filters
+     * @param sorting (optional) Sorting object
+     * @param limit (optional) Max number of results (1-100; defaults to 25)
+     * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
+     * @returns Array of filtered Fuse spaces as well as the total number of results found in the database (independent of limit and page)
      */
     public searchSpaces = async ({
         orgName,

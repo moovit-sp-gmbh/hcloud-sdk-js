@@ -8,8 +8,8 @@ export class DaliUser extends Base {
     }
 
     /**
-     * createAvatar returns the newly created avatar as URL
-     * @returns {AvatarCreated} AvatarCreated
+     * Creates a default avatar for the requesting user.
+     * @returns Public URL of the created avatar
      */
     public createAvatar = async (): Promise<AvatarCreated> => {
         const resp = await this.axios.post<AvatarCreated>(this.getEndpoint(`/v1/avatar/user`), {}).catch((err: Error) => {
@@ -19,8 +19,7 @@ export class DaliUser extends Base {
     };
 
     /**
-     * deleteAvatar deletes the avatar for current user
-     * @returns nothing after successful deletion
+     * Deletes the avatar of the requesting user from cloud storage. If you want to update it instead, use updateAvatar().
      */
     public deleteAvatar = async (): Promise<void> => {
         await this.axios.delete<string>(this.getEndpoint(`/v1/avatar/user`)).catch((err: Error) => {
@@ -29,9 +28,9 @@ export class DaliUser extends Base {
     };
 
     /**
-     * updateAvatar returns the uploaded and processed avatar as URL
-     * @param {string} file the image as file
-     * @returns {AvatarCreated} AvatarCreated
+     * Updates the avatar of the requesting user.
+     * @param file Image as Javascript File
+     * @returns Public URL of the new avatar
      */
     public updateAvatar = async (file: File): Promise<AvatarCreated> => {
         const data = new FormData();

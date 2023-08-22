@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.36
+
+- Rewrite JsDoc comments to have a consisten structure
+
 ## 0.0.35
 
 - **BREAKING**: Re-organize interface folder structure and delete interfaces that don't belong in SDK

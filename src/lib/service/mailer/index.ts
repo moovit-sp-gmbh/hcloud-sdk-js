@@ -13,7 +13,7 @@ export default class Mailer extends Base {
     }
 
     /**
-     * Version requests the endpoint version
+     * Requests the endpoint version
      * @returns Version object
      */
     version = async (): Promise<Version> => {

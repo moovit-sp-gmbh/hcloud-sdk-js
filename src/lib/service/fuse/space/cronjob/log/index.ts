@@ -3,13 +3,13 @@ import { CronjobLogDto } from "../../../../../interfaces/fuse/space/cronjob/Cron
 
 export class FuseCronjobLog extends Base {
     /**
-     * Returns all logs for a cronjob
-     * @param orgName the organizations's name
-     * @param spaceName the spaces's name
-     * @param cronjobId the cronjob's ID
-     * @param limit the maximum results limit (1-100; defaults to 25)
-     * @param page the results to skip (page * limit)
-     * @returns Array consisting of an array of cronjob logs and the total number of results
+     * Retrieves all logs of a cronjob.
+     * @param orgName Name of the organization
+     * @param spaceName Name of the space
+     * @param cronjobId ID of the cronjob
+     * @param limit (optional) Max number of results (1-100; defaults to 25)
+     * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
+     * @returns an Array of cronjob logs and the total number of results found in the database (independent of limit and page)
      */
     public getAllCronjobLogs = async (
         orgName: string,
@@ -31,11 +31,12 @@ export class FuseCronjobLog extends Base {
     };
 
     /**
-     * getCronjobLog returns a cronjob log by it's ID
-     * @param orgName the organizations's name
-     * @param spaceName the spaces's name
-     * @param cronjobId the cronjob's ID
-     * @returns CronjobLog
+     * Retrieves a cronjob log by it's ID
+     * @param orgName Name of the organization
+     * @param spaceName Name of the space
+     * @param cronjobId ID of the cronjob
+     * @param cronjobLogId ID of the cronjob log
+     * @returns the cronjob log
      */
     public getCronjobLog = async (orgName: string, spaceName: string, cronjobId: string, cronjobLogId: string): Promise<CronjobLogDto> => {
         const resp = await this.axios

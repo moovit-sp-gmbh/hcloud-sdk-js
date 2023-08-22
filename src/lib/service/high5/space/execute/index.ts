@@ -1,12 +1,6 @@
 import { AxiosInstance } from "axios";
 import Base, { Options } from "../../../../Base";
-import {
-    StreamExecutionRequest,
-    StreamResult,
-    EventExecutionRequest,
-    StreamExecutionPackage,
-    StreamLog,
-} from "../../../../interfaces/high5/space/event/stream";
+import { StreamExecutionRequest, StreamResult, EventExecutionRequest, StreamExecutionPackage } from "../../../../interfaces/high5/space/event/stream";
 import { WaveEngine, WaveRelease } from "../../../../interfaces/high5/wave";
 
 export class High5Execute extends Base {
@@ -15,12 +9,12 @@ export class High5Execute extends Base {
     }
 
     /**
-     * executeStream executes a single stream by its ID and an execution request
-     * @param orgName the organizations's name
-     * @param spaceName the spaces's name
-     * @param streamId to identify the stream
-     * @param executionRequest the stream execution request, containing the data, target, wait boolean and timeout
-     * @returns the stream result
+     * Executes a single stream by its ID.
+     * @param orgName Name of the Organization
+     * @param spaceName Name of the Space
+     * @param streamId ID of the Stream
+     * @param executionRequest Stream execution request containing payload and target
+     * @returns The Stream result
      */
     public executeStream = async (
         orgName: string,
@@ -38,12 +32,12 @@ export class High5Execute extends Base {
     };
 
     /**
-     * executeEvent executes all streams within an event by its space ID as well as the event execution request. The request contains the event name.
-     * @param orgName the organizations's name
-     * @param spaceName the spaces's name
-     * @param eventName the event's name
-     * @param eventExecutionRequest the event execution request, containing the event name, data, target, wait bool and timeout
-     * @returns an array of stream results
+     * Executes all streams within an event.
+     * @param orgName Name of the Organization
+     * @param spaceName Name of the Space
+     * @param eventName Name of the Event
+     * @param eventExecutionRequest Event execution request containing payload, target and a boolean specifying if it should be a dry run
+     * @returns Array of stream results
      */
     public executeEvent = async (
         orgName: string,
@@ -61,24 +55,11 @@ export class High5Execute extends Base {
     };
 
     /**
-     * Validates the given webhook URL by sending a challenge query parameter.
-     * @param webhookUrl to be validated
-     * @param challenge string to be returned
-     * @returns the provided challenge string as plaint text
-     */
-    public validateWebhookUrl = async (webhookUrl: string, challenge: string): Promise<string> => {
-        const resp = await this.axios.get<StreamResult[]>(webhookUrl + "?challenge=" + challenge).catch((err: Error) => {
-            throw err;
-        });
-        return resp.data.toString();
-    };
-
-    /**
-     * Requests the StreamExecutionPackage from high5
-     * @param orgName the organizations's name
-     * @param spaceName the spaces's name
-     * @param streamId the id of the stream
-     * @param secret the secret of the stream execution object
+     * Requests the StreamExecutionPackage for the provided Stream, which will hold all informations required to execute the Stream.
+     * @param orgName Name of the Organization
+     * @param spaceName Name of the Space
+     * @param streamId ID of the Stream
+     * @param secret Secret of the Stream execution object
      * @returns StreamExecutionPackage
      */
     public getStreamExecutionPackage = async (
@@ -96,30 +77,9 @@ export class High5Execute extends Base {
     };
 
     /**
-<<<<<<< HEAD
-=======
-     * Publishes the stream results to high5
-     * @param orgName the organizations's name
-     * @param spaceName the spaces's name
-     * @param streamId the id of the stream
-     * @param secret the secret of the stream execution object
-     * @param streamResult the result of the stream
-     * @returns StreamLog
-     */
-    public writeStreamLog = async (orgName: string, spaceName: string, secret: string, streamResult: StreamResult): Promise<StreamLog> => {
-        const resp = await this.axios
-            .patch<StreamLog>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execute/logs/${secret}`), streamResult)
-            .catch((err: Error) => {
-                throw err;
-            });
-        return resp.data;
-    };
-
-    /**
->>>>>>> 67a57e8 (Re-organize interfaces folder structure)
      * Requests all available wave engine releases and reports a short info object
-     * @param orgName the organizations's name
-     * @returns WaveReleaseDto[]
+     * @param orgName Name of the Organization
+     * @returns Array of WaveRelease objects
      */
     public fetchAllWaveEngineReleaseTags = async (orgName: string): Promise<WaveRelease[]> => {
         const resp = await this.axios.get<WaveRelease[]>(this.getEndpoint(`/v1/org/${orgName}/wave/releases`)).catch((err: Error) => {
@@ -130,8 +90,8 @@ export class High5Execute extends Base {
 
     /**
      * Requests a single wave engine release version
-     * @param orgName the organizations's name
-     * @param releaseVersion the release version in the following format v0.0.1 or v0.0.1-5
+     * @param orgName Name of the Organization
+     * @param releaseVersion Release version in the following format: v0.0.1 or v0.0.1-5
      * @returns WaveRelease
      */
     public fetchWaveEngineRelease = async (orgName: string, releaseVersion: string): Promise<WaveEngine> => {

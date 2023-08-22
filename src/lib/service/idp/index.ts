@@ -10,22 +10,22 @@ import { IdpOAuth } from "./oauth";
 
 export default class Idp extends Base {
     /**
-     * organization handles everything around organizations
+     * Handles everything around organizations
      */
     public organization: IdpOrganization;
 
     /**
-     * registration handles everything around registration
+     * Handles everything around registration
      */
     public registration: IdpRegistration;
 
     /**
-     * oAuth handles everything around open authorization and openId requests
+     * Handles everything around open authorization and openId requests
      */
     public oAuth: IdpOAuth;
 
     /**
-     * user handles everything around a user
+     * Handles everything around a user
      */
     public user: IdpUser;
     constructor(options: Options, axios: AxiosInstance) {
@@ -38,7 +38,7 @@ export default class Idp extends Base {
     }
 
     /**
-     * Version requests the endpoint version
+     * Requests the endpoint version
      * @returns Version object
      */
     version = async (): Promise<Version> => {
@@ -50,10 +50,10 @@ export default class Idp extends Base {
     };
 
     /**
-     * Authenticate against the identity provider with a given email and password.
-     * @param email
-     * @param password
-     * @param token Optional token if 2FA-TOTP is enabled
+     * Authenticates against the identity provider with a given email and password.
+     * @param email Email of the user
+     * @param password Password of the user
+     * @param token (optional) token if 2FA-TOTP is enabled
      * @returns SuccessfulAuth object holding the token and the user
      */
     login = async (email: string, password: string, token?: string): Promise<SuccessfulAuth> => {
@@ -70,13 +70,12 @@ export default class Idp extends Base {
     };
 
     /**
-     * Start the login process via OIDC
-     * @param origin         The starting URL of the process. After obtaining the credentials, the user will be redirected back to this url.
-     * @param [oidcProvider] The provider to use for the process. Only optional if the user is part of an organization
-     *                       that has a preferred OIDC provider and an associated email that matches the user's.
-     *                       The list of available providers can be found in the public config endpoint.
-     * @param [hint]         A valid email address of the user that wants to login. Hint must be defined when provider is not.
-     * @returns string the URL that must be accessed via a browser to continue the login process.
+     * Starts the login process via OIDC
+     * @param origin The starting URL of the process. After obtaining the credentials, the user will be redirected back to this url.
+     * @param oidcProvider The provider to use for the process. Only optional if the user is part of an organization that has a preferred
+     * OIDC provider and an associated email that matches the user's. The list of available providers can be found in the public config endpoint.
+     * @param hint Valid email address of the user that wants to login. Hint must be defined when provider is not.
+     * @returns URL that must be accessed via a browser to continue the login process.
      */
     loginWithOIDC = async (origin: string, oidcProvider?: string, hint?: string): Promise<string> => {
         const resp = await this.axios.get(this.getEndpoint("/v1/login/oidc"), {
@@ -98,10 +97,10 @@ export default class Idp extends Base {
     };
 
     /**
-     * Start the login process via SAML 2.0
+     * Starts the login process via SAML 2.0
      * @param origin The starting URL of the process. After obtaining the credentials, the user will be redirected back to this url.
-     * @param email  The user's email. The email domain will be used to determine the appropriate SAML 2.0 provider to use going forward.
-     * @returns string the URL that must be accessed via a browser to continue the login process.
+     * @param email  Email of the user. The email domain will be used to determine the appropriate SAML 2.0 provider to use going forward.
+     * @returns URL that must be accessed via a browser to continue the login process.
      */
     loginWithSAML = async (origin: string, email: string): Promise<string> => {
         const resp = await this.axios.get(this.getEndpoint("/v1/login/saml"), {

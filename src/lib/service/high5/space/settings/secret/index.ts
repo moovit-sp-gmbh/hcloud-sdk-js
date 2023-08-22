@@ -8,12 +8,13 @@ export default class High5Secret extends Base {
     }
 
     /**
-     * getSecrets paginated request to get secrets of a space
-     *            Only the secret keys are sent back in the response. Not the encrypted values.
-     * @param {string} orgName - Name of the organization
-     * @param {string} spaceName - Name of the space
-     * @param {number} [limit] - Page size. Defaults to 25.
-     * @param {number} [page] - Page number. Default to 0.
+     * Requests all secret keys of the provided space (paginated request).
+     * Only the keys of the secret are sent back in the response, not the actual encrypted values.
+     * @param orgName - Name of the organization
+     * @param spaceName - Name of the space
+     * @param limit - (optional) Max number of results (1-100; defaults to 25)
+     * @param page - (optional) Page number: Skip the first (page * limit) results (defaults to 0)
+     * @returns Array of secret keys
      */
     async getSecrets(orgName: string, spaceName: string, limit = 25, page = 0): Promise<Secret[]> {
         const resp = await this.axios.get<Secret[]>(
@@ -24,13 +25,13 @@ export default class High5Secret extends Base {
     }
 
     /**
-     * addSecret associate a secret key-value pair with a space. Will fail if a secret with the same
-     * key already exists.
-     * @param {string} orgName - Name of the organization
-     * @param {string} spaceName - Name of the space
-     * @param {string} key - Key of the key-value pair
-     * @param {string} value - Value of the key-value pair
-     * @param {boolean} [encrypted] - Boolean flag. If the value should be stored encrypted.
+     * Adds a secret key-value pair to a space.
+     * @param orgName - Name of the organization
+     * @param spaceName - Name of the space
+     * @param key - Key of the key-value pair
+     * @param value - Value of the key-value pair
+     * @param encrypted - (optional) Boolean defining if the value should be stored encrypted (defaults to false).
+     * @returns The created Secret
      */
     async addSecret(orgName: string, spaceName: string, key: string, value: string, encrypted = false): Promise<Secret> {
         const resp = await this.axios.post<Secret>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/settings/secrets`), {
@@ -43,13 +44,13 @@ export default class High5Secret extends Base {
     }
 
     /**
-     * updateSecret set a new value for an existent secret key-value pair. Will fail if no secret with the same
-     * key exists.
-     * @param {string} orgName - Name of the organization
-     * @param {string} spaceName - Name of the space
-     * @param {string} key - Key of the key-value pair
-     * @param {string} value - The new value of the key-value pair
-     * @param {boolean} [encrypted] - Boolean flag. If the value should be stored encrypted.
+     * Updates the value for an existent secret key-value pair.
+     * @param orgName - Name of the organization
+     * @param spaceName - Name of the space
+     * @param key - Key of the key-value pair
+     * @param value - The new value of the key-value pair
+     * @param encrypted - (optional) Boolean defining if the value should be stored encrypted (defaults to false).
+     * @returns The updated Secret
      */
     async updateSecret(orgName: string, spaceName: string, key: string, value: string, encrypted = false): Promise<Secret> {
         const resp = await this.axios.put<Secret>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/settings/secrets/${key}`), {
@@ -61,10 +62,10 @@ export default class High5Secret extends Base {
     }
 
     /**
-     * deleteSecret delete a key-value pair of the space
-     * @param {string} orgName - Name of the organization
-     * @param {string} spaceName - Name of the space
-     * @param {string} key - Key of the key-value pair
+     * Deletes a key-value pair of the space
+     * @param orgName - Name of the organization
+     * @param spaceName - Name of the space
+     * @param key - Key of the key-value pair
      */
     async deleteSecret(orgName: string, spaceName: string, key: string): Promise<void> {
         await this.axios.delete(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/settings/secrets/${key}`));

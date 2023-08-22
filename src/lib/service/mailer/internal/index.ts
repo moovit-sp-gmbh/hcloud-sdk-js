@@ -3,11 +3,9 @@ import { HtmlMail, MailjetMailDTO, MustacheMail, TemplateMail } from "../../../i
 
 export default class MailerInternal extends Base {
     /**
-     * sendMailMailjet sends a new mail based on a mailjet template
+     * Sends a new mail based on a mailjet template.
      *
-     * THIS ENDPOINT WORKS INTERNALLY ONLY
-     *
-     * CAN ONLY BE USED FROM BACKENDS WITHIN THE hcloud DEPLOYMENT AS THE ENDPOINT IS NOT PUBLICLY EXPOSED
+     * THIS IS AN INTERNAL ENDPOINT AND CAN ONLY BE USED FROM BACKENDS WITHIN THE HCLOUD DEPLOYMENT
      * @param mail MailjetMailDTO
      */
     sendMailMailjet = async (mail: MailjetMailDTO): Promise<void> => {
@@ -19,11 +17,9 @@ export default class MailerInternal extends Base {
     };
 
     /**
-     * sendMailMustache sends a new mail based on a mustache html body
+     * Sends a new mail based on a mustache html body.
      *
-     * THIS ENDPOINT WORKS INTERNALLY ONLY
-     *
-     * CAN ONLY BE USED FROM BACKENDS WITHIN THE hcloud DEPLOYMENT AS THE ENDPOINT IS NOT PUBLICLY EXPOSED
+     * THIS IS AN INTERNAL ENDPOINT AND CAN ONLY BE USED FROM BACKENDS WITHIN THE HCLOUD DEPLOYMENT
      * @param mail TemplateMail
      * @deprecated in favor of sendMailMailjet
      */
@@ -36,11 +32,9 @@ export default class MailerInternal extends Base {
     };
 
     /**
-     * sendMailHtml sends a new mail based on a html body
+     * Sends a new mail based on a html body.
      *
-     * THIS ENDPOINT WORKS INTERNALLY ONLY
-     *
-     * CAN ONLY BE USED FROM BACKENDS WITHIN THE hcloud DEPLOYMENT AS THE ENDPOINT IS NOT PUBLICLY EXPOSED
+     * THIS IS AN INTERNAL ENDPOINT AND CAN ONLY BE USED FROM BACKENDS WITHIN THE HCLOUD DEPLOYMENT
      * @param mail TemplateMail
      * @deprecated in favor of sendMailMailjet
      */
@@ -53,11 +47,9 @@ export default class MailerInternal extends Base {
     };
 
     /**
-     * sendMailTemplate sends a new mail based on an existing template
+     * Sends a new mail based on an existing template.
      *
-     * THIS ENDPOINT WORKS INTERNALLY ONLY
-     *
-     * CAN ONLY BE USED FROM BACKENDS WITHIN THE hcloud DEPLOYMENT AS THE ENDPOINT IS NOT PUBLICLY EXPOSED
+     * THIS IS AN INTERNAL ENDPOINT AND CAN ONLY BE USED FROM BACKENDS WITHIN THE HCLOUD DEPLOYMENT
      * @param mail TemplateMail
      * @deprecated in favor of sendMailMailjet
      */

@@ -7,15 +7,12 @@ export class AuditorInternal extends Base {
     private logQueueTimer: ReturnType<typeof setTimeout> | undefined;
 
     /**
-     * AddAuditLogs adds log entries
+     * Adds log entries.
      *
-     * THIS ENDPOINT WORKS INTERNALLY ONLY
-     *
-     * CAN ONLY BE USED FROM BACKENDS WITHIN THE hcloud DEPLOYMENT AS THE ENDPOINT IS NOT PUBLICLY EXPOSED
-     * @param logs array (add multiple logs entries at once)
-     * @returns AuditLog array
-     *
-     * @deprecated Use queueAuditLogs instead
+     * THIS IS AN INTERNAL ENDPOINT AND CAN ONLY BE USED FROM BACKENDS WITHIN THE HCLOUD DEPLOYMENT
+     * @param logs Array of audit logs
+     * @returns Array of audit logs
+     * @deprecated Use queueAuditLogs() instead
      */
     public addAuditLogs = async (logs: AuditLog[]): Promise<AuditLog[]> => {
         const resp = await this.axios.post<AuditLog[]>(this.getEndpoint("/v1/logs"), logs).catch((err: Error) => {
@@ -26,13 +23,12 @@ export class AuditorInternal extends Base {
     };
 
     /**
-     * QueueAuditLogs adds log entries to a queue that will be processed periodically
+     * Adds log entries to a queue that will be processed periodically.
      *
-     * no exceptions are thrown in case of an error as this function runs periodically asynchronous
+     * No exceptions are thrown in case of an error as this function runs periodically asynchronous.
      *
-     * THIS COMES WITH DOWNSIDE OF LOG TIMESTAMPS BEING INACCURATE AS THEY ARE CREATED BY THE Auditor SERVER
-     *
-     * TIMESTAMPS MIGHT DIFFER AS MUCH AS: this.options.auditor.queue.executionInterval || 500
+     * This also comes with the downside of log timesstamps being inaccurate as they are created by the Auditor Server.
+     * Timestamps might differ as much as: this.options.auditor.queue.executionInterval || 500
      * @param logs array (add multiple logs entries at once)
      */
     public queueAuditLogs = async (logs: AuditLog[]): Promise<void> => {
@@ -57,11 +53,9 @@ export class AuditorInternal extends Base {
     }
 
     /**
-     * AddAuditLogs deletes all audit logs of an organization
+     * Deletes all audit logs of an organization
      *
-     * THIS ENDPOINT WORKS INTERNALLY ONLY
-     *
-     * CAN ONLY BE USED FROM BACKENDS WITHIN THE hcloud DEPLOYMENT AS THE ENDPOINT IS NOT PUBLICLY EXPOSED
+     * THIS IS AN INTERNAL ENDPOINT AND CAN ONLY BE USED FROM BACKENDS WITHIN THE HCLOUD DEPLOYMENT
      * @param orgId the organizations's ID
      * @returns void
      */

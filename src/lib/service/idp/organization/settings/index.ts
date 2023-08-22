@@ -5,12 +5,12 @@ import { IdpOAuthApp } from "./oauth";
 
 export default class IdpOrganizationSettings extends Base {
     /**
-     * oAuthApp handles everything around open authorization applications
+     * Handles everything around open authorization applications
      */
     public oAuthApp: IdpOAuthApp;
 
     /**
-     * domains handles everything around domains of organizations.
+     * Handles everything around domains of organizations.
      */
     public domains: IdpDomain;
 

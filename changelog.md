@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.37
+
+- Rename interface Scopes to Scope to match with interface defined in backend-core
+
 ## 0.0.36
 
 - Rewrite JsDoc comments to have a consisten structure

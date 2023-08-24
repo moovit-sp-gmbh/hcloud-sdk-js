@@ -1,4 +1,4 @@
-import { Scopes } from "../user/Scopes";
+import { Scope } from "../user/Scopes";
 
 export interface OAuthTokenRequest {
     code: string;
@@ -13,7 +13,7 @@ export interface OAuthToken {
     refresh_token?: string;
     token_type?: string;
     expires_in?: number;
-    scope?: Scopes[];
+    scope?: Scope[];
 }
 
 export enum GrantType {

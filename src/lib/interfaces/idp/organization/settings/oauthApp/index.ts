@@ -1,6 +1,6 @@
 import { ReducedOrganization } from "../..";
 import { ReducedUser } from "../../../user";
-import { Scopes } from "../../../user/Scopes";
+import { Scope } from "../../../user/Scopes";
 
 export interface OAuthAppClientSecret {
     name: string;
@@ -23,7 +23,7 @@ export interface OAuthApp {
     callback: string[];
     hcloudClientId: string;
     clientSecrets: OAuthAppClientSecret[];
-    scopes: Scopes[];
+    scopes: Scope[];
     patId?: string;
     createDate: number;
     modifyDate: number;

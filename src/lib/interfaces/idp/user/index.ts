@@ -1,4 +1,4 @@
-import { Scopes } from "./Scopes";
+import { Scope } from "./Scopes";
 
 export interface User {
     _id: string;
@@ -12,7 +12,7 @@ export interface User {
     };
     createDate: number;
     modifyDate: number;
-    activeScopes: Scopes[];
+    activeScopes: Scope[];
 }
 
 export interface ReducedUser {

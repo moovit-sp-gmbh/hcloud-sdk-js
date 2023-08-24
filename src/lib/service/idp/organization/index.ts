@@ -67,7 +67,7 @@ export class IdpOrganization extends Base {
      * @returns The requested Organization
      */
     /* eslint-disable no-dupe-class-members */
-    public async getOrganization(orgName: string, options: undefined): Promise<OrganizationWithPermission>;
+    public async getOrganization(orgName: string): Promise<OrganizationWithPermission>;
     public async getOrganization(orgName: string, options: { teams: false }): Promise<OrganizationWithPermission>;
     public async getOrganization(orgName: string, options: { teams: true }): Promise<OrganizationWithPermissionAndTeams>;
     public async getOrganization(

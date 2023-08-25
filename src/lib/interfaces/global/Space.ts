@@ -1,6 +1,8 @@
 import { ReducedOrganization } from "../idp/organization";
 import { ReducedUser } from "../idp/user";
 
+type ExtendWith<T1, T2> = T1 & T2;
+
 export enum SpacePermission {
     NONE = "NONE",
     READ = "READ",
@@ -25,7 +27,7 @@ export interface Space {
     organization: ReducedOrganization;
     avatarUrl: string;
     creator: ReducedUser;
-    permissions: (SpaceEntityPermission & { name: string })[];
+    permissions: ExtendWith<SpaceEntityPermission, { name: string }>[];
     createDate: number;
     modifyDate: number;
 }

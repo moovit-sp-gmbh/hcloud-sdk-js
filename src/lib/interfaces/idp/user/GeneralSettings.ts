@@ -42,12 +42,4 @@ export interface GeneralSettings {
     entrypoint: Entrypoint;
 }
 
-export interface GeneralSettingsPatch {
-    lastUrl?: string;
-    lastView?: Views;
-    timezone?: string;
-    language?: Language;
-    entrypoint?: Entrypoint;
-    dateFormat?: DateFormat;
-    theme?: Theme;
-}
+export type GeneralSettingsPatch = Partial<Omit<GeneralSettings, "_id" | "userId">>;

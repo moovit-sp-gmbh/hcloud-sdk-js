@@ -1,16 +1,18 @@
-export interface DeactivatedTotp {
+interface Totp {
     activated: boolean;
-    otpAuthUrl: string;
-    qrcode: string;
-    secret: string;
     createDate: number;
     modifyDate: number;
 }
-export interface ActivatedTotp {
-    activated: boolean;
+
+export interface DeactivatedTotp extends Totp {
+    activated: false;
+    otpAuthUrl: string;
+    qrcode: string;
+    secret: string;
+}
+export interface ActivatedTotp extends Totp {
+    activated: true;
     recoverCodes: string[];
-    createDate: number;
-    modifyDate: number;
 }
 
 export interface UserTotp {

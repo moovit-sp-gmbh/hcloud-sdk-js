@@ -62,6 +62,7 @@ export interface StreamExecutionPayload {
 export interface StreamExecutionRequest {
     payload: StreamExecutionPayload;
     target: string;
+    dry: boolean;
 }
 
 export interface EventExecutionRequest {

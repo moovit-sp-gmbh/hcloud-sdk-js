@@ -18,7 +18,4 @@ export interface PatCreate {
     scopes: Scope[];
 }
 
-export interface PatUpdate {
-    name: string;
-    scopes: Scope[];
-}
+export type PatUpdate = Omit<PatCreate, "expiration">;

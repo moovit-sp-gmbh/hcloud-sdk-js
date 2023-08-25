@@ -12,11 +12,7 @@ export interface Team {
     creator: ReducedUser[];
 }
 
-export interface ReducedTeam {
-    _id: string;
-    name: string;
-    avatarUrl: string;
-}
+export type ReducedTeam = Pick<Team, "_id" | "name" | "avatarUrl">;
 
 export enum TeamUsersPatchOperation {
     ADD = "ADD",

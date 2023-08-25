@@ -2,12 +2,6 @@ import { ReducedOrganization } from "../../../idp/organization";
 import { ReducedUser } from "../../../idp/user";
 import { Header } from "../../../global";
 
-export interface CronjobLogCreation {
-    statusCode: number;
-    headers?: Header[];
-    body: string;
-}
-
 export interface CronjobLogDto {
     _id: string;
     cronjobId: string;
@@ -21,3 +15,5 @@ export interface CronjobLogDto {
     createDate: number;
     modifyDate: number;
 }
+
+export type CronjobLogCreation = Pick<CronjobLogDto, "statusCode" | "headers" | "body">;

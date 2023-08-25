@@ -1,11 +1,3 @@
-export interface FullSAMLProvider {
-    domainName: string;
-    ssoLoginURL: string;
-    ssoLogoutURL: string;
-    certificates: string[];
-    allowUnencryptedAssertion: boolean;
-}
-
 export interface SAMLProvider {
     ssoLoginURL: string;
     ssoLogoutURL: string;
@@ -13,9 +5,8 @@ export interface SAMLProvider {
     allowUnencryptedAssertion: boolean;
 }
 
-export interface SAMLProviderCreateDto {
-    ssoLoginURL: string;
-    ssoLogoutURL: string;
-    certificates: string[];
-    allowUnencryptedAssertion?: boolean;
+export interface FullSAMLProvider extends SAMLProvider {
+    domainName: string;
 }
+
+export type SAMLProviderCreateDto = Omit<SAMLProvider, "allowUnencryptedAssertion"> & Partial<Pick<SAMLProvider, "allowUnencryptedAssertion">>;

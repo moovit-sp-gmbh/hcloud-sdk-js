@@ -15,11 +15,7 @@ export interface User {
     activeScopes: Scope[];
 }
 
-export interface ReducedUser {
-    _id: string;
-    name: string;
-    avatarUrl: string;
-}
+export type ReducedUser = Pick<User, "_id" | "name" | "avatarUrl">;
 
 export interface PatchUser {
     name?: string;

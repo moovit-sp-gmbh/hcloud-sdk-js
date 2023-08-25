@@ -48,25 +48,12 @@ export interface Webhook {
     modifyDate: number;
 }
 
-export interface WebhookCreation {
-    name: string;
-    target: string;
-    type: WebhookType;
-    sub: EventWebhook | SpaceWebhook | FrameIoWebhook;
-    webhookEncryptionSettings?: WebhookEncryptionSettings;
-    securityHeaders?: SecurityHeader[];
-}
+export type WebhookCreation = Pick<Webhook, "name" | "target" | "type" | "sub" | "webhookEncryptionSettings" | "securityHeaders">;
 
-export interface WebhookUpdate {
-    name?: string;
-    target?: string;
-    type?: WebhookType;
-    sub?: EventWebhook | SpaceWebhook | FrameIoWebhook;
-    webhookEncryptionSettings?: WebhookEncryptionSettings;
+export type WebhookUpdate = Partial<WebhookCreation> & {
     deleteWebhookEncryptionSettings?: boolean;
-    securityHeaders?: SecurityHeader[];
     deleteSecurityHeaders?: boolean;
-}
+};
 
 export interface WebhookLog {
     _id: string;

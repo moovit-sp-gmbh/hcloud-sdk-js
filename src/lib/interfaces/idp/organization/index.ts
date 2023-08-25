@@ -20,16 +20,7 @@ export interface Organization {
     modifyDate: number;
 }
 
-export interface OrganizationWithPermission {
-    _id: string;
-    name: string;
-    isUserOrganization: boolean;
-    membersCount: number;
-    company: string;
-    avatarUrl: string;
-    creator: ReducedUser;
-    createDate: number;
-    modifyDate: number;
+export interface OrganizationWithPermission extends Organization {
     permission: OrganizationPermission;
 }
 
@@ -37,8 +28,4 @@ export interface OrganizationWithPermissionAndTeams extends OrganizationWithPerm
     teams: ReducedTeam[];
 }
 
-export interface ReducedOrganization {
-    _id: string;
-    name: string;
-    avatarUrl: string;
-}
+export type ReducedOrganization = Pick<Organization, "_id" | "name" | "avatarUrl">;

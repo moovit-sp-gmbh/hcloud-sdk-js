@@ -29,3 +29,9 @@ export interface Space {
     createDate: number;
     modifyDate: number;
 }
+
+export interface ReducedSpace {
+    _id: string;
+    name: string;
+    avatarUrl: string;
+}

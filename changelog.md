@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.38
+
+- **BREAKING**: Update Stream interface to contain ReducedSpace instead of just the space name
+
 ## 0.0.37
 
 - Rename interface Scopes to Scope to match with interface defined in backend-core

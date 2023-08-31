@@ -1,6 +1,7 @@
 export * from "./ErrorMessage";
 export * from "./Header";
 export * from "./HttpMethod";
+export * from "./Logger";
 export * from "./Products";
 export * from "./SearchFilters";
 export * from "./Space";

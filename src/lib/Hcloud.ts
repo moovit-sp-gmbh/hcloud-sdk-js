@@ -30,6 +30,13 @@ export default class HCloud {
             transformResponse: axios.defaults.transformResponse,
         });
         this.axios.defaults.headers.common["user-agent"] = "hcloud-sdk-js/v" + version;
+        this.axios.interceptors.response.use(
+            response => response,
+            error => {
+                this.options.logger?.error(String(error));
+                return error;
+            }
+        );
 
         this.Agent = new AgentService(this.options, this.axios);
         this.Auditor = new AuditorService(this.options, this.axios);

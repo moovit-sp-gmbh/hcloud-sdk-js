@@ -67,6 +67,7 @@ export interface High5ExecutionPatchStatus {
     state: High5ExecutionState;
     outcome: High5ExecutionOutcome;
     runningNodes: StreamRunningNode[];
+    message?: string;
 }
 
 export interface High5ExecutionPatch {

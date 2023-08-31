@@ -35,7 +35,7 @@ export interface WebhookEncryptionSettings {
 export interface Webhook {
     _id: string;
     name: string;
-    url: string;
+    relativeUrl: string;
     type: WebhookType;
     sub: EventWebhook | SpaceWebhook | FrameIoWebhook;
     webhookEncryptionSettings?: WebhookEncryptionSettings;

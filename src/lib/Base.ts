@@ -1,4 +1,5 @@
 import { AxiosInstance } from "axios";
+import { HcloudLogger } from "./interfaces/global";
 
 export interface Options {
     server: string;
@@ -10,6 +11,7 @@ export interface Options {
     agent?: {
         server: string;
     };
+    logger?: HcloudLogger;
 }
 
 export default abstract class Base {
@@ -22,4 +24,8 @@ export default abstract class Base {
     }
 
     protected abstract getEndpoint(endpoint: string): string;
+
+    protected get logger(): HcloudLogger | undefined {
+        return this.options.logger;
+    }
 }

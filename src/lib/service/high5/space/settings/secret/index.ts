@@ -1,7 +1,7 @@
 import { AxiosInstance } from "axios";
 import Base, { Options } from "../../../../../Base";
-import { SearchFilter, Sorting } from "../../interfaces/global";
-import { SearchFilterDTO } from "../../helper/searchFilter";
+import { SearchFilter, Sorting } from "../../../../../interfaces/global";
+import { SearchFilterDTO } from "../../../../../helper/searchFilter";
 import { Secret } from "../../../../../interfaces/high5/space/secret";
 
 export default class High5Secret extends Base {
@@ -19,18 +19,18 @@ export default class High5Secret extends Base {
      * @param sorting (optional) Sorting object
      * @param limit - (optional) Max number of results (1-100; defaults to 25)
      * @param page - (optional) Page number: Skip the first (page * limit) results (defaults to 0)
-     * @param encrypted - (optional) Whether to get all secret values ​​only in encrypted form.
+     * @param encrypted - (optional) Whether to get all secret values only in encrypted form.
      * @returns Array of secret keys as well as the total number of results found in the database (independent of limit and page)
      */
     getSecrets = async (
         orgName: string,
         spaceName: string,
-        filters: SearchFilter,
+        filters: SearchFilter[],
         sorting: Sorting,
         limit = 25,
         page = 0,
         encrypted: true
-    ): Promise<Secret[], number> => {
+    ): Promise<[Secret[], number]> => {
         const filtersDTO = filters?.map((f: SearchFilter) => {
             return new SearchFilterDTO(f);
         });

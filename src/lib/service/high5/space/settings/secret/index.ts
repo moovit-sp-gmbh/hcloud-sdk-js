@@ -19,7 +19,7 @@ export default class High5Secret extends Base {
      * @param sorting (optional) Sorting object
      * @param limit - (optional) Max number of results (1-100; defaults to 25)
      * @param page - (optional) Page number: Skip the first (page * limit) results (defaults to 0)
-     * @param encrypted - (optional) Whether to get all secret values ​​only in encrypted form.
+     * @param encrypted - (optional) Whether to get all secret values only in encrypted form.
      * @returns Array of secret keys as well as the total number of results found in the database (independent of limit and page)
      */
     searchSecrets = async ({

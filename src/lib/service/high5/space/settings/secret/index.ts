@@ -1,5 +1,7 @@
 import { AxiosInstance } from "axios";
 import Base, { Options } from "../../../../../Base";
+import { SearchFilter, Sorting } from "../../interfaces/global";
+import { SearchFilterDTO } from "../../helper/searchFilter";
 import { Secret } from "../../../../../interfaces/high5/space/secret";
 
 export default class High5Secret extends Base {
@@ -8,20 +10,44 @@ export default class High5Secret extends Base {
     }
 
     /**
-     * Requests all secret keys of the provided space (paginated request).
-     * Only the keys of the secret are sent back in the response, not the actual encrypted values.
+     * Requests all secret keys of the provided space which match the search filter(s) (paginated request).
+     * Only the keys of the secret are sent back in the response by default, not the actual encrypted values.
+     * Will return all secrets of the space if no filter is provided.
      * @param orgName - Name of the organization
      * @param spaceName - Name of the space
+     * @param filters (optional) Array of search filters
+     * @param sorting (optional) Sorting object
      * @param limit - (optional) Max number of results (1-100; defaults to 25)
      * @param page - (optional) Page number: Skip the first (page * limit) results (defaults to 0)
-     * @returns Array of secret keys
+     * @param encrypted - (optional) Whether to get all secret values ​​only in encrypted form.
+     * @returns Array of secret keys as well as the total number of results found in the database (independent of limit and page)
      */
-    getSecrets = async (orgName: string, spaceName: string, limit = 25, page = 0): Promise<Secret[]> => {
-        const resp = await this.axios.get<Secret[]>(
-            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/settings/secrets?limit=${limit}&page=${page}`)
-        );
+    getSecrets = async (
+        orgName: string,
+        spaceName: string,
+        filters: SearchFilter,
+        sorting: Sorting,
+        limit = 25,
+        page = 0,
+        encrypted: true
+    ): Promise<Secret[], number> => {
+        const filtersDTO = filters?.map((f: SearchFilter) => {
+            return new SearchFilterDTO(f);
+        });
 
-        return resp.data;
+        const resp = await this.axios
+            .post<Secret[]>(
+                this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/settings/secrets/search?limit=${limit}&page=${page}&encrypted=${encrypted}`),
+                {
+                    filters: filtersDTO,
+                    sorting,
+                }
+            )
+            .catch((err: Error) => {
+                throw err;
+            });
+
+        return [resp.data, parseInt(String(resp.headers["total"]), 0)];
     };
 
     /**

@@ -135,6 +135,25 @@ export class High5Space extends Base {
         return resp.data;
     };
 
+    /**
+     * Updates the wave engine that should be used to execute streams in High5 Space.
+     * @param orgName Name of the Organization
+     * @param spaceName Name of the Space
+     * @param waveEngine Valid wave engine release tag
+     * @returns The Space with updated wave engine property
+     */
+    public patchTeamSpaceWaveEngine = async (orgName: string, spaceName: string, waveEngine: string): Promise<High5Space> => {
+        const resp = await this.axios
+            .patch<High5Space>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/waveEngine`), {
+                waveEngine,
+            })
+            .catch((err: Error) => {
+                throw err;
+            });
+
+        return resp.data;
+    };
+
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/high5${endpoint}`;
     }

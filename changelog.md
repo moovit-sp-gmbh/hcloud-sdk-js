@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.39
+
+- introduce patch wave engine endpoint for high5 spaces
+
 ## 0.0.38
 
 - **BREAKING**: Update Stream interface to contain ReducedSpace instead of just the space name

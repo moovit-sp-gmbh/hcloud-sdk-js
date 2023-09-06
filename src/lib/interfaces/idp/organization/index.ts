@@ -27,7 +27,7 @@ export interface OrganizationWithPermission {
     membersCount: number;
     company: string;
     avatarUrl: string;
-    creatorId: string;
+    creator: ReducedUser;
     createDate: number;
     modifyDate: number;
     permission: OrganizationPermission;

@@ -2,6 +2,10 @@
 
 ## 0.0.39
 
+- **BREAKING**: Update creator field of OrganizationWithPermission interface to hold a reducedUser
+
+## 0.0.39
+
 - introduce patch wave engine endpoint for high5 spaces
 
 ## 0.0.38

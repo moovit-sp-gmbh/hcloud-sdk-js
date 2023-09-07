@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.42
+
+-   Add package version to build number
+
 ## 0.0.41
 
 -   Update type/interface definitions to be more robust

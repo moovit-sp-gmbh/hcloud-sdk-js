@@ -1,3 +1,5 @@
+import { ReducedSpace } from "../../../global";
+import { ReducedOrganization } from "../../../idp";
 import { DesignBuild } from "../event/stream";
 import { StreamSingleNodeResult } from "../event/stream/node";
 
@@ -77,8 +79,8 @@ export interface High5ExecutionPatch {
 
 export interface High5ExecutionStatus {
     _id: string;
-    organizationName: string;
-    spaceName: string;
+    organizationName: ReducedOrganization;
+    spaceName: ReducedSpace;
     streamId: string;
     streamName: string;
     high5ExecutionId: string;
@@ -97,7 +99,7 @@ export interface High5ExecutionStatus {
 export interface High5ExecutionLog {
     _id: string;
     streamId: string;
-    secret: string;
+    high5ExecutionId: string;
     nodeResults: StreamSingleNodeResult[];
 }
 

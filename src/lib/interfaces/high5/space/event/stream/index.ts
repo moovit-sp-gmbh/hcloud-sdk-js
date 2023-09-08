@@ -46,6 +46,7 @@ export interface StreamExecutionNatsResponse {
 export interface StreamLog {
     _id: string;
     streamId: string;
+    high5ExecutionId: string;
     nodeResults: StreamSingleNodeResult[];
 }
 

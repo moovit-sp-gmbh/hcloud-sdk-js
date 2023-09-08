@@ -3,7 +3,7 @@ import Base, { Options } from "../../../Base";
 import { High5Space as Space } from "../../../interfaces/high5/space";
 import { SearchFilter, SearchParams, SpacePermission } from "../../../interfaces/global";
 import { High5Event } from "./event";
-import { High5Execute } from "./execute";
+import { High5Execute } from "./execution";
 import { High5Webhook } from "./webhook";
 import { SearchFilterDTO } from "../../../helper/searchFilter";
 import High5SpaceSettings from "./settings";

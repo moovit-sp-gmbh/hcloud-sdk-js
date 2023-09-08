@@ -142,7 +142,7 @@ export class High5Space extends Base {
      * @param waveEngine Valid wave engine release tag
      * @returns The Space with updated wave engine property
      */
-    public patchTeamSpaceWaveEngine = async (orgName: string, spaceName: string, waveEngine: string): Promise<High5Space> => {
+    public patchSpaceWaveEngine = async (orgName: string, spaceName: string, waveEngine: string): Promise<High5Space> => {
         const resp = await this.axios
             .patch<High5Space>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/waveEngine`), {
                 waveEngine,

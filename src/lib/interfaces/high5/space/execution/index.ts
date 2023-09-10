@@ -1,5 +1,5 @@
 import { ReducedSpace } from "../../../global";
-import { ReducedOrganization } from "../../../idp";
+import { ReducedOrganization, ReducedUser } from "../../../idp";
 import { DesignBuild } from "../event/stream";
 import { StreamSingleNodeResult } from "../event/stream/node";
 
@@ -79,12 +79,12 @@ export interface High5ExecutionPatch {
 
 export interface High5ExecutionStatus {
     _id: string;
-    organizationName: ReducedOrganization;
-    spaceName: ReducedSpace;
+    organization: ReducedOrganization;
+    space: ReducedSpace;
     streamId: string;
     streamName: string;
     high5ExecutionId: string;
-    creatorId: string;
+    creator: ReducedUser;
     state: High5ExecutionState;
     outcome: High5ExecutionOutcome;
     message: string;

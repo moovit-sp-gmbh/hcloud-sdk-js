@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.44
+
+-   **BREAKING**: Update interfaces to hold reduced objects
+
 ## 0.0.43
 
 - Add getAxios method to additional custom interceptors

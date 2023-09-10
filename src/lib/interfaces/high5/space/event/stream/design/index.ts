@@ -1,3 +1,5 @@
+import { ReducedEvent } from "../..";
+import { ReducedSpace } from "../../../../../global";
 import { ReducedOrganization } from "../../../../../idp/organization";
 import { ReducedUser } from "../../../../../idp/user";
 
@@ -7,8 +9,8 @@ export interface Design {
     design: any;
     build?: any;
     streamId: string;
-    event: string;
-    space: string;
+    event: ReducedEvent;
+    space: ReducedSpace;
     organization: ReducedOrganization;
     creator: ReducedUser;
     /**

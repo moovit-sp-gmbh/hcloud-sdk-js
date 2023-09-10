@@ -1,3 +1,4 @@
+import { ReducedEvent } from "..";
 import { ReducedSpace } from "../../../../global";
 import { ReducedOrganization } from "../../../../idp/organization";
 import { ReducedUser } from "../../../../idp/user";
@@ -6,7 +7,7 @@ import { StreamSingleNodeResult } from "./node";
 export interface Stream {
     _id: string;
     name: string;
-    event: string;
+    event: ReducedEvent;
     space: ReducedSpace;
     order: number;
     organization: ReducedOrganization;

@@ -4,6 +4,7 @@
 
 - Add getAxios method to additional custom interceptors
 - Add optional comparator to SearchFilters
+- Add rest parameters to HcloudLogger
 
 ## 0.0.42
 

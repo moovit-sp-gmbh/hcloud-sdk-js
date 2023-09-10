@@ -1,10 +1,10 @@
 import { AxiosInstance } from "axios";
 
 export interface HcloudLogger {
-    info(msg: string): void;
-    debug(msg: string): void;
-    warn(msg: string): void;
-    error(msg: string): void;
+    info(msg: string, ...args: any): void;
+    debug(msg: string, ...args: any): void;
+    warn(msg: string, ...args: any): void;
+    error(msg: string, ...args: any): void;
 }
 
 export interface Options {

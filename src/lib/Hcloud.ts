@@ -79,4 +79,13 @@ export default class HCloud {
     getCorrelationId(): string | undefined {
         return this.axios.defaults.headers.common["X-Hcloud-Correlation-ID"]?.toString();
     }
+
+    /**
+     * getAxios returns the active axios instance
+     * Use it to add additional request/response interceptors
+     * @returns {AxiosInstance} AxiosInstance
+     */
+    getAxios(): AxiosInstance {
+        return this.axios;
+    }
 }

@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.0.43
+
+- Add getAxios method to additional custom interceptors
+- Add optional comparator to SearchFilters
+
 ## 0.0.42
 
 -   Add package version to build number

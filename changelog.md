@@ -5,6 +5,7 @@
 - Add getAxios method to additional custom interceptors
 - Add optional comparator to SearchFilters
 - Add rest parameters to HcloudLogger
+- Fix response interceptor will forward errors correctly
 
 ## 0.0.42
 

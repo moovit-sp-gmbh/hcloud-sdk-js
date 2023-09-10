@@ -33,8 +33,8 @@ export default class HCloud {
         this.axios.interceptors.response.use(
             response => response,
             error => {
-                this.options.logger?.error(String(error));
-                return error;
+                this.options.logger?.error(String(error), error);
+                throw error;
             }
         );
 

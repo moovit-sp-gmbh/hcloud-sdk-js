@@ -1,10 +1,11 @@
+import { ReducedSpace } from "../../../global";
 import { ReducedOrganization } from "../../../idp/organization";
 import { ReducedUser } from "../../../idp/user";
 
 export interface Event {
     _id: string;
     name: string;
-    space: string;
+    space: ReducedSpace;
     organization: ReducedOrganization;
     creator: ReducedUser;
     /**
@@ -12,3 +13,5 @@ export interface Event {
      */
     createDate: number;
 }
+
+export type ReducedEvent = Pick<Event, "_id" | "name">;

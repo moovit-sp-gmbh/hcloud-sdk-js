@@ -1,6 +1,6 @@
 import { ReducedOrganization } from "../../../idp/organization";
 import { ReducedUser } from "../../../idp/user";
-import { HttpMethod, Header } from "../../../global";
+import { HttpMethod, Header, ReducedSpace } from "../../../global";
 
 export interface Cronjob {
     _id: string;
@@ -8,7 +8,7 @@ export interface Cronjob {
     expression: string;
     organization: ReducedOrganization;
     creator: ReducedUser;
-    space: string;
+    space: ReducedSpace;
     targetUrl: string;
     httpMethod: HttpMethod;
     acceptInvalidSSL: boolean;

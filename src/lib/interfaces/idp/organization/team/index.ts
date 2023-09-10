@@ -9,7 +9,7 @@ export interface Team {
     avatarUrl: string;
     createDate: number;
     modifyDate: number;
-    creator: ReducedUser[];
+    creator: ReducedUser;
 }
 
 export type ReducedTeam = Pick<Team, "_id" | "name" | "avatarUrl">;

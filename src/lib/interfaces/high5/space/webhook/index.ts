@@ -1,5 +1,7 @@
+import { ReducedSpace } from "../../../global";
 import { ReducedOrganization } from "../../../idp/organization";
 import { ReducedUser } from "../../../idp/user";
+import { ReducedEvent } from "../event";
 
 export enum WebhookType {
     EVENT = "EVENT",
@@ -40,7 +42,7 @@ export interface Webhook {
     sub: EventWebhook | SpaceWebhook | FrameIoWebhook;
     webhookEncryptionSettings?: WebhookEncryptionSettings;
     securityHeaders?: SecurityHeader[];
-    spaceId: string;
+    space: ReducedSpace;
     target: string;
     organization: ReducedOrganization;
     creator: ReducedUser;
@@ -58,9 +60,9 @@ export type WebhookUpdate = Partial<WebhookCreation> & {
 export interface WebhookLog {
     _id: string;
     webhookId: string;
-    space: string;
+    space: ReducedSpace;
     organization: ReducedOrganization;
-    eventId: string;
+    eventId: ReducedEvent;
     timestamp: number;
     sourceIp: string;
     completeHeader: unknown;

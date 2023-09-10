@@ -45,6 +45,7 @@ export interface SearchFilter {
     type: SearchFilterType;
     key: string;
     name: string;
+    comparator?: SearchFilterComparatorBoolean | SearchFilterComparatorDate | SearchFilterComparatorNumber | SearchFilterComparatorString;
     description: string;
 }
 

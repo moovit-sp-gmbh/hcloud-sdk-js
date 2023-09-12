@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.45
+
+-   **BREAKING**: Update interface 'Secret' to hold a creator
+
 ## 0.0.44
 
 -   **BREAKING**: Update interfaces to hold reduced objects

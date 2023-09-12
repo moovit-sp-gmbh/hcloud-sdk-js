@@ -21,14 +21,10 @@ export class IdpOAuthApps extends Base {
         const filtersDTO = filters?.map((f: SearchFilter) => {
             return new SearchFilterDTO(f);
         });
-        const response = await this.axios
-            .post<OAuthApp[]>(this.getEndpoint(`/v1/user/settings/oauth/search?limit=${limit}&page=${page}`), {
-                filters: filtersDTO,
-                sorting: sorting,
-            })
-            .catch((err: Error) => {
-                throw err;
-            });
+        const response = await this.axios.post<OAuthApp[]>(this.getEndpoint(`/v1/user/settings/oauth/search?limit=${limit}&page=${page}`), {
+            filters: filtersDTO,
+            sorting: sorting,
+        });
 
         return [response.data, parseInt(String(response.headers.total), 10)];
     };
@@ -38,9 +34,7 @@ export class IdpOAuthApps extends Base {
      * @param oAuthAppId ID of the OAuth app
      */
     public revokeOAuthAppAccess = async (oAuthAppId: string): Promise<void> => {
-        await this.axios.delete(this.getEndpoint(`/v1/user/settings/oauth/${oAuthAppId}/revoke`)).catch((err: Error) => {
-            throw err;
-        });
+        await this.axios.delete(this.getEndpoint(`/v1/user/settings/oauth/${oAuthAppId}/revoke`));
     };
 
     protected getEndpoint(endpoint: string): string {

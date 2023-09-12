@@ -23,9 +23,7 @@ export default class High5 extends Base {
      * @returns Version object
      */
     version = async (): Promise<Version> => {
-        const resp = await this.axios.get<Version>(this.getEndpoint("/v1/version"), {}).catch((err: Error) => {
-            throw err;
-        });
+        const resp = await this.axios.get<Version>(this.getEndpoint("/v1/version"));
 
         return resp.data;
     };

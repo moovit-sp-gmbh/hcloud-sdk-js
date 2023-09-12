@@ -19,11 +19,13 @@ export class IdpRegistration extends Base {
      * @param captcha - Captcha
      */
     register = async (name: string, email: string, password: string, captcha: string, company?: string): Promise<void> => {
-        await this.axios
-            .post<void>(this.getEndpoint("/v1/register"), { name: name, email: email, password: password, captcha: captcha, company })
-            .catch((err: Error) => {
-                throw err;
-            });
+        await this.axios.post<void>(this.getEndpoint("/v1/register"), {
+            name: name,
+            email: email,
+            password: password,
+            captcha: captcha,
+            company,
+        });
     };
 
     /**
@@ -33,12 +35,15 @@ export class IdpRegistration extends Base {
      * @returns Bearer Token and User object
      */
     validateRegistration = async (email: string, verificationCode: string): Promise<SuccessfulAuth> => {
-        const resp = await this.axios
-            .patch<User>(this.getEndpoint("/v1/register/verify"), { email: email, verificationCode: verificationCode })
-            .catch((err: Error) => {
-                throw err;
-            });
-        return { token: resp.headers["authorization"]?.toString() || "", user: resp.data } as SuccessfulAuth;
+        const resp = await this.axios.patch<User>(this.getEndpoint("/v1/register/verify"), {
+            email: email,
+            verificationCode: verificationCode,
+        });
+
+        return {
+            token: resp.headers["authorization"]?.toString() || "",
+            user: resp.data,
+        } as SuccessfulAuth;
     };
 
     protected getEndpoint(endpoint: string): string {

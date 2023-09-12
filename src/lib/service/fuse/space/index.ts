@@ -20,9 +20,7 @@ export class FuseSpace extends Base {
      * @returns The requested space
      */
     public getSpace = async (orgName: string, spaceName: string): Promise<IFuseSpace> => {
-        const resp = await this.axios.get<IFuseSpace>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}`)).catch((err: Error) => {
-            throw err;
-        });
+        const resp = await this.axios.get<IFuseSpace>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}`));
 
         return resp.data;
     };
@@ -34,9 +32,7 @@ export class FuseSpace extends Base {
      * @returns The created space
      */
     public createSpace = async (orgName: string, name: string): Promise<IFuseSpace> => {
-        const resp = await this.axios.post<IFuseSpace>(this.getEndpoint(`/v1/org/${orgName}/spaces`), { name: name }).catch((err: Error) => {
-            throw err;
-        });
+        const resp = await this.axios.post<IFuseSpace>(this.getEndpoint(`/v1/org/${orgName}/spaces`), { name: name });
 
         return resp.data;
     };
@@ -47,9 +43,7 @@ export class FuseSpace extends Base {
      * @param spaceName Name of the space
      */
     public deleteSpace = async (orgName: string, spaceName: string): Promise<void> => {
-        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}`)).catch((err: Error) => {
-            throw err;
-        });
+        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}`));
     };
 
     /**
@@ -61,11 +55,10 @@ export class FuseSpace extends Base {
      * @returns The Fuse space with the updated permissions
      */
     public patchUserSpacePermission = async (orgName: string, spaceName: string, userId: string, permission: SpacePermission): Promise<FuseSpace> => {
-        const resp = await this.axios
-            .patch<FuseSpace>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/permission/user`), { userId, permission })
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.patch<FuseSpace>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/permission/user`), {
+            userId,
+            permission,
+        });
 
         return resp.data;
     };
@@ -84,14 +77,10 @@ export class FuseSpace extends Base {
         teamName: string,
         permission: SpacePermission
     ): Promise<IFuseSpace> => {
-        const resp = await this.axios
-            .patch<IFuseSpace>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/permission/team`), {
-                teamName,
-                permission,
-            })
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.patch<IFuseSpace>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/permission/team`), {
+            teamName,
+            permission,
+        });
 
         return resp.data;
     };
@@ -116,14 +105,10 @@ export class FuseSpace extends Base {
             return new SearchFilterDTO(f);
         });
 
-        const resp = await this.axios
-            .post<IFuseSpace[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/search?limit=${limit}&page=${page}`), {
-                filters: filtersDTO,
-                sorting,
-            })
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.post<IFuseSpace[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/search?limit=${limit}&page=${page}`), {
+            filters: filtersDTO,
+            sorting,
+        });
 
         return [resp.data, parseInt(String(resp.headers["total"]), 10)];
     };

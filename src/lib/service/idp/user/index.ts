@@ -3,7 +3,7 @@ import Base, { Options } from "../../../Base";
 import { SearchFilterDTO } from "../../../helper/searchFilter";
 import { SearchFilter, Sorting } from "../../../interfaces/global/SearchFilters";
 import { Organization } from "../../../interfaces/idp/organization";
-import { User, PatchUser } from "../../../interfaces/idp/user";
+import { PatchUser, User } from "../../../interfaces/idp/user";
 import { IdpSettings } from "./settings";
 
 export class IdpUser extends Base {
@@ -23,9 +23,7 @@ export class IdpUser extends Base {
      * @returns User object
      */
     getUser = async (): Promise<User> => {
-        const resp = await this.axios.get<User>(this.getEndpoint("/v1/user"), {}).catch((err: Error) => {
-            throw err;
-        });
+        const resp = await this.axios.get<User>(this.getEndpoint("/v1/user"));
 
         return resp.data;
     };
@@ -36,9 +34,7 @@ export class IdpUser extends Base {
      * @returns User object
      */
     public patchUser = async (user: PatchUser): Promise<User> => {
-        const resp = await this.axios.patch<User>(this.getEndpoint(`/v1/user`), user).catch((err: Error) => {
-            throw err;
-        });
+        const resp = await this.axios.patch<User>(this.getEndpoint(`/v1/user`), user);
 
         return resp.data;
     };
@@ -47,18 +43,14 @@ export class IdpUser extends Base {
      * Deletes user session and logs him out of HCloud on all devices.
      */
     public deleteUserSession = async (): Promise<void> => {
-        await this.axios.delete<void>(this.getEndpoint(`/v1/user/sessions`)).catch((err: Error) => {
-            throw err;
-        });
+        await this.axios.delete<void>(this.getEndpoint(`/v1/user/sessions`));
     };
 
     /**
      * Deletes the requesting user.
      */
     public deleteUser = async (): Promise<void> => {
-        await this.axios.delete<void>(this.getEndpoint(`/v1/user`)).catch((err: Error) => {
-            throw err;
-        });
+        await this.axios.delete<void>(this.getEndpoint(`/v1/user`));
     };
 
     /**
@@ -83,14 +75,10 @@ export class IdpUser extends Base {
             return new SearchFilterDTO(f);
         });
 
-        const resp = await this.axios
-            .post<Organization[]>(this.getEndpoint(`/v1/user/orgs/search?limit=${limit}&page=${page}`), {
-                filters: filtersDTO,
-                sorting: params.sorting,
-            })
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.post<Organization[]>(this.getEndpoint(`/v1/user/orgs/search?limit=${limit}&page=${page}`), {
+            filters: filtersDTO,
+            sorting: params.sorting,
+        });
 
         return [resp.data, parseInt(String(resp.headers["total"]), 10)];
     };

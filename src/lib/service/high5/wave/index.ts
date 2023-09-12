@@ -18,11 +18,7 @@ export class High5Wave extends Base {
         limit = limit || 25;
         page = page || 0;
 
-        const resp = await this.axios
-            .get<WaveEngineReleaseAsset[]>(this.getEndpoint(`/v1/org/${orgName}/wave/releases?page=${page}&limit=${limit}`))
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.get<WaveEngineReleaseAsset[]>(this.getEndpoint(`/v1/org/${orgName}/wave/releases?page=${page}&limit=${limit}`));
 
         return [resp.data, parseInt(String(resp.headers["total"]), 10)];
     };
@@ -34,9 +30,7 @@ export class High5Wave extends Base {
      * @returns WaveEngine
      */
     public getWaveEngine = async (orgName: string, releaseVersion: string): Promise<WaveEngine> => {
-        const resp = await this.axios.get<WaveEngine>(this.getEndpoint(`/v1/org/${orgName}/wave/releases/${releaseVersion}`)).catch((err: Error) => {
-            throw err;
-        });
+        const resp = await this.axios.get<WaveEngine>(this.getEndpoint(`/v1/org/${orgName}/wave/releases/${releaseVersion}`));
 
         return resp.data;
     };
@@ -48,11 +42,7 @@ export class High5Wave extends Base {
      * @returns WaveEngine
      */
     public getNodeCatalogue = async (orgName: string, spaceName: string): Promise<WaveEngine> => {
-        const resp = await this.axios
-            .get<WaveEngine>(this.getEndpoint(`/v1/org/${orgName}/wave/spaces/${spaceName}/nodeCatalogue`))
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.get<WaveEngine>(this.getEndpoint(`/v1/org/${orgName}/wave/spaces/${spaceName}/nodeCatalogue`));
 
         return resp.data;
     };

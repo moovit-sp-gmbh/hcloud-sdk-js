@@ -12,9 +12,7 @@ export class IdpGeneral extends Base {
      * @returns the current active user settings
      */
     public getGeneralSettings = async (): Promise<GeneralSettings> => {
-        const resp = await this.axios.get<GeneralSettings>(this.getEndpoint(`/v1/user/settings/general`)).catch((err: Error) => {
-            throw err;
-        });
+        const resp = await this.axios.get<GeneralSettings>(this.getEndpoint(`/v1/user/settings/general`));
 
         return resp.data;
     };
@@ -25,11 +23,7 @@ export class IdpGeneral extends Base {
      * @returns the updated user settings
      */
     public patchGeneralSettings = async (generalSettingsPatch: GeneralSettingsPatch): Promise<GeneralSettings> => {
-        const resp = await this.axios
-            .patch<GeneralSettings>(this.getEndpoint(`/v1/user/settings/general`), generalSettingsPatch)
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.patch<GeneralSettings>(this.getEndpoint(`/v1/user/settings/general`), generalSettingsPatch);
 
         return resp.data;
     };

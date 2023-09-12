@@ -19,9 +19,7 @@ export default class Dali extends Base {
      * @returns An object containing the endpoint version as a string
      */
     version = async (): Promise<Version> => {
-        const resp = await this.axios.get<Version>(this.getEndpoint("/v1/version")).catch((err: Error) => {
-            throw err;
-        });
+        const resp = await this.axios.get<Version>(this.getEndpoint("/v1/version"));
 
         return resp.data;
     };

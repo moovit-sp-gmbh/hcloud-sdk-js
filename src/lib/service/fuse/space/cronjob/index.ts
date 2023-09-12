@@ -25,11 +25,9 @@ export class FuseCronjob extends Base {
      * @returns The requested cronjob
      */
     public getCronjob = async (orgName: string, spaceName: string, cronjobId: string, exposeNextExecution = false): Promise<Cronjob> => {
-        const resp = await this.axios
-            .get<Cronjob>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs/${cronjobId}?nextExecution=${exposeNextExecution}`))
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.get<Cronjob>(
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs/${cronjobId}?nextExecution=${exposeNextExecution}`)
+        );
 
         return resp.data;
     };
@@ -42,11 +40,7 @@ export class FuseCronjob extends Base {
      * @returns Array of Unix timestamps
      */
     public getNextCronjobExecutions = async (orgName: string, spaceName: string, cronjobId: string): Promise<number[]> => {
-        const resp = await this.axios
-            .get<number[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs/${cronjobId}/next`))
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.get<number[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs/${cronjobId}/next`));
 
         return resp.data;
     };
@@ -65,11 +59,10 @@ export class FuseCronjob extends Base {
         createCronjob: CreateCronjob,
         exposeNextExecution = false
     ): Promise<Cronjob> => {
-        const resp = await this.axios
-            .post<Cronjob>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs?nextExecution=${exposeNextExecution}`), createCronjob)
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.post<Cronjob>(
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs?nextExecution=${exposeNextExecution}`),
+            createCronjob
+        );
 
         return resp.data;
     };
@@ -89,14 +82,10 @@ export class FuseCronjob extends Base {
         createCronjob: CreateCronjob,
         exposeNextExecution = false
     ): Promise<Cronjob> => {
-        const resp = await this.axios
-            .put<Cronjob>(
-                this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs/${cronjobId}?nextExecution=${exposeNextExecution}`),
-                createCronjob
-            )
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.put<Cronjob>(
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs/${cronjobId}?nextExecution=${exposeNextExecution}`),
+            createCronjob
+        );
 
         return resp.data;
     };
@@ -117,14 +106,10 @@ export class FuseCronjob extends Base {
         expression: string,
         exposeNextExecution = false
     ): Promise<Cronjob> => {
-        const resp = await this.axios
-            .patch<Cronjob>(
-                this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs/${cronjobId}/expression?nextExecution=${exposeNextExecution}`),
-                { expression: expression }
-            )
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.patch<Cronjob>(
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs/${cronjobId}/expression?nextExecution=${exposeNextExecution}`),
+            { expression: expression }
+        );
 
         return resp.data;
     };
@@ -136,9 +121,7 @@ export class FuseCronjob extends Base {
      * @param cronjobId ID of the cronjob
      */
     public deleteCronjob = async (orgName: string, spaceName: string, cronjobId: string): Promise<void> => {
-        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs/${cronjobId}`)).catch((err: Error) => {
-            throw err;
-        });
+        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs/${cronjobId}`));
     };
 
     /**
@@ -160,19 +143,13 @@ export class FuseCronjob extends Base {
             return new SearchFilterDTO(f);
         });
 
-        const resp = await this.axios
-            .post<Cronjob[]>(
-                this.getEndpoint(
-                    `/v1/org/${orgName}/spaces/${spaceName}/jobs/search?limit=${limit}&page=${page}&nextExecution=${exposeNextExecution}`
-                ),
-                {
-                    filters: filtersDTO,
-                    sorting,
-                }
-            )
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.post<Cronjob[]>(
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs/search?limit=${limit}&page=${page}&nextExecution=${exposeNextExecution}`),
+            {
+                filters: filtersDTO,
+                sorting,
+            }
+        );
 
         return [resp.data, parseInt(String(resp.headers["total"]), 10)];
     };

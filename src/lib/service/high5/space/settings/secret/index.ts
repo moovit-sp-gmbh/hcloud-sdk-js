@@ -34,14 +34,13 @@ export default class High5Secret extends Base {
             return new SearchFilterDTO(f);
         });
 
-        const resp = await this.axios
-            .post<Secret[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/settings/secrets/search?limit=${limit}&page=${page}`), {
+        const resp = await this.axios.post<Secret[]>(
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/settings/secrets/search?limit=${limit}&page=${page}`),
+            {
                 filters: filtersDTO,
                 sorting,
-            })
-            .catch((err: Error) => {
-                throw err;
-            });
+            }
+        );
 
         return [resp.data, parseInt(String(resp.headers["total"]), 0)];
     };

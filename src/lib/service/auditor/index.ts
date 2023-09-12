@@ -17,9 +17,7 @@ export default class Auditor extends Base {
      * @returns An object containing the endpoint version as a string
      */
     version = async (): Promise<Version> => {
-        const resp = await this.axios.get<Version>(this.getEndpoint("/v1/version"), {}).catch((err: Error) => {
-            throw err;
-        });
+        const resp = await this.axios.get<Version>(this.getEndpoint("/v1/version"), {});
 
         return resp.data;
     };
@@ -42,14 +40,10 @@ export default class Auditor extends Base {
     }: SearchParams & { organizationName: string }): Promise<[AuditLog[], number]> => {
         const filtersDTO = filters?.map((f: SearchFilter) => new SearchFilterDTO(f));
 
-        const resp = await this.axios
-            .post<AuditLog[]>(this.getEndpoint(`/v1/org/${organizationName}/logs/search?page=${page}&limit=${limit}`), {
-                filters: filtersDTO,
-                sorting: sorting,
-            })
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.post<AuditLog[]>(this.getEndpoint(`/v1/org/${organizationName}/logs/search?page=${page}&limit=${limit}`), {
+            filters: filtersDTO,
+            sorting: sorting,
+        });
 
         return [resp.data, parseInt(String(resp.headers["total"]), 10)];
     };

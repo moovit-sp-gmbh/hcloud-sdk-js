@@ -15,9 +15,7 @@ export class AuditorInternal extends Base {
      * @deprecated Use queueAuditLogs() instead
      */
     public addAuditLogs = async (logs: AuditLog[]): Promise<AuditLog[]> => {
-        const resp = await this.axios.post<AuditLog[]>(this.getEndpoint("/v1/logs"), logs).catch((err: Error) => {
-            throw err;
-        });
+        const resp = await this.axios.post<AuditLog[]>(this.getEndpoint("/v1/logs"), logs);
 
         return resp.data;
     };
@@ -60,9 +58,7 @@ export class AuditorInternal extends Base {
      * @returns void
      */
     public deleteAllAuditLogsOfOrganization = async (orgId: string): Promise<void> => {
-        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgId}/logs`)).catch((err: Error) => {
-            throw err;
-        });
+        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgId}/logs`));
     };
 
     protected getEndpoint(endpoint: string): string {

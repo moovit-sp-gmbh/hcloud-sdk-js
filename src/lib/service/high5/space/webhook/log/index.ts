@@ -26,11 +26,9 @@ export class High5WebhookLog extends Base {
         limit = limit || 25;
         page = page || 0;
 
-        const resp = await this.axios
-            .get<WebhookLog[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/webhooks/${webhookId}/logs?limit=${limit}&page=${page}`))
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.get<WebhookLog[]>(
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/webhooks/${webhookId}/logs?limit=${limit}&page=${page}`)
+        );
 
         return [resp.data, parseInt(String(resp.headers["total"]), 10)];
     };

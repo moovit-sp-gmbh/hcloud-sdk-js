@@ -42,9 +42,7 @@ export default class Idp extends Base {
      * @returns Version object
      */
     version = async (): Promise<Version> => {
-        const resp = await this.axios.get<Version>(this.getEndpoint("/v1/version")).catch((err: Error) => {
-            throw err;
-        });
+        const resp = await this.axios.get<Version>(this.getEndpoint("/v1/version"));
 
         return resp.data;
     };
@@ -61,11 +59,12 @@ export default class Idp extends Base {
         if (token) {
             body = { ...body, ...{ token: token } };
         }
-        const resp = await this.axios.post<User>(this.getEndpoint("/v1/login"), body).catch((err: Error) => {
-            throw err;
-        });
+        const resp = await this.axios.post<User>(this.getEndpoint("/v1/login"), body);
 
-        const authed: SuccessfulAuth = { token: resp.headers["authorization"]?.toString() || "", user: resp.data };
+        const authed: SuccessfulAuth = {
+            token: resp.headers["authorization"]?.toString() || "",
+            user: resp.data,
+        };
         return authed;
     };
 

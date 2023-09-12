@@ -12,9 +12,7 @@ export class IdpPat extends Base {
      * @returns Array of PAT objects
      */
     public getPats = async (): Promise<Pat[]> => {
-        const resp = await this.axios.get<Pat[]>(this.getEndpoint(`/v1/user/settings/pats`)).catch((err: Error) => {
-            throw err;
-        });
+        const resp = await this.axios.get<Pat[]>(this.getEndpoint(`/v1/user/settings/pats`));
 
         return resp.data;
     };
@@ -25,9 +23,7 @@ export class IdpPat extends Base {
      * @returns The requested PAT object
      */
     public getPat = async (patId: string): Promise<Pat> => {
-        const resp = await this.axios.get<Pat>(this.getEndpoint(`/v1/user/settings/pats/${patId}`)).catch((err: Error) => {
-            throw err;
-        });
+        const resp = await this.axios.get<Pat>(this.getEndpoint(`/v1/user/settings/pats/${patId}`));
 
         return resp.data;
     };
@@ -38,9 +34,7 @@ export class IdpPat extends Base {
      * @returns PAT object holding the updated token
      */
     public regeneratePat = async (patId: string): Promise<Pat> => {
-        const resp = await this.axios.patch<Pat>(this.getEndpoint(`/v1/user/settings/pats/${patId}`)).catch((err: Error) => {
-            throw err;
-        });
+        const resp = await this.axios.patch<Pat>(this.getEndpoint(`/v1/user/settings/pats/${patId}`));
 
         return resp.data;
     };
@@ -51,9 +45,7 @@ export class IdpPat extends Base {
      * @returns the created PAT object
      */
     public generatePat = async (patCreate: PatCreate): Promise<Pat> => {
-        const resp = await this.axios.post<Pat>(this.getEndpoint(`/v1/user/settings/pats`), patCreate).catch((err: Error) => {
-            throw err;
-        });
+        const resp = await this.axios.post<Pat>(this.getEndpoint(`/v1/user/settings/pats`), patCreate);
 
         return resp.data;
     };
@@ -65,9 +57,7 @@ export class IdpPat extends Base {
      * @returns the updated PAT object
      */
     public updatePat = async (patId: string, patUpdate: PatUpdate): Promise<Pat> => {
-        const resp = await this.axios.patch<Pat>(this.getEndpoint(`/v1/user/settings/pats/${patId}`), patUpdate).catch((err: Error) => {
-            throw err;
-        });
+        const resp = await this.axios.patch<Pat>(this.getEndpoint(`/v1/user/settings/pats/${patId}`), patUpdate);
 
         return resp.data;
     };
@@ -77,18 +67,14 @@ export class IdpPat extends Base {
      * @param patId Id of the PAT
      */
     public deletePat = async (patId: string): Promise<void> => {
-        await this.axios.delete<void>(this.getEndpoint(`/v1/user/settings/pats/${patId}`)).catch((err: Error) => {
-            throw err;
-        });
+        await this.axios.delete<void>(this.getEndpoint(`/v1/user/settings/pats/${patId}`));
     };
 
     /**
      * Deletes all personal access tokens (PATs) of the requesting User.
      */
     public deleteAllPats = async (): Promise<void> => {
-        await this.axios.delete<void>(this.getEndpoint(`/v1/user/settings/pats`)).catch((err: Error) => {
-            throw err;
-        });
+        await this.axios.delete<void>(this.getEndpoint(`/v1/user/settings/pats`));
     };
 
     protected getEndpoint(endpoint: string): string {

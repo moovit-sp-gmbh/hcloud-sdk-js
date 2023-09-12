@@ -21,11 +21,9 @@ export class FuseCronjobLog extends Base {
         limit = limit || 25;
         page = page || 0;
 
-        const resp = await this.axios
-            .get<CronjobLogDto[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs/${cronjobId}/logs?page=${page}&limit=${limit}`))
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.get<CronjobLogDto[]>(
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs/${cronjobId}/logs?page=${page}&limit=${limit}`)
+        );
 
         return [resp.data, parseInt(String(resp.headers["total"]), 10)];
     };
@@ -39,11 +37,9 @@ export class FuseCronjobLog extends Base {
      * @returns the cronjob log
      */
     public getCronjobLog = async (orgName: string, spaceName: string, cronjobId: string, cronjobLogId: string): Promise<CronjobLogDto> => {
-        const resp = await this.axios
-            .get<CronjobLogDto>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs/${cronjobId}/logs/${cronjobLogId}`))
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.get<CronjobLogDto>(
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs/${cronjobId}/logs/${cronjobLogId}`)
+        );
 
         return resp.data;
     };

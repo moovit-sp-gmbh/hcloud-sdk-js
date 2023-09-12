@@ -14,11 +14,7 @@ export class DaliOAuthApp extends Base {
      * @returns Public URL of the created avatar
      */
     public createAvatar = async (orgName: string, appId: string): Promise<AvatarCreated> => {
-        const resp = await this.axios
-            .post<AvatarCreated>(this.getEndpoint(`/v1/avatar/org/${orgName}/applications/oauth/${appId}`), {})
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.post<AvatarCreated>(this.getEndpoint(`/v1/avatar/org/${orgName}/applications/oauth/${appId}`), {});
 
         return resp.data;
     };
@@ -29,9 +25,7 @@ export class DaliOAuthApp extends Base {
      * @param appId ID of the OAuth app
      */
     public deleteAvatar = async (orgName: string, appId: string): Promise<void> => {
-        await this.axios.delete<string>(this.getEndpoint(`/v1/avatar/org/${orgName}/applications/oauth/${appId}`)).catch((err: Error) => {
-            throw err;
-        });
+        await this.axios.delete<string>(this.getEndpoint(`/v1/avatar/org/${orgName}/applications/oauth/${appId}`));
     };
 
     /**
@@ -45,13 +39,9 @@ export class DaliOAuthApp extends Base {
         const data = new FormData();
         data.append("avatar", file);
 
-        const resp = await this.axios
-            .put<AvatarCreated>(this.getEndpoint(`/v1/avatar/org/${orgName}/applications/oauth/${appId}`), data, {
-                headers: { "Content-Type": "multipart/form-data" },
-            })
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.put<AvatarCreated>(this.getEndpoint(`/v1/avatar/org/${orgName}/applications/oauth/${appId}`), data, {
+            headers: { "Content-Type": "multipart/form-data" },
+        });
 
         return resp.data;
     };

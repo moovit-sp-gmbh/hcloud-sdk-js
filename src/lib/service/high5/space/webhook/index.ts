@@ -22,7 +22,6 @@ export class High5Webhook extends Base {
      * @param limit (optional) Max number of results (1-100; defaults to 25)
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
      * @returns Array of Webhooks and the total number of results found in the database (independent of limit and page)
-
      */
     public searchWebhooks = async ({
         orgName,
@@ -34,14 +33,13 @@ export class High5Webhook extends Base {
     }: SearchParams & { orgName: string; spaceName: string }): Promise<[Webhook[], number]> => {
         const filtersDTO = filters?.map((f: SearchFilter) => new SearchFilterDTO(f));
 
-        const resp = await this.axios
-            .post<Webhook[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/webhooks/search?limit=${limit}&page=${page}`), {
+        const resp = await this.axios.post<Webhook[]>(
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/webhooks/search?limit=${limit}&page=${page}`),
+            {
                 filters: filtersDTO,
                 sorting: sorting,
-            })
-            .catch((err: Error) => {
-                throw err;
-            });
+            }
+        );
 
         return [resp.data, parseInt(String(resp.headers["total"]), 10)];
     };
@@ -54,11 +52,7 @@ export class High5Webhook extends Base {
      * @returns The requested Webhook
      */
     public getWebhook = async (orgName: string, spaceName: string, webhookId: string): Promise<Webhook> => {
-        const resp = await this.axios
-            .get<Webhook>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/webhooks/${webhookId}`))
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.get<Webhook>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/webhooks/${webhookId}`));
 
         return resp.data;
     };
@@ -71,11 +65,7 @@ export class High5Webhook extends Base {
      * @returns The updated Webhook
      */
     public regenerateWebhookUrl = async (orgName: string, spaceName: string, webhookId: string): Promise<Webhook> => {
-        const resp = await this.axios
-            .patch<Webhook>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/webhooks/${webhookId}/regenerateUrl`))
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.patch<Webhook>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/webhooks/${webhookId}/regenerateUrl`));
 
         return resp.data;
     };
@@ -88,11 +78,7 @@ export class High5Webhook extends Base {
      * @returns The created Webhook
      */
     public createWebhook = async (orgName: string, spaceName: string, webhookCreation: WebhookCreation): Promise<Webhook> => {
-        const resp = await this.axios
-            .post<Webhook>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/webhooks`), webhookCreation)
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.post<Webhook>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/webhooks`), webhookCreation);
 
         return resp.data;
     };
@@ -106,11 +92,7 @@ export class High5Webhook extends Base {
      * @returns the updated Webhook
      */
     public updateWebhook = async (orgName: string, spaceName: string, webhookId: string, webhookUpdate: WebhookUpdate): Promise<Webhook> => {
-        const resp = await this.axios
-            .patch<Webhook>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/webhooks/${webhookId}`), webhookUpdate)
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.patch<Webhook>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/webhooks/${webhookId}`), webhookUpdate);
 
         return resp.data;
     };
@@ -122,9 +104,7 @@ export class High5Webhook extends Base {
      * @param webhookId ID of the webhook to be deleted
      */
     public deleteWebhook = async (orgName: string, spaceName: string, webhookId: string): Promise<void> => {
-        await this.axios.delete<Webhook[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/webhooks/${webhookId}`)).catch((err: Error) => {
-            throw err;
-        });
+        await this.axios.delete<Webhook[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/webhooks/${webhookId}`));
     };
 
     /**
@@ -132,9 +112,7 @@ export class High5Webhook extends Base {
      * @param webhookUrl URL of the webhook to be triggered / executed
      */
     public triggerWebhook = async (webhookUrl: string): Promise<void> => {
-        await this.axios.post<void>(this.getEndpoint(webhookUrl)).catch((err: Error) => {
-            throw err;
-        });
+        await this.axios.post<void>(this.getEndpoint(webhookUrl));
     };
 
     /**
@@ -150,8 +128,8 @@ export class High5Webhook extends Base {
                 h[key] = headers[key];
             });
         }
-        await this.axios.post<void>(this.getEndpoint(webhookUrl), payload, { headers: h }).catch((err: Error) => {
-            throw err;
+        await this.axios.post<void>(this.getEndpoint(webhookUrl), payload, {
+            headers: h,
         });
     };
 
@@ -162,9 +140,7 @@ export class High5Webhook extends Base {
      * @returns The provided challenge string as plaint text
      */
     public validateWebhookUrl = async (webhookUrl: string, challenge: string): Promise<string> => {
-        const resp = await this.axios.get<string>(this.getEndpoint(`${webhookUrl}?challenge=${challenge}`)).catch((err: Error) => {
-            throw err;
-        });
+        const resp = await this.axios.get<string>(this.getEndpoint(`${webhookUrl}?challenge=${challenge}`));
         return resp.data;
     };
 

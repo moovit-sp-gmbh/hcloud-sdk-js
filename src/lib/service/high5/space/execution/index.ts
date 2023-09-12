@@ -34,14 +34,10 @@ export class High5Execute extends Base {
         streamId: string,
         high5ExecutionRequest: High5ExecutionRequest
     ): Promise<High5ExecutionResponse> => {
-        const resp = await this.axios
-            .post<High5ExecutionResponse>(
-                this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execute/stream/id/${streamId}`),
-                high5ExecutionRequest
-            )
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.post<High5ExecutionResponse>(
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execute/stream/id/${streamId}`),
+            high5ExecutionRequest
+        );
 
         return resp.data;
     };
@@ -60,14 +56,10 @@ export class High5Execute extends Base {
         eventName: string,
         high5EventExecutionRequest: High5ExecutionRequest
     ): Promise<High5ExecutionResponse[]> => {
-        const resp = await this.axios
-            .post<High5ExecutionResponse[]>(
-                this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execute/event/name/${eventName}`),
-                high5EventExecutionRequest
-            )
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.post<High5ExecutionResponse[]>(
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execute/event/name/${eventName}`),
+            high5EventExecutionRequest
+        );
 
         return resp.data;
     };
@@ -86,11 +78,10 @@ export class High5Execute extends Base {
         streamId: string,
         secret: string
     ): Promise<High5ExecutionPackage> => {
-        const resp = await this.axios
-            .get<High5ExecutionPackage>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execute/stream/id/${streamId}/package/${secret}`))
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.get<High5ExecutionPackage>(
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execute/stream/id/${streamId}/package/${secret}`)
+        );
+
         return resp.data;
     };
 
@@ -109,11 +100,7 @@ export class High5Execute extends Base {
         secret: string,
         high5ExecutionResponse: High5ExecutionPatch
     ): Promise<void> => {
-        await this.axios
-            .patch<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execution/streams/${secret}`), high5ExecutionResponse)
-            .catch((err: Error) => {
-                throw err;
-            });
+        await this.axios.patch<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execution/streams/${secret}`), high5ExecutionResponse);
     };
 
     /**
@@ -122,9 +109,7 @@ export class High5Execute extends Base {
      * @returns Array of WaveRelease objects
      */
     public fetchAllWaveEngineReleaseTags = async (orgName: string): Promise<WaveRelease[]> => {
-        const resp = await this.axios.get<WaveRelease[]>(this.getEndpoint(`/v1/org/${orgName}/wave/releases`)).catch((err: Error) => {
-            throw err;
-        });
+        const resp = await this.axios.get<WaveRelease[]>(this.getEndpoint(`/v1/org/${orgName}/wave/releases`));
         return resp.data;
     };
 
@@ -135,9 +120,7 @@ export class High5Execute extends Base {
      * @returns WaveRelease
      */
     public fetchWaveEngineRelease = async (orgName: string, releaseVersion: string): Promise<WaveEngine> => {
-        const resp = await this.axios.get<WaveEngine>(this.getEndpoint(`/v1/org/${orgName}/wave/releases/${releaseVersion}`)).catch((err: Error) => {
-            throw err;
-        });
+        const resp = await this.axios.get<WaveEngine>(this.getEndpoint(`/v1/org/${orgName}/wave/releases/${releaseVersion}`));
         return resp.data;
     };
 

@@ -14,11 +14,7 @@ export class DaliFuse extends Base {
      * @returns Public URL of the created avatar
      */
     public createAvatar = async (orgName: string, spaceName: string): Promise<AvatarCreated> => {
-        const resp = await this.axios
-            .post<AvatarCreated>(this.getEndpoint(`/v1/avatar/org/${orgName}/spaces/fuse/${spaceName}`), {})
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.post<AvatarCreated>(this.getEndpoint(`/v1/avatar/org/${orgName}/spaces/fuse/${spaceName}`), {});
 
         return resp.data;
     };
@@ -29,9 +25,7 @@ export class DaliFuse extends Base {
      * @param spaceName Name of the space
      */
     public deleteAvatar = async (orgName: string, spaceName: string): Promise<void> => {
-        await this.axios.delete<string>(this.getEndpoint(`/v1/avatar/org/${orgName}/spaces/fuse/${spaceName}`)).catch((err: Error) => {
-            throw err;
-        });
+        await this.axios.delete<string>(this.getEndpoint(`/v1/avatar/org/${orgName}/spaces/fuse/${spaceName}`));
     };
 
     /**
@@ -45,13 +39,9 @@ export class DaliFuse extends Base {
         const data = new FormData();
         data.append("avatar", file);
 
-        const resp = await this.axios
-            .put<AvatarCreated>(this.getEndpoint(`/v1/avatar/org/${orgName}/spaces/fuse/${spaceName}`), data, {
-                headers: { "Content-Type": "multipart/form-data" },
-            })
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.put<AvatarCreated>(this.getEndpoint(`/v1/avatar/org/${orgName}/spaces/fuse/${spaceName}`), data, {
+            headers: { "Content-Type": "multipart/form-data" },
+        });
 
         return resp.data;
     };

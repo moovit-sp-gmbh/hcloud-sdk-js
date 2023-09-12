@@ -9,9 +9,7 @@ export default class MailerInternal extends Base {
      * @param mail MailjetMailDTO
      */
     sendMailMailjet = async (mail: MailjetMailDTO): Promise<void> => {
-        const resp = await this.axios.post<void>(this.getEndpoint("/v1/send/mailjet"), mail).catch((err: Error) => {
-            throw err;
-        });
+        const resp = await this.axios.post<void>(this.getEndpoint("/v1/send/mailjet"), mail);
 
         return resp.data;
     };
@@ -24,9 +22,7 @@ export default class MailerInternal extends Base {
      * @deprecated in favor of sendMailMailjet
      */
     sendMailMustache = async (mail: MustacheMail): Promise<void> => {
-        const resp = await this.axios.post<void>(this.getEndpoint("/v1/send/mustache"), mail).catch((err: Error) => {
-            throw err;
-        });
+        const resp = await this.axios.post<void>(this.getEndpoint("/v1/send/mustache"), mail);
 
         return resp.data;
     };
@@ -39,9 +35,7 @@ export default class MailerInternal extends Base {
      * @deprecated in favor of sendMailMailjet
      */
     sendMailHtml = async (mail: HtmlMail): Promise<void> => {
-        const resp = await this.axios.post<void>(this.getEndpoint("/v1/send/html"), mail).catch((err: Error) => {
-            throw err;
-        });
+        const resp = await this.axios.post<void>(this.getEndpoint("/v1/send/html"), mail);
 
         return resp.data;
     };
@@ -54,9 +48,7 @@ export default class MailerInternal extends Base {
      * @deprecated in favor of sendMailMailjet
      */
     sendMailTemplate = async (mail: TemplateMail): Promise<void> => {
-        const resp = await this.axios.post<void>(this.getEndpoint("/v1/send/template"), mail).catch((err: Error) => {
-            throw err;
-        });
+        const resp = await this.axios.post<void>(this.getEndpoint("/v1/send/template"), mail);
 
         return resp.data;
     };

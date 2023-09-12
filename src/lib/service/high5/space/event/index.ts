@@ -33,14 +33,13 @@ export class High5Event extends Base {
     }: SearchParams & { orgName: string; spaceName: string }): Promise<[Event[], number]> => {
         const filtersDTO = filters?.map((f: SearchFilter) => new SearchFilterDTO(f));
 
-        const resp = await this.axios
-            .post<Event[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/search?page=${page}&limit=${limit}`), {
+        const resp = await this.axios.post<Event[]>(
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/search?page=${page}&limit=${limit}`),
+            {
                 filters: filtersDTO,
                 sorting: sorting,
-            })
-            .catch((err: Error) => {
-                throw err;
-            });
+            }
+        );
 
         return [resp.data, parseInt(String(resp.headers["total"]), 10)];
     };
@@ -53,11 +52,7 @@ export class High5Event extends Base {
      * @returns The requested Event
      */
     public getEvent = async (orgName: string, spaceName: string, eventName: string): Promise<Event> => {
-        const resp = await this.axios
-            .get<Event>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}`))
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.get<Event>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}`));
 
         return resp.data;
     };
@@ -70,11 +65,7 @@ export class High5Event extends Base {
      * @returns The created Event
      */
     public createEvent = async (orgName: string, spaceName: string, name: string): Promise<Event> => {
-        const resp = await this.axios
-            .post<Event>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events`), { name: name })
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.post<Event>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events`), { name: name });
 
         return resp.data;
     };
@@ -86,9 +77,7 @@ export class High5Event extends Base {
      * @param eventName Name of the Event
      */
     public deleteEvent = async (orgName: string, spaceName: string, eventName: string): Promise<void> => {
-        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}`)).catch((err: Error) => {
-            throw err;
-        });
+        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}`));
     };
 
     protected getEndpoint(endpoint: string): string {

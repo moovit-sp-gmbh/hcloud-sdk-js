@@ -14,9 +14,7 @@ export class DaliTeam extends Base {
      * @returns Public URL of the created avatar
      */
     public createAvatar = async (orgName: string, teamName: string): Promise<AvatarCreated> => {
-        const resp = await this.axios.post<AvatarCreated>(this.getEndpoint(`/v1/avatar/org/${orgName}/teams/${teamName}`), {}).catch((err: Error) => {
-            throw err;
-        });
+        const resp = await this.axios.post<AvatarCreated>(this.getEndpoint(`/v1/avatar/org/${orgName}/teams/${teamName}`), {});
 
         return resp.data;
     };
@@ -27,9 +25,7 @@ export class DaliTeam extends Base {
      * @param teamName Name of the team
      */
     public deleteAvatar = async (orgName: string, teamName: string): Promise<void> => {
-        await this.axios.delete<string>(this.getEndpoint(`/v1/avatar/org/${orgName}/teams/${teamName}`)).catch((err: Error) => {
-            throw err;
-        });
+        await this.axios.delete<string>(this.getEndpoint(`/v1/avatar/org/${orgName}/teams/${teamName}`));
     };
 
     /**
@@ -43,13 +39,9 @@ export class DaliTeam extends Base {
         const data = new FormData();
         data.append("avatar", file);
 
-        const resp = await this.axios
-            .put<AvatarCreated>(this.getEndpoint(`/v1/avatar/org/${orgName}/teams/${teamName}`), data, {
-                headers: { "Content-Type": "multipart/form-data" },
-            })
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.put<AvatarCreated>(this.getEndpoint(`/v1/avatar/org/${orgName}/teams/${teamName}`), data, {
+            headers: { "Content-Type": "multipart/form-data" },
+        });
 
         return resp.data;
     };

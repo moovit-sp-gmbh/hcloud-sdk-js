@@ -40,14 +40,10 @@ export class High5Space extends Base {
     }: SearchParams & { orgName: string }): Promise<[Space[], number]> => {
         const filtersDTO = filters?.map((f: SearchFilter) => new SearchFilterDTO(f));
 
-        const resp = await this.axios
-            .post<Space[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/search?page=${page}&limit=${limit}`), {
-                filters: filtersDTO,
-                sorting: sorting,
-            })
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.post<Space[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/search?page=${page}&limit=${limit}`), {
+            filters: filtersDTO,
+            sorting: sorting,
+        });
 
         return [resp.data, parseInt(String(resp.headers["total"]), 10)];
     };
@@ -59,9 +55,7 @@ export class High5Space extends Base {
      * @returns The requested Space
      */
     public getSpace = async (orgName: string, spaceName: string): Promise<Space> => {
-        const resp = await this.axios.get<Space>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}`)).catch((err: Error) => {
-            throw err;
-        });
+        const resp = await this.axios.get<Space>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}`));
 
         return resp.data;
     };
@@ -73,9 +67,7 @@ export class High5Space extends Base {
      * @returns The created Space
      */
     public createSpace = async (orgName: string, name: string): Promise<Space> => {
-        const resp = await this.axios.post<Space>(this.getEndpoint(`/v1/org/${orgName}/spaces`), { name: name }).catch((err: Error) => {
-            throw err;
-        });
+        const resp = await this.axios.post<Space>(this.getEndpoint(`/v1/org/${orgName}/spaces`), { name: name });
 
         return resp.data;
     };
@@ -86,9 +78,7 @@ export class High5Space extends Base {
      * @param spaceName Name of the Space
      */
     public deleteSpace = async (orgName: string, spaceName: string): Promise<void> => {
-        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}`)).catch((err: Error) => {
-            throw err;
-        });
+        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}`));
     };
 
     /**
@@ -100,11 +90,10 @@ export class High5Space extends Base {
      * @returns The Space with updated permissions
      */
     public patchUserSpacePermission = async (orgName: string, spaceName: string, userId: string, permission: SpacePermission): Promise<Space> => {
-        const resp = await this.axios
-            .patch<Space>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/permission/user`), { userId, permission })
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.patch<Space>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/permission/user`), {
+            userId,
+            permission,
+        });
 
         return resp.data;
     };
@@ -123,14 +112,10 @@ export class High5Space extends Base {
         teamName: string,
         permission: SpacePermission
     ): Promise<High5Space> => {
-        const resp = await this.axios
-            .patch<High5Space>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/permission/team`), {
-                teamName,
-                permission,
-            })
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.patch<High5Space>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/permission/team`), {
+            teamName,
+            permission,
+        });
 
         return resp.data;
     };
@@ -143,13 +128,9 @@ export class High5Space extends Base {
      * @returns The Space with updated wave engine property
      */
     public patchSpaceWaveEngine = async (orgName: string, spaceName: string, waveEngine: string): Promise<High5Space> => {
-        const resp = await this.axios
-            .patch<High5Space>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/waveEngine`), {
-                waveEngine,
-            })
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.patch<High5Space>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/waveEngine`), {
+            waveEngine,
+        });
 
         return resp.data;
     };

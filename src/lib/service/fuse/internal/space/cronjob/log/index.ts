@@ -17,11 +17,7 @@ export class FuseCronjobLogInternal extends Base {
      * @returns the created cronjob log with metadata
      */
     public createCronjobLog = async (orgName: string, spaceName: string, cronjobId: string, log: CronjobLogCreation): Promise<CronjobLogDto> => {
-        const resp = await this.axios
-            .post<CronjobLogDto>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs/${cronjobId}/logs}`), log)
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.post<CronjobLogDto>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs/${cronjobId}/logs}`), log);
 
         return resp.data;
     };

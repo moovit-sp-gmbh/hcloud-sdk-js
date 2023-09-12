@@ -23,13 +23,9 @@ export class High5Design extends Base {
         limit = limit || 25;
         page = page || 0;
 
-        const resp = await this.axios
-            .get<Design[]>(
-                this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/designs?page=${page}&limit=${limit}`)
-            )
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.get<Design[]>(
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/designs?page=${page}&limit=${limit}`)
+        );
 
         return resp.data;
     };
@@ -44,11 +40,9 @@ export class High5Design extends Base {
      * @returns The requested design
      */
     public getDesign = async (orgName: string, spaceName: string, eventName: string, streamId: string, designId: string): Promise<Design> => {
-        const resp = await this.axios
-            .get<Design>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/designs/${designId}`))
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.get<Design>(
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/designs/${designId}`)
+        );
 
         return resp.data;
     };
@@ -72,15 +66,14 @@ export class High5Design extends Base {
         design: unknown,
         build?: unknown
     ): Promise<Design> => {
-        const resp = await this.axios
-            .post<Design>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/designs`), {
+        const resp = await this.axios.post<Design>(
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/designs`),
+            {
                 name: name,
                 design: design,
                 build: build,
-            })
-            .catch((err: Error) => {
-                throw err;
-            });
+            }
+        );
 
         return resp.data;
     };

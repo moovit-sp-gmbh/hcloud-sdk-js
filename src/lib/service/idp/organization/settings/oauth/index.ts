@@ -29,14 +29,13 @@ export class IdpOAuthApp extends Base {
             return new SearchFilterDTO(f);
         });
 
-        const resp = await this.axios
-            .post<OAuthApp[]>(this.getEndpoint(`/v1/org/${organizationName}/settings/applications/oauth/search?limit=${limit}&page=${page}`), {
+        const resp = await this.axios.post<OAuthApp[]>(
+            this.getEndpoint(`/v1/org/${organizationName}/settings/applications/oauth/search?limit=${limit}&page=${page}`),
+            {
                 filters: filtersDTO,
                 sorting: sorting,
-            })
-            .catch((err: Error) => {
-                throw err;
-            });
+            }
+        );
 
         return [resp.data, parseInt(String(resp.headers["total"]), 10)];
     };
@@ -48,11 +47,7 @@ export class IdpOAuthApp extends Base {
      * @returns the requested OAuthApp
      */
     public getOAuthApp = async (orgName: string, oauthAppId: string): Promise<OAuthApp> => {
-        const resp = await this.axios
-            .get<OAuthApp>(this.getEndpoint(`/v1/org/${orgName}/settings/applications/oauth/${oauthAppId}`))
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.get<OAuthApp>(this.getEndpoint(`/v1/org/${orgName}/settings/applications/oauth/${oauthAppId}`));
 
         return resp.data;
     };
@@ -64,11 +59,7 @@ export class IdpOAuthApp extends Base {
      * @returns The created OAuth app
      */
     public createOAuthApp = async (orgName: string, oAuthAppCreation: OAuthAppCreation): Promise<OAuthApp> => {
-        const resp = await this.axios
-            .post<OAuthApp>(this.getEndpoint(`/v1/org/${orgName}/settings/applications/oauth`), oAuthAppCreation)
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.post<OAuthApp>(this.getEndpoint(`/v1/org/${orgName}/settings/applications/oauth`), oAuthAppCreation);
 
         return resp.data;
     };
@@ -81,11 +72,10 @@ export class IdpOAuthApp extends Base {
      * @returns the updated OAuth app
      */
     public updateOAuthApp = async (orgName: string, oauthAppId: string, oAuthAppCreation: OAuthAppCreation): Promise<OAuthApp> => {
-        const resp = await this.axios
-            .put<OAuthApp>(this.getEndpoint(`/v1/org/${orgName}/settings/applications/oauth/${oauthAppId}`), oAuthAppCreation)
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.put<OAuthApp>(
+            this.getEndpoint(`/v1/org/${orgName}/settings/applications/oauth/${oauthAppId}`),
+            oAuthAppCreation
+        );
 
         return resp.data;
     };
@@ -96,9 +86,7 @@ export class IdpOAuthApp extends Base {
      * @param oauthAppId ID of the OAuthApp
      */
     public deleteOAuthApp = async (orgName: string, oauthAppId: string): Promise<void> => {
-        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/settings/applications/oauth/${oauthAppId}`)).catch((err: Error) => {
-            throw err;
-        });
+        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/settings/applications/oauth/${oauthAppId}`));
     };
 
     /**
@@ -109,11 +97,9 @@ export class IdpOAuthApp extends Base {
      * @returns the updated OAuth app
      */
     public createOAuthAppSecret = async (orgName: string, oauthAppId: string, secretName: string): Promise<OAuthApp> => {
-        const resp = await this.axios
-            .post<OAuthApp>(this.getEndpoint(`/v1/org/${orgName}/settings/applications/oauth/${oauthAppId}/secret`), { secretName })
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.post<OAuthApp>(this.getEndpoint(`/v1/org/${orgName}/settings/applications/oauth/${oauthAppId}/secret`), {
+            secretName,
+        });
 
         return resp.data;
     };
@@ -126,11 +112,9 @@ export class IdpOAuthApp extends Base {
      * @returns the updated OAuthApp
      */
     public deleteOAuthAppSecret = async (orgName: string, oauthAppId: string, secret: string): Promise<OAuthApp> => {
-        const resp = await this.axios
-            .delete<OAuthApp>(this.getEndpoint(`/v1/org/${orgName}/settings/applications/oauth/${oauthAppId}/secret/${secret}`))
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.delete<OAuthApp>(
+            this.getEndpoint(`/v1/org/${orgName}/settings/applications/oauth/${oauthAppId}/secret/${secret}`)
+        );
 
         return resp.data;
     };

@@ -22,13 +22,9 @@ export class High5Node extends Base {
     ): Promise<Node[]> {
         limit = limit || 25;
         page = page || 0;
-        const resp = await this.axios
-            .get<Node[]>(
-                this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/nodes?page=${page}&limit=${limit}`)
-            )
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.get<Node[]>(
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/nodes?page=${page}&limit=${limit}`)
+        );
 
         return resp.data;
     }
@@ -43,11 +39,9 @@ export class High5Node extends Base {
      * @returns The requested Node
      */
     public async getNode(orgName: string, spaceName: string, eventName: string, streamId: string, nodeId: string): Promise<Node> {
-        const resp = await this.axios
-            .get<Node>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/nodes/${nodeId}`))
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.get<Node>(
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/nodes/${nodeId}`)
+        );
 
         return resp.data;
     }
@@ -72,15 +66,14 @@ export class High5Node extends Base {
         specification: string,
         typescript: string
     ): Promise<Node> {
-        const resp = await this.axios
-            .post<Node>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/nodes`), {
+        const resp = await this.axios.post<Node>(
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/nodes`),
+            {
                 category: nodeCategory,
                 specification: specification,
                 typescript: typescript,
-            })
-            .catch((err: Error) => {
-                throw err;
-            });
+            }
+        );
 
         return resp.data;
     }
@@ -94,11 +87,9 @@ export class High5Node extends Base {
      * @param nodeId Id of the node
      */
     public async deleteNode(orgName: string, spaceName: string, eventName: string, streamId: string, nodeId: string): Promise<void> {
-        await this.axios
-            .delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/nodes/${nodeId}`))
-            .catch((err: Error) => {
-                throw err;
-            });
+        await this.axios.delete<void>(
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/nodes/${nodeId}`)
+        );
     }
 
     /**
@@ -134,16 +125,12 @@ export class High5Node extends Base {
             delete patchNode.typescript;
         }
 
-        const resp = await this.axios
-            .patch<Node>(
-                this.getEndpoint(
-                    `/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/nodes/${nodeId}?regenerateSecret=${regenerateSecret}`
-                ),
-                patchNode
-            )
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.patch<Node>(
+            this.getEndpoint(
+                `/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/nodes/${nodeId}?regenerateSecret=${regenerateSecret}`
+            ),
+            patchNode
+        );
 
         return resp.data;
     }
@@ -166,13 +153,9 @@ export class High5Node extends Base {
         nodeId: string,
         secret: string
     ): Promise<string> {
-        const resp = await this.axios
-            .get<string>(
-                this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/nodes/${nodeId}/content/${secret}`)
-            )
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.get<string>(
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/nodes/${nodeId}/content/${secret}`)
+        );
 
         return resp.data;
     }

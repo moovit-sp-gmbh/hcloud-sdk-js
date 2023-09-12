@@ -17,9 +17,7 @@ export class FuseSpaceInternal extends Base {
      * @param orgName Name of the organization
      */
     public deleteAllSpacesOfOrganization = async (orgName: string): Promise<void> => {
-        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}`)).catch((err: Error) => {
-            throw err;
-        });
+        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}`));
     };
 
     /**
@@ -30,9 +28,7 @@ export class FuseSpaceInternal extends Base {
      * @param userId ID of the user
      */
     public removeUserFromAllSpacesOfOrganization = async (orgName: string, userId: string): Promise<void> => {
-        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/user/${userId}`)).catch((err: Error) => {
-            throw err;
-        });
+        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/user/${userId}`));
     };
 
     protected getEndpoint(endpoint: string): string {

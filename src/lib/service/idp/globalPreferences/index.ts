@@ -12,9 +12,7 @@ export class IdpGlobalPreference extends Base {
      * @returns object containing reCaptcha ID and regions
      */
     public getGlobalPreference = async (): Promise<PublicConfig> => {
-        const response = await this.axios.get<PublicConfig>(this.getEndpoint(`/v1/config`)).catch((err: Error) => {
-            throw err;
-        });
+        const response = await this.axios.get<PublicConfig>(this.getEndpoint(`/v1/config`));
         return response.data;
     };
 

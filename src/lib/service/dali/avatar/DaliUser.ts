@@ -12,9 +12,7 @@ export class DaliUser extends Base {
      * @returns Public URL of the created avatar
      */
     public createAvatar = async (): Promise<AvatarCreated> => {
-        const resp = await this.axios.post<AvatarCreated>(this.getEndpoint(`/v1/avatar/user`), {}).catch((err: Error) => {
-            throw err;
-        });
+        const resp = await this.axios.post<AvatarCreated>(this.getEndpoint(`/v1/avatar/user`), {});
         return resp.data;
     };
 
@@ -22,9 +20,7 @@ export class DaliUser extends Base {
      * Deletes the avatar of the requesting user from cloud storage. If you want to update it instead, use updateAvatar().
      */
     public deleteAvatar = async (): Promise<void> => {
-        await this.axios.delete<string>(this.getEndpoint(`/v1/avatar/user`)).catch((err: Error) => {
-            throw err;
-        });
+        await this.axios.delete<string>(this.getEndpoint(`/v1/avatar/user`));
     };
 
     /**
@@ -36,13 +32,9 @@ export class DaliUser extends Base {
         const data = new FormData();
         data.append("avatar", file);
 
-        const resp = await this.axios
-            .put<AvatarCreated>(this.getEndpoint(`/v1/avatar/user`), data, {
-                headers: { "Content-Type": "multipart/form-data" },
-            })
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.put<AvatarCreated>(this.getEndpoint(`/v1/avatar/user`), data, {
+            headers: { "Content-Type": "multipart/form-data" },
+        });
 
         return resp.data;
     };

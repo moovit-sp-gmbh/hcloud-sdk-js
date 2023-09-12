@@ -23,14 +23,10 @@ export class IdpOrganizationMember extends Base {
         const filtersDTO = filters?.map((f: SearchFilter) => {
             return new SearchFilterDTO(f);
         });
-        const resp = await this.axios
-            .post<OrganizationMember[]>(this.getEndpoint(`/${orgName}/members/search?limit=${limit}&page=${page}`), {
-                filters: filtersDTO,
-                sorting: sorting,
-            })
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.post<OrganizationMember[]>(this.getEndpoint(`/${orgName}/members/search?limit=${limit}&page=${page}`), {
+            filters: filtersDTO,
+            sorting: sorting,
+        });
 
         return [resp.data, parseInt(String(resp.headers["total"]), 10)];
     };
@@ -42,9 +38,7 @@ export class IdpOrganizationMember extends Base {
      * @returns The requested Organization Member
      */
     public getOrganizationMember = async (orgName: string, userId: string): Promise<OrganizationMember> => {
-        const resp = await this.axios.get<OrganizationMember>(this.getEndpoint(`/${orgName}/members/${userId}`)).catch((err: Error) => {
-            throw err;
-        });
+        const resp = await this.axios.get<OrganizationMember>(this.getEndpoint(`/${orgName}/members/${userId}`));
 
         return resp.data;
     };
@@ -56,11 +50,7 @@ export class IdpOrganizationMember extends Base {
      * @returns The created OrganizationMember
      */
     public addOrganizationMember = async (orgName: string, addOrganizationMember: AddOrganizationMember): Promise<OrganizationMember> => {
-        const resp = await this.axios
-            .post<OrganizationMember>(this.getEndpoint(`/${orgName}/members/invitations`), addOrganizationMember)
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.post<OrganizationMember>(this.getEndpoint(`/${orgName}/members/invitations`), addOrganizationMember);
 
         return resp.data;
     };
@@ -77,11 +67,7 @@ export class IdpOrganizationMember extends Base {
         userId: string,
         patchOrgMember: PatchOrgMember
     ): Promise<OrganizationMember> => {
-        const resp = await this.axios
-            .patch<OrganizationMember>(this.getEndpoint(`/${orgName}/members/${userId}/permissions`), patchOrgMember)
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.patch<OrganizationMember>(this.getEndpoint(`/${orgName}/members/${userId}/permissions`), patchOrgMember);
 
         return resp.data;
     };
@@ -92,9 +78,7 @@ export class IdpOrganizationMember extends Base {
      * @param userId ID of the User
      */
     public removeOrganizationMember = async (orgName: string, userId: string): Promise<void> => {
-        await this.axios.delete<void>(this.getEndpoint(`/${orgName}/members/${userId}`)).catch((err: Error) => {
-            throw err;
-        });
+        await this.axios.delete<void>(this.getEndpoint(`/${orgName}/members/${userId}`));
     };
 
     protected getEndpoint(endpoint: string): string {

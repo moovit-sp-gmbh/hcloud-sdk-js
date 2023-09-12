@@ -38,9 +38,7 @@ export class IdpOrganization extends Base {
      */
     public updateOrganization = async (orgName: string, newName: string, company?: string): Promise<Organization> => {
         const organization = { name: newName, company: company } as Organization;
-        const resp = await this.axios.patch<Organization>(this.getEndpoint(`/v1/org/${orgName}`), organization).catch((err: Error) => {
-            throw err;
-        });
+        const resp = await this.axios.patch<Organization>(this.getEndpoint(`/v1/org/${orgName}`), organization);
 
         return resp.data;
     };
@@ -53,9 +51,7 @@ export class IdpOrganization extends Base {
      */
     public createOrganization = async (name: string, company?: string): Promise<Organization> => {
         const organization = { name: name, company: company } as Organization;
-        const resp = await this.axios.post<Organization>(this.getEndpoint(`/v1/org`), organization).catch((err: Error) => {
-            throw err;
-        });
+        const resp = await this.axios.post<Organization>(this.getEndpoint(`/v1/org`), organization);
 
         return resp.data;
     };
@@ -76,19 +72,13 @@ export class IdpOrganization extends Base {
     ): Promise<OrganizationWithPermission | OrganizationWithPermissionAndTeams> {
         let resp;
         if (options?.teams) {
-            resp = await this.axios
-                .get<OrganizationWithPermissionAndTeams>(this.getEndpoint(`/v1/org/${orgName}`), {
-                    params: {
-                        teams: options.teams,
-                    },
-                })
-                .catch((err: Error) => {
-                    throw err;
-                });
-        } else {
-            resp = await this.axios.get<OrganizationWithPermission>(this.getEndpoint(`/v1/org/${orgName}`)).catch((err: Error) => {
-                throw err;
+            resp = await this.axios.get<OrganizationWithPermissionAndTeams>(this.getEndpoint(`/v1/org/${orgName}`), {
+                params: {
+                    teams: options.teams,
+                },
             });
+        } else {
+            resp = await this.axios.get<OrganizationWithPermission>(this.getEndpoint(`/v1/org/${orgName}`));
         }
 
         return resp.data;
@@ -100,9 +90,7 @@ export class IdpOrganization extends Base {
      * @param orgName Name of the Organization to be deleted
      */
     public deleteOrganization = async (orgName: string): Promise<void> => {
-        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}`)).catch((err: Error) => {
-            throw err;
-        });
+        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}`));
     };
 
     protected getEndpoint(endpoint: string): string {

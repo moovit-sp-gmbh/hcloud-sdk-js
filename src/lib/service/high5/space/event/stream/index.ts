@@ -1,6 +1,6 @@
 import { AxiosInstance } from "axios";
 import Base, { Options } from "../../../../../Base";
-import { Stream, SingleStreamPatchOrder, StreamPatchOrder } from "../../../../../interfaces/high5/space/event/stream";
+import { SingleStreamPatchOrder, Stream, StreamPatchOrder } from "../../../../../interfaces/high5/space/event/stream";
 import { High5Design } from "./design";
 import { High5Node } from "./node";
 import { SearchFilter, SearchParams } from "../../../../../interfaces/global";
@@ -35,20 +35,20 @@ export class High5Stream extends Base {
         sorting,
         limit = 25,
         page = 0,
-    }: SearchParams & { orgName: string; spaceName: string; eventName: string }): Promise<[Stream[], number]> => {
+    }: SearchParams & {
+        orgName: string;
+        spaceName: string;
+        eventName: string;
+    }): Promise<[Stream[], number]> => {
         const filtersDTO = filters?.map((f: SearchFilter) => new SearchFilterDTO(f));
 
-        const resp = await this.axios
-            .post<Stream[]>(
-                this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/search?page=${page}&limit=${limit}`),
-                {
-                    filters: filtersDTO,
-                    sorting: sorting,
-                }
-            )
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.post<Stream[]>(
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/search?page=${page}&limit=${limit}`),
+            {
+                filters: filtersDTO,
+                sorting: sorting,
+            }
+        );
 
         return [resp.data, parseInt(String(resp.headers["total"]), 10)];
     };
@@ -62,11 +62,7 @@ export class High5Stream extends Base {
      * @returns The requested stream
      */
     public getStream = async (orgName: string, spaceName: string, eventName: string, streamId: string): Promise<Stream> => {
-        const resp = await this.axios
-            .get<Stream>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}`))
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.get<Stream>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}`));
 
         return resp.data;
     };
@@ -80,11 +76,9 @@ export class High5Stream extends Base {
      * @returns The created stream
      */
     public createStream = async (orgName: string, spaceName: string, eventName: string, name: string): Promise<Stream> => {
-        const resp = await this.axios
-            .post<Stream>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams`), { name: name })
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.post<Stream>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams`), {
+            name: name,
+        });
 
         return resp.data;
     };
@@ -103,11 +97,10 @@ export class High5Stream extends Base {
         eventName: string,
         streamList: StreamPatchOrder[]
     ): Promise<Stream[]> => {
-        const resp = await this.axios
-            .patch<Stream[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/order`), streamList)
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.patch<Stream[]>(
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/order`),
+            streamList
+        );
 
         return resp.data;
     };
@@ -128,14 +121,10 @@ export class High5Stream extends Base {
         streamId: string,
         singleStreamPatchOrder: SingleStreamPatchOrder
     ): Promise<Stream[]> => {
-        const resp = await this.axios
-            .patch<Stream[]>(
-                this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/order`),
-                singleStreamPatchOrder
-            )
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.patch<Stream[]>(
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/order`),
+            singleStreamPatchOrder
+        );
 
         return resp.data;
     };
@@ -148,11 +137,7 @@ export class High5Stream extends Base {
      * @param streamId ID of the stream
      */
     public deleteStream = async (orgName: string, spaceName: string, eventName: string, streamId: string): Promise<void> => {
-        await this.axios
-            .delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}`))
-            .catch((err: Error) => {
-                throw err;
-            });
+        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}`));
     };
 
     protected getEndpoint(endpoint: string): string {

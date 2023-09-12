@@ -13,9 +13,7 @@ export class IdpOrganizationTeams extends Base {
      * @returns The created Team
      */
     public createTeam = async (orgName: string, teamName: string, userIds: string[]): Promise<Team> => {
-        const resp = await this.axios.post<Team>(this.getEndpoint(`/${orgName}/teams`), { name: teamName, users: userIds }).catch((err: Error) => {
-            throw err;
-        });
+        const resp = await this.axios.post<Team>(this.getEndpoint(`/${orgName}/teams`), { name: teamName, users: userIds });
 
         return resp.data;
     };
@@ -26,9 +24,7 @@ export class IdpOrganizationTeams extends Base {
      * @param teamName Name of the Team
      */
     public deleteTeam = async (orgName: string, teamName: string): Promise<void> => {
-        await this.axios.delete<void>(this.getEndpoint(`/${orgName}/teams/${teamName}`)).catch((err: Error) => {
-            throw err;
-        });
+        await this.axios.delete<void>(this.getEndpoint(`/${orgName}/teams/${teamName}`));
     };
 
     /**
@@ -47,15 +43,11 @@ export class IdpOrganizationTeams extends Base {
         userIds?: string[],
         teamUsersPatchOperation?: TeamUsersPatchOperation
     ): Promise<Team> => {
-        const resp = await this.axios
-            .patch<Team>(this.getEndpoint(`/${orgName}/teams/${teamName}`), {
-                name: newName,
-                users: userIds,
-                usersOperation: teamUsersPatchOperation,
-            })
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.patch<Team>(this.getEndpoint(`/${orgName}/teams/${teamName}`), {
+            name: newName,
+            users: userIds,
+            usersOperation: teamUsersPatchOperation,
+        });
 
         return resp.data;
     };
@@ -67,9 +59,7 @@ export class IdpOrganizationTeams extends Base {
      * @returns The requested Team
      */
     public getTeam = async (orgName: string, teamName: string): Promise<Team> => {
-        const resp = await this.axios.get<Team>(this.getEndpoint(`/${orgName}/teams/${teamName}`)).catch((err: Error) => {
-            throw err;
-        });
+        const resp = await this.axios.get<Team>(this.getEndpoint(`/${orgName}/teams/${teamName}`));
 
         return resp.data;
     };
@@ -85,9 +75,7 @@ export class IdpOrganizationTeams extends Base {
         limit = limit || 25;
         page = page || 0;
 
-        const resp = await this.axios.get<Team[]>(this.getEndpoint(`/${orgName}/teams?limit=${limit}&page=${page}`)).catch((err: Error) => {
-            throw err;
-        });
+        const resp = await this.axios.get<Team[]>(this.getEndpoint(`/${orgName}/teams?limit=${limit}&page=${page}`));
 
         return [resp.data, parseInt(String(resp.headers["total"]), 10)];
     };
@@ -115,14 +103,10 @@ export class IdpOrganizationTeams extends Base {
             return new SearchFilterDTO(f);
         });
 
-        const resp = await this.axios
-            .post<Team[]>(this.getEndpoint(`/${params.organizationName}/teams/search?limit=${limit}&page=${page}`), {
-                filters: filtersDTO,
-                sorting: params.sorting,
-            })
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.post<Team[]>(this.getEndpoint(`/${params.organizationName}/teams/search?limit=${limit}&page=${page}`), {
+            filters: filtersDTO,
+            sorting: params.sorting,
+        });
 
         return [resp.data, parseInt(String(resp.headers["total"]), 10)];
     };
@@ -149,17 +133,13 @@ export class IdpOrganizationTeams extends Base {
             return new SearchFilterDTO(f);
         });
 
-        const resp = await this.axios
-            .post<(ReducedUser & { email: string })[]>(
-                this.getEndpoint(`/${organizationName}/teams/${teamName}/members/search?limit=${limit}&page=${page}`),
-                {
-                    filters: filtersDTO,
-                    sorting: sorting,
-                }
-            )
-            .catch((err: Error) => {
-                throw err;
-            });
+        const resp = await this.axios.post<(ReducedUser & { email: string })[]>(
+            this.getEndpoint(`/${organizationName}/teams/${teamName}/members/search?limit=${limit}&page=${page}`),
+            {
+                filters: filtersDTO,
+                sorting: sorting,
+            }
+        );
 
         return [resp.data, parseInt(String(resp.headers["total"]), 10)];
     };

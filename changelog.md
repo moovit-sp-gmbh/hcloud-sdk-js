@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.46
+
+-   **BREAKING**: When the backends respond with a 400/500 we throw HCloudError instead of AxiosError 
+
 ## 0.0.45
 
 -   **BREAKING**: Update interface 'Secret' to hold a creator

@@ -1,4 +1,4 @@
-export * from "./ErrorMessage";
+export * from "./HCloudError";
 export * from "./Header";
 export * from "./HttpMethod";
 export * from "./Products";

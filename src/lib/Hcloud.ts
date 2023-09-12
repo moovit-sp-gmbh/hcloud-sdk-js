@@ -9,6 +9,7 @@ import High5Service from "./service/high5";
 import IdpService from "./service/idp";
 import MailerService from "./service/mailer";
 import NatsService from "./service/nats";
+import wrapError from "./helper/ErrorHelper";
 
 // tslint:disable-next-line
 export default class HCloud {
@@ -34,7 +35,8 @@ export default class HCloud {
             response => response,
             error => {
                 this.options.logger?.error(String(error), error);
-                throw error;
+
+                return Promise.reject(wrapError(error));
             }
         );
 

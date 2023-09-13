@@ -38,6 +38,7 @@ enum MailjetTemplate {
     IDP_NEW_REGISTRATION = "IDP_NEW_REGISTRATION",
     IDP_INVITE_TO_ORGANIZATION = "IDP_INVITE_TO_ORGANIZATION",
     IDP_RESET_PASSWORD = "IDP_RESET_PASSWORD",
+    IDP_REGISTRATION_AND_INVITATION = "IDP_REGISTRATION_AND_INVITATION",
 }
 
 interface MailjetTemplateField {
@@ -78,6 +79,16 @@ export class IdpInviteToOrganizationMailjetMailDto extends MailjetMailDTO {
             HCLOUD_INVITE_FROM: inviteFromPerson,
             HCLOUD_INVITE_ORGANIZATION: inviteToOrganization,
             HCLOUD_APPROVAL_LINK: approvalLink,
+        });
+    }
+}
+
+export class IdpRegisterAndInviteToOrganizationMailjetMailDto extends MailjetMailDTO {
+    constructor(recipients: string[], registerLink: string, inviteFromPerson: string, inviteToOrganization: string) {
+        super(recipients, MailjetTemplate.IDP_REGISTRATION_AND_INVITATION, {
+            HCLOUD_INVITE_FROM: inviteFromPerson,
+            HCLOUD_INVITE_ORGANIZATION: inviteToOrganization,
+            HCLOUD_REGISTER_LINK: registerLink,
         });
     }
 }

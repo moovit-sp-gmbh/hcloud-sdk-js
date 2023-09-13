@@ -1,20 +1,20 @@
-import { ReducedOrganization, OrganizationPermission } from "..";
+import { ReducedOrganization, OrganizationRole } from "..";
 import { ReducedUser } from "../../user";
 
 export interface OrganizationMember {
     _id: string;
     organization: ReducedOrganization;
     user: ReducedUser;
-    permission: OrganizationPermission;
+    role: OrganizationRole;
     createDate: number;
     modifyDate: number;
 }
 
 export interface AddOrganizationMember {
     email: string;
-    permission: OrganizationPermission;
+    role: OrganizationRole;
 }
 
 export interface PatchOrgMember {
-    permission: OrganizationPermission;
+    role: OrganizationRole;
 }

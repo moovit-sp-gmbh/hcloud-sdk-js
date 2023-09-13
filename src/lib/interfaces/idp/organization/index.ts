@@ -1,9 +1,9 @@
 import { ReducedUser } from "../user";
 import { ReducedTeam } from "./team";
 
-export enum OrganizationPermission {
+export enum OrganizationRole {
     MEMBER = "MEMBER", // Part of org, but cannot change anything
-    MANAGE = "MANAGE", // Can update members
+    MANAGER = "MANAGER", // Can update members
     ADMIN = "ADMIN", // Can update org and members
     OWNER = "OWNER", // Can update org, members, and delete org
 }
@@ -20,11 +20,11 @@ export interface Organization {
     modifyDate: number;
 }
 
-export interface OrganizationWithPermission extends Organization {
-    permission: OrganizationPermission;
+export interface OrganizationWithUserRole extends Organization {
+    role: OrganizationRole;
 }
 
-export interface OrganizationWithPermissionAndTeams extends OrganizationWithPermission {
+export interface OrganizationWithUserRoleAndTeams extends OrganizationWithUserRole {
     teams: ReducedTeam[];
 }
 

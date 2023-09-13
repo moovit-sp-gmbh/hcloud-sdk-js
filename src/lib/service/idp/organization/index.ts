@@ -1,6 +1,6 @@
 import { AxiosInstance } from "axios";
 import Base, { Options } from "../../../Base";
-import { Organization, OrganizationWithPermission, OrganizationWithPermissionAndTeams } from "../../../interfaces/idp/organization";
+import { Organization, OrganizationWithUserRole, OrganizationWithUserRoleAndTeams } from "../../../interfaces/idp/organization";
 import { IdpOrganizationMember } from "./member";
 import { IdpOrganizationTeams } from "./team";
 import IdpOrganizationSettings from "./settings";
@@ -63,22 +63,22 @@ export class IdpOrganization extends Base {
      * @returns The requested Organization
      */
     /* eslint-disable no-dupe-class-members */
-    public async getOrganization(orgName: string): Promise<OrganizationWithPermission>;
-    public async getOrganization(orgName: string, options: { teams: false }): Promise<OrganizationWithPermission>;
-    public async getOrganization(orgName: string, options: { teams: true }): Promise<OrganizationWithPermissionAndTeams>;
+    public async getOrganization(orgName: string): Promise<OrganizationWithUserRole>;
+    public async getOrganization(orgName: string, options: { teams: false }): Promise<OrganizationWithUserRole>;
+    public async getOrganization(orgName: string, options: { teams: true }): Promise<OrganizationWithUserRoleAndTeams>;
     public async getOrganization(
         orgName: string,
         options?: { teams: boolean }
-    ): Promise<OrganizationWithPermission | OrganizationWithPermissionAndTeams> {
+    ): Promise<OrganizationWithUserRole | OrganizationWithUserRoleAndTeams> {
         let resp;
         if (options?.teams) {
-            resp = await this.axios.get<OrganizationWithPermissionAndTeams>(this.getEndpoint(`/v1/org/${orgName}`), {
+            resp = await this.axios.get<OrganizationWithUserRoleAndTeams>(this.getEndpoint(`/v1/org/${orgName}`), {
                 params: {
                     teams: options.teams,
                 },
             });
         } else {
-            resp = await this.axios.get<OrganizationWithPermission>(this.getEndpoint(`/v1/org/${orgName}`));
+            resp = await this.axios.get<OrganizationWithUserRole>(this.getEndpoint(`/v1/org/${orgName}`));
         }
 
         return resp.data;

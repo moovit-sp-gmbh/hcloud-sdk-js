@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.0.48
+
+-   **BREAKING**: Rename OrganizationPermission to OrganizationRole. Update all organization related objects and fields to hold role instead of
+    permission
+
 ## 0.0.47
 
 -   helmut.cloud Bouncer support

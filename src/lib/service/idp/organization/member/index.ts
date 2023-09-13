@@ -46,7 +46,7 @@ export class IdpOrganizationMember extends Base {
     /**
      * Invites a User to an Organization.
      * @param orgName Name of the Organization
-     * @param addOrganizationMember Object containing the email and permission of the user to be invited
+     * @param addOrganizationMember Object containing the email and role (in that organization) of the user to be invited
      * @returns The created OrganizationMember
      */
     public addOrganizationMember = async (orgName: string, addOrganizationMember: AddOrganizationMember): Promise<OrganizationMember> => {
@@ -56,18 +56,14 @@ export class IdpOrganizationMember extends Base {
     };
 
     /**
-     * Updates the permission a User has in the specified Organization.
+     * Updates the role of a User in the specified Organization.
      * @param orgName Name of the Organization
      * @param userId ID of the User
-     * @param patchOrgMember New permission
+     * @param patchOrgMember New role
      * @returns The updated OrganizationMember
      */
-    public patchOrganizationMemberPermission = async (
-        orgName: string,
-        userId: string,
-        patchOrgMember: PatchOrgMember
-    ): Promise<OrganizationMember> => {
-        const resp = await this.axios.patch<OrganizationMember>(this.getEndpoint(`/${orgName}/members/${userId}/permissions`), patchOrgMember);
+    public patchOrganizationMemberRole = async (orgName: string, userId: string, patchOrgMember: PatchOrgMember): Promise<OrganizationMember> => {
+        const resp = await this.axios.patch<OrganizationMember>(this.getEndpoint(`/${orgName}/members/${userId}/role`), patchOrgMember);
 
         return resp.data;
     };

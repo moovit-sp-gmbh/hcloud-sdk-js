@@ -1,8 +1,12 @@
 # Changelog
 
+## 0.0.47
+
+-   helmut.cloud Bouncer support
+
 ## 0.0.46
 
--   **BREAKING**: When the backends respond with a 400/500 we throw HCloudError instead of AxiosError 
+-   **BREAKING**: When the backends respond with a 400/500 we throw HCloudError instead of AxiosError
 
 ## 0.0.45
 
@@ -14,10 +18,10 @@
 
 ## 0.0.43
 
-- Add getAxios method to additional custom interceptors
-- Add optional comparator to SearchFilters
-- Add rest parameters to HcloudLogger
-- Fix response interceptor will forward errors correctly
+-   Add getAxios method to additional custom interceptors
+-   Add optional comparator to SearchFilters
+-   Add rest parameters to HcloudLogger
+-   Fix response interceptor will forward errors correctly
 
 ## 0.0.42
 

@@ -1,8 +1,9 @@
 import axios, { AxiosInstance } from "axios";
 import { version } from "../package.json";
-import { Options } from "./Base";
+import { HcloudLogger, Options } from "./Base";
 import AgentService from "./service/agent";
 import AuditorService from "./service/auditor";
+import BouncerService from "./service/bouncer";
 import FuseService from "./service/fuse";
 import DaliService from "./service/dali";
 import High5Service from "./service/high5";
@@ -15,6 +16,7 @@ import wrapError from "./helper/ErrorHelper";
 export default class HCloud {
     public Agent: AgentService;
     public Auditor: AuditorService;
+    public Bouncer: BouncerService;
     public High5: High5Service;
     public Idp: IdpService;
     public Fuse: FuseService;
@@ -42,6 +44,7 @@ export default class HCloud {
 
         this.Agent = new AgentService(this.options, this.axios);
         this.Auditor = new AuditorService(this.options, this.axios);
+        this.Bouncer = new BouncerService(this.options, this.axios);
         this.High5 = new High5Service(this.options, this.axios);
         this.Idp = new IdpService(this.options, this.axios);
         this.Fuse = new FuseService(this.options, this.axios);
@@ -80,6 +83,15 @@ export default class HCloud {
 
     getCorrelationId(): string | undefined {
         return this.axios.defaults.headers.common["X-Hcloud-Correlation-ID"]?.toString();
+    }
+
+    getLogger(): HcloudLogger | undefined {
+        return this.options.logger;
+    }
+
+    setLogger(logger: HcloudLogger) {
+        this.options.logger = logger;
+        return this;
     }
 
     /**

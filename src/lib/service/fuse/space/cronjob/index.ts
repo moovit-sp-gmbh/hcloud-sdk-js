@@ -154,6 +154,23 @@ export class FuseCronjob extends Base {
         return [resp.data, parseInt(String(resp.headers["total"]), 10)];
     };
 
+    /**
+     * Resolve a cron pattern along with a timezone to get the next executions in mili-seconds.
+     * @param expression The cron expression
+     * @param timezone The target IANA timezone
+     * @param amount The amount of returned execution-dates (limited between 1 and 10, default is 3)
+     * @returns Array of Unix timestamps
+     */
+    public resolveCronPatternWithTimezone = async (expression: string, timezone: string, amount = 3): Promise<number[]> => {
+        const resp = await this.axios.post<number[]>(this.getEndpoint(`/v1/cron/resolve`), {
+            expression: expression,
+            timezone: timezone,
+            amount: amount,
+        });
+
+        return resp.data;
+    };
+
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/fuse${endpoint}`;
     }

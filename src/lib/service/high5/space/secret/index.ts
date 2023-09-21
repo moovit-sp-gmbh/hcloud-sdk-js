@@ -1,8 +1,8 @@
 import { AxiosInstance } from "axios";
-import Base, { Options } from "../../../../../Base";
-import { SearchFilter, SearchParams } from "../../../../../interfaces/global";
-import { SearchFilterDTO } from "../../../../../helper/searchFilter";
-import { Secret } from "../../../../../interfaces/high5/space/secret";
+import Base, { Options } from "../../../../Base";
+import { SearchFilter, SearchParams } from "../../../../interfaces/global";
+import { SearchFilterDTO } from "../../../../helper/searchFilter";
+import { Secret } from "../../../../interfaces/high5/space/secret";
 
 export default class High5Secret extends Base {
     constructor(options: Options, axios: AxiosInstance) {
@@ -35,7 +35,7 @@ export default class High5Secret extends Base {
         });
 
         const resp = await this.axios.post<Secret[]>(
-            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/settings/secrets/search?limit=${limit}&page=${page}`),
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/secrets/search?limit=${limit}&page=${page}`),
             {
                 filters: filtersDTO,
                 sorting,
@@ -55,7 +55,7 @@ export default class High5Secret extends Base {
      * @returns The created Secret
      */
     addSecret = async (orgName: string, spaceName: string, key: string, value: string, encrypted = false): Promise<Secret> => {
-        const resp = await this.axios.post<Secret>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/settings/secrets`), {
+        const resp = await this.axios.post<Secret>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/secrets`), {
             key,
             value,
             encrypted,
@@ -74,7 +74,7 @@ export default class High5Secret extends Base {
      * @returns The updated Secret
      */
     updateSecret = async (orgName: string, spaceName: string, key: string, value: string, encrypted = false): Promise<Secret> => {
-        const resp = await this.axios.put<Secret>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/settings/secrets/${key}`), {
+        const resp = await this.axios.put<Secret>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/secrets/${key}`), {
             value,
             encrypted,
         });
@@ -89,7 +89,7 @@ export default class High5Secret extends Base {
      * @param key - Key of the key-value pair
      */
     deleteSecret = async (orgName: string, spaceName: string, key: string): Promise<void> => {
-        await this.axios.delete(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/settings/secrets/${key}`));
+        await this.axios.delete(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/secrets/${key}`));
     };
 
     protected getEndpoint(endpoint: string): string {

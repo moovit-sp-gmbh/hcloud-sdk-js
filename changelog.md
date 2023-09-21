@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.49
+
+-   **BREAKING**: Move class High5Secret out of settings and delete settings folder and class
+
 ## 0.0.48
 
 -   **BREAKING**: Rename OrganizationPermission to OrganizationRole. Update all organization related objects and fields to hold role instead of

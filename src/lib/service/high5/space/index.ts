@@ -6,20 +6,20 @@ import { High5Event } from "./event";
 import { High5Execute } from "./execution";
 import { High5Webhook } from "./webhook";
 import { SearchFilterDTO } from "../../../helper/searchFilter";
-import High5SpaceSettings from "./settings";
+import High5Secret from "./secret";
 
 export class High5Space extends Base {
     public event: High5Event;
     public execute: High5Execute;
     public webhook: High5Webhook;
-    public settings: High5SpaceSettings;
+    public secret: High5Secret;
 
     constructor(options: Options, axios: AxiosInstance) {
         super(options, axios);
         this.event = new High5Event(this.options, this.axios);
         this.execute = new High5Execute(this.options, this.axios);
         this.webhook = new High5Webhook(this.options, this.axios);
-        this.settings = new High5SpaceSettings(this.options, this.axios);
+        this.secret = new High5Secret(this.options, this.axios);
     }
 
     /**

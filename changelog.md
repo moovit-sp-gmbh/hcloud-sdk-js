@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.50
+
+-   Adapt NATS interfaces to not have settings in their paths when working with secrets
+
 ## 0.0.49
 
 -   **BREAKING**: Move class High5Secret out of settings and delete settings folder and class

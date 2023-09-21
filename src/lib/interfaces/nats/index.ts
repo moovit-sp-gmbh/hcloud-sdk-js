@@ -15,9 +15,9 @@ enum NatsSubject {
     HIGH5_STREAM_EXECUTE = "hcloud.high5.organization.${organizationId}.stream.execute.${base64email}",
     HIGH5_EVENTS = "hcloud.high5.organization.${organizationId}.space.${spaceId}.events",
     HIGH5_STREAMS = "hcloud.high5.organization.${organizationId}.space.${spaceId}.event.${eventId}.streams",
+    HIGH5_SECRETS = "hcloud.high5.organization.${organizationId}.space.${spaceId}.secrets",
     HIGH5_SETTINGS_GENERAL = "hcloud.high5.organization.${organizationId}.space.${spaceId}.settings.general",
     HIGH5_SETTINGS_WEBHOOKS = "hcloud.high5.organization.${organizationId}.space.${spaceId}.settings.webhooks",
-    HIGH5_SETTINGS_SECRETS = "hcloud.high5.organization.${organizationId}.space.${spaceId}.settings.secrets",
 
     FUSE_JOBS = "hcloud.fuse.jobs",
     FUSE_JOBS_TRIGGER = "hcloud.fuse.jobs.trigger",
@@ -140,15 +140,16 @@ class NatsSubjects {
                 };
             };
 
+            static SECRETS = (organizationId: string, spaceId: string) => {
+                return NatsSubjects.replace(NatsSubject.HIGH5_SECRETS, { organizationId, spaceId } as NatsSubjectReplacements);
+            };
+
             static Settings = class {
                 static GENERAL = (organizationId: string, spaceId: string) => {
                     return NatsSubjects.replace(NatsSubject.HIGH5_SETTINGS_GENERAL, { organizationId, spaceId } as NatsSubjectReplacements);
                 };
                 static WEBHOOKS = (organizationId: string, spaceId: string) => {
                     return NatsSubjects.replace(NatsSubject.HIGH5_SETTINGS_WEBHOOKS, { organizationId, spaceId } as NatsSubjectReplacements);
-                };
-                static SECRETS = (organizationId: string, spaceId: string) => {
-                    return NatsSubjects.replace(NatsSubject.HIGH5_SETTINGS_SECRETS, { organizationId, spaceId } as NatsSubjectReplacements);
                 };
             };
         };

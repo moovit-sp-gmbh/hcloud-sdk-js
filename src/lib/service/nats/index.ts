@@ -69,6 +69,7 @@ class Nats {
             debug: params.debug,
             maxReconnectAttempts: -1,
             servers: params.servers,
+            pingInterval: 55 * 1000, //ping every 55 seconds
             user: (params as ConnectParamsJwt).email !== undefined ? (params as ConnectParamsJwt).email : (params as ConnectParamsPassword).username,
             pass: (params as ConnectParamsJwt).jwt !== undefined ? (params as ConnectParamsJwt).jwt : (params as ConnectParamsPassword).password,
         });

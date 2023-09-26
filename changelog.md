@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.51
+
+-   Add searchStreamsOfSpace method
+
 ## 0.0.50
 
 -   Adapt NATS interfaces to not have settings in their paths when working with secrets

@@ -7,6 +7,7 @@ import { High5Execute } from "./execution";
 import { High5Webhook } from "./webhook";
 import { SearchFilterDTO } from "../../../helper/searchFilter";
 import High5Secret from "./secret";
+import { Stream } from "../../../interfaces/high5";
 
 export class High5Space extends Base {
     public event: High5Event;
@@ -133,6 +134,37 @@ export class High5Space extends Base {
         });
 
         return resp.data;
+    };
+
+    /**
+     * Retrieves all streams of a space matching the search filter(s). Will return all streams if no search filter is provided.
+     * @param orgName Name of the organization
+     * @param orgName Name of the space
+     * @param filters (optional) Array of search filters
+     * @param sorting (optional) Sorting object
+     * @param limit (optional) Max number of results (1-100; defaults to 25)
+     * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
+     * @returns Array of streams and the total number of results found in the database (independent of limit and page)
+     */
+    public searchStreamsOfSpace = async ({
+        orgName,
+        spaceName,
+        filters,
+        sorting,
+        limit = 25,
+        page = 0,
+    }: SearchParams & { orgName: string; spaceName: string }): Promise<[Stream[], number]> => {
+        const filtersDTO = filters?.map((f: SearchFilter) => new SearchFilterDTO(f));
+
+        const resp = await this.axios.post<Stream[]>(
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/streams/search?page=${page}&limit=${limit}`),
+            {
+                filters: filtersDTO,
+                sorting: sorting,
+            }
+        );
+
+        return [resp.data, parseInt(String(resp.headers["total"]), 10)];
     };
 
     protected getEndpoint(endpoint: string): string {

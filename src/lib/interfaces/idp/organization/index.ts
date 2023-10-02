@@ -15,17 +15,21 @@ export interface Organization {
     company: string;
     creator: ReducedUser;
     avatarUrl: string;
-    membersCount?: number;
+    roleOfUser: OrganizationRole;
     createDate: number;
     modifyDate: number;
 }
 
-export interface OrganizationWithUserRole extends Organization {
-    role: OrganizationRole;
+export interface OrganizationQueryOptions {
+    teamsOfUser?: boolean;
+    membersSample?: number; // number of members to return
 }
 
-export interface OrganizationWithUserRoleAndTeams extends OrganizationWithUserRole {
-    teams: ReducedTeam[];
-}
+export type ExtraFields<T extends OrganizationQueryOptions> = (T["teamsOfUser"] extends true
+    ? { teamsOfUser: ReducedTeam[] }
+    : Record<string, never>) &
+    (T["membersSample"] extends number ? { membersSample: ReducedUser[]; totalMembersCount: number } : Record<string, never>);
+
+export type OrganizationExtended<T extends OrganizationQueryOptions> = Organization & ExtraFields<T>;
 
 export type ReducedOrganization = Pick<Organization, "_id" | "name" | "avatarUrl">;

@@ -1,6 +1,6 @@
 import { AxiosInstance } from "axios";
 import Base, { Options } from "../../../Base";
-import { Organization, OrganizationWithUserRole, OrganizationWithUserRoleAndTeams } from "../../../interfaces/idp/organization";
+import { Organization, OrganizationExtended, OrganizationQueryOptions } from "../../../interfaces/idp/organization";
 import { IdpOrganizationMember } from "./member";
 import { IdpOrganizationTeams } from "./team";
 import IdpOrganizationSettings from "./settings";
@@ -59,31 +59,19 @@ export class IdpOrganization extends Base {
     /**
      * Retrieves an Organization by its name.
      * @param orgName Name of the Organization
-     * @param options Object holding a teams property (boolean) which defines if the Teams of the Organization should be included in the response object.
+     * @param options Retrieve additional properties like teams (that the user is part of) or a sample of members.
      * @returns The requested Organization
      */
-    /* eslint-disable no-dupe-class-members */
-    public async getOrganization(orgName: string): Promise<OrganizationWithUserRole>;
-    public async getOrganization(orgName: string, options: { teams: false }): Promise<OrganizationWithUserRole>;
-    public async getOrganization(orgName: string, options: { teams: true }): Promise<OrganizationWithUserRoleAndTeams>;
-    public async getOrganization(
-        orgName: string,
-        options?: { teams: boolean }
-    ): Promise<OrganizationWithUserRole | OrganizationWithUserRoleAndTeams> {
-        let resp;
-        if (options?.teams) {
-            resp = await this.axios.get<OrganizationWithUserRoleAndTeams>(this.getEndpoint(`/v1/org/${orgName}`), {
-                params: {
-                    teams: options.teams,
-                },
-            });
-        } else {
-            resp = await this.axios.get<OrganizationWithUserRole>(this.getEndpoint(`/v1/org/${orgName}`));
-        }
+    public async getOrganization<T extends OrganizationQueryOptions>(orgName: string, options?: T): Promise<OrganizationExtended<T>> {
+        const resp = await this.axios.get<OrganizationExtended<T>>(this.getEndpoint(`/v1/org/${orgName}`), {
+            params: {
+                teams: options?.teamsOfUser,
+                membersLimit: options?.membersSample,
+            },
+        });
 
         return resp.data;
     }
-    /* eslint-enable no-dupe-class-members */
 
     /**
      * Deletes an Organization. This will also delete all dependencies that the Organization has (Teams, Spaces, apps, ...).

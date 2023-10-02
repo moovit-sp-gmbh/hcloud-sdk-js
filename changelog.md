@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.52
+
+-   **BREAKING**: Add field userRole to 'Organization' interface
+-   **BREAKING**: Replace 'OrganizationWithUserRole' and 'OrganizationWithUserRoleAndTeams' with conditional type 'OrganizationExtended'
+-   **BREAKING**: 'OrganizationExtended' will hold all fields of 'Organization' plus optional fields teamsOfUser, totalMembersCount and membersSample
+
 ## 0.0.51
 
 -   Add searchStreamsOfSpace method

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.52
+
+-   **BREAKING**: Rework Organization interfaces: Combine all Organization interfaces into a single one with optional fields
+-   **BREAKING**: Properties 'role' and 'teams' have been renamed to 'roleOfUser' and 'teamsOfUser' 
+-   **BREAKING**: Update function getOrganization() to reflect these changes and also to reflect new query options to retrieve totalMemberCount and membersSample
+
 ## 0.0.51
 
 -   Add searchStreamsOfSpace method

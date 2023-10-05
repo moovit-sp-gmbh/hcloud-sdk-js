@@ -6,6 +6,7 @@ enum NatsSubject {
     IDP_USER_MESSAGES = "hcloud.idp.user.${userId}.messages",
     IDP_USER_SETTINGS_PATS = "hcloud.idp.user.${userId}.settings.pats",
     IDP_USER_SETTINGS_OAUTH = "hcloud.idp.user.${userId}.settings.oauth",
+    IDP_USER_SETTINGS_NOTIFICATIONS = "hcloud.idp.user.${userId}.settings.notifications",
 
     IDP_ORGANIZATION_GENERAL = "hcloud.idp.organization.${organizationId}.general",
     IDP_ORGANIZATION_MEMBERS = "hcloud.idp.organization.${organizationId}.members",
@@ -53,6 +54,7 @@ enum NatsObjectType {
     ORGANIZATION_MEMBER = "ORGANIZATION_MEMBER",
     PAT = "PAT",
     TEAM = "TEAM",
+    NOTIFICATIONS = "NOTIFICATIONS",
 
     SPACE = "SPACE",
     DESIGN = "DESIGN",
@@ -98,6 +100,9 @@ class NatsSubjects {
                 };
                 static OAUTH = (userId: string) => {
                     return NatsSubjects.replace(NatsSubject.IDP_USER_SETTINGS_OAUTH, { userId } as NatsSubjectReplacements);
+                };
+                static NOTIFICATIONS = (userId: string) => {
+                    return NatsSubjects.replace(NatsSubject.IDP_USER_SETTINGS_NOTIFICATIONS, { userId } as NatsSubjectReplacements);
                 };
             };
         };

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.54
+
+-   Add Nats subject for notification settings
+
 ## 0.0.53
 
 -   **BREAKING**: Remove addOrganizationMember from organization.members

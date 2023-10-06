@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.0.53
+
+-   **BREAKING**: Remove addOrganizationMember from organization.members
+-   Add organization.members.invitations to manage invitations
+
 ## 0.0.52
 
 -   **BREAKING**: Rework Organization interfaces: Combine all Organization interfaces into a single one with optional fields

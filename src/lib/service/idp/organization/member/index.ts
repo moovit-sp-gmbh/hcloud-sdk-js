@@ -1,9 +1,16 @@
-import Base from "../../../../Base";
+import { AxiosInstance } from "axios";
+import Base, { Options } from "../../../../Base";
 import { SearchFilterDTO } from "../../../../helper/searchFilter";
 import { SearchFilter, SearchParams } from "../../../../interfaces/global";
-import { AddOrganizationMember, OrganizationMember, PatchOrgMember } from "../../../../interfaces/idp/organization/member";
+import { OrganizationMember, PatchOrgMember } from "../../../../interfaces/idp/organization/member";
+import IdpOrganizationMemberInvitations from "./invitations";
 
 export class IdpOrganizationMember extends Base {
+    public invitations: IdpOrganizationMemberInvitations;
+    constructor(options: Options, axios: AxiosInstance) {
+        super(options, axios);
+        this.invitations = new IdpOrganizationMemberInvitations(options, axios);
+    }
     /**
      * Retrieves all organization members that match the provided search filter(s). Will return all members of the organization if no search filter is provided.
      * @param orgName Name of the Organization
@@ -39,18 +46,6 @@ export class IdpOrganizationMember extends Base {
      */
     public getOrganizationMember = async (orgName: string, userId: string): Promise<OrganizationMember> => {
         const resp = await this.axios.get<OrganizationMember>(this.getEndpoint(`/${orgName}/members/${userId}`));
-
-        return resp.data;
-    };
-
-    /**
-     * Invites a User to an Organization.
-     * @param orgName Name of the Organization
-     * @param addOrganizationMember Object containing the email and role (in that organization) of the user to be invited
-     * @returns The created OrganizationMember
-     */
-    public addOrganizationMember = async (orgName: string, addOrganizationMember: AddOrganizationMember): Promise<OrganizationMember> => {
-        const resp = await this.axios.post<OrganizationMember>(this.getEndpoint(`/${orgName}/members/invitations`), addOrganizationMember);
 
         return resp.data;
     };

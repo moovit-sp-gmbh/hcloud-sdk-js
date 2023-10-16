@@ -7,6 +7,7 @@ import { IdpOrganization } from "./organization";
 import { IdpUser } from "./user";
 import { IdpRegistration } from "./registration";
 import { IdpOAuth } from "./oauth";
+import { PreLoginResponse } from "../../interfaces/idp";
 
 export default class Idp extends Base {
     /**
@@ -117,6 +118,25 @@ export default class Idp extends Base {
             throw new Error("Location header is undefined.");
         }
         return location;
+    };
+
+    /**
+     * Determine if/how the given email can authenticate.
+     *
+     * @param email  Email of the user
+     * @param origin The starting URL of the process. If the authentication process bound to this email is SAML or OIDC,
+     *               then the response's location property will include this origin.
+     * @returns object that dictates if: the user needs to REGISTER; the user needs to VERIFY_EMAIL; the user can LOGIN using this email;
+     *          or the authentication process should continue via an EXTERNAL provider that can be found via the location property.
+     */
+    preLogin = async (email: string, origin: string): Promise<PreLoginResponse> => {
+        const resp = await this.axios.get<PreLoginResponse>(this.getEndpoint("/v1/login/pre"), {
+            params: {
+                origin,
+                email,
+            },
+        });
+        return resp.data;
     };
 
     protected getEndpoint(endpoint: string): string {

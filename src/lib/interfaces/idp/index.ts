@@ -11,3 +11,19 @@ export * from "./user/Scopes";
 export * from "./user/SuccessfulAuth";
 export * from "./user/Totp";
 export * from "./user";
+
+export enum PreLoginPath {
+    LOGIN = "LOGIN",
+    REGISTER = "REGISTER",
+    VERIFY_EMAIL = "VERIFY_EMAIL",
+    EXTERNAL = "EXTERNAL",
+}
+
+export type PreLoginResponse =
+    | {
+          path: PreLoginPath.EXTERNAL;
+          location: string;
+      }
+    | {
+          path: Exclude<PreLoginPath, PreLoginPath.EXTERNAL>;
+      };

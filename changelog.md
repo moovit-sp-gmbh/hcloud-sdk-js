@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.55
+
+-   Add method to obtain pre-login info
+
 ## 0.0.54
 
 -   Add Nats subject for notification settings

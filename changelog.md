@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.56
+
+-   Add mothership product
+
 ## 0.0.55
 
 -   Add method to obtain pre-login info

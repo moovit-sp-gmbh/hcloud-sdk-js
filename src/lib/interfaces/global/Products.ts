@@ -7,4 +7,5 @@ export enum Products {
     dali = "dali",
     client = "client",
     all = "all",
+    mothership = "mothership",
 }

@@ -11,6 +11,7 @@ import IdpService from "./service/idp";
 import MailerService from "./service/mailer";
 import NatsService from "./service/nats";
 import wrapError from "./helper/ErrorHelper";
+import MothershipService from "./service/mothership";
 
 // tslint:disable-next-line
 export default class HCloud {
@@ -22,6 +23,7 @@ export default class HCloud {
     public Fuse: FuseService;
     public Dali: DaliService;
     public Mailer: MailerService;
+    public Mothership: MothershipService;
     public Nats: NatsService;
     private options: Options;
     private axios: AxiosInstance;
@@ -50,6 +52,7 @@ export default class HCloud {
         this.Fuse = new FuseService(this.options, this.axios);
         this.Dali = new DaliService(this.options, this.axios);
         this.Mailer = new MailerService(this.options, this.axios);
+        this.Mothership = new MothershipService(this.options, this.axios);
         this.Nats = new NatsService();
     }
 

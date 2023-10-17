@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.57
+
+-   Add mothership service to hcloud client
+
 ## 0.0.56
 
 -   Add mothership product

@@ -1,3 +1,4 @@
+import { ReducedUser } from ".";
 import { Views } from "../../global/Views";
 
 export enum Language {
@@ -32,7 +33,7 @@ export enum Entrypoint {
 
 export interface GeneralSettings {
     _id: string;
-    userId: string;
+    user: ReducedUser;
     lastUrl: string;
     lastView: Views;
     timezone: string;
@@ -42,4 +43,4 @@ export interface GeneralSettings {
     entrypoint: Entrypoint;
 }
 
-export type GeneralSettingsPatch = Partial<Omit<GeneralSettings, "_id" | "userId">>;
+export type GeneralSettingsPatch = Partial<Omit<GeneralSettings, "_id" | "user">>;

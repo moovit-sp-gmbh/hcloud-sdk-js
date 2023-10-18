@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.59
+
+-   Update Mothership helloAgain's required parameters
+
 ## 0.0.58
 
 -   Add endpoint to manage notification settings of user

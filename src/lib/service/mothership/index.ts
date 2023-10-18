@@ -42,8 +42,8 @@ function getCPUInfo(): Promise<{ model: string; utilization: number }> {
 type HelloExcludedKeys = "status" | "createDate" | "modifyDate";
 type HelloMandatoryKeys = "nickname" | "uuid";
 
-type HelloAgainOptionalKeys = "nickname";
-type HelloAgainMandatoryKeys = "uptime" | "uuid" | "cpuUtilization" | "memoryUsed";
+type HelloAgainOptionalKeys = "nickname" | "uptime" | "cpuUtilization" | "memoryUsed";
+type HelloAgainMandatoryKeys = "uuid";
 
 export default class MothershipService extends Base {
     constructor(options: Options, axios: AxiosInstance) {
@@ -102,7 +102,7 @@ export default class MothershipService extends Base {
      *
      * This call should only be made after an initial hello.
      *
-     * @param info Information about the agent's uuid, hardware and nickname
+     * @param info Information about the agent's uuid, hardware and nickname. Only the uuid is mandatory.
      * @param publicKey (optional) the public key of the agent that will be used for cryptography. The agent should remember its private key
      * @return an Agent object
      */

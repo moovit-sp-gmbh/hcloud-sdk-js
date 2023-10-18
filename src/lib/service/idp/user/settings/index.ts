@@ -4,6 +4,7 @@ import { IdpPat } from "./pats";
 import { IdpTwoFactor } from "./twoFactor";
 import { IdpGeneral } from "./general";
 import { IdpOAuthApps } from "./oauthApps";
+import { IdpNotifications } from "./notifications";
 
 export class IdpSettings extends Base {
     /**
@@ -12,9 +13,14 @@ export class IdpSettings extends Base {
     public pat: IdpPat;
 
     /**
-     * Handles everything around a user's profile
+     * Handles everything around general user settings
      */
     public general: IdpGeneral;
+
+    /**
+     * Handles everything around notification settings of user
+     */
+    public notifications: IdpNotifications;
 
     /**
      * Manages user's OAuth applications
@@ -31,6 +37,7 @@ export class IdpSettings extends Base {
         this.pat = new IdpPat(options, axios);
         this.twoFactor = new IdpTwoFactor(options, axios);
         this.general = new IdpGeneral(options, axios);
+        this.notifications = new IdpNotifications(options, axios);
         this.oAuthApps = new IdpOAuthApps(options, axios);
     }
 

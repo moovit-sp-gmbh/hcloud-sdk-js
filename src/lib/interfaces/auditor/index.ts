@@ -11,6 +11,7 @@ export enum Origin {
     Auditor = "auditor",
     Mailer = "mailer",
     Fuse = "fuse",
+    Mothership = "mothership",
 }
 
 export enum Event {
@@ -27,6 +28,7 @@ export enum Event {
     Webhook = "webhook",
     Cronjob = "cronjob",
     Secret = "secret",
+    Agent = "agent",
 }
 
 export enum Type {

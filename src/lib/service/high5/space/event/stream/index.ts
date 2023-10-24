@@ -1,6 +1,6 @@
 import { AxiosInstance } from "axios";
 import Base, { Options } from "../../../../../Base";
-import { SingleStreamPatchOrder, Stream, StreamPatchOrder } from "../../../../../interfaces/high5/space/event/stream";
+import { SingleStreamPatchOrder, Stream, StreamPatchActive, StreamPatchOrder } from "../../../../../interfaces/high5/space/event/stream";
 import { High5Design } from "./design";
 import { High5Node } from "./node";
 import { SearchFilter, SearchParams } from "../../../../../interfaces/global";
@@ -100,6 +100,30 @@ export class High5Stream extends Base {
         const resp = await this.axios.patch<Stream[]>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/order`),
             streamList
+        );
+
+        return resp.data;
+    };
+
+    /**
+     * Activate or deactivate a stream
+     * @param orgName Name of the organization
+     * @param spaceName Name of the space
+     * @param eventName Name of the event
+     * @param streamId ID of the stream
+     * @param StreamPatchActive Object defining if stream should be active or inactive
+     * @returns Details of the updated stream
+     */
+    public patchStreamState = async (
+        orgName: string,
+        spaceName: string,
+        eventName: string,
+        streamId: string,
+        streamPatchActive: StreamPatchActive
+    ): Promise<Stream> => {
+        const resp = await this.axios.patch<Stream>(
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/active`),
+            streamPatchActive
         );
 
         return resp.data;

@@ -10,6 +10,7 @@ export interface Stream {
     event: ReducedEvent;
     space: ReducedSpace;
     order: number;
+    active: boolean;
     organization: ReducedOrganization;
     creator: ReducedUser;
     /**
@@ -30,6 +31,10 @@ export interface SingleStreamPatchOrder {
 export interface StreamPatchOrder {
     streamId: string;
     order: number;
+}
+
+export interface StreamPatchActive {
+    active: boolean;
 }
 
 export interface StreamResult {

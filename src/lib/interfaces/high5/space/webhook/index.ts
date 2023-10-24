@@ -62,8 +62,8 @@ export interface WebhookLog {
     webhookId: string;
     space: ReducedSpace;
     organization: ReducedOrganization;
-    eventId: ReducedEvent;
-    timestamp: number;
+    event: ReducedEvent;
+    executeDate: number;
     sourceIp: string;
     completeHeader: unknown;
     requestBody: unknown;

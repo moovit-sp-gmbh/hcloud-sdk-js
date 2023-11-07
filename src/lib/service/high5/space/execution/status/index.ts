@@ -1,6 +1,8 @@
 import { AxiosInstance } from "axios";
 import Base, { Options } from "../../../../../Base";
 import { High5ExecutionStatus } from "../../../../../interfaces/high5/space/execution";
+import { SearchFilter, SearchParams } from "../../../../../interfaces/global";
+import { SearchFilterDTO } from "../../../../../helper/searchFilter";
 
 export class High5ExecutionStates extends Base {
     constructor(options: Options, axios: AxiosInstance) {
@@ -11,21 +13,28 @@ export class High5ExecutionStates extends Base {
      * Retrieves all stream execution logs for a given execution inside a space.
      * @param orgName Name of the Organization
      * @param spaceName Name of the Space
-     * @param high5ExecutionId Id of the execution
+     * @param filters (optional) Array of search filters
+     * @param sorting (optional) Sorting object
      * @param limit (optional) Max number of results (1-100; defaults to 25)
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
      * @returns Array of Stream execution logs as well as the total number of results
      */
-    public getExecutionStates = async (
-        orgName: string,
-        spaceName: string,
-        high5ExecutionId: string,
+    public searchExecutionStates = async ({
+        orgName,
+        spaceName,
+        filters,
+        sorting,
         limit = 25,
-        page = 0
-    ): Promise<[High5ExecutionStatus[], number]> => {
+        page = 0,
+    }: SearchParams & { orgName: string; spaceName: string }): Promise<[High5ExecutionStatus[], number]> => {
+        const filtersDTO = filters?.map((f: SearchFilter) => new SearchFilterDTO(f));
         const resp = await this.axios
-            .get<High5ExecutionStatus[]>(
-                this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execution/status/${high5ExecutionId}?page=${page}&limit=${limit}`)
+            .post<High5ExecutionStatus[]>(
+                this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execution/status/search?page=${page}&limit=${limit}`),
+                {
+                    filters: filtersDTO,
+                    sorting: sorting,
+                }
             )
             .catch((err: Error) => {
                 throw err;
@@ -38,48 +47,19 @@ export class High5ExecutionStates extends Base {
      * Retrieves all stream execution logs for a given stream.
      * @param orgName Name of the Organization
      * @param spaceName Name of the Space
-     * @param streamId ID of the stream
-     * @param limit (optional) Max number of results (1-100; defaults to 25)
-     * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
+     * @param streamStatusId ID of the stream status
      * @returns Array of Stream execution logs as well as the total number of results
      */
-    public getStreamExecutionStates = async (
+    public getStreamExecutionStatus = async (
         orgName: string,
         spaceName: string,
-        streamId: string,
-        limit = 25,
-        page = 0
-    ): Promise<[High5ExecutionStatus[], number]> => {
-        const resp = await this.axios
-            .get<High5ExecutionStatus[]>(
-                this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execution/streams/${streamId}/status?page=${page}&limit=${limit}`)
-            )
-            .catch((err: Error) => {
-                throw err;
-            });
-
-        return [resp.data, parseInt(String(resp.headers["total"]), 10)];
-    };
-
-    /**
-     * Retrieves a stream execution log by its ID.
-     * @param orgName Name of the Organization
-     * @param spaceName Name of the Space
-     * @param streamLogId ID of the stream execution log
-     * @param limit (optional) Max number of results (1-100; defaults to 25)
-     * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
-     * @returns The requested stream execution log
-     */
-    public getExecutionStatus = async (
-        orgName: string,
-        spaceName: string,
-        statusId: string,
+        streamStatusId: string,
         limit = 25,
         page = 0
     ): Promise<[High5ExecutionStatus, number]> => {
         const resp = await this.axios
             .get<High5ExecutionStatus>(
-                this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execution/streams/status/${statusId}?page=${page}&limit=${limit}`)
+                this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execution/streams/status/${streamStatusId}?page=${page}&limit=${limit}`)
             )
             .catch((err: Error) => {
                 throw err;

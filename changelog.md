@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.0.62
+
+-   **BREAKING**: Update Mothership helloAgain and hello parameters and return values
+-   Add Mothership register endpoint
+
 ## 0.0.61
 
 -   **BREAKING**: Remove Agent `status` property

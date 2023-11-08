@@ -1,15 +1,25 @@
-import * as os from "os";
 import { AxiosInstance } from "axios";
 import Base, { Options } from "../../Base";
 import { Version } from "../../interfaces/global";
 import { Agent } from "../../interfaces/mothership";
 
+const crypto =
+    typeof window !== "undefined" && window !== null
+        ? Promise.reject(new Error("The crypto module can only be used in a Node.js runtime and not on a browser page."))
+        : import("crypto");
+const os =
+    typeof window !== "undefined" && window !== null
+        ? Promise.reject(new Error("The os module can only be used in a Node.js runtime and not on a browser page."))
+        : import("os");
+
 /**
  * Get average CPU utilization over 1 second.
  */
-function getCPUInfo(): Promise<{ model: string; utilization: number }> {
+async function getCPUInfo(): Promise<{ model: string; utilization: number }> {
+    const { cpus } = await os;
+
     return new Promise(function (resolve) {
-        const startCpus = os.cpus();
+        const startCpus = cpus();
 
         setTimeout(function () {
             let startIdle = 0;
@@ -20,7 +30,7 @@ function getCPUInfo(): Promise<{ model: string; utilization: number }> {
                     startTotal += cpu.times[timeType as keyof typeof cpu.times];
                 }
             }
-            const endCpus = os.cpus();
+            const endCpus = cpus();
             let endIdle = 0;
             let endTotal = 0;
             for (const cpu of endCpus) {
@@ -39,11 +49,7 @@ function getCPUInfo(): Promise<{ model: string; utilization: number }> {
     });
 }
 
-type HelloExcludedKeys = "status" | "createDate" | "modifyDate";
-type HelloMandatoryKeys = "nickname" | "uuid";
-
-type HelloAgainOptionalKeys = "nickname" | "uptime" | "cpuUtilization" | "memoryUsed";
-type HelloAgainMandatoryKeys = "uuid";
+type RecurrentInfo = Pick<Agent, "uptime" | "cpuUtilization" | "memoryUsed">;
 
 export default class MothershipService extends Base {
     constructor(options: Options, axios: AxiosInstance) {
@@ -63,38 +69,31 @@ export default class MothershipService extends Base {
     /**
      * Say hello as an agent to the mothership
      *
+     * @param uuid Agent's UUID
+     * @param secret Agent's secret
      * @param info Information about the agent's uuid, hardware and nickname
-     * @param publicKey the public key of the agent that will be used for cryptography. The agent should remember its private key
      * @return an Agent object
      */
-    // eslint-disable-next-line complexity
-    hello = async (
-        info: Partial<Pick<Agent, Exclude<keyof Agent, HelloExcludedKeys>>> & Pick<Agent, HelloMandatoryKeys>,
-        publicKey: string | Buffer
-    ): Promise<Agent> => {
-        if (typeof window !== "undefined" && window !== null)
-            throw new Error("The hello endpoint should only called by an HCloud agent and not from a browser page.");
+    hello = async (uuid: string, secret: string, info: RecurrentInfo & { nickname?: string }): Promise<{ agent: Agent; token: string }> => {
+        const { uptime, totalmem, freemem } = await os;
 
-        if (!info.cpu) {
-            const { model, utilization } = await getCPUInfo();
-            info.cpu = model;
-            info.cpuUtilization = utilization;
-        } else if (!info.cpuUtilization) info.cpuUtilization = (await getCPUInfo()).utilization;
-        if (!info.uptime) info.uptime = os.uptime();
-        if (!info.hostname) info.hostname = os.hostname();
-        if (!info.memoryTotal) info.memoryTotal = os.totalmem();
-        if (!info.memoryUsed) info.memoryUsed = info.memoryTotal - os.freemem();
-        if (!info.osPlatform) info.osPlatform = os.platform();
-        if (!info.osRelease) info.osRelease = os.release();
-        if (!info.osVersion) info.osVersion = os.version();
+        if (!info.cpuUtilization) info.cpuUtilization = (await getCPUInfo()).utilization;
+        if (!info.uptime) info.uptime = uptime();
+        if (!info.memoryUsed) info.memoryUsed = totalmem() - freemem();
 
-        if (typeof publicKey !== "string") {
-            publicKey = publicKey.toString("hex");
-        }
+        const uuidSignature = (await crypto).sign("hmac", Buffer.from(uuid), secret);
 
-        const resp = await this.axios.post<Agent>(this.getEndpoint("/v1/hello"), { publicKey, ...info });
+        const resp = await this.axios.post<Agent>(
+            this.getEndpoint("/v1/hello"),
+            { info },
+            {
+                headers: {
+                    Authorization: `Bearer ${uuid}.${uuidSignature}`,
+                },
+            }
+        );
 
-        return resp.data;
+        return { agent: resp.data, token: resp.headers.authorization };
     };
 
     /**
@@ -102,28 +101,87 @@ export default class MothershipService extends Base {
      *
      * This call should only be made after an initial hello.
      *
-     * @param info Information about the agent's uuid, hardware and nickname. Only the uuid is mandatory.
-     * @param publicKey (optional) the public key of the agent that will be used for cryptography. The agent should remember its private key
+     * The session token obtained in the hello endpoint must be used here. Use the setAuthToken method to do so.
+     *
+     * @param info Information about the agent's system resources.
      * @return an Agent object
      */
-    helloAgain = async (
-        info: Partial<Pick<Agent, HelloAgainOptionalKeys>> & Required<Pick<Agent, HelloAgainMandatoryKeys>>,
-        publicKey?: string | Buffer
-    ): Promise<Agent> => {
-        if (typeof window !== "undefined" && window !== null)
-            throw new Error("The helloAgain endpoint should only called by an HCloud agent and not from a browser page.");
+    helloAgain = async (info: RecurrentInfo): Promise<Agent> => {
+        const { uptime, totalmem, freemem } = await os;
 
         if (!info.cpuUtilization) info.cpuUtilization = (await getCPUInfo()).utilization;
-        if (!info.uptime) info.uptime = os.uptime();
-        if (!info.memoryUsed) info.memoryUsed = os.totalmem() - os.freemem();
+        if (!info.uptime) info.uptime = uptime();
+        if (!info.memoryUsed) info.memoryUsed = totalmem() - freemem();
 
-        if (publicKey && typeof publicKey !== "string") {
+        const resp = await this.axios.patch<Agent>(this.getEndpoint("/v1/hello/again"), info);
+
+        return resp.data;
+    };
+
+    /**
+     * Register an agent to the mothership.
+     *
+     * This call should only be made once per agent, not once per agent session.
+     *
+     * @param uuid UUID of the Agent
+     * @param info Information about the agent's hardware and nickname.
+     * @param publicKey the public key of the agent that will be used for cryptography. The agent should remember its private key.
+     * @return an object holding a secret encrypted with the public key. The agent must decrypt it using its private key in order to use the /hello endpoint.
+     */
+    register = async (
+        uuid: string,
+        info: Partial<Pick<Agent, Exclude<keyof Agent, "uuid" | "createDate" | "modifyDate" | "_id" | "ip">>> & Required<Pick<Agent, "nickname">>,
+        publicKey: string | Buffer
+    ): Promise<{ secret: string }> => {
+        const { uptime, hostname, totalmem, freemem, platform, release, version } = await os;
+
+        if (!info.cpu) {
+            const { model, utilization } = await getCPUInfo();
+            info.cpu = model;
+            info.cpuUtilization = utilization;
+        } else if (!info.cpuUtilization) info.cpuUtilization = (await getCPUInfo()).utilization;
+        if (!info.uptime) info.uptime = uptime();
+        if (!info.hostname) info.hostname = hostname();
+        if (!info.memoryTotal) info.memoryTotal = totalmem();
+        if (!info.memoryUsed) info.memoryUsed = info.memoryTotal - freemem();
+        if (!info.osPlatform) info.osPlatform = platform();
+        if (!info.osRelease) info.osRelease = release();
+        if (!info.osVersion) info.osVersion = version();
+
+        if (typeof publicKey !== "string") {
             publicKey = publicKey.toString("hex");
         }
 
-        const resp = await this.axios.patch<Agent>(this.getEndpoint("/v1/hello/again"), { publicKey, ...info });
+        const resp = await this.axios.post<{ secret: string }>(this.getEndpoint("/v1/register"), { uuid, publicKey, ...info });
 
         return resp.data;
+    };
+
+    /**
+     * Connect to an organization.
+     *
+     * This call should only be made after an initial hello.
+     *
+     * The session token obtained in the hello endpoint must be used here. Use the setAuthToken method to do so.
+     *
+     * @param orgName Name of the organization
+     * @param memberToken JWT assigned to a member of the organization
+     */
+    connect = async (orgName: string, memberToken: string): Promise<void> => {
+        await this.axios.post<void>(this.getEndpoint("/v1/connect"), { orgName, memberToken });
+    };
+
+    /**
+     * Disconnect from an organization.
+     *
+     * This call should only be made after an initial hello and connect to the same organization.
+     *
+     * The session token obtained in the hello endpoint must be used here. Use the setAuthToken method to do so.
+     *
+     * @param orgName Name of the organization
+     */
+    disconnect = async (orgName: string): Promise<void> => {
+        await this.axios.delete<void>(this.getEndpoint("/v1/disconnect"), { data: { orgName } });
     };
 
     protected getEndpoint(endpoint: string): string {

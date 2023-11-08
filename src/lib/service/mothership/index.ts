@@ -126,23 +126,6 @@ export default class MothershipService extends Base {
         return resp.data;
     };
 
-    /**
-     * Say goodbye as an agent to the mothership.
-     *
-     * This call should only be made after an initial hello.
-     *
-     * @param uuid UUID of the agent
-     * @return an Agent object
-     */
-    goodbye = async (uuid: string): Promise<Agent> => {
-        if (typeof window !== "undefined" && window !== null)
-            throw new Error("The goodbye endpoint should only called by an HCloud agent and not from a browser page.");
-
-        const resp = await this.axios.post<Agent>(this.getEndpoint("/v1/goodbye"), { uuid });
-
-        return resp.data;
-    };
-
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/mothership${endpoint}`;
     }

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.60
+
+-   **BREAKING**: Remove Mothership goodbye
+
 ## 0.0.59
 
 -   Update Mothership helloAgain's required parameters

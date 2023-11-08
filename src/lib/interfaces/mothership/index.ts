@@ -4,7 +4,9 @@ export enum AgentStatus {
 }
 
 export type Agent = {
+    _id: string;
     uuid: string;
+    ip?: string;
     cpu: string;
     cpuUtilization: number;
     memoryTotal: number;
@@ -15,7 +17,6 @@ export type Agent = {
     osRelease: string;
     osVersion: string;
     uptime: number;
-    status: AgentStatus;
     createDate: number;
     modifyDate: number;
 };

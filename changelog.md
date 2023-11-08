@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.0.61
+
+-   **BREAKING**: Remove Agent `status` property
+-   Add `_id` and `ip` property to Agent interface
+
 ## 0.0.60
 
 -   **BREAKING**: Remove Mothership goodbye

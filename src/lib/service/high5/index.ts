@@ -4,11 +4,13 @@ import { Version } from "../../interfaces/global";
 import { High5Space } from "./space";
 import { High5SpaceInternal } from "./internal/space";
 import { High5Wave } from "./wave";
+import { High5JoinToken } from "./joinToken";
 
 export default class High5 extends Base {
     public space: High5Space;
     public spaceInternal: High5SpaceInternal;
     public wave: High5Wave;
+    public joinToken: High5JoinToken;
 
     constructor(options: Options, axios: AxiosInstance) {
         super(options, axios);
@@ -16,6 +18,7 @@ export default class High5 extends Base {
         this.space = new High5Space(this.options, this.axios);
         this.spaceInternal = new High5SpaceInternal(this.options, this.axios);
         this.wave = new High5Wave(this.options, this.axios);
+        this.joinToken = new High5JoinToken(this.options, this.axios);
     }
 
     /**

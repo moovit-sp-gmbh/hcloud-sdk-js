@@ -74,24 +74,25 @@ export default class MothershipService extends Base {
      * @param info Information about the agent's uuid, hardware and nickname
      * @return an Agent object
      */
-    hello = async (uuid: string, secret: string, info: RecurrentInfo & { nickname?: string }): Promise<{ agent: Agent; token: string }> => {
+    hello = async (
+        uuid: string,
+        secret: Buffer,
+        info: Partial<RecurrentInfo> & { nickname?: string } = {}
+    ): Promise<{ agent: Agent; token: string }> => {
+        const { createHmac, createSecretKey } = await crypto;
         const { uptime, totalmem, freemem } = await os;
 
         if (!info.cpuUtilization) info.cpuUtilization = (await getCPUInfo()).utilization;
         if (!info.uptime) info.uptime = uptime();
         if (!info.memoryUsed) info.memoryUsed = totalmem() - freemem();
 
-        const uuidSignature = (await crypto).sign("hmac", Buffer.from(uuid), secret);
+        const uuidSignature = createHmac("sha256", createSecretKey(secret)).update(uuid).digest("base64");
 
-        const resp = await this.axios.post<Agent>(
-            this.getEndpoint("/v1/hello"),
-            { info },
-            {
-                headers: {
-                    Authorization: `Bearer ${uuid}.${uuidSignature}`,
-                },
-            }
-        );
+        const resp = await this.axios.post<Agent>(this.getEndpoint("/v1/hello"), info, {
+            headers: {
+                Authorization: `Bearer ${uuid}.${uuidSignature}`,
+            },
+        });
 
         return { agent: resp.data, token: resp.headers.authorization };
     };
@@ -106,7 +107,7 @@ export default class MothershipService extends Base {
      * @param info Information about the agent's system resources.
      * @return an Agent object
      */
-    helloAgain = async (info: RecurrentInfo): Promise<Agent> => {
+    helloAgain = async (info: Partial<RecurrentInfo> = {}): Promise<Agent> => {
         const { uptime, totalmem, freemem } = await os;
 
         if (!info.cpuUtilization) info.cpuUtilization = (await getCPUInfo()).utilization;
@@ -128,6 +129,7 @@ export default class MothershipService extends Base {
      * @param publicKey the public key of the agent that will be used for cryptography. The agent should remember its private key.
      * @return an object holding a secret encrypted with the public key. The agent must decrypt it using its private key in order to use the /hello endpoint.
      */
+    // eslint-disable-next-line complexity
     register = async (
         uuid: string,
         info: Partial<Pick<Agent, Exclude<keyof Agent, "uuid" | "createDate" | "modifyDate" | "_id" | "ip">>> & Required<Pick<Agent, "nickname">>,

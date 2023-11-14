@@ -13,3 +13,4 @@ export * from "./space/event/stream/node";
 export * from "./space/webhook";
 export * from "./space/secret";
 export * from "./wave";
+export * from "./joinToken";

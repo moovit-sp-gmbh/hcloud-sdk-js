@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.63
+
+-   Add High5 endpoints to manage join tokens
+
 ## 0.0.62
 
 -   **BREAKING**: Update Mothership helloAgain and hello parameters and return values

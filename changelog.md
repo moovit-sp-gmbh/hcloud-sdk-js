@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.65
+
+-   Add IDP endpoint to manage user connection settings
+
 ## 0.0.64
 
 -   Add IDP internal endpoint to create agent users

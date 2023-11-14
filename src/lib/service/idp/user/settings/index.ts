@@ -5,6 +5,7 @@ import { IdpTwoFactor } from "./twoFactor";
 import { IdpGeneral } from "./general";
 import { IdpOAuthApps } from "./oauthApps";
 import { IdpNotifications } from "./notifications";
+import { IdpConnections } from "./connections";
 
 export class IdpSettings extends Base {
     /**
@@ -31,6 +32,11 @@ export class IdpSettings extends Base {
      * Handles everything around a user's two factor authentication
      */
     public twoFactor: IdpTwoFactor;
+
+    /**
+     * Handles everything around a user's two factor authentication
+     */
+    public connections: IdpConnections;
     constructor(options: Options, axios: AxiosInstance) {
         super(options, axios);
 
@@ -39,6 +45,7 @@ export class IdpSettings extends Base {
         this.general = new IdpGeneral(options, axios);
         this.notifications = new IdpNotifications(options, axios);
         this.oAuthApps = new IdpOAuthApps(options, axios);
+        this.connections = new IdpConnections(options, axios);
     }
 
     protected getEndpoint(endpoint: string): string {

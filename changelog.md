@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.64
+
+-   Add IDP internal endpoint to create agent users
+
 ## 0.0.63
 
 -   Add High5 endpoints to manage join tokens

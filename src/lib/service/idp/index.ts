@@ -8,6 +8,7 @@ import { IdpUser } from "./user";
 import { IdpRegistration } from "./registration";
 import { IdpOAuth } from "./oauth";
 import { PreLoginResponse } from "../../interfaces/idp";
+import { IdpInternal } from "./internal";
 
 export default class Idp extends Base {
     /**
@@ -29,6 +30,11 @@ export default class Idp extends Base {
      * Handles everything around a user
      */
     public user: IdpUser;
+
+    /**
+     * Handles everything around idp's internal endpoints
+     */
+    public internal: IdpInternal;
     constructor(options: Options, axios: AxiosInstance) {
         super(options, axios);
 
@@ -36,6 +42,7 @@ export default class Idp extends Base {
         this.user = new IdpUser(this.options, this.axios);
         this.registration = new IdpRegistration(this.options, this.axios);
         this.oAuth = new IdpOAuth(this.options, this.axios);
+        this.internal = new IdpInternal(this.options, this.axios);
     }
 
     /**

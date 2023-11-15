@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.66
+
+-   Add High5 endpoint to exchange a join token for user info and credentials
+
 ## 0.0.65
 
 -   Add IDP endpoint to manage user connection settings

@@ -1,6 +1,7 @@
 import { AxiosInstance } from "axios";
 import Base, { Options } from "../../../Base";
 import { JoinToken } from "../../../interfaces/high5/joinToken";
+import { User } from "../../../interfaces/idp";
 
 export class High5JoinToken extends Base {
     constructor(options: Options, axios: AxiosInstance) {
@@ -42,6 +43,18 @@ export class High5JoinToken extends Base {
      */
     public revoke = async (orgName: string, tokenId: string): Promise<void> => {
         await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/join/token/${tokenId}`));
+    };
+
+    /**
+     * Exchanges a join token for an agent user
+     *
+     * @param joinToken Join token
+     * @returns An object containing the User object and the PAT that represents the agent user
+     */
+    public exchange = async (joinToken: string): Promise<{ user: User; pat: string }> => {
+        const res = await this.axios.post<User>(this.getEndpoint(`/v1/join/token`), {}, { headers: { Authorization: joinToken } });
+
+        return { user: res.data, pat: res.headers.authorization };
     };
 
     protected getEndpoint(endpoint: string): string {

@@ -33,7 +33,7 @@ module.exports = {
         "no-unmodified-loop-condition": 1,
         "no-unreachable": 1,
         "no-unreachable-loop": 1,
-        "no-use-before-define": 2,
+        "no-use-before-define": 0,
         "no-useless-backreference": 1,
         "use-isnan": 1,
         "valid-typeof": 2,

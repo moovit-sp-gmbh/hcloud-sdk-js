@@ -1,10 +1,15 @@
 import { AxiosInstance } from "axios";
 import Base, { Options } from "../../../Base";
 import { WaveEngine, WaveEngineReleaseAsset } from "../../../interfaces/high5/wave";
+import { S3 } from "./s3";
 
 export class High5Wave extends Base {
+    public s3: S3;
+
     constructor(options: Options, axios: AxiosInstance) {
         super(options, axios);
+
+        this.s3 = new S3(this.options, this.axios);
     }
 
     /**
@@ -14,7 +19,7 @@ export class High5Wave extends Base {
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
      * @returns Array holding the WaveEngineReleaseAssets
      */
-    public getReleaseTags = async (orgName: string, limit?: number, page?: number): Promise<[WaveEngineReleaseAsset[], number]> => {
+    public getEngineReleaseTags = async (orgName: string, limit?: number, page?: number): Promise<[WaveEngineReleaseAsset[], number]> => {
         limit = limit || 25;
         page = page || 0;
 

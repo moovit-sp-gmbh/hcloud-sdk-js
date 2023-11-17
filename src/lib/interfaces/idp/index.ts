@@ -1,6 +1,7 @@
 export * from "./oauth";
 export * from "./organization";
 export * from "./organization/member";
+export * from "./organization/member/invitations";
 export * from "./organization/team";
 export * from "./organization/settings/domain";
 export * from "./organization/settings/domain/saml";

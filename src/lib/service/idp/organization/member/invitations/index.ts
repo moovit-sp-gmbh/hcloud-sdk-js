@@ -80,9 +80,12 @@ export default class IdpOrganizationMemberInvitations extends Base {
      * @returns The patched invitation
      */
     public respond = async (orgName: string, invitationId: string, accept: boolean): Promise<OrganizationMemberInvitation> => {
-        const resp = await this.axios.patch<OrganizationMemberInvitation>(this.getEndpoint(`/${orgName}/members/invitations/${invitationId}`), {
-            accept,
-        });
+        const resp = await this.axios.patch<OrganizationMemberInvitation>(
+            this.getEndpoint(`/${orgName}/members/invitations/${invitationId}/approval`),
+            {
+                accept,
+            }
+        );
 
         return resp.data;
     };

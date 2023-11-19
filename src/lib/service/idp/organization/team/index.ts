@@ -13,7 +13,7 @@ export class IdpOrganizationTeams extends Base {
      * @returns The created Team
      */
     public createTeam = async (orgName: string, teamName: string, userIds: string[]): Promise<Team> => {
-        const resp = await this.axios.post<Team>(this.getEndpoint(`/${orgName}/teams`), { name: teamName, users: userIds });
+        const resp = await this.axios.post<Team>(this.getEndpoint(`/${orgName}/teams`), { name: teamName, userIds: userIds });
 
         return resp.data;
     };

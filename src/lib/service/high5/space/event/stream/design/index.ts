@@ -1,5 +1,6 @@
 import Base from "../../../../../../Base";
 import { Design } from "../../../../../../interfaces/high5/space/event/stream/design";
+import { DesignContent } from "../../../../../../interfaces/high5/space/event/stream/design/StreamDesign";
 
 export class High5Design extends Base {
     /**
@@ -34,7 +35,7 @@ export class High5Design extends Base {
         eventName: string,
         streamId: string,
         name: string,
-        design: unknown,
+        design: DesignContent,
         build?: unknown
     ): Promise<Design> => {
         const resp = await this.axios.put<Design>(

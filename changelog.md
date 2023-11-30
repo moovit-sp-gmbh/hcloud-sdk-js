@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.68
+
+-   **BREAKING**: Update High5 createDesign required design shape to match SDS
+
 ## 0.0.67
 
 -   **BREAKING**: Update High5 streams to have only one design

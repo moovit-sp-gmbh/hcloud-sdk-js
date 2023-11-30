@@ -2,7 +2,7 @@ import { AxiosInstance } from "axios";
 import Base, { Options } from "../../../Base";
 import { SearchFilterDTO } from "../../../helper/searchFilter";
 import { SearchFilter, Sorting } from "../../../interfaces/global/SearchFilters";
-import { Organization } from "../../../interfaces/idp/organization";
+import { Organization, OrganizationQueryOptions } from "../../../interfaces/idp/organization";
 import { PatchUser, User } from "../../../interfaces/idp/user";
 import { IdpSettings } from "./settings";
 
@@ -59,6 +59,7 @@ export class IdpUser extends Base {
      * @param sorting (optional) Sorting object
      * @param limit (optional) Max number of results (1-100; defaults to 25)
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
+     * @param options (optional) Defines query options to retrieve additional properties for the returned Organization objects.
      * @returns Array of Organizations and the total number of results found in the database (independent of limit and page)
      */
     public searchOrganizations = async (params: {
@@ -66,19 +67,26 @@ export class IdpUser extends Base {
         sorting?: Sorting;
         limit?: number;
         page?: number;
+        options?: OrganizationQueryOptions;
     }): Promise<[Organization[], number]> => {
         const limit = params.limit || 25;
         const page = params.page || 0;
+        const getTeamsOfUser = params.options?.getTeamsOfUser ? `&teamsOfUser=${params.options.getTeamsOfUser}` : "";
+        const getTotalMemberCount = params.options?.getTotalMemberCount ? `&totalMemberCount=${params.options.getTotalMemberCount}` : "";
+        const getMembersSample = params.options?.getMembersSample ? `&membersSample=${params.options.getMembersSample}` : "";
 
         // convert SearchFilters to DTO
         const filtersDTO = params.filters.map((f: SearchFilter) => {
             return new SearchFilterDTO(f);
         });
 
-        const resp = await this.axios.post<Organization[]>(this.getEndpoint(`/v1/user/orgs/search?limit=${limit}&page=${page}`), {
-            filters: filtersDTO,
-            sorting: params.sorting,
-        });
+        const resp = await this.axios.post<Organization[]>(
+            this.getEndpoint(`/v1/user/orgs/search?limit=${limit}&page=${page}` + getTeamsOfUser + getTotalMemberCount + getMembersSample),
+            {
+                filters: filtersDTO,
+                sorting: params.sorting,
+            }
+        );
 
         return [resp.data, parseInt(String(resp.headers["total"]), 10)];
     };

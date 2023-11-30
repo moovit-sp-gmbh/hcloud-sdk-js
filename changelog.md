@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.71
+
+-   Add option to retrieve additional properties (membersSample, totalMemberCount, ...) when searching users organizations
+
 ## 0.0.70
 
 -   Add service to manage design snapshots

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.67
+
+-   **BREAKING**: Update High5 streams to have only one design
+
 ## 0.0.66
 
 -   Add High5 endpoint to exchange a join token for user info and credentials

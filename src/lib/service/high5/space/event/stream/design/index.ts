@@ -3,52 +3,23 @@ import { Design } from "../../../../../../interfaces/high5/space/event/stream/de
 
 export class High5Design extends Base {
     /**
-     * Retrieves all designs of the specified stream.
+     * Retrieves a stream's design.
      * @param orgName Name of the organization
      * @param spaceName Name of the space
      * @param eventName Name of the event
      * @param streamId ID of the stream
-     * @param limit Max number of results (1-100; defaults to 25)
-     * @param page Skip the first (page * limit) results (defaults to 0)
-     * @returns Array of design objects
-     */
-    public getAllDesigns = async (
-        orgName: string,
-        spaceName: string,
-        eventName: string,
-        streamId: string,
-        limit?: number,
-        page?: number
-    ): Promise<Design[]> => {
-        limit = limit || 25;
-        page = page || 0;
-
-        const resp = await this.axios.get<Design[]>(
-            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/designs?page=${page}&limit=${limit}`)
-        );
-
-        return resp.data;
-    };
-
-    /**
-     * Retrieves a design by its ID.
-     * @param orgName Name of the organization
-     * @param spaceName Name of the space
-     * @param eventName Name of the event
-     * @param streamId ID of the stream
-     * @param designId ID of the design
      * @returns The requested design
      */
-    public getDesign = async (orgName: string, spaceName: string, eventName: string, streamId: string, designId: string): Promise<Design> => {
+    public getDesign = async (orgName: string, spaceName: string, eventName: string, streamId: string): Promise<Design> => {
         const resp = await this.axios.get<Design>(
-            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/designs/${designId}`)
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/design`)
         );
 
         return resp.data;
     };
 
     /**
-     * Creates a new design for the specified stream.
+     * Creates/overwrites a new design for the specified stream.
      * @param orgName Name of the organization
      * @param spaceName Name of the space
      * @param eventName Name of the event
@@ -66,8 +37,8 @@ export class High5Design extends Base {
         design: unknown,
         build?: unknown
     ): Promise<Design> => {
-        const resp = await this.axios.post<Design>(
-            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/designs`),
+        const resp = await this.axios.put<Design>(
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/design`),
             {
                 name: name,
                 design: design,

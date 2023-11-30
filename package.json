@@ -1,6 +1,6 @@
 {
     "name": "hcloud-sdk",
-    "version": "0.0.66",
+    "version": "0.0.67",
     "description": "hcloud platform sdk",
     "main": "index.js",
     "types": "index.d.ts",

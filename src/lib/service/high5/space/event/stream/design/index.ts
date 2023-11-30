@@ -3,8 +3,14 @@ import Base, { Options } from "../../../../../../Base";
 import { Design } from "../../../../../../interfaces/high5/space/event/stream/design";
 import { DesignContent } from "../../../../../../interfaces/high5/space/event/stream/design/StreamDesign";
 import DesignOperations from "./DesignOperations";
+import High5DesignSnapshots from "./snapshot";
 
 export class High5Design extends Base {
+    /**
+     * API to manage design snapshots
+     */
+    public snapshots: High5DesignSnapshots;
+
     /**
      * API to perform operations on the Stream Design
      */
@@ -14,6 +20,7 @@ export class High5Design extends Base {
         super(options, axios);
 
         this.operations = new DesignOperations(options, axios);
+        this.snapshots = new High5DesignSnapshots(options, axios);
     }
 
     /**

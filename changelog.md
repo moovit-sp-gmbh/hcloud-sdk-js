@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.70
+
+-   Add service to manage design snapshots
+
 ## 0.0.69
 
 -   Add the ability to apply operations to stream designs

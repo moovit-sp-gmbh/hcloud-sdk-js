@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.0.69
+
+-   Add the ability to apply operations to stream designs
+-   Add the designHash property to the Design interface
+
 ## 0.0.68
 
 -   **BREAKING**: Update High5 createDesign required design shape to match SDS

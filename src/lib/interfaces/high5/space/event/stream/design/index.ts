@@ -14,6 +14,7 @@ export interface Design {
     space: ReducedSpace;
     organization: ReducedOrganization;
     creator: ReducedUser;
+    designHash: string;
     /**
      * UTC+0 unix timestamp
      */

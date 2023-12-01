@@ -168,9 +168,10 @@ export default class MothershipService extends Base {
      *
      * @param orgName Name of the organization
      * @param memberToken JWT assigned to a member of the organization
+     * @param email Email of the user owner of the JWT
      */
-    connect = async (orgName: string, memberToken: string): Promise<void> => {
-        await this.axios.post<void>(this.getEndpoint("/v1/connect"), { orgName, memberToken });
+    connect = async (orgName: string, memberToken: string, email: string): Promise<void> => {
+        await this.axios.post<void>(this.getEndpoint(`/v1/org/${orgName}/connect`), { memberToken, email });
     };
 
     /**

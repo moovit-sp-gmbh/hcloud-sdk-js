@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.72
+
+-   **BREAKING**: Update mothership connect method to require a user's email
+
 ## 0.0.71
 
 -   Add option to retrieve additional properties (membersSample, totalMemberCount, ...) when searching users organizations

@@ -3,52 +3,6 @@ import Base, { Options } from "../../Base";
 import { Version } from "../../interfaces/global";
 import { Agent } from "../../interfaces/mothership";
 
-const crypto =
-    typeof window !== "undefined" && window !== null
-        ? Promise.reject(new Error("The crypto module can only be used in a Node.js runtime and not on a browser page."))
-        : import("crypto");
-const os =
-    typeof window !== "undefined" && window !== null
-        ? Promise.reject(new Error("The os module can only be used in a Node.js runtime and not on a browser page."))
-        : import("os");
-
-/**
- * Get average CPU utilization over 1 second.
- */
-async function getCPUInfo(): Promise<{ model: string; utilization: number }> {
-    const { cpus } = await os;
-
-    return new Promise(function (resolve) {
-        const startCpus = cpus();
-
-        setTimeout(function () {
-            let startIdle = 0;
-            let startTotal = 0;
-            for (const cpu of startCpus) {
-                startIdle += cpu.times.idle;
-                for (const timeType in cpu.times) {
-                    startTotal += cpu.times[timeType as keyof typeof cpu.times];
-                }
-            }
-            const endCpus = cpus();
-            let endIdle = 0;
-            let endTotal = 0;
-            for (const cpu of endCpus) {
-                endIdle += cpu.times.idle;
-                for (const timeType in cpu.times) {
-                    endTotal += cpu.times[timeType as keyof typeof cpu.times];
-                }
-            }
-            const idleDifference = endIdle - startIdle;
-            const totalDifference = endTotal - startTotal;
-
-            const cpuPercentage = Math.trunc(((totalDifference - idleDifference) / totalDifference) * 100);
-
-            return resolve({ model: startCpus[0].model, utilization: cpuPercentage });
-        }, 1000);
-    });
-}
-
 type RecurrentInfo = Pick<Agent, "uptime" | "cpuUtilization" | "memoryUsed">;
 
 export default class MothershipService extends Base {
@@ -70,24 +24,11 @@ export default class MothershipService extends Base {
      * Say hello as an agent to the mothership
      *
      * @param uuid Agent's UUID
-     * @param secret Agent's secret
+     * @param uuidSignature HMAC-SHA256 hash of the Agent's UUID using the Agent's secret as the key
      * @param info Information about the agent's uuid, hardware and nickname
      * @return an Agent object
      */
-    hello = async (
-        uuid: string,
-        secret: Buffer,
-        info: Partial<RecurrentInfo> & { nickname?: string } = {}
-    ): Promise<{ agent: Agent; token: string }> => {
-        const { createHmac, createSecretKey } = await crypto;
-        const { uptime, totalmem, freemem } = await os;
-
-        if (!info.cpuUtilization) info.cpuUtilization = (await getCPUInfo()).utilization;
-        if (!info.uptime) info.uptime = uptime();
-        if (!info.memoryUsed) info.memoryUsed = totalmem() - freemem();
-
-        const uuidSignature = createHmac("sha256", createSecretKey(secret)).update(uuid).digest("base64");
-
+    hello = async (uuid: string, uuidSignature: string, info: RecurrentInfo & { nickname?: string }): Promise<{ agent: Agent; token: string }> => {
         const resp = await this.axios.post<Agent>(this.getEndpoint("/v1/hello"), info, {
             headers: {
                 Authorization: `Bearer ${uuid}.${uuidSignature}`,
@@ -107,13 +48,7 @@ export default class MothershipService extends Base {
      * @param info Information about the agent's system resources.
      * @return an Agent object
      */
-    helloAgain = async (info: Partial<RecurrentInfo> = {}): Promise<Agent> => {
-        const { uptime, totalmem, freemem } = await os;
-
-        if (!info.cpuUtilization) info.cpuUtilization = (await getCPUInfo()).utilization;
-        if (!info.uptime) info.uptime = uptime();
-        if (!info.memoryUsed) info.memoryUsed = totalmem() - freemem();
-
+    helloAgain = async (info: RecurrentInfo): Promise<Agent> => {
         const resp = await this.axios.patch<Agent>(this.getEndpoint("/v1/hello/again"), info);
 
         return resp.data;
@@ -132,24 +67,9 @@ export default class MothershipService extends Base {
     // eslint-disable-next-line complexity
     register = async (
         uuid: string,
-        info: Partial<Pick<Agent, Exclude<keyof Agent, "uuid" | "createDate" | "modifyDate" | "_id" | "ip">>> & Required<Pick<Agent, "nickname">>,
+        info: Pick<Agent, Exclude<keyof Agent, "uuid" | "createDate" | "modifyDate" | "_id" | "ip">>,
         publicKey: string | Buffer
     ): Promise<{ secret: string }> => {
-        const { uptime, hostname, totalmem, freemem, platform, release, version } = await os;
-
-        if (!info.cpu) {
-            const { model, utilization } = await getCPUInfo();
-            info.cpu = model;
-            info.cpuUtilization = utilization;
-        } else if (!info.cpuUtilization) info.cpuUtilization = (await getCPUInfo()).utilization;
-        if (!info.uptime) info.uptime = uptime();
-        if (!info.hostname) info.hostname = hostname();
-        if (!info.memoryTotal) info.memoryTotal = totalmem();
-        if (!info.memoryUsed) info.memoryUsed = info.memoryTotal - freemem();
-        if (!info.osPlatform) info.osPlatform = platform();
-        if (!info.osRelease) info.osRelease = release();
-        if (!info.osVersion) info.osVersion = version();
-
         if (typeof publicKey !== "string") {
             publicKey = publicKey.toString("hex");
         }

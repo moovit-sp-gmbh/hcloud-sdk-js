@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.74
+
+-   **BREAKING**: Mothership methods no longer use Node.js APIs to populate missing values. All the parameters are now required
+
 ## 0.0.73
 
 -   **BREAKING**: Rename design.design to design.content

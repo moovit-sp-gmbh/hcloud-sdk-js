@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.73
+
+-   **BREAKING**: Rename design.design to design.content
+
 ## 0.0.72
 
 -   **BREAKING**: Update mothership connect method to require a user's email

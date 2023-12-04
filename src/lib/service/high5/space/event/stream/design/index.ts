@@ -45,7 +45,7 @@ export class High5Design extends Base {
      * @param spaceName Name of the space
      * @param eventName Name of the event
      * @param streamId ID of the stream
-     * @param design Design as Json payload (schema created by Stream Designer Studio)
+     * @param content Design as Json payload (schema created by Stream Designer Studio)
      * @param build Rendered design as Json payload (schema created by Stream Designer Studio; ready to be executed by wave engine)
      * @returns The created design
      */
@@ -55,15 +55,15 @@ export class High5Design extends Base {
         eventName: string,
         streamId: string,
         name: string,
-        design: DesignContent,
+        content: DesignContent,
         build?: unknown
     ): Promise<Design> => {
         const resp = await this.axios.put<Design>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/design`),
             {
-                name: name,
-                design: design,
-                build: build,
+                name,
+                content,
+                build,
             }
         );
 

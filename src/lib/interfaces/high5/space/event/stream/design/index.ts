@@ -7,7 +7,7 @@ import { DesignContent } from "./StreamDesign";
 export interface Design {
     _id: string;
     name: string;
-    design: DesignContent;
+    content: DesignContent;
     build?: unknown;
     streamId: string;
     event: ReducedEvent;

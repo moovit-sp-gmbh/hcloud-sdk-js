@@ -2,7 +2,7 @@ import { AxiosInstance } from "axios";
 import Base, { Options } from "../../../../../Base";
 import { SearchFilterDTO } from "../../../../../helper/searchFilter";
 import { SearchFilter, SearchParams } from "../../../../../interfaces/global";
-import { OAuthApp, OAuthAppCreation } from "../../../../../interfaces/idp/organization/settings/oauthApp";
+import { OAuthApp, OAuthAppCreate } from "../../../../../interfaces/idp/organization/settings/oauthApp";
 
 export class IdpOAuthApp extends Base {
     constructor(options: Options, axios: AxiosInstance) {
@@ -55,11 +55,11 @@ export class IdpOAuthApp extends Base {
     /**
      * Creates a new OAuth app in the specified Organization.
      * @param orgName Name of the Organization
-     * @param oAuthAppCreation Object containing the app's name, secretName, callback and optionally a base64 encoded avatar and a description
+     * @param oAuthAppCreate Object containing the app's name, secretName, callback and optionally a base64 encoded avatar and a description
      * @returns The created OAuth app
      */
-    public createOAuthApp = async (orgName: string, oAuthAppCreation: OAuthAppCreation): Promise<OAuthApp> => {
-        const resp = await this.axios.post<OAuthApp>(this.getEndpoint(`/v1/org/${orgName}/settings/applications/oauth`), oAuthAppCreation);
+    public createOAuthApp = async (orgName: string, oAuthAppCreate: OAuthAppCreate): Promise<OAuthApp> => {
+        const resp = await this.axios.post<OAuthApp>(this.getEndpoint(`/v1/org/${orgName}/settings/applications/oauth`), oAuthAppCreate);
 
         return resp.data;
     };
@@ -68,14 +68,11 @@ export class IdpOAuthApp extends Base {
      * Updates an existing OAuth app.
      * @param orgName Name of the Organization
      * @param oauthAppId ID of the OAuth app to be updated
-     * @param oAuthAppCreation Object containing the app's name, secretName, callback and optionally a base64 encoded avatar and a description
+     * @param oAuthAppCreate Object containing the app's name, secretName, callback and optionally a base64 encoded avatar and a description
      * @returns the updated OAuth app
      */
-    public updateOAuthApp = async (orgName: string, oauthAppId: string, oAuthAppCreation: OAuthAppCreation): Promise<OAuthApp> => {
-        const resp = await this.axios.put<OAuthApp>(
-            this.getEndpoint(`/v1/org/${orgName}/settings/applications/oauth/${oauthAppId}`),
-            oAuthAppCreation
-        );
+    public updateOAuthApp = async (orgName: string, oauthAppId: string, oAuthAppCreate: OAuthAppCreate): Promise<OAuthApp> => {
+        const resp = await this.axios.put<OAuthApp>(this.getEndpoint(`/v1/org/${orgName}/settings/applications/oauth/${oauthAppId}`), oAuthAppCreate);
 
         return resp.data;
     };

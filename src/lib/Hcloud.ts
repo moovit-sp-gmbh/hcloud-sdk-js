@@ -56,42 +56,70 @@ export default class HCloud {
         this.Nats = new NatsService();
     }
 
+    /**
+     * Sets the server url that the SDK shall do a request to.
+     */
     setServer(server: string): HCloud {
         this.options.server = server;
         return this;
     }
 
+    /**
+     * Returns the currently set server url that the SDK will make requests to.
+     */
     getServer(): string {
         return this.options.server;
     }
 
+    /**
+     * Authenticate against hcloud with username and password, as an alternative to using a bearer auth token.
+     */
     setBasicAuth(username: string, password: string): HCloud {
         this.axios.defaults.headers.common["authorization"] = `Basic ${Buffer.from(username + ":" + password).toString("base64")}`;
         return this;
     }
 
+    /**
+     * Sets the auth token used for authentication against hcloud. The provided token must be a bearer token.
+     */
     setAuthToken(token: string): HCloud {
         this.axios.defaults.headers.common["authorization"] = token;
         return this;
     }
 
+    /**
+     * Returns the currently set auth token.
+     */
     getAuthToken(): string | undefined {
         return this.axios.defaults.headers.common["authorization"]?.toString();
     }
 
+    /**
+     * Sets the correlationID which will be sent to hcloud with each request and appears in all
+     * logs that are made on behalf of this request, making it easier to debug the application.
+     */
     setCorrelationId(correlationId: string): HCloud {
         this.axios.defaults.headers.common["X-Hcloud-Correlation-ID"] = correlationId;
         return this;
     }
 
+    /**
+     * Returns the currently set correlationID.
+     */
     getCorrelationId(): string | undefined {
         return this.axios.defaults.headers.common["X-Hcloud-Correlation-ID"]?.toString();
     }
 
+    /**
+     * Returns the currently set logger.
+     */
     getLogger(): HcloudLogger | undefined {
         return this.options.logger;
     }
 
+    /**
+     * Sets a logger used to receive logs from hcloud.
+     */
     setLogger(logger: HcloudLogger) {
         this.options.logger = logger;
         return this;

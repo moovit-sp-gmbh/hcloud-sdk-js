@@ -2,7 +2,7 @@ import { AxiosInstance } from "axios";
 import Base, { Options } from "../../../../Base";
 import { SearchFilterDTO } from "../../../../helper/searchFilter";
 import { SearchFilter, SearchParams } from "../../../../interfaces/global";
-import { OrganizationMember, PatchOrgMember } from "../../../../interfaces/idp/organization/member";
+import { OrganizationMember, OrgMemberPatch } from "../../../../interfaces/idp/organization/member";
 import IdpOrganizationMemberInvitations from "./invitations";
 
 export class IdpOrganizationMember extends Base {
@@ -54,11 +54,11 @@ export class IdpOrganizationMember extends Base {
      * Updates the role of a User in the specified Organization.
      * @param orgName Name of the Organization
      * @param userId ID of the User
-     * @param patchOrgMember New role
+     * @param orgMemberPatch New role
      * @returns The updated OrganizationMember
      */
-    public patchOrganizationMemberRole = async (orgName: string, userId: string, patchOrgMember: PatchOrgMember): Promise<OrganizationMember> => {
-        const resp = await this.axios.patch<OrganizationMember>(this.getEndpoint(`/${orgName}/members/${userId}/role`), patchOrgMember);
+    public patchOrganizationMemberRole = async (orgName: string, userId: string, orgMemberPatch: OrgMemberPatch): Promise<OrganizationMember> => {
+        const resp = await this.axios.patch<OrganizationMember>(this.getEndpoint(`/${orgName}/members/${userId}/role`), orgMemberPatch);
 
         return resp.data;
     };

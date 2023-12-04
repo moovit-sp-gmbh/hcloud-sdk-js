@@ -1,6 +1,6 @@
 import { AxiosInstance } from "axios";
 import Base, { Options } from "../../../../Base";
-import { KeyValuePair, Webhook, WebhookCreation, WebhookUpdate } from "../../../../interfaces/high5/space/webhook";
+import { KeyValuePair, Webhook, WebhookCreate, WebhookUpdate } from "../../../../interfaces/high5/space/webhook";
 import { High5WebhookLog } from "./log";
 import { SearchFilter, SearchParams } from "../../../../interfaces/global";
 import { SearchFilterDTO } from "../../../../helper/searchFilter";
@@ -74,11 +74,11 @@ export class High5Webhook extends Base {
      * Creates a new Webhook in the specified High5 space.
      * @param orgName Name of the Organization
      * @param spaceName Name of the Space
-     * @param webhookCreation Object/JSON containing the name, token, eventId, spaceId, target and (optionally) security headers for the new webhook
+     * @param WebhookCreate Object/JSON containing the name, token, eventId, spaceId, target and (optionally) security headers for the new webhook
      * @returns The created Webhook
      */
-    public createWebhook = async (orgName: string, spaceName: string, webhookCreation: WebhookCreation): Promise<Webhook> => {
-        const resp = await this.axios.post<Webhook>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/webhooks`), webhookCreation);
+    public createWebhook = async (orgName: string, spaceName: string, WebhookCreate: WebhookCreate): Promise<Webhook> => {
+        const resp = await this.axios.post<Webhook>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/webhooks`), WebhookCreate);
 
         return resp.data;
     };
@@ -88,7 +88,7 @@ export class High5Webhook extends Base {
      * @param orgName Name of the Organization
      * @param spaceName Name of the Space
      * @param webhookId ID of the Webhook to be updated
-     * @param webhookCreation Object/JSON containing the name, token, eventId, spaceId, target and (optionally) security headers for the updated webhook
+     * @param WebhookCreate Object/JSON containing the name, token, eventId, spaceId, target and (optionally) security headers for the updated webhook
      * @returns the updated Webhook
      */
     public updateWebhook = async (orgName: string, spaceName: string, webhookId: string, webhookUpdate: WebhookUpdate): Promise<Webhook> => {

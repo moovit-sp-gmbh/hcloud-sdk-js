@@ -50,9 +50,9 @@ export interface Webhook {
     modifyDate: number;
 }
 
-export type WebhookCreation = Pick<Webhook, "name" | "target" | "type" | "sub" | "webhookEncryptionSettings" | "securityHeaders">;
+export type WebhookCreate = Pick<Webhook, "name" | "target" | "type" | "sub" | "webhookEncryptionSettings" | "securityHeaders">;
 
-export type WebhookUpdate = Partial<WebhookCreation> & {
+export type WebhookUpdate = Partial<WebhookCreate> & {
     deleteWebhookEncryptionSettings?: boolean;
     deleteSecurityHeaders?: boolean;
 };

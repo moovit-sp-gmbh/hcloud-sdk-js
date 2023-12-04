@@ -17,7 +17,7 @@ export interface User {
 
 export type ReducedUser = Pick<User, "_id" | "name" | "avatarUrl">;
 
-export interface PatchUser {
+export interface UserPatch {
     name?: string;
     email?: string;
     company?: string;

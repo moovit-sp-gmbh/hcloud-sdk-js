@@ -44,9 +44,7 @@ export enum SearchFilterType {
 export interface SearchFilter {
     type: SearchFilterType;
     key: string;
-    name: string;
     comparator?: SearchFilterComparatorBoolean | SearchFilterComparatorDate | SearchFilterComparatorNumber | SearchFilterComparatorString;
-    description: string;
 }
 
 export interface SearchFilterString extends SearchFilter {

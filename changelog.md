@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.78
+
+-   **BREAKING**: Rename multiple interfaces to be consistent to our naming conventions (for example, CronjobCreate instead of CreateCronjob)
+-   **BREAKING**: Remove properties 'name' and 'description' from SearchFilter interface
+-   Fix wrong return type of getStreamExecutionLog() function
+
 ## 0.0.77
 
 -   **BREAKING**: Rename totalMembersCount to totalMemberCount in Team interface

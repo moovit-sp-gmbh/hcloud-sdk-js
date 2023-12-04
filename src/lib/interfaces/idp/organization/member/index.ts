@@ -8,11 +8,11 @@ export interface OrganizationMember {
     role: OrganizationRole;
 }
 
-export interface AddOrganizationMember {
+export interface OrgMemberCreate {
     email: string;
     role: OrganizationRole;
 }
 
-export interface PatchOrgMember {
+export interface OrgMemberPatch {
     role: OrganizationRole;
 }

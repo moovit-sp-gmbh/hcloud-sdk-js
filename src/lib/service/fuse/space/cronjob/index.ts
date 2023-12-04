@@ -1,7 +1,7 @@
 import { AxiosInstance } from "axios";
 import Base, { Options } from "../../../../Base";
 import { SearchFilterDTO } from "../../../../helper/searchFilter";
-import { CreateCronjob, Cronjob } from "../../../../interfaces/fuse/space/cronjob/Cronjob";
+import { CronjobCreate, Cronjob } from "../../../../interfaces/fuse/space/cronjob/Cronjob";
 import { SearchFilter, SearchParams } from "../../../../interfaces/global";
 import { FuseCronjobLog } from "./log";
 import { FuseCronjobLogInternal } from "../../internal/space/cronjob/log";
@@ -56,7 +56,7 @@ export class FuseCronjob extends Base {
     public createCronjob = async (
         orgName: string,
         spaceName: string,
-        createCronjob: CreateCronjob,
+        createCronjob: CronjobCreate,
         exposeNextExecution = false
     ): Promise<Cronjob> => {
         const resp = await this.axios.post<Cronjob>(
@@ -79,7 +79,7 @@ export class FuseCronjob extends Base {
         orgName: string,
         spaceName: string,
         cronjobId: string,
-        createCronjob: CreateCronjob,
+        createCronjob: CronjobCreate,
         exposeNextExecution = false
     ): Promise<Cronjob> => {
         const resp = await this.axios.put<Cronjob>(

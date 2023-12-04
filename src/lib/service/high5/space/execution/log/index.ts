@@ -41,20 +41,20 @@ export class High5ExecutionLogs extends Base {
     };
 
     /**
-     * Retrieves all stream execution logs for a given stream.
+     * Retrieves the execution log of a stream.
      * @param orgName Name of the Organization
      * @param spaceName Name of the Space
      * @param streamLogId ID of the stream log
-     * @returns Array of Stream execution logs as well as the total number of results
+     * @returns Stream execution log
      */
-    public getStreamExecutionLog = async (orgName: string, spaceName: string, streamLogId: string): Promise<[High5ExecutionLog, number]> => {
+    public getStreamExecutionLog = async (orgName: string, spaceName: string, streamLogId: string): Promise<High5ExecutionLog> => {
         const resp = await this.axios
             .get<High5ExecutionLog>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execution/streams/logs/${streamLogId}`))
             .catch((err: Error) => {
                 throw err;
             });
 
-        return [resp.data, parseInt(String(resp.headers["total"]), 10)];
+        return resp.data;
     };
 
     protected getEndpoint(endpoint: string): string {

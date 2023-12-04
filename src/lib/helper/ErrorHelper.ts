@@ -14,6 +14,10 @@ export default function wrapError<T>(error: T): T | HCloudError {
     return error;
 }
 
+/**
+ * Checks if error is of type HCloudError. An HCloudError is comming from the SDK and holds
+ * the information of a custom error that was initially thrown in a hcloud backend.
+ */
 export function isHCloudError(obj: unknown): obj is HCloudError {
     return typeof obj === "object" && obj instanceof HCloudError;
 }

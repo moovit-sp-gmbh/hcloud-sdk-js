@@ -3,7 +3,7 @@ import Base, { Options } from "../../../Base";
 import { SearchFilterDTO } from "../../../helper/searchFilter";
 import { SearchFilter, Sorting } from "../../../interfaces/global/SearchFilters";
 import { Organization, OrganizationQueryOptions } from "../../../interfaces/idp/organization";
-import { PatchUser, User } from "../../../interfaces/idp/user";
+import { UserPatch, User } from "../../../interfaces/idp/user";
 import { IdpSettings } from "./settings";
 
 export class IdpUser extends Base {
@@ -30,10 +30,10 @@ export class IdpUser extends Base {
 
     /**
      * Updates the User database entry of the requesting user.
-     * @param user PatchUser object holding the new User values
+     * @param user UserPatch object holding the new User values
      * @returns User object
      */
-    public patchUser = async (user: PatchUser): Promise<User> => {
+    public patchUser = async (user: UserPatch): Promise<User> => {
         const resp = await this.axios.patch<User>(this.getEndpoint(`/v1/user`), user);
 
         return resp.data;

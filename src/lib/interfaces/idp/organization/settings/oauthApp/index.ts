@@ -29,7 +29,7 @@ export interface OAuthApp {
     modifyDate: number;
 }
 
-export interface OAuthAppCreation {
+export interface OAuthAppCreate {
     name: string;
     description?: string;
     homepage?: string;

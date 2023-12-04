@@ -15,4 +15,4 @@ export interface CronjobLogDto {
     modifyDate: number;
 }
 
-export type CronjobLogCreation = Pick<CronjobLogDto, "statusCode" | "headers" | "body">;
+export type CronjobLogCreate = Pick<CronjobLogDto, "statusCode" | "headers" | "body">;

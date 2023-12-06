@@ -47,12 +47,16 @@ export enum Type {
 }
 
 export interface AuditLog {
+    _id: string;
+    correlationId: string;
     level: Level;
     origin: Origin;
     organizationId: string;
     event: Event;
-    type?: Type;
-    message?: unknown;
+    space?: string;
     user: string;
+    type?: Type;
     timestamp: number;
+    message?: unknown;
+    expireAt: Date;
 }

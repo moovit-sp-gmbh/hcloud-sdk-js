@@ -10,6 +10,8 @@ export interface Team {
     createDate: number;
     modifyDate: number;
     creator: ReducedUser;
+    membersSample?: ReducedUser[];
+    totalMembersCount?: number;
 }
 
 export type ReducedTeam = Pick<Team, "_id" | "name" | "avatarUrl">;
@@ -19,3 +21,8 @@ export enum TeamUsersPatchOperation {
     REMOVE = "REMOVE",
     SET = "SET",
 }
+
+export type TeamQueryOptions = {
+    getMembersSample?: number; // Number of members to return
+    getTotalMemberCount?: boolean;
+};

@@ -1,7 +1,7 @@
 import Base from "../../../../Base";
 import { SearchFilterDTO } from "../../../../helper/searchFilter";
 import { SearchFilter, SearchParams, Sorting } from "../../../../interfaces/global/SearchFilters";
-import { Team, TeamUsersPatchOperation } from "../../../../interfaces/idp/organization/team";
+import { Team, TeamQueryOptions, TeamUsersPatchOperation } from "../../../../interfaces/idp/organization/team";
 import { ReducedUser } from "../../../../interfaces/idp/user";
 
 export class IdpOrganizationTeams extends Base {
@@ -65,26 +65,11 @@ export class IdpOrganizationTeams extends Base {
     };
 
     /**
-     * Retrieves all Teams of an Organization.
-     * @param orgName Name of the Organization
-     * @param limit (optional) Max number of results (1-100; defaults to 25)
-     * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
-     * @returns Array of Teams and the total number of results found in the database (independent of limit and page)
-     */
-    public listTeams = async (orgName: string, limit?: number, page?: number): Promise<[Team[], number]> => {
-        limit = limit || 25;
-        page = page || 0;
-
-        const resp = await this.axios.get<Team[]>(this.getEndpoint(`/${orgName}/teams?limit=${limit}&page=${page}`));
-
-        return [resp.data, parseInt(String(resp.headers["total"]), 10)];
-    };
-
-    /**
      * Retrieves all Teams of an Organization that match the provided search filter(s). Returns all Teams if no search filter is provided.
      * @param organizationName Name of the organization
      * @param filters (optional) Array of search filters
      * @param sorting (optional) Sorting object
+     * @param options (optional) Defines query options to retrieve additional properties for the returned Team objects.
      * @param limit (optional) Max number of results (1-100; defaults to 25)
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
      * @returns Array of Teams and the total number of results found in the database (independent of limit and page)
@@ -93,20 +78,26 @@ export class IdpOrganizationTeams extends Base {
         organizationName: string;
         filters: SearchFilter[];
         sorting?: Sorting;
+        options?: TeamQueryOptions;
         limit?: number;
         page?: number;
     }): Promise<[Team[], number]> => {
         const limit = params.limit || 25;
         const page = params.page || 0;
+        const getTotalMemberCount = params.options?.getTotalMemberCount ? `&totalMemberCount=${params.options.getTotalMemberCount}` : "";
+        const getMembersSample = params.options?.getMembersSample ? `&membersSample=${params.options.getMembersSample}` : "";
 
         const filtersDTO = params.filters.map((f: SearchFilter) => {
             return new SearchFilterDTO(f);
         });
 
-        const resp = await this.axios.post<Team[]>(this.getEndpoint(`/${params.organizationName}/teams/search?limit=${limit}&page=${page}`), {
-            filters: filtersDTO,
-            sorting: params.sorting,
-        });
+        const resp = await this.axios.post<Team[]>(
+            this.getEndpoint(`/${params.organizationName}/teams/search?limit=${limit}&page=${page}` + getMembersSample + getTotalMemberCount),
+            {
+                filters: filtersDTO,
+                sorting: params.sorting,
+            }
+        );
 
         return [resp.data, parseInt(String(resp.headers["total"]), 10)];
     };

@@ -4,7 +4,7 @@ export enum Scope {
     IDP_USER_READ = "idp:user:read",
     IDP_USER_WRITE = "idp:user:write",
     IDP_USER_DELETE = "idp:user:delete",
-    IDP_USER_OPEN_ID = "openid", // This is a special scope for OpenID Connect in the OAuth flow
+    IDP_USER_OPEN_ID = "idp:user:openid", // This is a special scope for OpenID Connect in the OAuth flow
     IDP_ORGANIZATION_READ = "idp:organization:read",
     IDP_ORGANIZATION_WRITE = "idp:organization:write",
     IDP_ORGANIZATION_DELETE = "idp:organization:delete",
@@ -19,7 +19,7 @@ export enum Scope {
 }
 
 export const ScopeDependencies = {
-    [Scope.HCLOUD_FULL]: [Object.values(Scope)[0]],
+    [Scope.HCLOUD_FULL]: [...Object.values(Scope).filter(s => s !== Scope.HCLOUD_FULL)],
     [Scope.IDP_EMAIL_READ]: [],
     [Scope.IDP_USER_READ]: [],
     [Scope.IDP_USER_WRITE]: [Scope.IDP_USER_READ],

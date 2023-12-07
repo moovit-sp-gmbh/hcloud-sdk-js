@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.77
+
+-   **BREAKING**: Rename totalMembersCount to totalMemberCount in Team interface
+
 ## 0.0.76
 
 -   Add option to retrieve additional properties when requesting teams via searchTeams

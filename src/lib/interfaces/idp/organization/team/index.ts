@@ -11,7 +11,7 @@ export interface Team {
     modifyDate: number;
     creator: ReducedUser;
     membersSample?: ReducedUser[];
-    totalMembersCount?: number;
+    totalMemberCount?: number;
 }
 
 export type ReducedTeam = Pick<Team, "_id" | "name" | "avatarUrl">;

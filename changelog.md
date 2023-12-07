@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.0.76
+
+-   Add option to retrieve additional properties when requesting teams via searchTeams
+-   **BREAKING**: Remove listTeams function (use searchTeams instead)
+
 ## 0.0.75
 
 -   Add ability to start an empty Design operation queue

@@ -31,6 +31,10 @@ export default class DesignOperations extends Base {
         return resp.data;
     }
 
+    public queue(): OperationQueue {
+        return new OperationQueue(this);
+    }
+
     public addNode(details: DesignerNode): OperationQueue {
         const queue = new OperationQueue(this);
         return queue.addNode(details);

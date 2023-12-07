@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.75
+
+-   Add ability to start an empty Design operation queue
+
 ## 0.0.74
 
 -   **BREAKING**: Mothership methods no longer use Node.js APIs to populate missing values. All the parameters are now required

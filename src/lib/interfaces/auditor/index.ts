@@ -12,6 +12,7 @@ export enum Origin {
     Mailer = "mailer",
     Fuse = "fuse",
     Mothership = "mothership",
+    Dali = "dali",
 }
 
 export enum Event {
@@ -29,6 +30,7 @@ export enum Event {
     Cronjob = "cronjob",
     Secret = "secret",
     Agent = "agent",
+    Avatar = "avatar",
 }
 
 export enum Type {

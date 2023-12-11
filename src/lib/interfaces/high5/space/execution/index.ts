@@ -52,9 +52,15 @@ export interface EventExecutionResult {
     runningNodes: StreamRunningNode[];
 }
 
+export interface WaveCatalog {
+    url: string;
+    version: string;
+}
+
 export interface High5ExecutionPackage {
     design: DesignBuild;
     payload: High5ExecutionPayload;
+    waveCatalogs: WaveCatalog[];
     waveEngine: string;
     dry: boolean;
 }

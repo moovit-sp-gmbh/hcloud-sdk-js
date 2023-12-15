@@ -154,6 +154,35 @@ export class High5Stream extends Base {
     };
 
     /**
+     * Moves a Stream to another event.
+     *
+     * @param orgName Name of the organization
+     * @param spaceName Name of the space
+     * @param eventName Name of the event
+     * @param streamId ID of the stream
+     * @param newEventName Name of the new event
+     * @param [name] (optional) New name for stream. Is the new event already has a stream with the same name as this one, this parameter is mandatory.
+     * @param [order] (optional) Order the stream should have in the new event
+     * @returns Updated Stream
+     */
+    public moveStream = async (
+        orgName: string,
+        spaceName: string,
+        eventName: string,
+        streamId: string,
+        newEventName: string,
+        name?: string,
+        order?: number
+    ): Promise<Stream> => {
+        const resp = await this.axios.patch<Stream>(
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/event`),
+            { eventName: newEventName, name, order }
+        );
+
+        return resp.data;
+    };
+
+    /**
      * Deletes a Stream by its ID.
      * @param orgName Name of the organization
      * @param spaceName Name of the space

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.79
+
+-   Add method to move streams between events
+
 ## 0.0.78
 
 -   **BREAKING**: Rename multiple interfaces to be consistent to our naming conventions (for example, CronjobCreate instead of CreateCronjob)

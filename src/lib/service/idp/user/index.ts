@@ -40,6 +40,27 @@ export class IdpUser extends Base {
     };
 
     /**
+     * Updates the Password of the requesting user.
+     * @param oldPassword String object holding the old password
+     * @param newPassword String object holding the new password
+     * @param token String (optional) object holding the current TOTP token
+     * @returns User object
+     */
+    public patchUserPassword = async (oldPassword: string, newPassword: string, totp?: string): Promise<User> => {
+        const t = {
+            old: oldPassword,
+            new: newPassword,
+            token: totp,
+        };
+        if (!totp) {
+            delete t.token;
+        }
+        const resp = await this.axios.patch<User>(this.getEndpoint(`/v1/user/password`), t);
+
+        return resp.data;
+    };
+
+    /**
      * Deletes user session and logs him out of HCloud on all devices.
      */
     public deleteUserSession = async (): Promise<void> => {

@@ -14,6 +14,7 @@ export enum Scope {
     HIGH5_SPACE_WRITE = "high5:space:write",
     HIGH5_SPACE_DELETE = "high5:space:delete",
     FUSE_SPACE_READ = "fuse:space:read",
+    FUSE_SPACE_EXECUTE = "fuse:space:execute",
     FUSE_SPACE_WRITE = "fuse:space:write",
     FUSE_SPACE_DELETE = "fuse:space:delete",
 }
@@ -34,6 +35,7 @@ export const ScopeDependencies = {
     [Scope.HIGH5_SPACE_WRITE]: [Scope.IDP_USER_READ, Scope.HIGH5_SPACE_READ, Scope.HIGH5_SPACE_EXECUTE],
     [Scope.HIGH5_SPACE_DELETE]: [Scope.IDP_USER_READ, Scope.HIGH5_SPACE_READ, Scope.HIGH5_SPACE_EXECUTE, Scope.HIGH5_SPACE_WRITE],
     [Scope.FUSE_SPACE_READ]: [Scope.IDP_USER_READ],
+    [Scope.FUSE_SPACE_EXECUTE]: [],
     [Scope.FUSE_SPACE_WRITE]: [Scope.IDP_USER_READ, Scope.FUSE_SPACE_READ],
     [Scope.FUSE_SPACE_DELETE]: [Scope.IDP_USER_READ, Scope.FUSE_SPACE_READ, Scope.FUSE_SPACE_WRITE],
 };

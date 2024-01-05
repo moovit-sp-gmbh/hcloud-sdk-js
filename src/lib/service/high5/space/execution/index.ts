@@ -1,6 +1,5 @@
 import { AxiosInstance } from "axios";
 import Base, { Options } from "../../../../Base";
-import { WaveEngine, WaveRelease } from "../../../../interfaces/high5/wave";
 import {
     High5ExecutionPackage,
     High5ExecutionPatch,
@@ -101,27 +100,6 @@ export class High5Execute extends Base {
         high5ExecutionResponse: High5ExecutionPatch
     ): Promise<void> => {
         await this.axios.patch<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execution/streams/${secret}`), high5ExecutionResponse);
-    };
-
-    /**
-     * Requests all available wave engine releases and reports a short info object
-     * @param orgName Name of the Organization
-     * @returns Array of WaveRelease objects
-     */
-    public fetchAllWaveEngineReleaseTags = async (orgName: string): Promise<WaveRelease[]> => {
-        const resp = await this.axios.get<WaveRelease[]>(this.getEndpoint(`/v1/org/${orgName}/wave/releases`));
-        return resp.data;
-    };
-
-    /**
-     * Requests a single wave engine release version
-     * @param orgName Name of the Organization
-     * @param releaseVersion Release version in the following format: v0.0.1 or v0.0.1-5
-     * @returns WaveRelease
-     */
-    public fetchWaveEngineRelease = async (orgName: string, releaseVersion: string): Promise<WaveEngine> => {
-        const resp = await this.axios.get<WaveEngine>(this.getEndpoint(`/v1/org/${orgName}/wave/releases/${releaseVersion}`));
-        return resp.data;
     };
 
     protected getEndpoint(endpoint: string): string {

@@ -1,32 +1,4 @@
-/**
- * Refers to a GitHub release.
- */
-export interface WaveRelease {
-    releaseTag: string;
-    browserUrl: string;
-    latest?: boolean;
-}
-
-export interface WaveEngine {
-    size: number;
-    md5: string;
-    content: string;
-}
-
-/**
- * Refers to an asset (file) within a GitHub release.
- *
- * A WaveEngineReleaseAsset that belong to a certain WaveRelease will
- * share the same releaseTag and latest value, but will have a different
- * browserUrl since the URL will refer to the specific asset.
- */
-export interface WaveEngineReleaseAsset {
-    releaseTag: string;
-    browserUrl: string;
-    latest?: boolean;
-}
-
-export interface Registry {
+export interface CatalogRegistry {
     catalogs: {
         url: string;
         signed?: boolean;
@@ -35,11 +7,48 @@ export interface Registry {
     }[];
 }
 
+export interface EngineRegistry {
+    engines: {
+        url: string;
+    }[];
+}
+
+export interface WaveEngine {
+    _id: string;
+    version: string;
+    url: string;
+    changeLog: string[];
+}
+
+export interface WaveCatalog {
+    _id: string;
+    version: string;
+    url: string;
+    changeLog: string[];
+}
+
+export interface Engine {
+    name: string;
+    description: string;
+    logo?: string;
+    versions: WaveEngine[];
+}
+
 export interface Catalog {
     name: string;
     description: string;
     logo?: string;
-    versions: string[];
+    versions: WaveCatalog[];
+}
+
+export interface SpacePatchWaveEngine {
+    version: string;
+    url: string;
+}
+
+export interface SpacePatchWaveCatalog {
+    version: string;
+    url: string;
 }
 
 export interface Specification {

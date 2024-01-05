@@ -1,5 +1,6 @@
 import { ReducedSpace } from "../../../global";
 import { ReducedOrganization, ReducedUser } from "../../../idp";
+import { WaveCatalog, WaveEngine } from "../../wave";
 import { DesignBuild } from "../event/stream";
 import { StreamSingleNodeResult } from "../event/stream/node";
 
@@ -52,16 +53,11 @@ export interface EventExecutionResult {
     runningNodes: StreamRunningNode[];
 }
 
-export interface WaveCatalog {
-    url: string;
-    version: string;
-}
-
 export interface High5ExecutionPackage {
     design: DesignBuild;
     payload: High5ExecutionPayload;
     waveCatalogs: WaveCatalog[];
-    waveEngine: string;
+    waveEngine: WaveEngine;
     dry: boolean;
 }
 

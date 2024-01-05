@@ -1,6 +1,6 @@
 import { AxiosInstance } from "axios";
 import Base, { Options } from "../../../../Base";
-import { Catalog, Registry, StreamNodeSpecification } from "../../../../interfaces/high5";
+import { Catalog, CatalogRegistry, Engine, EngineRegistry, StreamNodeSpecification } from "../../../../interfaces/high5";
 
 /**
  * Class for reading the S3 bucket of a wave engine and catalogs
@@ -11,12 +11,23 @@ export class S3 extends Base {
     }
 
     /**
-     * Get the registry.json from the S3 bucket
+     * Get the registry.json of the default wave catalog from the S3 bucket
      * @param waveBucketUrl Public base url to S3 bucket
      * @returns registry.json
      */
-    public getRegistry = async (waveBucketUrl: string): Promise<Registry> => {
-        const resp = await this.axios.get<Registry>(`${waveBucketUrl}/registry.json`);
+    public getCatalogRegistry = async (waveBucketUrl: string): Promise<CatalogRegistry> => {
+        const resp = await this.axios.get<CatalogRegistry>(`${waveBucketUrl}/catalogs/registry.json`);
+
+        return resp.data;
+    };
+
+    /**
+     * Get the registry.json of the default wave engine from the S3 bucket
+     * @param waveBucketUrl Public base url to S3 bucket
+     * @returns registry.json
+     */
+    public getEngineRegistry = async (waveBucketUrl: string): Promise<EngineRegistry> => {
+        const resp = await this.axios.get<EngineRegistry>(`${waveBucketUrl}/engines/registry.json`);
 
         return resp.data;
     };
@@ -24,10 +35,21 @@ export class S3 extends Base {
     /**
      * Get the catalog.json from the S3 bucket
      * @param catalogUrl Public url of the catalog
-     * @returns catalog.json
+     * @returns index.json of catalog
      */
     public getCatalog = async (catalogUrl: string): Promise<Catalog> => {
         const resp = await this.axios.get<Catalog>(`${catalogUrl}`);
+
+        return resp.data;
+    };
+
+    /**
+     * Get the catalog.json from the S3 bucket
+     * @param catalogUrl Public url of the catalog
+     * @returns index.json of catalog
+     */
+    public getEngine = async (engineUrl: string): Promise<Engine> => {
+        const resp = await this.axios.get<Engine>(`${engineUrl}`);
 
         return resp.data;
     };

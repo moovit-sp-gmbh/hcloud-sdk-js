@@ -7,10 +7,12 @@ import IdpOrganizationMemberInvitations from "./invitations";
 
 export class IdpOrganizationMember extends Base {
     public invitations: IdpOrganizationMemberInvitations;
+
     constructor(options: Options, axios: AxiosInstance) {
         super(options, axios);
         this.invitations = new IdpOrganizationMemberInvitations(options, axios);
     }
+
     /**
      * Retrieves all organization members that match the provided search filter(s). Will return all members of the organization if no search filter is provided.
      * @param orgName Name of the Organization
@@ -70,6 +72,14 @@ export class IdpOrganizationMember extends Base {
      */
     public removeOrganizationMember = async (orgName: string, userId: string): Promise<void> => {
         await this.axios.delete<void>(this.getEndpoint(`/${orgName}/members/${userId}`));
+    };
+
+    /**
+     * Member leaves the organization independently.
+     * @param orgName Name of the Organization
+     */
+    public leaveOrganization = async (orgName: string): Promise<void> => {
+        await this.axios.delete<void>(this.getEndpoint(`/${orgName}/members`));
     };
 
     protected getEndpoint(endpoint: string): string {

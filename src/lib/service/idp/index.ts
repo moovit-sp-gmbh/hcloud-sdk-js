@@ -146,6 +146,16 @@ export default class Idp extends Base {
         return resp.data;
     };
 
+    /**
+     * Initiate the password reset process. An email will be sent to the user to move to the next phase.
+     *
+     * @param email Email of the user
+     * @param captcha Valid google reCAPTCHAV2
+     */
+    resetPassword = async (email: string, captcha: string): Promise<void> => {
+        await this.axios.post<void>(this.getEndpoint("/v1/login/forgot_password"), { email, captcha });
+    };
+
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/account${endpoint}`;
     }

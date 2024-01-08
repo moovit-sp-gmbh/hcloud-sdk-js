@@ -34,7 +34,7 @@ export class IdpPat extends Base {
      * @returns PAT object holding the updated token
      */
     public regeneratePat = async (patId: string): Promise<Pat> => {
-        const resp = await this.axios.patch<Pat>(this.getEndpoint(`/v1/user/settings/pats/${patId}`));
+        const resp = await this.axios.patch<Pat>(this.getEndpoint(`/v1/user/settings/pats/${patId}/regenerate`));
 
         return resp.data;
     };

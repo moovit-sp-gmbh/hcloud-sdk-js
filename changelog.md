@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.80
+
+-   Fix regenerate token API call
+
 ## 0.0.79
 
 -   Add method to move streams between events

@@ -1,28 +1,39 @@
 import Base from "../../../../../Base";
 import { CronjobLogDto } from "../../../../../interfaces/fuse/space/cronjob/CronjobLog";
+import { SearchFilterDTO } from "../../../../../helper/searchFilter";
+import { SearchFilter, SearchParams } from "../../../../../interfaces/global";
 
 export class FuseCronjobLog extends Base {
     /**
-     * Retrieves all logs of a cronjob.
+     * Retrieves all cronjobs of a Fuse space which match the provided search filter(s). Will return all cronjobs if no filter is provided.
      * @param orgName Name of the organization
      * @param spaceName Name of the space
      * @param cronjobId ID of the cronjob
+     * @param filters (optional) Array of search filters
+     * @param sorting (optional) Sorting object
      * @param limit (optional) Max number of results (1-100; defaults to 25)
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
-     * @returns an Array of cronjob logs and the total number of results found in the database (independent of limit and page)
+     * @returns Array of filtered cronjob logs as well as the total number of results found in the database (independent of limit and page)
      */
-    public getAllCronjobLogs = async (
-        orgName: string,
-        spaceName: string,
-        cronjobId: string,
-        limit?: number,
-        page?: number
-    ): Promise<[CronjobLogDto[], number]> => {
-        limit = limit || 25;
-        page = page || 0;
+    public searchCronjobLogs = async ({
+        orgName,
+        spaceName,
+        cronjobId,
+        filters,
+        sorting,
+        limit = 25,
+        page = 0,
+    }: SearchParams & { orgName: string; spaceName: string; cronjobId: string }): Promise<[CronjobLogDto[], number]> => {
+        const filtersDTO = filters?.map((f: SearchFilter) => {
+            return new SearchFilterDTO(f);
+        });
 
-        const resp = await this.axios.get<CronjobLogDto[]>(
-            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs/${cronjobId}/logs?page=${page}&limit=${limit}`)
+        const resp = await this.axios.post<CronjobLogDto[]>(
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs/${cronjobId}/logs/search?page=${page}&limit=${limit}`),
+            {
+                filters: filtersDTO,
+                sorting,
+            }
         );
 
         return [resp.data, parseInt(String(resp.headers["total"]), 10)];

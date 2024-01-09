@@ -51,7 +51,7 @@ export class FuseCronjob extends Base {
      * @param spaceName Name of the Fuse space
      * @param createCronjob Cronjob to be created
      * @param exposeNextExecution (optional) Show the next execution as a Unix timestamp (in milliseconds) in the response object
-     * @returns The created cronjob
+     * @returns Created cronjob
      */
     public createCronjob = async (
         orgName: string,
@@ -70,10 +70,11 @@ export class FuseCronjob extends Base {
     /**
      * Updates an existing cronjob.
      * @param orgName Name of the organization
-     * @param spaceName Name of the spacec
+     * @param spaceName Name of the space
+     * @param cronjobId ID of the cronjob
      * @param createCronjob Cronjob to be updated
      * @param exposeNextExecution (optional) Show the next execution as a Unix timestamp (in milliseconds) in the response object
-     * @returns The updated cronjob
+     * @returns Updated cronjob
      */
     public updateCronjob = async (
         orgName: string,

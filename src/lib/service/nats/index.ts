@@ -1,6 +1,8 @@
 import { NatsConnection, SubscriptionOptions, NatsError, Msg, Subscription, PublishOptions, RequestOptions, connect as connectNode } from "nats";
+import { AxiosInstance } from "axios";
 import { connect as connectWs } from "nats.ws";
 import { NatsMessage, NatsCallback, NatsMessageType, NatsObjectType, RawMsg } from "../../interfaces/nats";
+import Base, { Options } from "../../Base";
 
 interface SubMapEntry {
     subject: string;
@@ -40,11 +42,15 @@ type ConnectParamsPassword = {
 };
 
 const isBrowser = typeof window !== "undefined";
-class Nats {
+class Nats extends Base {
     // eslint-disable-next-line no-use-before-define
     private natsConnection: NatsConnection | undefined;
     private subMap = [] as SubMapEntry[];
     private connection = isBrowser ? connectWs : connectNode;
+
+    constructor(options: Options, axios: AxiosInstance) {
+        super(options, axios);
+    }
 
     // eslint-disable-next-line complexity
     public async connect(params: ConnectParamsJwt | ConnectParamsPassword): Promise<NatsConnection> {
@@ -56,9 +62,7 @@ class Nats {
             // set defaults if servers array is empty
             if (isBrowser) {
                 // default via traefik exposed servers
-                const s = `${self.location.protocol === "https:" ? "wss" : "ws"}://${self.location.hostname}:${
-                    self.location.port ? self.location.port : self.location.protocol === "https:" ? 443 : 80
-                }`;
+                const s = this.options.server;
                 params.servers = [`${s}/ws/nats/v1/0`, `${s}/ws/nats/v1/1`, `${s}/ws/nats/v1/2`];
             } else {
                 // default kubernetes internal servers
@@ -149,6 +153,10 @@ class Nats {
     public respond(msg: Msg | RawMsg, data: unknown): void {
         const encodedData = new TextEncoder().encode(JSON.stringify(data));
         msg.respond(encodedData);
+    }
+
+    protected getEndpoint(endpoint: string): string {
+        return `${this.options.server}/ws/nats${endpoint}`;
     }
 }
 

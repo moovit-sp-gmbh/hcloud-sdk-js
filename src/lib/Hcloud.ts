@@ -53,7 +53,7 @@ export default class HCloud {
         this.Dali = new DaliService(this.options, this.axios);
         this.Mailer = new MailerService(this.options, this.axios);
         this.Mothership = new MothershipService(this.options, this.axios);
-        this.Nats = new NatsService();
+        this.Nats = new NatsService(this.options, this.axios);
     }
 
     /**

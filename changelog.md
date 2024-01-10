@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.83
+
+-   Add method to rename stream
+
 ## 0.0.82
 
 -   **BREAKING**: Update searchOrganizationMembers function accept a team name instead of team id and make this argument optional

@@ -154,6 +154,24 @@ export class High5Stream extends Base {
     };
 
     /**
+     * Rename a stream
+     * @param orgName Name of the organization
+     * @param spaceName Name of the space
+     * @param eventName Name of the event
+     * @param streamId ID of the stream
+     * @param name New name of the stream
+     * @returns Updated stream
+     */
+    public renameStream = async (orgName: string, spaceName: string, eventName: string, streamId: string, name: string): Promise<Stream> => {
+        const resp = await this.axios.patch<Stream>(
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/name`),
+            { name }
+        );
+
+        return resp.data;
+    };
+
+    /**
      * Moves a Stream to another event.
      *
      * @param orgName Name of the organization

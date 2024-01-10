@@ -45,7 +45,7 @@ export class IdpOrganizationTeams extends Base {
     ): Promise<Team> => {
         const resp = await this.axios.patch<Team>(this.getEndpoint(`/${orgName}/teams/${teamName}`), {
             name: newName,
-            users: userIds,
+            userIds: userIds,
             usersOperation: teamUsersPatchOperation,
         });
 

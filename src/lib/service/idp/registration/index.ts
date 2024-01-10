@@ -16,14 +16,44 @@ export class IdpRegistration extends Base {
      * @param email - Email of the User
      * @param password - Password
      * @param captcha - Captcha
+     * @param company - Optional company name
+     * @param regionId - Optional region id
      */
-    register = async (name: string, email: string, password: string, captcha: string, company?: string): Promise<void> => {
+    register = async (name: string, email: string, password: string, captcha: string, company?: string, regionId?: string): Promise<void> => {
         await this.axios.post<void>(this.getEndpoint("/v1/register"), {
             name: name,
             email: email,
             password: password,
             captcha: captcha,
             company,
+            regionId,
+        });
+    };
+
+    /**
+     * Triggers the registration mail to be resend if the first one got lost
+     * @param name - Name of the User
+     * @param email - Email of the User
+     * @param password - Password
+     * @param captcha - Captcha
+     * @param company - Optional company name
+     * @param regionId - Optional region id
+     */
+    resendRegistrationMail = async (
+        name: string,
+        email: string,
+        password: string,
+        captcha: string,
+        company?: string,
+        regionId?: string
+    ): Promise<void> => {
+        await this.axios.patch<void>(this.getEndpoint("/v1/register/resendRegistrationEmail"), {
+            name: name,
+            email: email,
+            password: password,
+            captcha: captcha,
+            company,
+            regionId,
         });
     };
 
@@ -31,12 +61,14 @@ export class IdpRegistration extends Base {
      * Validates a previous registration. If successful, the Users account status will be set to 'Active'.
      * @param email - Email of the User
      * @param verificationCode - Email verification code
+     * @param regionId - Optional region id
      * @returns Bearer Token and User object
      */
-    validateRegistration = async (email: string, verificationCode: string): Promise<SuccessfulAuth> => {
+    validateRegistration = async (email: string, verificationCode: string, regionId?: string): Promise<SuccessfulAuth> => {
         const resp = await this.axios.patch<User>(this.getEndpoint("/v1/register/verify"), {
-            email: email,
-            verificationCode: verificationCode,
+            email,
+            verificationCode,
+            regionId,
         });
 
         return {

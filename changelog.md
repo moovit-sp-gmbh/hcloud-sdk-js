@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.84
+
+-   Add method to rename event
+
 ## 0.0.83
 
 -   Add method to rename stream

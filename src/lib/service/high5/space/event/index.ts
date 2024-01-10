@@ -71,6 +71,22 @@ export class High5Event extends Base {
     };
 
     /**
+     * Rename an event
+     * @param orgName Name of the Organization
+     * @param spaceName Name of the Space
+     * @param eventName Name of the Event
+     * @param name New name of the Event
+     * @returns Updated Event
+     */
+    public renameEvent = async (orgName: string, spaceName: string, eventName: string, name: string): Promise<Event> => {
+        const resp = await this.axios.patch<Event>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/name`), {
+            name: name,
+        });
+
+        return resp.data;
+    };
+
+    /**
      * Deletes an Event by its name.
      * @param orgName Name of the Organization
      * @param spaceName Name of the Space

@@ -62,8 +62,7 @@ class Nats extends Base {
             // set defaults if servers array is empty
             if (isBrowser) {
                 // default via traefik exposed servers
-                const s = this.options.server;
-                params.servers = [`${s}/ws/nats/v1/0`, `${s}/ws/nats/v1/1`, `${s}/ws/nats/v1/2`];
+                params.servers = [this.getEndpoint("/v1/0"), this.getEndpoint("/v1/1"), this.getEndpoint("/v1/2")];
             } else {
                 // default kubernetes internal servers
                 params.servers = ["hcloud-nats-0.hcloud-nats:4222", "hcloud-nats-1.hcloud-nats:4222", "hcloud-nats-2.hcloud-nats:4222"];

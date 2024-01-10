@@ -17,6 +17,7 @@ export class IdpOrganizationMember extends Base {
      * Retrieves all organization members that match the provided search filter(s). Will return all members of the organization if no search filter is provided.
      * @param orgName Name of the Organization
      * @param filters (optional) Array of search filters
+     * @param excludeTeamById (optional) ID of a team whos members shall be excluded
      * @param sorting (optional) Sorting object
      * @param limit (optional) Max number of results (1-100; defaults to 25)
      * @param page (optional) Page number to skip the first (page * limit) results (defaults to 0)
@@ -25,16 +26,20 @@ export class IdpOrganizationMember extends Base {
     public searchOrganizationMembers = async ({
         orgName,
         filters,
+        excludeTeamById,
         sorting,
         limit = 25,
         page = 0,
-    }: SearchParams & { orgName: string }): Promise<[OrganizationMember[], number]> => {
+    }: SearchParams & { orgName: string; excludeTeamById: string }): Promise<[OrganizationMember[], number]> => {
         const filtersDTO = filters?.map((f: SearchFilter) => {
             return new SearchFilterDTO(f);
         });
         const resp = await this.axios.post<OrganizationMember[]>(this.getEndpoint(`/${orgName}/members/search?limit=${limit}&page=${page}`), {
-            filters: filtersDTO,
-            sorting: sorting,
+            searchFilter: {
+                filters: filtersDTO,
+                sorting: sorting,
+            },
+            excludeTeamById: excludeTeamById,
         });
 
         return [resp.data, parseInt(String(resp.headers["total"]), 10)];

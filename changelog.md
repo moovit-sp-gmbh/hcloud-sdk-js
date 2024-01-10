@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.81
+
+-   **BREAKING**: Update searchOrganizationMembers function to allow excluding members of a specific team
+
 ## 0.0.80
 
 -   Fix regenerate token API call

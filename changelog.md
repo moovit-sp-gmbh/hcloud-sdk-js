@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.82
+
+-   **BREAKING**: Update searchOrganizationMembers function accept a team name instead of team id and make this argument optional
+
 ## 0.0.81
 
 -   **BREAKING**: Update searchOrganizationMembers function to allow excluding members of a specific team

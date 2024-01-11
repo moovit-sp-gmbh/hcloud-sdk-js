@@ -18,7 +18,13 @@ export interface DesignerNode {
     inputs: DesignerNodeInput[];
     coords: DesignerNodeCoords;
     path: string;
+    catalog: DesignerNodeCatalog;
     customNode?: StreamCustomNodeSpecification; // customNodes are being created within the Stream Designer and are not part of the default NodeCatalogue
+}
+
+export interface DesignerNodeCatalog {
+    url: string;
+    version: string;
 }
 
 export type StringMap = {

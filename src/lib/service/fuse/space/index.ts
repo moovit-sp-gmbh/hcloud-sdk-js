@@ -113,6 +113,21 @@ export class FuseSpace extends Base {
         return [resp.data, parseInt(String(resp.headers["total"]), 10)];
     };
 
+    /**
+     * Updates the name of a space.
+     * @param orgName Name of the organization
+     * @param spaceName Current name of the space
+     * @param newName New name for the space
+     * @returns The updated space
+     */
+    public renameSpace = async (orgName: string, spaceName: string, newSpaceName: string): Promise<IFuseSpace> => {
+        const resp = await this.axios.patch<IFuseSpace>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/name`), {
+            newSpaceName,
+        });
+
+        return resp.data;
+    };
+
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/fuse${endpoint}`;
     }

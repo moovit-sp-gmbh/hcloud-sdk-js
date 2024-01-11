@@ -117,7 +117,7 @@ export class FuseSpace extends Base {
      * Updates the name of a space.
      * @param orgName Name of the organization
      * @param spaceName Current name of the space
-     * @param newName New name for the space
+     * @param newSpaceName New name for the space
      * @returns The updated space
      */
     public renameSpace = async (orgName: string, spaceName: string, newSpaceName: string): Promise<IFuseSpace> => {

@@ -2,7 +2,7 @@
 
 ## 0.0.85
 
--   Add method to rename Fuse space
+-   Add methods to rename Fuse and High5 spaces
 
 ## 0.0.84
 

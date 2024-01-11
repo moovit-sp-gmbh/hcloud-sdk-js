@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.85
+
+-   Add method to rename a High5 space
+
 ## 0.0.84
 
 -   Add method to rename event

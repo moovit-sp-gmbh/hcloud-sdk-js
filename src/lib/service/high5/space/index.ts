@@ -170,7 +170,7 @@ export class High5Space extends Base {
     /**
      * Updates the name of a space.
      * @param orgName Name of the organization
-     * @param spaceName Current name of the space
+     * @param newSpaceName Current name of the space
      * @param newName New name for the space
      * @returns The updated space
      */

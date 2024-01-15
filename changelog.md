@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.88
+
+-   Add method to get available execution targets for organization
+
 ## 0.0.87
 
 -   **BREAKING**: Remove deprecated Mothership disconnect method

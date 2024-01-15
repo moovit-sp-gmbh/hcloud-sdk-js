@@ -1,7 +1,8 @@
 import { AxiosInstance } from "axios";
 import Base, { Options } from "../../Base";
-import { Version } from "../../interfaces/global";
-import { Agent } from "../../interfaces/mothership";
+import { SearchFilterDTO } from "../../helper/searchFilter";
+import { SearchFilter, SearchParams, Version } from "../../interfaces/global";
+import { Agent, TargetAgent } from "../../interfaces/mothership";
 
 type RecurrentInfo = Pick<Agent, "uptime" | "cpuUtilization" | "memoryUsed">;
 
@@ -92,6 +93,33 @@ export default class MothershipService extends Base {
      */
     connect = async (orgName: string, memberToken: string, email: string): Promise<void> => {
         await this.axios.post<void>(this.getEndpoint(`/v1/org/${orgName}/connect`), { memberToken, email });
+    };
+
+    /**
+     * Search among the available targets for a given organization.
+     *
+     * @param orgName Name of the organization
+     * @returns Retrieved agents and total available
+     */
+    getAvailableTargets = async (orgName: string, { filters, sorting, limit = 25, page = 0 }: SearchParams): Promise<[TargetAgent[], number]> => {
+        const filtersDTO = filters?.map((f: SearchFilter) => {
+            return new SearchFilterDTO(f);
+        });
+
+        const res = await this.axios.post<TargetAgent[]>(
+            this.getEndpoint(`/v1/org/${orgName}/connect/search`),
+            {
+                filters: filtersDTO,
+                sorting,
+            },
+            {
+                params: { limit, page },
+            }
+        );
+
+        const total = parseInt(res.headers.total, 10);
+
+        return [res.data, total];
     };
 
     protected getEndpoint(endpoint: string): string {

@@ -20,3 +20,7 @@ export type Agent = {
     createDate: number;
     modifyDate: number;
 };
+
+export type TargetAgent = Agent & {
+    targetEmail: string;
+};

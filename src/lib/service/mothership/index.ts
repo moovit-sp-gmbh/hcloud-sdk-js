@@ -94,19 +94,6 @@ export default class MothershipService extends Base {
         await this.axios.post<void>(this.getEndpoint(`/v1/org/${orgName}/connect`), { memberToken, email });
     };
 
-    /**
-     * Disconnect from an organization.
-     *
-     * This call should only be made after an initial hello and connect to the same organization.
-     *
-     * The session token obtained in the hello endpoint must be used here. Use the setAuthToken method to do so.
-     *
-     * @param orgName Name of the organization
-     */
-    disconnect = async (orgName: string): Promise<void> => {
-        await this.axios.delete<void>(this.getEndpoint("/v1/disconnect"), { data: { orgName } });
-    };
-
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/mothership${endpoint}`;
     }

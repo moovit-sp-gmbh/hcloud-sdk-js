@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.87
+
+-   **BREAKING**: Remove deprecated Mothership disconnect method
+
 ## 0.0.86
 
 -   Add method to complete reset password process

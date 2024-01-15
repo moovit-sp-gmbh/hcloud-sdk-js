@@ -7,13 +7,15 @@ import { High5Execute } from "./execution";
 import { High5Webhook } from "./webhook";
 import { SearchFilterDTO } from "../../../helper/searchFilter";
 import High5Secret from "./secret";
-import { Stream, WaveEngine } from "../../../interfaces/high5";
+import High5Wave from "./wave";
+import { Stream } from "../../../interfaces/high5";
 
 export class High5Space extends Base {
     public event: High5Event;
     public execute: High5Execute;
     public webhook: High5Webhook;
     public secret: High5Secret;
+    public wave: High5Wave;
 
     constructor(options: Options, axios: AxiosInstance) {
         super(options, axios);
@@ -21,6 +23,7 @@ export class High5Space extends Base {
         this.execute = new High5Execute(this.options, this.axios);
         this.webhook = new High5Webhook(this.options, this.axios);
         this.secret = new High5Secret(this.options, this.axios);
+        this.wave = new High5Wave(this.options, this.axios);
     }
 
     /**
@@ -117,23 +120,6 @@ export class High5Space extends Base {
             teamName,
             permission,
         });
-
-        return resp.data;
-    };
-
-    /**
-     * Updates the wave engine that should be used to execute streams in High5 Space.
-     * @param orgName Name of the Organization
-     * @param spaceName Name of the Space
-     * @param waveEngine Valid wave engine release tag
-     * @returns The Space with updated wave engine property
-     */
-    public patchSpaceWaveEngine = async (
-        orgName: string,
-        spaceName: string,
-        waveEngine: Pick<WaveEngine, "url" | "version">
-    ): Promise<High5Space> => {
-        const resp = await this.axios.patch<High5Space>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/wave/engine`), waveEngine);
 
         return resp.data;
     };

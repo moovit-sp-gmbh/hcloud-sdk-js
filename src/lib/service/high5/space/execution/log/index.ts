@@ -4,39 +4,10 @@ import { High5ExecutionLog } from "../../../../../interfaces/high5/space/executi
 import { SearchFilter, SearchParams } from "../../../../../interfaces/global";
 import { SearchFilterDTO } from "../../../../../helper/searchFilter";
 
-export class High5ExecutionLogs extends Base {
+export class High5SpaceExecutionLogs extends Base {
     constructor(options: Options, axios: AxiosInstance) {
         super(options, axios);
     }
-
-    /**
-     * Retrieves all stream execution logs for a given execution inside an org.
-     * @param orgName Name of the Organization
-     * @param filters (optional) Array of search filters
-     * @param sorting (optional) Sorting object
-     * @param limit (optional) Max number of results (1-100; defaults to 25)
-     * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
-     * @returns Array of Stream execution logs as well as the total number of results
-     */
-    public getExecutionLogs = async ({
-        orgName,
-        filters,
-        sorting,
-        limit = 25,
-        page = 0,
-    }: SearchParams & { orgName: string }): Promise<[High5ExecutionLog[], number]> => {
-        const filtersDTO = filters?.map((f: SearchFilter) => new SearchFilterDTO(f));
-        const resp = await this.axios
-            .post<High5ExecutionLog[]>(this.getEndpoint(`/v1/org/${orgName}/execution/logs/search?page=${page}&limit=${limit}`), {
-                filters: filtersDTO,
-                sorting: sorting,
-            })
-            .catch((err: Error) => {
-                throw err;
-            });
-
-        return [resp.data, parseInt(String(resp.headers["total"]), 10)];
-    };
 
     /**
      * Retrieves all stream execution logs for a given execution inside a space.

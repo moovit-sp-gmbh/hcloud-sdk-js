@@ -3,7 +3,7 @@ import Base, { Options } from "../../../Base";
 import { High5Space as Space } from "../../../interfaces/high5/space";
 import { SearchFilter, SearchParams, SpacePermission } from "../../../interfaces/global";
 import { High5Event } from "./event";
-import { High5Execute } from "./execution";
+import { High5SpaceExecute } from "./execution";
 import { High5Webhook } from "./webhook";
 import { SearchFilterDTO } from "../../../helper/searchFilter";
 import High5Secret from "./secret";
@@ -12,7 +12,7 @@ import { Stream } from "../../../interfaces/high5";
 
 export class High5Space extends Base {
     public event: High5Event;
-    public execute: High5Execute;
+    public execute: High5SpaceExecute;
     public webhook: High5Webhook;
     public secret: High5Secret;
     public wave: High5Wave;
@@ -20,7 +20,7 @@ export class High5Space extends Base {
     constructor(options: Options, axios: AxiosInstance) {
         super(options, axios);
         this.event = new High5Event(this.options, this.axios);
-        this.execute = new High5Execute(this.options, this.axios);
+        this.execute = new High5SpaceExecute(this.options, this.axios);
         this.webhook = new High5Webhook(this.options, this.axios);
         this.secret = new High5Secret(this.options, this.axios);
         this.wave = new High5Wave(this.options, this.axios);

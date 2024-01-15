@@ -6,17 +6,17 @@ import {
     High5ExecutionRequest,
     High5ExecutionResponse,
 } from "../../../../interfaces/high5/space/execution";
-import { High5ExecutionLogs } from "./log/index";
-import { High5ExecutionStates } from "./status/index";
+import { High5SpaceExecutionLogs } from "./log/index";
+import { High5SpaceExecutionStates } from "./status/index";
 
-export class High5Execute extends Base {
-    public high5ExecutionLogs: High5ExecutionLogs;
-    public high5ExecutionStates: High5ExecutionStates;
+export class High5SpaceExecute extends Base {
+    public high5ExecutionLogs: High5SpaceExecutionLogs;
+    public high5ExecutionStates: High5SpaceExecutionStates;
 
     constructor(options: Options, axios: AxiosInstance) {
         super(options, axios);
-        this.high5ExecutionLogs = new High5ExecutionLogs(options, axios);
-        this.high5ExecutionStates = new High5ExecutionStates(options, axios);
+        this.high5ExecutionLogs = new High5SpaceExecutionLogs(options, axios);
+        this.high5ExecutionStates = new High5SpaceExecutionStates(options, axios);
     }
 
     /**

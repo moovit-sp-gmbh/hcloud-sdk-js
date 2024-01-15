@@ -4,6 +4,7 @@ import { SearchFilterDTO } from "../../../helper/searchFilter";
 import { SearchFilter, Sorting } from "../../../interfaces/global/SearchFilters";
 import { Organization, OrganizationQueryOptions } from "../../../interfaces/idp/organization";
 import { UserPatch, User } from "../../../interfaces/idp/user";
+import UserPasswordService from "./password";
 import { IdpSettings } from "./settings";
 
 export class IdpUser extends Base {
@@ -12,10 +13,16 @@ export class IdpUser extends Base {
      */
     public settings: IdpSettings;
 
+    /**
+     * Handles everything around a user's password
+     */
+    public password: UserPasswordService;
+
     constructor(options: Options, axios: AxiosInstance) {
         super(options, axios);
 
         this.settings = new IdpSettings(options, axios);
+        this.password = new UserPasswordService(options, axios);
     }
 
     /**

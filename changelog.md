@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.86
+
+-   Add method to complete reset password process
+
 ## 0.0.85
 
 -   Add methods to rename Fuse and High5 spaces

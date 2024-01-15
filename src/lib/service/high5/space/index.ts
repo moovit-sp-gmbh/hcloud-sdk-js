@@ -7,7 +7,7 @@ import { High5Execute } from "./execution";
 import { High5Webhook } from "./webhook";
 import { SearchFilterDTO } from "../../../helper/searchFilter";
 import High5Secret from "./secret";
-import { Stream } from "../../../interfaces/high5";
+import { Stream, WaveEngine } from "../../../interfaces/high5";
 
 export class High5Space extends Base {
     public event: High5Event;
@@ -128,10 +128,12 @@ export class High5Space extends Base {
      * @param waveEngine Valid wave engine release tag
      * @returns The Space with updated wave engine property
      */
-    public patchSpaceWaveEngine = async (orgName: string, spaceName: string, waveEngine: string): Promise<High5Space> => {
-        const resp = await this.axios.patch<High5Space>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/wave/engine`), {
-            waveEngine,
-        });
+    public patchSpaceWaveEngine = async (
+        orgName: string,
+        spaceName: string,
+        waveEngine: Pick<WaveEngine, "url" | "version">
+    ): Promise<High5Space> => {
+        const resp = await this.axios.patch<High5Space>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/wave/engine`), waveEngine);
 
         return resp.data;
     };

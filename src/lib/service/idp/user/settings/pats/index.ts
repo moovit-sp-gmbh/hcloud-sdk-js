@@ -52,8 +52,11 @@ export class IdpPat extends Base {
 
     /**
      * Updates an existing PAT object.
+     *
+     * Use an expiration value of -1 to remove the token's expiration date.
+     *
      * @param patId ID of the pat object
-     * @param patUpdate Object containing new name and scopes
+     * @param patUpdate Object containing new name, expiration and scopes
      * @returns the updated PAT object
      */
     public updatePat = async (patId: string, patUpdate: PatUpdate): Promise<Pat> => {

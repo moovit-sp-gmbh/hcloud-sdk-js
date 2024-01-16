@@ -18,4 +18,4 @@ export interface PatCreate {
     scopes: Scope[];
 }
 
-export type PatUpdate = Omit<PatCreate, "expiration">;
+export type PatUpdate = Partial<PatCreate>;

@@ -116,6 +116,60 @@ export class FuseCronjob extends Base {
     };
 
     /**
+     * Change the enabled flag of an existing cronjob
+     * @param orgName Name of the organization
+     * @param spaceName Name of the space
+     * @param cronjobId ID of the cronjob
+     * @param enabled Boolean flag to set
+     * @param exposeNextExecution (optional) Show the next execution as a Unix timestamp (in milliseconds) in the response object
+     * @returns The patched cronjob
+     */
+    public patchCronjobEnabled = async (
+        orgName: string,
+        spaceName: string,
+        cronjobId: string,
+        enabled: boolean,
+        exposeNextExecution = false
+    ): Promise<Cronjob> => {
+        const resp = await this.axios.patch<Cronjob>(
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs/${cronjobId}/enabled?nextExecution=${exposeNextExecution}`),
+            { enabled }
+        );
+
+        return resp.data;
+    };
+
+    /**
+     * Enable a cronjob.
+     *
+     * This is a wrapper around patchCronjobEnabled.
+     *
+     * @param orgName Name of the organization
+     * @param spaceName Name of the space
+     * @param cronjobId ID of the cronjob
+     * @param exposeNextExecution (optional) Show the next execution as a Unix timestamp (in milliseconds) in the response object
+     * @returns The patched cronjob
+     */
+    public enableCronjob = (orgName: string, spaceName: string, cronjobId: string, exposeNextExecution = false): Promise<Cronjob> => {
+        return this.patchCronjobEnabled(orgName, spaceName, cronjobId, true, exposeNextExecution);
+    };
+
+    /**
+     * Disable a cronjob.
+     *
+     * This is a wrapper around patchCronjobEnabled.
+     *
+     * @param orgName Name of the organization
+     * @param spaceName Name of the space
+     * @param cronjobId ID of the cronjob
+     * @param exposeNextExecution (optional) Show the next execution as a Unix timestamp (in milliseconds) in the response object
+     * @returns The patched cronjob
+     */
+    public disableCronjob = (orgName: string, spaceName: string, cronjobId: string, exposeNextExecution = false): Promise<Cronjob> => {
+        return this.patchCronjobEnabled(orgName, spaceName, cronjobId, false, exposeNextExecution);
+    };
+
+    /**
      * Deletes a cronjob by its ID
      * @param orgName Name of the organization
      * @param spaceName Name of the space

@@ -101,7 +101,13 @@ export default class MothershipService extends Base {
      * @param orgName Name of the organization
      * @returns Retrieved agents and total available
      */
-    getAvailableTargets = async (orgName: string, { filters, sorting, limit = 25, page = 0 }: SearchParams): Promise<[TargetAgent[], number]> => {
+    searchAvailableTargets = async ({
+        orgName,
+        filters,
+        sorting,
+        limit = 25,
+        page = 0,
+    }: SearchParams & { orgName: string }): Promise<[TargetAgent[], number]> => {
         const filtersDTO = filters?.map((f: SearchFilter) => {
             return new SearchFilterDTO(f);
         });

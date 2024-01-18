@@ -4,7 +4,7 @@ import { SearchFilterDTO } from "../../helper/searchFilter";
 import { SearchFilter, SearchParams, Version } from "../../interfaces/global";
 import { Agent, TargetAgent } from "../../interfaces/mothership";
 
-type RecurrentInfo = Pick<Agent, "uptime" | "cpuUtilization" | "memoryUsed">;
+type RecurrentInfo = Pick<Agent, "uptime" | "cpuUtilization" | "memoryUsed" | "status">;
 
 export default class MothershipService extends Base {
     constructor(options: Options, axios: AxiosInstance) {

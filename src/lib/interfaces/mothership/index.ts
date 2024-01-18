@@ -1,6 +1,6 @@
 export enum AgentStatus {
-    ONLINE = "ONLINE",
-    OFFLINE = "OFFLINE",
+    BUSY = "BUSY",
+    IDLE = "IDLE",
 }
 
 export type Agent = {
@@ -17,6 +17,7 @@ export type Agent = {
     osRelease: string;
     osVersion: string;
     uptime: number;
+    status: AgentStatus;
     createDate: number;
     modifyDate: number;
 };

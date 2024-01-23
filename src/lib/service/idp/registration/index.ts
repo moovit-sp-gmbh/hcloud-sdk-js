@@ -64,11 +64,10 @@ export class IdpRegistration extends Base {
      * @param regionId - Optional region id
      * @returns Bearer Token and User object
      */
-    validateRegistration = async (email: string, verificationCode: string, regionId?: string): Promise<SuccessfulAuth> => {
+    validateRegistration = async (email: string, verificationCode: string): Promise<SuccessfulAuth> => {
         const resp = await this.axios.patch<User>(this.getEndpoint("/v1/register/verify"), {
             email,
             verificationCode,
-            regionId,
         });
 
         return {

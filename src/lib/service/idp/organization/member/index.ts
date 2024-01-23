@@ -71,6 +71,21 @@ export class IdpOrganizationMember extends Base {
     };
 
     /**
+     * Updates the executionTarget flag of a User in the specified Organization.
+     * @param orgName Name of the Organization
+     * @param userId ID of the User
+     * @param executionTarget Boolean value to set
+     * @returns The updated OrganizationMember
+     */
+    public patchOrganizationExecutionTarget = async (orgName: string, userId: string, executionTarget: boolean): Promise<OrganizationMember> => {
+        const resp = await this.axios.patch<OrganizationMember>(this.getEndpoint(`/${orgName}/members/${userId}/executionTarget`), {
+            executionTarget,
+        });
+
+        return resp.data;
+    };
+
+    /**
      * Removes a Member from an Organization.
      * @param orgName Name of the Organization
      * @param userId ID of the User

@@ -3,6 +3,7 @@ import Base, { Options } from "../../../Base";
 import { SearchFilterDTO } from "../../../helper/searchFilter";
 import { SearchFilter, Sorting } from "../../../interfaces/global/SearchFilters";
 import { Organization, OrganizationQueryOptions } from "../../../interfaces/idp/organization";
+import { OrganizationMemberInvitation } from "../../../interfaces/idp/organization/member/invitations";
 import { UserPatch, User } from "../../../interfaces/idp/user";
 import UserPasswordService from "./password";
 import { IdpSettings } from "./settings";
@@ -110,6 +111,39 @@ export class IdpUser extends Base {
 
         const resp = await this.axios.post<Organization[]>(
             this.getEndpoint(`/v1/user/orgs/search?limit=${limit}&page=${page}` + getTeamsOfUser + getTotalMemberCount + getMembersSample),
+            {
+                filters: filtersDTO,
+                sorting: params.sorting,
+            }
+        );
+
+        return [resp.data, parseInt(String(resp.headers["total"]), 10)];
+    };
+
+    /**
+     * Retrieves all organization invitations of a user that match the provided search filter(s). Returns all invitations of the user if no search filter is provided.
+     * @param filters (optional) Array of search filters
+     * @param sorting (optional) Sorting object
+     * @param limit (optional) Max number of results (1-100; defaults to 25)
+     * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
+     * @returns Array of invitations and the total number of results found in the database (independent of limit and page)
+     */
+    public searchInvitations = async (params: {
+        filters: SearchFilter[];
+        sorting?: Sorting;
+        limit?: number;
+        page?: number;
+    }): Promise<[OrganizationMemberInvitation[], number]> => {
+        const limit = params.limit || 25;
+        const page = params.page || 0;
+
+        // convert SearchFilters to DTO
+        const filtersDTO = params.filters.map((f: SearchFilter) => {
+            return new SearchFilterDTO(f);
+        });
+
+        const resp = await this.axios.post<OrganizationMemberInvitation[]>(
+            this.getEndpoint(`/v1/user/orgs/invitations/search?limit=${limit}&page=${page}`),
             {
                 filters: filtersDTO,
                 sorting: params.sorting,

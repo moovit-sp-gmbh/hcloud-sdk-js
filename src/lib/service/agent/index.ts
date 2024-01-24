@@ -7,23 +7,23 @@ export default class Agent extends Base {
 
     constructor(options: Options, axios: AxiosInstance) {
         super(options, axios);
-        this.sourceServer = options.agent?.server || "https://pub-61bccb93b9a74709b6bfcb0b7c03191b.r2.dev";
+        this.sourceServer = options.agent?.server || "https://agent.s3.helmut.cloud";
     }
 
     async getVersions(): Promise<AgentVersions> {
-        const resp = await this.axios.get<AgentVersions>(this.getEndpoint("/agentVersions.json"));
+        const resp = await this.axios.get<AgentVersions>(this.getEndpoint("/index.json"));
 
         return resp.data;
     }
 
     async getLatestVersion(): Promise<Version> {
-        const resp = await this.axios.get<AgentVersions>(this.getEndpoint("/agentVersions.json"));
+        const resp = await this.axios.get<AgentVersions>(this.getEndpoint("/index.json"));
 
         return resp.data.versions[resp.data.latest];
     }
 
     async getVersion(version: string): Promise<Version | void> {
-        const resp = await this.axios.get<AgentVersions>(this.getEndpoint("/agentVersions.json"));
+        const resp = await this.axios.get<AgentVersions>(this.getEndpoint("/index.json"));
 
         return resp.data.versions[version];
     }

@@ -190,10 +190,15 @@ export class FuseCronjob extends Base {
      * @param exposeNextExecution (optional) Show the next execution as a Unix timestamp (in milliseconds) in the returned cronjob objects
      * @returns Array of filtered cronjobs as well as the total number of results found in the database (independent of limit and page)
      */
-    public searchCronjobs = async (
-        { orgName, spaceName, filters, sorting, limit = 25, page = 0 }: SearchParams & { orgName: string; spaceName: string },
-        exposeNextExecution = false
-    ): Promise<[Cronjob[], number]> => {
+    public searchCronjobs = async ({
+        orgName,
+        spaceName,
+        filters,
+        sorting,
+        limit = 25,
+        page = 0,
+        exposeNextExecution = false,
+    }: SearchParams & { orgName: string; spaceName: string; exposeNextExecution?: boolean }): Promise<[Cronjob[], number]> => {
         const filtersDTO = filters?.map((f: SearchFilter) => {
             return new SearchFilterDTO(f);
         });

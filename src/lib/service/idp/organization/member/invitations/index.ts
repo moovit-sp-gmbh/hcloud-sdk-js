@@ -1,25 +1,43 @@
 import Base from "../../../../../Base";
 import { OrganizationRole } from "../../../../../interfaces/idp";
 import { OrganizationMemberInvitation } from "../../../../../interfaces/idp/organization/member/invitations";
+import { SearchFilterDTO } from "../../../../../helper/searchFilter";
+import { SearchFilter, Sorting } from "../../../../../interfaces/global/SearchFilters";
 
 export default class IdpOrganizationMemberInvitations extends Base {
     /**
-     * Gets all invitations sent out by the organization.
-     *
-     * This is a paginated request.
-     *
+     * Retrieves all invitations sent out by the organization that match the provided search filter(s). Returns all invitations if no search filter is provided.
      * @param orgName Name of the organization
-     * @param page Number of the page to get
-     * @param limit Number of results per page
-     *
-     * @returns List of invitations
+     * @param filters (optional) Array of search filters
+     * @param sorting (optional) Sorting object
+     * @param limit (optional) Max number of results (1-100; defaults to 25)
+     * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
+     * @returns Array of invitations and the total number of results found in the database (independent of limit and page)
      */
-    public get = async (orgName: string, page?: number, limit?: number): Promise<OrganizationMemberInvitation[]> => {
-        const resp = await this.axios.get<OrganizationMemberInvitation[]>(this.getEndpoint(`/${orgName}/members/invitations`), {
-            params: { page, limit },
+    public search = async (params: {
+        orgName: string;
+        filters: SearchFilter[];
+        sorting?: Sorting;
+        limit?: number;
+        page?: number;
+    }): Promise<[OrganizationMemberInvitation[], number]> => {
+        const limit = params.limit || 25;
+        const page = params.page || 0;
+
+        // convert SearchFilters to DTO
+        const filtersDTO = params.filters.map((f: SearchFilter) => {
+            return new SearchFilterDTO(f);
         });
 
-        return resp.data;
+        const resp = await this.axios.post<OrganizationMemberInvitation[]>(
+            this.getEndpoint(`/${params.orgName}/members/invitations/search?limit=${limit}&page=${page}`),
+            {
+                filters: filtersDTO,
+                sorting: params.sorting,
+            }
+        );
+
+        return [resp.data, parseInt(String(resp.headers["total"]), 10)];
     };
 
     /**

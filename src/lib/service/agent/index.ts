@@ -1,13 +1,16 @@
 import { AxiosInstance } from "axios";
 import Base, { Options } from "../../Base";
 import { AgentVersions, Version } from "../../interfaces/agent";
+import { AgentContext } from "./context";
 
 export default class Agent extends Base {
     private sourceServer: string;
+    public context: AgentContext;
 
     constructor(options: Options, axios: AxiosInstance) {
         super(options, axios);
         this.sourceServer = options.agent?.server || "https://agent.s3.helmut.cloud";
+        this.context = new AgentContext(this.options, this.axios);
     }
 
     async getVersions(): Promise<AgentVersions> {

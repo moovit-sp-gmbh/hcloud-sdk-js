@@ -6,11 +6,10 @@ export interface StreamNodeSpecification {
     category: StreamNodeSpecificationCategory;
     version: StreamSemanticVersion;
     author: StreamNodeSpecificationAuthor;
-    deprecated?: boolean;
     inputs?: StreamNodeSpecificationInput[];
     outputs?: StreamNodeSpecificationOutput[];
-    additionalConnectors?: StreamNodeSpecifiationAdditionalConnector[];
-    customTag?: StreamNodeSpecifiationCustomTag;
+    additionalConnectors?: StreamNodeSpecificationAdditionalConnector[];
+    customTag?: StreamNodeSpecificationCustomTag;
     requireSdk?: boolean;
     path: string;
     customNode?: StreamCustomNodeSpecification;
@@ -39,7 +38,7 @@ export interface StreamSemanticVersion {
     changelog: string[];
 }
 
-export interface StreamNodeSpecifiationAdditionalConnector {
+export interface StreamNodeSpecificationAdditionalConnector {
     name: string;
     description: string;
 }
@@ -92,8 +91,7 @@ export enum StreamNodeSpecificationType {
     CONDITION = "CONDITION",
 }
 
-export enum StreamNodeSpecifiationCustomTag {
-    DEPRECATED = "DEPRECATED",
+export enum StreamNodeSpecificationCustomTag {
     PREVIEW = "PREVIEW",
     EXPERIMENTAL = "EXPERIMENTAL",
 }

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.91
+
+-   **BREAKING**: Rename customTag to tag in interface StreamNodeSecification
+
 ## 0.0.90
 
 -   Rework response type of methods with multi-return to return a typed object instead of an array

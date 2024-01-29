@@ -9,7 +9,7 @@ export interface StreamNodeSpecification {
     inputs?: StreamNodeSpecificationInput[];
     outputs?: StreamNodeSpecificationOutput[];
     additionalConnectors?: StreamNodeSpecificationAdditionalConnector[];
-    customTag?: StreamNodeSpecificationCustomTag;
+    tag?: StreamNodeSpecificationTag;
     requireSdk?: boolean;
     path: string;
     customNode?: StreamCustomNodeSpecification;
@@ -91,7 +91,7 @@ export enum StreamNodeSpecificationType {
     CONDITION = "CONDITION",
 }
 
-export enum StreamNodeSpecificationCustomTag {
+export enum StreamNodeSpecificationTag {
     PREVIEW = "PREVIEW",
     EXPERIMENTAL = "EXPERIMENTAL",
 }

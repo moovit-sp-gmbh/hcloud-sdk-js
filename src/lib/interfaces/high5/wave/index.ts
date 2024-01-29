@@ -63,7 +63,7 @@ export interface StreamNodeSpecification {
     package: StreamNodeSpecificationPackage;
     category: StreamNodeSpecificationCategory;
     version: StreamSemanticVersion;
-    customTag?: StreamNodeSpecificationCustomTag;
+    tag?: StreamNodeSpecificationTag;
     author: StreamNodeSpecificationAuthor;
     deprecated?: boolean;
     requireSdk?: boolean;
@@ -140,7 +140,7 @@ export enum StreamNodeSpecificationType {
     CONDITION = "CONDITION",
 }
 
-export enum StreamNodeSpecificationCustomTag {
+export enum StreamNodeSpecificationTag {
     DEPRECATED = "DEPRECATED",
     PREVIEW = "PREVIEW",
     EXPERIMENTAL = "EXPERIMENTAL",

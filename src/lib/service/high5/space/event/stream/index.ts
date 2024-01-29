@@ -84,6 +84,24 @@ export class High5Stream extends Base {
     };
 
     /**
+     * Duplicate a Stream for the specified Event.
+     * @param orgName Name of the organization
+     * @param spaceName Name of the space
+     * @param eventName Name of the event
+     * @param name Name for the new stream
+     * @param sourceStreamId ID for the stream to duplicate
+     * @returns The created stream
+     */
+    public duplicateStream = async (orgName: string, spaceName: string, eventName: string, name: string, sourceStreamId: string): Promise<Stream> => {
+        const resp = await this.axios.post<Stream>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams`), {
+            name: name,
+            streamId: sourceStreamId,
+        });
+
+        return resp.data;
+    };
+
+    /**
      * Patches the order of Streams for an Event.
      * @param orgName Name of the organization
      * @param spaceName Name of the space

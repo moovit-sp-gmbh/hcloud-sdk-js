@@ -14,6 +14,7 @@ enum NatsSubject {
 
     HIGH5_SPACES = "hcloud.high5.organization.${organizationId}.spaces",
     HIGH5_STREAM_EXECUTE = "hcloud.high5.organization.${organizationId}.stream.execute.${base64email}",
+    HIGH5_STREAM_CANCEL = "hcloud.high5.organization.${organizationId}.stream.execute.${base64email}",
     HIGH5_EVENTS = "hcloud.high5.organization.${organizationId}.space.${spaceId}.events",
     HIGH5_STREAMS = "hcloud.high5.organization.${organizationId}.space.${spaceId}.event.${eventId}.streams",
     HIGH5_SECRETS = "hcloud.high5.organization.${organizationId}.space.${spaceId}.secrets",
@@ -43,6 +44,7 @@ enum NatsMessageType {
     UPDATE = "UPDATE",
     DELETE = "DELETE",
     EXECUTE = "EXECUTE",
+    CANCEL = "CANCEL",
 }
 
 enum NatsObjectType {
@@ -126,8 +128,14 @@ class NatsSubjects {
     };
 
     static High5 = class {
-        static EXECUTE = (organizationId: string, base64email: string) => {
-            return NatsSubjects.replace(NatsSubject.HIGH5_STREAM_EXECUTE, { organizationId, base64email } as NatsSubjectReplacements);
+        static Execution = class {
+            static EXECUTE = (organizationId: string, base64email: string) => {
+                return NatsSubjects.replace(NatsSubject.HIGH5_STREAM_EXECUTE, { organizationId, base64email } as NatsSubjectReplacements);
+            };
+
+            static CANCEL = (organizationId: string, base64email: string) => {
+                return NatsSubjects.replace(NatsSubject.HIGH5_STREAM_CANCEL, { organizationId, base64email } as NatsSubjectReplacements);
+            };
         };
 
         static SPACES = (organizationId: string) => {

@@ -1,7 +1,7 @@
 import Base, { Options } from "../../Base";
 import { AxiosInstance } from "axios";
 import { AuditLog } from "../../interfaces/auditor";
-import { SearchFilter, SearchParams, Version } from "../../interfaces/global";
+import { PaginatedResponse, SearchFilter, SearchParams, Version } from "../../interfaces/global";
 import { AuditorInternal } from "./internal";
 import { SearchFilterDTO } from "../../helper/searchFilter";
 
@@ -29,7 +29,7 @@ export default class Auditor extends Base {
      * @param sorting (optional) Sorting object
      * @param limit (optional) Max number of results (1-100; defaults to 25)
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
-     * @returns Array containing an array of audit logs and the total number of results found in the database (independent of limit and page)
+     * @returns Object containing an array of audit logs and the total number of results found in the database (independent of limit and page)
      */
     public searchAuditLogs = async ({
         organizationName,
@@ -37,7 +37,7 @@ export default class Auditor extends Base {
         sorting,
         limit = 25,
         page = 0,
-    }: SearchParams & { organizationName: string }): Promise<[AuditLog[], number]> => {
+    }: SearchParams & { organizationName: string }): Promise<PaginatedResponse<AuditLog>> => {
         const filtersDTO = filters?.map((f: SearchFilter) => new SearchFilterDTO(f));
 
         const resp = await this.axios.post<AuditLog[]>(this.getEndpoint(`/v1/org/${organizationName}/logs/search?page=${page}&limit=${limit}`), {
@@ -45,7 +45,7 @@ export default class Auditor extends Base {
             sorting: sorting,
         });
 
-        return [resp.data, parseInt(String(resp.headers["total"]), 10)];
+        return { items: resp.data, total: parseInt(String(resp.headers["total"]), 10) } as PaginatedResponse<AuditLog>;
     };
 
     protected getEndpoint(endpoint: string): string {

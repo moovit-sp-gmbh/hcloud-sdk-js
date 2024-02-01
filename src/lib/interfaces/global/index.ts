@@ -6,3 +6,4 @@ export * from "./SearchFilters";
 export * from "./Space";
 export * from "./Version";
 export * from "./Views";
+export * from "./PaginatedResponse";

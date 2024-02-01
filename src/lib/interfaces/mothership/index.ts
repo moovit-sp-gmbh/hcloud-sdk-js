@@ -22,8 +22,7 @@ export type Agent = {
     modifyDate: number;
 };
 
-export type TargetAgent =
-    | Pick<Agent, Exclude<keyof Agent, "uptime">> & {
-          connectionUptime: number;
-          targetEmail: string;
-      };
+export type TargetAgent = Pick<Agent, Exclude<keyof Agent, "uptime">> & {
+    connectionUptime: number;
+    targetEmail: string;
+};

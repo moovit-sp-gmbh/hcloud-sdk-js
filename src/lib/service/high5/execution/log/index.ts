@@ -15,14 +15,15 @@ export class High5OrganizationExecutionLogs extends Base {
      */
     public searchExecutionLogs = async ({
         orgName,
+        payload = false,
         filters,
         sorting,
         limit = 25,
         page = 0,
-    }: SearchParams & { orgName: string }): Promise<[High5ExecutionLog[], number]> => {
+    }: SearchParams & { orgName: string; payload?: boolean }): Promise<[High5ExecutionLog[], number]> => {
         const filtersDTO = filters?.map((f: SearchFilter) => new SearchFilterDTO(f));
         const resp = await this.axios
-            .post<High5ExecutionLog[]>(this.getEndpoint(`/v1/org/${orgName}/execution/logs/search?page=${page}&limit=${limit}`), {
+            .post<High5ExecutionLog[]>(this.getEndpoint(`/v1/org/${orgName}/execution/logs/search?page=${page}&limit=${limit}&payload=${payload}`), {
                 filters: filtersDTO,
                 sorting: sorting,
             })

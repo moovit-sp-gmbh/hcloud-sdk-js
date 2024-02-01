@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.89
+
+-   Add query param payload for logs search. Track https://github.com/moovit-sp-gmbh/hcloud-high5-backend/pull/226 for corresponding high5 change
+
 ## 0.0.88
 
 -   Add method to get available execution targets for organization

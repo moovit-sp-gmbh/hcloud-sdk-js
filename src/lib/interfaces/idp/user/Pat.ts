@@ -16,6 +16,8 @@ export interface PatCreate {
     name: string;
     expiration?: number;
     scopes: Scope[];
+    // 2FA TOTP token
+    token?: string;
 }
 
 export type PatUpdate = Partial<PatCreate>;

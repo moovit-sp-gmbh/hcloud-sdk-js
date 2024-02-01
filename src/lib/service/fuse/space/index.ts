@@ -1,7 +1,8 @@
 import { AxiosInstance } from "axios";
 import Base, { Options } from "../../../Base";
+import { PaginatedResponse, SearchFilter, SearchParams, SpacePermission } from "../../../interfaces/global";
 import { SearchFilterDTO } from "../../../helper/searchFilter";
-import { SearchFilter, SearchParams, SpacePermission } from "../../../interfaces/global";
+import { createPaginatedResponse } from "../../../helper/paginatedResponseHelper";
 import { FuseCronjob } from "./cronjob";
 import { FuseSpace as IFuseSpace } from "../../../interfaces/fuse/space";
 
@@ -92,7 +93,7 @@ export class FuseSpace extends Base {
      * @param sorting (optional) Sorting object
      * @param limit (optional) Max number of results (1-100; defaults to 25)
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
-     * @returns Array of filtered Fuse spaces as well as the total number of results found in the database (independent of limit and page)
+     * @returns Object containing an array of filtered Fuse spaces as well as the total number of results found in the database (independent of limit and page)
      */
     public searchSpaces = async ({
         orgName,
@@ -100,7 +101,7 @@ export class FuseSpace extends Base {
         sorting,
         limit = 25,
         page = 0,
-    }: SearchParams & { orgName: string }): Promise<[IFuseSpace[], number]> => {
+    }: SearchParams & { orgName: string }): Promise<PaginatedResponse<IFuseSpace>> => {
         const filtersDTO = filters?.map((f: SearchFilter) => {
             return new SearchFilterDTO(f);
         });
@@ -110,7 +111,7 @@ export class FuseSpace extends Base {
             sorting,
         });
 
-        return [resp.data, parseInt(String(resp.headers["total"]), 10)];
+        return createPaginatedResponse(resp) as PaginatedResponse<IFuseSpace>;
     };
 
     /**

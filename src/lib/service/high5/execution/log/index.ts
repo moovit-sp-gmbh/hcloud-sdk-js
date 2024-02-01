@@ -1,6 +1,7 @@
 import Base from "../../../../Base";
+import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../interfaces/global";
 import { SearchFilterDTO } from "../../../../helper/searchFilter";
-import { SearchFilter, SearchParams } from "../../../../interfaces/global/SearchFilters";
+import { createPaginatedResponse } from "../../../../helper/paginatedResponseHelper";
 import { High5ExecutionLog } from "../../../../interfaces/high5/space/execution";
 
 export class High5OrganizationExecutionLogs extends Base {
@@ -11,7 +12,7 @@ export class High5OrganizationExecutionLogs extends Base {
      * @param sorting (optional) Sorting object
      * @param limit (optional) Max number of results (1-100; defaults to 25)
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
-     * @returns Array of Stream execution logs as well as the total number of results
+     * @returns Object containing an array of Stream execution logs as well as the total number of results
      */
     public searchExecutionLogs = async ({
         orgName,
@@ -19,18 +20,17 @@ export class High5OrganizationExecutionLogs extends Base {
         sorting,
         limit = 25,
         page = 0,
-    }: SearchParams & { orgName: string }): Promise<[High5ExecutionLog[], number]> => {
+    }: SearchParams & { orgName: string }): Promise<PaginatedResponse<High5ExecutionLog>> => {
         const filtersDTO = filters?.map((f: SearchFilter) => new SearchFilterDTO(f));
-        const resp = await this.axios
-            .post<High5ExecutionLog[]>(this.getEndpoint(`/v1/org/${orgName}/execution/logs/search?page=${page}&limit=${limit}`), {
+        const resp = await this.axios.post<High5ExecutionLog[]>(
+            this.getEndpoint(`/v1/org/${orgName}/execution/logs/search?page=${page}&limit=${limit}`),
+            {
                 filters: filtersDTO,
                 sorting: sorting,
-            })
-            .catch((err: Error) => {
-                throw err;
-            });
+            }
+        );
 
-        return [resp.data, parseInt(String(resp.headers["total"]), 10)];
+        return createPaginatedResponse(resp) as PaginatedResponse<High5ExecutionLog>;
     };
 
     protected getEndpoint(endpoint: string): string {

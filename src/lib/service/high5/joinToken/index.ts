@@ -2,6 +2,8 @@ import { AxiosInstance } from "axios";
 import Base, { Options } from "../../../Base";
 import { JoinToken } from "../../../interfaces/high5/joinToken";
 import { User } from "../../../interfaces/idp";
+import { PaginatedResponse } from "../../../interfaces/global";
+import { createPaginatedResponse } from "../../../helper/paginatedResponseHelper";
 
 export class High5JoinToken extends Base {
     constructor(options: Options, axios: AxiosInstance) {
@@ -13,15 +15,15 @@ export class High5JoinToken extends Base {
      * @param orgName Name of the Organization
      * @param limit (optional) Max number of results (1-100; defaults to 25)
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
-     * @returns Array holding the join tokens
+     * @returns Object containing an array of join tokens and the total number of results found in the database (independent of limit and page)
      */
-    public get = async (orgName: string, limit?: number, page?: number): Promise<[JoinToken[], number]> => {
+    public get = async (orgName: string, limit?: number, page?: number): Promise<PaginatedResponse<JoinToken>> => {
         limit = limit || 25;
         page = page || 0;
 
         const resp = await this.axios.get<JoinToken[]>(this.getEndpoint(`/v1/org/${orgName}/join/token?page=${page}&limit=${limit}`));
 
-        return [resp.data, parseInt(String(resp.headers["total"]), 10)];
+        return createPaginatedResponse(resp) as PaginatedResponse<JoinToken>;
     };
 
     /**

@@ -4,6 +4,7 @@ import { AuditLog } from "../../interfaces/auditor";
 import { PaginatedResponse, SearchFilter, SearchParams, Version } from "../../interfaces/global";
 import { AuditorInternal } from "./internal";
 import { SearchFilterDTO } from "../../helper/searchFilter";
+import { createPaginatedResponse } from "../../helper/paginatedResponseHelper";
 
 export default class Auditor extends Base {
     public internal: AuditorInternal;
@@ -45,7 +46,7 @@ export default class Auditor extends Base {
             sorting: sorting,
         });
 
-        return { items: resp.data, total: parseInt(String(resp.headers["total"]), 10) } as PaginatedResponse<AuditLog>;
+        return createPaginatedResponse(resp) as PaginatedResponse<AuditLog>;
     };
 
     protected getEndpoint(endpoint: string): string {

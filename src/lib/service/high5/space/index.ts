@@ -1,11 +1,12 @@
 import { AxiosInstance } from "axios";
 import Base, { Options } from "../../../Base";
 import { High5Space as Space } from "../../../interfaces/high5/space";
-import { SearchFilter, SearchParams, SpacePermission } from "../../../interfaces/global";
+import { PaginatedResponse, SearchFilter, SearchParams, SpacePermission } from "../../../interfaces/global";
+import { SearchFilterDTO } from "../../../helper/searchFilter";
+import { createPaginatedResponse } from "../../../helper/paginatedResponseHelper";
 import { High5Event } from "./event";
 import { High5SpaceExecute } from "./execution";
 import { High5Webhook } from "./webhook";
-import { SearchFilterDTO } from "../../../helper/searchFilter";
 import High5Secret from "./secret";
 import High5Wave from "./wave";
 import { Stream } from "../../../interfaces/high5";
@@ -33,7 +34,7 @@ export class High5Space extends Base {
      * @param sorting (optional) Sorting object
      * @param limit (optional) Max number of results (1-100; defaults to 25)
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
-     * @returns Array of High5 Spaces and the total number of results found in the database (independent of limit and page)
+     * @returns Object containing an array of High5 Spaces and the total number of results found in the database (independent of limit and page)
      */
     public searchSpaces = async ({
         orgName,
@@ -41,7 +42,7 @@ export class High5Space extends Base {
         sorting,
         limit = 25,
         page = 0,
-    }: SearchParams & { orgName: string }): Promise<[Space[], number]> => {
+    }: SearchParams & { orgName: string }): Promise<PaginatedResponse<Space>> => {
         const filtersDTO = filters?.map((f: SearchFilter) => new SearchFilterDTO(f));
 
         const resp = await this.axios.post<Space[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/search?page=${page}&limit=${limit}`), {
@@ -49,7 +50,7 @@ export class High5Space extends Base {
             sorting: sorting,
         });
 
-        return [resp.data, parseInt(String(resp.headers["total"]), 10)];
+        return createPaginatedResponse(resp) as PaginatedResponse<Space>;
     };
 
     /**
@@ -132,7 +133,7 @@ export class High5Space extends Base {
      * @param sorting (optional) Sorting object
      * @param limit (optional) Max number of results (1-100; defaults to 25)
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
-     * @returns Array of streams and the total number of results found in the database (independent of limit and page)
+     * @returns Object containing an array of streams and the total number of results found in the database (independent of limit and page)
      */
     public searchStreamsOfSpace = async ({
         orgName,
@@ -141,7 +142,7 @@ export class High5Space extends Base {
         sorting,
         limit = 25,
         page = 0,
-    }: SearchParams & { orgName: string; spaceName: string }): Promise<[Stream[], number]> => {
+    }: SearchParams & { orgName: string; spaceName: string }): Promise<PaginatedResponse<Stream>> => {
         const filtersDTO = filters?.map((f: SearchFilter) => new SearchFilterDTO(f));
 
         const resp = await this.axios.post<Stream[]>(
@@ -152,7 +153,7 @@ export class High5Space extends Base {
             }
         );
 
-        return [resp.data, parseInt(String(resp.headers["total"]), 10)];
+        return createPaginatedResponse(resp) as PaginatedResponse<Stream>;
     };
 
     /**

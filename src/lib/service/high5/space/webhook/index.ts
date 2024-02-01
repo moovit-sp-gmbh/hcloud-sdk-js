@@ -2,8 +2,9 @@ import { AxiosInstance } from "axios";
 import Base, { Options } from "../../../../Base";
 import { KeyValuePair, Webhook, WebhookCreate, WebhookUpdate } from "../../../../interfaces/high5/space/webhook";
 import { High5WebhookLog } from "./log";
-import { SearchFilter, SearchParams } from "../../../../interfaces/global";
 import { SearchFilterDTO } from "../../../../helper/searchFilter";
+import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../interfaces/global";
+import { createPaginatedResponse } from "../../../../helper/paginatedResponseHelper";
 
 export class High5Webhook extends Base {
     public log: High5WebhookLog;
@@ -21,7 +22,7 @@ export class High5Webhook extends Base {
      * @param sorting (optional) Sorting object
      * @param limit (optional) Max number of results (1-100; defaults to 25)
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
-     * @returns Array of Webhooks and the total number of results found in the database (independent of limit and page)
+     * @returns Object containing an array of Webhooks and the total number of results found in the database (independent of limit and page)
      */
     public searchWebhooks = async ({
         orgName,
@@ -30,7 +31,7 @@ export class High5Webhook extends Base {
         sorting,
         limit = 25,
         page = 0,
-    }: SearchParams & { orgName: string; spaceName: string }): Promise<[Webhook[], number]> => {
+    }: SearchParams & { orgName: string; spaceName: string }): Promise<PaginatedResponse<Webhook>> => {
         const filtersDTO = filters?.map((f: SearchFilter) => new SearchFilterDTO(f));
 
         const resp = await this.axios.post<Webhook[]>(
@@ -41,7 +42,7 @@ export class High5Webhook extends Base {
             }
         );
 
-        return [resp.data, parseInt(String(resp.headers["total"]), 10)];
+        return createPaginatedResponse(resp) as PaginatedResponse<Webhook>;
     };
 
     /**

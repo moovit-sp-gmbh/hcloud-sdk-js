@@ -1,7 +1,8 @@
 import { AxiosInstance } from "axios";
 import Base, { Options } from "../../../../../Base";
 import { SearchFilterDTO } from "../../../../../helper/searchFilter";
-import { SearchFilter, SearchParams } from "../../../../../interfaces/global";
+import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../../interfaces/global";
+import { createPaginatedResponse } from "../../../../../helper/paginatedResponseHelper";
 import { OAuthApp, OAuthAppCreate } from "../../../../../interfaces/idp/organization/settings/oauthApp";
 
 export class IdpOAuthApp extends Base {
@@ -16,7 +17,7 @@ export class IdpOAuthApp extends Base {
      * @param sorting (optional) Sorting object
      * @param limit (optional) Max number of results (1-100; defaults to 25)
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
-     * @returns Array of OAuth apps and the total number of results found in the database (independent of limit and page)
+     * @returns Object containing an array of OAuth apps and the total number of results found in the database (independent of limit and page)
      */
     public searchOauthAppsOfOrganization = async ({
         organizationName,
@@ -24,7 +25,7 @@ export class IdpOAuthApp extends Base {
         sorting,
         limit = 25,
         page = 0,
-    }: SearchParams & { organizationName: string }): Promise<[OAuthApp[], number]> => {
+    }: SearchParams & { organizationName: string }): Promise<PaginatedResponse<OAuthApp>> => {
         const filtersDTO = filters?.map((f: SearchFilter) => {
             return new SearchFilterDTO(f);
         });
@@ -37,7 +38,7 @@ export class IdpOAuthApp extends Base {
             }
         );
 
-        return [resp.data, parseInt(String(resp.headers["total"]), 10)];
+        return createPaginatedResponse(resp) as PaginatedResponse<OAuthApp>;
     };
 
     /**

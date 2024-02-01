@@ -1,6 +1,8 @@
 import { AxiosInstance } from "axios";
 import Base, { Options } from "../../../../../Base";
 import { WebhookLog } from "../../../../../interfaces/high5/space/webhook";
+import { PaginatedResponse } from "../../../../../interfaces/global";
+import { createPaginatedResponse } from "../../../../../helper/paginatedResponseHelper";
 
 export class High5WebhookLog extends Base {
     constructor(options: Options, axios: AxiosInstance) {
@@ -14,7 +16,7 @@ export class High5WebhookLog extends Base {
      * @param webhookId ID of the Webhook
      * @param limit (optional) Max number of results (1-100; defaults to 25)
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
-     * @returns Array of Webhook logs and the total number of results found in the database (independent of limit and page)
+     * @returns Object containing an array of Webhook logs and the total number of results found in the database (independent of limit and page)
      */
     public getWebhookLogs = async (
         orgName: string,
@@ -22,7 +24,7 @@ export class High5WebhookLog extends Base {
         webhookId: string,
         limit?: number,
         page?: number
-    ): Promise<[WebhookLog[], number]> => {
+    ): Promise<PaginatedResponse<WebhookLog>> => {
         limit = limit || 25;
         page = page || 0;
 
@@ -30,7 +32,7 @@ export class High5WebhookLog extends Base {
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/webhooks/${webhookId}/logs?limit=${limit}&page=${page}`)
         );
 
-        return [resp.data, parseInt(String(resp.headers["total"]), 10)];
+        return createPaginatedResponse(resp) as PaginatedResponse<WebhookLog>;
     };
 
     protected getEndpoint(endpoint: string): string {

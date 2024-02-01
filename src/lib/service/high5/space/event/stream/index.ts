@@ -3,8 +3,9 @@ import Base, { Options } from "../../../../../Base";
 import { SingleStreamPatchOrder, Stream, StreamPatchActive, StreamPatchOrder } from "../../../../../interfaces/high5/space/event/stream";
 import { High5Design } from "./design";
 import { High5Node } from "./node";
-import { SearchFilter, SearchParams } from "../../../../../interfaces/global";
+import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../../interfaces/global";
 import { SearchFilterDTO } from "../../../../../helper/searchFilter";
+import { createPaginatedResponse } from "../../../../../helper/paginatedResponseHelper";
 
 export class High5Stream extends Base {
     public design: High5Design;
@@ -25,7 +26,7 @@ export class High5Stream extends Base {
      * @param sorting (optional) Sorting object
      * @param limit (optional) Max number of results (1-100; defaults to 25)
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
-     * @returns Array of streams as well as the total number of results found in the database (independent of limit and page)
+     * @returns Object containing an array of streams as well as the total number of results found in the database (independent of limit and page)
      */
     public searchStreams = async ({
         orgName,
@@ -39,7 +40,7 @@ export class High5Stream extends Base {
         orgName: string;
         spaceName: string;
         eventName: string;
-    }): Promise<[Stream[], number]> => {
+    }): Promise<PaginatedResponse<Stream>> => {
         const filtersDTO = filters?.map((f: SearchFilter) => new SearchFilterDTO(f));
 
         const resp = await this.axios.post<Stream[]>(
@@ -50,7 +51,7 @@ export class High5Stream extends Base {
             }
         );
 
-        return [resp.data, parseInt(String(resp.headers["total"]), 10)];
+        return createPaginatedResponse(resp) as PaginatedResponse<Stream>;
     };
 
     /**

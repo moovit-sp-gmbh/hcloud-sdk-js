@@ -1,6 +1,7 @@
 import Base from "../../../../Base";
+import { PaginatedResponse, SearchFilter, SearchParams, Sorting } from "../../../../interfaces/global";
 import { SearchFilterDTO } from "../../../../helper/searchFilter";
-import { SearchFilter, SearchParams, Sorting } from "../../../../interfaces/global/SearchFilters";
+import { createPaginatedResponse } from "../../../../helper/paginatedResponseHelper";
 import { Team, TeamQueryOptions, TeamUsersPatchOperation } from "../../../../interfaces/idp/organization/team";
 import { ReducedUser } from "../../../../interfaces/idp/user";
 
@@ -72,7 +73,7 @@ export class IdpOrganizationTeams extends Base {
      * @param options (optional) Defines query options to retrieve additional properties for the returned Team objects.
      * @param limit (optional) Max number of results (1-100; defaults to 25)
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
-     * @returns Array of Teams and the total number of results found in the database (independent of limit and page)
+     * @returns Object containing an array of Teams and the total number of results found in the database (independent of limit and page)
      */
     public searchTeams = async (params: {
         organizationName: string;
@@ -81,7 +82,7 @@ export class IdpOrganizationTeams extends Base {
         options?: TeamQueryOptions;
         limit?: number;
         page?: number;
-    }): Promise<[Team[], number]> => {
+    }): Promise<PaginatedResponse<Team>> => {
         const limit = params.limit || 25;
         const page = params.page || 0;
         const getTotalMemberCount = params.options?.getTotalMemberCount ? `&totalMemberCount=${params.options.getTotalMemberCount}` : "";
@@ -99,7 +100,7 @@ export class IdpOrganizationTeams extends Base {
             }
         );
 
-        return [resp.data, parseInt(String(resp.headers["total"]), 10)];
+        return createPaginatedResponse(resp) as PaginatedResponse<Team>;
     };
 
     /**
@@ -110,7 +111,7 @@ export class IdpOrganizationTeams extends Base {
      * @param sorting (optional) Sorting object
      * @param limit (optional) Max number of results (1-100; defaults to 25)
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
-     * @returns Array of Team members and the total number of results found in the database (independent of limit and page)
+     * @returns Object containing an array of Team members and the total number of results found in the database (independent of limit and page)
      */
     public searchTeamMembers = async ({
         organizationName,
@@ -119,7 +120,7 @@ export class IdpOrganizationTeams extends Base {
         sorting,
         limit = 25,
         page = 0,
-    }: SearchParams & { organizationName: string; teamName: string }): Promise<[(ReducedUser & { email: string })[], number]> => {
+    }: SearchParams & { organizationName: string; teamName: string }): Promise<PaginatedResponse<ReducedUser & { email: string }>> => {
         const filtersDTO = filters?.map((f: SearchFilter) => {
             return new SearchFilterDTO(f);
         });
@@ -132,7 +133,7 @@ export class IdpOrganizationTeams extends Base {
             }
         );
 
-        return [resp.data, parseInt(String(resp.headers["total"]), 10)];
+        return createPaginatedResponse(resp) as PaginatedResponse<ReducedUser & { email: string }>;
     };
 
     protected getEndpoint(endpoint: string): string {

@@ -1,8 +1,9 @@
 import { AxiosInstance } from "axios";
 import Base, { Options } from "../../../../Base";
-import { SearchFilterDTO } from "../../../../helper/searchFilter";
 import { CronjobCreate, Cronjob } from "../../../../interfaces/fuse/space/cronjob/Cronjob";
-import { SearchFilter, SearchParams } from "../../../../interfaces/global";
+import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../interfaces/global";
+import { SearchFilterDTO } from "../../../../helper/searchFilter";
+import { createPaginatedResponse } from "../../../../helper/paginatedResponseHelper";
 import { FuseCronjobLog } from "./log";
 import { FuseCronjobLogInternal } from "../../internal/space/cronjob/log";
 
@@ -188,7 +189,7 @@ export class FuseCronjob extends Base {
      * @param limit (optional) Max number of results (1-100; defaults to 25)
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
      * @param exposeNextExecution (optional) Show the next execution as a Unix timestamp (in milliseconds) in the returned cronjob objects
-     * @returns Array of filtered cronjobs as well as the total number of results found in the database (independent of limit and page)
+     * @returns Object containing an array of filtered cronjobs as well as the total number of results found in the database (independent of limit and page)
      */
     public searchCronjobs = async ({
         orgName,
@@ -198,7 +199,7 @@ export class FuseCronjob extends Base {
         limit = 25,
         page = 0,
         exposeNextExecution = false,
-    }: SearchParams & { orgName: string; spaceName: string; exposeNextExecution?: boolean }): Promise<[Cronjob[], number]> => {
+    }: SearchParams & { orgName: string; spaceName: string; exposeNextExecution?: boolean }): Promise<PaginatedResponse<Cronjob>> => {
         const filtersDTO = filters?.map((f: SearchFilter) => {
             return new SearchFilterDTO(f);
         });
@@ -211,7 +212,7 @@ export class FuseCronjob extends Base {
             }
         );
 
-        return [resp.data, parseInt(String(resp.headers["total"]), 10)];
+        return createPaginatedResponse(resp) as PaginatedResponse<Cronjob>;
     };
 
     /**

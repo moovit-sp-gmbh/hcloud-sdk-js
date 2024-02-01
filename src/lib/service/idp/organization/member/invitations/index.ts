@@ -2,7 +2,8 @@ import Base from "../../../../../Base";
 import { OrganizationRole } from "../../../../../interfaces/idp";
 import { OrganizationMemberInvitation } from "../../../../../interfaces/idp/organization/member/invitations";
 import { SearchFilterDTO } from "../../../../../helper/searchFilter";
-import { SearchFilter, Sorting } from "../../../../../interfaces/global/SearchFilters";
+import { PaginatedResponse, SearchFilter, Sorting } from "../../../../../interfaces/global";
+import { createPaginatedResponse } from "../../../../../helper/paginatedResponseHelper";
 
 export default class IdpOrganizationMemberInvitations extends Base {
     /**
@@ -12,7 +13,7 @@ export default class IdpOrganizationMemberInvitations extends Base {
      * @param sorting (optional) Sorting object
      * @param limit (optional) Max number of results (1-100; defaults to 25)
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
-     * @returns Array of invitations and the total number of results found in the database (independent of limit and page)
+     * @returns Object containing an array of invitations and the total number of results found in the database (independent of limit and page)
      */
     public search = async (params: {
         orgName: string;
@@ -20,7 +21,7 @@ export default class IdpOrganizationMemberInvitations extends Base {
         sorting?: Sorting;
         limit?: number;
         page?: number;
-    }): Promise<[OrganizationMemberInvitation[], number]> => {
+    }): Promise<PaginatedResponse<OrganizationMemberInvitation>> => {
         const limit = params.limit || 25;
         const page = params.page || 0;
 
@@ -37,7 +38,7 @@ export default class IdpOrganizationMemberInvitations extends Base {
             }
         );
 
-        return [resp.data, parseInt(String(resp.headers["total"]), 10)];
+        return createPaginatedResponse(resp) as PaginatedResponse<OrganizationMemberInvitation>;
     };
 
     /**

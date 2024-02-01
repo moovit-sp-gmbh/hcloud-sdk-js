@@ -1,7 +1,8 @@
 import Base from "../../../../../Base";
 import { CronjobLogDto } from "../../../../../interfaces/fuse/space/cronjob/CronjobLog";
+import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../../interfaces/global";
 import { SearchFilterDTO } from "../../../../../helper/searchFilter";
-import { SearchFilter, SearchParams } from "../../../../../interfaces/global";
+import { createPaginatedResponse } from "../../../../../helper/paginatedResponseHelper";
 
 export class FuseCronjobLog extends Base {
     /**
@@ -13,7 +14,7 @@ export class FuseCronjobLog extends Base {
      * @param sorting (optional) Sorting object
      * @param limit (optional) Max number of results (1-100; defaults to 25)
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
-     * @returns Array of filtered cronjob logs as well as the total number of results found in the database (independent of limit and page)
+     * @returns Object containing an array of filtered cronjob logs as well as the total number of results found in the database (independent of limit and page)
      */
     public searchCronjobLogs = async ({
         orgName,
@@ -23,7 +24,7 @@ export class FuseCronjobLog extends Base {
         sorting,
         limit = 25,
         page = 0,
-    }: SearchParams & { orgName: string; spaceName: string; cronjobId: string }): Promise<[CronjobLogDto[], number]> => {
+    }: SearchParams & { orgName: string; spaceName: string; cronjobId: string }): Promise<PaginatedResponse<CronjobLogDto>> => {
         const filtersDTO = filters?.map((f: SearchFilter) => {
             return new SearchFilterDTO(f);
         });
@@ -36,7 +37,7 @@ export class FuseCronjobLog extends Base {
             }
         );
 
-        return [resp.data, parseInt(String(resp.headers["total"]), 10)];
+        return createPaginatedResponse(resp) as PaginatedResponse<CronjobLogDto>;
     };
 
     /**

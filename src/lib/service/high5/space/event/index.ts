@@ -2,8 +2,9 @@ import { AxiosInstance } from "axios";
 import Base, { Options } from "../../../../Base";
 import { Event } from "../../../../interfaces/high5/space/event";
 import { High5Stream } from "./stream";
-import { SearchFilter, SearchParams } from "../../../../interfaces/global";
+import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../interfaces/global";
 import { SearchFilterDTO } from "../../../../helper/searchFilter";
+import { createPaginatedResponse } from "../../../../helper/paginatedResponseHelper";
 
 export class High5Event extends Base {
     public stream: High5Stream;
@@ -21,7 +22,7 @@ export class High5Event extends Base {
      * @param sorting (optional) Sorting object
      * @param limit (optional) Max number of results (1-100; defaults to 25)
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
-     * @returns Array of Events and the total number of results found in the database (independent of limit and page)
+     * @returns Object containing an array of Events and the total number of results found in the database (independent of limit and page)
      */
     public searchEvents = async ({
         orgName,
@@ -30,7 +31,7 @@ export class High5Event extends Base {
         sorting,
         limit = 25,
         page = 0,
-    }: SearchParams & { orgName: string; spaceName: string }): Promise<[Event[], number]> => {
+    }: SearchParams & { orgName: string; spaceName: string }): Promise<PaginatedResponse<Event>> => {
         const filtersDTO = filters?.map((f: SearchFilter) => new SearchFilterDTO(f));
 
         const resp = await this.axios.post<Event[]>(
@@ -41,7 +42,7 @@ export class High5Event extends Base {
             }
         );
 
-        return [resp.data, parseInt(String(resp.headers["total"]), 10)];
+        return createPaginatedResponse(resp) as PaginatedResponse<Event>;
     };
 
     /**

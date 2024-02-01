@@ -1,7 +1,8 @@
 import { AxiosInstance } from "axios";
 import Base, { Options } from "../../../../Base";
 import { SearchFilterDTO } from "../../../../helper/searchFilter";
-import { SearchFilter, SearchParams } from "../../../../interfaces/global";
+import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../interfaces/global";
+import { createPaginatedResponse } from "../../../../helper/paginatedResponseHelper";
 import { OrganizationMember, OrgMemberPatch } from "../../../../interfaces/idp/organization/member";
 import IdpOrganizationMemberInvitations from "./invitations";
 
@@ -21,7 +22,7 @@ export class IdpOrganizationMember extends Base {
      * @param sorting (optional) Sorting object
      * @param limit (optional) Max number of results (1-100; defaults to 25)
      * @param page (optional) Page number to skip the first (page * limit) results (defaults to 0)
-     * @returns Array of Organization Members and the total number of results found in the database (independent of limit and page)
+     * @returns Object containing an array of Organization Members and the total number of results found in the database (independent of limit and page)
      */
     public searchOrganizationMembers = async ({
         orgName,
@@ -30,7 +31,7 @@ export class IdpOrganizationMember extends Base {
         sorting,
         limit = 25,
         page = 0,
-    }: SearchParams & { orgName: string; excludeTeamByName?: string }): Promise<[OrganizationMember[], number]> => {
+    }: SearchParams & { orgName: string; excludeTeamByName?: string }): Promise<PaginatedResponse<OrganizationMember>> => {
         const filtersDTO = filters?.map((f: SearchFilter) => {
             return new SearchFilterDTO(f);
         });
@@ -42,7 +43,7 @@ export class IdpOrganizationMember extends Base {
             excludeTeamByName,
         });
 
-        return [resp.data, parseInt(String(resp.headers["total"]), 10)];
+        return createPaginatedResponse(resp) as PaginatedResponse<OrganizationMember>;
     };
 
     /**

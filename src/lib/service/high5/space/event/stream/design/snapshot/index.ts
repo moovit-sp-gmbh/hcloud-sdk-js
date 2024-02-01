@@ -1,6 +1,7 @@
 import Base from "../../../../../../../Base";
+import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../../../../interfaces/global";
 import { SearchFilterDTO } from "../../../../../../../helper/searchFilter";
-import { SearchFilter, SearchParams } from "../../../../../../../interfaces/global/SearchFilters";
+import { createPaginatedResponse } from "../../../../../../../helper/paginatedResponseHelper";
 import DesignSnapshot from "../../../../../../../interfaces/high5/space/event/stream/design/snapshot";
 
 export default class High5DesignSnapshots extends Base {
@@ -12,7 +13,7 @@ export default class High5DesignSnapshots extends Base {
      * @param streamId ID of the stream
      * @param filters Search filters to apply
      * @param sorting Sorting criteria for the result
-     * @returns The snapshot
+     * @returns Object containing an array of snapshots of the stream design and the total number of results found in the database (independent of limit and page)
      */
     public search = async (
         orgName: string,
@@ -20,7 +21,7 @@ export default class High5DesignSnapshots extends Base {
         eventName: string,
         streamId: string,
         { filters, sorting, limit = 25, page = 0 }: SearchParams
-    ): Promise<[DesignSnapshot[], number]> => {
+    ): Promise<PaginatedResponse<DesignSnapshot>> => {
         const filtersDTO = filters?.map((f: SearchFilter) => {
             return new SearchFilterDTO(f);
         });
@@ -36,7 +37,7 @@ export default class High5DesignSnapshots extends Base {
             }
         );
 
-        return [resp.data, parseInt(String(resp.headers["total"]), 10)];
+        return createPaginatedResponse(resp) as PaginatedResponse<DesignSnapshot>;
     };
 
     /**

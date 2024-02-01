@@ -1,7 +1,8 @@
 import { AxiosInstance } from "axios";
 import Base, { Options } from "../../Base";
+import { PaginatedResponse, SearchFilter, SearchParams, Version } from "../../interfaces/global";
 import { SearchFilterDTO } from "../../helper/searchFilter";
-import { SearchFilter, SearchParams, Version } from "../../interfaces/global";
+import { createPaginatedResponse } from "../../helper/paginatedResponseHelper";
 import { Agent, TargetAgent } from "../../interfaces/mothership";
 
 type RecurrentInfo = Pick<Agent, "uptime" | "cpuUtilization" | "memoryUsed" | "status">;
@@ -99,7 +100,7 @@ export default class MothershipService extends Base {
      * Search among the available targets for a given organization.
      *
      * @param orgName Name of the organization
-     * @returns Retrieved agents and total available
+     * @returns Object containing an array of retrieved agents and the total number of available found in the database (independent of limit and page)
      */
     searchAvailableTargets = async ({
         orgName,
@@ -107,12 +108,12 @@ export default class MothershipService extends Base {
         sorting,
         limit = 25,
         page = 0,
-    }: SearchParams & { orgName: string }): Promise<[TargetAgent[], number]> => {
+    }: SearchParams & { orgName: string }): Promise<PaginatedResponse<TargetAgent>> => {
         const filtersDTO = filters?.map((f: SearchFilter) => {
             return new SearchFilterDTO(f);
         });
 
-        const res = await this.axios.post<TargetAgent[]>(
+        const resp = await this.axios.post<TargetAgent[]>(
             this.getEndpoint(`/v1/org/${orgName}/connect/search`),
             {
                 filters: filtersDTO,
@@ -123,9 +124,7 @@ export default class MothershipService extends Base {
             }
         );
 
-        const total = parseInt(res.headers.total, 10);
-
-        return [res.data, total];
+        return createPaginatedResponse(resp) as PaginatedResponse<TargetAgent>;
     };
 
     protected getEndpoint(endpoint: string): string {

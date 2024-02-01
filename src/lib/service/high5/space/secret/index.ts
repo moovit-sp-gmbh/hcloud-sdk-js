@@ -1,7 +1,8 @@
 import { AxiosInstance } from "axios";
 import Base, { Options } from "../../../../Base";
-import { SearchFilter, SearchParams } from "../../../../interfaces/global";
+import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../interfaces/global";
 import { SearchFilterDTO } from "../../../../helper/searchFilter";
+import { createPaginatedResponse } from "../../../../helper/paginatedResponseHelper";
 import { Secret } from "../../../../interfaces/high5/space/secret";
 
 export default class High5Secret extends Base {
@@ -20,7 +21,7 @@ export default class High5Secret extends Base {
      * @param limit - (optional) Max number of results (1-100; defaults to 25)
      * @param page - (optional) Page number: Skip the first (page * limit) results (defaults to 0)
      * @param encrypted - (optional) Whether to get all secret values only in encrypted form.
-     * @returns Array of secret keys as well as the total number of results found in the database (independent of limit and page)
+     * @returns Object containing an array of secret keys as well as the total number of results found in the database (independent of limit and page)
      */
     searchSecrets = async ({
         orgName,
@@ -29,7 +30,7 @@ export default class High5Secret extends Base {
         sorting,
         limit = 25,
         page = 0,
-    }: SearchParams & { orgName: string; spaceName: string }): Promise<[Secret[], number]> => {
+    }: SearchParams & { orgName: string; spaceName: string }): Promise<PaginatedResponse<Secret>> => {
         const filtersDTO = filters?.map((f: SearchFilter) => {
             return new SearchFilterDTO(f);
         });
@@ -42,7 +43,7 @@ export default class High5Secret extends Base {
             }
         );
 
-        return [resp.data, parseInt(String(resp.headers["total"]), 0)];
+        return createPaginatedResponse(resp) as PaginatedResponse<Secret>;
     };
 
     /**

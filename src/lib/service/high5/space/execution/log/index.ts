@@ -23,14 +23,15 @@ export class High5SpaceExecutionLogs extends Base {
     public searchExecutionLogs = async ({
         orgName,
         spaceName,
+        payload = false,
         filters,
         sorting,
         limit = 25,
         page = 0,
-    }: SearchParams & { orgName: string; spaceName: string }): Promise<PaginatedResponse<High5ExecutionLog>> => {
+    }: SearchParams & { orgName: string; spaceName: string; payload?: boolean }): Promise<PaginatedResponse<High5ExecutionLog>> => {
         const filtersDTO = filters?.map((f: SearchFilter) => new SearchFilterDTO(f));
         const resp = await this.axios.post<High5ExecutionLog[]>(
-            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execution/logs/search?page=${page}&limit=${limit}`),
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execution/logs/search?page=${page}&limit=${limit}&payload=${payload}`),
             {
                 filters: filtersDTO,
                 sorting: sorting,
@@ -47,9 +48,11 @@ export class High5SpaceExecutionLogs extends Base {
      * @param streamLogId ID of the stream log
      * @returns Stream execution log
      */
-    public getStreamExecutionLog = async (orgName: string, spaceName: string, streamLogId: string): Promise<High5ExecutionLog> => {
+    public getStreamExecutionLog = async (orgName: string, spaceName: string, streamLogId: string, payload = false): Promise<High5ExecutionLog> => {
         const resp = await this.axios
-            .get<High5ExecutionLog>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execution/streams/logs/${streamLogId}`))
+            .get<High5ExecutionLog>(
+                this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execution/streams/logs/${streamLogId}?payload=${payload}`)
+            )
             .catch((err: Error) => {
                 throw err;
             });

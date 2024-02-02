@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.90
+
+-   Rework response type of methods with multi-return to return a typed object instead of an array
+
 ## 0.0.89
 
 -   Add query param payload for logs search. Track https://github.com/moovit-sp-gmbh/hcloud-high5-backend/pull/226 for corresponding high5 change

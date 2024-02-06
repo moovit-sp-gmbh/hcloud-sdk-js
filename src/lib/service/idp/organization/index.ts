@@ -68,6 +68,7 @@ export class IdpOrganization extends Base {
                 teamsOfUser: options?.getTeamsOfUser,
                 totalMemberCount: options?.getTotalMemberCount,
                 membersSample: options?.getMembersSample,
+                license: options?.getLicense,
             },
         });
 

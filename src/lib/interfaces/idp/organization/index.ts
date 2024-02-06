@@ -1,4 +1,6 @@
+export * from "./license";
 import { ReducedUser } from "../user";
+import { License } from "./license";
 import { ReducedTeam } from "./team";
 
 export enum OrganizationRole {
@@ -21,6 +23,7 @@ export interface Organization {
     teamsOfUser?: ReducedTeam[];
     membersSample?: ReducedUser[];
     totalMemberCount?: number;
+    license?: License;
 }
 
 export type ReducedOrganization = Pick<Organization, "_id" | "name" | "avatarUrl">;
@@ -29,4 +32,5 @@ export type OrganizationQueryOptions = {
     getTeamsOfUser?: boolean;
     getMembersSample?: number; // Number of members to return
     getTotalMemberCount?: boolean;
+    getLicense?: boolean;
 };

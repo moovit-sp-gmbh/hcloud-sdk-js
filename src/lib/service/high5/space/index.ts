@@ -9,6 +9,7 @@ import { High5SpaceExecute } from "./execution";
 import { High5Webhook } from "./webhook";
 import High5Secret from "./secret";
 import High5Wave from "./wave";
+import High5Node from "./node";
 import { Stream } from "../../../interfaces/high5";
 
 export class High5Space extends Base {
@@ -17,6 +18,7 @@ export class High5Space extends Base {
     public webhook: High5Webhook;
     public secret: High5Secret;
     public wave: High5Wave;
+    public node: High5Node;
 
     constructor(options: Options, axios: AxiosInstance) {
         super(options, axios);
@@ -25,6 +27,7 @@ export class High5Space extends Base {
         this.webhook = new High5Webhook(this.options, this.axios);
         this.secret = new High5Secret(this.options, this.axios);
         this.wave = new High5Wave(this.options, this.axios);
+        this.node = new High5Node(this.options, this.axios);
     }
 
     /**

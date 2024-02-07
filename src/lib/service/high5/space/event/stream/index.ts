@@ -2,19 +2,16 @@ import { AxiosInstance } from "axios";
 import Base, { Options } from "../../../../../Base";
 import { SingleStreamPatchOrder, Stream, StreamPatchActive, StreamPatchOrder } from "../../../../../interfaces/high5/space/event/stream";
 import { High5Design } from "./design";
-import { High5Node } from "./node";
 import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../../interfaces/global";
 import { SearchFilterDTO } from "../../../../../helper/searchFilter";
 import { createPaginatedResponse } from "../../../../../helper/paginatedResponseHelper";
 
 export class High5Stream extends Base {
     public design: High5Design;
-    public node: High5Node;
 
     constructor(options: Options, axios: AxiosInstance) {
         super(options, axios);
         this.design = new High5Design(this.options, this.axios);
-        this.node = new High5Node(this.options, this.axios);
     }
 
     /**

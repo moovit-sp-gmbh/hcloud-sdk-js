@@ -1,7 +1,7 @@
 import { AxiosInstance } from "axios";
 import Base, { Options } from "../../../Base";
-import { High5Space as Space } from "../../../interfaces/high5/space";
-import { PaginatedResponse, SearchFilter, SearchParams, SpacePermission } from "../../../interfaces/global";
+import { High5Space as Space, High5SpacePermission as SpacePermission } from "../../../interfaces/high5/space";
+import { PaginatedResponse, SearchFilter, SearchParams } from "../../../interfaces/global";
 import { SearchFilterDTO } from "../../../helper/searchFilter";
 import { createPaginatedResponse } from "../../../helper/paginatedResponseHelper";
 import { High5Event } from "./event";

@@ -1,4 +1,20 @@
-import { Space } from "../../global";
+import { Space, SpaceEntity } from "../../global";
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface FuseSpace extends Space {}
+type ExtendWith<T1, T2> = T1 & T2;
+
+export interface FuseSpace extends Space {
+    permissions: ExtendWith<FuseSpaceEntityPermission, { name: string }>[];
+}
+export interface FuseSpaceEntityPermission {
+    entityId: string;
+    type: SpaceEntity;
+    permission: FuseSpacePermission;
+}
+
+export enum FuseSpacePermission {
+    NONE = "NONE",
+    READ = "READ",
+    WRITE = "WRITE",
+    MANAGE = "MANAGE",
+    OWNER = "OWNER",
+}

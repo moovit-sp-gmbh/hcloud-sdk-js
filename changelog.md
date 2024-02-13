@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.93
+
+-   **BREAKING**: Remove centralized SpacePermission and SpaceEntityPermission interface and create separate ones for Fuse and High5
+
 ## 0.0.92
 
 -   Add optional targetUrl parameter to Register/Renew register and forgot password endpoints. That one will be used for link creation in the corresponding mail

@@ -48,7 +48,11 @@ export interface Webhook {
     creator: ReducedUser;
     createDate: number;
     modifyDate: number;
-    lastTriggered: number;
+    lastTriggered?: {
+        timestamp: number;
+        statusCode: number;
+        error?: string;
+    };
 }
 
 export type WebhookCreate = Pick<Webhook, "name" | "target" | "type" | "sub" | "webhookEncryptionSettings" | "securityHeaders">;

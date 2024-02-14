@@ -106,6 +106,7 @@ export interface High5ExecutionLog {
 }
 
 export interface High5ExecutionResponse {
-    high5ExecutionPatchStatus: High5ExecutionStatus;
-    high5ExecutionPatchLog: High5ExecutionLog;
+    high5ExecutionId: string;
+    statusId: string;
+    logId: string;
 }

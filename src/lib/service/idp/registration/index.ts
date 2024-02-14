@@ -18,8 +18,17 @@ export class IdpRegistration extends Base {
      * @param captcha - Captcha
      * @param company - Optional company name
      * @param regionId - Optional region id
+     * @param targetUrl Optional url the link in the mail will point to
      */
-    register = async (name: string, email: string, password: string, captcha: string, company?: string, regionId?: string): Promise<void> => {
+    register = async (
+        name: string,
+        email: string,
+        password: string,
+        captcha: string,
+        company?: string,
+        regionId?: string,
+        targetUrl?: string
+    ): Promise<void> => {
         await this.axios.post<void>(this.getEndpoint("/v1/register"), {
             name: name,
             email: email,
@@ -27,6 +36,7 @@ export class IdpRegistration extends Base {
             captcha: captcha,
             company,
             regionId,
+            targetUrl,
         });
     };
 
@@ -38,6 +48,7 @@ export class IdpRegistration extends Base {
      * @param captcha - Captcha
      * @param company - Optional company name
      * @param regionId - Optional region id
+     * @param targetUrl Optional url the link in the mail will point to
      */
     resendRegistrationMail = async (
         name: string,
@@ -45,7 +56,8 @@ export class IdpRegistration extends Base {
         password: string,
         captcha: string,
         company?: string,
-        regionId?: string
+        regionId?: string,
+        targetUrl?: string
     ): Promise<void> => {
         await this.axios.patch<void>(this.getEndpoint("/v1/register/resendRegistrationEmail"), {
             name: name,
@@ -54,6 +66,7 @@ export class IdpRegistration extends Base {
             captcha: captcha,
             company,
             regionId,
+            targetUrl,
         });
     };
 

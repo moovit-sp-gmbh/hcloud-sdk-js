@@ -4,6 +4,7 @@ import { Organization, OrganizationQueryOptions } from "../../../interfaces/idp/
 import { IdpOrganizationMember } from "./member";
 import { IdpOrganizationTeams } from "./team";
 import IdpOrganizationSettings from "./settings";
+import { IdpOrganizationLicense } from "./license";
 
 export class IdpOrganization extends Base {
     /**
@@ -21,12 +22,18 @@ export class IdpOrganization extends Base {
      */
     public teams: IdpOrganizationTeams;
 
+    /**
+     * Handles everything around licenses.
+     */
+    public license: IdpOrganizationLicense;
+
     constructor(options: Options, axios: AxiosInstance) {
         super(options, axios);
 
         this.member = new IdpOrganizationMember(this.options, this.axios);
         this.teams = new IdpOrganizationTeams(this.options, this.axios);
         this.settings = new IdpOrganizationSettings(this.options, this.axios);
+        this.license = new IdpOrganizationLicense(this.options, this.axios);
     }
 
     /**

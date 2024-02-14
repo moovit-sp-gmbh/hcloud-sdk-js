@@ -8,6 +8,7 @@ import { OrganizationMemberInvitation } from "../../../interfaces/idp/organizati
 import { UserPatch, User } from "../../../interfaces/idp/user";
 import UserPasswordService from "./password";
 import { IdpSettings } from "./settings";
+import { IdpUserLicense } from "./license";
 
 export class IdpUser extends Base {
     /**
@@ -20,11 +21,17 @@ export class IdpUser extends Base {
      */
     public password: UserPasswordService;
 
+    /**
+     * Handles everything around a user's license
+     */
+    public license: IdpUserLicense;
+
     constructor(options: Options, axios: AxiosInstance) {
         super(options, axios);
 
         this.settings = new IdpSettings(options, axios);
         this.password = new UserPasswordService(options, axios);
+        this.license = new IdpUserLicense(options, axios);
     }
 
     /**

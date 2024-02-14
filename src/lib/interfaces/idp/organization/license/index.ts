@@ -1,10 +1,12 @@
+import { ReducedUser } from "../../user";
+
 export type License = {
     tier: LicenseTier;
     type: LicenseType;
     billingId?: string;
     quota: LicenseQuota;
-    creatorId?: string;
-    contactId?: string;
+    creator?: ReducedUser;
+    contact?: ReducedUser;
     expireDate: number;
     createDate: number;
 };
@@ -54,6 +56,9 @@ export type LicenseQuota = {
                     quota: number;
                 };
             };
+        };
+        executionsPerMonth: {
+            quota: number;
         };
     };
     fuse: {

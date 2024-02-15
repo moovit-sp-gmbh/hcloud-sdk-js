@@ -1,0 +1,3 @@
+#!/bin/sh
+
+node ./node_modules/@commitlint/cli/lib/cli.js --edit $1

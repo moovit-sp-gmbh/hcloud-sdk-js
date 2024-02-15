@@ -1,7 +1,10 @@
-name: Node.js CI
+name: Run linting and tests
 
 on:
   push:
+    branches-ignore:
+      - staging # When pushing/merging to branch 'staging' (or later main), buildAndPublish workflow will already do the testing
+      - main
 
 jobs:
   run:
@@ -12,11 +15,11 @@ jobs:
         node-version: [16.14.2]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - uses: pnpm/action-setup@v2.0.1
         with:
-          version: 6.27.0
+          version: 7.5.1
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2

@@ -1,0 +1,92 @@
+name: Build and publish to GitHub Packages
+
+on:
+  push:
+    branches:
+      - HCLOUD-1996_Use-semantic-release-to-generate-changelog-from-commit-messages-in-js-SDK-and-to-release_Darius-Weiberg-3
+
+jobs:
+  runTests:
+    runs-on: self-hosted
+
+    strategy:
+      matrix:
+        node-version: [16.14.2]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      #- uses: pnpm/action-setup@v2.0.1
+      #  with:
+      #    version: 7.5.1
+
+      #- name: Use Node.js ${{ matrix.node-version }}
+      #  uses: actions/setup-node@v3
+      #  with:
+      #    node-version: ${{ matrix.node-version }}
+
+      #- name: Cache pnpm modules
+      #  uses: actions/cache@v2 # Maybe update to v4
+      #  with:
+      #    path: ~/.pnpm-store
+      #    key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+      #    restore-keys: |
+      #      ${{ runner.os }}-
+
+      # - run: make prepare
+
+      # - run: make lint
+
+      # - run: make test
+
+  buildAndPublish:
+    needs: runTests
+    runs-on: self-hosted # Didn't work on self-hosted the last time, but should be tried again
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2.4.0
+        with:
+          version: 8.15.1
+
+      - name: Setup node version needed for build
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16.14.2"
+
+      - name: Cache pnpm modules
+        uses: actions/cache@v2 # Maybe upgrade to v4. Also, if installing deps is still not be performant, maybe combine runTest and buildAndPublish workflows, so that 'make prepare' (and also other actions) are only executed once.
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-
+
+      - run: make prepare
+
+      - run: make build
+
+      - run: make preparePublish
+
+      # Command from make publish command was: pnpm publish ./build --no-git-checks
+
+      # Publishing, generating of changelog and updates to Telegram (everything below this line) could also happen in a different job. Would be less performant though.
+      - name: Setup node for semantic-release (needs node v20.8.1 or higher)
+        uses: actions/setup-node@v3
+        with:
+          node-version: "lts/*"
+          registry-url: "https://npm.pkg.github.com"
+          scope: "@moovit-sp-gmbh"
+
+      - name: Install dependencies (plugins) for semantic-release
+        run: pnpm add @semantic-release/changelog @semantic-release/git
+
+      - name: Publish package and generate changelog with semantic-release. The specific tasks executed by this package are defined in release.config.js
+        run: pnpx semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # - name: Post updates to Telegram (think there also is a plugin for semantic-release?)

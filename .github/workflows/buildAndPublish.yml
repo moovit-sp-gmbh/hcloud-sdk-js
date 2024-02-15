@@ -77,7 +77,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: "lts/*"
-          registry-url: "https://npm.pkg.github.com" # Needed? Test!
+          registry-url: "https://npm.pkg.github.com" # Needed? Test!!
           scope: "@moovit-sp-gmbh"
 
       - name: Install dependencies (plugins) for semantic-release

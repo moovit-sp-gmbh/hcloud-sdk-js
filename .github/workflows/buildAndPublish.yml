@@ -85,7 +85,7 @@ jobs:
       - name: Publish package and generate changelog with semantic-release. The specific tasks executed by this package are defined in release.config.js
         run: pnpx semantic-release
         env:
-          GITHUB_TOKEN: ${{ secrets.SEMANTIC_RELEASE_REPO_WORKFLOW_PACKAGE }}
-          NODE_AUTH_TOKEN: ${{ secrets.SEMANTIC_RELEASE_REPO_WORKFLOW_PACKAGE }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # - name: Post updates to Telegram (think there also is a plugin for semantic-release?)

@@ -42,7 +42,7 @@ jobs:
   buildAndPublish:
     needs: runTests
     permissions: write-all
-    runs-on: self-hosted # Didn't work on self-hosted the last time, but should be tried again
+    runs-on: self-hosted
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3

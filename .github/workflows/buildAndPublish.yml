@@ -42,12 +42,12 @@ jobs:
   buildAndPublish:
     needs: runTests
     permissions: write-all
-    runs-on: self-hosted
+    runs-on: self-hosted # Didn't work on self-hosted the last time, but should be tried again
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.SEMANTIC_RELEASE_REPO_WORKFLOW_PACKAGE }}
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v2.4.0

@@ -19,7 +19,7 @@ export interface Cronjob {
     enabled?: boolean;
     createDate: number;
     modifyDate: number;
-    nextExecution?: number;
+    nextExecution?: number[];
 }
 
 export type CronjobCreate = Pick<Cronjob, "name" | "expression" | "targetUrl" | "httpMethod" | "headers" | "body" | "enabled" | "description"> &

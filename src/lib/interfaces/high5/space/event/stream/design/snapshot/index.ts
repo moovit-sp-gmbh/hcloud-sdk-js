@@ -6,7 +6,7 @@ import { DesignContent } from "../StreamDesign";
 export default interface DesignSnapshot {
     _id: string;
     name: string;
-    content: DesignContent;
+    content?: DesignContent;
     build?: unknown;
     streamId: string;
     event: ReducedEvent;

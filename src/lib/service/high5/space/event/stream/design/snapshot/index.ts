@@ -11,8 +11,11 @@ export default class High5DesignSnapshots extends Base {
      * @param spaceName Name of the space
      * @param eventName Name of the event
      * @param streamId ID of the stream
+     * @param content (optional) Is it necessary to retrieve content for each snapshot (disabled by default)
      * @param filters Search filters to apply
      * @param sorting Sorting criteria for the result
+     * @param limit (optional) Max number of results (1-100; defaults to 25)
+     * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
      * @returns Object containing an array of snapshots of the stream design and the total number of results found in the database (independent of limit and page)
      */
     public search = async (
@@ -20,6 +23,7 @@ export default class High5DesignSnapshots extends Base {
         spaceName: string,
         eventName: string,
         streamId: string,
+        content = false,
         { filters, sorting, limit = 25, page = 0 }: SearchParams
     ): Promise<PaginatedResponse<DesignSnapshot>> => {
         const filtersDTO = filters?.map((f: SearchFilter) => {
@@ -33,7 +37,7 @@ export default class High5DesignSnapshots extends Base {
                 sorting,
             },
             {
-                params: { limit, page },
+                params: { content, limit, page },
             }
         );
 

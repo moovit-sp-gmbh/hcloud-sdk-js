@@ -20,7 +20,12 @@ export interface Cronjob {
     createDate: number;
     modifyDate: number;
     nextExecution?: number;
+    lastStatus?: number;
+    lastTriggered?: number;
 }
 
-export type CronjobCreate = Pick<Cronjob, "name" | "expression" | "targetUrl" | "httpMethod" | "headers" | "body" | "enabled" | "description"> &
+export type CronjobCreate = Pick<
+    Cronjob,
+    "name" | "expression" | "targetUrl" | "httpMethod" | "headers" | "body" | "enabled" | "description" | "lastStatus" | "lastTriggered"
+> &
     Partial<Pick<Cronjob, "acceptInvalidSSL" | "timezone">>;

@@ -1,6 +1,6 @@
 {
-    "name": "hcloud-sdk",
-    "version": "0.0.96",
+    "name": "@moovit-sp-gmbh/hcloud-sdk",
+    "version": "1.0.0",
     "description": "hcloud platform sdk",
     "main": "index.js",
     "types": "index.d.ts",
@@ -17,6 +17,9 @@
         "type": "git",
         "url": "git+https://github.com/moovit-sp-gmbh/hcloud-sdk-js.git"
     },
+    "publishConfig": {
+        "registry": "https://npm.pkg.github.com"
+      },
     "keywords": [
         "hcloud",
         "sdk"
@@ -41,6 +44,7 @@
         "eslint-plugin-import": "^2.27.5",
         "mocha": "^10.0.0",
         "prettier": "^2.6.2",
+        "semantic-release": "^23.0.0",
         "ts-node": "^10.8.0",
         "typescript": "^4.7.2",
         "uuid": "^8.3.2",

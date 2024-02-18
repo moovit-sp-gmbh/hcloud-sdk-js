@@ -1,0 +1,76 @@
+name: Build and publish to GitHub Packages
+
+on:
+  push:
+    branches:
+      - staging
+
+jobs:
+  # To further reduce execution time of this workflow, we could combine the two jobs listed here (they contain duplicate actions)
+  runTests:
+    runs-on: self-hosted
+
+    strategy:
+      matrix:
+        node-version: [16.14.2]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 7.5.1
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - run: make prepare
+
+      - run: make lint
+
+      - run: make test
+
+  buildAndPublish:
+    needs: runTests
+    permissions: write-all
+    runs-on: ubuntu-latest # currently not working on self-hosted
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2.4.0
+        with:
+          version: 8.15.1
+
+      - name: Setup node version needed for build
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16.14.2"
+
+      - run: make prepare
+
+      - run: make build
+
+      - run: make preparePublish
+
+      - name: Setup node for semantic-release (needs node v20.8.1 or higher)
+        uses: actions/setup-node@v3
+        with:
+          node-version: "lts/*"
+          registry-url: "https://npm.pkg.github.com"
+          scope: "@moovit-sp-gmbh"
+
+      - name: Install dependencies (so-called plugins) for semantic-release
+        run: pnpm add @semantic-release/changelog @semantic-release/git
+
+      - name:
+          Publish package and generate changelog with semantic-release. The specific tasks executed by this package are defined in release.config.js
+        run: pnpx semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # - name: Post updates to Telegram (think there also is a plugin for semantic-release that can to this?)

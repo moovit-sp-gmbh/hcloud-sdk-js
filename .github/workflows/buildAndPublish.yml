@@ -42,7 +42,7 @@ jobs:
   buildAndPublish:
     needs: runTests
     permissions: write-all
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3

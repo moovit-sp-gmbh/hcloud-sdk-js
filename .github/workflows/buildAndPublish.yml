@@ -46,8 +46,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-        with:
-          token: ${{ secrets.SEMANTIC_RELEASE_REPO_WORKFLOW_PACKAGE }}
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v2.4.0

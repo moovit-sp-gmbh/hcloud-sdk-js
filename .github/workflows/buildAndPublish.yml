@@ -16,30 +16,31 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      #- uses: pnpm/action-setup@v2.0.1
-      #  with:
-      #    version: 7.5.1
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 7.5.1
 
-      #- name: Use Node.js ${{ matrix.node-version }}
-      #  uses: actions/setup-node@v3
-      #  with:
-      #    node-version: ${{ matrix.node-version }}
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
 
-      #- name: Cache pnpm modules
-      #  uses: actions/cache@v2 # Maybe update to v4
-      #  with:
-      #    path: ~/.pnpm-store
-      #    key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-      #    restore-keys: |
-      #      ${{ runner.os }}-
+      # - name: Cache pnpm modules
+      #   uses: actions/cache@v4
+      #   with:
+      #     path: ~/.pnpm-store
+      #     key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-
 
-      # - run: make prepare
+      - run: make prepare
 
-      # - run: make lint
+      - run: make lint
 
-      # - run: make test
+      - run: make test
 
   buildAndPublish:
+    if: false
     needs: runTests
     permissions: write-all
     runs-on: ubuntu-latest
@@ -58,7 +59,7 @@ jobs:
           node-version: "16.14.2"
 
       - name: Cache pnpm modules
-        uses: actions/cache@v2 # Maybe upgrade to v4. Also, if installing deps is still not be performant, maybe combine runTest and buildAndPublish workflows, so that 'make prepare' (and also other actions) are only executed once.
+        uses: actions/cache@v4 # Maybe upgrade to v4. Also, if installing deps is still not be performant, maybe combine runTest and buildAndPublish workflows, so that 'make prepare' (and also other actions) are only executed once.
         with:
           path: ~/.pnpm-store
           key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
@@ -71,17 +72,16 @@ jobs:
 
       - run: make preparePublish
 
-      # Command from make publish command was: pnpm publish ./build --no-git-checks
+      # Command previously from make publish command was: pnpm publish ./build --no-git-checks
 
-      # Publishing, generating of changelog and updates to Telegram (everything below this line) could also happen in a different job. Would be less performant though.
       - name: Setup node for semantic-release (needs node v20.8.1 or higher)
         uses: actions/setup-node@v3
         with:
           node-version: "lts/*"
-          registry-url: "https://npm.pkg.github.com"
-          scope: "@moovit-sp-gmbh"
+          registry-url: "https://npm.pkg.github.com" # Needed despite already being specified in package.json
+          scope: "@moovit-sp-gmbh" # Above comment probably counts for this too
 
-      - name: Install dependencies (plugins) for semantic-release
+      - name: Install dependencies (so-called plugins) for semantic-release
         run: pnpm add @semantic-release/changelog @semantic-release/git
 
       - name:

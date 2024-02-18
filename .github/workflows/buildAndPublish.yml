@@ -73,4 +73,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # - name: Post updates to Telegram (think there also is a plugin for semantic-release that can to this)
+      # - name: Post updates to Telegram (think there also is a plugin for semantic-release that can to this?)

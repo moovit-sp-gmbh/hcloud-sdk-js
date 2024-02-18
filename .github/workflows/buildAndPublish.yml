@@ -81,13 +81,6 @@ jobs:
           registry-url: "https://npm.pkg.github.com"
           scope: "@moovit-sp-gmbh"
 
-      - name: Update package.json name # Why is this happening here? Why not specify in package.json?
-        uses: jossef/action-set-json-field@v2
-        with:
-          file: package.json
-          field: name
-          value: "@moovit-sp-gmbh/hcloud-sdk"
-
       - name: Install dependencies (plugins) for semantic-release
         run: pnpm add @semantic-release/changelog @semantic-release/git
 

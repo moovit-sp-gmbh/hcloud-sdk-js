@@ -1,5 +1,5 @@
 {
-    "name": "hcloud-sdk",
+    "name": "@moovit-sp-gmbh/hcloud-sdk",
     "version": "0.0.91",
     "description": "hcloud platform sdk",
     "main": "index.js",

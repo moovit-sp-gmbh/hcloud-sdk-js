@@ -84,12 +84,6 @@ jobs:
       - name: Install dependencies (plugins) for semantic-release
         run: pnpm add @semantic-release/changelog @semantic-release/git
 
-      - name: Authenticate with private NPM package
-        run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.GHCRIO_TOKEN_MSP }}" > ~/.npmrc 
-
-      - name: Set private npm scope
-        run: echo "@moovit-sp-gmbh:registry=https://npm.pkg.github.com/" >> ~/.npmrc
-
       - name: Publish package and generate changelog with semantic-release. The specific tasks executed by this package are defined in release.config.js
         run: pnpx semantic-release
         env:

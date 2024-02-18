@@ -24,11 +24,10 @@ build: format lint
 	rm -rf build/
 	pnpm build
 
-publish: build
+preparePublish:
 	cp package*.json build/
 	cp *.md build/
 	cp LICENSE build/
-	pnpm publish ./build --no-git-checks
 
 scan:
 	docker pull opensecurity/njsscan

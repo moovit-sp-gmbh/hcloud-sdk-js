@@ -1,3 +1,12 @@
+# [1.2.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v1.1.0...v1.2.0) (2024-02-18)
+
+
+### Features
+
+* asfesg ([76701ff](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/76701ff05fdfecd38d39a4b2de3b2712ae9afffb))
+* asfgew ([1542f9b](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/1542f9b0946135c3e948ab6affeee71196e38de2))
+* asfweg2 ([e611e54](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/e611e54680f9e506c727ad2628bb15ad43c5c470))
+
 # [1.1.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v1.0.0...v1.1.0) (2024-02-18)
 
 

@@ -1,3 +1,10 @@
+## [1.5.1](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v1.5.0...v1.5.1) (2024-02-18)
+
+
+### Bug Fixes
+
+* asddsaa ([6437aae](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/6437aae3e5b6a70bb47889dd3e6274c00252f2c1))
+
 # [1.5.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v1.4.0...v1.5.0) (2024-02-18)
 
 

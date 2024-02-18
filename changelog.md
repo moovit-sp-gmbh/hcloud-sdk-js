@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v1.2.0...v1.3.0) (2024-02-18)
+
+
+### Features
+
+* asfasgs ([4b103cd](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/4b103cdd8ec5c247576ea28baf5094c127593026))
+
 # [1.2.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v1.1.0...v1.2.0) (2024-02-18)
 
 

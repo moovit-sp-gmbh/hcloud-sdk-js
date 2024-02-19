@@ -129,8 +129,13 @@ export class High5Space extends Base {
      * @param permission New permission
      * @returns The Space with updated permissions
      */
-    public patchUserSpacePermission = async (orgName: string, spaceName: string, userId: string, permission: SpacePermission): Promise<Space> => {
-        const resp = await this.axios.patch<Space>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/permission/user`), {
+    public patchUserSpacePermission = async (
+        orgName: string,
+        spaceName: string,
+        userId: string,
+        permission: SpacePermission
+    ): Promise<SpacePermissionResponse> => {
+        const resp = await this.axios.patch<SpacePermissionResponse>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/permission/user`), {
             userId,
             permission,
         });
@@ -151,8 +156,8 @@ export class High5Space extends Base {
         spaceName: string,
         teamName: string,
         permission: SpacePermission
-    ): Promise<High5Space> => {
-        const resp = await this.axios.patch<High5Space>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/permission/team`), {
+    ): Promise<SpacePermissionResponse> => {
+        const resp = await this.axios.patch<SpacePermissionResponse>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/permission/team`), {
             teamName,
             permission,
         });

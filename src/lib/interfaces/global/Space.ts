@@ -1,6 +1,22 @@
 import { ReducedOrganization } from "../idp/organization";
 import { ReducedUser } from "../idp/user";
 
+export enum SpacePermission {
+    NONE = "NONE",
+    READ = "READ",
+    EXECUTE = "EXECUTE",
+    WRITE = "WRITE",
+    MANAGE = "MANAGE",
+    OWNER = "OWNER",
+}
+export interface SpaceEntityPermission {
+    orgId: string;
+    spaceId: string;
+    entityId: string;
+    type: SpaceEntity;
+    permission: SpacePermission;
+}
+
 export interface Space {
     _id: string;
     name: string;

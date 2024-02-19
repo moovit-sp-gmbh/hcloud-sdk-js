@@ -17,6 +17,15 @@ export interface SpaceEntityPermission {
     permission: SpacePermission;
 }
 
+export interface SpacePermissionResponse {
+    organization: ReducedOrganization;
+    space: ReducedSpace;
+    entityId: string;
+    entityName: string;
+    type: SpaceEntity;
+    permission: SpacePermission;
+}
+
 export interface Space {
     _id: string;
     name: string;

@@ -1,20 +1,3 @@
-export interface StreamNodeSpecification {
-    name: string;
-    description: string;
-    type: StreamNodeSpecificationType;
-    package: StreamNodeSpecificationPackage;
-    category: StreamNodeSpecificationCategory;
-    version: StreamSemanticVersion;
-    author: StreamNodeSpecificationAuthor;
-    inputs?: StreamNodeSpecificationInput[];
-    outputs?: StreamNodeSpecificationOutput[];
-    additionalConnectors?: StreamNodeSpecificationAdditionalConnector[];
-    tag?: StreamNodeSpecificationTag;
-    requireSdk?: boolean;
-    path: string;
-    customNode?: StreamCustomNodeSpecification;
-}
-
 export interface StreamCustomNodeSpecification {
     _id: string;
 }

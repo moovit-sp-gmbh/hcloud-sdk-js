@@ -61,4 +61,5 @@ export interface AuditLog {
     timestamp: number;
     message?: unknown;
     expireAt: Date;
+    requestorIp: string;
 }

@@ -21,12 +21,12 @@ export class AgentContext extends Base {
      * Add a new context.
      * @returns The newly created context
      */
-    public addContext = async (server: string, email: string, token: string, autoConnect: boolean): Promise<Context> => {
+    public addContext = async (server: string, email: string, token: string, enabled: boolean): Promise<Context> => {
         const resp = await this.axios.post<Context>(this.getEndpoint(`/v1/context`), {
             server,
             email,
             token,
-            autoConnect,
+            enabled,
         });
 
         return resp.data;
@@ -36,12 +36,12 @@ export class AgentContext extends Base {
      * Update an existing context.
      * @returns The updated context
      */
-    public updateContext = async (server: string, email: string, token: string, autoConnect: boolean): Promise<Context> => {
+    public updateContext = async (server: string, email: string, token: string, enabled: boolean): Promise<Context> => {
         const resp = await this.axios.patch<Context>(this.getEndpoint(`/v1/context`), {
             server,
             email,
             token,
-            autoConnect,
+            enabled,
         });
 
         return resp.data;
@@ -66,25 +66,15 @@ export class AgentContext extends Base {
     };
 
     /**
-     * Join a context.
-     * @returns void
+     * Patch the enabled property of a Context.
+     * @returns Updated Context
      */
-    public joinContext = async (email: string, server: string): Promise<void> => {
-        await this.axios.post<Context>(this.getEndpoint(`/v1/context/join`), {
-            email,
-            server,
+    public patchContextEnabled = async (uuid: string, enabled: boolean): Promise<Context> => {
+        const res = await this.axios.patch<Context>(this.getEndpoint(`/v1/context/${uuid}/enabled`), {
+            enabled,
         });
-    };
 
-    /**
-     * Leave a context.
-     * @returns void
-     */
-    public leaveContext = async (email: string, server: string): Promise<void> => {
-        await this.axios.post<Context>(this.getEndpoint(`/v1/context/join`), {
-            email,
-            server,
-        });
+        return res.data;
     };
 
     protected getEndpoint(endpoint: string): string {

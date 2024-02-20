@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.95
+
+-   **BREAKING**: Remove duplicate StreamNodeSpecification interface and align the remaining one (interfaces/high5/wave/index.ts) with the one defined in wave-engine
+
 ## 0.0.94
 
 -   Add endpoint to resend organization invitation email

@@ -113,6 +113,16 @@ export default class IdpOrganizationMemberInvitations extends Base {
     };
 
     /**
+     * Resends an invitation email.
+     *
+     * @param orgName Name of the Organization
+     * @param invitationId ID of the invitation
+     */
+    public resendInvitationEmail = async (orgName: string, invitationId: string): Promise<void> => {
+        await this.axios.post<void>(this.getEndpoint(`/${orgName}/members/invitations/${invitationId}/resend`));
+    };
+
+    /**
      * Cancel/Delete an invitation.
      *
      * @param orgName Name of the Organization

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.94
+
+-   Add endpoint to resend organization invitation email
+
 ## 0.0.93
 
 -   **BREAKING**: Remove centralized SpacePermission and SpaceEntityPermission interface and create separate ones for Fuse and High5

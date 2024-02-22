@@ -1,5 +1,8 @@
 import { AxiosInstance } from "axios";
 import Base, { Options } from "../../../../../Base";
+import { createPaginatedResponse } from "../../../../../helper/paginatedResponseHelper";
+import { SearchFilterDTO } from "../../../../../helper/searchFilter";
+import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../../interfaces/global";
 import { Pat, PatCreate, PatUpdate } from "../../../../../interfaces/idp/user/Pat";
 
 export class IdpPat extends Base {
@@ -8,13 +11,26 @@ export class IdpPat extends Base {
     }
 
     /**
-     * Retrieves all personal access tokens (PATs) of the requesting user.
-     * @returns Array of PAT objects
+     * Search all personal access tokens (PATs) of the requesting user.
+     * @returns Paginated response of PAT objects
      */
-    public getPats = async (): Promise<Pat[]> => {
-        const resp = await this.axios.get<Pat[]>(this.getEndpoint(`/v1/user/settings/pats`));
+    public searchPats = async ({ filters, sorting, limit = 25, page = 0 }: SearchParams): Promise<PaginatedResponse<Pat>> => {
+        const filtersDTO = filters?.map((f: SearchFilter) => {
+            return new SearchFilterDTO(f);
+        });
 
-        return resp.data;
+        const resp = await this.axios.post<Pat[]>(
+            this.getEndpoint(`/v1/user/settings/pats/search`),
+            {
+                filters: filtersDTO,
+                sorting,
+            },
+            {
+                params: { limit, page },
+            }
+        );
+
+        return createPaginatedResponse(resp) as PaginatedResponse<Pat>;
     };
 
     /**

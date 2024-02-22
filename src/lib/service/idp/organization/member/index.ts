@@ -36,10 +36,8 @@ export class IdpOrganizationMember extends Base {
             return new SearchFilterDTO(f);
         });
         const resp = await this.axios.post<OrganizationMember[]>(this.getEndpoint(`/${orgName}/members/search?limit=${limit}&page=${page}`), {
-            searchFilter: {
-                filters: filtersDTO,
-                sorting: sorting,
-            },
+            filters: filtersDTO,
+            sorting,
             excludeTeamByName,
         });
 

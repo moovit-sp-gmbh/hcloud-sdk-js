@@ -1,3 +1,9 @@
 #!/bin/sh
 
+# Exit if run in a GitHub workflow
+if [ "$GITHUB_ACTIONS" = "true" ]; then
+    echo "Running on GitHub Actions. Skipping pre-commit hook."
+    exit 0
+fi
+
 node ./node_modules/@commitlint/cli/lib/cli.js --edit $1

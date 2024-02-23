@@ -1,10 +1,10 @@
 import { AxiosInstance } from "axios";
 import Base, { Options } from "../../../Base";
-import { PaginatedResponse, SearchFilter, SearchParams, SpacePermission } from "../../../interfaces/global";
+import { PaginatedResponse, SearchFilter, SearchParams } from "../../../interfaces/global";
 import { SearchFilterDTO } from "../../../helper/searchFilter";
 import { createPaginatedResponse } from "../../../helper/paginatedResponseHelper";
 import { FuseCronjob } from "./cronjob";
-import { FuseSpace as IFuseSpace } from "../../../interfaces/fuse/space";
+import { FuseSpace as IFuseSpace, FuseSpacePermission as SpacePermission } from "../../../interfaces/fuse/space";
 
 export class FuseSpace extends Base {
     public cronjob: FuseCronjob;

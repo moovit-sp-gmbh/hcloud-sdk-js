@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.0.94
+
+-   Add endpoint to resend organization invitation email
+
+## 0.0.93
+
+-   **BREAKING**: Remove centralized SpacePermission and SpaceEntityPermission interface and create separate ones for Fuse and High5
+
+## 0.0.92
+
+-   Add optional targetUrl parameter to Register/Renew register and forgot password endpoints. That one will be used for link creation in the corresponding mail
+
 ## 0.0.91
 
 -   **BREAKING**: Rename customTag to tag in interface StreamNodeSecification

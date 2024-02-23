@@ -50,18 +50,21 @@ export default class IdpOrganizationMemberInvitations extends Base {
      * @param allowNonRegisteredUsers Flag to determine if the invitation should go through in the case that the email is not bound to an Helmut Cloud user.
      *                                If this is set to true and the email is unbound, then an email will be sent asking the person to register.
      *                                When they do they will automatically join the organization.
+     * @param targetUrl Optional url the link in the mail will point to
      * @returns The created invitation
      */
     public create = async (
         orgName: string,
         email: string,
         role: OrganizationRole,
-        allowNonRegisteredUsers = false
+        allowNonRegisteredUsers = false,
+        targetUrl?: string
     ): Promise<OrganizationMemberInvitation> => {
         const resp = await this.axios.post<OrganizationMemberInvitation>(this.getEndpoint(`/${orgName}/members/invitations`), {
             email,
             role,
             allowNonRegisteredUsers,
+            targetUrl,
         });
 
         return resp.data;
@@ -107,6 +110,16 @@ export default class IdpOrganizationMemberInvitations extends Base {
         );
 
         return resp.data;
+    };
+
+    /**
+     * Resends an invitation email.
+     *
+     * @param orgName Name of the Organization
+     * @param invitationId ID of the invitation
+     */
+    public resendInvitationEmail = async (orgName: string, invitationId: string): Promise<void> => {
+        await this.axios.post<void>(this.getEndpoint(`/${orgName}/members/invitations/${invitationId}/resend`));
     };
 
     /**

@@ -1,7 +1,11 @@
 import { AxiosInstance } from "axios";
 import Base, { Options } from "../../../Base";
-import { High5Space as Space, High5SpacePermission as SpacePermission} from "../../../interfaces/high5/space";
-import { PaginatedResponse, SearchFilter, SearchParams, SpacePermissionResponse } from "../../../interfaces/global";
+import {
+    High5SpaceEntityPermission as SpaceEntityPermission,
+    High5Space as Space,
+    High5SpacePermission as SpacePermission,
+} from "../../../interfaces/high5/space";
+import { PaginatedResponse, SearchFilter, SearchParams } from "../../../interfaces/global";
 import { SearchFilterDTO } from "../../../helper/searchFilter";
 import { createPaginatedResponse } from "../../../helper/paginatedResponseHelper";
 import { High5Event } from "./event";
@@ -57,8 +61,7 @@ export class High5Space extends Base {
     };
 
     /**
-     * Retrieves Permissions of a space inside an Organization matching the search filter(s). Will return all Permissions if no search filter is provided
-     * and user has enough rights to see them, an empty array otherwise.
+     * Retrieves permissions of a space matching the search filter(s). Will return all permissions of the space if no search filter is provided.
      * @param orgName Name of the organization
      * @param spaceName Name of the space
      * @param filters (optional) Array of search filters
@@ -74,10 +77,10 @@ export class High5Space extends Base {
         sorting,
         limit = 25,
         page = 0,
-    }: SearchParams & { orgName: string; spaceName: string }): Promise<PaginatedResponse<SpacePermissionResponse>> => {
+    }: SearchParams & { orgName: string; spaceName: string }): Promise<PaginatedResponse<SpaceEntityPermission>> => {
         const filtersDTO = filters?.map((f: SearchFilter) => new SearchFilterDTO(f));
 
-        const resp = await this.axios.post<SpacePermissionResponse[]>(
+        const resp = await this.axios.post<SpaceEntityPermission[]>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/permissions/search?page=${page}&limit=${limit}`),
             {
                 filters: filtersDTO,
@@ -85,7 +88,7 @@ export class High5Space extends Base {
             }
         );
 
-        return createPaginatedResponse(resp) as PaginatedResponse<SpacePermissionResponse>;
+        return createPaginatedResponse(resp) as PaginatedResponse<SpaceEntityPermission>;
     };
 
     /**
@@ -122,20 +125,20 @@ export class High5Space extends Base {
     };
 
     /**
-     * Updates the permission a User has in the specified High5 Space.
+     * Adds/Updates/Removes the permission a user has in the specified space.
      * @param orgName Name of the Organization
      * @param spaceName Name of the Space
      * @param userId ID of the User
      * @param permission New permission
      * @returns The Space with updated permissions
      */
-    public patchUserSpacePermission = async (
+    public updateUserSpacePermission = async (
         orgName: string,
         spaceName: string,
         userId: string,
         permission: SpacePermission
-    ): Promise<SpacePermissionResponse> => {
-        const resp = await this.axios.patch<SpacePermissionResponse>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/permission/user`), {
+    ): Promise<SpaceEntityPermission> => {
+        const resp = await this.axios.put<SpaceEntityPermission>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/permission/user`), {
             userId,
             permission,
         });
@@ -144,20 +147,20 @@ export class High5Space extends Base {
     };
 
     /**
-     * Updates the permission a Team has in the specified High5 Space.
+     * Adds/Updates/Removes the permission a team has in the specified space. Note: A team cannot be an owner of a Space.
      * @param orgName Name of the Organization
      * @param spaceName Name of the Space
      * @param teamName Name of the Team
      * @param permission New permission
      * @returns The Space with updated permissions
      */
-    public patchTeamSpacePermission = async (
+    public updateTeamSpacePermission = async (
         orgName: string,
         spaceName: string,
         teamName: string,
         permission: SpacePermission
-    ): Promise<SpacePermissionResponse> => {
-        const resp = await this.axios.patch<SpacePermissionResponse>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/permission/team`), {
+    ): Promise<SpaceEntityPermission> => {
+        const resp = await this.axios.put<SpaceEntityPermission>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/permission/team`), {
             teamName,
             permission,
         });

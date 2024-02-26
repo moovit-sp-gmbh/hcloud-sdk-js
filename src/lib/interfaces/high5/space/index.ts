@@ -1,4 +1,5 @@
-import { Space, SpaceEntity } from "../../global";
+import { ReducedSpace, Space, SpaceEntity } from "../../global";
+import { ReducedOrganization } from "../../idp";
 
 type ExtendWith<T1, T2> = T1 & T2;
 
@@ -7,7 +8,10 @@ export interface High5Space extends Space {
     waveEngine: string;
 }
 export interface High5SpaceEntityPermission {
+    organization: ReducedOrganization;
+    space: ReducedSpace;
     entityId: string;
+    entityName: string;
     type: SpaceEntity;
     permission: High5SpacePermission;
 }

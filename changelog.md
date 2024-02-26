@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.96
+
+-   **BREAKING**: Add/refactor endpoints to add/update/remove space permissions (SpacePermissions are not part of the space object anymore, but live in their own collection)
+
 ## 0.0.95
 
 -   **BREAKING**: Remove duplicate StreamNodeSpecification interface and align the remaining one (interfaces/high5/wave/index.ts) with the one defined in wave-engine

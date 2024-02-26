@@ -18,11 +18,22 @@ module.exports = {
                 assets: ["changelog.md"],
             },
         ],
-        "@semantic-release/github",
+        [
+            "@semantic-release/github",
+            {
+                successComment: false,
+            },
+        ],
         [
             "@semantic-release/npm",
             {
                 pkgRoot: "build",
+            },
+        ],
+        [
+            "semantic-release-telegram",
+            {
+                chats: [-1001743446580],
             },
         ],
     ],

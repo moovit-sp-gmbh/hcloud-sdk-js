@@ -1,9 +1,6 @@
 #!/bin/sh
 
-# Exit if hook is triggered inside a GitHub workflow. It will otherwise be triggered 
-# by semantic-release (when the changelog is commited to the repository) and fail, likely
-# due to differences in the shell environment between local machine and the GitHub Actions 
-# runner (this script is not strictly sh and uses bash syntax).
+# Exit if hook is triggered inside a GitHub workflow
 if [ "$GITHUB_ACTIONS" = "true" ]; then
     echo "Running on GitHub Actions. Skipping pre-commit hook."
     exit 0

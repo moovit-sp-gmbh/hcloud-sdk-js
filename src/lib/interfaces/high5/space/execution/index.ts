@@ -101,6 +101,7 @@ export interface High5ExecutionStatus {
 export interface High5ExecutionLog {
     _id: string;
     streamId: string;
+    payload?: High5ExecutionPayload;
     high5ExecutionId: string;
     nodeResults: StreamSingleNodeResult[];
 }

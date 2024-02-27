@@ -142,6 +142,7 @@ export enum StreamNodeSpecificationType {
 export enum StreamNodeSpecificationTag {
     PREVIEW = "PREVIEW",
     EXPERIMENTAL = "EXPERIMENTAL",
+    DEPRECATED = "DEPRECATED",
 }
 
 export enum StreamNodeSpecificationPackage {

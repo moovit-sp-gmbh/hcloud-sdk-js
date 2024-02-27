@@ -1,5 +1,5 @@
 import Base from "../../../../Base";
-import { License, LicenseTier } from "../../../../interfaces/idp/organization/license";
+import { License } from "../../../../interfaces/idp/organization/license";
 
 export class IdpOrganizationLicense extends Base {
     public getLicense = async (orgName: string): Promise<License> => {
@@ -8,8 +8,8 @@ export class IdpOrganizationLicense extends Base {
         return res.data;
     };
 
-    public updateLicense = async (orgName: string, tier: LicenseTier, uuid?: string): Promise<License> => {
-        const res = await this.axios.put<License>(this.getEndpoint(`/org/${orgName}/license`), { tier, uuid });
+    public updateLicense = async (orgName: string, token: string): Promise<License> => {
+        const res = await this.axios.put<License>(this.getEndpoint(`/org/${orgName}/license`), { identifier: token });
 
         return res.data;
     };

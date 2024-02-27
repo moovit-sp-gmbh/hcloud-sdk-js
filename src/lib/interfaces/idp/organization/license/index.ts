@@ -83,4 +83,6 @@ export enum LicenseTier {
 
 export enum LicenseType {
     PRODUCTION = "PRODUCTION",
+    POC = "POC",
+    THIRD_PARTY = "THIRD_PARTY",
 }

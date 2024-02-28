@@ -64,7 +64,7 @@ jobs:
           scope: "@moovit-sp-gmbh"
 
       - name: Install dependencies (so-called plugins) for semantic-release
-        run: pnpm add @semantic-release/changelog @semantic-release/git semantic-release-telegram
+        run: pnpm add @semantic-release/changelog @semantic-release/git semantic-release-telegram conventional-changelog-conventionalcommits
 
       - name:
           Publish package and generate changelog with semantic-release. The specific tasks executed by this package are defined in release.config.js

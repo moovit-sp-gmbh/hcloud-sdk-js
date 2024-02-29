@@ -59,6 +59,7 @@ export interface Specification {
 export interface StreamNodeSpecification {
     name: string;
     description: string;
+    documentation: string;
     type: StreamNodeSpecificationType;
     package: StreamNodeSpecificationPackage;
     category: StreamNodeSpecificationCategory;
@@ -110,6 +111,7 @@ export interface StreamNodeSpecificationOutput {
     description: string;
     type: StreamNodeSpecificationInputOutputType;
     example: any;
+    howToAccess: string[];
 }
 
 export enum StreamNodeSpecificationInputOutputType {

@@ -10,6 +10,7 @@ enum NatsSubject {
 
     IDP_ORGANIZATION_GENERAL = "hcloud.idp.organization.${organizationId}.general",
     IDP_ORGANIZATION_MEMBERS = "hcloud.idp.organization.${organizationId}.members",
+    IDP_ORGANIZATION_MEMBERS_EXECUTION_TARGET = "hcloud.idp.organization.${organizationId}.members.${memberEmail}.executionTarget",
     IDP_ORGANIZATION_TEAMS = "hcloud.idp.organization.${organizationId}.teams",
 
     HIGH5_SPACES = "hcloud.high5.organization.${organizationId}.spaces",
@@ -112,8 +113,22 @@ class NatsSubjects {
             static GENERAL = (organizationId: string) => {
                 return NatsSubjects.replace(NatsSubject.IDP_ORGANIZATION_GENERAL, { organizationId } as NatsSubjectReplacements);
             };
-            static MEMBERS = (organizationId: string) => {
-                return NatsSubjects.replace(NatsSubject.IDP_ORGANIZATION_MEMBERS, { organizationId } as NatsSubjectReplacements);
+            static MEMBERS = (organizationId: string): string & { EXECUTION_TARGET: (email: string) => string } => {
+                return Object.defineProperty(
+                    Object(NatsSubjects.replace(NatsSubject.IDP_ORGANIZATION_MEMBERS, { organizationId } as NatsSubjectReplacements)),
+                    "EXECUTION_TARGET",
+                    {
+                        value: function (memberEmail: string) {
+                            return NatsSubjects.replace(NatsSubject.IDP_ORGANIZATION_MEMBERS_EXECUTION_TARGET, {
+                                organizationId,
+                                base64email: memberEmail,
+                            } as NatsSubjectReplacements);
+                        },
+                        writable: false,
+                        enumerable: false,
+                        configurable: true,
+                    }
+                ) as string & { EXECUTION_TARGET: (email: string) => string };
             };
             static TEAMS = (organizationId: string) => {
                 return NatsSubjects.replace(NatsSubject.IDP_ORGANIZATION_TEAMS, { organizationId } as NatsSubjectReplacements);

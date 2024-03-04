@@ -1,3 +1,10 @@
+## [1.1.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v1.0.0...v1.1.0) (2024-03-04)
+
+
+### Features
+
+* add additional properties to node specification ([ffa08a4](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/ffa08a431b6412e98a9edabe9020d38c2d5d992c))
+
 ## 1.0.0 (2024-02-29)
 
 

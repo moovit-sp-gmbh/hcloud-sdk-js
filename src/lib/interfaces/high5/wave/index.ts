@@ -70,7 +70,13 @@ export interface StreamNodeSpecification {
     inputs?: StreamNodeSpecificationInput[];
     outputs?: StreamNodeSpecificationOutput[];
     additionalConnectors?: StreamNodeSpecificationAdditionalConnector[];
+    path?: string
+    customNode?: StreamCustomNodeSpecification
 }
+
+export interface StreamCustomNodeSpecification {
+    _id: string
+  }
 
 export interface StreamSemanticVersion {
     /**

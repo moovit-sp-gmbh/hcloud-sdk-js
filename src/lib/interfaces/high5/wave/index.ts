@@ -112,13 +112,27 @@ export interface StreamNodeSpecificationInput {
     mandatory?: boolean;
 }
 
-export interface StreamNodeSpecificationOutput {
+export type PrimitiveOutput = {
+    type: Exclude<
+        StreamNodeSpecificationInputOutputType,
+        StreamNodeSpecificationInputOutputType.OBJECT | StreamNodeSpecificationInputOutputType.LIST
+    >;
+};
+export type ObjectOutput = {
+    type: StreamNodeSpecificationInputOutputType.OBJECT;
+    shape?: StreamNodeSpecificationOutput[];
+};
+export type ListOutput = {
+    type: StreamNodeSpecificationInputOutputType.LIST;
+    elemType?: PrimitiveOutput | ObjectOutput | ListOutput;
+};
+
+export type StreamNodeSpecificationOutput = {
     name: string;
     description: string;
-    type: StreamNodeSpecificationInputOutputType;
     example: any;
     howToAccess: string[];
-}
+} & (PrimitiveOutput | ObjectOutput | ListOutput);
 
 export enum StreamNodeSpecificationInputOutputType {
     STRING = "STRING",

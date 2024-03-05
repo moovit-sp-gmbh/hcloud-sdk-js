@@ -133,6 +133,9 @@ export enum StreamNodeSpecificationInputOutputType {
     BOOLEAN = "BOOLEAN",
 
     ANY = "ANY",
+
+    OBJECT = "OBJECT",
+    LIST = "LIST",
 }
 
 export interface StreamNodeSpecificationAuthor {

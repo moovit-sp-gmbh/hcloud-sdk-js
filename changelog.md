@@ -1,3 +1,10 @@
+## [1.2.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v1.1.0...v1.2.0) (2024-03-05)
+
+
+### Features
+
+* **wave:** add optional path & custom nodes to StreamNodeSpecification ([dd07707](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/dd0770768e9d59a8ff5a3805e25c27ce17160bf4))
+
 ## [1.1.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v1.0.0...v1.1.0) (2024-03-04)
 
 

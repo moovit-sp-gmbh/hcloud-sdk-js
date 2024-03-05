@@ -1,3 +1,10 @@
+## [1.3.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v1.2.0...v1.3.0) (2024-03-05)
+
+
+### Features
+
+* add new node spec category ([272293d](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/272293d2dd9d88b401e5cedea718456ff1cc1b0b))
+
 ## [1.2.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v1.1.0...v1.2.0) (2024-03-05)
 
 

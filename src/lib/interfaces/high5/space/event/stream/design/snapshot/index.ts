@@ -14,6 +14,7 @@ export default interface DesignSnapshot {
     organization: ReducedOrganization;
     creator: ReducedUser;
     designHash: string;
+    type: SnapshotType;
     /**
      * UTC+0 unix timestamp
      */
@@ -22,4 +23,9 @@ export default interface DesignSnapshot {
      * UTC+0 unix timestamp
      */
     modifyDate: number;
+}
+
+export enum SnapshotType {
+    MANUAL = "manual",
+    PUBLISHED = "published",
 }

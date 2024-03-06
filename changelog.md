@@ -1,3 +1,11 @@
+## [1.4.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v1.3.0...v1.4.0) (2024-03-06)
+
+
+### Features
+
+* add more node output types ([fb1f44a](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/fb1f44ae03cf582cd0164cf50f779db7b7d999ba))
+* add OBJECT and LIST to node spec i/o type ([7b9e3ad](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/7b9e3ad841578804421e24305c8ad808d373f837))
+
 ## [1.3.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v1.2.0...v1.3.0) (2024-03-05)
 
 

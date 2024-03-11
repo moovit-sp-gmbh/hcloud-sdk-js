@@ -1,4 +1,4 @@
-import { StreamCustomNodeSpecification, StreamNodeSpecificationInputOutputType, StreamSemanticVersion } from "./StreamNodeSpecification";
+import { StreamCustomNodeSpecification, StreamNodeSpecificationInputType, StreamSemanticVersion } from "../../../../wave";
 
 export interface DesignContent {
     nodes: DesignerNode[];
@@ -36,7 +36,7 @@ export interface DesignerNodeInput {
     name: string;
     description: string;
     advanced?: boolean;
-    type: StreamNodeSpecificationInputOutputType;
+    type: StreamNodeSpecificationInputType;
     example: string | number | boolean | string[] | StringMap | StringMap[]; // type string can have placeholders (represented as input placeholders in web)
     value?: string | number | boolean | string[] | StringMap | StringMap[]; // the entered value
     mandatory?: boolean;

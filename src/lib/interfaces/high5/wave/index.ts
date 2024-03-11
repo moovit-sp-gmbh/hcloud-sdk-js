@@ -147,6 +147,7 @@ export enum StreamNodeSpecificationOutputType {
     BOOLEAN = "BOOLEAN",
 
     ANY = "ANY",
+    JSON = "JSON",
 }
 
 export interface StreamNodeSpecificationAuthor {

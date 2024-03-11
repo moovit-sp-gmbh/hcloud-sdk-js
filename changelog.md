@@ -1,3 +1,14 @@
+## [3.0.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v2.0.0...v3.0.0) (2024-03-11)
+
+
+### ⚠ BREAKING CHANGES
+
+* replace "permissions" with "permissionOfUser" in returned space objects
+
+### Features
+
+* replace "permissions" with "permissionOfUser" in returned space objects ([4d1354a](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/4d1354a9c8ccdd5701e89f1ec74d7210fdff847c))
+
 ## [2.0.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v1.4.1...v2.0.0) (2024-03-11)
 
 

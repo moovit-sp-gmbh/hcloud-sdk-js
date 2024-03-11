@@ -127,6 +127,7 @@ export enum StreamNodeSpecificationInputType {
     STRING_MAP = "STRING_MAP",
     STRING_READONLY = "STRING_READONLY",
     STRING_SELECT = "STRING_SELECT",
+    STRING_PASSWORD = "STRING_PASSWORD",
 
     NUMBER = "NUMBER",
 

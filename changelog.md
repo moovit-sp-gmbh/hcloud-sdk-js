@@ -1,3 +1,14 @@
+## [2.0.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v1.4.1...v2.0.0) (2024-03-11)
+
+
+### ⚠ BREAKING CHANGES
+
+* replace context join/leave with enabled
+
+### Features
+
+* replace context join/leave with enabled ([619a9b3](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/619a9b36eaa888f2d12af4e24bd18e77ecb4b059))
+
 ## [1.4.1](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v1.4.0...v1.4.1) (2024-03-11)
 
 

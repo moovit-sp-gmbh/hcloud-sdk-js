@@ -102,15 +102,22 @@ export interface StreamNodeSpecificationAdditionalConnector {
     description: string;
 }
 
-export interface StreamNodeSpecificationInput {
+export type StreamNodeSpecificationInput = {
     name: string;
     description: string;
-    type: StreamNodeSpecificationInputType;
     defaultValue?: any;
     example: any;
     advanced?: boolean;
     mandatory?: boolean;
-}
+} & (
+    | {
+          type: Exclude<StreamNodeSpecificationInputType, StreamNodeSpecificationInputType.STRING_SELECT>;
+      }
+    | {
+          type: StreamNodeSpecificationInputType.STRING_SELECT;
+          options: Record<string, string | number>;
+      }
+);
 
 export interface StreamNodeSpecificationOutput {
     name: string;

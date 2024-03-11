@@ -1,3 +1,10 @@
+## [1.4.1](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v1.4.0...v1.4.1) (2024-03-11)
+
+
+### Bug Fixes
+
+* add missing type prop to DesignSnapshot ([f18e8ec](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/f18e8ec5f346d96c9688397b3d8af3da07f0a90c))
+
 ## [1.4.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v1.3.0...v1.4.0) (2024-03-06)
 
 

@@ -141,7 +141,6 @@ export enum StreamNodeSpecificationOutputType {
     STRING_LIST = "STRING_LIST",
     STRING_MAP = "STRING_MAP",
     STRING_READONLY = "STRING_READONLY",
-    STRING_SELECT = "STRING_SELECT",
 
     NUMBER = "NUMBER",
 

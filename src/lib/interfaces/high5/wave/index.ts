@@ -105,7 +105,7 @@ export interface StreamNodeSpecificationAdditionalConnector {
 export interface StreamNodeSpecificationInput {
     name: string;
     description: string;
-    type: StreamNodeSpecificationInputOutputType;
+    type: StreamNodeSpecificationInputType;
     defaultValue?: any;
     example: any;
     advanced?: boolean;
@@ -115,12 +115,27 @@ export interface StreamNodeSpecificationInput {
 export interface StreamNodeSpecificationOutput {
     name: string;
     description: string;
-    type: StreamNodeSpecificationInputOutputType;
+    type: StreamNodeSpecificationOutputType;
     example: any;
     howToAccess: string[];
 }
 
-export enum StreamNodeSpecificationInputOutputType {
+export enum StreamNodeSpecificationInputType {
+    STRING = "STRING",
+    STRING_LONG = "STRING_LONG",
+    STRING_LIST = "STRING_LIST",
+    STRING_MAP = "STRING_MAP",
+    STRING_READONLY = "STRING_READONLY",
+    STRING_SELECT = "STRING_SELECT",
+
+    NUMBER = "NUMBER",
+
+    BOOLEAN = "BOOLEAN",
+
+    ANY = "ANY",
+}
+
+export enum StreamNodeSpecificationOutputType {
     STRING = "STRING",
     STRING_LONG = "STRING_LONG",
     STRING_LIST = "STRING_LIST",

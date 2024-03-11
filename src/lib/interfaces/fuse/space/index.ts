@@ -1,10 +1,8 @@
 import { ReducedSpace, Space, SpaceEntity } from "../../global";
 import { ReducedOrganization } from "../../idp";
 
-type ExtendWith<T1, T2> = T1 & T2;
-
 export interface FuseSpace extends Space {
-    permissions: ExtendWith<FuseSpaceEntityPermission, { name: string }>[];
+    permissionOfUser?: FuseSpacePermission;
 }
 export interface FuseSpaceEntityPermission {
     entityId: string;

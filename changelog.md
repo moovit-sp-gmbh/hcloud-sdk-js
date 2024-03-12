@@ -1,3 +1,28 @@
+## [4.0.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v3.1.0...v4.0.0) (2024-03-12)
+
+
+### ⚠ BREAKING CHANGES
+
+* remove StreamNodeSpecification.ts
+
+### Features
+
+* add JSON node output type ([c20e0d6](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/c20e0d6c19209bac89e7fd306dbc4fa08334750c))
+* add options to STRING_SELECT input type ([097a2b7](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/097a2b7662d2500e00da0729aefd6c3c25f0c786))
+* add STRING_PASSWORD input type ([5458bd5](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/5458bd5772f75a154c2bd4cfa0e59f9a16cff86a))
+* remove STRING_SELECT node output type ([958f025](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/958f0256cbce65a17e44ab29024a144a3b55359b))
+
+
+### Reverts
+
+* feat: add more node output types ([ba244a4](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/ba244a45fe82b593d22b3c1195c2724a87d18871))
+* feat: add OBJECT and LIST to node spec i/o type ([d2d057c](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/d2d057cfcd8d89ee72b977eb355531a25cfe7417))
+
+
+### Code Refactoring
+
+* remove StreamNodeSpecification.ts ([287b20d](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/287b20d78588e609249811c6c8ab543e5a1f9db0))
+
 ## [3.1.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v3.0.0...v3.1.0) (2024-03-12)
 
 

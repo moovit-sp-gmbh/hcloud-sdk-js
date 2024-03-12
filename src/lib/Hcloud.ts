@@ -133,4 +133,13 @@ export default class HCloud {
     getAxios(): AxiosInstance {
         return this.axios;
     }
+
+    /**
+     * setAxios overwrites the existing axios instance
+     * Use it to add a caching layer to axios
+     * @returns {AxiosInstance} The new AxiosInstance
+     */
+    setAxios(axios: AxiosInstance): AxiosInstance {
+        return this.axios = axios;
+    }
 }

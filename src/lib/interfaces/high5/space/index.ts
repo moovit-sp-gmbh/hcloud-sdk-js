@@ -12,6 +12,7 @@ export interface High5SpaceEntityPermission {
     entityName: string;
     type: SpaceEntity;
     permission: High5SpacePermission;
+    avatarUrl: string;
 }
 
 export enum High5SpacePermission {

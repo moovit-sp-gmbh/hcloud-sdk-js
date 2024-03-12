@@ -12,6 +12,7 @@ export interface FuseSpaceEntityPermission {
     entityName: string;
     type: SpaceEntity;
     permission: FuseSpacePermission;
+    avatarUrl: string;
 }
 
 export enum FuseSpacePermission {

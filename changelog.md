@@ -1,3 +1,10 @@
+## [4.1.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v4.0.0...v4.1.0) (2024-03-12)
+
+
+### Features
+
+* add dateformats without time ([4b3292d](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/4b3292df9dac0b26f0c6c276005060cab3fff98c))
+
 ## [4.0.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v3.1.0...v4.0.0) (2024-03-12)
 
 

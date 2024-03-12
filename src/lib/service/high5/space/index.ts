@@ -138,7 +138,7 @@ export class High5Space extends Base {
         userId: string,
         permission: SpacePermission
     ): Promise<SpaceEntityPermission> => {
-        const resp = await this.axios.put<SpaceEntityPermission>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/permission/user`), {
+        const resp = await this.axios.put<SpaceEntityPermission>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/permissions/user`), {
             userId,
             permission,
         });
@@ -160,7 +160,7 @@ export class High5Space extends Base {
         teamName: string,
         permission: SpacePermission
     ): Promise<SpaceEntityPermission> => {
-        const resp = await this.axios.put<SpaceEntityPermission>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/permission/team`), {
+        const resp = await this.axios.put<SpaceEntityPermission>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/permissions/team`), {
             teamName,
             permission,
         });

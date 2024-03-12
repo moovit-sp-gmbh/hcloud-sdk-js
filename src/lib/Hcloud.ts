@@ -34,7 +34,7 @@ export default class HCloud {
             transformRequest: axios.defaults.transformRequest,
             transformResponse: axios.defaults.transformResponse,
         });
-        this.axios.defaults.headers.common["user-agent"] = "hcloud-sdk-js/v" + version;
+        this.axios.defaults.headers.common["x-hcloud-user-agent"] = "hcloud-sdk-js/v" + version;
         this.axios.interceptors.response.use(
             response => response,
             error => {

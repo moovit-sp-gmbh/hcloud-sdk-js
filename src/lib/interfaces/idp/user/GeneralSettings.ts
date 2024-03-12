@@ -17,6 +17,17 @@ export enum DateFormat {
     GERMAN_LONG = "Day, DD. Month YYYY at HH:mm:ss",
 }
 
+export enum DateFormatWithoutTime {
+    ISO_8601_24 = "YYYY-MM-DD",
+    ISO_8601_12 = "YYYY-MM-DD",
+    US_12 = "MM/DD/YYYY",
+    US_LONG_12 = "Day, Month DD, YYYY",
+    EU_24 = "DD/MM/YYYY",
+    EU_LONG = "Day DD Month YYYY",
+    GERMAN_24 = "DD.MM.YYYY",
+    GERMAN_LONG = "Day, DD. Month YYYY",
+}
+
 export enum Theme {
     DARK = "DARK",
     LIGHT = "LIGHT",

@@ -1,3 +1,11 @@
+## [3.1.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v3.0.0...v3.1.0) (2024-03-12)
+
+
+### Features
+
+* add setAxios method ([195f09c](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/195f09c5b8b3f526228f545f6ca2b9d0cabae3d4))
+* rename 'user-agent' header to 'x-hcloud-user-agent' ([866ce9b](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/866ce9b4fa30a2ab096f17c169d03bc6cbcaca9b))
+
 ## [3.0.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v2.0.0...v3.0.0) (2024-03-11)
 
 

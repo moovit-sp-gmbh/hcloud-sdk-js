@@ -10,22 +10,16 @@ export enum DateFormat {
     ISO_8601_24 = "YYYY-MM-DDTHH:mm:ss",
     ISO_8601_12 = "YYYY-MM-DD hh:mm:ss a",
     US_12 = "MM/DD/YYYY hh:mm:ss a",
-    US_LONG_12 = "Day, Month DD, YYYY at hh:mm:ss a",
     EU_24 = "DD/MM/YYYY HH:mm:ss",
-    EU_LONG = "Day DD Month YYYY at HH:mm:ss",
     GERMAN_24 = "DD.MM.YYYY HH:mm:ss",
-    GERMAN_LONG = "Day, DD. Month YYYY at HH:mm:ss",
 }
 
 export enum DateFormatWithoutTime {
     ISO_8601_24 = "YYYY-MM-DD",
     ISO_8601_12 = "YYYY-MM-DD",
     US_12 = "MM/DD/YYYY",
-    US_LONG_12 = "Day, Month DD, YYYY",
     EU_24 = "DD/MM/YYYY",
-    EU_LONG = "Day DD Month YYYY",
     GERMAN_24 = "DD.MM.YYYY",
-    GERMAN_LONG = "Day, DD. Month YYYY",
 }
 
 export enum Theme {

@@ -1,3 +1,10 @@
+## [6.2.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v6.1.0...v6.2.0) (2024-03-18)
+
+
+### Features
+
+* add color prop for custom node ([228a808](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/228a808cd4168635d7ae2a0fe85c85476eb4f9d8))
+
 ## [6.1.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v6.0.0...v6.1.0) (2024-03-18)
 
 

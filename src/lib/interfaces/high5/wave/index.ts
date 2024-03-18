@@ -76,6 +76,7 @@ export interface StreamNodeSpecification {
 
 export interface StreamCustomNodeSpecification {
     _id: string;
+    color?: string;
 }
 
 export interface StreamSemanticVersion {

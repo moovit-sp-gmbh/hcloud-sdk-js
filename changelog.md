@@ -1,3 +1,10 @@
+## [6.1.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v6.0.0...v6.1.0) (2024-03-18)
+
+
+### Features
+
+* extend agent context info ([ff09811](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/ff0981179a520e3c02faa6c615e3e01ba2915821))
+
 ## [6.0.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v5.1.0...v6.0.0) (2024-03-18)
 
 

@@ -1,3 +1,10 @@
+## [5.1.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v5.0.0...v5.1.0) (2024-03-18)
+
+
+### Features
+
+* update s3 bundles path ([a98b771](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/a98b7712c9d5016e74dcb84cc3ccb64c5eb0ee2f))
+
 ## [5.0.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v4.1.0...v5.0.0) (2024-03-15)
 
 

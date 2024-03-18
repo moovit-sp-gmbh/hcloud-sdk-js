@@ -1,3 +1,14 @@
+## [6.0.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v5.1.0...v6.0.0) (2024-03-18)
+
+
+### ⚠ BREAKING CHANGES
+
+* add installer support for agent
+
+### Features
+
+* add installer support for agent ([ae29e14](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/ae29e14892ca31b94670f307c3d64e81551baeb1))
+
 ## [5.1.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v5.0.0...v5.1.0) (2024-03-18)
 
 

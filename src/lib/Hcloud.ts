@@ -140,6 +140,6 @@ export default class HCloud {
      * @returns {AxiosInstance} The new AxiosInstance
      */
     setAxios(axios: AxiosInstance): AxiosInstance {
-        return this.axios = axios;
+        return (this.axios = axios);
     }
 }

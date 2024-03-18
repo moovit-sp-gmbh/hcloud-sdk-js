@@ -14,19 +14,19 @@ export default class Agent extends Base {
     }
 
     async getVersions(): Promise<AgentVersions> {
-        const resp = await this.axios.get<AgentVersions>(this.getEndpoint("/index.json"));
+        const resp = await this.axios.get<AgentVersions>(this.getEndpoint("/bundles/index.json"));
 
         return resp.data;
     }
 
     async getLatestVersion(): Promise<Version> {
-        const resp = await this.axios.get<AgentVersions>(this.getEndpoint("/index.json"));
+        const resp = await this.axios.get<AgentVersions>(this.getEndpoint("/bundles/index.json"));
 
         return resp.data.versions[resp.data.latest];
     }
 
     async getVersion(version: string): Promise<Version | void> {
-        const resp = await this.axios.get<AgentVersions>(this.getEndpoint("/index.json"));
+        const resp = await this.axios.get<AgentVersions>(this.getEndpoint("/bundles/index.json"));
 
         return resp.data.versions[version];
     }

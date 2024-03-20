@@ -105,11 +105,13 @@ export default class High5Node extends Base {
 
     /**
      * Retrieves the content (raw javascript code) of a Node.
+     * @param orgName Name of the organization
+     * @param spaceName Name of the space
      * @param secret Secret of the Node (a unique sha512 hash)
-     * @returns Raw javascript representation of the Node's content
+     * @rerurns Raw javascript representation of the Node's content
      */
-    public async getNodeContent(secret: string): Promise<string> {
-        const resp = await this.axios.get<string>(this.getEndpoint(`/v1/org/nodes/content/${secret}`));
+    public async getNodeContent(orgName: string, spaceName: string, secret: string): Promise<string> {
+        const resp = await this.axios.get<string>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/nodes/content/${secret}`));
 
         return resp.data;
     }

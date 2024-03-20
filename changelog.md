@@ -1,3 +1,16 @@
+## [6.3.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v6.2.1...v6.3.0) (2024-03-20)
+
+
+### Features
+
+* add avatarUrl to SpaceEntityPermission ([d9eb62d](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/d9eb62d1f15f16e9b7dfff1d3b390177466fc48f))
+
+
+### Bug Fixes
+
+* path for PUT space/permissions ([564a3ba](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/564a3babf45090b5d3093cf6cad9472b283870ef))
+* remove duplicate FuseSpaceEntityPermission ([9a0c2e8](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/9a0c2e85e1037159d1275ff7807544c70d09c526))
+
 ## [6.2.1](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v6.2.0...v6.2.1) (2024-03-20)
 
 

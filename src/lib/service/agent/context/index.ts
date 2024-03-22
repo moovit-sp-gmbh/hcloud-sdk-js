@@ -1,6 +1,6 @@
-import { AxiosInstance } from "axios";
-import Base, { Options } from "../../../Base";
-import { Context } from "../../../interfaces/agent/context";
+import { AxiosInstance } from "axios"
+import Base, { Options } from "../../../Base"
+import { Context } from "../../../interfaces/agent/context"
 
 export class AgentContext extends Base {
     constructor(options: Options, axios: AxiosInstance) {
@@ -36,8 +36,8 @@ export class AgentContext extends Base {
      * Update an existing context.
      * @returns The updated context
      */
-    public updateContext = async (server: string, email: string, token: string, enabled: boolean): Promise<Context> => {
-        const resp = await this.axios.patch<Context>(this.getEndpoint(`/v1/context`), {
+    public updateContext = async (uuid: string, server: string, email: string, token: string, enabled: boolean): Promise<Context> => {
+        const resp = await this.axios.patch<Context>(this.getEndpoint(`/v1/context/${uuid}`), {
             server,
             email,
             token,

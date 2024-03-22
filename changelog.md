@@ -1,3 +1,10 @@
+## [6.3.1](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v6.3.0...v6.3.1) (2024-03-22)
+
+
+### Bug Fixes
+
+* add uuid to updateAgentContext method ([a1bd701](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/a1bd701f4728886520e245ae723583dce42d627b))
+
 ## [6.3.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v6.2.1...v6.3.0) (2024-03-20)
 
 

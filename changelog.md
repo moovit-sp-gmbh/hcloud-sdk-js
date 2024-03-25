@@ -1,3 +1,14 @@
+## [7.0.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v6.3.1...v7.0.0) (2024-03-25)
+
+
+### ⚠ BREAKING CHANGES
+
+* remove default import for hcloud class
+
+### Code Refactoring
+
+* remove default import for hcloud class ([e0917a6](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/e0917a69dd5037b4dfb02f8a41b8a090de621c63))
+
 ## [6.3.1](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v6.3.0...v6.3.1) (2024-03-22)
 
 

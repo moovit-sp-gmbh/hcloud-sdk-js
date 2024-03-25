@@ -1,20 +1,20 @@
-import axios, { AxiosInstance } from "axios";
-import { version } from "../package.json";
-import { HcloudLogger, Options } from "./Base";
-import AgentService from "./service/agent";
-import AuditorService from "./service/auditor";
-import BouncerService from "./service/bouncer";
-import FuseService from "./service/fuse";
-import DaliService from "./service/dali";
-import High5Service from "./service/high5";
-import IdpService from "./service/idp";
-import MailerService from "./service/mailer";
-import NatsService from "./service/nats";
-import wrapError from "./helper/ErrorHelper";
-import MothershipService from "./service/mothership";
+import axios, { AxiosInstance } from "axios"
+import { version } from "../package.json"
+import { HcloudLogger, Options } from "./Base"
+import wrapError from "./helper/ErrorHelper"
+import AgentService from "./service/agent"
+import AuditorService from "./service/auditor"
+import BouncerService from "./service/bouncer"
+import DaliService from "./service/dali"
+import FuseService from "./service/fuse"
+import High5Service from "./service/high5"
+import IdpService from "./service/idp"
+import MailerService from "./service/mailer"
+import MothershipService from "./service/mothership"
+import NatsService from "./service/nats"
 
 // tslint:disable-next-line
-export default class HCloud {
+export class HCloud {
     public Agent: AgentService;
     public Auditor: AuditorService;
     public Bouncer: BouncerService;

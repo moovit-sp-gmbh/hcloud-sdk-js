@@ -1,4 +1,4 @@
-import { HcloudFeature, BouncerContext } from "../../../interfaces/bouncer";
+import { BouncerContext, HcloudFeature } from "../../../interfaces/bouncer"
 
 export type BouncerProviderLogger = (
     featureName: string,
@@ -8,7 +8,7 @@ export type BouncerProviderLogger = (
     feature?: HcloudFeature
 ) => void;
 
-export default class BouncerProvider {
+export class BouncerProvider {
     private features: HcloudFeature[];
     private context?: BouncerContext;
     private logger?: BouncerProviderLogger;

@@ -189,4 +189,5 @@ export enum StreamNodeSpecificationCategory {
     NETWORK = "Network",
     OPERATING_SYSTEM = "Operating System",
     OTHER = "Other",
+    SCRIPTING = "Scripting",
 }

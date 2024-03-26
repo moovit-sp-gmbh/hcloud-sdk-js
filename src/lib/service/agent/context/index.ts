@@ -1,6 +1,6 @@
-import { AxiosInstance } from "axios"
-import Base, { Options } from "../../../Base"
-import { Context } from "../../../interfaces/agent/context"
+import { AxiosInstance } from "axios";
+import Base, { Options } from "../../../Base";
+import { Context } from "../../../interfaces/agent/context";
 
 export class AgentContext extends Base {
     constructor(options: Options, axios: AxiosInstance) {

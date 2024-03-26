@@ -1,3 +1,10 @@
+## [7.1.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v7.0.0...v7.1.0) (2024-03-26)
+
+
+### Features
+
+* add SCRIPTING node category ([89bfb90](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/89bfb90080ab2c0c26550deaa726c7a1dfa9c9b9))
+
 ## [7.0.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v6.3.1...v7.0.0) (2024-03-25)
 
 

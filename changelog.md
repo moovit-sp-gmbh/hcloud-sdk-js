@@ -1,3 +1,10 @@
+## [7.2.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v7.1.0...v7.2.0) (2024-03-28)
+
+
+### Features
+
+* add STREAM entry to StreamNodeSpecificationCategory enum ([f2b54d7](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/f2b54d7e096e0b8aaaf76a190fd80d2e0714d52d))
+
 ## [7.1.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v7.0.0...v7.1.0) (2024-03-26)
 
 

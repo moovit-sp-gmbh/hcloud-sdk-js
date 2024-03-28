@@ -59,9 +59,10 @@ export abstract class MailjetMailDTO {
 }
 
 export class IdpNewRegistrationMailjetMailDTO extends MailjetMailDTO {
-    constructor(recipients: string[], verifyLink: string) {
+    constructor(recipients: string[], verifyLink: string, hcloudOriginalEmail: string) {
         super(recipients, MailjetTemplate.IDP_NEW_REGISTRATION, {
             HCLOUD_VERIFY_LINK: verifyLink,
+            HCLOUD_ORIGINAL_EMAIL: hcloudOriginalEmail,
         });
     }
 }

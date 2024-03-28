@@ -1,3 +1,10 @@
+## [7.3.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v7.2.0...v7.3.0) (2024-03-28)
+
+
+### Features
+
+* add EXECUTION_TARGET NatsSubject ([1d6889b](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/1d6889bf9460691377def5149f45bec8c2e5bafc))
+
 ## [7.2.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v7.1.0...v7.2.0) (2024-03-28)
 
 

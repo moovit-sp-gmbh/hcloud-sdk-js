@@ -2,7 +2,7 @@ import { ReducedSpace, Space, SpaceEntity } from "../../global";
 import { ReducedOrganization } from "../../idp";
 
 export interface FuseSpace extends Space {
-    permissionOfUser?: FuseSpacePermission;
+    highestPermissionOfUser: FuseSpacePermission;
 }
 
 export interface FuseSpaceEntityPermission {

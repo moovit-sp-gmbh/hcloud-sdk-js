@@ -1,3 +1,14 @@
+## [8.0.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v7.4.0...v8.0.0) (2024-04-02)
+
+
+### ⚠ BREAKING CHANGES
+
+* rename "permissionOfUser" to "highestPermissionOfUser" and make it mandatory
+
+### Features
+
+* rename "permissionOfUser" to "highestPermissionOfUser" and make it mandatory ([ffe859c](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/ffe859c8a6ca74f8a9d114affdde4deb97004e4a))
+
 ## [7.4.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v7.3.0...v7.4.0) (2024-04-02)
 
 

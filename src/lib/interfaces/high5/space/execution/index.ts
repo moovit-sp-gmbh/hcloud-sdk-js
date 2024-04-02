@@ -1,6 +1,7 @@
 import { ReducedSpace } from "../../../global";
 import { ReducedOrganization, ReducedUser } from "../../../idp";
 import { WaveCatalog, WaveEngine } from "../../wave";
+import { ReducedEvent } from "../event";
 import { DesignBuild } from "../event/stream";
 import { StreamSingleNodeResult } from "../event/stream/node";
 
@@ -83,6 +84,7 @@ export interface High5ExecutionStatus {
     _id: string;
     organization: ReducedOrganization;
     space: ReducedSpace;
+    event: ReducedEvent;
     streamId: string;
     streamName: string;
     high5ExecutionId: string;

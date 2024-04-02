@@ -1,3 +1,4 @@
+import { HCloud } from "../../../../Hcloud";
 import { ReducedSpace } from "../../../global";
 import { ReducedOrganization, ReducedUser } from "../../../idp";
 import { WaveCatalog, WaveEngine } from "../../wave";
@@ -62,6 +63,9 @@ export interface High5ExecutionPackage {
     dry: boolean;
 }
 
+export interface ExtendedHigh5ExecutionPackage extends High5ExecutionPackage {
+    hcl: HCloud;
+}
 export interface High5ExecutionPatchLog {
     streamId: string;
     nodeResults: StreamSingleNodeResult[];

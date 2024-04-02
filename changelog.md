@@ -1,3 +1,10 @@
+## [8.1.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v8.0.0...v8.1.0) (2024-04-02)
+
+
+### Features
+
+* add reducedEvent prop to execution status interface ([c665fd3](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/c665fd36aee41e3a681afb67ccd23c3a18e7dc9f))
+
 ## [8.0.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v7.4.0...v8.0.0) (2024-04-02)
 
 

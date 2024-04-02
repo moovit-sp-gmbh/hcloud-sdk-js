@@ -1,3 +1,10 @@
+## [7.4.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v7.3.0...v7.4.0) (2024-04-02)
+
+
+### Features
+
+* add original email prop to registration email interface ([3907e3e](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/3907e3e0daf4be02f26907580fea54986eae36a0))
+
 ## [7.3.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v7.2.0...v7.3.0) (2024-03-28)
 
 

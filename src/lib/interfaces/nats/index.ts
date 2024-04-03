@@ -10,7 +10,7 @@ enum NatsSubject {
 
     IDP_ORGANIZATION_GENERAL = "hcloud.idp.organization.${organizationId}.general",
     IDP_ORGANIZATION_MEMBERS = "hcloud.idp.organization.${organizationId}.members",
-    IDP_ORGANIZATION_MEMBERS_EXECUTION_TARGET = "hcloud.idp.organization.${organizationId}.members.${memberEmail}.executionTarget",
+    IDP_ORGANIZATION_MEMBERS_EXECUTION_TARGET = "hcloud.idp.organization.${organizationId}.members.${base64email}.executionTarget",
     IDP_ORGANIZATION_TEAMS = "hcloud.idp.organization.${organizationId}.teams",
 
     HIGH5_SPACES = "hcloud.high5.organization.${organizationId}.spaces",

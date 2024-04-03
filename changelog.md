@@ -1,3 +1,10 @@
+## [8.2.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v8.1.0...v8.2.0) (2024-04-03)
+
+
+### Features
+
+* extend execution package by hcloud client instance ([9ced20a](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/9ced20a6f07a301724829369e6ca45d33f65c6cd))
+
 ## [8.1.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v8.0.0...v8.1.0) (2024-04-02)
 
 

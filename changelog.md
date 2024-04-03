@@ -1,3 +1,10 @@
+## [8.2.1](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v8.2.0...v8.2.1) (2024-04-03)
+
+
+### Bug Fixes
+
+* executionTarget NatsSubject ([e15cbe2](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/e15cbe2f52374cd954354af84e27574e8a31c800))
+
 ## [8.2.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v8.1.0...v8.2.0) (2024-04-03)
 
 

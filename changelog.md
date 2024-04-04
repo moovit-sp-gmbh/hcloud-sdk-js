@@ -1,3 +1,10 @@
+## [8.3.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v8.2.1...v8.3.0) (2024-04-04)
+
+
+### Features
+
+* add High5 wave nodes category ([0cc9931](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/0cc9931b32666cd4259ddfe74cee1a5006a2db83))
+
 ## [8.2.1](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v8.2.0...v8.2.1) (2024-04-03)
 
 

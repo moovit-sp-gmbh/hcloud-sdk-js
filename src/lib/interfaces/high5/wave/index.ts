@@ -193,4 +193,5 @@ export enum StreamNodeSpecificationCategory {
     HIGH5 = "High5",
     OTHER = "Other",
     SCRIPTING = "Scripting",
+    CONTROL_FLOW = "Control Flow",
 }

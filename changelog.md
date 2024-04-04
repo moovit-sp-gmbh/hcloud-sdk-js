@@ -1,3 +1,10 @@
+## [8.4.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v8.3.0...v8.4.0) (2024-04-04)
+
+
+### Features
+
+* add Control Flow node category ([be6434b](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/be6434bde6db1dd4cf95e2823df15c97801a742e))
+
 ## [8.3.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v8.2.1...v8.3.0) (2024-04-04)
 
 

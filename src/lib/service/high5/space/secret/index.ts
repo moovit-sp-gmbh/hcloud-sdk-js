@@ -93,6 +93,19 @@ export default class High5Secret extends Base {
         await this.axios.delete(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/secrets/${key}`));
     };
 
+    /**
+     * Get secret value by its key
+     * @param orgName - Name of the organization
+     * @param spaceName - Name of the space
+     * @param key - Key of the key-value pair
+     * @returns Secret details
+     */
+    getSecret = async (orgName: string, spaceName: string, key: string): Promise<Secret> => {
+        const resp = await this.axios.get(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/secrets/${key}`));
+
+        return resp.data;
+    };
+
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/high5${endpoint}`;
     }

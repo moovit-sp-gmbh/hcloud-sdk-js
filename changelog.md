@@ -1,3 +1,10 @@
+## [8.5.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v8.4.0...v8.5.0) (2024-04-05)
+
+
+### Features
+
+* add method to get secret by key ([cee2305](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/cee23056841ec9bc7ada86eb9543dcec06402c28))
+
 ## [8.4.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v8.3.0...v8.4.0) (2024-04-04)
 
 

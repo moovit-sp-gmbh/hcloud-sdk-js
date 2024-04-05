@@ -1,3 +1,10 @@
+## [8.6.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v8.5.0...v8.6.0) (2024-04-05)
+
+
+### Features
+
+* add orgName and spaceName to the executionPackage ([695650e](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/695650e490612231448861e13cb1b666ce09161e))
+
 ## [8.5.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v8.4.0...v8.5.0) (2024-04-05)
 
 

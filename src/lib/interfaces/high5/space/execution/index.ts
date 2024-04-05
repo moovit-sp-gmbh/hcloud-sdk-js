@@ -65,7 +65,10 @@ export interface High5ExecutionPackage {
 
 export interface ExtendedHigh5ExecutionPackage extends High5ExecutionPackage {
     hcl: HCloud;
+    orgName: string;
+    spaceName: string;
 }
+
 export interface High5ExecutionPatchLog {
     streamId: string;
     nodeResults: StreamSingleNodeResult[];

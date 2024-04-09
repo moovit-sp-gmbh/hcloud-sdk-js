@@ -1,3 +1,14 @@
+## [9.0.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v8.6.0...v9.0.0) (2024-04-09)
+
+
+### ⚠ BREAKING CHANGES
+
+* remove the demo node category
+
+### Code Refactoring
+
+* remove the demo node category ([6007649](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/6007649e674b5ad826ea5dd332ffe002bffb6d54))
+
 ## [8.6.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v8.5.0...v8.6.0) (2024-04-05)
 
 

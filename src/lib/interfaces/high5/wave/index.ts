@@ -185,7 +185,6 @@ export enum StreamNodeSpecificationPackage {
 export enum StreamNodeSpecificationCategory {
     FILE_AND_FOLDER = "File & Folder",
     STRING = "String",
-    DEMO = "Demo",
     COMMUNICATION = "Communication",
     NETWORK = "Network",
     OPERATING_SYSTEM = "Operating System",

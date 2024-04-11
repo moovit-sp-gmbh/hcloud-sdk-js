@@ -1,3 +1,10 @@
+## [9.1.1](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v9.1.0...v9.1.1) (2024-04-11)
+
+
+### Bug Fixes
+
+* add Scope.IDP_ORGANIZATION_READ to all high5/fuse scopes as mandatory ([8b86de5](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/8b86de51bc4d1278a6e2e543884539529bbc8f33))
+
 ## [9.1.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v9.0.0...v9.1.0) (2024-04-11)
 
 

@@ -1,6 +1,7 @@
-import { AxiosInstance } from "axios";
-import Base, { Options } from "../../../Base";
-import { AgentInstallerVersions, InstallerVersion } from "../../../interfaces/agent";
+import { AxiosInstance } from "axios"
+import Base, { Options } from "../../../Base"
+import { AgentInstallerVersions, InstallerVersion } from "../../../interfaces/agent"
+import { disableCacheHeaders } from "../../../interfaces/axios"
 
 export class AgentInstaller extends Base {
     private sourceServer: string;
@@ -11,7 +12,7 @@ export class AgentInstaller extends Base {
     }
 
     async getVersions(): Promise<AgentInstallerVersions> {
-        const resp = await this.axios.get<AgentInstallerVersions>(this.getEndpoint("/install/index.json"));
+        const resp = await this.axios.get<AgentInstallerVersions>(this.getEndpoint("/install/index.json"), { headers: disableCacheHeaders });
 
         return resp.data;
     }

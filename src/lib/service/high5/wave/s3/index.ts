@@ -1,6 +1,7 @@
-import { AxiosInstance } from "axios";
-import Base, { Options } from "../../../../Base";
-import { Catalog, CatalogRegistry, Engine, EngineRegistry, StreamNodeSpecification } from "../../../../interfaces/high5";
+import { AxiosInstance } from "axios"
+import Base, { Options } from "../../../../Base"
+import { disableCacheHeaders } from "../../../../interfaces/axios"
+import { Catalog, CatalogRegistry, Engine, EngineRegistry, StreamNodeSpecification } from "../../../../interfaces/high5"
 
 /**
  * Class for reading the S3 bucket of a wave engine and catalogs
@@ -16,7 +17,7 @@ export class S3 extends Base {
      * @returns registry.json
      */
     public getCatalogRegistry = async (waveBucketUrl: string): Promise<CatalogRegistry> => {
-        const resp = await this.axios.get<CatalogRegistry>(`${waveBucketUrl}/catalogs/registry.json`);
+        const resp = await this.axios.get<CatalogRegistry>(`${waveBucketUrl}/catalogs/registry.json`, { headers: disableCacheHeaders });
 
         return resp.data;
     };
@@ -27,7 +28,7 @@ export class S3 extends Base {
      * @returns registry.json
      */
     public getEngineRegistry = async (waveBucketUrl: string): Promise<EngineRegistry> => {
-        const resp = await this.axios.get<EngineRegistry>(`${waveBucketUrl}/engines/registry.json`);
+        const resp = await this.axios.get<EngineRegistry>(`${waveBucketUrl}/engines/registry.json`, { headers: disableCacheHeaders });
 
         return resp.data;
     };
@@ -38,7 +39,7 @@ export class S3 extends Base {
      * @returns index.json of catalog
      */
     public getCatalog = async (catalogUrl: string): Promise<Catalog> => {
-        const resp = await this.axios.get<Catalog>(`${catalogUrl}`);
+        const resp = await this.axios.get<Catalog>(`${catalogUrl}`, { headers: disableCacheHeaders });
 
         return resp.data;
     };
@@ -49,7 +50,7 @@ export class S3 extends Base {
      * @returns index.json of catalog
      */
     public getEngine = async (engineUrl: string): Promise<Engine> => {
-        const resp = await this.axios.get<Engine>(`${engineUrl}`);
+        const resp = await this.axios.get<Engine>(`${engineUrl}`, { headers: disableCacheHeaders });
 
         return resp.data;
     };
@@ -61,7 +62,7 @@ export class S3 extends Base {
      */
     public getCatalogVersion = async (catalogUrl: string, version: string): Promise<StreamNodeSpecification[]> => {
         const specificationUrl = catalogUrl.split("/").slice(0, -1).join("/") + "/" + version + "/specification.json";
-        const resp = await this.axios.get<StreamNodeSpecification[]>(specificationUrl);
+        const resp = await this.axios.get<StreamNodeSpecification[]>(specificationUrl, { headers: disableCacheHeaders });
 
         return resp.data;
     };

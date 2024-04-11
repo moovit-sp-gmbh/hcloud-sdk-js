@@ -1,8 +1,7 @@
 import { AxiosInstance } from "axios";
 import Base, { Options } from "../../../../../Base";
 import { High5ExecutionStatus } from "../../../../../interfaces/high5/space/execution";
-import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../../interfaces/global";
-import { SearchFilterDTO } from "../../../../../helper/searchFilter";
+import { PaginatedResponse } from "../../../../../interfaces/global";
 import { createPaginatedResponse } from "../../../../../helper/paginatedResponseHelper";
 
 export class High5SpaceExecutionStates extends Base {

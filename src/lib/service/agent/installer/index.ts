@@ -1,7 +1,7 @@
-import { AxiosInstance } from "axios"
-import Base, { Options } from "../../../Base"
-import { AgentInstallerVersions, InstallerVersion } from "../../../interfaces/agent"
-import { disableCacheHeaders } from "../../../interfaces/axios"
+import { AxiosInstance } from "axios";
+import Base, { Options } from "../../../Base";
+import { AgentInstallerVersions, InstallerVersion } from "../../../interfaces/agent";
+import { disableCacheHeaders } from "../../../interfaces/axios";
 
 export class AgentInstaller extends Base {
     private sourceServer: string;

@@ -1,7 +1,7 @@
-import { AxiosInstance } from "axios"
-import Base, { Options } from "../../../../Base"
-import { disableCacheHeaders } from "../../../../interfaces/axios"
-import { Catalog, CatalogRegistry, Engine, EngineRegistry, StreamNodeSpecification } from "../../../../interfaces/high5"
+import { AxiosInstance } from "axios";
+import Base, { Options } from "../../../../Base";
+import { disableCacheHeaders } from "../../../../interfaces/axios";
+import { Catalog, CatalogRegistry, Engine, EngineRegistry, StreamNodeSpecification } from "../../../../interfaces/high5";
 
 /**
  * Class for reading the S3 bucket of a wave engine and catalogs

@@ -1,3 +1,10 @@
+## [9.1.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v9.0.0...v9.1.0) (2024-04-11)
+
+
+### Features
+
+* **cache:** add option to disable cache globally and force-disable cache for s3 related calls ([c14a984](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/c14a9846f33a347c2088ba7d5435975488972f43))
+
 ## [9.0.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v8.6.0...v9.0.0) (2024-04-09)
 
 

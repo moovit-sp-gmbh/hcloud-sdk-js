@@ -6,36 +6,14 @@ on:
       - staging
 
 jobs:
-  # To further reduce execution time of this workflow, we could combine the two jobs listed here (they contain duplicate actions)
-  runTests:
+  testAndBuildAndPublish:
+    permissions: write-all
     runs-on: self-hosted
 
     strategy:
       matrix:
         node-version: [16.14.2]
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - uses: pnpm/action-setup@v2.0.1
-        with:
-          version: 7.5.1
-
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-
-      - run: make prepare
-
-      - run: make lint
-
-      - run: make test
-
-  buildAndPublish:
-    needs: runTests
-    permissions: write-all
-    runs-on: self-hosted
+        
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -50,9 +28,13 @@ jobs:
       - name: Setup node version needed for build
         uses: actions/setup-node@v3
         with:
-          node-version: "16.14.2"
+          node-version: ${{ matrix.node-version }}
 
       - run: make prepare
+
+      - run: make lint
+
+      - run: make test
 
       - run: make build
 

@@ -3,7 +3,7 @@ name: Build and publish to GitHub Packages
 on:
   push:
     branches:
-      - staging
+      - HCLOUD-2508_Implement-semantic-release-for-agent-agent-bundle-wave-engine-wave-node-catalog_Darius-Weiberg
 
 jobs:
   testAndBuildAndPublish:

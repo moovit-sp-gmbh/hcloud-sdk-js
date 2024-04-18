@@ -2,7 +2,7 @@
  * @type {import('semantic-release').GlobalConfig}
  */
 module.exports = {
-    branches: ["staging"],
+    branches: ["HCLOUD-2508_Implement-semantic-release-for-agent-agent-bundle-wave-engine-wave-node-catalog_Darius-Weiberg"],
     plugins: [
         [
             "@semantic-release/commit-analyzer",

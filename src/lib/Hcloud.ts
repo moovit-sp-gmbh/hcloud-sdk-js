@@ -1,18 +1,18 @@
-import axios, { AxiosInstance } from "axios"
-import { version } from "../package.json"
-import { HcloudLogger, Options } from "./Base"
-import wrapError from "./helper/ErrorHelper"
-import { disableCacheHeaders } from "./interfaces/axios"
-import AgentService from "./service/agent"
-import AuditorService from "./service/auditor"
-import BouncerService from "./service/bouncer"
-import DaliService from "./service/dali"
-import FuseService from "./service/fuse"
-import High5Service from "./service/high5"
-import IdpService from "./service/idp"
-import MailerService from "./service/mailer"
-import MothershipService from "./service/mothership"
-import NatsService from "./service/nats"
+import axios, { AxiosInstance } from "axios";
+import { version } from "../package.json";
+import { HcloudLogger, Options } from "./Base";
+import wrapError from "./helper/ErrorHelper";
+import { disableCacheHeaders } from "./interfaces/axios";
+import AgentService from "./service/agent";
+import AuditorService from "./service/auditor";
+import BouncerService from "./service/bouncer";
+import DaliService from "./service/dali";
+import FuseService from "./service/fuse";
+import High5Service from "./service/high5";
+import IdpService from "./service/idp";
+import MailerService from "./service/mailer";
+import MothershipService from "./service/mothership";
+import NatsService from "./service/nats";
 
 // tslint:disable-next-line
 export class HCloud {

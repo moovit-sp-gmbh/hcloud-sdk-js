@@ -1,3 +1,10 @@
+## [9.2.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v9.1.1...v9.2.0) (2024-04-18)
+
+
+### Features
+
+* temp commit for testing ([0c737b5](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/0c737b5e0e1567955b7dcf209fd8d56c378c4eca))
+
 ## [9.1.1](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v9.1.0...v9.1.1) (2024-04-11)
 
 

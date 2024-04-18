@@ -35,10 +35,12 @@ jobs:
   buildAndPublish:
     needs: runTests
     permissions: write-all
-    runs-on: ubuntu-latest # currently not working on self-hosted
+    runs-on: self-hosted
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Needed for semantic-release to work in case tags have been modified manually (for example when testing)
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v2.4.0

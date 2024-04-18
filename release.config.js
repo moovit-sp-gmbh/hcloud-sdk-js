@@ -35,12 +35,6 @@ module.exports = {
             },
         ],
         [
-            "@semantic-release/github",
-            {
-                successComment: false,
-            },
-        ],
-        [
             "@semantic-release/npm",
             {
                 pkgRoot: "build",

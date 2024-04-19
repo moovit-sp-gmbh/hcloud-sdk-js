@@ -1,3 +1,15 @@
+## [9.1.2](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v9.1.1...v9.1.2) (2024-04-19)
+
+
+### Bug Fixes
+
+* remove method to search execution statuses ([549f62a](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/549f62a6bdf1d06f16cceaeffe8d4180cdf6f9eb))
+
+
+### Performance Improvements
+
+* fix format and linter issues ([a717140](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/a7171406ed318e8aac32e274f9167a43a7c815e9))
+
 ## [9.1.1](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v9.1.0...v9.1.1) (2024-04-11)
 
 

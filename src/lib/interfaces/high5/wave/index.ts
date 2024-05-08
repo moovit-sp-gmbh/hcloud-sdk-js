@@ -124,7 +124,7 @@ export interface StreamNodeSpecificationOutput {
     name: string;
     description: string;
     type: StreamNodeSpecificationOutputType;
-    example: any;
+    example: unknown;
     howToAccess: string[];
 }
 
@@ -181,4 +181,4 @@ export enum StreamNodeSpecificationPackage {
     DEV = "DEV",
     THIRD_PARTY = "THIRD_PARTY",
     CUSTOM = "CUSTOM",
-}   
+}

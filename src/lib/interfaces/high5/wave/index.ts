@@ -62,7 +62,7 @@ export interface StreamNodeSpecification {
     documentation: string;
     type: StreamNodeSpecificationType;
     package: StreamNodeSpecificationPackage;
-    category: StreamNodeSpecificationCategory;
+    category: string;
     version: StreamSemanticVersion;
     author: StreamNodeSpecificationAuthor;
     tag?: StreamNodeSpecificationTag;
@@ -181,16 +181,4 @@ export enum StreamNodeSpecificationPackage {
     DEV = "DEV",
     THIRD_PARTY = "THIRD_PARTY",
     CUSTOM = "CUSTOM",
-}
-export enum StreamNodeSpecificationCategory {
-    FILE_AND_FOLDER = "File & Folder",
-    STRING = "String",
-    COMMUNICATION = "Communication",
-    NETWORK = "Network",
-    OPERATING_SYSTEM = "Operating System",
-    STREAM = "Stream",
-    HIGH5 = "High5",
-    OTHER = "Other",
-    SCRIPTING = "Scripting",
-    CONTROL_FLOW = "Control Flow",
 }

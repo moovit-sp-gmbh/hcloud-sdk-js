@@ -52,4 +52,7 @@ export interface StreamSingleNodeResult {
     inputs?: StreamNodeResolvedInputs[];
     outputs?: StreamNodeOutput[];
     error?: StreamNodeResultError;
+    duration?: number;
+    bypassed?: boolean;
+    nodeResults?: StreamSingleNodeResult[];
 }

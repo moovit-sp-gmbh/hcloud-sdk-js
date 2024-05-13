@@ -74,11 +74,18 @@ export interface High5ExecutionPatchLog {
     nodeResults: StreamSingleNodeResult[];
 }
 
+export interface StreamRunningNodePatch {
+    uuid: string;
+    name: string;
+    progress: number;
+    message: string;
+}
+
 export interface High5ExecutionPatchStatus {
     streamId: string;
-    state: High5ExecutionState;
-    outcome: High5ExecutionOutcome;
-    runningNodes: StreamRunningNode[];
+    state?: High5ExecutionState;
+    outcome?: High5ExecutionOutcome;
+    runningNodes?: StreamRunningNodePatch[];
     message?: string;
 }
 

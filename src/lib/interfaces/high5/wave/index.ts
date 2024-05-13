@@ -181,4 +181,4 @@ export enum StreamNodeSpecificationPackage {
     DEV = "DEV",
     THIRD_PARTY = "THIRD_PARTY",
     CUSTOM = "CUSTOM",
-}
+}   

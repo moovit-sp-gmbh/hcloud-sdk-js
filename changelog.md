@@ -1,3 +1,10 @@
+## [9.1.3](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v9.1.2...v9.1.3) (2024-05-13)
+
+
+### Bug Fixes
+
+* redo previous commit with right commit convention ([ddb1e5c](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/ddb1e5c53ff9c3fbed996dcb66e726d1a56453bf))
+
 ## [9.1.2](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v9.1.1...v9.1.2) (2024-04-19)
 
 

@@ -56,3 +56,8 @@ export interface StreamSingleNodeResult {
     bypassed?: boolean;
     nodeResults?: StreamSingleNodeResult[];
 }
+
+export interface StreamNodeAdditionalConnector {
+    name: string;
+    targetUuid: string;
+}

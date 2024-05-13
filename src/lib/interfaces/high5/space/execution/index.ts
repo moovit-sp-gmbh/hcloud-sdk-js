@@ -4,7 +4,7 @@ import { ReducedOrganization, ReducedUser } from "../../../idp";
 import { WaveCatalog, WaveEngine } from "../../wave";
 import { ReducedEvent } from "../event";
 import { DesignBuild } from "../event/stream";
-import { StreamSingleNodeResult } from "../event/stream/node";
+import { StreamNodeAdditionalConnector, StreamNodeOutput, StreamNodeResolvedInputs, StreamSingleNodeResult } from "../event/stream/node";
 
 export enum High5ExecutionPayloadType {
     JSON = "JSON",
@@ -127,4 +127,17 @@ export interface High5ExecutionResponse {
     high5ExecutionId: string;
     statusId: string;
     logId: string;
+}
+
+export interface StreamNode {
+    uuid: string;
+    name: string;
+    catalog: WaveCatalog;
+    path: string;
+    bypass?: boolean;
+    onSuccess?: string;
+    onFail?: string;
+    inputs?: StreamNodeResolvedInputs[];
+    outputs?: StreamNodeOutput[];
+    additionalConnectors?: StreamNodeAdditionalConnector[];
 }

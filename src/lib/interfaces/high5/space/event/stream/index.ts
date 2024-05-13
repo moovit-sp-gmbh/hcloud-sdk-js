@@ -2,6 +2,7 @@ import { ReducedEvent } from "..";
 import { ReducedSpace } from "../../../../global";
 import { ReducedOrganization } from "../../../../idp/organization";
 import { ReducedUser } from "../../../../idp/user";
+import { StreamNode } from "../../execution";
 import { StreamSingleNodeResult } from "./node";
 
 export interface Stream {
@@ -79,7 +80,7 @@ export interface EventExecutionRequest {
 }
 
 export interface DesignBuild {
-    nodes: unknown[];
+    nodes: StreamNode[];
     startNode: string;
 }
 

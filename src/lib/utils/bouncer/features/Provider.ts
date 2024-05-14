@@ -19,6 +19,7 @@ export class BouncerProvider {
         this.logger = logger;
     }
 
+    /* eslint-disable complexity */
     isEnabled(featureName: string, defaultValue: boolean, context?: BouncerContext): boolean {
         const feature = this.features.find(f => f.feature.name === featureName);
         let result = defaultValue;
@@ -63,6 +64,7 @@ export class BouncerProvider {
         }
     }
 
+    /* eslint-disable @typescript-eslint/no-non-null-assertion*/
     private doesMatchRegion(feature: HcloudFeature, context?: BouncerContext): boolean {
         if (feature.regions.length) {
             if (context?.region) {
@@ -76,6 +78,7 @@ export class BouncerProvider {
         return true;
     }
 
+    /* eslint-disable @typescript-eslint/no-non-null-assertion*/
     private doesMatchUser(feature: HcloudFeature, context?: BouncerContext): boolean {
         if (feature.users.length) {
             if (context?.email) {
@@ -88,6 +91,7 @@ export class BouncerProvider {
         return true;
     }
 
+    /* eslint-disable @typescript-eslint/no-non-null-assertion*/
     private doesMatchOrganization(feature: HcloudFeature, context?: BouncerContext): boolean {
         if (feature.organizations.length) {
             if (context?.organization) {

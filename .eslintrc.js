@@ -55,6 +55,7 @@ module.exports = {
         "@typescript-eslint/no-unused-vars": [2, { argsIgnorePattern: "^_" }],
         "@typescript-eslint/no-this-alias": 0,
         "@typescript-eslint/no-empty-function": 1,
+        "@typescript-eslint/no-explicit-any": 0,
     },
     overrides: [
         {
@@ -69,7 +70,6 @@ module.exports = {
                 "@typescript-eslint/no-unused-vars": 0,
                 "@typescript-eslint/no-empty-function": 0,
                 "@typescript-eslint/no-this-alias": 0,
-                "@typescript-eslint/no-explicit-any": 0,
                 "@typescript-eslint/no-empty-interface": 0,
                 "@typescript-eslint/no-inferrable-types": 0,
                 "@typescript-eslint/no-namespace": 0,

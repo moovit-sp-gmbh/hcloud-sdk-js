@@ -1,3 +1,10 @@
+## [9.1.4](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v9.1.3...v9.1.4) (2024-05-14)
+
+
+### Bug Fixes
+
+* delete the wave node specification category field ([569877b](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/569877b075dced681bfc82ffa9657669553d305d))
+
 ## [9.1.3](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v9.1.2...v9.1.3) (2024-05-13)
 
 

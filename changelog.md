@@ -1,3 +1,14 @@
+## [10.0.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v9.1.4...v10.0.0) (2024-05-17)
+
+
+### ⚠ BREAKING CHANGES
+
+* update eslint rules to fix current errors
+
+### Styles
+
+* update eslint rules to fix current errors ([3afa2c0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/3afa2c0b497d089087010d31ee2a5c4df9a78149))
+
 ## [9.1.4](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v9.1.3...v9.1.4) (2024-05-14)
 
 

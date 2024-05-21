@@ -1,3 +1,10 @@
+## [10.2.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v10.1.1...v10.2.0) (2024-05-21)
+
+
+### Features
+
+* add compression support ([6161697](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/61616978b28d21f4f24984a31c1eb6ade89e0f43))
+
 ## [10.1.1](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v10.1.0...v10.1.1) (2024-05-21)
 
 

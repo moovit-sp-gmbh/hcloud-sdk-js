@@ -1,3 +1,10 @@
+## [10.2.1](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v10.2.0...v10.2.1) (2024-05-21)
+
+
+### Reverts
+
+* Revert "feat: add compression support" ([b638cd9](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/b638cd91ab0216a6173625ce507e638d28817aa2))
+
 ## [10.1.1](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v10.1.0...v10.1.1) (2024-05-21)
 
 

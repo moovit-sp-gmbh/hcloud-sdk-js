@@ -1,3 +1,10 @@
+## [10.1.1](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v10.1.0...v10.1.1) (2024-05-21)
+
+
+### Reverts
+
+* Revert "feat: add endpoints for getting and saving design with gzipped payloads" ([64fc0a9](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/64fc0a9cf49036be8a10fe45a56a0aab74a0b192))
+
 ## [10.1.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v10.0.0...v10.1.0) (2024-05-21)
 
 

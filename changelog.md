@@ -1,3 +1,10 @@
+## [10.1.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v10.0.0...v10.1.0) (2024-05-21)
+
+
+### Features
+
+* add endpoints for getting and saving design with gzipped payloads ([1f048a8](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/1f048a8c77b63d0536f0b5a39a3f1143c28b393c))
+
 ## [10.0.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v9.1.4...v10.0.0) (2024-05-17)
 
 

@@ -1,4 +1,4 @@
-import { AxiosInstance } from "axios"
+import { AxiosInstance } from "axios";
 
 export interface HcloudLogger {
     info(msg: string, ...args: any): void;

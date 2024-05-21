@@ -1,0 +1,3 @@
+[submodule "msp-repo-tools"]
+	path = msp-repo-tools
+	url = https://github.com/moovit-sp-gmbh/msp-repo-tools.git

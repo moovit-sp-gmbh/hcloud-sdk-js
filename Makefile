@@ -1,7 +1,7 @@
 .PHONY: test build
 
 prepare:
-	git config core.hooksPath .hooks
+	git config core.hooksPath msp-repo-tools/githooks/prettier
 	pnpm i
 
 doc:

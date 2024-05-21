@@ -20,9 +20,3 @@ export interface Design {
      */
     createDate: number;
 }
-
-export interface DesignPatchContent {
-    content?: DesignContent;
-    build?: unknown;
-    name?: string;
-}

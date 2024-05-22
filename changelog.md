@@ -1,3 +1,11 @@
+## [10.3.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v10.2.1...v10.3.0) (2024-05-22)
+
+
+### Features
+
+* update eslint configuration to sort imports alphabetically ([eb5306c](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/eb5306cafe18481c51742acc392815da6049a167))
+* update prettier configuration to sort imports ([1297db7](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/1297db7f8761c31b339a422655c8d8a3fa20ba3c))
+
 ## [10.2.1](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v10.2.0...v10.2.1) (2024-05-21)
 
 

@@ -1,4 +1,5 @@
 module.exports = {
+    plugins: ["@trivago/prettier-plugin-sort-imports"],
     printWidth: 150,
     tabWidth: 4,
     singleQuote: false,
@@ -11,4 +12,8 @@ module.exports = {
     proseWrap: "always",
     endOfLine: "lf",
     overrides: [{ files: ["*.yml", "*.yaml"], options: { tabWidth: 2 } }],
+    importOrderParserPlugins: ["typescript", "jsx", "decorators"],
+    importOrder: ["<THIRD_PARTY_MODULES>", "^(?!^\\.)(.+)$", "^../(.*)$", "^./(.*)$"],
+    importOrderSeparation: false,
+    importOrderCaseInsensitive: false,
 };

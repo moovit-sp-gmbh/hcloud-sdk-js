@@ -1,7 +1,7 @@
 import Base from "../../../../Base";
-import { PaginatedResponse, SearchFilter, SearchParams, Sorting } from "../../../../interfaces/global";
-import { SearchFilterDTO } from "../../../../helper/searchFilter";
 import { createPaginatedResponse } from "../../../../helper/paginatedResponseHelper";
+import { SearchFilterDTO } from "../../../../helper/searchFilter";
+import { PaginatedResponse, SearchFilter, SearchParams, Sorting } from "../../../../interfaces/global";
 import { Team, TeamQueryOptions, TeamUsersPatchOperation } from "../../../../interfaces/idp/organization/team";
 import { ReducedUser } from "../../../../interfaces/idp/user";
 

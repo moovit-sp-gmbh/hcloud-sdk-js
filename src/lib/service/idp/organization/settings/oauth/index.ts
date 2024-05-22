@@ -1,8 +1,8 @@
 import { AxiosInstance } from "axios";
 import Base, { Options } from "../../../../../Base";
+import { createPaginatedResponse } from "../../../../../helper/paginatedResponseHelper";
 import { SearchFilterDTO } from "../../../../../helper/searchFilter";
 import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../../interfaces/global";
-import { createPaginatedResponse } from "../../../../../helper/paginatedResponseHelper";
 import { OAuthApp, OAuthAppCreate } from "../../../../../interfaces/idp/organization/settings/oauthApp";
 
 export class IdpOAuthApp extends Base {

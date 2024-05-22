@@ -1,14 +1,14 @@
 import { AxiosInstance } from "axios";
 import Base, { Options } from "../../../Base";
-import { PaginatedResponse, SearchFilter, SearchParams } from "../../../interfaces/global";
-import { SearchFilterDTO } from "../../../helper/searchFilter";
 import { createPaginatedResponse } from "../../../helper/paginatedResponseHelper";
-import { FuseCronjob } from "./cronjob";
+import { SearchFilterDTO } from "../../../helper/searchFilter";
 import {
-    FuseSpaceEntityPermission as SpaceEntityPermission,
     FuseSpace as IFuseSpace,
+    FuseSpaceEntityPermission as SpaceEntityPermission,
     FuseSpacePermission as SpacePermission,
 } from "../../../interfaces/fuse/space";
+import { PaginatedResponse, SearchFilter, SearchParams } from "../../../interfaces/global";
+import { FuseCronjob } from "./cronjob";
 
 export class FuseSpace extends Base {
     public cronjob: FuseCronjob;

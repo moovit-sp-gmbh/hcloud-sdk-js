@@ -1,5 +1,5 @@
-import { Scope } from "./Scopes";
 import { ReducedUser } from ".";
+import { Scope } from "./Scopes";
 
 export interface Pat {
     _id: string;

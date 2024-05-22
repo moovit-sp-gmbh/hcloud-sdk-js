@@ -1,8 +1,8 @@
 import { AxiosInstance } from "axios";
 import Base, { Options } from "../../Base";
-import { PaginatedResponse, SearchFilter, SearchParams, Version } from "../../interfaces/global";
-import { SearchFilterDTO } from "../../helper/searchFilter";
 import { createPaginatedResponse } from "../../helper/paginatedResponseHelper";
+import { SearchFilterDTO } from "../../helper/searchFilter";
+import { PaginatedResponse, SearchFilter, SearchParams, Version } from "../../interfaces/global";
 import { Agent, TargetAgent } from "../../interfaces/mothership";
 
 type RecurrentInfo = Pick<Agent, "uptime" | "cpuUtilization" | "memoryUsed" | "status">;

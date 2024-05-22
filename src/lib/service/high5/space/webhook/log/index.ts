@@ -1,8 +1,8 @@
 import { AxiosInstance } from "axios";
 import Base, { Options } from "../../../../../Base";
-import { WebhookLog } from "../../../../../interfaces/high5/space/webhook";
-import { PaginatedResponse } from "../../../../../interfaces/global";
 import { createPaginatedResponse } from "../../../../../helper/paginatedResponseHelper";
+import { PaginatedResponse } from "../../../../../interfaces/global";
+import { WebhookLog } from "../../../../../interfaces/high5/space/webhook";
 
 export class High5WebhookLog extends Base {
     constructor(options: Options, axios: AxiosInstance) {

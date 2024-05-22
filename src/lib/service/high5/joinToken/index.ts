@@ -1,9 +1,9 @@
 import { AxiosInstance } from "axios";
 import Base, { Options } from "../../../Base";
+import { createPaginatedResponse } from "../../../helper/paginatedResponseHelper";
+import { PaginatedResponse } from "../../../interfaces/global";
 import { JoinToken } from "../../../interfaces/high5/joinToken";
 import { User } from "../../../interfaces/idp";
-import { PaginatedResponse } from "../../../interfaces/global";
-import { createPaginatedResponse } from "../../../helper/paginatedResponseHelper";
 
 export class High5JoinToken extends Base {
     constructor(options: Options, axios: AxiosInstance) {

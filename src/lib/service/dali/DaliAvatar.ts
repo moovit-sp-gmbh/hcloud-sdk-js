@@ -1,11 +1,11 @@
 import { AxiosInstance } from "axios";
 import Base, { Options } from "../../Base";
-import { DaliUser } from "./avatar/DaliUser";
-import { DaliTeam } from "./avatar/DaliTeam";
-import { DaliOrganization } from "./avatar/DaliOrganization";
-import { DaliHigh5 } from "./avatar/DaliHigh5Space";
 import { DaliFuse } from "./avatar/DaliFuseSpace";
+import { DaliHigh5 } from "./avatar/DaliHigh5Space";
 import { DaliOAuthApp } from "./avatar/DaliOAuthApp";
+import { DaliOrganization } from "./avatar/DaliOrganization";
+import { DaliTeam } from "./avatar/DaliTeam";
+import { DaliUser } from "./avatar/DaliUser";
 
 export class DaliAvatar extends Base {
     /**

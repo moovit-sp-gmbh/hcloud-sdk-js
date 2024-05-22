@@ -1,6 +1,6 @@
+import { Header, HttpMethod, ReducedSpace } from "../../../global";
 import { ReducedOrganization } from "../../../idp/organization";
 import { ReducedUser } from "../../../idp/user";
-import { HttpMethod, Header, ReducedSpace } from "../../../global";
 
 export interface Cronjob {
     _id: string;

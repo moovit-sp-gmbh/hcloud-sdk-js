@@ -1,5 +1,5 @@
-import Base, { Options } from "../../../Base";
 import { AxiosInstance } from "axios";
+import Base, { Options } from "../../../Base";
 import { HcloudFeature } from "../../../interfaces/bouncer";
 
 export default class BouncerFeatures extends Base {

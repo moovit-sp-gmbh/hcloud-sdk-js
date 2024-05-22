@@ -1,8 +1,8 @@
-import { NatsConnection, SubscriptionOptions, NatsError, Msg, Subscription, PublishOptions, RequestOptions, connect as connectNode } from "nats";
 import { AxiosInstance } from "axios";
+import { connect as connectNode, Msg, NatsConnection, NatsError, PublishOptions, RequestOptions, Subscription, SubscriptionOptions } from "nats";
 import { connect as connectWs } from "nats.ws";
-import { NatsMessage, NatsCallback, NatsMessageType, NatsObjectType, RawMsg } from "../../interfaces/nats";
 import Base, { Options } from "../../Base";
+import { NatsCallback, NatsMessage, NatsMessageType, NatsObjectType, RawMsg } from "../../interfaces/nats";
 
 interface SubMapEntry {
     subject: string;

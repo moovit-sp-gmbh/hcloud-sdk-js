@@ -1,8 +1,8 @@
 import { AxiosInstance } from "axios";
 import Base, { Options } from "../../../../../Base";
-import { High5ExecutionStatus } from "../../../../../interfaces/high5/space/execution";
-import { PaginatedResponse } from "../../../../../interfaces/global";
 import { createPaginatedResponse } from "../../../../../helper/paginatedResponseHelper";
+import { PaginatedResponse } from "../../../../../interfaces/global";
+import { High5ExecutionStatus } from "../../../../../interfaces/high5/space/execution";
 
 export class High5SpaceExecutionStates extends Base {
     constructor(options: Options, axios: AxiosInstance) {

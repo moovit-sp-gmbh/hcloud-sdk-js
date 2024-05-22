@@ -1,10 +1,10 @@
-import Base, { Options } from "../../Base";
 import { AxiosInstance } from "axios";
+import Base, { Options } from "../../Base";
+import { createPaginatedResponse } from "../../helper/paginatedResponseHelper";
+import { SearchFilterDTO } from "../../helper/searchFilter";
 import { AuditLog } from "../../interfaces/auditor";
 import { PaginatedResponse, SearchFilter, SearchParams, Version } from "../../interfaces/global";
 import { AuditorInternal } from "./internal";
-import { SearchFilterDTO } from "../../helper/searchFilter";
-import { createPaginatedResponse } from "../../helper/paginatedResponseHelper";
 
 export default class Auditor extends Base {
     public internal: AuditorInternal;

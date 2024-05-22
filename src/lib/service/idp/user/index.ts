@@ -1,14 +1,14 @@
 import { AxiosInstance } from "axios";
 import Base, { Options } from "../../../Base";
+import { createPaginatedResponse } from "../../../helper/paginatedResponseHelper";
 import { SearchFilterDTO } from "../../../helper/searchFilter";
 import { PaginatedResponse, SearchFilter, Sorting } from "../../../interfaces/global";
-import { createPaginatedResponse } from "../../../helper/paginatedResponseHelper";
 import { Organization, OrganizationQueryOptions } from "../../../interfaces/idp/organization";
 import { OrganizationMemberInvitation } from "../../../interfaces/idp/organization/member/invitations";
-import { UserPatch, User } from "../../../interfaces/idp/user";
+import { User, UserPatch } from "../../../interfaces/idp/user";
+import { IdpUserLicense } from "./license";
 import UserPasswordService from "./password";
 import { IdpSettings } from "./settings";
-import { IdpUserLicense } from "./license";
 
 export class IdpUser extends Base {
     /**

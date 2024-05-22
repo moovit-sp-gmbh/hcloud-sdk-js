@@ -1,7 +1,7 @@
 import Base from "../../../../../../../Base";
-import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../../../../interfaces/global";
-import { SearchFilterDTO } from "../../../../../../../helper/searchFilter";
 import { createPaginatedResponse } from "../../../../../../../helper/paginatedResponseHelper";
+import { SearchFilterDTO } from "../../../../../../../helper/searchFilter";
+import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../../../../interfaces/global";
 import DesignSnapshot from "../../../../../../../interfaces/high5/space/event/stream/design/snapshot";
 
 export default class High5DesignSnapshots extends Base {

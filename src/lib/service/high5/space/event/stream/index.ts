@@ -1,10 +1,10 @@
 import { AxiosInstance } from "axios";
 import Base, { Options } from "../../../../../Base";
+import { createPaginatedResponse } from "../../../../../helper/paginatedResponseHelper";
+import { SearchFilterDTO } from "../../../../../helper/searchFilter";
+import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../../interfaces/global";
 import { SingleStreamPatchOrder, Stream, StreamPatchActive, StreamPatchOrder } from "../../../../../interfaces/high5/space/event/stream";
 import { High5Design } from "./design";
-import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../../interfaces/global";
-import { SearchFilterDTO } from "../../../../../helper/searchFilter";
-import { createPaginatedResponse } from "../../../../../helper/paginatedResponseHelper";
 
 export class High5Stream extends Base {
     public design: High5Design;

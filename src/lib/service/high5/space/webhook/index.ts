@@ -1,10 +1,10 @@
 import { AxiosInstance } from "axios";
 import Base, { Options } from "../../../../Base";
-import { KeyValuePair, Webhook, WebhookCreate, WebhookUpdate } from "../../../../interfaces/high5/space/webhook";
-import { High5WebhookLog } from "./log";
+import { createPaginatedResponse } from "../../../../helper/paginatedResponseHelper";
 import { SearchFilterDTO } from "../../../../helper/searchFilter";
 import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../interfaces/global";
-import { createPaginatedResponse } from "../../../../helper/paginatedResponseHelper";
+import { KeyValuePair, Webhook, WebhookCreate, WebhookUpdate } from "../../../../interfaces/high5/space/webhook";
+import { High5WebhookLog } from "./log";
 
 export class High5Webhook extends Base {
     public log: High5WebhookLog;

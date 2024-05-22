@@ -1,11 +1,11 @@
 import { AxiosInstance } from "axios";
 import Base, { Options } from "../../Base";
 import { Version } from "../../interfaces/global";
-import { High5Space } from "./space";
-import { High5Wave } from "./wave";
-import { High5JoinToken } from "./joinToken";
 import { High5OrganizationExecute } from "./execution";
 import { High5Internal } from "./internal";
+import { High5JoinToken } from "./joinToken";
+import { High5Space } from "./space";
+import { High5Wave } from "./wave";
 
 export default class High5 extends Base {
     public space: High5Space;

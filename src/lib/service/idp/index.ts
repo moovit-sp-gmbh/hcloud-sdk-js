@@ -1,14 +1,14 @@
-import Base, { Options } from "../../Base";
 import { AxiosInstance } from "axios";
+import Base, { Options } from "../../Base";
+import { Version } from "../../interfaces/global";
+import { PreLoginResponse } from "../../interfaces/idp";
 import { User } from "../../interfaces/idp/user";
 import { SuccessfulAuth } from "../../interfaces/idp/user/SuccessfulAuth";
-import { Version } from "../../interfaces/global";
-import { IdpOrganization } from "./organization";
-import { IdpUser } from "./user";
-import { IdpRegistration } from "./registration";
-import { IdpOAuth } from "./oauth";
-import { PreLoginResponse } from "../../interfaces/idp";
 import { IdpInternal } from "./internal";
+import { IdpOAuth } from "./oauth";
+import { IdpOrganization } from "./organization";
+import { IdpRegistration } from "./registration";
+import { IdpUser } from "./user";
 
 export default class Idp extends Base {
     /**

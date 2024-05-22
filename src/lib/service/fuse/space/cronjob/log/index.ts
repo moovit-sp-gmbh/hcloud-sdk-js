@@ -1,8 +1,8 @@
 import Base from "../../../../../Base";
+import { createPaginatedResponse } from "../../../../../helper/paginatedResponseHelper";
+import { SearchFilterDTO } from "../../../../../helper/searchFilter";
 import { CronjobLogDto } from "../../../../../interfaces/fuse/space/cronjob/CronjobLog";
 import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../../interfaces/global";
-import { SearchFilterDTO } from "../../../../../helper/searchFilter";
-import { createPaginatedResponse } from "../../../../../helper/paginatedResponseHelper";
 
 export class FuseCronjobLog extends Base {
     /**

@@ -1,9 +1,9 @@
-import Base, { Options } from "../../Base";
 import { AxiosInstance } from "axios";
+import Base, { Options } from "../../Base";
 import { Version } from "../../interfaces/global";
-import { FuseSpace } from "./space";
 import { FuseInternal } from "./internal";
 import { FuseSpaceInternal } from "./internal/space";
+import { FuseSpace } from "./space";
 
 export default class Fuse extends Base {
     public space: FuseSpace;

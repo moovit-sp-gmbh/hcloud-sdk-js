@@ -1,10 +1,10 @@
 import { AxiosInstance } from "axios";
 import Base, { Options } from "../../../Base";
 import { Organization, OrganizationQueryOptions } from "../../../interfaces/idp/organization";
-import { IdpOrganizationMember } from "./member";
-import { IdpOrganizationTeams } from "./team";
-import IdpOrganizationSettings from "./settings";
 import { IdpOrganizationLicense } from "./license";
+import { IdpOrganizationMember } from "./member";
+import IdpOrganizationSettings from "./settings";
+import { IdpOrganizationTeams } from "./team";
 
 export class IdpOrganization extends Base {
     /**

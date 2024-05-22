@@ -1,5 +1,5 @@
-import Base, { Options } from "../../Base";
 import { AxiosInstance } from "axios";
+import Base, { Options } from "../../Base";
 import { Version } from "../../interfaces/global";
 import { DaliAvatar } from "./DaliAvatar";
 

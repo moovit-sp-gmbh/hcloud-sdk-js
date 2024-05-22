@@ -1,6 +1,6 @@
+import { Header, ReducedSpace } from "../../../global";
 import { ReducedOrganization } from "../../../idp/organization";
 import { ReducedUser } from "../../../idp/user";
-import { Header, ReducedSpace } from "../../../global";
 
 export interface CronjobLogDto {
     _id: string;

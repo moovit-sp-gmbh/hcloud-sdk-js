@@ -1,11 +1,11 @@
 import { AxiosInstance } from "axios";
 import Base, { Options } from "../../../../Base";
+import { IdpConnections } from "./connections";
+import { IdpGeneral } from "./general";
+import { IdpNotifications } from "./notifications";
+import { IdpOAuthApps } from "./oauthApps";
 import { IdpPat } from "./pats";
 import { IdpTwoFactor } from "./twoFactor";
-import { IdpGeneral } from "./general";
-import { IdpOAuthApps } from "./oauthApps";
-import { IdpNotifications } from "./notifications";
-import { IdpConnections } from "./connections";
 
 export class IdpSettings extends Base {
     /**

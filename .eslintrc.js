@@ -56,6 +56,16 @@ module.exports = {
         "@typescript-eslint/no-this-alias": 0,
         "@typescript-eslint/no-empty-function": 1,
         "@typescript-eslint/no-explicit-any": 0,
+        "sort-imports": [
+            "error",
+            {
+                ignoreCase: true,
+                ignoreDeclarationSort: true,
+                ignoreMemberSort: false,
+                memberSyntaxSortOrder: ["none", "all", "multiple", "single"],
+                allowSeparatedGroups: true,
+            },
+        ],
     },
     overrides: [
         {

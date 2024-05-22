@@ -7,7 +7,7 @@
     "scripts": {
         "test": "mocha -r ts-node/register tests/**/*.test.ts",
         "format": "prettier --write \"src/**/*.ts\" \"tests/**/*.test.ts\"",
-        "lint": "eslint src/ --ext .ts",
+        "lint": "eslint --max-warnings=0 --fix src/ tests/ --ext .ts",
         "doc:build": "vuepress build _docs/src",
         "doc:dev": "vuepress dev _docs/src",
         "doc:export": "vuepress export _docs/src",

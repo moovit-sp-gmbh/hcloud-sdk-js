@@ -59,6 +59,11 @@ export interface Specification {
 }
 
 export interface StreamNodeSpecification {
+    specVersion: number;
+}
+
+export interface StreamNodeSpecificationV1 extends StreamNodeSpecification {
+    specVersion: 1;
     name: string;
     description: string;
     documentation: string;
@@ -74,6 +79,9 @@ export interface StreamNodeSpecification {
     additionalConnectors?: StreamNodeSpecificationAdditionalConnector[];
     path?: string;
     customNode?: StreamCustomNodeSpecification;
+}
+export function isStreamNodeSpecificationV1(s: StreamNodeSpecification): s is StreamNodeSpecificationV1 {
+    return s.specVersion === 1;
 }
 
 export interface StreamCustomNodeSpecification {

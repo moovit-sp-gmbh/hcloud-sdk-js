@@ -19,6 +19,7 @@ export interface WaveEngine {
     url: string;
     changeLog: string[];
     md5: string;
+    dev?: boolean;
 }
 
 export interface WaveCatalog {
@@ -26,6 +27,7 @@ export interface WaveCatalog {
     version: string;
     url: string;
     changeLog: string[];
+    dev?: boolean;
 }
 
 export interface Engine {

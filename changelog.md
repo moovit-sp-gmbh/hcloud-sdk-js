@@ -1,3 +1,10 @@
+## [10.4.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v10.3.0...v10.4.0) (2024-05-24)
+
+
+### Features
+
+* add dev boolean flag to catalog and engine version ([0f70181](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/0f701818c9f9fcfb2f2d2f93ad95775b698f0a56))
+
 ## [10.3.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v10.2.1...v10.3.0) (2024-05-22)
 
 

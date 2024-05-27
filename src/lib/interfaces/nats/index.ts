@@ -23,8 +23,10 @@ enum NatsSubject {
     HIGH5_SETTINGS_GENERAL = "hcloud.high5.organization.${organizationName}.space.${spaceName}.settings.general",
     HIGH5_SETTINGS_WEBHOOKS = "hcloud.high5.organization.${organizationName}.space.${spaceName}.settings.webhooks",
 
-    FUSE_JOBS = "hcloud.fuse.jobs",
-    FUSE_JOBS_TRIGGER = "hcloud.fuse.jobs.trigger",
+    FUSE_SPACES = "hcloud.fuse.organization.${organizationName}.spaces",
+    FUSE_JOBS = "hcloud.fuse.organization.${organizationName}.space.${spaceName}.jobs",
+    FUSE_JOB_LOGS = "hcloud.fuse.organization.${organizationName}.space.${spaceName}.jobs.logs",
+    FUSE_JOBS_TRIGGER = "hcloud.hcloud.fuse.organization.${organizationName}.space.${spaceName}.jobs.trigger",
 
     DEBUG_NAMESPACE = "hcloud.debug.namespace.${product}",
 }
@@ -142,8 +144,19 @@ class NatsSubjects {
     };
 
     static Fuse = class {
-        static JOBS = () => {
-            return NatsSubject.FUSE_JOBS.toString();
+        static SPACES = (organizationName: string) => {
+            return NatsSubjects.replace(NatsSubject.FUSE_SPACES, { organizationName } as NatsSubjectReplacements);
+        };
+        static Space = class {
+            static Jobs = class {
+                static JOBS = (organizationName: string, spaceName: string) => {
+                    return NatsSubjects.replace(NatsSubject.FUSE_JOBS, { organizationName, spaceName } as NatsSubjectReplacements);
+                };
+
+                static JOB_LOGS = (organizationName: string, spaceName: string) => {
+                    return NatsSubjects.replace(NatsSubject.FUSE_JOB_LOGS, { organizationName, spaceName } as NatsSubjectReplacements);
+                };
+            };
         };
     };
 

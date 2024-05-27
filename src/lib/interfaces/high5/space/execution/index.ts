@@ -141,3 +141,15 @@ export interface StreamNode {
     outputs?: StreamNodeOutput[];
     additionalConnectors?: StreamNodeAdditionalConnector[];
 }
+
+export interface High5ExecuteOnAgentRequest {
+    organizationName: string;
+    spaceName: string;
+    streamId: string;
+    secret: string;
+    subject: string;
+}
+
+export interface High5ExecutionCancelRequest {
+    secret: string;
+}

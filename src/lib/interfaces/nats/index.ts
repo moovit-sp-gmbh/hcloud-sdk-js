@@ -1,5 +1,6 @@
 import { Msg } from "nats";
 import { Products } from "../global";
+import { High5ExecuteOnAgentRequest, High5ExecutionCancelRequest } from "../high5/space/execution";
 
 enum NatsSubject {
     IDP_USER_GENERAL = "hcloud.idp.user.${userId}.general",
@@ -82,10 +83,60 @@ enum NatsObjectType {
 
 interface NatsMessage {
     type: NatsMessageType;
-    object: unknown;
+    object: NatsObject;
     objectType: NatsObjectType;
 }
+interface NatsObject
+    extends NatsNameObject,
+        NatsIdObject,
+        NatsMemberObject,
+        NatsSecretObject,
+        NatsExecTargetObject,
+        High5ExecuteOnAgentRequest,
+        High5ExecutionCancelRequest {
+    [NatsSubject.IDP_USER_GENERAL]: unknown;
+    [NatsSubject.IDP_USER_MESSAGES]: unknown;
+    [NatsSubject.IDP_USER_SETTINGS_PATS]: NatsIdObject;
+    [NatsSubject.IDP_USER_SETTINGS_OAUTH]: unknown;
+    [NatsSubject.IDP_USER_SETTINGS_NOTIFICATIONS]: NatsIdObject;
+    [NatsSubject.IDP_USER_GENERAL_SETTINGS]: unknown;
+    [NatsSubject.IDP_ORGANIZATION_GENERAL]: NatsNameObject;
+    [NatsSubject.IDP_ORGANIZATION_MEMBERS]: NatsMemberObject;
+    [NatsSubject.IDP_ORGANIZATION_MEMBERS_EXECUTION_TARGET]: NatsExecTargetObject;
+    [NatsSubject.IDP_ORGANIZATION_TEAMS]: NatsNameObject;
+    [NatsSubject.HIGH5_SPACES]: NatsNameObject;
+    [NatsSubject.HIGH5_STREAM_EXECUTE]: High5ExecuteOnAgentRequest | High5ExecutionCancelRequest;
+    [NatsSubject.HIGH5_STREAM_CANCEL]: High5ExecuteOnAgentRequest | High5ExecutionCancelRequest;
+    [NatsSubject.HIGH5_EVENTS]: NatsNameObject;
+    [NatsSubject.HIGH5_STREAMS]: NatsIdObject;
+    [NatsSubject.HIGH5_SECRETS]: NatsSecretObject;
+    [NatsSubject.HIGH5_SETTINGS_GENERAL]: unknown;
+    [NatsSubject.HIGH5_SETTINGS_WEBHOOKS]: NatsIdObject;
+    [NatsSubject.FUSE_SPACES]: NatsNameObject;
+    [NatsSubject.FUSE_JOBS]: NatsIdObject;
+    [NatsSubject.FUSE_JOB_LOGS]: NatsIdObject;
+    [NatsSubject.FUSE_JOBS_TRIGGER]: unknown;
+    [NatsSubject.DEBUG_NAMESPACE]: string;
+}
 
+interface NatsNameObject {
+    name: string;
+}
+interface NatsIdObject {
+    _id: string;
+}
+
+interface NatsMemberObject {
+    userId: string;
+}
+
+interface NatsExecTargetObject extends NatsMemberObject {
+    executionTarget: boolean;
+}
+
+interface NatsSecretObject {
+    secretKey: string;
+}
 type NatsCallback = (msg: NatsMessage, rawMsg: Msg) => void;
 
 /**
@@ -221,4 +272,4 @@ class NatsSubjects {
     };
 }
 
-export { NatsSubjects, NatsMessageType, NatsObjectType, NatsMessage, NatsCallback, Msg as RawMsg };
+export { NatsSubjects, NatsMessageType, NatsObjectType, NatsObject, NatsSubject, NatsMessage, NatsCallback, Msg as RawMsg };

@@ -97,6 +97,33 @@ export default class MothershipService extends Base {
     };
 
     /**
+     * Disconnect from an organization.
+     *
+     * This call should only be made after an initial hello.
+     *
+     * The session token obtained in the hello endpoint must be used here. Use the setAuthToken method to do so.
+     *
+     * @param orgName Name of the organization
+     * @param email Email of the user
+     */
+    disconnect = async (orgName: string, email: string): Promise<void> => {
+        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/connect/${email}`));
+    };
+
+    /**
+     * Disconnect as a target.
+     *
+     * This call should only be made after an initial hello.
+     *
+     * The session token obtained in the hello endpoint must be used here. Use the setAuthToken method to do so.
+     *
+     * @param email Email of the target
+     */
+    disconnectTarget = async (email: string): Promise<void> => {
+        await this.axios.delete<void>(this.getEndpoint(`/v1/connect/${email}`));
+    };
+
+    /**
      * Search among the available targets for a given organization.
      *
      * @param orgName Name of the organization

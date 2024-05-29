@@ -1,3 +1,10 @@
+## [10.5.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v10.4.0...v10.5.0) (2024-05-29)
+
+
+### Features
+
+* add canvas dimensions to the design object ([8cd8251](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/8cd82512fb67601a2ca51b05b0a920b10398ac5f))
+
 ## [10.4.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v10.3.0...v10.4.0) (2024-05-24)
 
 

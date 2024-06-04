@@ -1,6 +1,6 @@
 import { AxiosInstance } from "axios";
 import Base, { Options } from "../../../../../../Base";
-import { CanvasDimensions, Design } from "../../../../../../interfaces/high5/space/event/stream/design";
+import { Design } from "../../../../../../interfaces/high5/space/event/stream/design";
 import { DesignContent } from "../../../../../../interfaces/high5/space/event/stream/design/StreamDesign";
 import DesignOperations from "./DesignOperations";
 import High5DesignSnapshots from "./snapshot";
@@ -56,7 +56,6 @@ export class High5Design extends Base {
         streamId: string,
         name: string,
         content: DesignContent,
-        canvas: CanvasDimensions,
         build?: unknown
     ): Promise<Design> => {
         const resp = await this.axios.put<Design>(
@@ -65,7 +64,6 @@ export class High5Design extends Base {
                 name,
                 content,
                 build,
-                canvas,
             }
         );
 

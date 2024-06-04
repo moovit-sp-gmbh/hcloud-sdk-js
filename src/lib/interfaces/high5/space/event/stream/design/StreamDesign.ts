@@ -1,8 +1,14 @@
 import { StreamCustomNodeSpecification, StreamNodeSpecificationInputType, StreamSemanticVersion } from "../../../../wave";
 
+export interface CanvasDimensions {
+    width: number;
+    height: number;
+}
+
 export interface DesignContent {
     nodes: DesignerNode[];
     links: DesignerLink[];
+    canvas: CanvasDimensions;
 }
 
 export interface DesignerNode {

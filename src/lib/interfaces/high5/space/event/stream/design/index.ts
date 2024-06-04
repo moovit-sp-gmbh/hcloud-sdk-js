@@ -4,11 +4,6 @@ import { ReducedOrganization } from "../../../../../idp/organization";
 import { ReducedUser } from "../../../../../idp/user";
 import { DesignContent } from "./StreamDesign";
 
-export interface CanvasDimensions {
-    width: number;
-    height: number;
-}
-
 export interface Design {
     _id: string;
     name: string;
@@ -20,7 +15,6 @@ export interface Design {
     organization: ReducedOrganization;
     creator: ReducedUser;
     designHash: string;
-    canvas: CanvasDimensions;
     /**
      * UTC+0 unix timestamp
      */

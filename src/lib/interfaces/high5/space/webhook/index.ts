@@ -60,7 +60,7 @@ export interface Webhook {
     };
 }
 
-export type WebhookCreate = Pick<Webhook, "name" | "target" | "type" | "sub" | "webhookEncryptionSettings" | "securityHeaders">;
+export type WebhookCreate = Pick<Webhook, "name" | "target" | "type" | "sub" | "webhookEncryptionSettings" | "securityHeaders" | "networkSettings">;
 
 export type WebhookUpdate = Partial<WebhookCreate> & {
     deleteWebhookEncryptionSettings?: boolean;

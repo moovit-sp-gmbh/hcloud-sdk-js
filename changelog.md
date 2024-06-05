@@ -1,3 +1,9 @@
+## [10.10.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v10.9.0...v10.10.0) (2024-06-05)
+
+### Features
+
+* add support for StreamNodeSpecificationWrappedWithEngineVersion ([62758f5](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/62758f5b58c67f99dfab276199b60c0572dce1a8))
+
 ## [10.9.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v10.8.0...v10.9.0) (2024-06-05)
 
 ### Features

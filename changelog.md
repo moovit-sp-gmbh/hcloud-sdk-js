@@ -1,3 +1,9 @@
+## [10.7.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v10.6.0...v10.7.0) (2024-06-05)
+
+### Features
+
+* remove version prop of catalog object ([5ac31c6](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/5ac31c68c761b5bd484ab0cd8b8d1de818d377e8))
+
 ## [10.6.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v10.5.0...v10.6.0) (2024-06-05)
 
 ### Features

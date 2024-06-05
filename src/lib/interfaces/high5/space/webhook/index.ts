@@ -46,8 +46,8 @@ export interface Webhook {
     sub: EventWebhook | SpaceWebhook | FrameIoWebhook;
     webhookEncryptionSettings?: WebhookEncryptionSettings;
     securityHeaders?: SecurityHeader[];
-    space: ReducedSpace;
     networkSettings?: NetworkSettings;
+    space: ReducedSpace;
     target: string;
     organization: ReducedOrganization;
     creator: ReducedUser;

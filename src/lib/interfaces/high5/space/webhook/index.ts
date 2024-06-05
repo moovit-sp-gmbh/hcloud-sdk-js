@@ -1,7 +1,7 @@
-import { ReducedSpace } from "../../../global";
-import { ReducedOrganization } from "../../../idp/organization";
-import { ReducedUser } from "../../../idp/user";
-import { ReducedEvent } from "../event";
+import { ReducedSpace } from "../../../global"
+import { ReducedOrganization } from "../../../idp/organization"
+import { ReducedUser } from "../../../idp/user"
+import { ReducedEvent } from "../event"
 
 export enum WebhookType {
     EVENT = "EVENT",
@@ -34,6 +34,10 @@ export interface WebhookEncryptionSettings {
     hmacSecret: string;
 }
 
+export interface NetworkSettings {
+    addressWhiteList?: string[];
+    addressBlackList?: string[];
+}
 export interface Webhook {
     _id: string;
     name: string;
@@ -42,6 +46,7 @@ export interface Webhook {
     sub: EventWebhook | SpaceWebhook | FrameIoWebhook;
     webhookEncryptionSettings?: WebhookEncryptionSettings;
     securityHeaders?: SecurityHeader[];
+    networkSettings?: NetworkSettings;
     space: ReducedSpace;
     target: string;
     organization: ReducedOrganization;

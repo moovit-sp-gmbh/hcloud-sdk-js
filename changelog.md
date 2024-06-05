@@ -7,6 +7,17 @@
 ### Bug Fixes
 
 * add networkSettings to webhookCreate ([33708ae](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/33708aedb354125695cb7e836a6861073745ab1f))
+* add networkSettings to WebhookCreation ([07e31fe](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/07e31fee3eeebe6db517c392a9b16dc41b95afa2))
+
+## [10.8.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v10.7.0...v10.8.0) (2024-06-05)
+
+### Features
+
+* add networkSettings for webhooks ([15b1217](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/15b1217a107f5db2e427544086005747ab687e5a))
+
+### Bug Fixes
+
+* add networkSettings to webhookCreate ([33708ae](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/33708aedb354125695cb7e836a6861073745ab1f))
 
 ## [10.8.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v10.7.0...v10.8.0) (2024-06-05)
 

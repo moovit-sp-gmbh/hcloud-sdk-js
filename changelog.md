@@ -1,3 +1,9 @@
+## [10.9.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v10.8.0...v10.9.0) (2024-06-05)
+
+### Features
+
+* add networkSettings ([29e4ee8](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/29e4ee8b0c52f4addaaa008570904260822fcf9f))
+
 ## [10.8.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v10.7.0...v10.8.0) (2024-06-05)
 
 ### Features

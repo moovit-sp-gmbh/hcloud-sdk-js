@@ -1,3 +1,9 @@
+## [10.8.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v10.7.0...v10.8.0) (2024-06-05)
+
+### Features
+
+* add networkSettings for webhooks ([15b1217](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/15b1217a107f5db2e427544086005747ab687e5a))
+
 ## [10.7.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v10.6.0...v10.7.0) (2024-06-05)
 
 ### Features

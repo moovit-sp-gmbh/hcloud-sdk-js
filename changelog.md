@@ -1,3 +1,11 @@
+## [10.6.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v10.5.0...v10.6.0) (2024-06-05)
+
+### Features
+
+* add canvas dimensions to DesignContent interface ([6f11fb7](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/6f11fb7e9b9c8e2898146ee18a7307882dad710d))
+* add disconnect methods for mothership ([46e8fd4](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/46e8fd4435ccb9941c22d8923093d5027a91e47d))
+* update dependency conventionalcommits ([5206f4d](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/5206f4debe74b7dfb9cbf1909992204803fbfb37))
+
 ## [10.4.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v10.3.0...v10.4.0) (2024-05-24)
 
 

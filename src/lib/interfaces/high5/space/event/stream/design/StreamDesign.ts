@@ -30,7 +30,6 @@ export interface DesignerNode {
 
 export interface DesignerNodeCatalog {
     url: string;
-    version: string;
 }
 
 export type StringMap = {

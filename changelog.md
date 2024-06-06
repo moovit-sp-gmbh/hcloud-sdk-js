@@ -1,3 +1,9 @@
+## [10.11.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v10.10.0...v10.11.0) (2024-06-06)
+
+### Features
+
+* set 'user-agent' header in non-browser environment ([cdcc9e6](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/cdcc9e6add09ebc66dfe3f67dc7be4e97ddc5855))
+
 ## [10.10.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v10.9.0...v10.10.0) (2024-06-05)
 
 ### Features

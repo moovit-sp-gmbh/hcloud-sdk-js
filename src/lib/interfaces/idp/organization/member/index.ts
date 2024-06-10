@@ -1,4 +1,4 @@
-import { OrganizationRole } from "..";
+import { OrganizationRole } from ".."
 
 export interface OrganizationMember {
     _id: string;
@@ -7,6 +7,7 @@ export interface OrganizationMember {
     avatarUrl: string;
     role: OrganizationRole;
     executionTarget: boolean;
+    lastActive: number;
 }
 
 export interface OrgMemberCreate {

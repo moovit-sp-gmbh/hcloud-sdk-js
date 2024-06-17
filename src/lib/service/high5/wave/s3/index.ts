@@ -1,7 +1,14 @@
-import { AxiosInstance } from "axios"
-import Base, { Options } from "../../../../Base"
-import { disableCacheHeaders } from "../../../../interfaces/axios"
-import { Catalog, CatalogRegistry, Engine, EngineRegistry, StreamNodeSpecification, StreamNodeSpecificationWrappedWithEngineVersion } from "../../../../interfaces/high5"
+import { AxiosInstance } from "axios";
+import Base, { Options } from "../../../../Base";
+import { disableCacheHeaders } from "../../../../interfaces/axios";
+import {
+    Catalog,
+    CatalogRegistry,
+    Engine,
+    EngineRegistry,
+    StreamNodeSpecification,
+    StreamNodeSpecificationWrappedWithEngineVersion,
+} from "../../../../interfaces/high5";
 
 /**
  * Class for reading the S3 bucket of a wave engine and catalogs
@@ -60,9 +67,14 @@ export class S3 extends Base {
      * @param catalogUrl Public url of the catalog
      * @returns StreamNodeSpecification[] | StreamNodeSpecificationWrappedWithEngineVersion an array of all node specification of that catalog version, maybe wrapped in an object with the engine version
      */
-    public getCatalogVersion = async (catalogUrl: string, version: string): Promise<StreamNodeSpecification[] | StreamNodeSpecificationWrappedWithEngineVersion> => {
+    public getCatalogVersion = async (
+        catalogUrl: string,
+        version: string
+    ): Promise<StreamNodeSpecification[] | StreamNodeSpecificationWrappedWithEngineVersion> => {
         const specificationUrl = catalogUrl.split("/").slice(0, -1).join("/") + "/" + version + "/specification.json";
-        const resp = await this.axios.get<StreamNodeSpecification[] | StreamNodeSpecificationWrappedWithEngineVersion>(specificationUrl, { headers: disableCacheHeaders });
+        const resp = await this.axios.get<StreamNodeSpecification[] | StreamNodeSpecificationWrappedWithEngineVersion>(specificationUrl, {
+            headers: disableCacheHeaders,
+        });
 
         return resp.data;
     };

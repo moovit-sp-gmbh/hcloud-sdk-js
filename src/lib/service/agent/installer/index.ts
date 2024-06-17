@@ -13,14 +13,19 @@ export class AgentInstaller extends Base {
 
     async getVersions(): Promise<AgentInstallerVersions> {
         const resp = await this.axios.get<AgentInstallerVersions>(this.getEndpoint("/install/index.json"), { headers: disableCacheHeaders });
+        const registry = resp.data;
 
-        return resp.data;
+        for (const version in registry.versions) {
+            setDev(registry.versions[version])
+        }
+
+        return registry;
     }
 
     async getLatestVersion(): Promise<InstallerVersion[]> {
         const resp = await this.getVersions();
 
-        return resp.versions[resp.latest];
+        return setDev(resp.versions[resp.latest]);
     }
 
     async getLatestVersionDarwin(): Promise<InstallerVersion | null> {
@@ -56,4 +61,15 @@ export class AgentInstaller extends Base {
     protected getEndpoint(endpoint: string): string {
         return this.sourceServer + endpoint;
     }
+}
+
+function setDev(vs: InstallerVersion[]): InstallerVersion[] {
+    for (const v of vs) {
+        if (v.dev !== false) {
+            // This catches undefined, etc. even though it may seem dumb
+            v.dev = true;
+        }
+    }
+
+    return vs
 }

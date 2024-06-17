@@ -10,6 +10,7 @@ export interface InstallerVersion {
     published_date: number; // unix timestamp
     version: string;
     os: "darwin" | "windows";
+    dev: boolean;
 }
 
 export interface AgentVersions {

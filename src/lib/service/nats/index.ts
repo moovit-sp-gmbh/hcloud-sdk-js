@@ -95,8 +95,29 @@ class Nats extends Base {
             const newOptions = {
                 ...options,
                 callback: (err: NatsError | null, msg: Msg) => {
-                    const data = new TextDecoder("utf-8").decode(msg.data);
-                    callback(JSON.parse(data) as NatsMessage, msg);
+                    if (err !== null) {
+                        try {
+                            callback(err);
+                        } catch (ignored) {
+                            // ignore callback errors
+                        }
+                        return;
+                    }
+
+                    let parsedData: NatsMessage;
+                    try {
+                        const data = new TextDecoder("utf-8").decode(msg.data);
+                        parsedData = JSON.parse(data);
+                    } catch (e) {
+                        callback(e as Error);
+                        return;
+                    }
+
+                    try {
+                        callback(null, parsedData, msg);
+                    } catch (ignored) {
+                        // ignore callback errors
+                    }
                 },
             };
 

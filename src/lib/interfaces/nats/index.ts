@@ -137,7 +137,7 @@ interface NatsExecTargetObject extends NatsMemberObject {
 interface NatsSecretObject {
     secretKey: string;
 }
-type NatsCallback = (msg: NatsMessage, rawMsg: Msg) => void;
+type NatsCallback = (err: Error | null, msg?: NatsMessage, rawMsg?: Msg) => void;
 
 /**
  * NatsSubjects creates subject strings to be used with nats.subscribe and nats.publish

@@ -1,3 +1,9 @@
+## [10.12.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v10.11.0...v10.12.0) (2024-06-17)
+
+### Features
+
+* add specVersion to node specification ([d62bedb](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/d62bedbac0fe54ef3bc822c387648b85c559c64c))
+
 ## [10.11.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v10.10.0...v10.11.0) (2024-06-06)
 
 ### Features

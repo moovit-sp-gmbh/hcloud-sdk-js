@@ -59,9 +59,9 @@ export interface Specification {
 }
 
 export interface StreamNodeSpecificationWrappedWithEngineVersion {
-    nodes: StreamNodeSpecification[]
-    engineVersion: string
-  }
+    nodes: StreamNodeSpecification[];
+    engineVersion: string;
+}
 
 export interface StreamNodeSpecification {
     specVersion: number;

@@ -1,3 +1,12 @@
+## [10.13.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v10.12.0...v10.13.0) (2024-06-17)
+
+### Features
+
+* add missing fuse nats subs ([0897910](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/08979106df4e0d1d2e635e78c86318350c044d19))
+* add missing idp nats sub ([ac2f095](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/ac2f0950510a28fb3b9d8c2898b0ca1beb365354))
+* add types for nats messages for all existing subjects ([4e89f54](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/4e89f54cdeca415b2deb15b645beb6d1a713d642))
+* replace ids by names in nats subs ([6d4b782](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/6d4b782e9dd3d4e59245f7185f9f411ae917d639))
+
 ## [10.12.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v10.11.0...v10.12.0) (2024-06-17)
 
 ### Features

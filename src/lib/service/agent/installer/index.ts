@@ -16,7 +16,7 @@ export class AgentInstaller extends Base {
         const registry = resp.data;
 
         for (const version in registry.versions) {
-            setDev(registry.versions[version])
+            setDev(registry.versions[version]);
         }
 
         return registry;
@@ -71,5 +71,5 @@ function setDev(vs: InstallerVersion[]): InstallerVersion[] {
         }
     }
 
-    return vs
+    return vs;
 }

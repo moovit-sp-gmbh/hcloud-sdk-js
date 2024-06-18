@@ -1,3 +1,9 @@
+## [12.1.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v12.0.1...v12.1.0) (2024-06-18)
+
+### Features
+
+* add dev flag to installer.getLatestVersion ([eefd08d](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/eefd08d7b41fc0ea07437a2e2d523cf12354a14c))
+
 ## [12.0.1](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v12.0.0...v12.0.1) (2024-06-18)
 
 ### Bug Fixes

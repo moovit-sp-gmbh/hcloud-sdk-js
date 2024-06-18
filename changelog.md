@@ -1,3 +1,14 @@
+## [11.0.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v10.13.0...v11.0.0) (2024-06-18)
+
+### ⚠ BREAKING CHANGES
+
+* rename bundle dev-release to dev
+
+### Features
+
+* add dev flag to installer versions ([691c55c](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/691c55c63229cc72a1497809dab0ee23cadb2d93))
+* rename bundle dev-release to dev ([f27274b](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/f27274b805110af0143c5675d8bf8e32206a0bd8))
+
 ## [10.13.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v10.12.0...v10.13.0) (2024-06-17)
 
 ### Features

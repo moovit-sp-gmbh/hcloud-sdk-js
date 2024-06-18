@@ -1,3 +1,13 @@
+## [12.0.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v11.0.0...v12.0.0) (2024-06-18)
+
+### ⚠ BREAKING CHANGES
+
+* add error to NatsCallback parameters
+
+### Features
+
+* add error to NatsCallback parameters ([479deae](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/479deaee45d770d2b9dacc2c453739e30b4a7324))
+
 ## [11.0.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v10.13.0...v11.0.0) (2024-06-18)
 
 ### ⚠ BREAKING CHANGES

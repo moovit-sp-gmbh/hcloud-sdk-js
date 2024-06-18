@@ -1,3 +1,9 @@
+## [12.0.1](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v12.0.0...v12.0.1) (2024-06-18)
+
+### Bug Fixes
+
+* revert the subject to listen to org id instead of org name for stream exec and cancel requests ([54f2aed](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/54f2aed0ab08a5a4787d1821097fd5d17510e171))
+
 ## [12.0.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v11.0.0...v12.0.0) (2024-06-18)
 
 ### ⚠ BREAKING CHANGES

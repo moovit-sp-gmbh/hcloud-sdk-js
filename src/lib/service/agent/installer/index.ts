@@ -22,10 +22,27 @@ export class AgentInstaller extends Base {
         return registry;
     }
 
-    async getLatestVersion(): Promise<InstallerVersion[]> {
+    async getLatestVersion(dev = false): Promise<InstallerVersion[]> {
         const resp = await this.getVersions();
 
-        return setDev(resp.versions[resp.latest]);
+        const releases = Object.values(resp.versions)
+            .flat()
+            .filter(r => r.dev === dev);
+
+        releases.sort((r1, r2) => r2.published_date - r1.published_date);
+
+        const windowsInstaller = releases.find(r => r.os === "windows");
+        const macInstaller = releases.find(r => r.os === "darwin");
+
+        const installers = [];
+        if (windowsInstaller) {
+            installers.push(windowsInstaller);
+        }
+        if (macInstaller) {
+            installers.push(macInstaller);
+        }
+
+        return installers;
     }
 
     async getLatestVersionDarwin(): Promise<InstallerVersion | null> {

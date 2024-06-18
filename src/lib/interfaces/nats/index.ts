@@ -16,8 +16,8 @@ enum NatsSubject {
     IDP_ORGANIZATION_TEAMS = "hcloud.idp.organization.${organizationName}.teams",
 
     HIGH5_SPACES = "hcloud.high5.organization.${organizationName}.spaces",
-    HIGH5_STREAM_EXECUTE = "hcloud.high5.organization.${organizationName}.stream.execute.${base64email}",
-    HIGH5_STREAM_CANCEL = "hcloud.high5.organization.${organizationName}.stream.execute.${base64email}",
+    HIGH5_STREAM_EXECUTE = "hcloud.high5.organization.${organizationId}.stream.execute.${base64email}",
+    HIGH5_STREAM_CANCEL = "hcloud.high5.organization.${organizationId}.stream.execute.${base64email}",
     HIGH5_EVENTS = "hcloud.high5.organization.${organizationName}.space.${spaceName}.events",
     HIGH5_STREAMS = "hcloud.high5.organization.${organizationName}.space.${spaceName}.event.${eventName}.streams",
     HIGH5_SECRETS = "hcloud.high5.organization.${organizationName}.space.${spaceName}.secrets",
@@ -35,6 +35,7 @@ enum NatsSubject {
 type NatsSubjectReplacements = {
     userId?: string;
     organizationName?: string;
+    organizationId?: string;
     spaceName?: string;
     eventName?: string;
     streamId?: string;
@@ -213,12 +214,12 @@ class NatsSubjects {
 
     static High5 = class {
         static Execution = class {
-            static EXECUTE = (organizationName: string, base64email: string) => {
-                return NatsSubjects.replace(NatsSubject.HIGH5_STREAM_EXECUTE, { organizationName, base64email } as NatsSubjectReplacements);
+            static EXECUTE = (organizationId: string, base64email: string) => {
+                return NatsSubjects.replace(NatsSubject.HIGH5_STREAM_EXECUTE, { organizationId, base64email } as NatsSubjectReplacements);
             };
 
-            static CANCEL = (organizationName: string, base64email: string) => {
-                return NatsSubjects.replace(NatsSubject.HIGH5_STREAM_CANCEL, { organizationName, base64email } as NatsSubjectReplacements);
+            static CANCEL = (organizationId: string, base64email: string) => {
+                return NatsSubjects.replace(NatsSubject.HIGH5_STREAM_CANCEL, { organizationId, base64email } as NatsSubjectReplacements);
             };
         };
 
@@ -260,6 +261,7 @@ class NatsSubjects {
     private static replace = (subject: string, replacements: NatsSubjectReplacements): string => {
         subject = subject.replace("${userId}", replacements.userId || "null");
         subject = subject.replace("${organizationName}", replacements.organizationName || "null");
+        subject = subject.replace("${organizationId}", replacements.organizationId || "null");
         subject = subject.replace("${spaceName}", replacements.spaceName || "null");
         subject = subject.replace("${eventName}", replacements.eventName || "null");
         subject = subject.replace("${streamId}", replacements.streamId || "null");

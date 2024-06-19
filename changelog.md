@@ -1,3 +1,10 @@
+## [12.2.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v12.1.0...v12.2.0) (2024-06-19)
+
+### Features
+
+* add HMAC settings to cronjobs ([7cfbfea](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/7cfbfea779362f010de921e9f2901e7f327a2e90))
+* add Select utility type ([ba75f13](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/ba75f137ba16b4e2d1963233db6df21cfbcdea38))
+
 ## [12.1.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v12.0.1...v12.1.0) (2024-06-18)
 
 ### Features

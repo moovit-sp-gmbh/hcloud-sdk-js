@@ -68,6 +68,7 @@ export interface ExtendedHigh5ExecutionPackage extends High5ExecutionPackage {
     orgName: string;
     spaceName: string;
     streamId: string;
+    secret: string;
 }
 
 export interface High5ExecutionPatchLog {

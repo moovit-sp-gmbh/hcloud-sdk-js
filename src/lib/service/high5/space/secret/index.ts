@@ -1,9 +1,9 @@
-import { AxiosInstance } from "axios";
-import Base, { Options } from "../../../../Base";
-import { createPaginatedResponse } from "../../../../helper/paginatedResponseHelper";
-import { SearchFilterDTO } from "../../../../helper/searchFilter";
-import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../interfaces/global";
-import { Secret } from "../../../../interfaces/high5/space/secret";
+import { AxiosInstance } from "axios"
+import Base, { Options } from "../../../../Base"
+import { createPaginatedResponse } from "../../../../helper/paginatedResponseHelper"
+import { SearchFilterDTO } from "../../../../helper/searchFilter"
+import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../interfaces/global"
+import { CreateSecret, Secret, UpdateSecret } from "../../../../interfaces/high5/space/secret"
 
 export default class High5Secret extends Base {
     constructor(options: Options, axios: AxiosInstance) {
@@ -50,17 +50,11 @@ export default class High5Secret extends Base {
      * Adds a secret key-value pair to a space.
      * @param orgName - Name of the organization
      * @param spaceName - Name of the space
-     * @param key - Key of the key-value pair
-     * @param value - Value of the key-value pair
-     * @param encrypted - (optional) Boolean defining if the value should be stored encrypted (defaults to false).
+     * @param secret - The secret to create
      * @returns The created Secret
      */
-    addSecret = async (orgName: string, spaceName: string, key: string, value: string, encrypted = false): Promise<Secret> => {
-        const resp = await this.axios.post<Secret>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/secrets`), {
-            key,
-            value,
-            encrypted,
-        });
+    addSecret = async (orgName: string, spaceName: string, secret: CreateSecret): Promise<Secret> => {
+        const resp = await this.axios.post<Secret>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/secrets`), secret);
 
         return resp.data;
     };
@@ -70,15 +64,11 @@ export default class High5Secret extends Base {
      * @param orgName - Name of the organization
      * @param spaceName - Name of the space
      * @param key - Key of the key-value pair
-     * @param value - The new value of the key-value pair
-     * @param encrypted - (optional) Boolean defining if the value should be stored encrypted (defaults to false).
+     * @param secret - The updated secret
      * @returns The updated Secret
      */
-    updateSecret = async (orgName: string, spaceName: string, key: string, value: string, encrypted = false): Promise<Secret> => {
-        const resp = await this.axios.put<Secret>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/secrets/${key}`), {
-            value,
-            encrypted,
-        });
+    updateSecret = async (orgName: string, spaceName: string, key: string, secret: UpdateSecret): Promise<Secret> => {
+        const resp = await this.axios.put<Secret>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/secrets/${key}`), secret);
 
         return resp.data;
     };

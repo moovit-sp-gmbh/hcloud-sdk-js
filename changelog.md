@@ -1,3 +1,13 @@
+## [13.0.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v12.2.0...v13.0.0) (2024-07-01)
+
+### ⚠ BREAKING CHANGES
+
+* add support for secret descriptions
+
+### Features
+
+* add support for secret descriptions ([c84fda3](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/c84fda3009686023fbccc3ed4ef73952e7f362af))
+
 ## [12.2.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v12.1.0...v12.2.0) (2024-06-19)
 
 ### Features

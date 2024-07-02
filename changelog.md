@@ -1,3 +1,9 @@
+## [12.3.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v12.2.0...v12.3.0) (2024-07-02)
+
+### Features
+
+* add node-documentation download method to wave/s3 ([6f1070d](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/6f1070d9a96f7c64efa34b928f840e95262bf565))
+
 ## [12.2.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v12.1.0...v12.2.0) (2024-06-19)
 
 ### Features

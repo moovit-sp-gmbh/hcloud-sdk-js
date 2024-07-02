@@ -1,9 +1,9 @@
-import { AxiosInstance } from "axios";
-import Base, { Options } from "../../../../Base";
-import { createPaginatedResponse } from "../../../../helper/paginatedResponseHelper";
-import { SearchFilterDTO } from "../../../../helper/searchFilter";
-import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../interfaces/global";
-import { Secret } from "../../../../interfaces/high5/space/secret";
+import { AxiosInstance } from "axios"
+import Base, { Options } from "../../../../Base"
+import { createPaginatedResponse } from "../../../../helper/paginatedResponseHelper"
+import { SearchFilterDTO } from "../../../../helper/searchFilter"
+import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../interfaces/global"
+import { CreateSecret, Secret, UpdateSecret } from "../../../../interfaces/high5/space/secret"
 
 export default class High5Secret extends Base {
     constructor(options: Options, axios: AxiosInstance) {
@@ -55,13 +55,8 @@ export default class High5Secret extends Base {
      * @param encrypted - (optional) Boolean defining if the value should be stored encrypted (defaults to false).
      * @returns The created Secret
      */
-    addSecret = async (orgName: string, spaceName: string, key: string, value: string, description?: string, encrypted = false): Promise<Secret> => {
-        const resp = await this.axios.post<Secret>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/secrets`), {
-            key,
-            value,
-            description,
-            encrypted,
-        });
+    addSecret = async (orgName: string, spaceName: string, secret: CreateSecret): Promise<Secret> => {
+        const resp = await this.axios.post<Secret>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/secrets`), secret);
 
         return resp.data;
     };
@@ -75,19 +70,8 @@ export default class High5Secret extends Base {
      * @param encrypted - (optional) Boolean defining if the value should be stored encrypted (defaults to false).
      * @returns The updated Secret
      */
-    updateSecret = async (
-        orgName: string,
-        spaceName: string,
-        key: string,
-        value: string,
-        description?: string,
-        encrypted = false
-    ): Promise<Secret> => {
-        const resp = await this.axios.put<Secret>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/secrets/${key}`), {
-            value,
-            description,
-            encrypted,
-        });
+    updateSecret = async (orgName: string, spaceName: string, key: string, secret: UpdateSecret): Promise<Secret> => {
+        const resp = await this.axios.put<Secret>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/secrets/${key}`), secret);
 
         return resp.data;
     };

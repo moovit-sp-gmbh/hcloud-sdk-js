@@ -55,10 +55,11 @@ export default class High5Secret extends Base {
      * @param encrypted - (optional) Boolean defining if the value should be stored encrypted (defaults to false).
      * @returns The created Secret
      */
-    addSecret = async (orgName: string, spaceName: string, key: string, value: string, encrypted = false): Promise<Secret> => {
+    addSecret = async (orgName: string, spaceName: string, key: string, value: string, description?: string, encrypted = false): Promise<Secret> => {
         const resp = await this.axios.post<Secret>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/secrets`), {
             key,
             value,
+            description,
             encrypted,
         });
 
@@ -74,9 +75,17 @@ export default class High5Secret extends Base {
      * @param encrypted - (optional) Boolean defining if the value should be stored encrypted (defaults to false).
      * @returns The updated Secret
      */
-    updateSecret = async (orgName: string, spaceName: string, key: string, value: string, encrypted = false): Promise<Secret> => {
+    updateSecret = async (
+        orgName: string,
+        spaceName: string,
+        key: string,
+        value: string,
+        description?: string,
+        encrypted = false
+    ): Promise<Secret> => {
         const resp = await this.axios.put<Secret>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/secrets/${key}`), {
             value,
+            description,
             encrypted,
         });
 

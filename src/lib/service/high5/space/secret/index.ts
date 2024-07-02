@@ -1,9 +1,9 @@
-import { AxiosInstance } from "axios"
-import Base, { Options } from "../../../../Base"
-import { createPaginatedResponse } from "../../../../helper/paginatedResponseHelper"
-import { SearchFilterDTO } from "../../../../helper/searchFilter"
-import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../interfaces/global"
-import { CreateSecret, Secret, UpdateSecret } from "../../../../interfaces/high5/space/secret"
+import { AxiosInstance } from "axios";
+import Base, { Options } from "../../../../Base";
+import { createPaginatedResponse } from "../../../../helper/paginatedResponseHelper";
+import { SearchFilterDTO } from "../../../../helper/searchFilter";
+import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../interfaces/global";
+import { CreateSecret, Secret, UpdateSecret } from "../../../../interfaces/high5/space/secret";
 
 export default class High5Secret extends Base {
     constructor(options: Options, axios: AxiosInstance) {

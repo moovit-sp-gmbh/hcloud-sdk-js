@@ -1,3 +1,9 @@
+## [12.5.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v12.4.0...v12.5.0) (2024-07-02)
+
+### Features
+
+* add description field for secrets ([98fd863](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/98fd8632f8d472b3a3689434bc2a3d6a3197cea3))
+
 ## [12.4.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v12.3.0...v12.4.0) (2024-07-02)
 
 ### Features

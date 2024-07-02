@@ -1,4 +1,4 @@
-import { StreamCustomNodeSpecification, StreamNodeSpecificationInputType, StreamSemanticVersion } from "../../../../wave";
+import { StreamCustomNodeSpecification, StreamNodeSpecificationInputType, StreamSemanticVersion } from "../../../../wave"
 
 export interface CanvasDimensions {
     width: number;
@@ -13,6 +13,7 @@ export interface DesignContent {
 
 export interface DesignerNode {
     name: string;
+    originalName: string;
     description: string;
     customDescription?: string;
     kind: DesignerNodeKind;

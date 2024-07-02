@@ -16,6 +16,7 @@ enum NatsSubject {
     IDP_ORGANIZATION_TEAMS = "hcloud.idp.organization.${organizationName}.teams",
 
     HIGH5_SPACES = "hcloud.high5.organization.${organizationName}.spaces",
+    HIGH5_SPACE = "hcloud.high5.organization.${organizationName}.space.${spaceName}.>",
     HIGH5_STREAM_EXECUTE = "hcloud.high5.organization.${organizationId}.stream.execute.${base64email}",
     HIGH5_STREAM_CANCEL = "hcloud.high5.organization.${organizationId}.stream.execute.${base64email}",
     HIGH5_EVENTS = "hcloud.high5.organization.${organizationName}.space.${spaceName}.events",
@@ -25,6 +26,7 @@ enum NatsSubject {
     HIGH5_SETTINGS_WEBHOOKS = "hcloud.high5.organization.${organizationName}.space.${spaceName}.settings.webhooks",
 
     FUSE_SPACES = "hcloud.fuse.organization.${organizationName}.spaces",
+    FUSE_SPACE = "hcloud.fuse.organization.${organizationName}.space.${spaceName}.>",
     FUSE_JOBS = "hcloud.fuse.organization.${organizationName}.space.${spaceName}.jobs",
     FUSE_JOB_LOGS = "hcloud.fuse.organization.${organizationName}.space.${spaceName}.jobs.logs",
     FUSE_JOBS_TRIGGER = "hcloud.hcloud.fuse.organization.${organizationName}.space.${spaceName}.jobs.trigger",
@@ -106,6 +108,7 @@ interface NatsObject
     [NatsSubject.IDP_ORGANIZATION_MEMBERS_EXECUTION_TARGET]: NatsExecTargetObject;
     [NatsSubject.IDP_ORGANIZATION_TEAMS]: NatsNameObject;
     [NatsSubject.HIGH5_SPACES]: NatsNameObject;
+    [NatsSubject.HIGH5_SPACE]: NatsNameObject;
     [NatsSubject.HIGH5_STREAM_EXECUTE]: High5ExecuteOnAgentRequest | High5ExecutionCancelRequest;
     [NatsSubject.HIGH5_STREAM_CANCEL]: High5ExecuteOnAgentRequest | High5ExecutionCancelRequest;
     [NatsSubject.HIGH5_EVENTS]: NatsNameObject;
@@ -114,6 +117,7 @@ interface NatsObject
     [NatsSubject.HIGH5_SETTINGS_GENERAL]: unknown;
     [NatsSubject.HIGH5_SETTINGS_WEBHOOKS]: NatsIdObject;
     [NatsSubject.FUSE_SPACES]: NatsNameObject;
+    [NatsSubject.FUSE_SPACE]: NatsNameObject;
     [NatsSubject.FUSE_JOBS]: NatsIdObject;
     [NatsSubject.FUSE_JOB_LOGS]: NatsIdObject;
     [NatsSubject.FUSE_JOBS_TRIGGER]: unknown;
@@ -200,6 +204,9 @@ class NatsSubjects {
             return NatsSubjects.replace(NatsSubject.FUSE_SPACES, { organizationName } as NatsSubjectReplacements);
         };
         static Space = class {
+            static SPACE = (organizationName: string, spaceName: string) => {
+                return NatsSubjects.replace(NatsSubject.FUSE_SPACE, { organizationName, spaceName } as NatsSubjectReplacements);
+            };
             static Jobs = class {
                 static JOBS = (organizationName: string, spaceName: string) => {
                     return NatsSubjects.replace(NatsSubject.FUSE_JOBS, { organizationName, spaceName } as NatsSubjectReplacements);
@@ -228,6 +235,10 @@ class NatsSubjects {
         };
 
         static Space = class {
+            static SPACE = (organizationName: string, spaceName: string) => {
+                return NatsSubjects.replace(NatsSubject.HIGH5_SPACE, { organizationName, spaceName } as NatsSubjectReplacements);
+            };
+
             static EVENTS = (organizationName: string, spaceName: string) => {
                 return NatsSubjects.replace(NatsSubject.HIGH5_EVENTS, { organizationName, spaceName } as NatsSubjectReplacements);
             };

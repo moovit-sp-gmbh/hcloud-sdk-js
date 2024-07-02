@@ -1,3 +1,9 @@
+## [12.4.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v12.3.0...v12.4.0) (2024-07-02)
+
+### Features
+
+* add originalName to DesignerNode ([4237c0e](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/4237c0ee0c925eb36bb9f824f754f9870757ce14))
+
 ## [12.3.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v12.2.0...v12.3.0) (2024-07-02)
 
 ### Features

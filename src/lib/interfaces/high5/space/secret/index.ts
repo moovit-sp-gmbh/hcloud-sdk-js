@@ -1,4 +1,4 @@
-import { ReducedUser } from "../../../idp"
+import { ReducedUser } from "../../../idp";
 
 export interface Secret {
     key: string;

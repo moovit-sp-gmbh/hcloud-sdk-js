@@ -1,3 +1,13 @@
+## [13.0.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v12.5.0...v13.0.0) (2024-07-02)
+
+### ⚠ BREAKING CHANGES
+
+* add create/update secret objects
+
+### Features
+
+* add create/update secret objects ([26f1d98](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/26f1d98220ec4370b6df807ef7c0f68b25b83fe2))
+
 ## [12.5.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v12.4.0...v12.5.0) (2024-07-02)
 
 ### Features

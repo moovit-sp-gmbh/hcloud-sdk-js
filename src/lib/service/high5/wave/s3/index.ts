@@ -1,6 +1,6 @@
-import { AxiosInstance } from "axios";
-import Base, { Options } from "../../../../Base";
-import { disableCacheHeaders } from "../../../../interfaces/axios";
+import { AxiosInstance } from "axios"
+import Base, { Options } from "../../../../Base"
+import { disableCacheHeaders } from "../../../../interfaces/axios"
 import {
     Catalog,
     CatalogRegistry,
@@ -8,7 +8,7 @@ import {
     EngineRegistry,
     StreamNodeSpecification,
     StreamNodeSpecificationWrappedWithEngineVersion,
-} from "../../../../interfaces/high5";
+} from "../../../../interfaces/high5"
 
 /**
  * Class for reading the S3 bucket of a wave engine and catalogs
@@ -65,6 +65,7 @@ export class S3 extends Base {
     /**
      * Get the node specifications of all nodes of a specific catalog version from the S3 bucket
      * @param catalogUrl Public url of the catalog
+     * @param version The catalog version
      * @returns StreamNodeSpecification[] | StreamNodeSpecificationWrappedWithEngineVersion an array of all node specification of that catalog version, maybe wrapped in an object with the engine version
      */
     public getCatalogVersion = async (
@@ -74,6 +75,22 @@ export class S3 extends Base {
         const specificationUrl = catalogUrl.split("/").slice(0, -1).join("/") + "/" + version + "/specification.json";
         const resp = await this.axios.get<StreamNodeSpecification[] | StreamNodeSpecificationWrappedWithEngineVersion>(specificationUrl, {
             headers: disableCacheHeaders,
+        });
+
+        return resp.data;
+    };
+
+
+    /**
+     * Get the node documentation from the S3 bucket
+     * @param catalogUrl Public url of the catalog
+     * @param version The catalog version
+     * @returns string the markdown documentation of the node
+     */
+    public getNodeDocumentation = async (catalogUrl: string, version: string, nodeName: string): Promise<string> => {
+        const specificationUrl = catalogUrl.split("/").slice(0, -1).join("/") + `/${version}/docs/${nodeName}.md`;
+        const resp = await this.axios.get<string>(specificationUrl).catch((err) => {
+            throw new Error(`Node documentation not found: ${err}`);
         });
 
         return resp.data;

@@ -1,3 +1,9 @@
+## [13.1.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v13.0.0...v13.1.0) (2024-07-03)
+
+### Features
+
+* add new nats subs for high5 and fuse spaces ([1641c03](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/1641c0392ea610603ebf44226ac7e6ad402c7ff4))
+
 ## [13.0.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v12.5.0...v13.0.0) (2024-07-02)
 
 ### ⚠ BREAKING CHANGES

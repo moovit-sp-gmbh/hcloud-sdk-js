@@ -36,6 +36,7 @@ export interface MustacheMail extends Mail {
 
 enum MailjetTemplate {
     IDP_NEW_REGISTRATION = "IDP_NEW_REGISTRATION",
+    IDP_NEW_REGISTRATION_CUSTOMER = "IDP_NEW_REGISTRATION_CUSTOMER",
     IDP_INVITE_TO_ORGANIZATION = "IDP_INVITE_TO_ORGANIZATION",
     IDP_RESET_PASSWORD = "IDP_RESET_PASSWORD",
     IDP_REGISTRATION_AND_INVITATION = "IDP_REGISTRATION_AND_INVITATION",
@@ -63,6 +64,14 @@ export class IdpNewRegistrationMailjetMailDTO extends MailjetMailDTO {
         super(recipients, MailjetTemplate.IDP_NEW_REGISTRATION, {
             HCLOUD_VERIFY_LINK: verifyLink,
             HCLOUD_ORIGINAL_EMAIL: hcloudOriginalEmail,
+        });
+    }
+}
+
+export class IdpNewRegistrationMailjetMailToCustomerDTO extends MailjetMailDTO {
+    constructor(recipients: string[], email: string) {
+        super(recipients, MailjetTemplate.IDP_NEW_REGISTRATION_CUSTOMER, {
+            EMAIL_TO: email,
         });
     }
 }

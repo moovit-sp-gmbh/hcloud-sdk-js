@@ -1,3 +1,9 @@
+## [13.2.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v13.1.0...v13.2.0) (2024-07-11)
+
+### Features
+
+* add frontend config interfaces ([069610a](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/069610a21cbd9b7e58d7b953c8573def5af8a8ed))
+
 ## [13.1.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v13.0.0...v13.1.0) (2024-07-03)
 
 ### Features

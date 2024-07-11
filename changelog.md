@@ -1,3 +1,9 @@
+## [13.3.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v13.2.0...v13.3.0) (2024-07-11)
+
+### Features
+
+* update nats packages ([670da60](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/670da60b4645a30a435af152b07ec7c3afdc2f91))
+
 ## [13.2.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v13.1.0...v13.2.0) (2024-07-11)
 
 ### Features

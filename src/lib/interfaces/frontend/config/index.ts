@@ -31,5 +31,5 @@ export interface Region {
 export interface Config {
     reCAPTCHA: string;
     regions: Region[];
-    oidc: OIDCProvider[];
+    oidc: OIDCProvider[]; // replaced the old 'oidcProviders'
 }

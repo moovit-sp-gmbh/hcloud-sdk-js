@@ -1,3 +1,9 @@
+## [13.3.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v13.2.0...v13.3.0) (2024-07-12)
+
+### Features
+
+* removed comment from frontend/config ([5ac3f01](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/5ac3f01e67a23f1d326fe5b2c4988a568dc9ae47))
+
 ## [13.2.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v13.1.0...v13.2.0) (2024-07-12)
 
 ### Features

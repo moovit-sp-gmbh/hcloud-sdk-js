@@ -2,6 +2,15 @@
 
 ### Features
 
+* add comment to frontend/config ([5ef9a4c](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/5ef9a4c51bb8aec8d55072882ef7812897fcb7bc))
+* add frontend config interfaces ([30c0872](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/30c08724fea68d3555991d05a314a42ade332a30))
+* remove _doc and dependencies ([592496d](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/592496d312ca167025a9a161150cec186fec60ec))
+* update nats packages ([7bf8a35](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/7bf8a3545ae38819ca5e5fd7cc6b6fd07c3da9b9))
+
+## [13.2.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v13.1.0...v13.2.0) (2024-07-12)
+
+### Features
+
 * add frontend config interfaces ([30c0872](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/30c08724fea68d3555991d05a314a42ade332a30))
 * remove _doc and dependencies ([592496d](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/592496d312ca167025a9a161150cec186fec60ec))
 * update nats packages ([7bf8a35](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/7bf8a3545ae38819ca5e5fd7cc6b6fd07c3da9b9))

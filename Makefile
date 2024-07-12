@@ -4,9 +4,6 @@ prepare:
 	git config core.hooksPath msp-repo-tools/githooks/prettier
 	pnpm i
 
-doc:
-	pnpm doc:dev
-
 test:
 	pnpm test
 

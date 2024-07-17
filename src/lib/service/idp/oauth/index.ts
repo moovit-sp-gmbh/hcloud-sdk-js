@@ -1,6 +1,6 @@
-import { AxiosInstance } from "axios";
-import Base, { Options } from "../../../Base";
-import { OAuthToken, OAuthTokenRequest } from "../../../interfaces/idp/oauth";
+import { AxiosInstance } from "axios"
+import Base, { Options } from "../../../Base"
+import { OAuthToken, OAuthTokenRequest } from "../../../interfaces/idp/oauth"
 
 export class IdpOAuth extends Base {
     constructor(options: Options, axios: AxiosInstance) {
@@ -19,8 +19,8 @@ export class IdpOAuth extends Base {
         if (!queryString.startsWith("?")) {
             queryString = `?${queryString}`;
         }
-        const response = await this.axios.get(this.getEndpoint(`/v1/login/oauth/authorize${queryString}`));
-        return response.data.redirectUrl;
+        const response = await this.axios.get(this.getEndpoint(`/v1/login/oauth/authorize${queryString}`), { maxRedirects: 0 });
+        return response.headers.location;
     };
 
     /**
@@ -35,8 +35,10 @@ export class IdpOAuth extends Base {
         if (!queryString.startsWith("?")) {
             queryString = `?${queryString}`;
         }
-        const response = await this.axios.post(this.getEndpoint(`/v1/login/oauth/authorize${queryString}`));
-        return response.data.redirectUrl;
+        const response = await this.axios.post(this.getEndpoint(`/v1/login/oauth/authorize${queryString}`), {
+            maxRedirects: 0,
+        });
+        return response.headers.location;
     };
 
     /**

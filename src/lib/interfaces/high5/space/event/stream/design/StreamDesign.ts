@@ -43,6 +43,7 @@ export interface DesignerNodeInput {
     description: string;
     advanced?: boolean;
     type: StreamNodeSpecificationInputType;
+    selectedLanguage?: string;
     example: string | number | boolean | string[] | StringMap | StringMap[]; // type string can have placeholders (represented as input placeholders in web)
     value?: string | number | boolean | string[] | StringMap | StringMap[]; // the entered value
     mandatory?: boolean;

@@ -1,3 +1,9 @@
+## [13.4.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v13.3.0...v13.4.0) (2024-07-17)
+
+### Features
+
+* add selected lang prop for designer node input ([431a851](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/431a851bc0864ae2cc9edfb5109e399df367c205))
+
 ## [13.3.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v13.2.0...v13.3.0) (2024-07-12)
 
 ### Features

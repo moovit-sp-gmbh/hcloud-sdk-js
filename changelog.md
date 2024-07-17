@@ -1,3 +1,9 @@
+## [13.6.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v13.5.1...v13.6.0) (2024-07-17)
+
+### Features
+
+* add doNotRedirect to oauth authorize ([7c6ff73](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/7c6ff7386c5b9fb799ca994605ff6f7cabb31f4c))
+
 ## [13.5.1](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v13.5.0...v13.5.1) (2024-07-17)
 
 ### Bug Fixes

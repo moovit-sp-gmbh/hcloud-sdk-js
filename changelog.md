@@ -1,3 +1,9 @@
+## [13.5.1](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v13.5.0...v13.5.1) (2024-07-17)
+
+### Bug Fixes
+
+* return redirect location instead of following it ([43e1a92](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/43e1a92af4f4eb92cd23d5d2ff5e5f7ac4755218))
+
 ## [13.5.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v13.4.0...v13.5.0) (2024-07-17)
 
 ### Features

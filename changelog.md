@@ -1,3 +1,9 @@
+## [13.5.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v13.4.0...v13.5.0) (2024-07-17)
+
+### Features
+
+* change selectedLanguage type to string map instead of string ([e70af3b](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/e70af3b43bc027237905ca8b84280bc3088a4398))
+
 ## [13.4.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v13.3.0...v13.4.0) (2024-07-17)
 
 ### Features

@@ -15,11 +15,19 @@ export class IdpOAuth extends Base {
      * redirect_uri, scopes and optionally state.
      * @returns the entire redirect uri including the authorization code if successful
      */
-    public getAuthorizationCodeInsideRedirectUrl = async (queryString: string): Promise<string> => {
+    public getAuthorizationCodeInsideRedirectUrl = async (queryString: string, doNotRedirect?: boolean): Promise<string> => {
         if (!queryString.startsWith("?")) {
             queryString = `?${queryString}`;
         }
+        if (doNotRedirect) {
+            queryString += "&no_redirect=true";
+        }
+
         const response = await this.axios.get(this.getEndpoint(`/v1/login/oauth/authorize${queryString}`), { maxRedirects: 0 });
+
+        if (doNotRedirect) {
+            return response.data.redirectUrl;
+        }
         return response.headers.location;
     };
 
@@ -31,14 +39,20 @@ export class IdpOAuth extends Base {
      * redirect_uri, scopes and optionally state.
      * @returns the entire redirect uri including the authorization code if successful
      */
-    public createScopesAndGetAuthorizationCodeInsideRedirectUrl = async (queryString: string): Promise<string> => {
+    public createScopesAndGetAuthorizationCodeInsideRedirectUrl = async (queryString: string, doNotRedirect?: boolean): Promise<string> => {
         if (!queryString.startsWith("?")) {
             queryString = `?${queryString}`;
         }
-        const response = await this.axios.post(this.getEndpoint(`/v1/login/oauth/authorize${queryString}`), {
-            maxRedirects: 0,
-        });
-        return response.headers.location;
+        if (doNotRedirect) {
+            queryString += "&no_redirect=true";
+        }
+
+        const response = await this.axios.post(this.getEndpoint(`/v1/login/oauth/authorize${queryString}`));
+
+        if (doNotRedirect) {
+            return response.data.redirectUrl;
+        }
+        return response.data;
     };
 
     /**

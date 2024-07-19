@@ -121,6 +121,7 @@ export interface High5ExecutionLog {
     payload?: High5ExecutionPayload;
     high5ExecutionId: string;
     nodeResults: StreamSingleNodeResult[];
+    createDate: number;
 }
 
 export interface High5ExecutionResponse {

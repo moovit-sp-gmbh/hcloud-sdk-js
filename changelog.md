@@ -1,3 +1,9 @@
+## [13.7.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v13.6.0...v13.7.0) (2024-07-22)
+
+### Features
+
+* add a new email template for registration ([7c60a8d](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/7c60a8d7050dc1cac3d96c3908df23e502879a8f))
+
 ## [13.6.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v13.5.1...v13.6.0) (2024-07-17)
 
 ### Features

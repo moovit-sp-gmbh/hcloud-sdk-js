@@ -69,9 +69,9 @@ export class IdpNewRegistrationMailjetMailDTO extends MailjetMailDTO {
 }
 
 export class IdpNewRegistrationMailjetMailToCustomerDTO extends MailjetMailDTO {
-    constructor(recipients: string[], email: string) {
+    constructor(recipients: string[], username: string) {
         super(recipients, MailjetTemplate.IDP_NEW_REGISTRATION_CUSTOMER, {
-            EMAIL_TO: email,
+            USERNAME: username,
         });
     }
 }

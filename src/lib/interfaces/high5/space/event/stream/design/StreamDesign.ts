@@ -88,6 +88,7 @@ export interface DesignerNodeAnnotation extends DesignerNode {
     size: DesignerNodeAnnotationSize;
     color: string;
     background: string;
+    contentColor?: string;
 }
 
 export interface DesignerNodeAnnotationSize {

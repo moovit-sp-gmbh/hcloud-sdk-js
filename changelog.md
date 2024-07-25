@@ -1,3 +1,9 @@
+## [13.8.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v13.7.0...v13.8.0) (2024-07-25)
+
+### Features
+
+* add content color prop to annotation type ([666e832](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/666e8326e99dab5d40dc44355ba50ea19a4f8424))
+
 ## [13.7.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v13.6.0...v13.7.0) (2024-07-22)
 
 ### Features

@@ -1,34 +1,46 @@
 import { Msg } from "nats";
 import { Products } from "../global";
 import { High5ExecuteOnAgentRequest, High5ExecutionCancelRequest } from "../high5/space/execution";
+import { LicenseTier } from "../idp";
 
 enum NatsSubject {
     IDP_USER_GENERAL = "hcloud.idp.user.${userId}.general",
     IDP_USER_MESSAGES = "hcloud.idp.user.${userId}.messages",
-    IDP_USER_SETTINGS_PATS = "hcloud.idp.user.${userId}.settings.pats",
     IDP_USER_SETTINGS_OAUTH = "hcloud.idp.user.${userId}.settings.oauth",
-    IDP_USER_SETTINGS_NOTIFICATIONS = "hcloud.idp.user.${userId}.settings.notifications",
-    IDP_USER_GENERAL_SETTINGS = "hcloud.idp.user.${userId}.settings.general_settings",
+    IDP_USER_NOTIFICATIONS = "hcloud.idp.user.${userId}.notifications",
+    IDP_USER_ORGS = "hcloud.idp.user.${userId}.orgs",
+    IDP_USER_INVITATIONS = "hcloud.idp.user.${userId}.invitations",
+    IDP_USER_SECURITY_PATS = "hcloud.idp.user.${userId}.security.pats",
+    IDP_USER_SECURITY_GENERAL = "hcloud.idp.user.${userId}.security.general",
 
     IDP_ORGANIZATION_GENERAL = "hcloud.idp.organization.${organizationName}.general",
     IDP_ORGANIZATION_MEMBERS = "hcloud.idp.organization.${organizationName}.members",
     IDP_ORGANIZATION_MEMBERS_EXECUTION_TARGET = "hcloud.idp.organization.${organizationName}.members.${base64email}.executionTarget",
     IDP_ORGANIZATION_TEAMS = "hcloud.idp.organization.${organizationName}.teams",
+    IDP_ORGANIZATION_TEAM_MEMBERS = "hcloud.idp.organization.${organizationName}.teams.${teamName}.members",
+    IDP_ORGANIZATION_LICENSE = "hcloud.idp.organization.${organizationName}.license",
 
     HIGH5_SPACES = "hcloud.high5.organization.${organizationName}.spaces",
     HIGH5_SPACE = "hcloud.high5.organization.${organizationName}.space.${spaceName}.>",
+    HIGH5_SPACE_PERMISSIONS = "hcloud.high5.organization.${organizationName}.space.${spaceName}.permissions",
     HIGH5_STREAM_EXECUTE = "hcloud.high5.organization.${organizationId}.stream.execute.${base64email}",
     HIGH5_STREAM_CANCEL = "hcloud.high5.organization.${organizationId}.stream.execute.${base64email}",
     HIGH5_EVENTS = "hcloud.high5.organization.${organizationName}.space.${spaceName}.events",
     HIGH5_STREAMS = "hcloud.high5.organization.${organizationName}.space.${spaceName}.event.${eventName}.streams",
     HIGH5_SECRETS = "hcloud.high5.organization.${organizationName}.space.${spaceName}.secrets",
-    HIGH5_SETTINGS_GENERAL = "hcloud.high5.organization.${organizationName}.space.${spaceName}.settings.general",
-    HIGH5_SETTINGS_WEBHOOKS = "hcloud.high5.organization.${organizationName}.space.${spaceName}.settings.webhooks",
+    HIGH5_SETTINGS = "hcloud.high5.organization.${organizationName}.space.${spaceName}.settings",
+    HIGH5_WEBHOOKS = "hcloud.high5.organization.${organizationName}.space.${spaceName}.webhooks",
+    HIGH5_WEBHOOK_LOGS = "hcloud.high5.organization.${organizationName}.space.${spaceName}.webhook.${webhookId}.logs",
+    HIGH5_CATALOGS = "hcloud.high5.organization.${organizationName}.space.${spaceName}.catalogs",
+    HIGH5_NODES = "hcloud.high5.organization.${organizationName}.space.${spaceName}.node",
+    High5_DESIGN = "hcloud.high5.organization.${organizationName}.space.${spaceName}.event.${eventName}.stream.${streamId}.design",
+    HIGH5_SNAPSHOTS = "hcloud.high5.organization.${organizationName}.space.${spaceName}.event.${eventName}.stream.${streamId}.snapshots",
 
     FUSE_SPACES = "hcloud.fuse.organization.${organizationName}.spaces",
     FUSE_SPACE = "hcloud.fuse.organization.${organizationName}.space.${spaceName}.>",
+    FUSE_SPACE_PERMISSIONS = "hcloud.fuse.organization.${organizationName}.space.${spaceName}.permissions",
     FUSE_JOBS = "hcloud.fuse.organization.${organizationName}.space.${spaceName}.jobs",
-    FUSE_JOB_LOGS = "hcloud.fuse.organization.${organizationName}.space.${spaceName}.jobs.logs",
+    FUSE_JOB_LOGS = "hcloud.fuse.organization.${organizationName}.space.${spaceName}.job.${jobId}.logs",
     FUSE_JOBS_TRIGGER = "hcloud.hcloud.fuse.organization.${organizationName}.space.${spaceName}.jobs.trigger",
 
     DEBUG_NAMESPACE = "hcloud.debug.namespace.${product}",
@@ -45,6 +57,8 @@ type NatsSubjectReplacements = {
     nodeId?: string;
     product?: Products;
     base64email?: string;
+    webhookId?: string;
+    jobId?: string;
 };
 
 enum NatsMessageType {
@@ -61,14 +75,18 @@ enum NatsObjectType {
     USER = "USER",
     OAUTH = "OAUTH",
     ORGANIZATION = "ORGANIZATION",
+    ORGANIZATION_INVITATION = "ORGANIZATION_INVITATION",
     ORGANIZATION_MEMBER = "ORGANIZATION_MEMBER",
+    ORGANIZATION_LICENSE = "ORGANIZATION_LICENSE",
     PAT = "PAT",
     TEAM = "TEAM",
     NOTIFICATIONS = "NOTIFICATIONS",
     GENERAL_SETTINGS = "GENERAL_SETTINGS",
 
     SPACE = "SPACE",
+    SPACE_PERMISSION = "SPACE_PERMISSION",
     DESIGN = "DESIGN",
+    SNAPSHOT = "SNAPSHOT",
     EVENT = "EVENT",
     EXECUTION = "EXECUTION",
     NODE = "NODE",
@@ -76,12 +94,14 @@ enum NatsObjectType {
     WEBHOOK = "WEBHOOK",
     WEBHOOK_LOG = "WEBHOOK_LOG",
     SECRET = "SECRET",
+    CATALOG = "CATALOG",
 
     AUDIT_LOG = "AUDIT_LOG",
     MAIL = "MAIL",
 
     CRONJOB = "CRONJOB",
     CRONJOB_ID = "CRONJOB_ID",
+    CRONJOB_LOG = "CRONJOB_LOG",
 }
 
 interface NatsMessage {
@@ -96,28 +116,39 @@ interface NatsObject
         NatsSecretObject,
         NatsExecTargetObject,
         High5ExecuteOnAgentRequest,
-        High5ExecutionCancelRequest {
+        High5ExecutionCancelRequest,
+        NatsLicenseObject,
+        NatsCustomNodeObject {
     [NatsSubject.IDP_USER_GENERAL]: unknown;
     [NatsSubject.IDP_USER_MESSAGES]: unknown;
-    [NatsSubject.IDP_USER_SETTINGS_PATS]: NatsIdObject;
+    [NatsSubject.IDP_USER_SECURITY_PATS]: NatsIdObject;
+    [NatsSubject.IDP_USER_SECURITY_GENERAL]: unknown;
     [NatsSubject.IDP_USER_SETTINGS_OAUTH]: unknown;
-    [NatsSubject.IDP_USER_SETTINGS_NOTIFICATIONS]: NatsIdObject;
-    [NatsSubject.IDP_USER_GENERAL_SETTINGS]: unknown;
+    [NatsSubject.IDP_USER_NOTIFICATIONS]: NatsIdObject;
     [NatsSubject.IDP_ORGANIZATION_GENERAL]: NatsNameObject;
     [NatsSubject.IDP_ORGANIZATION_MEMBERS]: NatsMemberObject;
     [NatsSubject.IDP_ORGANIZATION_MEMBERS_EXECUTION_TARGET]: NatsExecTargetObject;
     [NatsSubject.IDP_ORGANIZATION_TEAMS]: NatsNameObject;
+    [NatsSubject.IDP_ORGANIZATION_TEAM_MEMBERS]: NatsIdObject;
+    [NatsSubject.IDP_ORGANIZATION_LICENSE]: NatsLicenseObject;
     [NatsSubject.HIGH5_SPACES]: NatsNameObject;
     [NatsSubject.HIGH5_SPACE]: NatsNameObject;
+    [NatsSubject.HIGH5_SPACE_PERMISSIONS]: NatsIdObject;
     [NatsSubject.HIGH5_STREAM_EXECUTE]: High5ExecuteOnAgentRequest | High5ExecutionCancelRequest;
     [NatsSubject.HIGH5_STREAM_CANCEL]: High5ExecuteOnAgentRequest | High5ExecutionCancelRequest;
     [NatsSubject.HIGH5_EVENTS]: NatsNameObject;
     [NatsSubject.HIGH5_STREAMS]: NatsIdObject;
+    [NatsSubject.High5_DESIGN]: NatsIdObject;
+    [NatsSubject.HIGH5_SNAPSHOTS]: NatsIdObject;
+    [NatsSubject.HIGH5_NODES]: NatsCustomNodeObject;
     [NatsSubject.HIGH5_SECRETS]: NatsSecretObject;
-    [NatsSubject.HIGH5_SETTINGS_GENERAL]: unknown;
-    [NatsSubject.HIGH5_SETTINGS_WEBHOOKS]: NatsIdObject;
+    [NatsSubject.HIGH5_SETTINGS]: unknown;
+    [NatsSubject.HIGH5_WEBHOOKS]: NatsIdObject;
+    [NatsSubject.HIGH5_WEBHOOK_LOGS]: NatsIdObject;
+    [NatsSubject.HIGH5_CATALOGS]: NatsIdObject;
     [NatsSubject.FUSE_SPACES]: NatsNameObject;
     [NatsSubject.FUSE_SPACE]: NatsNameObject;
+    [NatsSubject.FUSE_SPACE_PERMISSIONS]: NatsIdObject;
     [NatsSubject.FUSE_JOBS]: NatsIdObject;
     [NatsSubject.FUSE_JOB_LOGS]: NatsIdObject;
     [NatsSubject.FUSE_JOBS_TRIGGER]: unknown;
@@ -142,6 +173,16 @@ interface NatsExecTargetObject extends NatsMemberObject {
 interface NatsSecretObject {
     secretKey: string;
 }
+
+interface NatsLicenseObject {
+    newTier: LicenseTier;
+}
+
+interface NatsCustomNodeObject {
+    _id: string;
+    updatedNodeId?: string;
+}
+
 type NatsCallback = (err: Error | null, msg?: NatsMessage, rawMsg?: Msg) => void;
 
 /**
@@ -156,16 +197,28 @@ class NatsSubjects {
             static MESSAGES = (userId: string) => {
                 return NatsSubjects.replace(NatsSubject.IDP_USER_MESSAGES, { userId } as NatsSubjectReplacements);
             };
+            static ORGS = (userId: string) => {
+                return NatsSubjects.replace(NatsSubject.IDP_USER_ORGS, { userId } as NatsSubjectReplacements);
+            };
+            static INVITATIONS = (userId: string) => {
+                return NatsSubjects.replace(NatsSubject.IDP_USER_INVITATIONS, { userId } as NatsSubjectReplacements);
+            };
+            static NOTIFICATIONS = (userId: string) => {
+                return NatsSubjects.replace(NatsSubject.IDP_USER_NOTIFICATIONS, { userId } as NatsSubjectReplacements);
+            };
+
+            static Security = class {
+                static PATS = (userId: string) => {
+                    return NatsSubjects.replace(NatsSubject.IDP_USER_SECURITY_PATS, { userId } as NatsSubjectReplacements);
+                };
+                static GENERAL = (userId: string) => {
+                    return NatsSubjects.replace(NatsSubject.IDP_USER_SECURITY_GENERAL, { userId } as NatsSubjectReplacements);
+                };
+            };
 
             static Settings = class {
-                static PATS = (userId: string) => {
-                    return NatsSubjects.replace(NatsSubject.IDP_USER_SETTINGS_PATS, { userId } as NatsSubjectReplacements);
-                };
                 static OAUTH = (userId: string) => {
                     return NatsSubjects.replace(NatsSubject.IDP_USER_SETTINGS_OAUTH, { userId } as NatsSubjectReplacements);
-                };
-                static NOTIFICATIONS = (userId: string) => {
-                    return NatsSubjects.replace(NatsSubject.IDP_USER_SETTINGS_NOTIFICATIONS, { userId } as NatsSubjectReplacements);
                 };
                 static GENERAL_SETTINGS = (userId: string) => {
                     return NatsSubjects.replace(NatsSubject.IDP_USER_GENERAL, { userId } as NatsSubjectReplacements);
@@ -196,6 +249,14 @@ class NatsSubjects {
             static TEAMS = (organizationName: string) => {
                 return NatsSubjects.replace(NatsSubject.IDP_ORGANIZATION_TEAMS, { organizationName } as NatsSubjectReplacements);
             };
+            static Teams = class {
+                static MEMBERS = (organizationName: string, teamName: string) => {
+                    return NatsSubjects.replace(NatsSubject.IDP_ORGANIZATION_TEAM_MEMBERS, { organizationName, teamName } as NatsSubjectReplacements);
+                };
+            };
+            static LICENSE = (organizationName: string) => {
+                return NatsSubjects.replace(NatsSubject.IDP_ORGANIZATION_LICENSE, { organizationName } as NatsSubjectReplacements);
+            };
         };
     };
 
@@ -207,13 +268,16 @@ class NatsSubjects {
             static SPACE = (organizationName: string, spaceName: string) => {
                 return NatsSubjects.replace(NatsSubject.FUSE_SPACE, { organizationName, spaceName } as NatsSubjectReplacements);
             };
+            static PERMISSIONS = (organizationName: string, spaceName: string) => {
+                return NatsSubjects.replace(NatsSubject.FUSE_SPACE_PERMISSIONS, { organizationName, spaceName } as NatsSubjectReplacements);
+            };
             static Jobs = class {
                 static JOBS = (organizationName: string, spaceName: string) => {
                     return NatsSubjects.replace(NatsSubject.FUSE_JOBS, { organizationName, spaceName } as NatsSubjectReplacements);
                 };
 
-                static JOB_LOGS = (organizationName: string, spaceName: string) => {
-                    return NatsSubjects.replace(NatsSubject.FUSE_JOB_LOGS, { organizationName, spaceName } as NatsSubjectReplacements);
+                static JOB_LOGS = (organizationName: string, spaceName: string, jobId: string) => {
+                    return NatsSubjects.replace(NatsSubject.FUSE_JOB_LOGS, { organizationName, spaceName, jobId } as NatsSubjectReplacements);
                 };
             };
         };
@@ -239,6 +303,10 @@ class NatsSubjects {
                 return NatsSubjects.replace(NatsSubject.HIGH5_SPACE, { organizationName, spaceName } as NatsSubjectReplacements);
             };
 
+            static PERMISSIONS = (organizationName: string, spaceName: string) => {
+                return NatsSubjects.replace(NatsSubject.HIGH5_SPACE_PERMISSIONS, { organizationName, spaceName } as NatsSubjectReplacements);
+            };
+
             static EVENTS = (organizationName: string, spaceName: string) => {
                 return NatsSubjects.replace(NatsSubject.HIGH5_EVENTS, { organizationName, spaceName } as NatsSubjectReplacements);
             };
@@ -247,19 +315,55 @@ class NatsSubjects {
                 static STREAMS = (organizationName: string, spaceName: string, eventName: string) => {
                     return NatsSubjects.replace(NatsSubject.HIGH5_STREAMS, { organizationName, spaceName, eventName } as NatsSubjectReplacements);
                 };
+
+                static Stream = class {
+                    static DESIGN = (organizationName: string, spaceName: string, eventName: string, streamId: string) => {
+                        return NatsSubjects.replace(NatsSubject.High5_DESIGN, {
+                            organizationName,
+                            spaceName,
+                            eventName,
+                            streamId,
+                        } as NatsSubjectReplacements);
+                    };
+                    static SNAPSHOTS = (organizationName: string, spaceName: string, eventName: string, streamId: string) => {
+                        return NatsSubjects.replace(NatsSubject.HIGH5_SNAPSHOTS, {
+                            organizationName,
+                            spaceName,
+                            eventName,
+                            streamId,
+                        } as NatsSubjectReplacements);
+                    };
+                };
             };
 
             static SECRETS = (organizationName: string, spaceName: string) => {
                 return NatsSubjects.replace(NatsSubject.HIGH5_SECRETS, { organizationName, spaceName } as NatsSubjectReplacements);
             };
 
-            static Settings = class {
-                static GENERAL = (organizationName: string, spaceName: string) => {
-                    return NatsSubjects.replace(NatsSubject.HIGH5_SETTINGS_GENERAL, { organizationName, spaceName } as NatsSubjectReplacements);
+            static WEBHOOKS = (organizationName: string, spaceName: string) => {
+                return NatsSubjects.replace(NatsSubject.HIGH5_WEBHOOKS, { organizationName, spaceName } as NatsSubjectReplacements);
+            };
+
+            static Webhook = class {
+                static LOGS = (organizationName: string, spaceName: string, webhookId: string) => {
+                    return NatsSubjects.replace(NatsSubject.HIGH5_WEBHOOK_LOGS, {
+                        organizationName,
+                        spaceName,
+                        webhookId,
+                    } as NatsSubjectReplacements);
                 };
-                static WEBHOOKS = (organizationName: string, spaceName: string) => {
-                    return NatsSubjects.replace(NatsSubject.HIGH5_SETTINGS_WEBHOOKS, { organizationName, spaceName } as NatsSubjectReplacements);
-                };
+            };
+
+            static SETTINGS = (organizationName: string, spaceName: string) => {
+                return NatsSubjects.replace(NatsSubject.HIGH5_SETTINGS, { organizationName, spaceName } as NatsSubjectReplacements);
+            };
+
+            static CATALOGS = (organizationName: string, spaceName: string) => {
+                return NatsSubjects.replace(NatsSubject.HIGH5_CATALOGS, { organizationName, spaceName } as NatsSubjectReplacements);
+            };
+
+            static NODES = (organizationName: string, spaceName: string) => {
+                return NatsSubjects.replace(NatsSubject.HIGH5_NODES, { organizationName, spaceName } as NatsSubjectReplacements);
             };
         };
     };
@@ -280,6 +384,8 @@ class NatsSubjects {
         subject = subject.replace("${nodeId}", replacements.nodeId || "null");
         subject = subject.replace("${product}", replacements.product || "null");
         subject = subject.replace("${base64email}", replacements.base64email || "null");
+        subject = subject.replace("${webhookId}", replacements.webhookId || "null");
+        subject = subject.replace("${jobId}", replacements.jobId || "null");
 
         return subject;
     };

@@ -1,3 +1,9 @@
+## [13.9.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v13.8.0...v13.9.0) (2024-07-30)
+
+### Features
+
+* add bouncer interface for s3 ([1fdbd5d](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/1fdbd5d6cdaddacbfc562282bc357460013fc7a4))
+
 ## [13.8.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v13.7.0...v13.8.0) (2024-07-25)
 
 ### Features

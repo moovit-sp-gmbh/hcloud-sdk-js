@@ -1,3 +1,9 @@
+## [13.10.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v13.9.0...v13.10.0) (2024-07-30)
+
+### Features
+
+* remove bouncer frontend config ([840981a](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/840981aadbcbcc9b7ef4184489859b65ed9c4971))
+
 ## [13.9.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v13.8.0...v13.9.0) (2024-07-30)
 
 ### Features

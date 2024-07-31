@@ -27,7 +27,8 @@ enum NatsSubject {
     HIGH5_STREAM_EXECUTE = "hcloud.high5.organization.${organizationId}.stream.execute.${base64email}",
     HIGH5_STREAM_CANCEL = "hcloud.high5.organization.${organizationId}.stream.execute.${base64email}",
     HIGH5_EVENTS = "hcloud.high5.organization.${organizationName}.spaces.${spaceName}.events",
-    HIGH5_STREAMS = "hcloud.high5.organization.${organizationName}.spaces.${spaceName}.events.${eventName}.streams",
+    HIGH5_STREAMS = "hcloud.high5.organization.${organizationName}.spaces.${spaceName}.streams",
+    HIGH5_EVENT_STREAMS = "hcloud.high5.organization.${organizationName}.spaces.${spaceName}.events.${eventName}.streams",
     HIGH5_SECRETS = "hcloud.high5.organization.${organizationName}.spaces.${spaceName}.secrets",
     HIGH5_SETTINGS = "hcloud.high5.organization.${organizationName}.spaces.${spaceName}.settings",
     HIGH5_WEBHOOKS = "hcloud.high5.organization.${organizationName}.spaces.${spaceName}.webhooks",
@@ -140,6 +141,7 @@ interface NatsObject
     [NatsSubject.HIGH5_STREAM_CANCEL]: High5ExecuteOnAgentRequest | High5ExecutionCancelRequest;
     [NatsSubject.HIGH5_EVENTS]: NatsNameObject;
     [NatsSubject.HIGH5_STREAMS]: NatsIdObject;
+    [NatsSubject.HIGH5_EVENT_STREAMS]: NatsIdObject;
     [NatsSubject.High5_DESIGN]: NatsIdObject;
     [NatsSubject.HIGH5_SNAPSHOTS]: NatsIdObject;
     [NatsSubject.HIGH5_NODES]: NatsCustomNodeObject;
@@ -316,9 +318,17 @@ class NatsSubjects {
                 return NatsSubjects.replace(NatsSubject.HIGH5_EVENTS, { organizationName, spaceName } as NatsSubjectReplacements);
             };
 
+            static STREAMS = (organizationName: string, spaceName: string) => {
+                return NatsSubjects.replace(NatsSubject.HIGH5_STREAMS, { organizationName, spaceName } as NatsSubjectReplacements);
+            };
+
             static Event = class {
                 static STREAMS = (organizationName: string, spaceName: string, eventName: string) => {
-                    return NatsSubjects.replace(NatsSubject.HIGH5_STREAMS, { organizationName, spaceName, eventName } as NatsSubjectReplacements);
+                    return NatsSubjects.replace(NatsSubject.HIGH5_EVENT_STREAMS, {
+                        organizationName,
+                        spaceName,
+                        eventName,
+                    } as NatsSubjectReplacements);
                 };
 
                 static Stream = class {

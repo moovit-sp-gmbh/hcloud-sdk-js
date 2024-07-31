@@ -5,6 +5,7 @@ import { LicenseTier } from "../idp";
 
 enum NatsSubject {
     IDP_USER_GENERAL = "hcloud.idp.user.${userId}.general",
+    IDP_USER_PROFILE = "hcloud.idp.user.${userId}.profile",
     IDP_USER_MESSAGES = "hcloud.idp.user.${userId}.messages",
     IDP_USER_SETTINGS_OAUTH = "hcloud.idp.user.${userId}.settings.oauth",
     IDP_USER_NOTIFICATIONS = "hcloud.idp.user.${userId}.notifications",
@@ -119,7 +120,8 @@ interface NatsObject
         High5ExecutionCancelRequest,
         NatsLicenseObject,
         NatsCustomNodeObject {
-    [NatsSubject.IDP_USER_GENERAL]: unknown;
+    [NatsSubject.IDP_USER_GENERAL]: NatsIdObject;
+    [NatsSubject.IDP_USER_PROFILE]: NatsIdObject;
     [NatsSubject.IDP_USER_MESSAGES]: unknown;
     [NatsSubject.IDP_USER_SECURITY_PATS]: NatsIdObject;
     [NatsSubject.IDP_USER_SECURITY_GENERAL]: unknown;
@@ -193,6 +195,9 @@ class NatsSubjects {
         static User = class {
             static GENERAL = (userId: string) => {
                 return NatsSubjects.replace(NatsSubject.IDP_USER_GENERAL, { userId } as NatsSubjectReplacements);
+            };
+            static PROFILE = (userId: string) => {
+                return NatsSubjects.replace(NatsSubject.IDP_USER_PROFILE, { userId } as NatsSubjectReplacements);
             };
             static MESSAGES = (userId: string) => {
                 return NatsSubjects.replace(NatsSubject.IDP_USER_MESSAGES, { userId } as NatsSubjectReplacements);

@@ -1,3 +1,15 @@
+## [13.11.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v13.10.0...v13.11.0) (2024-07-31)
+
+### Features
+
+* add HIGH5_STREAMS nats subject without event context ([dda7e59](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/dda7e59b48838a86b14b8187c1dc539ae0a8991c))
+* add IDP_USER_PROFILE subject ([caf9dc3](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/caf9dc3bbd010c9aa7ae2ad391265a62a3d744ae))
+* update nats messages ([bd4fb53](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/bd4fb536a0120fa3ec462ffa5b4322eac6a474da))
+
+### Bug Fixes
+
+* use plural in nats subjects to match the way we do it in our api ([c9310a3](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/c9310a39484e49d01da183fd5aa00c309ef0322b))
+
 ## [13.10.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v13.9.0...v13.10.0) (2024-07-30)
 
 ### Features

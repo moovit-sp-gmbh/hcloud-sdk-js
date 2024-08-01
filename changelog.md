@@ -1,3 +1,9 @@
+## [13.12.1](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v13.12.0...v13.12.1) (2024-08-01)
+
+### Bug Fixes
+
+* use name rather than email in registration mail send to user ([e753f4a](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/e753f4a0e6123a2fe176dcba5fce0bef6f579e29))
+
 ## [13.12.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v13.11.0...v13.12.0) (2024-08-01)
 
 ### Features

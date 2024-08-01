@@ -1,3 +1,9 @@
+## [13.12.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v13.11.0...v13.12.0) (2024-08-01)
+
+### Features
+
+* add StreamNodeSpecificationV2 (has no 'documentation' property anymore) ([2e0e1e0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/2e0e1e0c96aa6bbadce47696a5e81649289ad20f))
+
 ## [13.11.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v13.10.0...v13.11.0) (2024-07-31)
 
 ### Features

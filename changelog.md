@@ -1,3 +1,9 @@
+## [13.14.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v13.13.0...v13.14.0) (2024-08-02)
+
+### Features
+
+* add secret to the extended exec package ([1e7a35d](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/1e7a35d17bdd2ad4d593cadc609859813b9908a9))
+
 ## [13.13.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v13.12.1...v13.13.0) (2024-08-02)
 
 ### Features

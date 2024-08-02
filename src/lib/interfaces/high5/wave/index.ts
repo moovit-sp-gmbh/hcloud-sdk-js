@@ -67,18 +67,18 @@ export interface StreamNodeSpecification {
     specVersion: number;
 }
 
+export type StreamNodeSpecifications = StreamNodeSpecificationV1;
+
 export interface StreamNodeSpecificationV1 extends StreamNodeSpecification {
     specVersion: 1;
     name: string;
     description: string;
-    documentation: string;
     type: StreamNodeSpecificationType;
     package: StreamNodeSpecificationPackage;
     category: string;
     version: StreamSemanticVersion;
     author: StreamNodeSpecificationAuthor;
     tag?: StreamNodeSpecificationTag;
-    requireSdk?: boolean;
     inputs?: StreamNodeSpecificationInput[];
     outputs?: StreamNodeSpecificationOutput[];
     additionalConnectors?: StreamNodeSpecificationAdditionalConnector[];
@@ -87,27 +87,6 @@ export interface StreamNodeSpecificationV1 extends StreamNodeSpecification {
 }
 export function isStreamNodeSpecificationV1(s: StreamNodeSpecification): s is StreamNodeSpecificationV1 {
     return s.specVersion === 1;
-}
-
-export interface StreamNodeSpecificationV2 extends StreamNodeSpecification {
-    specVersion: 2;
-    name: string;
-    description: string;
-    type: StreamNodeSpecificationType;
-    package: StreamNodeSpecificationPackage;
-    category: string;
-    version: StreamSemanticVersion;
-    author: StreamNodeSpecificationAuthor;
-    tag?: StreamNodeSpecificationTag;
-    requireSdk?: boolean;
-    inputs?: StreamNodeSpecificationInput[];
-    outputs?: StreamNodeSpecificationOutput[];
-    additionalConnectors?: StreamNodeSpecificationAdditionalConnector[];
-    path?: string;
-    customNode?: StreamCustomNodeSpecification;
-}
-export function isStreamNodeSpecificationV2(s: StreamNodeSpecification): s is StreamNodeSpecificationV2 {
-    return s.specVersion === 2;
 }
 
 export interface StreamCustomNodeSpecification {

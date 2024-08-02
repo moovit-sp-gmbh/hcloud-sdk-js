@@ -1,14 +1,14 @@
-import { AxiosInstance } from "axios";
-import Base, { Options } from "../../../../Base";
-import { disableCacheHeaders } from "../../../../interfaces/axios";
+import { AxiosInstance } from "axios"
+import Base, { Options } from "../../../../Base"
+import { disableCacheHeaders } from "../../../../interfaces/axios"
 import {
     Catalog,
     CatalogRegistry,
     Engine,
     EngineRegistry,
-    StreamNodeSpecification,
+    StreamNodeSpecifications,
     StreamNodeSpecificationWrappedWithEngineVersion,
-} from "../../../../interfaces/high5";
+} from "../../../../interfaces/high5"
 
 /**
  * Class for reading the S3 bucket of a wave engine and catalogs
@@ -71,9 +71,9 @@ export class S3 extends Base {
     public getCatalogVersion = async (
         catalogUrl: string,
         version: string
-    ): Promise<StreamNodeSpecification[] | StreamNodeSpecificationWrappedWithEngineVersion> => {
+    ): Promise<StreamNodeSpecifications[] | StreamNodeSpecificationWrappedWithEngineVersion> => {
         const specificationUrl = catalogUrl.split("/").slice(0, -1).join("/") + "/" + version + "/specification.json";
-        const resp = await this.axios.get<StreamNodeSpecification[] | StreamNodeSpecificationWrappedWithEngineVersion>(specificationUrl, {
+        const resp = await this.axios.get<StreamNodeSpecifications[] | StreamNodeSpecificationWrappedWithEngineVersion>(specificationUrl, {
             headers: disableCacheHeaders,
         });
 

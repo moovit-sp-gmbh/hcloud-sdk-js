@@ -1,3 +1,9 @@
+## [13.15.1](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v13.15.0...v13.15.1) (2024-08-02)
+
+### Bug Fixes
+
+* return StreamNodeSpecifications in getCatalog method ([6111013](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/61110133dc469cd34968167e0639703c7407f061))
+
 ## [13.15.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v13.14.0...v13.15.0) (2024-08-02)
 
 ### Features

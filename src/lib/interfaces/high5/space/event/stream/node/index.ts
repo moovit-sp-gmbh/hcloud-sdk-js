@@ -1,5 +1,6 @@
 import { ReducedOrganization } from "../../../../../idp/organization";
 import { ReducedUser } from "../../../../../idp/user";
+import { StreamNodeSpecificationInputType, StreamNodeSpecificationOutputType } from "../../../../wave";
 
 export enum NodeCategory {
     CUSTOM = "CUSTOM",
@@ -28,11 +29,13 @@ export interface StreamNodeResolvedInputs {
     name: string;
     originalValue: unknown;
     value: unknown;
+    type: StreamNodeSpecificationInputType;
 }
 
 export interface StreamNodeOutput {
     name: string | undefined;
     value: unknown;
+    type: StreamNodeSpecificationOutputType;
 }
 
 export interface StreamNodeResultError {

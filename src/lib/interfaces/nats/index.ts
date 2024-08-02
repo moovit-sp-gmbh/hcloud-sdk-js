@@ -43,7 +43,9 @@ enum NatsSubject {
     FUSE_SPACE_PERMISSIONS = "hcloud.fuse.organization.${organizationName}.spaces.${spaceName}.permissions",
     FUSE_JOBS = "hcloud.fuse.organization.${organizationName}.spaces.${spaceName}.jobs",
     FUSE_JOB_LOGS = "hcloud.fuse.organization.${organizationName}.spaces.${spaceName}.jobs.${jobId}.logs",
-    FUSE_JOBS_TRIGGER = "hcloud.hcloud.fuse.organization.${organizationName}.spaces.${spaceName}.jobs.trigger",
+    FUSE_JOBS_TRIGGER = "hcloud.fuse.organization.${organizationName}.spaces.${spaceName}.jobs.trigger",
+
+    AUDITOR_LOGS = "hcloud.auditor.organization.${organizationName}.logs",
 
     DEBUG_NAMESPACE = "hcloud.debug.namespace.${product}",
 }
@@ -156,6 +158,7 @@ interface NatsObject
     [NatsSubject.FUSE_JOBS]: NatsIdObject;
     [NatsSubject.FUSE_JOB_LOGS]: NatsIdObject;
     [NatsSubject.FUSE_JOBS_TRIGGER]: unknown;
+    [NatsSubject.AUDITOR_LOGS]: NatsIdObject;
     [NatsSubject.DEBUG_NAMESPACE]: string;
 }
 
@@ -380,6 +383,12 @@ class NatsSubjects {
             static NODES = (organizationName: string, spaceName: string) => {
                 return NatsSubjects.replace(NatsSubject.HIGH5_NODES, { organizationName, spaceName } as NatsSubjectReplacements);
             };
+        };
+    };
+
+    static Auditor = class {
+        static LOGS = (organizationName: string) => {
+            return NatsSubjects.replace(NatsSubject.AUDITOR_LOGS, { organizationName } as NatsSubjectReplacements);
         };
     };
 

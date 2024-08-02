@@ -1,3 +1,9 @@
+## [13.15.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v13.14.0...v13.15.0) (2024-08-02)
+
+### Features
+
+* add nats subject for auditLogs ([77b25dc](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/77b25dc8f6127c5ae46984951da1b1efaa570799))
+
 ## [13.14.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v13.13.0...v13.14.0) (2024-08-02)
 
 ### Features

@@ -1,3 +1,9 @@
+## [13.13.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v13.12.1...v13.13.0) (2024-08-02)
+
+### Features
+
+* add StreamNodeSpecifications (plural) type" ([ae0d915](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/ae0d9154180af6f3fabd61c8e832e16fb0295ce2))
+
 ## [13.12.1](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v13.12.0...v13.12.1) (2024-08-01)
 
 ### Bug Fixes

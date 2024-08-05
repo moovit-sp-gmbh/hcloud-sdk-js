@@ -172,6 +172,8 @@ export enum StreamNodeSpecificationOutputType {
 
     ANY = "ANY",
     JSON = "JSON",
+    XML = "XML",
+    HTML = "HTML",
 }
 
 export interface StreamNodeSpecificationAuthor {

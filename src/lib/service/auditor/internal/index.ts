@@ -1,24 +1,10 @@
 import Base from "../../../Base";
-import { AuditLog } from "../../../interfaces/auditor";
+import { AuditLogCreate } from "../../../interfaces/auditor";
 
 export class AuditorInternal extends Base {
     private queueExecutionInterval: number = this.options.auditor?.queue?.executionInterval || 500;
-    private logQueue = [] as AuditLog[];
+    private logQueue = [] as AuditLogCreate[];
     private logQueueTimer: ReturnType<typeof setTimeout> | undefined;
-
-    /**
-     * Adds log entries.
-     *
-     * THIS IS AN INTERNAL ENDPOINT AND CAN ONLY BE USED FROM BACKENDS WITHIN THE HCLOUD DEPLOYMENT
-     * @param logs Array of audit logs
-     * @returns Array of audit logs
-     * @deprecated Use queueAuditLogs() instead
-     */
-    public addAuditLogs = async (logs: AuditLog[]): Promise<AuditLog[]> => {
-        const resp = await this.axios.post<AuditLog[]>(this.getEndpoint("/v1/logs"), logs);
-
-        return resp.data;
-    };
 
     /**
      * Adds log entries to a queue that will be processed periodically.
@@ -29,7 +15,7 @@ export class AuditorInternal extends Base {
      * Timestamps might differ as much as: this.options.auditor.queue.executionInterval || 500
      * @param logs array (add multiple logs entries at once)
      */
-    public queueAuditLogs = async (logs: AuditLog[]): Promise<void> => {
+    public queueAuditLogs = async (logs: AuditLogCreate[]): Promise<void> => {
         if (!this.logQueueTimer) {
             this.startQueue();
         }
@@ -42,9 +28,8 @@ export class AuditorInternal extends Base {
             this.logQueueTimer = setTimeout(() => {
                 if (this.logQueue.length > 0) {
                     // DO NOT REMOVE THE IGNORE CATCH AS IT WOULD LEAD TO UNHANDLED PROMISE REJECTION IN OTHER ENDPOINTS AND THEIR CRASH
-                    // tslint:disable-next-line
-                    this.addAuditLogs(this.logQueue).catch(ignored => ignored);
-                    this.logQueue = [] as AuditLog[];
+                    this.axios.post<void>(this.getEndpoint("/v1/logs"), this.logQueue).catch(ignored => ignored);
+                    this.logQueue = [];
                 }
             }, this.queueExecutionInterval);
         }

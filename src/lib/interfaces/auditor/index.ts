@@ -1,3 +1,5 @@
+import { Organization } from "../idp";
+
 export enum Level {
     INFO = "info",
     WARN = "warn",
@@ -61,5 +63,16 @@ export interface AuditLog {
     timestamp: number;
     message?: unknown;
     expireAt: Date;
+    requestorIp: string;
+}
+
+export interface AuditLogCreate {
+    level: Level;
+    origin: Origin;
+    organization: Pick<Organization, "_id" | "name">;
+    event: Event;
+    space?: string;
+    type?: Type;
+    message?: unknown;
     requestorIp: string;
 }

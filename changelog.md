@@ -1,3 +1,13 @@
+## [14.0.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v13.16.0...v14.0.0) (2024-08-06)
+
+### ⚠ BREAKING CHANGES
+
+* remove GlobalConfig endpoint and interfaces
+
+### Features
+
+* remove GlobalConfig endpoint and interfaces ([923db52](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/923db52d5c441303470724ad09d9e97d9b690053))
+
 ## [13.16.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v13.15.1...v13.16.0) (2024-08-06)
 
 ### Features

@@ -1,3 +1,10 @@
+## [13.16.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v13.15.1...v13.16.0) (2024-08-06)
+
+### Features
+
+* add new AuditLogCreate interface and refactor AuditorInternal class ([aa376c6](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/aa376c60552b87d6f51e06fe2c25136db057aef8))
+* base64 encode all replacements that can contain dots in nats subjects ([b82bbfb](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/b82bbfbacd7654fe308d4a1849191f26672063eb))
+
 ## [13.15.1](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v13.15.0...v13.15.1) (2024-08-02)
 
 ### Bug Fixes

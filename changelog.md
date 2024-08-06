@@ -1,3 +1,9 @@
+## [14.1.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v14.0.0...v14.1.0) (2024-08-06)
+
+### Features
+
+* reflect the allow dev bundle switch of agent ([a20803c](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/a20803caa65317d94eaa9092effcb413e87a7bfd))
+
 ## [14.0.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v13.16.0...v14.0.0) (2024-08-06)
 
 ### ⚠ BREAKING CHANGES

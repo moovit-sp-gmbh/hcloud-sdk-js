@@ -1,3 +1,10 @@
+## [14.2.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v14.1.0...v14.2.0) (2024-08-09)
+
+### Features
+
+* add additional output types ([e180a72](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/e180a72806ef0eb1261981379d72c5dea8d4ba44))
+* add additional type field to inputs and outputs ([12cc803](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/12cc803c2b4ec5eb996ffa217ac56cba9e996341))
+
 ## [14.1.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v14.0.0...v14.1.0) (2024-08-06)
 
 ### Features

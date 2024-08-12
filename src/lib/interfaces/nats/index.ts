@@ -25,7 +25,7 @@ enum NatsSubject {
     HIGH5_SPACE = "hcloud.high5.organization.${base64orgName}.spaces.${base64spaceName}.>",
     HIGH5_SPACE_PERMISSIONS = "hcloud.high5.organization.${base64orgName}.spaces.${base64spaceName}.permissions",
     HIGH5_STREAM_EXECUTE = "hcloud.high5.organization.${organizationId}.stream.execute.${base64email}",
-    HIGH5_STREAM_CANCEL = "hcloud.high5.organization.${organizationId}.stream.execute.${base64email}",
+    HIGH5_STREAM_CANCEL = "hcloud.high5.organization.${organizationId}.stream.execute.${base64email}", // eslint-disable-line @typescript-eslint/no-duplicate-enum-values
     HIGH5_EVENTS = "hcloud.high5.organization.${base64orgName}.spaces.${base64spaceName}.events",
     HIGH5_STREAMS = "hcloud.high5.organization.${base64orgName}.spaces.${base64spaceName}.streams",
     HIGH5_EVENT_STREAMS = "hcloud.high5.organization.${base64orgName}.spaces.${base64spaceName}.events.${base64eventName}.streams",

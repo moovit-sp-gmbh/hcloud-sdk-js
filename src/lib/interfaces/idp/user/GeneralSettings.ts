@@ -16,7 +16,7 @@ export enum DateFormat {
 
 export enum DateFormatWithoutTime {
     ISO_8601_24 = "YYYY-MM-DD",
-    ISO_8601_12 = "YYYY-MM-DD",
+    ISO_8601_12 = "YYYY-MM-DD", // eslint-disable-line @typescript-eslint/no-duplicate-enum-values
     US_12 = "MM/DD/YYYY",
     EU_24 = "DD/MM/YYYY",
     GERMAN_24 = "DD.MM.YYYY",

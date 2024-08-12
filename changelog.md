@@ -1,3 +1,9 @@
+## [14.3.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v14.2.0...v14.3.0) (2024-08-12)
+
+### Features
+
+* add createDate to High5ExecutionLog ([547bfcc](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/547bfcce67c651af9739043f1d286d94f2bab6ce))
+
 ## [14.2.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v14.1.0...v14.2.0) (2024-08-09)
 
 ### Features

@@ -1,3 +1,9 @@
+## [14.4.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v14.3.0...v14.4.0) (2024-08-13)
+
+### Features
+
+* add preflight OAuth method ([033f1ff](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/033f1ffb6f566ff8d1fb749ab1842c189ae9e3e1))
+
 ## [14.3.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v14.2.0...v14.3.0) (2024-08-12)
 
 ### Features

@@ -29,6 +29,11 @@ export interface OAuthApp {
     modifyDate: number;
 }
 
+export type OAuthAppWithConsent = OAuthApp &
+    Omit<OAuthApp, "hcloudClientId" | "clientSecrets" | "callback"> & {
+        scopes: Record<Scope, number>;
+    };
+
 export interface OAuthAppCreate {
     name: string;
     description?: string;

@@ -3,7 +3,7 @@ import Base, { Options } from "../../../../../Base";
 import { createPaginatedResponse } from "../../../../../helper/paginatedResponseHelper";
 import { SearchFilterDTO } from "../../../../../helper/searchFilter";
 import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../../interfaces/global";
-import { OAuthApp } from "../../../../../interfaces/idp/organization/settings/oauthApp";
+import { OAuthAppWithConsent } from "../../../../../interfaces/idp/organization/settings/oauthApp";
 
 export class IdpOAuthApps extends Base {
     constructor(options: Options, axios: AxiosInstance) {
@@ -18,16 +18,25 @@ export class IdpOAuthApps extends Base {
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
      * @returns Object containing an array of OAuth apps and the total number of results found in the database (independent of limit and page)
      */
-    public searchOAuthApps = async ({ filters, sorting, limit = 25, page = 0 }: SearchParams): Promise<PaginatedResponse<OAuthApp>> => {
+    public searchOAuthApps = async ({ filters, sorting, limit = 25, page = 0 }: SearchParams): Promise<PaginatedResponse<OAuthAppWithConsent>> => {
         const filtersDTO = filters?.map((f: SearchFilter) => {
             return new SearchFilterDTO(f);
         });
-        const resp = await this.axios.post<OAuthApp[]>(this.getEndpoint(`/v1/user/settings/oauth/search?limit=${limit}&page=${page}`), {
-            filters: filtersDTO,
-            sorting: sorting,
-        });
+        const resp = await this.axios.post<OAuthAppWithConsent[]>(
+            this.getEndpoint(`/v1/user/settings/oauth/search`),
+            {
+                filters: filtersDTO,
+                sorting: sorting,
+            },
+            {
+                params: {
+                    limit,
+                    page,
+                },
+            }
+        );
 
-        return createPaginatedResponse(resp) as PaginatedResponse<OAuthApp>;
+        return createPaginatedResponse(resp);
     };
 
     /**

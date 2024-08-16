@@ -6,6 +6,7 @@ import { PaginatedResponse, SearchFilter, SearchParams, Version } from "../../in
 import { Agent, TargetAgent } from "../../interfaces/mothership";
 
 type RecurrentInfo = Pick<Agent, "uptime" | "cpuUtilization" | "memoryUsed" | "status">;
+type HelloInfo = RecurrentInfo & { nickname?: string; bundleVersion: string };
 
 export default class MothershipService extends Base {
     constructor(options: Options, axios: AxiosInstance) {
@@ -30,7 +31,7 @@ export default class MothershipService extends Base {
      * @param info Information about the agent's uuid, hardware and nickname
      * @return an Agent object
      */
-    hello = async (uuid: string, uuidSignature: string, info: RecurrentInfo & { nickname?: string }): Promise<{ agent: Agent; token: string }> => {
+    hello = async (uuid: string, uuidSignature: string, info: HelloInfo): Promise<{ agent: Agent; token: string }> => {
         const resp = await this.axios.post<Agent>(this.getEndpoint("/v1/hello"), info, {
             headers: {
                 Authorization: `Bearer ${uuid}.${uuidSignature}`,

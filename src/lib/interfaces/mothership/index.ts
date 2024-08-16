@@ -20,6 +20,7 @@ export type Agent = {
     status: AgentStatus;
     createDate: number;
     modifyDate: number;
+    bundleVersion?: string;
 };
 
 export type TargetAgent = Pick<Agent, Exclude<keyof Agent, "uptime">> & {

@@ -1,3 +1,4 @@
+import { DesignBuild } from "../..";
 import { ReducedEvent } from "../../..";
 import { ReducedSpace } from "../../../../../../global";
 import { ReducedOrganization, ReducedUser } from "../../../../../../idp";
@@ -7,7 +8,7 @@ export default interface DesignSnapshot {
     _id: string;
     name: string;
     content?: DesignContent;
-    build?: unknown;
+    build?: DesignBuild;
     streamId: string;
     event: ReducedEvent;
     space: ReducedSpace;

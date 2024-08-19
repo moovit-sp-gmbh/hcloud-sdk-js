@@ -1,3 +1,4 @@
+import { DesignBuild } from "..";
 import { ReducedEvent } from "../..";
 import { ReducedSpace } from "../../../../../global";
 import { ReducedOrganization } from "../../../../../idp/organization";
@@ -8,7 +9,7 @@ export interface Design {
     _id: string;
     name: string;
     content: DesignContent;
-    build?: unknown;
+    build?: DesignBuild;
     streamId: string;
     event: ReducedEvent;
     space: ReducedSpace;

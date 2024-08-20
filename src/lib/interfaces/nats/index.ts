@@ -165,6 +165,7 @@ interface NatsObject
 
 interface NatsNameObject {
     name: string;
+    oldName?: string;
 }
 interface NatsIdObject {
     _id: string;

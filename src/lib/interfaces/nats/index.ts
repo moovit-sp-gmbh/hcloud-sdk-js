@@ -15,6 +15,7 @@ enum NatsSubject {
     IDP_USER_SECURITY_GENERAL = "hcloud.idp.user.${userId}.security.general",
 
     IDP_ORGANIZATION_GENERAL = "hcloud.idp.organization.${base64orgName}.general",
+    IDP_ORGANIZATION_INVITATIONS = "hcloud.idp.organization.${base64orgName}.invitations",
     IDP_ORGANIZATION_MEMBERS = "hcloud.idp.organization.${base64orgName}.members",
     IDP_ORGANIZATION_MEMBERS_EXECUTION_TARGET = "hcloud.idp.organization.${base64orgName}.members.${base64email}.executionTarget",
     IDP_ORGANIZATION_TEAMS = "hcloud.idp.organization.${base64orgName}.teams",
@@ -131,7 +132,9 @@ interface NatsObject
     [NatsSubject.IDP_USER_SECURITY_GENERAL]: unknown;
     [NatsSubject.IDP_USER_SETTINGS_OAUTH]: unknown;
     [NatsSubject.IDP_USER_NOTIFICATIONS]: NatsIdObject;
+    [NatsSubject.IDP_USER_INVITATIONS]: NatsIdObject;
     [NatsSubject.IDP_ORGANIZATION_GENERAL]: NatsNameObject;
+    [NatsSubject.IDP_ORGANIZATION_INVITATIONS]: NatsIdObject;
     [NatsSubject.IDP_ORGANIZATION_MEMBERS]: NatsMemberObject;
     [NatsSubject.IDP_ORGANIZATION_MEMBERS_EXECUTION_TARGET]: NatsExecTargetObject;
     [NatsSubject.IDP_ORGANIZATION_TEAMS]: NatsNameObject;
@@ -195,7 +198,7 @@ interface NatsCustomNodeObject {
 type NatsCallback = (err: Error | null, msg?: NatsMessage, rawMsg?: Msg) => void;
 
 /**
- * NatsSubjects creates subject strings to be used with nats.subscribe and nats.publish
+ * This helper class creates subject strings to be used with nats.subscribe and nats.publish
  */
 class NatsSubjects {
     static IDP = class {
@@ -240,6 +243,9 @@ class NatsSubjects {
         static Organization = class {
             static GENERAL = (organizationName: string) => {
                 return NatsSubjects.replace(NatsSubject.IDP_ORGANIZATION_GENERAL, { organizationName });
+            };
+            static INVITATIONS = (organizationName: string) => {
+                return NatsSubjects.replace(NatsSubject.IDP_ORGANIZATION_INVITATIONS, { organizationName });
             };
             static MEMBERS = (organizationName: string): string & { EXECUTION_TARGET: (email: string) => string } => {
                 return Object.defineProperty(

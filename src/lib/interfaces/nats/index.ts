@@ -13,6 +13,7 @@ enum NatsSubject {
     IDP_USER_INVITATIONS = "hcloud.idp.user.${userId}.invitations",
     IDP_USER_SECURITY_PATS = "hcloud.idp.user.${userId}.security.pats",
     IDP_USER_SECURITY_GENERAL = "hcloud.idp.user.${userId}.security.general",
+    IDP_USER_LICENSE = "hcloud.idp.user.${userId}.license",
 
     IDP_ORGANIZATION_GENERAL = "hcloud.idp.organization.${base64orgName}.general",
     IDP_ORGANIZATION_INVITATIONS = "hcloud.idp.organization.${base64orgName}.invitations",
@@ -133,6 +134,7 @@ interface NatsObject
     [NatsSubject.IDP_USER_SETTINGS_OAUTH]: unknown;
     [NatsSubject.IDP_USER_NOTIFICATIONS]: NatsIdObject;
     [NatsSubject.IDP_USER_INVITATIONS]: NatsIdObject;
+    [NatsSubject.IDP_USER_LICENSE]: NatsIdObject;
     [NatsSubject.IDP_ORGANIZATION_GENERAL]: NatsNameObject;
     [NatsSubject.IDP_ORGANIZATION_INVITATIONS]: NatsIdObject;
     [NatsSubject.IDP_ORGANIZATION_MEMBERS]: NatsMemberObject;
@@ -220,6 +222,9 @@ class NatsSubjects {
             };
             static NOTIFICATIONS = (userId: string) => {
                 return NatsSubjects.replace(NatsSubject.IDP_USER_NOTIFICATIONS, { userId });
+            };
+            static LICENSE = (userId: string) => {
+                return NatsSubjects.replace(NatsSubject.IDP_USER_LICENSE, { userId });
             };
 
             static Security = class {

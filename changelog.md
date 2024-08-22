@@ -1,3 +1,9 @@
+## [14.7.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v14.6.0...v14.7.0) (2024-08-22)
+
+### Features
+
+* set design and snapshot build to DesignBuild ([fb82601](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/fb82601a4aa7646e7bbedd89ed4fcb30a654dd68))
+
 ## [14.6.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v14.5.0...v14.6.0) (2024-08-22)
 
 ### Features

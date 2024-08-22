@@ -1,3 +1,9 @@
+## [14.5.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v14.4.0...v14.5.0) (2024-08-22)
+
+### Features
+
+* add bundleVersion to agent ([c0a916d](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/c0a916d4c3fac8a71e8331c5d6e94df5cfc8aba2))
+
 ## [14.4.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v14.3.0...v14.4.0) (2024-08-13)
 
 ### Features

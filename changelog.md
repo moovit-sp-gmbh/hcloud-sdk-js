@@ -1,3 +1,14 @@
+## [14.6.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v14.5.0...v14.6.0) (2024-08-22)
+
+### Features
+
+* add nats subject for org invitations ([1a82042](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/1a82042d671206d5731bd985eecbdd7b26e535f2))
+* add nats subject for user license ([4789efd](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/4789efdf8c89e8f3231bd1392b9776209d389d2b))
+
+### Bug Fixes
+
+* add optional 'oldName' property to NatsNameObject ([48ba425](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/48ba42526c0ac839a8905e9a2ff5d27151e348c4))
+
 ## [14.5.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v14.4.0...v14.5.0) (2024-08-22)
 
 ### Features

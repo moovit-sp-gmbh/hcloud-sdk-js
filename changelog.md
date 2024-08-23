@@ -1,3 +1,9 @@
+## [14.8.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v14.7.0...v14.8.0) (2024-08-23)
+
+### Features
+
+* user/oauth/search now shows consented scopes ([e0551e8](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/e0551e8a38591b4e6ef1228726dadf6ebec5c9a2))
+
 ## [14.7.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v14.6.0...v14.7.0) (2024-08-22)
 
 ### Features

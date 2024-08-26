@@ -1,5 +1,6 @@
 import Base from "../../../Base";
 import { OAuthToken, OAuthTokenRequest } from "../../../interfaces/idp/oauth";
+import { OAuthAppWithConsent } from "../../../interfaces/idp/organization/settings/oauthApp";
 
 export class IdpOAuth extends Base {
     /**
@@ -89,6 +90,18 @@ export class IdpOAuth extends Base {
         const response = await this.axios.post<OAuthToken>(this.getEndpoint(`/v1/login/oauth/access_token`), tokenRequest);
         return response.data;
     }
+
+    /**
+     * Get OAuth app public information via client ID
+     *
+     * @param clientId {string} - Client ID of the OAuth app
+     * @returns Public OAuth app information
+     */
+    public getOAuthAppInfo = async (clientId: string): Promise<OAuthAppWithConsent> => {
+        const response = await this.axios.get<OAuthAppWithConsent>(this.getEndpoint(`/v1/login/oauth/app/${clientId}`));
+
+        return response.data;
+    };
 
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/account${endpoint}`;

@@ -1,3 +1,9 @@
+## [14.8.1](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v14.8.0...v14.8.1) (2024-08-26)
+
+### Bug Fixes
+
+* return type if rename space to be an interface ([6569a9d](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/6569a9dd42b23553b7bc8d8eebcb98daff4167c4))
+
 ## [14.8.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v14.7.0...v14.8.0) (2024-08-23)
 
 ### Features

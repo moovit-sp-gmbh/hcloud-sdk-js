@@ -1,20 +1,20 @@
-import { AxiosInstance } from "axios"
-import Base, { Options } from "../../../Base"
-import { createPaginatedResponse } from "../../../helper/paginatedResponseHelper"
-import { SearchFilterDTO } from "../../../helper/searchFilter"
-import { PaginatedResponse, SearchFilter, SearchParams } from "../../../interfaces/global"
-import { Stream } from "../../../interfaces/high5"
+import { AxiosInstance } from "axios";
+import Base, { Options } from "../../../Base";
+import { createPaginatedResponse } from "../../../helper/paginatedResponseHelper";
+import { SearchFilterDTO } from "../../../helper/searchFilter";
+import { PaginatedResponse, SearchFilter, SearchParams } from "../../../interfaces/global";
+import { Stream } from "../../../interfaces/high5";
 import {
     High5Space as Space,
     High5SpaceEntityPermission as SpaceEntityPermission,
     High5SpacePermission as SpacePermission,
-} from "../../../interfaces/high5/space"
-import { High5Event } from "./event"
-import { High5SpaceExecute } from "./execution"
-import High5Node from "./node"
-import High5Secret from "./secret"
-import High5Wave from "./wave"
-import { High5Webhook } from "./webhook"
+} from "../../../interfaces/high5/space";
+import { High5Event } from "./event";
+import { High5SpaceExecute } from "./execution";
+import High5Node from "./node";
+import High5Secret from "./secret";
+import High5Wave from "./wave";
+import { High5Webhook } from "./webhook";
 
 export class High5Space extends Base {
     public event: High5Event;

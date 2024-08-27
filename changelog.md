@@ -1,3 +1,9 @@
+## [14.10.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v14.9.0...v14.10.0) (2024-08-27)
+
+### Features
+
+* make registry catalogs its own model ([0fe56a6](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/0fe56a6e2c0f97f66b0958a28ab3c133325916f5))
+
 ## [14.9.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v14.8.1...v14.9.0) (2024-08-27)
 
 ### Features

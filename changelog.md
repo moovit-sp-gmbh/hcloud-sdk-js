@@ -1,3 +1,9 @@
+## [14.13.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v14.12.0...v14.13.0) (2024-08-27)
+
+### Features
+
+* change catalogUrl to query string rather then param ([8171b05](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/8171b05df222f6bc38ec22f79cd5fda43207dc42))
+
 ## [14.12.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v14.11.0...v14.12.0) (2024-08-27)
 
 ### Features

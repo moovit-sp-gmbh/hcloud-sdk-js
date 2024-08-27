@@ -2,7 +2,7 @@
  * @type {import('semantic-release').GlobalConfig}
  */
 module.exports = {
-    branches: ["staging"],
+    branches: [{ name: "staging", prerelease: true }],
     plugins: [
         [
             "@semantic-release/commit-analyzer",
@@ -10,7 +10,7 @@ module.exports = {
                 "preset": "conventionalcommits",
                 "parserOpts": {
                     "noteKeywords": ["BREAKING CHANGE", "BREAKING CHANGES", "BREAKING"]
-                  }
+                }
             }
         ],
         [
@@ -19,7 +19,7 @@ module.exports = {
                 "preset": "conventionalcommits",
                 "parserOpts": {
                     "noteKeywords": ["BREAKING CHANGE", "BREAKING CHANGES", "BREAKING"]
-                  }
+                }
             }
         ],
         [

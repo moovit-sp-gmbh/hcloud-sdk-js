@@ -1,3 +1,9 @@
+## [14.12.0-staging.1](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v14.11.0...v14.12.0-staging.1) (2024-08-27)
+
+### Features
+
+* delete catalog by url instead of _id ([13f7c5b](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/13f7c5b50c46cbed4a3bdb2f98bfb8103cbf6af2))
+
 ## [14.11.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v14.10.0...v14.11.0) (2024-08-27)
 
 ### Features

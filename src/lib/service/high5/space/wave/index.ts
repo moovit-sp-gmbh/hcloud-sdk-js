@@ -1,6 +1,6 @@
-import { AxiosInstance } from "axios"
-import Base, { Options } from "../../../../Base"
-import { SpacePatchWaveCatalog, SpacePatchWaveEngine, WaveCatalog, WaveEngine } from "../../../../interfaces/high5"
+import { AxiosInstance } from "axios";
+import Base, { Options } from "../../../../Base";
+import { SpacePatchWaveCatalog, SpacePatchWaveEngine, WaveCatalog, WaveEngine } from "../../../../interfaces/high5";
 
 export default class High5Wave extends Base {
     constructor(options: Options, axios: AxiosInstance) {
@@ -57,8 +57,8 @@ export default class High5Wave extends Base {
         return resp.data;
     };
 
-    public deleteSpaceWaveCatalog = async (orgName: string, spaceName: string, catalogUrl: string): Promise<void> => {
-        await this.axios.delete(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/wave/catalog?catalogUrl=${encodeURIComponent(catalogUrl)}`));
+    public deleteSpaceWaveCatalog = async (orgName: string, spaceName: string, catalogId: string): Promise<void> => {
+        await this.axios.delete(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/wave/catalog/${catalogId}`));
     };
 
     protected getEndpoint(endpoint: string): string {

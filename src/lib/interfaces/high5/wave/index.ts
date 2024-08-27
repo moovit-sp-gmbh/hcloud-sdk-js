@@ -3,7 +3,7 @@ export interface RegistryCatalog {
     description: string;
     publisher: string;
     url: string;
-    signed?: boolean;
+    verified?: boolean;
     featured?: boolean;
     default?: boolean;
 }

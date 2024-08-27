@@ -19,6 +19,7 @@ logs/
 *.log
 npm-debug.log*
 .pnpm-debug.log*
+changelog.md
 
 # VUEPRESS
 _docs/src/.vuepress/dist
@@ -33,6 +34,9 @@ Thumbs.db:encryptable
 .DS_Store
 
 ## OTHER
+### intelliJ
+/.idea
+/*.iml
 *~
 .fuse_hidden*
 .directory

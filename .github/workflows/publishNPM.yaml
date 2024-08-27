@@ -1,0 +1,57 @@
+name: Build and publish to NPM
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  testAndBuildAndPublish:
+    permissions: write-all
+    runs-on: ubuntu-20.04
+
+    strategy:
+      matrix:
+        node-version: [20.14.0]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Needed for semantic-release to work in case tags have been modified manually (for example when testing)
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 8.15.1
+
+      - name: Setup node version needed for build
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - run: make prepare
+
+      - run: make test
+
+      - run: make build
+
+      - run: make preparePublish
+
+      - name: Setup node for semantic-release (needs node v20.8.1 or higher)
+        uses: actions/setup-node@v3
+        with:
+          node-version: "lts/*"
+          scope: "@moovit-sp-gmbh"
+
+      - name: Setup semantic-release config
+        run: cp release.main.config.js release.config.js
+
+      - name:
+          Publish package and generate changelog with semantic-release. The specific tasks executed by this package are defined in release.config.js
+        run: pnpx semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          TELEGRAM_BOT_ID: ${{ secrets.TELEGRAM_BOT_ID }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}

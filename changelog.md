@@ -1,3 +1,15 @@
+## [14.11.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v14.10.0...v14.11.0) (2024-08-27)
+
+### Features
+
+* set action target to ubuntu-latest ([fecb4db](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/fecb4dba360f861021651d04a04ae114c2a68554))
+
+### Bug Fixes
+
+* bump pnpm action to v4 ([7b2d817](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/7b2d817968443bbf7724face47136335ff0082b6))
+* rename field signed to verified ([5a5a74e](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/5a5a74e298985704c9ddc3b20f4aeaf77a84f769))
+* set ubuntu version for actions to 20.04 ([5e3e11b](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/5e3e11b3dd563183b187c0f24c499f98749f957b))
+
 ## [14.10.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v14.9.0...v14.10.0) (2024-08-27)
 
 ### Features

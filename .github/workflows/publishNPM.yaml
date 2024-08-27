@@ -43,6 +43,11 @@ jobs:
         with:
           node-version: "lts/*"
 
+      - name: Remove scope from package.json name
+        run: |
+          jq '. += { name: "hcloud-sdk" }' package.json > package.publish.json
+          mv package.publish.json package.json
+
       - name:
           Publish package and generate changelog with semantic-release. The specific tasks executed by this package are defined in release.config.js
         run: pnpx semantic-release

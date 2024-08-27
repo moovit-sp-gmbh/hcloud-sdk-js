@@ -21,7 +21,7 @@ jobs:
           fetch-depth: 0 # Needed for semantic-release to work in case tags have been modified manually (for example when testing)
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v2.4.0
+        uses: pnpm/action-setup@v4
         with:
           version: 8.15.1
 

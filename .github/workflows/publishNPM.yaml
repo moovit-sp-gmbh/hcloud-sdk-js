@@ -1,9 +1,9 @@
-name: Build and publish to GitHub Packages
+name: Build and publish to NPM
 
 on:
   push:
     branches:
-      - staging
+      - main
 
 jobs:
   testAndBuildAndPublish:
@@ -32,8 +32,6 @@ jobs:
 
       - run: make prepare
 
-      - run: make lint
-
       - run: make test
 
       - run: make build
@@ -44,17 +42,16 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: "lts/*"
-          registry-url: "https://npm.pkg.github.com"
           scope: "@moovit-sp-gmbh"
 
       - name: Setup semantic-release config
-        run: cp release.staging.config.js release.config.js
+        run: cp release.main.config.js release.config.js
 
       - name:
           Publish package and generate changelog with semantic-release. The specific tasks executed by this package are defined in release.config.js
         run: pnpx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           TELEGRAM_BOT_ID: ${{ secrets.TELEGRAM_BOT_ID }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}

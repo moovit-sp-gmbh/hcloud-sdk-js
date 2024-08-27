@@ -1,5 +1,8 @@
 export interface CatalogRegistry {
     catalogs: {
+        name: string;
+        description: string;
+        publisher: string;
         url: string;
         signed?: boolean;
         featured?: boolean;

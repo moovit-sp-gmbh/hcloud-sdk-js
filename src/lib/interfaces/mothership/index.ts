@@ -21,6 +21,7 @@ export type Agent = {
     createDate: number;
     modifyDate: number;
     bundleVersion?: string;
+    installerVersion?: string;
 };
 
 export type TargetAgent = Pick<Agent, Exclude<keyof Agent, "uptime">> & {

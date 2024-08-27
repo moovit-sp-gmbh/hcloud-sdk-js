@@ -1,3 +1,13 @@
+## [14.12.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v14.11.0...v14.12.0) (2024-08-27)
+
+### Features
+
+* delete catalog by url instead of _id ([13f7c5b](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/13f7c5b50c46cbed4a3bdb2f98bfb8103cbf6af2))
+
+### Reverts
+
+* "ci: readd scope" "ci: publish to npm" ([6fa4e74](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/6fa4e74ecc40ef3dcc13f610b318d9261196867c))
+
 ## [14.12.0-staging.1](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v14.11.0...v14.12.0-staging.1) (2024-08-27)
 
 ### Features

@@ -1,3 +1,9 @@
+## [14.9.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v14.8.1...v14.9.0) (2024-08-27)
+
+### Features
+
+* add name, description and publisher to registry ([09f89bd](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/09f89bd090c7935b437c11bfe553152ae1c7bc98))
+
 ## [14.8.1](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v14.8.0...v14.8.1) (2024-08-26)
 
 ### Bug Fixes

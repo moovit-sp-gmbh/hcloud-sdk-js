@@ -1,3 +1,9 @@
+## [14.13.1](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v14.13.0...v14.13.1) (2024-08-27)
+
+### Bug Fixes
+
+* revert url to _id change when deleting a space catalog ([153d364](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/commit/153d3648285f766983f34d93130d9dcc610e5757))
+
 ## [14.13.0](https://github.com/moovit-sp-gmbh/hcloud-sdk-js/compare/v14.12.0...v14.13.0) (2024-08-27)
 
 ### Features

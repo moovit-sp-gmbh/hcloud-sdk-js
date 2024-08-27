@@ -58,7 +58,7 @@ export default class High5Wave extends Base {
     };
 
     public deleteSpaceWaveCatalog = async (orgName: string, spaceName: string, catalogUrl: string): Promise<void> => {
-        await this.axios.delete(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/wave/catalog/${catalogUrl}`));
+        await this.axios.delete(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/wave/catalog?catalogUrl=${encodeURIComponent(catalogUrl)}`));
     };
 
     protected getEndpoint(endpoint: string): string {

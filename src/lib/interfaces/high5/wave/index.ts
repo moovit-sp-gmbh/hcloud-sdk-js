@@ -1,13 +1,15 @@
+export interface RegistryCatalog {
+    name: string;
+    description: string;
+    publisher: string;
+    url: string;
+    signed?: boolean;
+    featured?: boolean;
+    default?: boolean;
+}
+
 export interface CatalogRegistry {
-    catalogs: {
-        name: string;
-        description: string;
-        publisher: string;
-        url: string;
-        signed?: boolean;
-        featured?: boolean;
-        default?: boolean;
-    }[];
+    catalogs: RegistryCatalog[];
 }
 
 export interface EngineRegistry {

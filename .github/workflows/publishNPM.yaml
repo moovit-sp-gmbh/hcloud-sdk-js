@@ -42,7 +42,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: "lts/*"
-          scope: "@moovit-sp-gmbh"
 
       - name:
           Publish package and generate changelog with semantic-release. The specific tasks executed by this package are defined in release.config.js

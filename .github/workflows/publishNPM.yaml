@@ -44,9 +44,6 @@ jobs:
           node-version: "lts/*"
           scope: "@moovit-sp-gmbh"
 
-      - name: Setup semantic-release config
-        run: cp release.main.config.js release.config.js
-
       - name:
           Publish package and generate changelog with semantic-release. The specific tasks executed by this package are defined in release.config.js
         run: pnpx semantic-release

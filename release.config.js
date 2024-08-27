@@ -2,7 +2,7 @@
  * @type {import('semantic-release').GlobalConfig}
  */
 module.exports = {
-    branches: ["main"],
+    branches: ["main", { name: "staging", prerelease: true }],
     plugins: [
         [
             "@semantic-release/commit-analyzer",
@@ -25,13 +25,7 @@ module.exports = {
         [
             "@semantic-release/changelog",
             {
-                changelogFile: "changelog.md",
-            },
-        ],
-        [
-            "@semantic-release/git",
-            {
-                assets: ["changelog.md"],
+                changelogFile: "build/changelog.md",
             },
         ],
         [

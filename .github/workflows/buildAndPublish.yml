@@ -52,9 +52,6 @@ jobs:
           jq '. += { publishConfig: { registry: "https://npm.pkg.github.com" }}' package.json > package.publish.json
           mv package.publish.json package.json
 
-      - name: Setup semantic-release config
-        run: cp release.staging.config.js release.config.js
-
       - name:
           Publish package and generate changelog with semantic-release. The specific tasks executed by this package are defined in release.config.js
         run: pnpx semantic-release

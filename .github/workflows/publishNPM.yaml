@@ -36,17 +36,17 @@ jobs:
 
       - run: make build
 
+      - name: Remove scope from package.json name
+        run: |
+          jq '. += { name: "hcloud-sdk" }' package.json > package.publish.json
+          mv package.publish.json package.json
+
       - run: make preparePublish
 
       - name: Setup node for semantic-release (needs node v20.8.1 or higher)
         uses: actions/setup-node@v3
         with:
           node-version: "lts/*"
-
-      - name: Remove scope from package.json name
-        run: |
-          jq '. += { name: "hcloud-sdk" }' package.json > package.publish.json
-          mv package.publish.json package.json
 
       - name:
           Publish package and generate changelog with semantic-release. The specific tasks executed by this package are defined in release.config.js

@@ -2,7 +2,6 @@
  * @type {import('semantic-release').GlobalConfig}
  */
 module.exports = {
-    dryRun: true,
     branches: ["main"],
     plugins: [
         [

@@ -57,7 +57,7 @@ export class High5Design extends Base {
         eventName: string,
         streamId: string,
         name: string,
-        content: DesignContent,
+        content: DesignContent
     ): Promise<Design> => {
         const resp = await this.axios.put<Design>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/design`),
@@ -82,15 +82,8 @@ export class High5Design extends Base {
      * @param content Design as Json payload (schema created by Stream Designer Studio)
      * @returns The created design
      */
-    public publishDesign = async (
-        orgName: string,
-        spaceName: string,
-        eventName: string,
-        streamId: string,
-    ): Promise<void> => {
-        await this.axios.put<void>(
-            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/design/publish`),
-        );
+    public publishDesign = async (orgName: string, spaceName: string, eventName: string, streamId: string): Promise<void> => {
+        await this.axios.put<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/design/publish`));
     };
 
     protected getEndpoint(endpoint: string): string {

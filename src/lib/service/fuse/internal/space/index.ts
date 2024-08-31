@@ -1,5 +1,6 @@
 import { AxiosInstance } from "axios";
 import Base, { Options } from "../../../../Base";
+import { FuseSpace } from "../../../../interfaces/fuse";
 import { FuseCronjobInternal } from "./cronjob";
 
 export class FuseSpaceInternal extends Base {
@@ -29,6 +30,21 @@ export class FuseSpaceInternal extends Base {
      */
     public removeUserFromAllSpacesOfOrganization = async (orgName: string, userId: string): Promise<void> => {
         await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/user/${userId}`));
+    };
+
+    /**
+     * Update Fuse Space avatar URL.
+     * This is an internal endpoint.
+     *
+     * @param orgName Name of the organization
+     * @param spaceName Name of the Fuse Space
+     * @param avatarUrl URL of the new avatar
+     * @returns the Fuse Space details
+     */
+    public updateSpaceAvatar = async (orgName: string, spaceName: string, avatarUrl: string): Promise<FuseSpace> => {
+        const res = await this.axios.patch<FuseSpace>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/avatar`), { url: avatarUrl });
+
+        return res.data;
     };
 
     protected getEndpoint(endpoint: string): string {

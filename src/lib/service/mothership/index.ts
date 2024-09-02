@@ -6,7 +6,7 @@ import { PaginatedResponse, SearchFilter, SearchParams, Version } from "../../in
 import { Agent, TargetAgent } from "../../interfaces/mothership";
 
 type RecurrentInfo = Pick<Agent, "uptime" | "cpuUtilization" | "memoryUsed" | "status">;
-type HelloInfo = RecurrentInfo & { nickname?: string; bundleVersion: string; installerVersion?: string };
+type HelloInfo = RecurrentInfo & { nickname?: string; bundleVersion: string; installerVersion?: string; ip?: string };
 
 export default class MothershipService extends Base {
     constructor(options: Options, axios: AxiosInstance) {

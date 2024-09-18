@@ -6,8 +6,6 @@ import { LicenseTier } from "../idp";
 enum NatsSubject {
     IDP_USER_GENERAL = "hcloud.idp.user.${userId}.general",
     IDP_USER_PROFILE = "hcloud.idp.user.${userId}.profile",
-    IDP_USER_MESSAGES = "hcloud.idp.user.${userId}.messages",
-    IDP_USER_SETTINGS_OAUTH = "hcloud.idp.user.${userId}.settings.oauth",
     IDP_USER_NOTIFICATIONS = "hcloud.idp.user.${userId}.notifications",
     IDP_USER_ORGS = "hcloud.idp.user.${userId}.orgs",
     IDP_USER_INVITATIONS = "hcloud.idp.user.${userId}.invitations",
@@ -15,7 +13,6 @@ enum NatsSubject {
     IDP_USER_SECURITY_GENERAL = "hcloud.idp.user.${userId}.security.general",
     IDP_USER_LICENSE = "hcloud.idp.user.${userId}.license",
 
-    IDP_ORGANIZATION_GENERAL = "hcloud.idp.organization.${base64orgName}.general",
     IDP_ORGANIZATION_INVITATIONS = "hcloud.idp.organization.${base64orgName}.invitations",
     IDP_ORGANIZATION_MEMBERS = "hcloud.idp.organization.${base64orgName}.members",
     IDP_ORGANIZATION_MEMBERS_EXECUTION_TARGET = "hcloud.idp.organization.${base64orgName}.members.${base64email}.executionTarget",
@@ -24,7 +21,6 @@ enum NatsSubject {
     IDP_ORGANIZATION_LICENSE = "hcloud.idp.organization.${base64orgName}.license",
 
     HIGH5_SPACES = "hcloud.high5.organization.${base64orgName}.spaces",
-    HIGH5_SPACE = "hcloud.high5.organization.${base64orgName}.spaces.${base64spaceName}.>",
     HIGH5_SPACE_PERMISSIONS = "hcloud.high5.organization.${base64orgName}.spaces.${base64spaceName}.permissions",
     HIGH5_STREAM_EXECUTE = "hcloud.high5.organization.${organizationId}.stream.execute.${base64email}",
     HIGH5_STREAM_CANCEL = "hcloud.high5.organization.${organizationId}.stream.execute.${base64email}", // eslint-disable-line @typescript-eslint/no-duplicate-enum-values
@@ -42,11 +38,9 @@ enum NatsSubject {
     HIGH5_WAVE_ENGINE_LATEST = "hcloud.high5.wave.engine.latest",
 
     FUSE_SPACES = "hcloud.fuse.organization.${base64orgName}.spaces",
-    FUSE_SPACE = "hcloud.fuse.organization.${base64orgName}.spaces.${base64spaceName}.>",
     FUSE_SPACE_PERMISSIONS = "hcloud.fuse.organization.${base64orgName}.spaces.${base64spaceName}.permissions",
     FUSE_JOBS = "hcloud.fuse.organization.${base64orgName}.spaces.${base64spaceName}.jobs",
     FUSE_JOB_LOGS = "hcloud.fuse.organization.${base64orgName}.spaces.${base64spaceName}.jobs.${jobId}.logs",
-    FUSE_JOBS_TRIGGER = "hcloud.fuse.organization.${base64orgName}.spaces.${base64spaceName}.jobs.trigger",
 
     AUDITOR_LOGS = "hcloud.auditor.organization.${base64orgName}.logs",
 
@@ -129,14 +123,11 @@ interface NatsObject
         NatsCustomNodeObject {
     [NatsSubject.IDP_USER_GENERAL]: NatsIdObject;
     [NatsSubject.IDP_USER_PROFILE]: NatsIdObject;
-    [NatsSubject.IDP_USER_MESSAGES]: unknown;
     [NatsSubject.IDP_USER_SECURITY_PATS]: NatsIdObject;
     [NatsSubject.IDP_USER_SECURITY_GENERAL]: unknown;
-    [NatsSubject.IDP_USER_SETTINGS_OAUTH]: unknown;
     [NatsSubject.IDP_USER_NOTIFICATIONS]: NatsIdObject;
     [NatsSubject.IDP_USER_INVITATIONS]: NatsIdObject;
     [NatsSubject.IDP_USER_LICENSE]: NatsIdObject;
-    [NatsSubject.IDP_ORGANIZATION_GENERAL]: NatsNameObject;
     [NatsSubject.IDP_ORGANIZATION_INVITATIONS]: NatsIdObject;
     [NatsSubject.IDP_ORGANIZATION_MEMBERS]: NatsMemberObject;
     [NatsSubject.IDP_ORGANIZATION_MEMBERS_EXECUTION_TARGET]: NatsExecTargetObject;
@@ -144,7 +135,6 @@ interface NatsObject
     [NatsSubject.IDP_ORGANIZATION_TEAM_MEMBERS]: NatsIdObject;
     [NatsSubject.IDP_ORGANIZATION_LICENSE]: NatsLicenseObject;
     [NatsSubject.HIGH5_SPACES]: NatsNameObject;
-    [NatsSubject.HIGH5_SPACE]: NatsNameObject;
     [NatsSubject.HIGH5_SPACE_PERMISSIONS]: NatsIdObject;
     [NatsSubject.HIGH5_STREAM_EXECUTE]: High5ExecuteOnAgentRequest | High5ExecutionCancelRequest;
     [NatsSubject.HIGH5_STREAM_CANCEL]: High5ExecuteOnAgentRequest | High5ExecutionCancelRequest;
@@ -160,11 +150,9 @@ interface NatsObject
     [NatsSubject.HIGH5_WEBHOOK_LOGS]: NatsIdObject;
     [NatsSubject.HIGH5_CATALOGS]: NatsIdObject;
     [NatsSubject.FUSE_SPACES]: NatsNameObject;
-    [NatsSubject.FUSE_SPACE]: NatsNameObject;
     [NatsSubject.FUSE_SPACE_PERMISSIONS]: NatsIdObject;
     [NatsSubject.FUSE_JOBS]: NatsIdObject;
     [NatsSubject.FUSE_JOB_LOGS]: NatsIdObject;
-    [NatsSubject.FUSE_JOBS_TRIGGER]: unknown;
     [NatsSubject.AUDITOR_LOGS]: NatsIdObject;
     [NatsSubject.DEBUG_NAMESPACE]: string;
 }
@@ -212,9 +200,6 @@ class NatsSubjects {
             static PROFILE = (userId: string) => {
                 return NatsSubjects.replace(NatsSubject.IDP_USER_PROFILE, { userId });
             };
-            static MESSAGES = (userId: string) => {
-                return NatsSubjects.replace(NatsSubject.IDP_USER_MESSAGES, { userId });
-            };
             static ORGS = (userId: string) => {
                 return NatsSubjects.replace(NatsSubject.IDP_USER_ORGS, { userId });
             };
@@ -236,20 +221,8 @@ class NatsSubjects {
                     return NatsSubjects.replace(NatsSubject.IDP_USER_SECURITY_GENERAL, { userId });
                 };
             };
-
-            static Settings = class {
-                static OAUTH = (userId: string) => {
-                    return NatsSubjects.replace(NatsSubject.IDP_USER_SETTINGS_OAUTH, { userId });
-                };
-                static GENERAL_SETTINGS = (userId: string) => {
-                    return NatsSubjects.replace(NatsSubject.IDP_USER_GENERAL, { userId });
-                };
-            };
         };
         static Organization = class {
-            static GENERAL = (organizationName: string) => {
-                return NatsSubjects.replace(NatsSubject.IDP_ORGANIZATION_GENERAL, { organizationName });
-            };
             static INVITATIONS = (organizationName: string) => {
                 return NatsSubjects.replace(NatsSubject.IDP_ORGANIZATION_INVITATIONS, { organizationName });
             };
@@ -289,9 +262,6 @@ class NatsSubjects {
             return NatsSubjects.replace(NatsSubject.FUSE_SPACES, { organizationName });
         };
         static Space = class {
-            static SPACE = (organizationName: string, spaceName: string) => {
-                return NatsSubjects.replace(NatsSubject.FUSE_SPACE, { organizationName, spaceName });
-            };
             static PERMISSIONS = (organizationName: string, spaceName: string) => {
                 return NatsSubjects.replace(NatsSubject.FUSE_SPACE_PERMISSIONS, { organizationName, spaceName });
             };
@@ -323,10 +293,6 @@ class NatsSubjects {
         };
 
         static Space = class {
-            static SPACE = (organizationName: string, spaceName: string) => {
-                return NatsSubjects.replace(NatsSubject.HIGH5_SPACE, { organizationName, spaceName });
-            };
-
             static PERMISSIONS = (organizationName: string, spaceName: string) => {
                 return NatsSubjects.replace(NatsSubject.HIGH5_SPACE_PERMISSIONS, { organizationName, spaceName });
             };

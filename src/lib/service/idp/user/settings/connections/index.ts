@@ -14,11 +14,11 @@ export class IdpConnections extends Base {
      *
      * @returns connection settings for each organization
      */
-    public get = async (): Promise<ConnectionSettings> => {
+    async get(): Promise<ConnectionSettings> {
         const res = await this.axios.get<ConnectionSettings>(this.getEndpoint());
 
         return res.data;
-    };
+    }
 
     protected getEndpoint(): string {
         return `${this.options.server}/api/account/v1/user/settings/connections`;

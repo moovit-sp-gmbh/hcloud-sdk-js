@@ -24,11 +24,11 @@ export class FuseSpace extends Base {
      * @param spaceName Name of the space
      * @returns The requested space
      */
-    public getSpace = async (orgName: string, spaceName: string): Promise<IFuseSpace> => {
+    async getSpace(orgName: string, spaceName: string): Promise<IFuseSpace> {
         const resp = await this.axios.get<IFuseSpace>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}`));
 
         return resp.data;
-    };
+    }
 
     /**
      * Creates a new Fuse space
@@ -36,20 +36,20 @@ export class FuseSpace extends Base {
      * @param name Name of the space to be created
      * @returns The created space
      */
-    public createSpace = async (orgName: string, name: string): Promise<IFuseSpace> => {
+    async createSpace(orgName: string, name: string): Promise<IFuseSpace> {
         const resp = await this.axios.post<IFuseSpace>(this.getEndpoint(`/v1/org/${orgName}/spaces`), { name: name });
 
         return resp.data;
-    };
+    }
 
     /**
      * Deletes a space by its name
      * @param orgName Name of the organization
      * @param spaceName Name of the space
      */
-    public deleteSpace = async (orgName: string, spaceName: string): Promise<void> => {
+    async deleteSpace(orgName: string, spaceName: string): Promise<void> {
         await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}`));
-    };
+    }
 
     /**
      * Adds/Updates/Removes the permission a user has in the specified space.
@@ -59,19 +59,14 @@ export class FuseSpace extends Base {
      * @param permission New permission
      * @returns The Fuse space with the updated permissions
      */
-    public updateUserSpacePermission = async (
-        orgName: string,
-        spaceName: string,
-        userId: string,
-        permission: SpacePermission
-    ): Promise<SpaceEntityPermission> => {
+    async updateUserSpacePermission(orgName: string, spaceName: string, userId: string, permission: SpacePermission): Promise<SpaceEntityPermission> {
         const resp = await this.axios.put<SpaceEntityPermission>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/permissions/user`), {
             userId,
             permission,
         });
 
         return resp.data;
-    };
+    }
 
     /**
      * Adds/Updates/Removes the permission a team has in the specified space. Note: A team cannot be an owner of a Space.
@@ -81,19 +76,19 @@ export class FuseSpace extends Base {
      * @param permission New permission
      * @returns The Fuse space with the updated permissions
      */
-    public updateTeamSpacePermission = async (
+    async updateTeamSpacePermission(
         orgName: string,
         spaceName: string,
         teamName: string,
         permission: SpacePermission
-    ): Promise<SpaceEntityPermission> => {
+    ): Promise<SpaceEntityPermission> {
         const resp = await this.axios.put<SpaceEntityPermission>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/permissions/team`), {
             teamName,
             permission,
         });
 
         return resp.data;
-    };
+    }
 
     /**
      * Retrieves all Fuse spaces of an organization which match the provided search filter(s). Will return all spaces of the organization if no filter is provided.
@@ -104,13 +99,13 @@ export class FuseSpace extends Base {
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
      * @returns Object containing an array of filtered Fuse spaces as well as the total number of results found in the database (independent of limit and page)
      */
-    public searchSpaces = async ({
+    async searchSpaces({
         orgName,
         filters,
         sorting,
         limit = 25,
         page = 0,
-    }: SearchParams & { orgName: string }): Promise<PaginatedResponse<IFuseSpace>> => {
+    }: SearchParams & { orgName: string }): Promise<PaginatedResponse<IFuseSpace>> {
         const filtersDTO = filters?.map((f: SearchFilter) => {
             return new SearchFilterDTO(f);
         });
@@ -121,7 +116,7 @@ export class FuseSpace extends Base {
         });
 
         return createPaginatedResponse(resp) as PaginatedResponse<IFuseSpace>;
-    };
+    }
 
     /**
      * Retrieves permissions of a space matching the search filter(s). Will return all permissions of the space if no search filter is provided.
@@ -133,14 +128,14 @@ export class FuseSpace extends Base {
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
      * @returns Object containing an array of High5 Space Permissions and the total number of results found in the database (independent of limit and page)
      */
-    public searchSpacePermissions = async ({
+    async searchSpacePermissions({
         orgName,
         spaceName,
         filters,
         sorting,
         limit = 25,
         page = 0,
-    }: SearchParams & { orgName: string; spaceName: string }): Promise<PaginatedResponse<SpaceEntityPermission>> => {
+    }: SearchParams & { orgName: string; spaceName: string }): Promise<PaginatedResponse<SpaceEntityPermission>> {
         const filtersDTO = filters?.map((f: SearchFilter) => new SearchFilterDTO(f));
 
         const resp = await this.axios.post<SpaceEntityPermission[]>(
@@ -152,7 +147,7 @@ export class FuseSpace extends Base {
         );
 
         return createPaginatedResponse(resp) as PaginatedResponse<SpaceEntityPermission>;
-    };
+    }
 
     /**
      * Updates the name of a space.
@@ -161,13 +156,13 @@ export class FuseSpace extends Base {
      * @param newSpaceName New name for the space
      * @returns The updated space
      */
-    public renameSpace = async (orgName: string, spaceName: string, newSpaceName: string): Promise<IFuseSpace> => {
+    async renameSpace(orgName: string, spaceName: string, newSpaceName: string): Promise<IFuseSpace> {
         const resp = await this.axios.patch<IFuseSpace>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/name`), {
             newSpaceName,
         });
 
         return resp.data;
-    };
+    }
 
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/fuse${endpoint}`;

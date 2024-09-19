@@ -14,13 +14,13 @@ export class High5OrganizationExecutionStates extends Base {
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
      * @returns Object containing an array of Stream execution logs as well as the total number of results
      */
-    public searchExecutionStates = async ({
+    async searchExecutionStates({
         orgName,
         filters,
         sorting,
         limit = 25,
         page = 0,
-    }: SearchParams & { orgName: string }): Promise<PaginatedResponse<High5ExecutionStatus>> => {
+    }: SearchParams & { orgName: string }): Promise<PaginatedResponse<High5ExecutionStatus>> {
         const filtersDTO = filters?.map((f: SearchFilter) => new SearchFilterDTO(f));
         const resp = await this.axios.post<High5ExecutionStatus[]>(
             this.getEndpoint(`/v1/org/${orgName}/execution/status/search?page=${page}&limit=${limit}`),
@@ -31,7 +31,7 @@ export class High5OrganizationExecutionStates extends Base {
         );
 
         return createPaginatedResponse(resp) as PaginatedResponse<High5ExecutionStatus>;
-    };
+    }
 
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/high5${endpoint}`;

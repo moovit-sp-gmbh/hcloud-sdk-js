@@ -15,13 +15,13 @@ export class AuditorInternal extends Base {
      * Timestamps might differ as much as: this.options.auditor.queue.executionInterval || 500
      * @param logs array (add multiple logs entries at once)
      */
-    public queueAuditLogs = async (logs: AuditLogCreate[]): Promise<void> => {
+    async queueAuditLogs(logs: AuditLogCreate[]): Promise<void> {
         if (!this.logQueueTimer) {
             this.startQueue();
         }
 
         this.logQueue = this.logQueue.concat(logs);
-    };
+    }
 
     private startQueue(): void {
         if (!this.logQueueTimer) {
@@ -42,9 +42,9 @@ export class AuditorInternal extends Base {
      * @param orgId the organizations's ID
      * @returns void
      */
-    public deleteAllAuditLogsOfOrganization = async (orgId: string): Promise<void> => {
+    async deleteAllAuditLogsOfOrganization(orgId: string): Promise<void> {
         await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgId}/logs`));
-    };
+    }
 
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/auditor/internal${endpoint}`;

@@ -18,13 +18,13 @@ export class High5WebhookLog extends Base {
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
      * @returns Object containing an array of Webhook logs and the total number of results found in the database (independent of limit and page)
      */
-    public getWebhookLogs = async (
+    async getWebhookLogs(
         orgName: string,
         spaceName: string,
         webhookId: string,
         limit?: number,
         page?: number
-    ): Promise<PaginatedResponse<WebhookLog>> => {
+    ): Promise<PaginatedResponse<WebhookLog>> {
         limit = limit || 25;
         page = page || 0;
 
@@ -33,7 +33,7 @@ export class High5WebhookLog extends Base {
         );
 
         return createPaginatedResponse(resp) as PaginatedResponse<WebhookLog>;
-    };
+    }
 
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/high5${endpoint}`;

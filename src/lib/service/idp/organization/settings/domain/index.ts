@@ -19,11 +19,11 @@ export class IdpDomain extends Base {
      * @param orgName Name of Organization
      * @returns Array of Domains
      */
-    public getDomains = async (orgName: string): Promise<Domain[]> => {
+    async getDomains(orgName: string): Promise<Domain[]> {
         const resp = await this.axios.get<Domain[]>(this.getEndpoint(`/v1/org/${orgName}/settings/domains`));
 
         return resp.data;
-    };
+    }
 
     /**
      * Creates a new Domain for the given Organization
@@ -31,13 +31,13 @@ export class IdpDomain extends Base {
      * @param domainName Name of the Domain
      * @returns the created Domain
      */
-    public createDomain = async (orgName: string, domainName: string): Promise<Domain> => {
+    async createDomain(orgName: string, domainName: string): Promise<Domain> {
         const resp = await this.axios.post<Domain>(this.getEndpoint(`/v1/org/${orgName}/settings/domains`), {
             name: domainName,
         });
 
         return resp.data;
-    };
+    }
 
     /**
      * Verifies the provided Domain.
@@ -45,20 +45,20 @@ export class IdpDomain extends Base {
      * @param domainName Name of the Domain
      * @returns Domain object with domain.verified set to 'true' if verification was succesful.
      */
-    public verifyDomain = async (orgName: string, domainName: string): Promise<Domain> => {
+    async verifyDomain(orgName: string, domainName: string): Promise<Domain> {
         const resp = await this.axios.patch<Domain>(this.getEndpoint(`/v1/org/${orgName}/settings/domains/${domainName}/verify`));
 
         return resp.data;
-    };
+    }
 
     /**
      * Deletes a domain.
      * @param orgName Name of the organization
      * @param domainName Name of the domain
      */
-    public deleteDomain = async (orgName: string, domainName: string): Promise<void> => {
+    async deleteDomain(orgName: string, domainName: string): Promise<void> {
         await this.axios.delete(this.getEndpoint(`/v1/org/${orgName}/settings/domains/${domainName}`));
-    };
+    }
 
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/account${endpoint}`;

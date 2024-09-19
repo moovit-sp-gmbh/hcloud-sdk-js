@@ -49,11 +49,11 @@ export default class Idp extends Base {
      * Requests the endpoint version
      * @returns Version object
      */
-    version = async (): Promise<Version> => {
+    async version(): Promise<Version> {
         const resp = await this.axios.get<Version>(this.getEndpoint("/v1/version"));
 
         return resp.data;
-    };
+    }
 
     /**
      * Authenticates against the identity provider with a given email and password.
@@ -62,7 +62,7 @@ export default class Idp extends Base {
      * @param token (optional) token if 2FA-TOTP is enabled
      * @returns SuccessfulAuth object holding the token and the user
      */
-    login = async (email: string, password: string, token?: string): Promise<SuccessfulAuth> => {
+    async login(email: string, password: string, token?: string): Promise<SuccessfulAuth> {
         let body = { email: email, password: password };
         if (token) {
             body = { ...body, ...{ token: token } };
@@ -74,7 +74,7 @@ export default class Idp extends Base {
             user: resp.data,
         };
         return authed;
-    };
+    }
 
     /**
      * Starts the login process via OIDC
@@ -84,7 +84,7 @@ export default class Idp extends Base {
      * @param hint Valid email address of the user that wants to login. Hint must be defined when provider is not.
      * @returns URL that must be accessed via a browser to continue the login process.
      */
-    loginWithOIDC = async (origin: string, oidcProvider?: string, hint?: string): Promise<string> => {
+    async loginWithOIDC(origin: string, oidcProvider?: string, hint?: string): Promise<string> {
         const resp = await this.axios.get(this.getEndpoint("/v1/login/oidc"), {
             params: {
                 origin,
@@ -101,7 +101,7 @@ export default class Idp extends Base {
             throw new Error("Location header is undefined.");
         }
         return location;
-    };
+    }
 
     /**
      * Starts the login process via SAML 2.0
@@ -109,7 +109,7 @@ export default class Idp extends Base {
      * @param email  Email of the user. The email domain will be used to determine the appropriate SAML 2.0 provider to use going forward.
      * @returns URL that must be accessed via a browser to continue the login process.
      */
-    loginWithSAML = async (origin: string, email: string): Promise<string> => {
+    async loginWithSAML(origin: string, email: string): Promise<string> {
         const resp = await this.axios.get(this.getEndpoint("/v1/login/saml"), {
             params: {
                 origin,
@@ -125,7 +125,7 @@ export default class Idp extends Base {
             throw new Error("Location header is undefined.");
         }
         return location;
-    };
+    }
 
     /**
      * Determine if/how the given email can authenticate.
@@ -136,7 +136,7 @@ export default class Idp extends Base {
      * @returns object that dictates if: the user needs to REGISTER; the user needs to VERIFY_EMAIL; the user can LOGIN using this email;
      *          or the authentication process should continue via an EXTERNAL provider that can be found via the location property.
      */
-    preLogin = async (email: string, origin: string): Promise<PreLoginResponse> => {
+    async preLogin(email: string, origin: string): Promise<PreLoginResponse> {
         const resp = await this.axios.get<PreLoginResponse>(this.getEndpoint("/v1/login/pre"), {
             params: {
                 origin,
@@ -144,7 +144,7 @@ export default class Idp extends Base {
             },
         });
         return resp.data;
-    };
+    }
 
     /**
      * Initiate the password reset process. An email will be sent to the user to move to the next phase.

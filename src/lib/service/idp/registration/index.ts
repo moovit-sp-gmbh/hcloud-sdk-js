@@ -20,7 +20,7 @@ export class IdpRegistration extends Base {
      * @param regionId - Optional region id
      * @param targetUrl Optional url the link in the mail will point to
      */
-    register = async (
+    async register(
         name: string,
         email: string,
         password: string,
@@ -28,7 +28,7 @@ export class IdpRegistration extends Base {
         company?: string,
         regionId?: string,
         targetUrl?: string
-    ): Promise<void> => {
+    ): Promise<void> {
         await this.axios.post<void>(this.getEndpoint("/v1/register"), {
             name: name,
             email: email,
@@ -38,7 +38,7 @@ export class IdpRegistration extends Base {
             regionId,
             targetUrl,
         });
-    };
+    }
 
     /**
      * Triggers the registration mail to be resend if the first one got lost
@@ -50,7 +50,7 @@ export class IdpRegistration extends Base {
      * @param regionId - Optional region id
      * @param targetUrl Optional url the link in the mail will point to
      */
-    resendRegistrationMail = async (
+    async resendRegistrationMail(
         name: string,
         email: string,
         password: string,
@@ -58,7 +58,7 @@ export class IdpRegistration extends Base {
         company?: string,
         regionId?: string,
         targetUrl?: string
-    ): Promise<void> => {
+    ): Promise<void> {
         await this.axios.patch<void>(this.getEndpoint("/v1/register/resendRegistrationEmail"), {
             name: name,
             email: email,
@@ -68,7 +68,7 @@ export class IdpRegistration extends Base {
             regionId,
             targetUrl,
         });
-    };
+    }
 
     /**
      * Validates a previous registration. If successful, the Users account status will be set to 'Active'.
@@ -77,7 +77,7 @@ export class IdpRegistration extends Base {
      * @param regionId - Optional region id
      * @returns Bearer Token and User object
      */
-    validateRegistration = async (email: string, verificationCode: string): Promise<SuccessfulAuth> => {
+    async validateRegistration(email: string, verificationCode: string): Promise<SuccessfulAuth> {
         const resp = await this.axios.patch<User>(this.getEndpoint("/v1/register/verify"), {
             email,
             verificationCode,
@@ -87,7 +87,7 @@ export class IdpRegistration extends Base {
             token: resp.headers["authorization"]?.toString() || "",
             user: resp.data,
         } as SuccessfulAuth;
-    };
+    }
 
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/account${endpoint}`;

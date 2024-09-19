@@ -24,14 +24,14 @@ export class IdpOrganizationMember extends Base {
      * @param page (optional) Page number to skip the first (page * limit) results (defaults to 0)
      * @returns Object containing an array of Organization Members and the total number of results found in the database (independent of limit and page)
      */
-    public searchOrganizationMembers = async ({
+    async searchOrganizationMembers({
         orgName,
         filters,
         excludeTeamByName,
         sorting,
         limit = 25,
         page = 0,
-    }: SearchParams & { orgName: string; excludeTeamByName?: string }): Promise<PaginatedResponse<OrganizationMember>> => {
+    }: SearchParams & { orgName: string; excludeTeamByName?: string }): Promise<PaginatedResponse<OrganizationMember>> {
         const filtersDTO = filters?.map((f: SearchFilter) => {
             return new SearchFilterDTO(f);
         });
@@ -42,7 +42,7 @@ export class IdpOrganizationMember extends Base {
         });
 
         return createPaginatedResponse(resp) as PaginatedResponse<OrganizationMember>;
-    };
+    }
 
     /**
      * Retrieves an organization member by its user ID.
@@ -50,11 +50,11 @@ export class IdpOrganizationMember extends Base {
      * @param userId ID of the user
      * @returns The requested Organization Member
      */
-    public getOrganizationMember = async (orgName: string, userId: string): Promise<OrganizationMember> => {
+    async getOrganizationMember(orgName: string, userId: string): Promise<OrganizationMember> {
         const resp = await this.axios.get<OrganizationMember>(this.getEndpoint(`/${orgName}/members/${userId}`));
 
         return resp.data;
-    };
+    }
 
     /**
      * Updates the role of a User in the specified Organization.
@@ -63,11 +63,11 @@ export class IdpOrganizationMember extends Base {
      * @param orgMemberPatch New role
      * @returns The updated OrganizationMember
      */
-    public patchOrganizationMemberRole = async (orgName: string, userId: string, orgMemberPatch: OrgMemberPatch): Promise<OrganizationMember> => {
+    async patchOrganizationMemberRole(orgName: string, userId: string, orgMemberPatch: OrgMemberPatch): Promise<OrganizationMember> {
         const resp = await this.axios.patch<OrganizationMember>(this.getEndpoint(`/${orgName}/members/${userId}/role`), orgMemberPatch);
 
         return resp.data;
-    };
+    }
 
     /**
      * Updates the executionTarget flag of a User in the specified Organization.
@@ -76,30 +76,30 @@ export class IdpOrganizationMember extends Base {
      * @param executionTarget Boolean value to set
      * @returns The updated OrganizationMember
      */
-    public patchOrganizationExecutionTarget = async (orgName: string, userId: string, executionTarget: boolean): Promise<OrganizationMember> => {
+    async patchOrganizationExecutionTarget(orgName: string, userId: string, executionTarget: boolean): Promise<OrganizationMember> {
         const resp = await this.axios.patch<OrganizationMember>(this.getEndpoint(`/${orgName}/members/${userId}/executionTarget`), {
             executionTarget,
         });
 
         return resp.data;
-    };
+    }
 
     /**
      * Removes a Member from an Organization.
      * @param orgName Name of the Organization
      * @param userId ID of the User
      */
-    public removeOrganizationMember = async (orgName: string, userId: string): Promise<void> => {
+    async removeOrganizationMember(orgName: string, userId: string): Promise<void> {
         await this.axios.delete<void>(this.getEndpoint(`/${orgName}/members/${userId}`));
-    };
+    }
 
     /**
      * Member leaves the organization independently.
      * @param orgName Name of the Organization
      */
-    public leaveOrganization = async (orgName: string): Promise<void> => {
+    async leaveOrganization(orgName: string): Promise<void> {
         await this.axios.delete<void>(this.getEndpoint(`/${orgName}/members`));
-    };
+    }
 
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/account/v1/org${endpoint}`;

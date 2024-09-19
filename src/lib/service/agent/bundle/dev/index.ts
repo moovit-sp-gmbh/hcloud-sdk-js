@@ -11,22 +11,22 @@ export class DevBundle extends Base {
      * Retrieves the current dev bundle state.
      * @returns The current dev bundle state
      */
-    public getDevBundleState = async (): Promise<ToggleDevBundle> => {
+    async getDevBundleState(): Promise<ToggleDevBundle> {
         const resp = await this.axios.get<ToggleDevBundle>(this.getEndpoint(`/v1/bundle/dev`));
         return resp.data;
-    };
+    }
 
     /**
      * Update the dev bundle state.
      * @returns 204 - No content
      */
-    public updateDevBundleState = async (allowDev: boolean): Promise<void> => {
+    async updateDevBundleState(allowDev: boolean): Promise<void> {
         const resp = await this.axios.post<void>(this.getEndpoint(`/v1/bundle/dev`), {
             allowDev,
         } as ToggleDevBundle);
 
         return resp.data;
-    };
+    }
 
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/agent${endpoint}`;

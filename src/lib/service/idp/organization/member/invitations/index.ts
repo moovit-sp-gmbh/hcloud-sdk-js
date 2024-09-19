@@ -15,13 +15,13 @@ export default class IdpOrganizationMemberInvitations extends Base {
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
      * @returns Object containing an array of invitations and the total number of results found in the database (independent of limit and page)
      */
-    public search = async (params: {
+    async search(params: {
         orgName: string;
         filters: SearchFilter[];
         sorting?: Sorting;
         limit?: number;
         page?: number;
-    }): Promise<PaginatedResponse<OrganizationMemberInvitation>> => {
+    }): Promise<PaginatedResponse<OrganizationMemberInvitation>> {
         const limit = params.limit || 25;
         const page = params.page || 0;
 
@@ -39,7 +39,7 @@ export default class IdpOrganizationMemberInvitations extends Base {
         );
 
         return createPaginatedResponse(resp) as PaginatedResponse<OrganizationMemberInvitation>;
-    };
+    }
 
     /**
      * Invites a User to an Organization.
@@ -53,13 +53,13 @@ export default class IdpOrganizationMemberInvitations extends Base {
      * @param targetUrl Optional url the link in the mail will point to
      * @returns The created invitation
      */
-    public create = async (
+    async create(
         orgName: string,
         email: string,
         role: OrganizationRole,
         allowNonRegisteredUsers = false,
         targetUrl?: string
-    ): Promise<OrganizationMemberInvitation> => {
+    ): Promise<OrganizationMemberInvitation> {
         const resp = await this.axios.post<OrganizationMemberInvitation>(this.getEndpoint(`/${orgName}/members/invitations`), {
             email,
             role,
@@ -68,7 +68,7 @@ export default class IdpOrganizationMemberInvitations extends Base {
         });
 
         return resp.data;
-    };
+    }
 
     /**
      * Accept an invitation.

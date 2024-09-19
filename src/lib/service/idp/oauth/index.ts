@@ -16,7 +16,7 @@ export class IdpOAuth extends Base {
      * redirect_uri, scopes and optionally state.
      * @returns the entire redirect uri including the authorization code if successful
      */
-    public getAuthorizationCodeInsideRedirectUrl = async (queryString: string, doNotRedirect?: boolean): Promise<string> => {
+    async getAuthorizationCodeInsideRedirectUrl(queryString: string, doNotRedirect?: boolean): Promise<string> {
         if (!queryString.startsWith("?")) {
             queryString = `?${queryString}`;
         }
@@ -30,7 +30,7 @@ export class IdpOAuth extends Base {
             return response.data.redirectUrl;
         }
         return response.headers.location;
-    };
+    }
 
     /**
      * Attempt to get information about a certain OAuth app. If the user has already consented to all the scopes required
@@ -45,7 +45,7 @@ export class IdpOAuth extends Base {
      * @returns A string with the redirect URL if the user already consented to the specificied scope. Otherwise, an OAuthApp
      * @see OAuthApp
      */
-    public getInfoOrAuthorizationCodeInsideRedirectUrl = async (queryString: string, doNotRedirect?: boolean): Promise<string | OAuthApp> => {
+    async getInfoOrAuthorizationCodeInsideRedirectUrl(queryString: string, doNotRedirect?: boolean): Promise<string | OAuthApp> {
         if (!queryString.startsWith("?")) {
             queryString = `?${queryString}`;
         }
@@ -66,7 +66,7 @@ export class IdpOAuth extends Base {
         }
 
         return response.headers.location;
-    };
+    }
 
     /**
      * createScopesAndGetAuthorizationCodeInsideRedirectUrl throws for an invalid request (query params do not match OAuthApp).
@@ -76,7 +76,7 @@ export class IdpOAuth extends Base {
      * redirect_uri, scopes and optionally state.
      * @returns the entire redirect uri including the authorization code if successful
      */
-    public createScopesAndGetAuthorizationCodeInsideRedirectUrl = async (queryString: string, doNotRedirect?: boolean): Promise<string> => {
+    async createScopesAndGetAuthorizationCodeInsideRedirectUrl(queryString: string, doNotRedirect?: boolean): Promise<string> {
         if (!queryString.startsWith("?")) {
             queryString = `?${queryString}`;
         }
@@ -90,16 +90,16 @@ export class IdpOAuth extends Base {
             return response.data.redirectUrl;
         }
         return response.data;
-    };
+    }
 
     /**
      * A valid code can be used to request a new API token.
      * @param tokenRequest contains the code, client_id, client_secret and redirect_uri
      */
-    public exchangeCodeForToken = async (tokenRequest: OAuthTokenRequest): Promise<OAuthToken> => {
+    async exchangeCodeForToken(tokenRequest: OAuthTokenRequest): Promise<OAuthToken> {
         const response = await this.axios.post<OAuthToken>(this.getEndpoint(`/v1/login/oauth/access_token`), tokenRequest);
         return response.data;
-    };
+    }
 
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/account${endpoint}`;

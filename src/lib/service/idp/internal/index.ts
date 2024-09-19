@@ -15,11 +15,11 @@ export class IdpInternal extends Base {
      * @param orgName Name of the organization
      * @returns the created user and a pat token
      */
-    public createAgentUser = async (orgName: string): Promise<{ user: User; pat: string }> => {
+    async createAgentUser(orgName: string): Promise<{ user: User; pat: string }> {
         const res = await this.axios.post<User>(this.getEndpoint(`/internal/v1/org/${orgName}/agent`));
 
         return { user: res.data, pat: res.headers.authorization };
-    };
+    }
 
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/account${endpoint}`;

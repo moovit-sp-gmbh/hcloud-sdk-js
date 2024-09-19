@@ -43,13 +43,7 @@ export class High5Space extends Base {
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
      * @returns Object containing an array of High5 Spaces and the total number of results found in the database (independent of limit and page)
      */
-    public searchSpaces = async ({
-        orgName,
-        filters,
-        sorting,
-        limit = 25,
-        page = 0,
-    }: SearchParams & { orgName: string }): Promise<PaginatedResponse<Space>> => {
+    async searchSpaces({ orgName, filters, sorting, limit = 25, page = 0 }: SearchParams & { orgName: string }): Promise<PaginatedResponse<Space>> {
         const filtersDTO = filters?.map((f: SearchFilter) => new SearchFilterDTO(f));
 
         const resp = await this.axios.post<Space[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/search?page=${page}&limit=${limit}`), {
@@ -58,7 +52,7 @@ export class High5Space extends Base {
         });
 
         return createPaginatedResponse(resp) as PaginatedResponse<Space>;
-    };
+    }
 
     /**
      * Retrieves permissions of a space matching the search filter(s). Will return all permissions of the space if no search filter is provided.
@@ -70,14 +64,14 @@ export class High5Space extends Base {
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
      * @returns Object containing an array of High5 Space Permissions and the total number of results found in the database (independent of limit and page)
      */
-    public searchSpacePermissions = async ({
+    async searchSpacePermissions({
         orgName,
         spaceName,
         filters,
         sorting,
         limit = 25,
         page = 0,
-    }: SearchParams & { orgName: string; spaceName: string }): Promise<PaginatedResponse<SpaceEntityPermission>> => {
+    }: SearchParams & { orgName: string; spaceName: string }): Promise<PaginatedResponse<SpaceEntityPermission>> {
         const filtersDTO = filters?.map((f: SearchFilter) => new SearchFilterDTO(f));
 
         const resp = await this.axios.post<SpaceEntityPermission[]>(
@@ -89,7 +83,7 @@ export class High5Space extends Base {
         );
 
         return createPaginatedResponse(resp) as PaginatedResponse<SpaceEntityPermission>;
-    };
+    }
 
     /**
      * Retrieves a High5 Space by its name.
@@ -97,11 +91,11 @@ export class High5Space extends Base {
      * @param spaceId ID of the High5 Space
      * @returns The requested Space
      */
-    public getSpace = async (orgName: string, spaceName: string): Promise<Space> => {
+    async getSpace(orgName: string, spaceName: string): Promise<Space> {
         const resp = await this.axios.get<Space>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}`));
 
         return resp.data;
-    };
+    }
 
     /**
      * Creates a new High5 Space in the specified Organization.
@@ -109,20 +103,20 @@ export class High5Space extends Base {
      * @param name Name for the new Space
      * @returns The created Space
      */
-    public createSpace = async (orgName: string, name: string): Promise<Space> => {
+    async createSpace(orgName: string, name: string): Promise<Space> {
         const resp = await this.axios.post<Space>(this.getEndpoint(`/v1/org/${orgName}/spaces`), { name: name });
 
         return resp.data;
-    };
+    }
 
     /**
      * Delete a space by its name.
      * @param orgName Name of the Organization
      * @param spaceName Name of the Space
      */
-    public deleteSpace = async (orgName: string, spaceName: string): Promise<void> => {
+    async deleteSpace(orgName: string, spaceName: string): Promise<void> {
         await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}`));
-    };
+    }
 
     /**
      * Adds/Updates/Removes the permission a user has in the specified space.
@@ -132,19 +126,14 @@ export class High5Space extends Base {
      * @param permission New permission
      * @returns The Space with updated permissions
      */
-    public updateUserSpacePermission = async (
-        orgName: string,
-        spaceName: string,
-        userId: string,
-        permission: SpacePermission
-    ): Promise<SpaceEntityPermission> => {
+    async updateUserSpacePermission(orgName: string, spaceName: string, userId: string, permission: SpacePermission): Promise<SpaceEntityPermission> {
         const resp = await this.axios.put<SpaceEntityPermission>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/permissions/user`), {
             userId,
             permission,
         });
 
         return resp.data;
-    };
+    }
 
     /**
      * Adds/Updates/Removes the permission a team has in the specified space. Note: A team cannot be an owner of a Space.
@@ -154,19 +143,19 @@ export class High5Space extends Base {
      * @param permission New permission
      * @returns The Space with updated permissions
      */
-    public updateTeamSpacePermission = async (
+    async updateTeamSpacePermission(
         orgName: string,
         spaceName: string,
         teamName: string,
         permission: SpacePermission
-    ): Promise<SpaceEntityPermission> => {
+    ): Promise<SpaceEntityPermission> {
         const resp = await this.axios.put<SpaceEntityPermission>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/permissions/team`), {
             teamName,
             permission,
         });
 
         return resp.data;
-    };
+    }
 
     /**
      * Retrieves all streams of a space matching the search filter(s). Will return all streams if no search filter is provided.
@@ -178,14 +167,14 @@ export class High5Space extends Base {
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
      * @returns Object containing an array of streams and the total number of results found in the database (independent of limit and page)
      */
-    public searchStreamsOfSpace = async ({
+    async searchStreamsOfSpace({
         orgName,
         spaceName,
         filters,
         sorting,
         limit = 25,
         page = 0,
-    }: SearchParams & { orgName: string; spaceName: string }): Promise<PaginatedResponse<Stream>> => {
+    }: SearchParams & { orgName: string; spaceName: string }): Promise<PaginatedResponse<Stream>> {
         const filtersDTO = filters?.map((f: SearchFilter) => new SearchFilterDTO(f));
 
         const resp = await this.axios.post<Stream[]>(
@@ -197,7 +186,7 @@ export class High5Space extends Base {
         );
 
         return createPaginatedResponse(resp) as PaginatedResponse<Stream>;
-    };
+    }
 
     /**
      * Updates the name of a space.
@@ -206,13 +195,13 @@ export class High5Space extends Base {
      * @param newName New name for the space
      * @returns The updated space
      */
-    public renameSpace = async (orgName: string, spaceName: string, newSpaceName: string): Promise<Space> => {
+    async renameSpace(orgName: string, spaceName: string, newSpaceName: string): Promise<Space> {
         const resp = await this.axios.patch<Space>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/name`), {
             newSpaceName,
         });
 
         return resp.data;
-    };
+    }
 
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/high5${endpoint}`;

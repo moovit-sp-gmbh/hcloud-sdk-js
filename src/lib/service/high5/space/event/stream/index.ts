@@ -25,7 +25,7 @@ export class High5Stream extends Base {
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
      * @returns Object containing an array of streams as well as the total number of results found in the database (independent of limit and page)
      */
-    public searchStreams = async ({
+    async searchStreams({
         orgName,
         spaceName,
         eventName,
@@ -37,7 +37,7 @@ export class High5Stream extends Base {
         orgName: string;
         spaceName: string;
         eventName: string;
-    }): Promise<PaginatedResponse<Stream>> => {
+    }): Promise<PaginatedResponse<Stream>> {
         const filtersDTO = filters?.map((f: SearchFilter) => new SearchFilterDTO(f));
 
         const resp = await this.axios.post<Stream[]>(
@@ -49,7 +49,7 @@ export class High5Stream extends Base {
         );
 
         return createPaginatedResponse(resp) as PaginatedResponse<Stream>;
-    };
+    }
 
     /**
      * Retrieves a Stream by its ID.
@@ -59,11 +59,11 @@ export class High5Stream extends Base {
      * @param streamId ID of the stream
      * @returns The requested stream
      */
-    public getStream = async (orgName: string, spaceName: string, eventName: string, streamId: string): Promise<Stream> => {
+    async getStream(orgName: string, spaceName: string, eventName: string, streamId: string): Promise<Stream> {
         const resp = await this.axios.get<Stream>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}`));
 
         return resp.data;
-    };
+    }
 
     /**
      * Creates a new Stream for the specified Event.
@@ -73,13 +73,13 @@ export class High5Stream extends Base {
      * @param name Name for the new stream
      * @returns The created stream
      */
-    public createStream = async (orgName: string, spaceName: string, eventName: string, name: string): Promise<Stream> => {
+    async createStream(orgName: string, spaceName: string, eventName: string, name: string): Promise<Stream> {
         const resp = await this.axios.post<Stream>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams`), {
             name: name,
         });
 
         return resp.data;
-    };
+    }
 
     /**
      * Duplicate a Stream for the specified Event.
@@ -90,14 +90,14 @@ export class High5Stream extends Base {
      * @param sourceStreamId ID for the stream to duplicate
      * @returns The created stream
      */
-    public duplicateStream = async (orgName: string, spaceName: string, eventName: string, name: string, sourceStreamId: string): Promise<Stream> => {
+    async duplicateStream(orgName: string, spaceName: string, eventName: string, name: string, sourceStreamId: string): Promise<Stream> {
         const resp = await this.axios.post<Stream>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams`), {
             name: name,
             streamId: sourceStreamId,
         });
 
         return resp.data;
-    };
+    }
 
     /**
      * Patches the order of Streams for an Event.
@@ -107,19 +107,14 @@ export class High5Stream extends Base {
      * @param StreamPatchOrder List of all event streams with their new order
      * @returns Array of updated Streams
      */
-    public patchStreamOrderMulti = async (
-        orgName: string,
-        spaceName: string,
-        eventName: string,
-        streamList: StreamPatchOrder[]
-    ): Promise<Stream[]> => {
+    async patchStreamOrderMulti(orgName: string, spaceName: string, eventName: string, streamList: StreamPatchOrder[]): Promise<Stream[]> {
         const resp = await this.axios.patch<Stream[]>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/order`),
             streamList
         );
 
         return resp.data;
-    };
+    }
 
     /**
      * Activate or deactivate a stream
@@ -130,20 +125,20 @@ export class High5Stream extends Base {
      * @param StreamPatchActive Object defining if stream should be active or inactive
      * @returns Details of the updated stream
      */
-    public patchStreamState = async (
+    async patchStreamState(
         orgName: string,
         spaceName: string,
         eventName: string,
         streamId: string,
         streamPatchActive: StreamPatchActive
-    ): Promise<Stream> => {
+    ): Promise<Stream> {
         const resp = await this.axios.patch<Stream>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/active`),
             streamPatchActive
         );
 
         return resp.data;
-    };
+    }
 
     /**
      * Moves a Stream up or down in the existing Streams order.
@@ -154,20 +149,20 @@ export class High5Stream extends Base {
      * @param SingleStreamPatchOrder Object defining if stream should move up or down
      * @returns Array of updated Streams
      */
-    public patchStreamOrder = async (
+    async patchStreamOrder(
         orgName: string,
         spaceName: string,
         eventName: string,
         streamId: string,
         singleStreamPatchOrder: SingleStreamPatchOrder
-    ): Promise<Stream[]> => {
+    ): Promise<Stream[]> {
         const resp = await this.axios.patch<Stream[]>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/order`),
             singleStreamPatchOrder
         );
 
         return resp.data;
-    };
+    }
 
     /**
      * Rename a stream
@@ -178,14 +173,14 @@ export class High5Stream extends Base {
      * @param name New name of the stream
      * @returns Updated stream
      */
-    public renameStream = async (orgName: string, spaceName: string, eventName: string, streamId: string, name: string): Promise<Stream> => {
+    async renameStream(orgName: string, spaceName: string, eventName: string, streamId: string, name: string): Promise<Stream> {
         const resp = await this.axios.patch<Stream>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/name`),
             { name }
         );
 
         return resp.data;
-    };
+    }
 
     /**
      * Moves a Stream to another event.
@@ -199,7 +194,7 @@ export class High5Stream extends Base {
      * @param [order] (optional) Order the stream should have in the new event
      * @returns Updated Stream
      */
-    public moveStream = async (
+    async moveStream(
         orgName: string,
         spaceName: string,
         eventName: string,
@@ -207,14 +202,14 @@ export class High5Stream extends Base {
         newEventName: string,
         name?: string,
         order?: number
-    ): Promise<Stream> => {
+    ): Promise<Stream> {
         const resp = await this.axios.patch<Stream>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/event`),
             { eventName: newEventName, name, order }
         );
 
         return resp.data;
-    };
+    }
 
     /**
      * Deletes a Stream by its ID.
@@ -223,9 +218,9 @@ export class High5Stream extends Base {
      * @param eventName Name of the event
      * @param streamId ID of the stream
      */
-    public deleteStream = async (orgName: string, spaceName: string, eventName: string, streamId: string): Promise<void> => {
+    async deleteStream(orgName: string, spaceName: string, eventName: string, streamId: string): Promise<void> {
         await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}`));
-    };
+    }
 
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/high5${endpoint}`;

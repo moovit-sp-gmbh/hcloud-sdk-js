@@ -43,12 +43,12 @@ export class IdpOrganization extends Base {
      * @param company (optional) New company name
      * @returns The updated Organization
      */
-    public updateOrganization = async (orgName: string, newName: string, company?: string): Promise<Organization> => {
+    async updateOrganization(orgName: string, newName: string, company?: string): Promise<Organization> {
         const organization = { name: newName, company: company } as Organization;
         const resp = await this.axios.patch<Organization>(this.getEndpoint(`/v1/org/${orgName}`), organization);
 
         return resp.data;
-    };
+    }
 
     /**
      * Creates a new Organization.
@@ -56,12 +56,12 @@ export class IdpOrganization extends Base {
      * @param company (optional) Company name for the new Organization
      * @returns The created Organization
      */
-    public createOrganization = async (name: string, company?: string): Promise<Organization> => {
+    async createOrganization(name: string, company?: string): Promise<Organization> {
         const organization = { name: name, company: company } as Organization;
         const resp = await this.axios.post<Organization>(this.getEndpoint(`/v1/org`), organization);
 
         return resp.data;
-    };
+    }
 
     /**
      * Retrieves an Organization by its name.
@@ -86,9 +86,9 @@ export class IdpOrganization extends Base {
      * Deletes an Organization. This will also delete all dependencies that the Organization has (Teams, Spaces, apps, ...).
      * @param orgName Name of the Organization to be deleted
      */
-    public deleteOrganization = async (orgName: string): Promise<void> => {
+    async deleteOrganization(orgName: string): Promise<void> {
         await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}`));
-    };
+    }
 
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/account${endpoint}`;

@@ -38,22 +38,22 @@ export class IdpUser extends Base {
      * Retrieves the User database entry for the requesting user.
      * @returns User object
      */
-    getUser = async (): Promise<User> => {
+    async getUser(): Promise<User> {
         const resp = await this.axios.get<User>(this.getEndpoint("/v1/user"));
 
         return resp.data;
-    };
+    }
 
     /**
      * Updates the User database entry of the requesting user.
      * @param user UserPatch object holding the new User values
      * @returns User object
      */
-    public patchUser = async (user: UserPatch): Promise<User> => {
+    async patchUser(user: UserPatch): Promise<User> {
         const resp = await this.axios.patch<User>(this.getEndpoint(`/v1/user`), user);
 
         return resp.data;
-    };
+    }
 
     /**
      * Updates the Password of the requesting user.
@@ -62,7 +62,7 @@ export class IdpUser extends Base {
      * @param token String (optional) object holding the current TOTP token
      * @returns User object
      */
-    public patchUserPassword = async (oldPassword: string, newPassword: string, totp?: string): Promise<User> => {
+    async patchUserPassword(oldPassword: string, newPassword: string, totp?: string): Promise<User> {
         const t = {
             old: oldPassword,
             new: newPassword,
@@ -74,21 +74,21 @@ export class IdpUser extends Base {
         const resp = await this.axios.patch<User>(this.getEndpoint(`/v1/user/password`), t);
 
         return resp.data;
-    };
+    }
 
     /**
      * Deletes user session and logs him out of HCloud on all devices.
      */
-    public deleteUserSession = async (): Promise<void> => {
+    async deleteUserSession(): Promise<void> {
         await this.axios.delete<void>(this.getEndpoint(`/v1/user/sessions`));
-    };
+    }
 
     /**
      * Deletes the requesting user.
      */
-    public deleteUser = async (): Promise<void> => {
+    async deleteUser(): Promise<void> {
         await this.axios.delete<void>(this.getEndpoint(`/v1/user`));
-    };
+    }
 
     /**
      * Retrieves all Organizations of a user that match the provided search filter(s). Returns all Organizations of the user if no search filter is provided.
@@ -99,13 +99,13 @@ export class IdpUser extends Base {
      * @param options (optional) Defines query options to retrieve additional properties for the returned Organization objects.
      * @returns Object containing an array of Organizations and the total number of results found in the database (independent of limit and page)
      */
-    public searchOrganizations = async (params: {
+    async searchOrganizations(params: {
         filters: SearchFilter[];
         sorting?: Sorting;
         limit?: number;
         page?: number;
         options?: OrganizationQueryOptions;
-    }): Promise<PaginatedResponse<Organization>> => {
+    }): Promise<PaginatedResponse<Organization>> {
         const limit = params.limit || 25;
         const page = params.page || 0;
         const getTeamsOfUser = params.options?.getTeamsOfUser ? `&teamsOfUser=${params.options.getTeamsOfUser}` : "";
@@ -126,7 +126,7 @@ export class IdpUser extends Base {
         );
 
         return createPaginatedResponse(resp) as PaginatedResponse<Organization>;
-    };
+    }
 
     /**
      * Retrieves all organization invitations of a user that match the provided search filter(s). Returns all invitations of the user if no search filter is provided.
@@ -136,12 +136,12 @@ export class IdpUser extends Base {
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
      * @returns Object containing an array of invitations and the total number of results found in the database (independent of limit and page)
      */
-    public searchInvitations = async (params: {
+    async searchInvitations(params: {
         filters: SearchFilter[];
         sorting?: Sorting;
         limit?: number;
         page?: number;
-    }): Promise<PaginatedResponse<OrganizationMemberInvitation>> => {
+    }): Promise<PaginatedResponse<OrganizationMemberInvitation>> {
         const limit = params.limit || 25;
         const page = params.page || 0;
 
@@ -159,7 +159,7 @@ export class IdpUser extends Base {
         );
 
         return createPaginatedResponse(resp) as PaginatedResponse<OrganizationMemberInvitation>;
-    };
+    }
 
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/account${endpoint}`;

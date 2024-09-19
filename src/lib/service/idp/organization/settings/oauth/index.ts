@@ -19,13 +19,13 @@ export class IdpOAuthApp extends Base {
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
      * @returns Object containing an array of OAuth apps and the total number of results found in the database (independent of limit and page)
      */
-    public searchOauthAppsOfOrganization = async ({
+    async searchOauthAppsOfOrganization({
         organizationName,
         filters,
         sorting,
         limit = 25,
         page = 0,
-    }: SearchParams & { organizationName: string }): Promise<PaginatedResponse<OAuthApp>> => {
+    }: SearchParams & { organizationName: string }): Promise<PaginatedResponse<OAuthApp>> {
         const filtersDTO = filters?.map((f: SearchFilter) => {
             return new SearchFilterDTO(f);
         });
@@ -39,7 +39,7 @@ export class IdpOAuthApp extends Base {
         );
 
         return createPaginatedResponse(resp) as PaginatedResponse<OAuthApp>;
-    };
+    }
 
     /**
      * Retrieves an OAuthApp by its ID.
@@ -47,11 +47,11 @@ export class IdpOAuthApp extends Base {
      * @param oauthAppId ID of the OAuthApp
      * @returns the requested OAuthApp
      */
-    public getOAuthApp = async (orgName: string, oauthAppId: string): Promise<OAuthApp> => {
+    async getOAuthApp(orgName: string, oauthAppId: string): Promise<OAuthApp> {
         const resp = await this.axios.get<OAuthApp>(this.getEndpoint(`/v1/org/${orgName}/settings/applications/oauth/${oauthAppId}`));
 
         return resp.data;
-    };
+    }
 
     /**
      * Creates a new OAuth app in the specified Organization.
@@ -59,11 +59,11 @@ export class IdpOAuthApp extends Base {
      * @param oAuthAppCreate Object containing the app's name, secretName, callback and optionally a base64 encoded avatar and a description
      * @returns The created OAuth app
      */
-    public createOAuthApp = async (orgName: string, oAuthAppCreate: OAuthAppCreate): Promise<OAuthApp> => {
+    async createOAuthApp(orgName: string, oAuthAppCreate: OAuthAppCreate): Promise<OAuthApp> {
         const resp = await this.axios.post<OAuthApp>(this.getEndpoint(`/v1/org/${orgName}/settings/applications/oauth`), oAuthAppCreate);
 
         return resp.data;
-    };
+    }
 
     /**
      * Updates an existing OAuth app.
@@ -72,20 +72,20 @@ export class IdpOAuthApp extends Base {
      * @param oAuthAppCreate Object containing the app's name, secretName, callback and optionally a base64 encoded avatar and a description
      * @returns the updated OAuth app
      */
-    public updateOAuthApp = async (orgName: string, oauthAppId: string, oAuthAppCreate: OAuthAppCreate): Promise<OAuthApp> => {
+    async updateOAuthApp(orgName: string, oauthAppId: string, oAuthAppCreate: OAuthAppCreate): Promise<OAuthApp> {
         const resp = await this.axios.put<OAuthApp>(this.getEndpoint(`/v1/org/${orgName}/settings/applications/oauth/${oauthAppId}`), oAuthAppCreate);
 
         return resp.data;
-    };
+    }
 
     /**
      * Deletes an OAuthApp by its ID.
      * @param orgName Name of the Organization
      * @param oauthAppId ID of the OAuthApp
      */
-    public deleteOAuthApp = async (orgName: string, oauthAppId: string): Promise<void> => {
+    async deleteOAuthApp(orgName: string, oauthAppId: string): Promise<void> {
         await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/settings/applications/oauth/${oauthAppId}`));
-    };
+    }
 
     /**
      * Creates a new secret for an existing OAuthApp.
@@ -94,13 +94,13 @@ export class IdpOAuthApp extends Base {
      * @param secretName Name of the Secret
      * @returns the updated OAuth app
      */
-    public createOAuthAppSecret = async (orgName: string, oauthAppId: string, secretName: string): Promise<OAuthApp> => {
+    async createOAuthAppSecret(orgName: string, oauthAppId: string, secretName: string): Promise<OAuthApp> {
         const resp = await this.axios.post<OAuthApp>(this.getEndpoint(`/v1/org/${orgName}/settings/applications/oauth/${oauthAppId}/secret`), {
             secretName,
         });
 
         return resp.data;
-    };
+    }
 
     /**
      * Deletes the specified OAuthApp secret.
@@ -109,13 +109,13 @@ export class IdpOAuthApp extends Base {
      * @param secret Name of the secret that shall be deleted
      * @returns the updated OAuthApp
      */
-    public deleteOAuthAppSecret = async (orgName: string, oauthAppId: string, secret: string): Promise<OAuthApp> => {
+    async deleteOAuthAppSecret(orgName: string, oauthAppId: string, secret: string): Promise<OAuthApp> {
         const resp = await this.axios.delete<OAuthApp>(
             this.getEndpoint(`/v1/org/${orgName}/settings/applications/oauth/${oauthAppId}/secret/${secret}`)
         );
 
         return resp.data;
-    };
+    }
 
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/account${endpoint}`;

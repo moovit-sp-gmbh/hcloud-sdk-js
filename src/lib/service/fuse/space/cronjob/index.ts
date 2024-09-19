@@ -25,13 +25,13 @@ export class FuseCronjob extends Base {
      * @param exposeNextExecution (optional) Show the next execution as a Unix timestamp (in milliseconds) in the response object
      * @returns The requested cronjob
      */
-    public getCronjob = async (orgName: string, spaceName: string, cronjobId: string, exposeNextExecution = false): Promise<Cronjob> => {
+    async getCronjob(orgName: string, spaceName: string, cronjobId: string, exposeNextExecution = false): Promise<Cronjob> {
         const resp = await this.axios.get<Cronjob>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs/${cronjobId}?nextExecution=${exposeNextExecution}`)
         );
 
         return resp.data;
-    };
+    }
 
     /**
      * Retrieves the next n cronjob executions as Unix timestamps (in milliseconds).
@@ -40,11 +40,11 @@ export class FuseCronjob extends Base {
      * @param cronjobId ID of the cronjob
      * @returns Array of Unix timestamps
      */
-    public getNextCronjobExecutions = async (orgName: string, spaceName: string, cronjobId: string): Promise<number[]> => {
+    async getNextCronjobExecutions(orgName: string, spaceName: string, cronjobId: string): Promise<number[]> {
         const resp = await this.axios.get<number[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs/${cronjobId}/next`));
 
         return resp.data;
-    };
+    }
 
     /**
      * Creates a new cronjob in the specified Fuse space.
@@ -54,19 +54,14 @@ export class FuseCronjob extends Base {
      * @param exposeNextExecution (optional) Show the next execution as a Unix timestamp (in milliseconds) in the response object
      * @returns Created cronjob
      */
-    public createCronjob = async (
-        orgName: string,
-        spaceName: string,
-        createCronjob: CronjobCreate,
-        exposeNextExecution = false
-    ): Promise<Cronjob> => {
+    async createCronjob(orgName: string, spaceName: string, createCronjob: CronjobCreate, exposeNextExecution = false): Promise<Cronjob> {
         const resp = await this.axios.post<Cronjob>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs?nextExecution=${exposeNextExecution}`),
             createCronjob
         );
 
         return resp.data;
-    };
+    }
 
     /**
      * Updates an existing cronjob.
@@ -77,20 +72,20 @@ export class FuseCronjob extends Base {
      * @param exposeNextExecution (optional) Show the next execution as a Unix timestamp (in milliseconds) in the response object
      * @returns Updated cronjob
      */
-    public updateCronjob = async (
+    async updateCronjob(
         orgName: string,
         spaceName: string,
         cronjobId: string,
         createCronjob: CronjobCreate,
         exposeNextExecution = false
-    ): Promise<Cronjob> => {
+    ): Promise<Cronjob> {
         const resp = await this.axios.put<Cronjob>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs/${cronjobId}?nextExecution=${exposeNextExecution}`),
             createCronjob
         );
 
         return resp.data;
-    };
+    }
 
     /**
      * Change the cron expression of an existing cronjob
@@ -101,20 +96,20 @@ export class FuseCronjob extends Base {
      * @param exposeNextExecution (optional) Show the next execution as a Unix timestamp (in milliseconds) in the response object
      * @returns The patched cronjob
      */
-    public patchCronjobExpression = async (
+    async patchCronjobExpression(
         orgName: string,
         spaceName: string,
         cronjobId: string,
         expression: string,
         exposeNextExecution = false
-    ): Promise<Cronjob> => {
+    ): Promise<Cronjob> {
         const resp = await this.axios.patch<Cronjob>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs/${cronjobId}/expression?nextExecution=${exposeNextExecution}`),
             { expression: expression }
         );
 
         return resp.data;
-    };
+    }
 
     /**
      * Change the enabled flag of an existing cronjob
@@ -125,20 +120,20 @@ export class FuseCronjob extends Base {
      * @param exposeNextExecution (optional) Show the next execution as a Unix timestamp (in milliseconds) in the response object
      * @returns The patched cronjob
      */
-    public patchCronjobEnabled = async (
+    async patchCronjobEnabled(
         orgName: string,
         spaceName: string,
         cronjobId: string,
         enabled: boolean,
         exposeNextExecution = false
-    ): Promise<Cronjob> => {
+    ): Promise<Cronjob> {
         const resp = await this.axios.patch<Cronjob>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs/${cronjobId}/enabled?nextExecution=${exposeNextExecution}`),
             { enabled }
         );
 
         return resp.data;
-    };
+    }
 
     /**
      * Enable a cronjob.
@@ -176,9 +171,9 @@ export class FuseCronjob extends Base {
      * @param spaceName Name of the space
      * @param cronjobId ID of the cronjob
      */
-    public deleteCronjob = async (orgName: string, spaceName: string, cronjobId: string): Promise<void> => {
+    async deleteCronjob(orgName: string, spaceName: string, cronjobId: string): Promise<void> {
         await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs/${cronjobId}`));
-    };
+    }
 
     /**
      * Retrieves all cronjobs of a Fuse space which match the provided search filter(s). Will return all cronjobs if no filter is provided.
@@ -191,7 +186,7 @@ export class FuseCronjob extends Base {
      * @param exposeNextExecution (optional) Show the next execution as a Unix timestamp (in milliseconds) in the returned cronjob objects
      * @returns Object containing an array of filtered cronjobs as well as the total number of results found in the database (independent of limit and page)
      */
-    public searchCronjobs = async ({
+    async searchCronjobs({
         orgName,
         spaceName,
         filters,
@@ -199,7 +194,7 @@ export class FuseCronjob extends Base {
         limit = 25,
         page = 0,
         exposeNextExecution = false,
-    }: SearchParams & { orgName: string; spaceName: string; exposeNextExecution?: boolean }): Promise<PaginatedResponse<Cronjob>> => {
+    }: SearchParams & { orgName: string; spaceName: string; exposeNextExecution?: boolean }): Promise<PaginatedResponse<Cronjob>> {
         const filtersDTO = filters?.map((f: SearchFilter) => {
             return new SearchFilterDTO(f);
         });
@@ -213,7 +208,7 @@ export class FuseCronjob extends Base {
         );
 
         return createPaginatedResponse(resp) as PaginatedResponse<Cronjob>;
-    };
+    }
 
     /**
      * Resolve a cron pattern along with a timezone to get the next executions in mili-seconds.
@@ -222,7 +217,7 @@ export class FuseCronjob extends Base {
      * @param amount The amount of returned execution-dates (limited between 1 and 10, default is 3)
      * @returns Array of Unix timestamps
      */
-    public resolveCronPatternWithTimezone = async (expression: string, timezone: string, amount = 3): Promise<number[]> => {
+    async resolveCronPatternWithTimezone(expression: string, timezone: string, amount = 3): Promise<number[]> {
         const resp = await this.axios.post<number[]>(this.getEndpoint(`/v1/cron/resolve`), {
             expression: expression,
             timezone: timezone,
@@ -230,7 +225,7 @@ export class FuseCronjob extends Base {
         });
 
         return resp.data;
-    };
+    }
 
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/fuse${endpoint}`;

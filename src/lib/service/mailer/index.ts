@@ -16,11 +16,11 @@ export default class Mailer extends Base {
      * Requests the endpoint version
      * @returns Version object
      */
-    version = async (): Promise<Version> => {
+    async version(): Promise<Version> {
         const resp = await this.axios.get<Version>(this.getEndpoint("/v1/version"), {});
 
         return resp.data;
-    };
+    }
 
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/mailer${endpoint}`;

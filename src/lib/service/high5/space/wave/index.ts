@@ -14,11 +14,11 @@ export default class High5Wave extends Base {
      * @param spacePatchWaveEngine - Patch wave engine object holding url and version
      * @returns WaveEngine object
      */
-    public patchSpaceWaveEngine = async (orgName: string, spaceName: string, spacePatchWaveEngine: SpacePatchWaveEngine): Promise<WaveEngine> => {
+    async patchSpaceWaveEngine(orgName: string, spaceName: string, spacePatchWaveEngine: SpacePatchWaveEngine): Promise<WaveEngine> {
         const resp = await this.axios.patch<WaveEngine>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/wave/engine`), spacePatchWaveEngine);
 
         return resp.data;
-    };
+    }
 
     /**
      * Get wave engine version currently active for the space
@@ -26,11 +26,11 @@ export default class High5Wave extends Base {
      * @param spaceName - Name of the space
      * @returns WaveEngine object
      */
-    public getSpaceWaveEngine = async (orgName: string, spaceName: string): Promise<WaveEngine> => {
+    async getSpaceWaveEngine(orgName: string, spaceName: string): Promise<WaveEngine> {
         const resp = await this.axios.get<WaveEngine>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/wave/engine`));
 
         return resp.data;
-    };
+    }
 
     /**
      * Adds a new wave catalog version for a space or updates existing
@@ -39,11 +39,11 @@ export default class High5Wave extends Base {
      * @param spacePatchWaveCatalog - Patch wave catalog object holding url, version and optionally a minimumEngineVersion
      * @returns WaveCatalog object
      */
-    public addUpdateSpaceWaveCatalog = async (orgName: string, spaceName: string, spacePatchCatalog: SpacePatchWaveCatalog): Promise<WaveCatalog> => {
+    async addUpdateSpaceWaveCatalog(orgName: string, spaceName: string, spacePatchCatalog: SpacePatchWaveCatalog): Promise<WaveCatalog> {
         const resp = await this.axios.post<WaveCatalog>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/wave/catalog`), spacePatchCatalog);
 
         return resp.data;
-    };
+    }
 
     /**
      * Get wave catalogs currently active for the space
@@ -51,15 +51,15 @@ export default class High5Wave extends Base {
      * @param spaceName - Name of the space
      * @returns WaveCatalog array
      */
-    public getSpaceWaveCatalogs = async (orgName: string, spaceName: string): Promise<WaveCatalog[]> => {
+    async getSpaceWaveCatalogs(orgName: string, spaceName: string): Promise<WaveCatalog[]> {
         const resp = await this.axios.get<WaveCatalog[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/wave/catalog`));
 
         return resp.data;
-    };
+    }
 
-    public deleteSpaceWaveCatalog = async (orgName: string, spaceName: string, catalogId: string): Promise<void> => {
+    async deleteSpaceWaveCatalog(orgName: string, spaceName: string, catalogId: string): Promise<void> {
         await this.axios.delete(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/wave/catalog/${catalogId}`));
-    };
+    }
 
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/high5${endpoint}`;

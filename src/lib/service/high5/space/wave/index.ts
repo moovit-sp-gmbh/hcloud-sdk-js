@@ -36,7 +36,7 @@ export default class High5Wave extends Base {
      * Adds a new wave catalog version for a space or updates existing
      * @param orgName - Name of the organization
      * @param spaceName - Name of the space
-     * @param spacePatchWaveCatalog - Patch wave catalog object holding url and version
+     * @param spacePatchWaveCatalog - Patch wave catalog object holding url, version and optionally a minimumEngineVersion
      * @returns WaveCatalog object
      */
     public addUpdateSpaceWaveCatalog = async (orgName: string, spaceName: string, spacePatchCatalog: SpacePatchWaveCatalog): Promise<WaveCatalog> => {

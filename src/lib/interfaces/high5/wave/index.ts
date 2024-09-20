@@ -57,6 +57,7 @@ export interface SpacePatchWaveEngine {
 export interface SpacePatchWaveCatalog {
     version: string;
     url: string;
+    minimumEngineVersion?: string;
 }
 
 export interface Specification {

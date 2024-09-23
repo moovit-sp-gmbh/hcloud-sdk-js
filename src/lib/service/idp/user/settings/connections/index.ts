@@ -1,12 +1,7 @@
-import { AxiosInstance } from "axios";
-import Base, { Options } from "../../../../../Base";
+import Base from "../../../../../Base";
 import { ConnectionSettings } from "../../../../../interfaces/idp/user/ConnectionSettings";
 
 export class IdpConnections extends Base {
-    constructor(options: Options, axios: AxiosInstance) {
-        super(options, axios);
-    }
-
     /**
      * Get connection settings for all organizations the user is a part of.
      *

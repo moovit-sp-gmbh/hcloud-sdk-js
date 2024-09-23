@@ -1,5 +1,4 @@
-import { AxiosInstance } from "axios";
-import Base, { Options } from "../../../Base";
+import Base from "../../../Base";
 import { Organization, OrganizationQueryOptions } from "../../../interfaces/idp/organization";
 import { IdpOrganizationLicense } from "./license";
 import { IdpOrganizationMember } from "./member";
@@ -10,31 +9,46 @@ export class IdpOrganization extends Base {
     /**
      * Handles everything around organization members
      */
-    public member: IdpOrganizationMember;
+    public get member(): IdpOrganizationMember {
+        if (this._member === undefined) {
+            this._member = new IdpOrganizationMember(this.options, this.axios);
+        }
+        return this._member;
+    }
+    private _member?: IdpOrganizationMember;
 
     /**
      * Handles everything around organization settings
      */
-    public settings: IdpOrganizationSettings;
+    public get settings(): IdpOrganizationSettings {
+        if (this._settings === undefined) {
+            this._settings = new IdpOrganizationSettings(this.options, this.axios);
+        }
+        return this._settings;
+    }
+    private _settings?: IdpOrganizationSettings;
 
     /**
      * Handles everything around teams of organizations.
      */
-    public teams: IdpOrganizationTeams;
+    public get teams(): IdpOrganizationTeams {
+        if (this._teams === undefined) {
+            this._teams = new IdpOrganizationTeams(this.options, this.axios);
+        }
+        return this._teams;
+    }
+    private _teams?: IdpOrganizationTeams;
 
     /**
      * Handles everything around licenses.
      */
-    public license: IdpOrganizationLicense;
-
-    constructor(options: Options, axios: AxiosInstance) {
-        super(options, axios);
-
-        this.member = new IdpOrganizationMember(this.options, this.axios);
-        this.teams = new IdpOrganizationTeams(this.options, this.axios);
-        this.settings = new IdpOrganizationSettings(this.options, this.axios);
-        this.license = new IdpOrganizationLicense(this.options, this.axios);
+    public get license(): IdpOrganizationLicense {
+        if (this._license === undefined) {
+            this._license = new IdpOrganizationLicense(this.options, this.axios);
+        }
+        return this._license;
     }
+    private _license?: IdpOrganizationLicense;
 
     /**
      * Updates an Organization.

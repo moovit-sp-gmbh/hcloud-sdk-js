@@ -1,5 +1,4 @@
-import { AxiosInstance } from "axios";
-import Base, { Options } from "../../Base";
+import Base from "../../Base";
 import { Version } from "../../interfaces/global";
 import { DaliAvatar } from "./DaliAvatar";
 
@@ -7,13 +6,13 @@ export default class Dali extends Base {
     /**
      * Handles everything around avatars
      */
-    public avatar: DaliAvatar;
-
-    constructor(options: Options, axios: AxiosInstance) {
-        super(options, axios);
-
-        this.avatar = new DaliAvatar(this.options, this.axios);
+    public get avatar(): DaliAvatar {
+        if (this._avatar === undefined) {
+            this._avatar = new DaliAvatar(this.options, this.axios);
+        }
+        return this._avatar;
     }
+    private _avatar?: DaliAvatar;
 
     /**
      * @returns An object containing the endpoint version as a string

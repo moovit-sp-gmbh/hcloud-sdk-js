@@ -1,18 +1,17 @@
-import { AxiosInstance } from "axios";
-import Base, { Options } from "../../../../../Base";
+import Base from "../../../../../Base";
 import { IdpTotp } from "./totp";
 
 export class IdpTwoFactor extends Base {
     /**
      * Handles everything around a user's pats (Personal Access Tokens)
      */
-    public totp: IdpTotp;
-
-    constructor(options: Options, axios: AxiosInstance) {
-        super(options, axios);
-
-        this.totp = new IdpTotp(options, axios);
+    public get totp(): IdpTotp {
+        if (this._totp === undefined) {
+            this._totp = new IdpTotp(this.options, this.axios);
+        }
+        return this._totp;
     }
+    private _totp?: IdpTotp;
 
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/account${endpoint}`;

@@ -1,14 +1,14 @@
-import { AxiosInstance } from "axios";
-import Base, { Options } from "../../../../Base";
+import Base from "../../../../Base";
 import { FuseCronjobInternal } from "./cronjob";
 
 export class FuseSpaceInternal extends Base {
-    public cronjob: FuseCronjobInternal;
-
-    constructor(options: Options, axios: AxiosInstance) {
-        super(options, axios);
-        this.cronjob = new FuseCronjobInternal(this.options, this.axios);
+    public get cronjob(): FuseCronjobInternal {
+        if (this._cronjob === undefined) {
+            this._cronjob = new FuseCronjobInternal(this.options, this.axios);
+        }
+        return this._cronjob;
     }
+    private _cronjob?: FuseCronjobInternal;
 
     /**
      * Deletes all spaces of an organization.

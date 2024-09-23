@@ -1,12 +1,7 @@
-import { AxiosInstance } from "axios";
-import Base, { Options } from "../../../Base";
+import Base from "../../../Base";
 import { AvatarCreated } from "../../../interfaces/dali";
 
 export class DaliHigh5 extends Base {
-    constructor(options: Options, axios: AxiosInstance) {
-        super(options, axios);
-    }
-
     /**
      * Creates a default avatar for the specified High5 space.
      * @param orgName Name of the organization

@@ -1,5 +1,4 @@
-import { AxiosInstance } from "axios";
-import Base, { Options } from "../../../../Base";
+import Base from "../../../../Base";
 import { createPaginatedResponse } from "../../../../helper/paginatedResponseHelper";
 import { SearchFilterDTO } from "../../../../helper/searchFilter";
 import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../interfaces/global";
@@ -7,12 +6,13 @@ import { OrganizationMember, OrgMemberPatch } from "../../../../interfaces/idp/o
 import IdpOrganizationMemberInvitations from "./invitations";
 
 export class IdpOrganizationMember extends Base {
-    public invitations: IdpOrganizationMemberInvitations;
-
-    constructor(options: Options, axios: AxiosInstance) {
-        super(options, axios);
-        this.invitations = new IdpOrganizationMemberInvitations(options, axios);
+    public get invitations(): IdpOrganizationMemberInvitations {
+        if (this._invitations === undefined) {
+            this._invitations = new IdpOrganizationMemberInvitations(this.options, this.axios);
+        }
+        return this._invitations;
     }
+    private _invitations?: IdpOrganizationMemberInvitations;
 
     /**
      * Retrieves all organization members that match the provided search filter(s). Will return all members of the organization if no search filter is provided.

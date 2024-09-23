@@ -1,16 +1,15 @@
-import { AxiosInstance } from "axios";
-import Base, { Options } from "../../Base";
+import Base from "../../Base";
 import { Version } from "../../interfaces/global";
 import BouncerFeatures from "./features";
 
 export default class Bouncer extends Base {
-    public features: BouncerFeatures;
-
-    constructor(options: Options, axios: AxiosInstance) {
-        super(options, axios);
-
-        this.features = new BouncerFeatures(options, axios);
+    public get features(): BouncerFeatures {
+        if (this._features === undefined) {
+            this._features = new BouncerFeatures(this.options, this.axios);
+        }
+        return this._features;
     }
+    private _features?: BouncerFeatures;
 
     /**
      * Requests the endpoint version

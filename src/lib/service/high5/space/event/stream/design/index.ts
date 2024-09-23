@@ -1,5 +1,4 @@
-import { AxiosInstance } from "axios";
-import Base, { Options } from "../../../../../../Base";
+import Base from "../../../../../../Base";
 import { Design } from "../../../../../../interfaces/high5/space/event/stream/design";
 import { DesignContent } from "../../../../../../interfaces/high5/space/event/stream/design/StreamDesign";
 import DesignOperations from "./DesignOperations";
@@ -9,19 +8,24 @@ export class High5Design extends Base {
     /**
      * API to manage design snapshots
      */
-    public snapshots: High5DesignSnapshots;
+    public get snapshots(): High5DesignSnapshots {
+        if (this._snapshots === undefined) {
+            this._snapshots = new High5DesignSnapshots(this.options, this.axios);
+        }
+        return this._snapshots;
+    }
+    private _snapshots?: High5DesignSnapshots;
 
     /**
      * API to perform operations on the Stream Design
      */
-    public operations: DesignOperations;
-
-    constructor(options: Options, axios: AxiosInstance) {
-        super(options, axios);
-
-        this.operations = new DesignOperations(options, axios);
-        this.snapshots = new High5DesignSnapshots(options, axios);
+    public get operations(): DesignOperations {
+        if (this._operations === undefined) {
+            this._operations = new DesignOperations(this.options, this.axios);
+        }
+        return this._operations;
     }
+    private _operations?: DesignOperations;
 
     /**
      * Retrieves a stream's design.

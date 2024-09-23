@@ -1,5 +1,4 @@
-import { AxiosInstance } from "axios";
-import Base, { Options } from "../../../../Base";
+import Base from "../../../../Base";
 import { createPaginatedResponse } from "../../../../helper/paginatedResponseHelper";
 import { SearchFilterDTO } from "../../../../helper/searchFilter";
 import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../interfaces/global";
@@ -7,12 +6,13 @@ import { Event } from "../../../../interfaces/high5/space/event";
 import { High5Stream } from "./stream";
 
 export class High5Event extends Base {
-    public stream: High5Stream;
-
-    constructor(options: Options, axios: AxiosInstance) {
-        super(options, axios);
-        this.stream = new High5Stream(this.options, this.axios);
+    public get stream(): High5Stream {
+        if (this._stream === undefined) {
+            this._stream = new High5Stream(this.options, this.axios);
+        }
+        return this._stream;
     }
+    private _stream?: High5Stream;
 
     /**
      * Retrieves all Events of a High5 Space which match the provided search filter(s). Will return all Events of the Space if no filter is provided.

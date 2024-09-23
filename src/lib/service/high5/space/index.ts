@@ -1,5 +1,4 @@
-import { AxiosInstance } from "axios";
-import Base, { Options } from "../../../Base";
+import Base from "../../../Base";
 import { createPaginatedResponse } from "../../../helper/paginatedResponseHelper";
 import { SearchFilterDTO } from "../../../helper/searchFilter";
 import { PaginatedResponse, SearchFilter, SearchParams } from "../../../interfaces/global";
@@ -17,22 +16,48 @@ import High5Wave from "./wave";
 import { High5Webhook } from "./webhook";
 
 export class High5Space extends Base {
-    public event: High5Event;
-    public execute: High5SpaceExecute;
-    public webhook: High5Webhook;
-    public secret: High5Secret;
-    public wave: High5Wave;
-    public node: High5Node;
-
-    constructor(options: Options, axios: AxiosInstance) {
-        super(options, axios);
-        this.event = new High5Event(this.options, this.axios);
-        this.execute = new High5SpaceExecute(this.options, this.axios);
-        this.webhook = new High5Webhook(this.options, this.axios);
-        this.secret = new High5Secret(this.options, this.axios);
-        this.wave = new High5Wave(this.options, this.axios);
-        this.node = new High5Node(this.options, this.axios);
+    public get event(): High5Event {
+        if (this._event === undefined) {
+            this._event = new High5Event(this.options, this.axios);
+        }
+        return this._event;
     }
+    private _event?: High5Event;
+    public get execute(): High5SpaceExecute {
+        if (this._execute === undefined) {
+            this._execute = new High5SpaceExecute(this.options, this.axios);
+        }
+        return this._execute;
+    }
+    private _execute?: High5SpaceExecute;
+    public get webhook(): High5Webhook {
+        if (this._webhook === undefined) {
+            this._webhook = new High5Webhook(this.options, this.axios);
+        }
+        return this._webhook;
+    }
+    private _webhook?: High5Webhook;
+    public get secret(): High5Secret {
+        if (this._secret === undefined) {
+            this._secret = new High5Secret(this.options, this.axios);
+        }
+        return this._secret;
+    }
+    private _secret?: High5Secret;
+    public get wave(): High5Wave {
+        if (this._wave === undefined) {
+            this._wave = new High5Wave(this.options, this.axios);
+        }
+        return this._wave;
+    }
+    private _wave?: High5Wave;
+    public get node(): High5Node {
+        if (this._node === undefined) {
+            this._node = new High5Node(this.options, this.axios);
+        }
+        return this._node;
+    }
+    private _node?: High5Node;
 
     /**
      * Retrieves all High5 Spaces of the specified Organization matching the search filter(s). Will return all Spaces if no search filter is provided.

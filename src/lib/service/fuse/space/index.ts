@@ -1,5 +1,4 @@
-import { AxiosInstance } from "axios";
-import Base, { Options } from "../../../Base";
+import Base from "../../../Base";
 import { createPaginatedResponse } from "../../../helper/paginatedResponseHelper";
 import { SearchFilterDTO } from "../../../helper/searchFilter";
 import {
@@ -11,12 +10,13 @@ import { PaginatedResponse, SearchFilter, SearchParams } from "../../../interfac
 import { FuseCronjob } from "./cronjob";
 
 export class FuseSpace extends Base {
-    public cronjob: FuseCronjob;
-
-    constructor(options: Options, axios: AxiosInstance) {
-        super(options, axios);
-        this.cronjob = new FuseCronjob(this.options, this.axios);
+    public get cronjob(): FuseCronjob {
+        if (this._cronjob === undefined) {
+            this._cronjob = new FuseCronjob(this.options, this.axios);
+        }
+        return this._cronjob;
     }
+    private _cronjob?: FuseCronjob;
 
     /**
      * Retrieves a Fuse space by its name

@@ -1,5 +1,4 @@
-import { AxiosInstance } from "axios";
-import Base, { Options } from "../../Base";
+import Base from "../../Base";
 import { createPaginatedResponse } from "../../helper/paginatedResponseHelper";
 import { SearchFilterDTO } from "../../helper/searchFilter";
 import { PaginatedResponse, SearchFilter, SearchParams, Version } from "../../interfaces/global";
@@ -9,10 +8,6 @@ type RecurrentInfo = Pick<Agent, "uptime" | "cpuUtilization" | "memoryUsed" | "s
 type HelloInfo = RecurrentInfo & { nickname?: string; bundleVersion: string; installerVersion?: string; ip?: string };
 
 export default class MothershipService extends Base {
-    constructor(options: Options, axios: AxiosInstance) {
-        super(options, axios);
-    }
-
     /**
      * Requests the endpoint version
      * @returns Version object

@@ -1,13 +1,8 @@
-import { AxiosInstance } from "axios";
-import Base, { Options } from "../../../Base";
+import Base from "../../../Base";
 import { OAuthToken, OAuthTokenRequest } from "../../../interfaces/idp/oauth";
 import { OAuthApp } from "../../../interfaces/idp/organization/settings/oauthApp";
 
 export class IdpOAuth extends Base {
-    constructor(options: Options, axios: AxiosInstance) {
-        super(options, axios);
-    }
-
     /**
      * getAuthorizationCodeInsideRedirectUrl throws for an invalid request (query params do not match OAuthApp).
      * It returns the redirect URL with the code, which is used to redirect to the client application,

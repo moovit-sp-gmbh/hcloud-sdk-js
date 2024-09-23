@@ -1,15 +1,10 @@
-import { AxiosInstance } from "axios";
-import Base, { Options } from "../../../../../Base";
+import Base from "../../../../../Base";
 import { createPaginatedResponse } from "../../../../../helper/paginatedResponseHelper";
 import { SearchFilterDTO } from "../../../../../helper/searchFilter";
 import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../../interfaces/global";
 import { OAuthApp, OAuthAppCreate } from "../../../../../interfaces/idp/organization/settings/oauthApp";
 
 export class IdpOAuthApp extends Base {
-    constructor(options: Options, axios: AxiosInstance) {
-        super(options, axios);
-    }
-
     /**
      * Retrieves all OAuth apps of the specified Organization matching the provided search filter(s). Will return all OAuth apps if no search filter is provided.
      * @param orgName Name of the Organization

@@ -1,5 +1,4 @@
-import { AxiosInstance } from "axios";
-import Base, { Options } from "../../Base";
+import Base from "../../Base";
 import { Version } from "../../interfaces/global";
 import { PreLoginResponse } from "../../interfaces/idp";
 import { User } from "../../interfaces/idp/user";
@@ -14,36 +13,57 @@ export default class Idp extends Base {
     /**
      * Handles everything around organizations
      */
-    public organization: IdpOrganization;
+    public get organization(): IdpOrganization {
+        if (this._organization === undefined) {
+            this._organization = new IdpOrganization(this.options, this.axios);
+        }
+        return this._organization;
+    }
+    private _organization?: IdpOrganization;
 
     /**
      * Handles everything around registration
      */
-    public registration: IdpRegistration;
+    public get registration(): IdpRegistration {
+        if (this._registration === undefined) {
+            this._registration = new IdpRegistration(this.options, this.axios);
+        }
+        return this._registration;
+    }
+    private _registration?: IdpRegistration;
 
     /**
      * Handles everything around open authorization and openId requests
      */
-    public oAuth: IdpOAuth;
+    public get oAuth(): IdpOAuth {
+        if (this._oAuth === undefined) {
+            this._oAuth = new IdpOAuth(this.options, this.axios);
+        }
+        return this._oAuth;
+    }
+    private _oAuth?: IdpOAuth;
 
     /**
      * Handles everything around a user
      */
-    public user: IdpUser;
+    public get user(): IdpUser {
+        if (this._user === undefined) {
+            this._user = new IdpUser(this.options, this.axios);
+        }
+        return this._user;
+    }
+    private _user?: IdpUser;
 
     /**
      * Handles everything around idp's internal endpoints
      */
-    public internal: IdpInternal;
-    constructor(options: Options, axios: AxiosInstance) {
-        super(options, axios);
-
-        this.organization = new IdpOrganization(this.options, this.axios);
-        this.user = new IdpUser(this.options, this.axios);
-        this.registration = new IdpRegistration(this.options, this.axios);
-        this.oAuth = new IdpOAuth(this.options, this.axios);
-        this.internal = new IdpInternal(this.options, this.axios);
+    public get internal(): IdpInternal {
+        if (this._internal === undefined) {
+            this._internal = new IdpInternal(this.options, this.axios);
+        }
+        return this._internal;
     }
+    private _internal?: IdpInternal;
 
     /**
      * Requests the endpoint version

@@ -1,5 +1,4 @@
-import { AxiosInstance } from "axios";
-import Base, { Options } from "../../../../../Base";
+import Base from "../../../../../Base";
 import { Domain } from "../../../../../interfaces/idp/organization/settings/domain";
 import { IdpSAMLProvider } from "./saml";
 
@@ -7,12 +6,13 @@ export class IdpDomain extends Base {
     /**
      * Handles everything around a SAML provider of a domain.
      */
-    public samlProvider: IdpSAMLProvider;
-
-    constructor(options: Options, axios: AxiosInstance) {
-        super(options, axios);
-        this.samlProvider = new IdpSAMLProvider(this.options, this.axios);
+    public get samlProvider(): IdpSAMLProvider {
+        if (this._samlProvider === undefined) {
+            this._samlProvider = new IdpSAMLProvider(this.options, this.axios);
+        }
+        return this._samlProvider;
     }
+    private _samlProvider?: IdpSAMLProvider;
 
     /**
      * Retrieves all the Domains associated with a given Organization.

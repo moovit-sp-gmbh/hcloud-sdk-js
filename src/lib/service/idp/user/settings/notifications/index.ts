@@ -1,12 +1,7 @@
-import { AxiosInstance } from "axios";
-import Base, { Options } from "../../../../../Base";
+import Base from "../../../../../Base";
 import { NotificationSettings, NotificationSettingsPatch } from "../../../../../interfaces/idp/user/NotificationSettings";
 
 export class IdpNotifications extends Base {
-    constructor(options: Options, axios: AxiosInstance) {
-        super(options, axios);
-    }
-
     /**
      * Retrieves the notification settings of the requesting user.
      * @returns general settings of requesting user

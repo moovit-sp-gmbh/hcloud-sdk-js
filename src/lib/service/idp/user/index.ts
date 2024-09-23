@@ -1,5 +1,4 @@
-import { AxiosInstance } from "axios";
-import Base, { Options } from "../../../Base";
+import Base from "../../../Base";
 import { createPaginatedResponse } from "../../../helper/paginatedResponseHelper";
 import { SearchFilterDTO } from "../../../helper/searchFilter";
 import { PaginatedResponse, SearchFilter, Sorting } from "../../../interfaces/global";
@@ -14,25 +13,35 @@ export class IdpUser extends Base {
     /**
      * Handles everything around a user's settings
      */
-    public settings: IdpSettings;
+    public get settings(): IdpSettings {
+        if (this._settings === undefined) {
+            this._settings = new IdpSettings(this.options, this.axios);
+        }
+        return this._settings;
+    }
+    private _settings?: IdpSettings;
 
     /**
      * Handles everything around a user's password
      */
-    public password: UserPasswordService;
+    public get password(): UserPasswordService {
+        if (this._password === undefined) {
+            this._password = new UserPasswordService(this.options, this.axios);
+        }
+        return this._password;
+    }
+    private _password?: UserPasswordService;
 
     /**
      * Handles everything around a user's license
      */
-    public license: IdpUserLicense;
-
-    constructor(options: Options, axios: AxiosInstance) {
-        super(options, axios);
-
-        this.settings = new IdpSettings(options, axios);
-        this.password = new UserPasswordService(options, axios);
-        this.license = new IdpUserLicense(options, axios);
+    public get license(): IdpUserLicense {
+        if (this._license === undefined) {
+            this._license = new IdpUserLicense(this.options, this.axios);
+        }
+        return this._license;
     }
+    private _license?: IdpUserLicense;
 
     /**
      * Retrieves the User database entry for the requesting user.

@@ -1,15 +1,10 @@
-import { AxiosInstance } from "axios";
-import Base, { Options } from "../../../../../Base";
+import Base from "../../../../../Base";
 import { createPaginatedResponse } from "../../../../../helper/paginatedResponseHelper";
 import { SearchFilterDTO } from "../../../../../helper/searchFilter";
 import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../../interfaces/global";
 import { High5ExecutionLog } from "../../../../../interfaces/high5/space/execution";
 
 export class High5SpaceExecutionLogs extends Base {
-    constructor(options: Options, axios: AxiosInstance) {
-        super(options, axios);
-    }
-
     /**
      * Retrieves all stream execution logs for a given execution inside a space.
      * @param orgName Name of the Organization

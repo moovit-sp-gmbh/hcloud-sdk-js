@@ -1,5 +1,4 @@
-import { AxiosInstance } from "axios";
-import Base, { Options } from "../../../../Base";
+import Base from "../../../../Base";
 import { createPaginatedResponse } from "../../../../helper/paginatedResponseHelper";
 import { SearchFilterDTO } from "../../../../helper/searchFilter";
 import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../interfaces/global";
@@ -7,12 +6,13 @@ import { KeyValuePair, Webhook, WebhookCreate, WebhookUpdate } from "../../../..
 import { High5WebhookLog } from "./log";
 
 export class High5Webhook extends Base {
-    public log: High5WebhookLog;
-
-    constructor(options: Options, axios: AxiosInstance) {
-        super(options, axios);
-        this.log = new High5WebhookLog(this.options, this.axios);
+    public get log(): High5WebhookLog {
+        if (this._log === undefined) {
+            this._log = new High5WebhookLog(this.options, this.axios);
+        }
+        return this._log;
     }
+    private _log?: High5WebhookLog;
 
     /**
      * Retrieves all Webhooks of the specified space that match the provided search filter(s). Will return all Webhooks if no search filter is provided.

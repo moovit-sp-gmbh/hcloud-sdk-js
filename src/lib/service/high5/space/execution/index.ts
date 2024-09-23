@@ -1,5 +1,4 @@
-import { AxiosInstance } from "axios";
-import Base, { Options } from "../../../../Base";
+import Base from "../../../../Base";
 import {
     High5ExecutionPackage,
     High5ExecutionPatch,
@@ -10,14 +9,20 @@ import { High5SpaceExecutionLogs } from "./log/index";
 import { High5SpaceExecutionStates } from "./status/index";
 
 export class High5SpaceExecute extends Base {
-    public high5ExecutionLogs: High5SpaceExecutionLogs;
-    public high5ExecutionStates: High5SpaceExecutionStates;
-
-    constructor(options: Options, axios: AxiosInstance) {
-        super(options, axios);
-        this.high5ExecutionLogs = new High5SpaceExecutionLogs(options, axios);
-        this.high5ExecutionStates = new High5SpaceExecutionStates(options, axios);
+    public get high5ExecutionLogs(): High5SpaceExecutionLogs {
+        if (this._high5ExecutionLogs === undefined) {
+            this._high5ExecutionLogs = new High5SpaceExecutionLogs(this.options, this.axios);
+        }
+        return this._high5ExecutionLogs;
     }
+    private _high5ExecutionLogs?: High5SpaceExecutionLogs;
+    public get high5ExecutionStates(): High5SpaceExecutionStates {
+        if (this._high5ExecutionStates === undefined) {
+            this._high5ExecutionStates = new High5SpaceExecutionStates(this.options, this.axios);
+        }
+        return this._high5ExecutionStates;
+    }
+    private _high5ExecutionStates?: High5SpaceExecutionStates;
 
     /**
      * executeStream executes a single stream by its ID and an execution request

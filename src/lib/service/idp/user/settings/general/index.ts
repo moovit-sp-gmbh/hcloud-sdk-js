@@ -2,10 +2,6 @@ import Base from "../../../../../Base";
 import { GeneralSettings, GeneralSettingsLastVisitPatch, GeneralSettingsPatch } from "../../../../../interfaces/idp/user/GeneralSettings";
 
 export class IdpGeneral extends Base {
-    constructor(options: Options, axios: AxiosInstance) {
-        super(options, axios);
-    }
-
     /**
      * Retrieves the current active user settings.
      * @returns the current active user settings

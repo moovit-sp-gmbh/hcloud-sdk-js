@@ -1,12 +1,7 @@
-import { AxiosInstance } from "axios";
-import Base, { Options } from "../../../Base";
+import Base from "../../../Base";
 import { AvatarCreated } from "../../../interfaces/dali";
 
 export class DaliUser extends Base {
-    constructor(options: Options, axios: AxiosInstance) {
-        super(options, axios);
-    }
-
     /**
      * Creates a default avatar for the requesting user.
      * @returns Public URL of the created avatar

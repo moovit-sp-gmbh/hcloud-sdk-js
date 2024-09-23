@@ -1,5 +1,4 @@
-import { AxiosInstance } from "axios";
-import Base, { Options } from "../../Base";
+import Base from "../../Base";
 import { createPaginatedResponse } from "../../helper/paginatedResponseHelper";
 import { SearchFilterDTO } from "../../helper/searchFilter";
 import { AuditLog } from "../../interfaces/auditor";
@@ -7,12 +6,13 @@ import { PaginatedResponse, SearchFilter, SearchParams, Version } from "../../in
 import { AuditorInternal } from "./internal";
 
 export default class Auditor extends Base {
-    public internal: AuditorInternal;
-
-    constructor(options: Options, axios: AxiosInstance) {
-        super(options, axios);
-        this.internal = new AuditorInternal(this.options, this.axios);
+    public get internal(): AuditorInternal {
+        if (this._internal === undefined) {
+            this._internal = new AuditorInternal(this.options, this.axios);
+        }
+        return this._internal;
     }
+    private _internal?: AuditorInternal;
 
     /**
      * @returns An object containing the endpoint version as a string

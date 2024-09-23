@@ -1,5 +1,4 @@
-import { AxiosInstance } from "axios";
-import Base, { Options } from "../../../../Base";
+import Base from "../../../../Base";
 import { createPaginatedResponse } from "../../../../helper/paginatedResponseHelper";
 import { SearchFilterDTO } from "../../../../helper/searchFilter";
 import { Cronjob, CronjobCreate } from "../../../../interfaces/fuse/space/cronjob/Cronjob";
@@ -8,14 +7,20 @@ import { FuseCronjobLogInternal } from "../../internal/space/cronjob/log";
 import { FuseCronjobLog } from "./log";
 
 export class FuseCronjob extends Base {
-    public cronjobLog: FuseCronjobLog;
-    public cronjobLogInternal: FuseCronjobLogInternal;
-
-    constructor(options: Options, axios: AxiosInstance) {
-        super(options, axios);
-        this.cronjobLog = new FuseCronjobLog(this.options, this.axios);
-        this.cronjobLogInternal = new FuseCronjobLogInternal(this.options, this.axios);
+    public get cronjobLog(): FuseCronjobLog {
+        if (this._cronjobLog === undefined) {
+            this._cronjobLog = new FuseCronjobLog(this.options, this.axios);
+        }
+        return this._cronjobLog;
     }
+    private _cronjobLog?: FuseCronjobLog;
+    public get cronjobLogInternal(): FuseCronjobLogInternal {
+        if (this._cronjobLogInternal === undefined) {
+            this._cronjobLogInternal = new FuseCronjobLogInternal(this.options, this.axios);
+        }
+        return this._cronjobLogInternal;
+    }
+    private _cronjobLogInternal?: FuseCronjobLogInternal;
 
     /**
      * Retrieves a cronjob by it's ID.

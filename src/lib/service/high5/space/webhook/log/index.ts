@@ -1,14 +1,9 @@
-import { AxiosInstance } from "axios";
-import Base, { Options } from "../../../../../Base";
+import Base from "../../../../../Base";
 import { createPaginatedResponse } from "../../../../../helper/paginatedResponseHelper";
 import { PaginatedResponse } from "../../../../../interfaces/global";
 import { WebhookLog } from "../../../../../interfaces/high5/space/webhook";
 
 export class High5WebhookLog extends Base {
-    constructor(options: Options, axios: AxiosInstance) {
-        super(options, axios);
-    }
-
     /**
      * Retrieves all Webhook logs for the specified Webhook.
      * @param orgName Name of the Organization

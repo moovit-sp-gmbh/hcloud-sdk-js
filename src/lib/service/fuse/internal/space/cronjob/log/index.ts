@@ -1,12 +1,7 @@
-import { AxiosInstance } from "axios";
-import Base, { Options } from "../../../../../../Base";
+import Base from "../../../../../../Base";
 import { CronjobLogCreate, CronjobLogDto } from "../../../../../../interfaces/fuse/space/cronjob/CronjobLog";
 
 export class FuseCronjobLogInternal extends Base {
-    constructor(options: Options, axios: AxiosInstance) {
-        super(options, axios);
-    }
-
     /**
      * Creates a log for a cronjob.
      *

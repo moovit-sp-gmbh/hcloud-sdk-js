@@ -1,5 +1,4 @@
-import { AxiosInstance } from "axios";
-import Base, { Options } from "../../../../../Base";
+import Base from "../../../../../Base";
 import { createPaginatedResponse } from "../../../../../helper/paginatedResponseHelper";
 import { SearchFilterDTO } from "../../../../../helper/searchFilter";
 import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../../interfaces/global";
@@ -7,12 +6,13 @@ import { SingleStreamPatchOrder, Stream, StreamPatchActive, StreamPatchOrder } f
 import { High5Design } from "./design";
 
 export class High5Stream extends Base {
-    public design: High5Design;
-
-    constructor(options: Options, axios: AxiosInstance) {
-        super(options, axios);
-        this.design = new High5Design(this.options, this.axios);
+    public get design(): High5Design {
+        if (this._design === undefined) {
+            this._design = new High5Design(this.options, this.axios);
+        }
+        return this._design;
     }
+    private _design?: High5Design;
 
     /**
      * Retrieves all Streams of an Event which match the provided search filter(s). Will return all Streams if no filter is provided.

@@ -1,12 +1,7 @@
-import { AxiosInstance } from "axios";
-import Base, { Options } from "../../../../../../Base";
+import Base from "../../../../../../Base";
 import { ActivatedTotp, DeactivatedTotp, UserTotp } from "../../../../../../interfaces/idp/user/Totp";
 
 export class IdpTotp extends Base {
-    constructor(options: Options, axios: AxiosInstance) {
-        super(options, axios);
-    }
-
     /**
      * Creates a new TOTP for the requesting User.
      * @returns A deactivated TOTP object containing a QR code and the OTPAuth URL

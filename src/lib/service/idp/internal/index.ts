@@ -1,12 +1,7 @@
-import { AxiosInstance } from "axios";
-import Base, { Options } from "../../../Base";
+import Base from "../../../Base";
 import { User } from "../../../interfaces/idp/user";
 
 export class IdpInternal extends Base {
-    constructor(options: Options, axios: AxiosInstance) {
-        super(options, axios);
-    }
-
     /**
      * Creates an agent user for an organization.
      *

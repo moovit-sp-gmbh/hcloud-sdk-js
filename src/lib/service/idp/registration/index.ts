@@ -1,13 +1,8 @@
-import { AxiosInstance } from "axios";
-import Base, { Options } from "../../../Base";
+import Base from "../../../Base";
 import { User } from "../../../interfaces/idp/user";
 import { SuccessfulAuth } from "../../../interfaces/idp/user/SuccessfulAuth";
 
 export class IdpRegistration extends Base {
-    constructor(options: Options, axios: AxiosInstance) {
-        super(options, axios);
-    }
-
     /**
      * Registers a User in the HCloud system. This endpoint will send a verification link (with expiration date) to the Users' email address.
      * At this point the User will have an account status of 'AWAITING_VALIDATION' and cannot sign into his account. If the registration won't be

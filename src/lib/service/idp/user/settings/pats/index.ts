@@ -1,15 +1,10 @@
-import { AxiosInstance } from "axios";
-import Base, { Options } from "../../../../../Base";
+import Base from "../../../../../Base";
 import { createPaginatedResponse } from "../../../../../helper/paginatedResponseHelper";
 import { SearchFilterDTO } from "../../../../../helper/searchFilter";
 import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../../interfaces/global";
 import { Pat, PatCreate, PatUpdate } from "../../../../../interfaces/idp/user/Pat";
 
 export class IdpPat extends Base {
-    constructor(options: Options, axios: AxiosInstance) {
-        super(options, axios);
-    }
-
     /**
      * Search all personal access tokens (PATs) of the requesting user.
      * @returns Paginated response of PAT objects

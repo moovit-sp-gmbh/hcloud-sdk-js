@@ -1,12 +1,7 @@
-import { AxiosInstance } from "axios";
-import Base, { Options } from "../../../../Base";
+import Base from "../../../../Base";
 import { SpacePatchWaveCatalog, SpacePatchWaveEngine, WaveCatalog, WaveEngine } from "../../../../interfaces/high5";
 
 export default class High5Wave extends Base {
-    constructor(options: Options, axios: AxiosInstance) {
-        super(options, axios);
-    }
-
     /**
      * Patch wave engine version for a space
      * @param orgName - Name of the organization

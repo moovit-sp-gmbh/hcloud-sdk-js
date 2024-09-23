@@ -1,14 +1,14 @@
-import { AxiosInstance } from "axios";
-import Base, { Options } from "../../../Base";
+import Base from "../../../Base";
 import { High5SpaceInternal } from "./space";
 
 export class High5Internal extends Base {
-    public space: High5SpaceInternal;
-
-    constructor(options: Options, axios: AxiosInstance) {
-        super(options, axios);
-        this.space = new High5SpaceInternal(options, axios);
+    public get space(): High5SpaceInternal {
+        if (this._space === undefined) {
+            this._space = new High5SpaceInternal(this.options, this.axios);
+        }
+        return this._space;
     }
+    private _space?: High5SpaceInternal;
 
     async deleteUsers(userIds: string[]): Promise<void> {
         await this.axios.delete(this.getEndpoint("/v1/users"), { data: { userIds } });

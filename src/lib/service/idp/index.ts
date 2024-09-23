@@ -151,12 +151,11 @@ export default class Idp extends Base {
      *
      * @param email Email of the user
      * @param captcha Valid google reCAPTCHAV2
-     * @param regionId Optional region id to use for the password reset email
      * @param targetUrl Optional url the link in the mail will point to
      */
-    resetPassword = async (email: string, captcha: string, regionId?: string, targetUrl?: string): Promise<void> => {
-        await this.axios.post<void>(this.getEndpoint("/v1/login/forgot_password"), { email, captcha, regionId, targetUrl });
-    };
+    async resetPassword(email: string, captcha: string, targetUrl?: string): Promise<void> {
+        await this.axios.post<void>(this.getEndpoint("/v1/login/forgot_password"), { email, captcha, targetUrl });
+    }
 
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/account${endpoint}`;

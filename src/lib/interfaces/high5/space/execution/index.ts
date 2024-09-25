@@ -89,6 +89,8 @@ export interface High5ExecutionPatchStatus {
     outcome?: High5ExecutionOutcome;
     runningNodes?: StreamRunningNodePatch[];
     message?: string;
+    startDate: number;
+    endDate?: number;
 }
 
 export interface High5ExecutionPatch {

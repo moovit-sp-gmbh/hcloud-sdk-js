@@ -1,8 +1,8 @@
-import { AxiosInstance } from "axios";
-import { connect as connectNode, Msg, NatsConnection, NatsError, PublishOptions, RequestOptions, Subscription, SubscriptionOptions } from "nats";
-import { connect as connectWs } from "nats.ws";
-import Base, { Options } from "../../Base";
-import { NatsCallback, NatsMessage, NatsMessageType, NatsObject, NatsObjectType, RawMsg } from "../../interfaces/nats";
+import { AxiosInstance } from "axios"
+import { connect as connectNode, Msg, NatsConnection, NatsError, PublishOptions, RequestOptions, Subscription, SubscriptionOptions } from "nats"
+import { connect as connectWs } from "nats.ws"
+import Base, { Options } from "../../Base"
+import { NatsCallback, NatsMessage, NatsMessageType, NatsObject, NatsObjectType, RawMsg } from "../../interfaces/nats"
 
 interface SubMapEntry {
     subject: string;
@@ -149,8 +149,15 @@ class Nats extends Base {
         }
     }
 
-    public publish(subject: string, type: NatsMessageType, objectType: NatsObjectType, object: NatsObject, options?: PublishOptions): void {
-        const data = new TextEncoder().encode(JSON.stringify({ type: type, objectType: objectType, object: object } as NatsMessage));
+    public publish(
+        subject: string,
+        type: NatsMessageType,
+        objectType: NatsObjectType,
+        object: NatsObject,
+        correlationId?: string,
+        options?: PublishOptions
+    ): void {
+        const data = new TextEncoder().encode(JSON.stringify({ type: type, objectType: objectType, object: object, correlationId } as NatsMessage));
         this.getConnection()?.publish(subject, data, options);
     }
 

@@ -1,18 +1,18 @@
-import axios, { AxiosInstance } from "axios";
-import { version } from "../package.json";
-import { HcloudLogger, Options } from "./Base";
-import wrapError from "./helper/ErrorHelper";
-import { disableCacheHeaders } from "./interfaces/axios";
-import AgentService from "./service/agent";
-import AuditorService from "./service/auditor";
-import BouncerService from "./service/bouncer";
-import DaliService from "./service/dali";
-import FuseService from "./service/fuse";
-import High5Service from "./service/high5";
-import IdpService from "./service/idp";
-import MailerService from "./service/mailer";
-import MothershipService from "./service/mothership";
-import NatsService from "./service/nats";
+import axios, { AxiosInstance } from "axios"
+import { version } from "../package.json"
+import { HcloudLogger, Options } from "./Base"
+import wrapError from "./helper/ErrorHelper"
+import { disableCacheHeaders } from "./interfaces/axios"
+import AgentService from "./service/agent"
+import AuditorService from "./service/auditor"
+import BouncerService from "./service/bouncer"
+import DaliService from "./service/dali"
+import FuseService from "./service/fuse"
+import High5Service from "./service/high5"
+import IdpService from "./service/idp"
+import MailerService from "./service/mailer"
+import MothershipService from "./service/mothership"
+import NatsService from "./service/nats"
 
 // tslint:disable-next-line
 export class HCloud {
@@ -29,6 +29,8 @@ export class HCloud {
     private options: Options;
     private axios: AxiosInstance;
 
+    private lastCorrelationId: string | undefined;
+
     constructor(options: Options) {
         this.options = options;
         this.axios = axios.create({
@@ -43,8 +45,15 @@ export class HCloud {
         }
 
         this.axios.interceptors.response.use(
-            response => response,
+            response => {
+                this.lastCorrelationId = undefined;
+                if (response.headers["x-hcloud-correlation-id"]) {
+                    this.lastCorrelationId = response.headers["x-hcloud-correlation-id"].toString();
+                }
+                return response;
+            },
             error => {
+                this.lastCorrelationId = undefined;
                 this.options.logger?.error(String(error), error);
 
                 return Promise.reject(wrapError(error));
@@ -115,6 +124,13 @@ export class HCloud {
      */
     getCorrelationId(): string | undefined {
         return this.axios.defaults.headers.common["X-Hcloud-Correlation-ID"]?.toString();
+    }
+
+    /**
+     * Returns the last correlationID or undefined if not found.
+     */
+    getLastCorrelationId(): string | undefined {
+        return this.lastCorrelationId;
     }
 
     /**

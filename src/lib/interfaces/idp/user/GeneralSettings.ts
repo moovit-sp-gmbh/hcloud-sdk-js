@@ -49,3 +49,5 @@ export interface GeneralSettings {
 }
 
 export type GeneralSettingsPatch = Partial<Omit<GeneralSettings, "_id" | "user">>;
+
+export type GeneralSettingsLastVisitPatch = Partial<Pick<GeneralSettings, "lastUrl" | "lastView">>;

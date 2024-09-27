@@ -91,8 +91,25 @@ export interface StreamNodeSpecificationV1 extends StreamNodeSpecification {
     path?: string;
     customNode?: StreamCustomNodeSpecification;
 }
+export interface StreamNodeSpecificationV2 extends StreamNodeSpecification {
+    specVersion: 2;
+    name: string;
+    description: string;
+    category: string;
+    version: StreamSemanticVersion;
+    author: StreamNodeSpecificationAuthor;
+    tag?: StreamNodeSpecificationTag[];
+    inputs?: StreamNodeSpecificationInput[];
+    outputs?: StreamNodeSpecificationOutputV2[];
+    additionalConnectors?: StreamNodeSpecificationAdditionalConnector[];
+    path?: string;
+    customNode?: StreamCustomNodeSpecification;
+}
 export function isStreamNodeSpecificationV1(s: StreamNodeSpecification): s is StreamNodeSpecificationV1 {
     return s.specVersion === 1;
+}
+export function isStreamNodeSpecificationV2(s: StreamNodeSpecification): s is StreamNodeSpecificationV2 {
+    return s.specVersion === 2;
 }
 
 export interface StreamCustomNodeSpecification {
@@ -147,6 +164,12 @@ export interface StreamNodeSpecificationOutput {
     type: StreamNodeSpecificationOutputType;
     example: unknown;
     howToAccess: string[];
+}
+export interface StreamNodeSpecificationOutputV2 {
+    name: string;
+    description: string;
+    type: StreamNodeSpecificationOutputType;
+    example: unknown;
 }
 
 export enum StreamNodeSpecificationInputType {

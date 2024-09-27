@@ -106,7 +106,7 @@ export interface StreamNodeSpecificationV2 extends StreamNodeSpecification {
     customNode?: StreamCustomNodeSpecification;
 }
 export function isStreamNodeSpecificationV1(s: StreamNodeSpecification): s is StreamNodeSpecificationV1 {
-    return s.specVersion === 1;
+    return s.specVersion === undefined || s.specVersion === 1;
 }
 export function isStreamNodeSpecificationV2(s: StreamNodeSpecification): s is StreamNodeSpecificationV2 {
     return s.specVersion === 2;

@@ -1,4 +1,4 @@
-import { BouncerContext, HcloudFeature } from "../../../interfaces/bouncer";
+import { BouncerContext, HcloudFeature } from "../../../interfaces/bouncer"
 
 export type BouncerProviderLogger = (
     featureName: string,
@@ -12,6 +12,11 @@ export class BouncerProvider {
     private features: HcloudFeature[];
     private context?: BouncerContext;
     private logger?: BouncerProviderLogger;
+
+    // refs holds a list of previous isEnabledFn requests
+    // with their according callback function (fn)
+    // that is being called whenever features or the context has changed
+    private refs = [] as { featureName: string; defaultValue: boolean; fn: (val: boolean) => void; context?: BouncerContext }[];
 
     constructor(features: HcloudFeature[], context?: BouncerContext, logger?: BouncerProviderLogger) {
         this.features = features;
@@ -38,16 +43,31 @@ export class BouncerProvider {
         return result;
     }
 
+    isEnabledFn(featureName: string, defaultValue: boolean, fn: (val: boolean) => void, context?: BouncerContext): boolean {
+        this.refs.push({ featureName, defaultValue, fn, context });
+        return this.isEnabled(featureName, defaultValue, context);
+    }
+
+    // processRefs iterates over all refs and calls their callback function with the result of isEnabled
+    processRefs() {
+        this.refs.forEach(ref => {
+            ref.fn(this.isEnabled(ref.featureName, ref.defaultValue, ref.context));
+        });
+    }
+
     addFeature(feature: HcloudFeature) {
         this.features.push(feature);
+        this.processRefs();
     }
 
     setFeatures(features: HcloudFeature[]) {
         this.features = features;
+        this.processRefs();
     }
 
     setContext(context: BouncerContext) {
         this.context = context;
+        this.processRefs();
     }
 
     updateContext({ region, email, organization }: BouncerContext) {
@@ -62,6 +82,7 @@ export class BouncerProvider {
             this.context.organization = organization ?? this.context.organization;
             this.context.region = region ?? this.context.region;
         }
+        this.processRefs();
     }
 
     /* eslint-disable @typescript-eslint/no-non-null-assertion*/

@@ -1,5 +1,4 @@
-import { AxiosInstance } from "axios";
-import Base, { Options } from "../../../../../../Base";
+import Base from "../../../../../../Base";
 import { Design } from "../../../../../../interfaces/high5/space/event/stream/design";
 import { DesignContent } from "../../../../../../interfaces/high5/space/event/stream/design/StreamDesign";
 import DesignOperations from "./DesignOperations";
@@ -9,19 +8,24 @@ export class High5Design extends Base {
     /**
      * API to manage design snapshots
      */
-    public snapshots: High5DesignSnapshots;
+    public get snapshots(): High5DesignSnapshots {
+        if (this._snapshots === undefined) {
+            this._snapshots = new High5DesignSnapshots(this.options, this.axios);
+        }
+        return this._snapshots;
+    }
+    private _snapshots?: High5DesignSnapshots;
 
     /**
      * API to perform operations on the Stream Design
      */
-    public operations: DesignOperations;
-
-    constructor(options: Options, axios: AxiosInstance) {
-        super(options, axios);
-
-        this.operations = new DesignOperations(options, axios);
-        this.snapshots = new High5DesignSnapshots(options, axios);
+    public get operations(): DesignOperations {
+        if (this._operations === undefined) {
+            this._operations = new DesignOperations(this.options, this.axios);
+        }
+        return this._operations;
     }
+    private _operations?: DesignOperations;
 
     /**
      * Retrieves a stream's design.
@@ -31,13 +35,13 @@ export class High5Design extends Base {
      * @param streamId ID of the stream
      * @returns The requested design
      */
-    public getDesign = async (orgName: string, spaceName: string, eventName: string, streamId: string): Promise<Design> => {
+    async getDesign(orgName: string, spaceName: string, eventName: string, streamId: string): Promise<Design> {
         const resp = await this.axios.get<Design>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/design`)
         );
 
         return resp.data;
-    };
+    }
 
     /**
      * Creates/overwrites a new design for the specified stream.
@@ -51,14 +55,14 @@ export class High5Design extends Base {
      * @param content Design as Json payload (schema created by Stream Designer Studio)
      * @returns The created design
      */
-    public createDesign = async (
+    async createDesign(
         orgName: string,
         spaceName: string,
         eventName: string,
         streamId: string,
         name: string,
         content: DesignContent
-    ): Promise<Design> => {
+    ): Promise<Design> {
         const resp = await this.axios.put<Design>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/design`),
             {
@@ -68,7 +72,7 @@ export class High5Design extends Base {
         );
 
         return resp.data;
-    };
+    }
 
     /**
      * Publish the current design for a specified stream
@@ -82,9 +86,9 @@ export class High5Design extends Base {
      * @param content Design as Json payload (schema created by Stream Designer Studio)
      * @returns The created design
      */
-    public publishDesign = async (orgName: string, spaceName: string, eventName: string, streamId: string): Promise<void> => {
+    async publishDesign(orgName: string, spaceName: string, eventName: string, streamId: string): Promise<void> {
         await this.axios.put<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/design/publish`));
-    };
+    }
 
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/high5${endpoint}`;

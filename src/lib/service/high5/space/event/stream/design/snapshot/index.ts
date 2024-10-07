@@ -18,14 +18,14 @@ export default class High5DesignSnapshots extends Base {
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
      * @returns Object containing an array of snapshots of the stream design and the total number of results found in the database (independent of limit and page)
      */
-    public search = async (
+    async search(
         orgName: string,
         spaceName: string,
         eventName: string,
         streamId: string,
         content = false,
         { filters, sorting, limit = 25, page = 0 }: SearchParams
-    ): Promise<PaginatedResponse<DesignSnapshot>> => {
+    ): Promise<PaginatedResponse<DesignSnapshot>> {
         const filtersDTO = filters?.map((f: SearchFilter) => {
             return new SearchFilterDTO(f);
         });
@@ -42,7 +42,7 @@ export default class High5DesignSnapshots extends Base {
         );
 
         return createPaginatedResponse(resp) as PaginatedResponse<DesignSnapshot>;
-    };
+    }
 
     /**
      * Create a snapshot of stream's design.
@@ -53,14 +53,14 @@ export default class High5DesignSnapshots extends Base {
      * @param name Name of the snapshot
      * @returns The snapshot
      */
-    public create = async (orgName: string, spaceName: string, eventName: string, streamId: string, name: string): Promise<DesignSnapshot> => {
+    async create(orgName: string, spaceName: string, eventName: string, streamId: string, name: string): Promise<DesignSnapshot> {
         const resp = await this.axios.post<DesignSnapshot>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/design/snapshots`),
             { name }
         );
 
         return resp.data;
-    };
+    }
 
     /**
      * Update a snapshot's name.
@@ -72,21 +72,14 @@ export default class High5DesignSnapshots extends Base {
      * @param name Name of the snapshot
      * @returns The snapshot
      */
-    public update = async (
-        orgName: string,
-        spaceName: string,
-        eventName: string,
-        streamId: string,
-        snapshotId: string,
-        name: string
-    ): Promise<DesignSnapshot> => {
+    async update(orgName: string, spaceName: string, eventName: string, streamId: string, snapshotId: string, name: string): Promise<DesignSnapshot> {
         const resp = await this.axios.patch<DesignSnapshot>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/design/snapshots/${snapshotId}`),
             { name }
         );
 
         return resp.data;
-    };
+    }
 
     /**
      * Delete a stream design's snapshot.
@@ -96,11 +89,11 @@ export default class High5DesignSnapshots extends Base {
      * @param streamId ID of the stream
      * @param snapshotId ID of the snapshot
      */
-    public delete = async (orgName: string, spaceName: string, eventName: string, streamId: string, snapshotId: string): Promise<void> => {
+    async delete(orgName: string, spaceName: string, eventName: string, streamId: string, snapshotId: string): Promise<void> {
         await this.axios.delete<void>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/design/snapshots/${snapshotId}`)
         );
-    };
+    }
 
     /**
      * Restore a stream's design to a certain snapshot.
@@ -113,11 +106,11 @@ export default class High5DesignSnapshots extends Base {
      * @param streamId ID of the stream
      * @param snapshotId ID of the snapshot
      */
-    public restore = async (orgName: string, spaceName: string, eventName: string, streamId: string, snapshotId: string): Promise<void> => {
+    async restore(orgName: string, spaceName: string, eventName: string, streamId: string, snapshotId: string): Promise<void> {
         await this.axios.put<void>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/design/snapshots/${snapshotId}/restore`)
         );
-    };
+    }
 
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/high5${endpoint}`;

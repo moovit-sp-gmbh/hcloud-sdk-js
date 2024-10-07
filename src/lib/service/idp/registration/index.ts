@@ -1,13 +1,8 @@
-import { AxiosInstance } from "axios";
-import Base, { Options } from "../../../Base";
+import Base from "../../../Base";
 import { User } from "../../../interfaces/idp/user";
 import { SuccessfulAuth } from "../../../interfaces/idp/user/SuccessfulAuth";
 
 export class IdpRegistration extends Base {
-    constructor(options: Options, axios: AxiosInstance) {
-        super(options, axios);
-    }
-
     /**
      * Registers a User in the HCloud system. This endpoint will send a verification link (with expiration date) to the Users' email address.
      * At this point the User will have an account status of 'AWAITING_VALIDATION' and cannot sign into his account. If the registration won't be
@@ -20,7 +15,7 @@ export class IdpRegistration extends Base {
      * @param regionId - Optional region id
      * @param targetUrl Optional url the link in the mail will point to
      */
-    register = async (
+    async register(
         name: string,
         email: string,
         password: string,
@@ -28,7 +23,7 @@ export class IdpRegistration extends Base {
         company?: string,
         regionId?: string,
         targetUrl?: string
-    ): Promise<void> => {
+    ): Promise<void> {
         await this.axios.post<void>(this.getEndpoint("/v1/register"), {
             name: name,
             email: email,
@@ -38,7 +33,7 @@ export class IdpRegistration extends Base {
             regionId,
             targetUrl,
         });
-    };
+    }
 
     /**
      * Triggers the registration mail to be resend if the first one got lost
@@ -50,7 +45,7 @@ export class IdpRegistration extends Base {
      * @param regionId - Optional region id
      * @param targetUrl Optional url the link in the mail will point to
      */
-    resendRegistrationMail = async (
+    async resendRegistrationMail(
         name: string,
         email: string,
         password: string,
@@ -58,7 +53,7 @@ export class IdpRegistration extends Base {
         company?: string,
         regionId?: string,
         targetUrl?: string
-    ): Promise<void> => {
+    ): Promise<void> {
         await this.axios.patch<void>(this.getEndpoint("/v1/register/resendRegistrationEmail"), {
             name: name,
             email: email,
@@ -68,7 +63,7 @@ export class IdpRegistration extends Base {
             regionId,
             targetUrl,
         });
-    };
+    }
 
     /**
      * Validates a previous registration. If successful, the Users account status will be set to 'Active'.
@@ -77,7 +72,7 @@ export class IdpRegistration extends Base {
      * @param regionId - Optional region id
      * @returns Bearer Token and User object
      */
-    validateRegistration = async (email: string, verificationCode: string): Promise<SuccessfulAuth> => {
+    async validateRegistration(email: string, verificationCode: string): Promise<SuccessfulAuth> {
         const resp = await this.axios.patch<User>(this.getEndpoint("/v1/register/verify"), {
             email,
             verificationCode,
@@ -87,7 +82,7 @@ export class IdpRegistration extends Base {
             token: resp.headers["authorization"]?.toString() || "",
             user: resp.data,
         } as SuccessfulAuth;
-    };
+    }
 
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/account${endpoint}`;

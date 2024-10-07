@@ -1,7 +1,6 @@
-import { AxiosInstance } from "axios";
 import { connect as connectNode, Msg, NatsConnection, NatsError, PublishOptions, RequestOptions, Subscription, SubscriptionOptions } from "nats";
 import { connect as connectWs } from "nats.ws";
-import Base, { Options } from "../../Base";
+import Base from "../../Base";
 import { NatsCallback, NatsMessage, NatsMessageType, NatsObject, NatsObjectType, RawMsg } from "../../interfaces/nats";
 
 interface SubMapEntry {
@@ -47,10 +46,6 @@ class Nats extends Base {
     private natsConnection: NatsConnection | undefined;
     private subMap = [] as SubMapEntry[];
     private connection = isBrowser ? connectWs : connectNode;
-
-    constructor(options: Options, axios: AxiosInstance) {
-        super(options, axios);
-    }
 
     // eslint-disable-next-line complexity
     public async connect(params: ConnectParamsJwt | ConnectParamsPassword): Promise<NatsConnection> {

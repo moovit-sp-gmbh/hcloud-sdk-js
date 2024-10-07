@@ -10,7 +10,7 @@ export default class UserPasswordService extends Base {
      * @param totpToken (Optional) TOTP token in case the user had 2FA enabled
      * @returns User object
      */
-    resetPassword = async (email: string, nonce: string, newPassword: string, totpToken?: string) => {
+    async resetPassword(email: string, nonce: string, newPassword: string, totpToken?: string) {
         const res = await this.axios.post<User>(this.getEndpoint("/v1/user/password/reset"), {
             email,
             nonce,
@@ -19,7 +19,7 @@ export default class UserPasswordService extends Base {
         });
 
         return res.data;
-    };
+    }
 
     parseResetPasswordToken(token: string): { email: string; nonce: string; regionId?: string } {
         const decoded = atob(token.replace("_", "/").replace("-", "+"));

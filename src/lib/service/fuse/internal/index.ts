@@ -1,14 +1,14 @@
-import { AxiosInstance } from "axios";
-import Base, { Options } from "../../../Base";
+import Base from "../../../Base";
 import { FuseSpaceInternal } from "./space";
 
 export class FuseInternal extends Base {
-    public space: FuseSpaceInternal;
-
-    constructor(options: Options, axios: AxiosInstance) {
-        super(options, axios);
-        this.space = new FuseSpaceInternal(options, axios);
+    public get space(): FuseSpaceInternal {
+        if (this._space === undefined) {
+            this._space = new FuseSpaceInternal(this.options, this.axios);
+        }
+        return this._space;
     }
+    private _space?: FuseSpaceInternal;
 
     async deleteUsers(userIds: string[]): Promise<void> {
         await this.axios.delete(this.getEndpoint("/v1/users"), { data: { userIds } });

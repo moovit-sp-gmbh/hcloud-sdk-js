@@ -30,6 +30,8 @@ export interface StreamNodeResolvedInputs {
     originalValue: unknown;
     value: unknown;
     type: StreamNodeSpecificationInputType;
+    error: boolean;
+    errorMessage: string;
 }
 
 export interface StreamNodeOutput {

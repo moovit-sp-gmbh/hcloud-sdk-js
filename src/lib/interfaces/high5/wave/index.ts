@@ -105,8 +105,13 @@ export interface StreamNodeSpecificationV2 extends StreamNodeSpecification {
     path?: string;
     customNode?: StreamCustomNodeSpecification;
 }
+/**
+ * This functions will return true when the specVersion is undefined to account for older catalogs/nodes
+ * that existed before the specVersion was introduced. It is therefore assumed that any node without a specVersion
+ * has a spec that matches version 1.
+ */
 export function isStreamNodeSpecificationV1(s: StreamNodeSpecification): s is StreamNodeSpecificationV1 {
-    return s.specVersion === 1;
+    return s.specVersion === undefined || s.specVersion === 1;
 }
 export function isStreamNodeSpecificationV2(s: StreamNodeSpecification): s is StreamNodeSpecificationV2 {
     return s.specVersion === 2;

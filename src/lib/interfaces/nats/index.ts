@@ -39,6 +39,7 @@ enum NatsSubject {
     HIGH5_NODES = "hcloud.high5.organization.${base64orgName}.spaces.${base64spaceName}.node",
     High5_DESIGN = "hcloud.high5.organization.${base64orgName}.spaces.${base64spaceName}.events.${base64eventName}.streams.${streamId}.design",
     HIGH5_SNAPSHOTS = "hcloud.high5.organization.${base64orgName}.spaces.${base64spaceName}.events.${base64eventName}.streams.${streamId}.snapshots",
+    HIGH5_WAVE_ENGINE_LATEST = "hcloud.high5.wave.engine.latest",
 
     FUSE_SPACES = "hcloud.fuse.organization.${base64orgName}.spaces",
     FUSE_SPACE = "hcloud.fuse.organization.${base64orgName}.spaces.${base64spaceName}.>",
@@ -395,6 +396,11 @@ class NatsSubjects {
 
             static NODES = (organizationName: string, spaceName: string) => {
                 return NatsSubjects.replace(NatsSubject.HIGH5_NODES, { organizationName, spaceName });
+            };
+        };
+        static WAVE = class {
+            static ENGINE = class {
+                static LATEST = NatsSubject.HIGH5_WAVE_ENGINE_LATEST;
             };
         };
     };

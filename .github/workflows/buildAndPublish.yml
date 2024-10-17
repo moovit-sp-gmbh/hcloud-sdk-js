@@ -38,7 +38,7 @@ jobs:
 
       - run: make build
 
-      # - name: Setup registry in package.json #####
+      # - name: Setup registry in package.json ######
       #   run: |
       #     jq '. += { publishConfig: { registry: "https://npm.pkg.github.com" }}' package.json > package.publish.json
       #     mv package.publish.json package.json

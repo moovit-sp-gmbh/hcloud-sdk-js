@@ -28,5 +28,11 @@ module.exports = {
                 changelogFile: "changelog.md",
             },
         ],
+        [
+            "@semantic-release/git",
+            {
+                assets: ["changelog.md"],
+            },
+        ],
     ],
 };

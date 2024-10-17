@@ -2,7 +2,7 @@
  * @type {import('semantic-release').GlobalConfig}
  */
 module.exports = {
-    branches: ["main", { name: "staging", prerelease: true }],
+    branches: ["semantic_test_darius", { name: "staging", prerelease: true }],
     plugins: [
         [
             "@semantic-release/commit-analyzer",
@@ -25,19 +25,7 @@ module.exports = {
         [
             "@semantic-release/changelog",
             {
-                changelogFile: "build/changelog.md",
-            },
-        ],
-        [
-            "@semantic-release/npm",
-            {
-                pkgRoot: "build",
-            },
-        ],
-        [
-            "semantic-release-telegram",
-            {
-                chats: [-1001743446580],
+                changelogFile: "changelog.md",
             },
         ],
     ],

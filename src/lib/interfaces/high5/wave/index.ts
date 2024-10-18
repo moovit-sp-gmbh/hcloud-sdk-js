@@ -25,6 +25,7 @@ export interface WaveEngine {
     changeLog: string[];
     md5: string;
     dev?: boolean;
+    latest?: boolean;
 }
 
 export interface WaveCatalog {
@@ -52,6 +53,7 @@ export interface Catalog {
 export interface SpacePatchWaveEngine {
     version: string;
     url: string;
+    latest?: boolean;
 }
 
 export interface SpacePatchWaveCatalog {

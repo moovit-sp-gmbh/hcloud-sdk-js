@@ -8,12 +8,12 @@ export default class BouncerFeatures extends Base {
     }
 
     async getHcloudFeatures(): Promise<HcloudFeature[]> {
-        const resp = await this.axios.get<HcloudFeature[]>(this.getEndpoint("/v1/feature/hcloud"), {});
+        const resp = await this.axios.get<HcloudFeature[]>(this.getEndpoint("/default.json"), {});
 
         return resp.data;
     }
 
     protected getEndpoint(endpoint: string): string {
-        return `${this.options.server}/api/bouncer${endpoint}`;
+        return `https://config.s3.helmut.cloud/featureflags${endpoint}`;
     }
 }

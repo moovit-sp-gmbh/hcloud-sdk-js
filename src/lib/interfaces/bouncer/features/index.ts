@@ -1,10 +1,7 @@
 export interface HcloudFeature {
-    feature: {
-        name: string;
-        enabled: boolean;
-    };
-    id?: string;
+    name: string;
+    enabled: boolean;
     regions: string[];
-    users: string[];
     organizations: string[];
+    users: string[];
 }

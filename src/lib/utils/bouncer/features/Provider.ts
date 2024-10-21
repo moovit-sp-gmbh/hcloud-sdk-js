@@ -26,11 +26,11 @@ export class BouncerProvider {
 
     /* eslint-disable complexity */
     isEnabled(featureName: string, defaultValue: boolean, context?: BouncerContext): boolean {
-        const feature = this.features.find(f => f.feature.name === featureName);
+        const feature = this.features.find(f => f.name === featureName);
         let result = defaultValue;
         if (feature) {
             result =
-                feature.feature.enabled &&
+                feature.enabled &&
                 this.doesMatchOrganization(feature, context ?? this.context) &&
                 this.doesMatchUser(feature, context ?? this.context) &&
                 this.doesMatchRegion(feature, context ?? this.context);

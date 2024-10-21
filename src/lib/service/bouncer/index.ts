@@ -1,5 +1,4 @@
 import Base from "../../Base";
-import { Version } from "../../interfaces/global";
 import BouncerFeatures from "./features";
 
 export default class Bouncer extends Base {
@@ -11,17 +10,7 @@ export default class Bouncer extends Base {
     }
     private _features?: BouncerFeatures;
 
-    /**
-     * Requests the endpoint version
-     * @returns Version object
-     */
-    async version(): Promise<Version> {
-        const resp = await this.axios.get<Version>(this.getEndpoint("/v1/version"), {});
-
-        return resp.data;
-    }
-
     protected getEndpoint(endpoint: string): string {
-        return `${this.options.server}/api/bouncer${endpoint}`;
+        return `https://config.s3.helmut.cloud/featureflags${endpoint}`;
     }
 }

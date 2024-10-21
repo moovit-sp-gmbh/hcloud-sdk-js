@@ -75,7 +75,7 @@ export interface StreamNodeSpecification {
     specVersion: number;
 }
 
-export type StreamNodeSpecifications = StreamNodeSpecificationV1;
+export type StreamNodeSpecifications = StreamNodeSpecificationV1 | StreamNodeSpecificationV2;
 
 export interface StreamNodeSpecificationV1 extends StreamNodeSpecification {
     specVersion: 1;

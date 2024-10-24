@@ -61,7 +61,17 @@ export interface High5ExecutionPackage {
     waveCatalogs: WaveCatalog[];
     waveEngine: WaveEngine;
     dry: boolean;
+    info: StreamInfo;
 }
+
+type StreamInfo = {
+    target: string;
+    webhook?: WebhookInfo;
+};
+
+type WebhookInfo = {
+    callbackUrl: string;
+};
 
 export interface ExtendedHigh5ExecutionPackage extends High5ExecutionPackage {
     hcl: HCloud;

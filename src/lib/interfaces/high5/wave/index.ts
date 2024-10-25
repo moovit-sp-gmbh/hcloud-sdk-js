@@ -34,6 +34,7 @@ export interface WaveCatalog {
     url: string;
     changeLog: string[];
     dev?: boolean;
+    minimumEngineVersion?: string;
 }
 
 export interface Engine {

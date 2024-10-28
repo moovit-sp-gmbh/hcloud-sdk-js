@@ -1,7 +1,7 @@
 import { HCloud } from "../../../../Hcloud";
 import { ReducedSpace } from "../../../global";
 import { ReducedOrganization, ReducedUser } from "../../../idp";
-import { WaveCatalog, WaveEngine } from "../../wave";
+import { ReducedWaveCatalog, WaveCatalog, WaveEngine } from "../../wave";
 import { ReducedEvent } from "../event";
 import { DesignBuild } from "../event/stream";
 import { StreamNodeAdditionalConnector, StreamNodeOutput, StreamNodeResolvedInputs, StreamSingleNodeResult } from "../event/stream/node";
@@ -58,7 +58,7 @@ export interface EventExecutionResult {
 export interface High5ExecutionPackage {
     design: DesignBuild;
     payload: High5ExecutionPayload;
-    waveCatalogs: WaveCatalog[];
+    waveCatalogs: ReducedWaveCatalog[];
     waveEngine: WaveEngine;
     dry: boolean;
     info: StreamInfo;

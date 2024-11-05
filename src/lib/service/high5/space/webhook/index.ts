@@ -135,6 +135,18 @@ export class High5Webhook extends Base {
     }
 
     /**
+     * Respond to a webhook via callback.
+     * @param callbackURL            Full or partial URL callback URL. This URL is unique per webhook execution
+     * @param status                 HTTP status code to send in the response
+     * @param headers     (optional) HTTP headers to send in the response
+     * @param body        (optional) Body to send in the HTTP response
+     */
+    async respondToWebhook(callbackURL: string, status: number, headers?: Record<string, string | string[]>, body?: string): Promise<void> {
+        const url = callbackURL.startsWith("http") ? callbackURL : this.getEndpoint(callbackURL);
+        await this.axios.post<void>(url, { status, headers: headers ?? {}, body }, { headers: { "Content-Type": "application/json" } });
+    }
+
+    /**
      * Validates the provided webhook URL by sending a challenge query parameter.
      * @param url Webhook URL to be validated (your hcloud domain + webhook.relativeUrl)
      * @param challenge String to be returned

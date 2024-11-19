@@ -6,6 +6,7 @@ export interface OrganizationMember {
     name: string;
     avatarUrl: string;
     role: OrganizationRole;
+    executionTarget: boolean;
 }
 
 export interface OrgMemberCreate {

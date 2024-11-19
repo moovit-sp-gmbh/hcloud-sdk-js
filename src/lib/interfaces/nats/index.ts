@@ -408,19 +408,34 @@ class NatsSubjects {
     // eslint-disable-next-line complexity
     private static replace = (subject: string, replacements: NatsSubjectReplacements): string => {
         subject = subject.replace("${userId}", replacements.userId || "null");
-        subject = subject.replace("${base64orgName}", replacements.organizationName ? base64Encode(replacements.organizationName) : "null");
+        subject = subject.replace(
+            "${base64orgName}",
+            replacements.organizationName ? (replacements.organizationName === "*" ? "*" : base64Encode(replacements.organizationName)) : "null"
+        );
         subject = subject.replace("${organizationId}", replacements.organizationId || "null");
-        subject = subject.replace("${base64spaceName}", replacements.spaceName ? base64Encode(replacements.spaceName) : "null");
-        subject = subject.replace("${base64eventName}", replacements.eventName ? base64Encode(replacements.eventName) : "null");
+        subject = subject.replace(
+            "${base64spaceName}",
+            replacements.spaceName ? (replacements.spaceName === "*" ? "*" : base64Encode(replacements.spaceName)) : "null"
+        );
+        subject = subject.replace("${spaceId}", replacements.spaceId || "null");
+        subject = subject.replace(
+            "${base64eventName}",
+            replacements.eventName ? (replacements.eventName === "*" ? "*" : base64Encode(replacements.eventName)) : "null"
+        );
         subject = subject.replace("${streamId}", replacements.streamId || "null");
         subject = subject.replace("${designId}", replacements.designId || "null");
         subject = subject.replace("${nodeId}", replacements.nodeId || "null");
         subject = subject.replace("${product}", replacements.product || "null");
-        subject = subject.replace("${base64email}", replacements.email ? base64Encode(replacements.email) : "null");
+        subject = subject.replace(
+            "${base64email}",
+            replacements.email ? (replacements.email === "*" ? "*" : base64Encode(replacements.email)) : "null"
+        );
         subject = subject.replace("${webhookId}", replacements.webhookId || "null");
         subject = subject.replace("${jobId}", replacements.jobId || "null");
-        subject = subject.replace("${base64teamName}", replacements.teamName ? base64Encode(replacements.teamName) : "null");
         subject = subject.replace(
+            "${base64teamName}",
+            replacements.teamName ? (replacements.teamName === "*" ? "*" : base64Encode(replacements.teamName)) : "null"
+        );
         subject = subject.replace(
             "${base64poolName}",
             replacements.poolName ? (replacements.poolName === "*" ? "*" : base64Encode(replacements.poolName)) : "null"

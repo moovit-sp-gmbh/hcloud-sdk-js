@@ -60,7 +60,18 @@ export interface StreamSingleNodeResult {
     duration?: number;
     bypassed?: boolean;
     nodeResults?: StreamSingleNodeResult[];
+    info?: NodeInfo;
 }
+
+type NodeInfo = {
+    runTime: number;
+    catalog: {
+        name?: string;
+        _id?: string;
+        url: string;
+        version: string;
+    };
+};
 
 export interface StreamNodeAdditionalConnector {
     name: string;

@@ -62,6 +62,7 @@ export interface High5ExecutionPackage {
     waveEngine: WaveEngine;
     dry: boolean;
     info: StreamInfo;
+    debug: boolean;
 }
 
 type StreamInfo = {

@@ -37,11 +37,18 @@ export class High5SpaceExecute extends Base {
         spaceName: string,
         streamId: string,
         high5ExecutionRequest: High5ExecutionRequest,
-        design = false
+        design = false,
+        debug = false
     ): Promise<High5ExecutionResponse> {
         const resp = await this.axios.post<High5ExecutionResponse>(
-            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execute/stream/id/${streamId}${design ? "?design=true" : ""}`),
-            high5ExecutionRequest
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execute/stream/id/${streamId}`),
+            high5ExecutionRequest,
+            {
+                params: {
+                    design,
+                    debug,
+                },
+            }
         );
 
         return resp.data;

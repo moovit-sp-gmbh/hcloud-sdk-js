@@ -27,6 +27,7 @@ export interface DesignerNode {
     path: string;
     catalog: DesignerNodeCatalog;
     customNode?: StreamCustomNodeSpecification; // customNodes are being created within the Stream Designer and are not part of the default NodeCatalogue
+    breakpoint?: boolean;
 }
 
 export interface DesignerNodeCatalog {

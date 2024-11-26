@@ -154,6 +154,7 @@ export interface StreamNode {
     inputs?: StreamNodeResolvedInputs[];
     outputs?: StreamNodeOutput[];
     additionalConnectors?: StreamNodeAdditionalConnector[];
+    breakpoint?: boolean;
 }
 
 export interface High5ExecuteOnAgentRequest {

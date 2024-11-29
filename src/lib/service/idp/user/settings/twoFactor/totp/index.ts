@@ -4,7 +4,7 @@ import { ActivatedTotp, DeactivatedTotp, UserTotp } from "../../../../../../inte
 export class IdpTotp extends Base {
     /**
      * Creates a new TOTP for the requesting User.
-     * @returns A deactivated TOTP object containing a QR code and the OTPAuth URL
+     * @returns A deactivated TOTP object containing all necessary data to create a QR code
      */
     async createTotp(): Promise<DeactivatedTotp> {
         const resp = await this.axios.post<DeactivatedTotp>(this.getEndpoint(`/v1/user/settings/security/2fa/totp`));

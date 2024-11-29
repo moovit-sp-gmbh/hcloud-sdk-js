@@ -6,9 +6,11 @@ interface Totp {
 
 export interface DeactivatedTotp extends Totp {
     activated: false;
-    otpAuthUrl: string;
-    qrcode: string;
     secret: string;
+    algorithm: string;
+    digits: number;
+    period: number;
+    issuer: string;
 }
 export interface ActivatedTotp extends Totp {
     activated: true;

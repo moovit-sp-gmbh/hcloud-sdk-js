@@ -28,6 +28,11 @@ export interface WaveEngine {
     latest?: boolean;
 }
 
+export interface ReducedWaveCatalog {
+    version: string;
+    url: string;
+}
+
 export interface WaveCatalog {
     _id: string;
     version: string;

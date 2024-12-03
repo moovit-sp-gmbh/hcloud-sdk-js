@@ -80,6 +80,8 @@ type NodeInfo = {
         url: string;
         version: string;
     };
+    color?: string;
+    nodeType?: NodeType;
 };
 
 export interface StreamNodeAdditionalConnector {

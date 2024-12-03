@@ -66,8 +66,6 @@ export interface StreamSingleNodeResult {
     bypassed?: boolean;
     nodeResults?: StreamSingleNodeResult[];
     info?: NodeInfo;
-    color: string;
-    nodeType: NodeType;
 }
 
 type NodeInfo = {
@@ -78,6 +76,8 @@ type NodeInfo = {
         url: string;
         version: string;
     };
+    color: string;
+    nodeType: NodeType;
 };
 
 export interface StreamNodeAdditionalConnector {

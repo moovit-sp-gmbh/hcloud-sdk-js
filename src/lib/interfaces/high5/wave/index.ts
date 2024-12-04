@@ -76,7 +76,7 @@ export interface StreamNodeSpecification {
     specVersion: number;
 }
 
-export type StreamNodeSpecifications = StreamNodeSpecificationV1 | StreamNodeSpecificationV2;
+export type StreamNodeSpecifications = StreamNodeSpecificationV1 | StreamNodeSpecificationV2 | StreamNodeSpecificationV3;
 
 export interface StreamNodeSpecificationV1 extends StreamNodeSpecification {
     specVersion: 1;
@@ -108,6 +108,11 @@ export interface StreamNodeSpecificationV2 extends StreamNodeSpecification {
     path?: string;
     customNode?: StreamCustomNodeSpecification;
 }
+
+export type StreamNodeSpecificationV3 = Omit<StreamNodeSpecificationV2, "specVersion"> & {
+    specVersion: 3;
+    deprecated: boolean;
+};
 /**
  * This functions will return true when the specVersion is undefined to account for older catalogs/nodes
  * that existed before the specVersion was introduced. It is therefore assumed that any node without a specVersion
@@ -118,6 +123,9 @@ export function isStreamNodeSpecificationV1(s: StreamNodeSpecification): s is St
 }
 export function isStreamNodeSpecificationV2(s: StreamNodeSpecification): s is StreamNodeSpecificationV2 {
     return s.specVersion === 2;
+}
+export function isStreamNodeSpecificationV3(s: StreamNodeSpecification): s is StreamNodeSpecificationV3 {
+    return s.specVersion === 3;
 }
 
 export interface StreamCustomNodeSpecification {

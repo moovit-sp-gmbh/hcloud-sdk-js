@@ -22,17 +22,22 @@ export class IdpRegistration extends Base {
         captcha: string,
         company?: string,
         regionId?: string,
-        targetUrl?: string
+        targetUrl?: string,
+        validationCode?: string
     ): Promise<void> {
-        await this.axios.post<void>(this.getEndpoint("/v1/register"), {
-            name: name,
-            email: email,
-            password: password,
-            captcha: captcha,
-            company,
-            regionId,
-            targetUrl,
-        });
+        await this.axios.post<void>(
+            this.getEndpoint("/v1/register"),
+            {
+                name: name,
+                email: email,
+                password: password,
+                captcha: captcha,
+                company,
+                regionId,
+                targetUrl,
+            },
+            { params: { validationCode } }
+        );
     }
 
     /**

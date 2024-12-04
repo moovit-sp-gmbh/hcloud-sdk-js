@@ -170,6 +170,13 @@ export class IdpUser extends Base {
         return createPaginatedResponse(resp) as PaginatedResponse<OrganizationMemberInvitation>;
     }
 
+    /**
+     * Maintains a user's online status
+     */
+    async ping(): Promise<void> {
+        await this.axios.get<void>(this.getEndpoint("/v1/user/ping"));
+    }
+
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/account${endpoint}`;
     }

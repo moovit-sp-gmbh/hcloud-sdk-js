@@ -13,6 +13,7 @@ enum NatsSubject {
     IDP_USER_SECURITY_GENERAL = "hcloud.idp.user.${userId}.security.general",
     IDP_USER_LICENSE = "hcloud.idp.user.${userId}.license",
 
+    IDP_ORGANIZATION = "hcloud.idp.organization.${base64orgName}",
     IDP_ORGANIZATION_INVITATIONS = "hcloud.idp.organization.${base64orgName}.invitations",
     IDP_ORGANIZATION_MEMBERS = "hcloud.idp.organization.${base64orgName}.members",
     IDP_ORGANIZATION_MEMBERS_EXECUTION_TARGET = "hcloud.idp.organization.${base64orgName}.members.${base64email}.executionTarget",
@@ -36,6 +37,8 @@ enum NatsSubject {
     High5_DESIGN = "hcloud.high5.organization.${base64orgName}.spaces.${base64spaceName}.events.${base64eventName}.streams.${streamId}.design",
     HIGH5_SNAPSHOTS = "hcloud.high5.organization.${base64orgName}.spaces.${base64spaceName}.events.${base64eventName}.streams.${streamId}.snapshots",
     HIGH5_WAVE_ENGINE_LATEST = "hcloud.high5.wave.engine.latest",
+    HIGH5_SPACES_POOLS = "hcloud.high5.organization.${organizationId}.spaces.${spaceId}.pools.>",
+    HIGH5_SPACES_POOL = "hcloud.high5.organization.${organizationId}.spaces.${spaceId}.pools.${poolId}",
 
     FUSE_SPACES = "hcloud.fuse.organization.${base64orgName}.spaces",
     FUSE_SPACE_PERMISSIONS = "hcloud.fuse.organization.${base64orgName}.spaces.${base64spaceName}.permissions",
@@ -52,6 +55,7 @@ type NatsSubjectReplacements = {
     organizationName?: string;
     organizationId?: string;
     spaceName?: string;
+    spaceId?: string;
     eventName?: string;
     streamId?: string;
     designId?: string;
@@ -61,6 +65,8 @@ type NatsSubjectReplacements = {
     webhookId?: string;
     jobId?: string;
     teamName?: string;
+    poolName?: string;
+    poolId?: string;
 };
 
 enum NatsMessageType {
@@ -97,6 +103,7 @@ enum NatsObjectType {
     WEBHOOK_LOG = "WEBHOOK_LOG",
     SECRET = "SECRET",
     CATALOG = "CATALOG",
+    POOL = "POOL",
 
     AUDIT_LOG = "AUDIT_LOG",
     MAIL = "MAIL",
@@ -147,6 +154,7 @@ interface NatsObject
     [NatsSubject.HIGH5_SECRETS]: NatsSecretObject;
     [NatsSubject.HIGH5_SETTINGS]: unknown;
     [NatsSubject.HIGH5_WEBHOOKS]: NatsIdObject;
+    [NatsSubject.HIGH5_SPACES_POOLS]: NatsPoolObject;
     [NatsSubject.HIGH5_WEBHOOK_LOGS]: NatsIdObject;
     [NatsSubject.HIGH5_CATALOGS]: NatsIdObject;
     [NatsSubject.FUSE_SPACES]: NatsNameObject;
@@ -186,6 +194,11 @@ interface NatsCustomNodeObject {
     updatedNodeId?: string;
 }
 
+interface NatsPoolObject extends NatsIdObject {
+    name: string;
+    targets: string[];
+}
+
 type NatsCallback = (err: Error | null, msg?: NatsMessage, rawMsg?: Msg) => void;
 
 /**
@@ -221,6 +234,9 @@ class NatsSubjects {
                     return NatsSubjects.replace(NatsSubject.IDP_USER_SECURITY_GENERAL, { userId });
                 };
             };
+        };
+        static ORGANIZATION = (organizationName: string) => {
+            return NatsSubjects.replace(NatsSubject.IDP_ORGANIZATION, { organizationName });
         };
         static Organization = class {
             static INVITATIONS = (organizationName: string) => {
@@ -293,6 +309,14 @@ class NatsSubjects {
         };
 
         static Space = class {
+            static POOLS = (organizationId: string, spaceId: string) => {
+                return NatsSubjects.replace(NatsSubject.HIGH5_SPACES_POOLS, { organizationId, spaceId });
+            };
+
+            static POOL = (organizationId: string, spaceId: string, poolId: string) => {
+                return NatsSubjects.replace(NatsSubject.HIGH5_SPACES_POOL, { organizationId, spaceId, poolId });
+            };
+
             static PERMISSIONS = (organizationName: string, spaceName: string) => {
                 return NatsSubjects.replace(NatsSubject.HIGH5_SPACE_PERMISSIONS, { organizationName, spaceName });
             };
@@ -384,18 +408,39 @@ class NatsSubjects {
     // eslint-disable-next-line complexity
     private static replace = (subject: string, replacements: NatsSubjectReplacements): string => {
         subject = subject.replace("${userId}", replacements.userId || "null");
-        subject = subject.replace("${base64orgName}", replacements.organizationName ? base64Encode(replacements.organizationName) : "null");
+        subject = subject.replace(
+            "${base64orgName}",
+            replacements.organizationName ? (replacements.organizationName === "*" ? "*" : base64Encode(replacements.organizationName)) : "null"
+        );
         subject = subject.replace("${organizationId}", replacements.organizationId || "null");
-        subject = subject.replace("${base64spaceName}", replacements.spaceName ? base64Encode(replacements.spaceName) : "null");
-        subject = subject.replace("${base64eventName}", replacements.eventName ? base64Encode(replacements.eventName) : "null");
+        subject = subject.replace(
+            "${base64spaceName}",
+            replacements.spaceName ? (replacements.spaceName === "*" ? "*" : base64Encode(replacements.spaceName)) : "null"
+        );
+        subject = subject.replace("${spaceId}", replacements.spaceId || "null");
+        subject = subject.replace(
+            "${base64eventName}",
+            replacements.eventName ? (replacements.eventName === "*" ? "*" : base64Encode(replacements.eventName)) : "null"
+        );
         subject = subject.replace("${streamId}", replacements.streamId || "null");
         subject = subject.replace("${designId}", replacements.designId || "null");
         subject = subject.replace("${nodeId}", replacements.nodeId || "null");
         subject = subject.replace("${product}", replacements.product || "null");
-        subject = subject.replace("${base64email}", replacements.email ? base64Encode(replacements.email) : "null");
+        subject = subject.replace(
+            "${base64email}",
+            replacements.email ? (replacements.email === "*" ? "*" : base64Encode(replacements.email)) : "null"
+        );
         subject = subject.replace("${webhookId}", replacements.webhookId || "null");
         subject = subject.replace("${jobId}", replacements.jobId || "null");
-        subject = subject.replace("${base64teamName}", replacements.teamName ? base64Encode(replacements.teamName) : "null");
+        subject = subject.replace(
+            "${base64teamName}",
+            replacements.teamName ? (replacements.teamName === "*" ? "*" : base64Encode(replacements.teamName)) : "null"
+        );
+        subject = subject.replace(
+            "${base64poolName}",
+            replacements.poolName ? (replacements.poolName === "*" ? "*" : base64Encode(replacements.poolName)) : "null"
+        );
+        subject = subject.replace("${poolId}", replacements.poolId || "null");
 
         return subject;
     };

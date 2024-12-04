@@ -14,6 +14,7 @@ export interface User {
     modifyDate: number;
     activeScopes: Scope[];
     isAgent?: boolean;
+    lastActive: number;
 }
 
 export type ReducedUser = Pick<User, "_id" | "name" | "avatarUrl">;

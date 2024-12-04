@@ -11,6 +11,7 @@ import {
 import { High5Event } from "./event";
 import { High5SpaceExecute } from "./execution";
 import High5Node from "./node";
+import High5Pool from "./pool";
 import High5Secret from "./secret";
 import High5Wave from "./wave";
 import { High5Webhook } from "./webhook";
@@ -44,6 +45,13 @@ export class High5Space extends Base {
         return this._secret;
     }
     private _secret?: High5Secret;
+    public get pool(): High5Pool {
+        if (this._pool === undefined) {
+            this._pool = new High5Pool(this.options, this.axios);
+        }
+        return this._pool;
+    }
+    private _pool?: High5Pool;
     public get wave(): High5Wave {
         if (this._wave === undefined) {
             this._wave = new High5Wave(this.options, this.axios);

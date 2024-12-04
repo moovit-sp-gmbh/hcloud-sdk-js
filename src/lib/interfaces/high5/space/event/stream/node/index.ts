@@ -52,7 +52,7 @@ export interface StreamSingleNodeResult {
     nodeUuid: string;
     failed: boolean;
     startTimestamp: number;
-    endTimestamp: number;
+    endTimestamp?: number;
     name: string;
     inputs?: StreamNodeResolvedInputs[];
     outputs?: StreamNodeOutput[];
@@ -60,7 +60,18 @@ export interface StreamSingleNodeResult {
     duration?: number;
     bypassed?: boolean;
     nodeResults?: StreamSingleNodeResult[];
+    info?: NodeInfo;
 }
+
+type NodeInfo = {
+    runTime: number;
+    catalog: {
+        name?: string;
+        _id?: string;
+        url: string;
+        version: string;
+    };
+};
 
 export interface StreamNodeAdditionalConnector {
     name: string;

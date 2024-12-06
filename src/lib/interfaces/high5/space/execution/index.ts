@@ -85,6 +85,7 @@ export interface ExtendedHigh5ExecutionPackage extends High5ExecutionPackage {
 export interface High5ExecutionPatchLog {
     streamId: string;
     nodeResults: StreamSingleNodeResult[];
+    nodeResultsToRemove?: string[];
 }
 
 export interface StreamRunningNodePatch {

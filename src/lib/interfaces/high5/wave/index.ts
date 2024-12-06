@@ -18,6 +18,20 @@ export interface EngineRegistry {
     }[];
 }
 
+export interface Wildcard {
+    name: string;
+    description: string;
+    example: string;
+    resolved: string;
+}
+
+export interface WildcardRegistry {
+    Agent: Wildcard[];
+    Stream: Wildcard[];
+    Node: Wildcard[];
+    General: Wildcard[];
+}
+
 export interface WaveEngine {
     _id: string;
     version: string;

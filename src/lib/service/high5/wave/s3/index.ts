@@ -8,6 +8,7 @@ import {
     EngineRegistry,
     StreamNodeSpecifications,
     StreamNodeSpecificationWrappedWithEngineVersion,
+    WildcardRegistry,
 } from "../../../../interfaces/high5";
 
 /**
@@ -60,6 +61,23 @@ export class S3 extends Base {
         const resp = await this.axios.get<Engine>(`${engineUrl}`, { headers: disableCacheHeaders });
 
         return resp.data;
+    }
+
+    /**
+     * Get a list of available wildcards of a specific engine version from the S3 bucket
+     * @param engineUrl Public url of the engine
+     * @param engineVersion Version of the enigne
+     * @returns Wildcards.json list of available wildcards
+     */
+    async getWildcardsOfEngine(engineUrl: string, engineVersion: string): Promise<WildcardRegistry | undefined> {
+        try {
+            const resp = await this.axios.get<WildcardRegistry>(`${engineUrl.replace("/index.json", "")}/${engineVersion}/Wildcards.json`, {
+                headers: disableCacheHeaders,
+            });
+            return resp.data;
+        } catch (error) {
+            return undefined;
+        }
     }
 
     /**

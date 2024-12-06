@@ -1,6 +1,6 @@
-import { AxiosInstance } from "axios";
-import Base, { Options } from "../../../../Base";
-import { disableCacheHeaders } from "../../../../interfaces/axios";
+import { AxiosInstance } from "axios"
+import Base, { Options } from "../../../../Base"
+import { disableCacheHeaders } from "../../../../interfaces/axios"
 import {
     Catalog,
     CatalogRegistry,
@@ -8,7 +8,8 @@ import {
     EngineRegistry,
     StreamNodeSpecifications,
     StreamNodeSpecificationWrappedWithEngineVersion,
-} from "../../../../interfaces/high5";
+    WildcardRegistry,
+} from "../../../../interfaces/high5"
 
 /**
  * Class for reading the S3 bucket of a wave engine and catalogs
@@ -60,6 +61,23 @@ export class S3 extends Base {
         const resp = await this.axios.get<Engine>(`${engineUrl}`, { headers: disableCacheHeaders });
 
         return resp.data;
+    }
+
+    /**
+     * Get a list of available wildcards of a specific engine version from the S3 bucket
+     * @param engineUrl Public url of the engine
+     * @param engineVersion Version of the enigne
+     * @returns Wildcards.json list of available wildcards
+     */
+    async getWildcardsOfEngine(engineUrl: string, engineVersion: string): Promise<WildcardRegistry | undefined> {
+        try {
+            const resp = await this.axios.get<WildcardRegistry>(`${engineUrl.replace("/index.json", "")}/${engineVersion}/wildcards.json`, {
+                headers: disableCacheHeaders,
+            });
+            return resp.data;
+        } catch (error) {
+            return undefined;
+        }
     }
 
     /**

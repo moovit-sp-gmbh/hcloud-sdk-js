@@ -27,6 +27,8 @@ enum NatsSubject {
     HIGH5_SPACE_PERMISSIONS = "hcloud.high5.organization.${base64orgName}.spaces.${base64spaceName}.permissions",
     HIGH5_STREAM_EXECUTE = "hcloud.high5.organization.${organizationId}.stream.execute.${base64email}",
     HIGH5_STREAM_CANCEL = "hcloud.high5.organization.${organizationId}.stream.execute.${base64email}", // eslint-disable-line @typescript-eslint/no-duplicate-enum-values
+    HIGH5_STREAM_DEBUG_STOPPED = "hcloud.high5.organization.${organizationId}.stream.execute.${base64email}.${executionId}.stopped",
+    HIGH5_STREAM_DEBUG_COMMAND = "hcloud.high5.organization.${organizationId}.stream.execute.${base64email}.${executionSecret}.command",
     HIGH5_EVENTS = "hcloud.high5.organization.${base64orgName}.spaces.${base64spaceName}.events",
     HIGH5_STREAMS = "hcloud.high5.organization.${base64orgName}.spaces.${base64spaceName}.streams",
     HIGH5_EVENT_STREAMS = "hcloud.high5.organization.${base64orgName}.spaces.${base64spaceName}.events.${base64eventName}.streams",
@@ -70,6 +72,8 @@ type NatsSubjectReplacements = {
     poolName?: string;
     poolId?: string;
     oAuthAppId?: string;
+    executionId?: string;
+    executionSecret?: string;
 };
 
 enum NatsMessageType {
@@ -322,6 +326,25 @@ class NatsSubjects {
             static CANCEL = (organizationId: string, email: string) => {
                 return NatsSubjects.replace(NatsSubject.HIGH5_STREAM_CANCEL, { organizationId, email });
             };
+
+            static DEBUG = (organizationId: string, email: string) => {
+                return {
+                    STOPPED: function (executionId: string) {
+                        return NatsSubjects.replace(NatsSubject.HIGH5_STREAM_DEBUG_STOPPED, {
+                            organizationId,
+                            email,
+                            executionId,
+                        });
+                    },
+                    COMMAND: function (executionSecret: string) {
+                        return NatsSubjects.replace(NatsSubject.HIGH5_STREAM_DEBUG_COMMAND, {
+                            organizationId,
+                            email,
+                            executionSecret,
+                        });
+                    },
+                };
+            };
         };
 
         static SPACES = (organizationName: string) => {
@@ -461,6 +484,8 @@ class NatsSubjects {
             replacements.poolName ? (replacements.poolName === "*" ? "*" : base64Encode(replacements.poolName)) : "null"
         );
         subject = subject.replace("${poolId}", replacements.poolId || "null");
+        subject = subject.replace("${executionId}", replacements.executionId || "null");
+        subject = subject.replace("${executionSecret}", replacements.executionSecret || "null");
 
         return subject;
     };

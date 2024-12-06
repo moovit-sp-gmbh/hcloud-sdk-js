@@ -1,4 +1,5 @@
 import Base from "../../../../Base";
+import { DebugCommand } from "../../../../interfaces/high5";
 import {
     High5ExecutionPackage,
     High5ExecutionPatch,
@@ -108,6 +109,23 @@ export class High5SpaceExecute extends Base {
         high5ExecutionResponse: High5ExecutionPatch
     ): Promise<void> {
         await this.axios.patch<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execution/streams/${secret}`), high5ExecutionResponse);
+    }
+
+    /**
+     * Issue debug command to a stopped execution running in debug mode.
+     * If the agent that is handling this execution does not acknowledge
+     * the debug command after a certain timeframe, a timeout error will
+     * be thrown.
+     *
+     * Only the user that triggered the execution can send debug commands.
+     *
+     * @param orgName      Name of the organization
+     * @param spaceName    Name of the space
+     * @param executionId  ID of the execution. Obtained from High5ExecutionResponse
+     * @param command      DebugCommand to send
+     */
+    async issueDebugCommand(orgName: string, spaceName: string, executionId: string, command: DebugCommand): Promise<void> {
+        await this.axios.post<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execute/${executionId}`), command);
     }
 
     protected getEndpoint(endpoint: string): string {

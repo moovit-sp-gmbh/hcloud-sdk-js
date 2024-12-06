@@ -1,4 +1,4 @@
-import { OrganizationRole } from ".."
+import { OrganizationRole } from "..";
 
 export interface OrganizationMember {
     _id: string;

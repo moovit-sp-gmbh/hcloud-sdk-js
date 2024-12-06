@@ -62,6 +62,7 @@ export interface High5ExecutionPackage {
     waveEngine: WaveEngine;
     dry: boolean;
     info: StreamInfo;
+    debug: boolean;
 }
 
 type StreamInfo = {
@@ -84,6 +85,7 @@ export interface ExtendedHigh5ExecutionPackage extends High5ExecutionPackage {
 export interface High5ExecutionPatchLog {
     streamId: string;
     nodeResults: StreamSingleNodeResult[];
+    nodeResultsToRemove?: string[];
 }
 
 export interface StreamRunningNodePatch {
@@ -154,6 +156,7 @@ export interface StreamNode {
     inputs?: StreamNodeResolvedInputs[];
     outputs?: StreamNodeOutput[];
     additionalConnectors?: StreamNodeAdditionalConnector[];
+    breakpoint?: boolean;
 }
 
 export interface High5ExecuteOnAgentRequest {

@@ -61,6 +61,7 @@ export interface StreamSingleNodeResult {
     bypassed?: boolean;
     nodeResults?: StreamSingleNodeResult[];
     info?: NodeInfo;
+    waiting?: boolean;
 }
 
 type NodeInfo = {

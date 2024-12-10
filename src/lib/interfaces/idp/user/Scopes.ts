@@ -19,6 +19,27 @@ export enum Scope {
     FUSE_SPACE_DELETE = "fuse:space:delete",
 }
 
+export const ScopeDescriptions = new Map<string, string>([
+    [Scope.HCLOUD_FULL, "Full access to helmut.cloud."],
+    [Scope.IDP_EMAIL_READ, "Read user's email address."],
+    [Scope.IDP_USER_READ, "Read user details."],
+    [Scope.IDP_USER_WRITE, "Create or update users."],
+    [Scope.IDP_USER_DELETE, "Delete users."],
+    [Scope.IDP_USER_OPEN_ID, "OpenID Connect access."],
+    [Scope.IDP_ORGANIZATION_READ, "Read organization info."],
+    [Scope.IDP_ORGANIZATION_WRITE, "Create or update organization."],
+    [Scope.IDP_ORGANIZATION_DELETE, "Delete organization info."],
+    [Scope.IDP_ORGANIZATION_ADMIN, "Full organization admin access."],
+    [Scope.HIGH5_SPACE_READ, "Read High5 space data."],
+    [Scope.HIGH5_SPACE_EXECUTE, "Execute tasks in High5."],
+    [Scope.HIGH5_SPACE_WRITE, "Create or update High5 data."],
+    [Scope.HIGH5_SPACE_DELETE, "Delete High5 data."],
+    [Scope.FUSE_SPACE_READ, "Read Fuse space data."],
+    [Scope.FUSE_SPACE_EXECUTE, "Execute tasks in Fuse."],
+    [Scope.FUSE_SPACE_WRITE, "Create or update Fuse data."],
+    [Scope.FUSE_SPACE_DELETE, "Delete Fuse data."],
+]);
+
 export const ScopeDependencies = {
     [Scope.HCLOUD_FULL]: [...Object.values(Scope).filter(s => s !== Scope.HCLOUD_FULL)],
     [Scope.IDP_EMAIL_READ]: [],

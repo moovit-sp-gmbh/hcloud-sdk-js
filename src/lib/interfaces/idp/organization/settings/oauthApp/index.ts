@@ -34,6 +34,8 @@ export type OAuthAppWithConsent = OAuthApp &
         scopes: Record<Scope, number>;
     };
 
+export type OAuthAppPublicInfo = Omit<OAuthApp, "clientSecrets" | "callback" | "patId">;
+
 export interface OAuthAppCreate {
     name: string;
     description?: string;

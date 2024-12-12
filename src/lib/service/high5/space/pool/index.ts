@@ -1,9 +1,9 @@
-import { AxiosInstance } from "axios";
-import Base, { Options } from "../../../../Base";
-import { createPaginatedResponse } from "../../../../helper/paginatedResponseHelper";
-import { SearchFilterDTO } from "../../../../helper/searchFilter";
-import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../interfaces/global";
-import { Pool, PoolChange, PoolTargetPatch } from "../../../../interfaces/high5/space/pool";
+import { AxiosInstance } from "axios"
+import Base, { Options } from "../../../../Base"
+import { createPaginatedResponse } from "../../../../helper/paginatedResponseHelper"
+import { SearchFilterDTO } from "../../../../helper/searchFilter"
+import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../interfaces/global"
+import { Pool, PoolChange, PoolTargetPatch } from "../../../../interfaces/high5/space/pool"
 
 export default class High5Pool extends Base {
     constructor(options: Options, axios: AxiosInstance) {
@@ -87,7 +87,7 @@ export default class High5Pool extends Base {
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
      * @returns Object containing an array of Pool and the total number of results found in the database (independent of limit and page)
      */
-    async searchEvents({
+    async searchPools({
         orgName,
         spaceName,
         filters,

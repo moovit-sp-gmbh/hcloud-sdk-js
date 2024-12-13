@@ -69,15 +69,11 @@ export class S3 extends Base {
      * @param engineVersion Version of the enigne
      * @returns Wildcards.json list of available wildcards
      */
-    async getWildcardsOfEngine(engineUrl: string, engineVersion: string): Promise<WildcardRegistry | undefined> {
-        try {
-            const resp = await this.axios.get<WildcardRegistry>(`${engineUrl.replace("/index.json", "")}/${engineVersion}/wildcards.json`, {
-                headers: disableCacheHeaders,
-            });
-            return resp.data;
-        } catch (error) {
-            return undefined;
-        }
+    async getWildcardsOfEngine(engineUrl: string, engineVersion: string): Promise<WildcardRegistry> {
+        const resp = await this.axios.get<WildcardRegistry>(`${engineUrl.replace("/index.json", "")}/${engineVersion}/wildcards.json`, {
+            headers: disableCacheHeaders,
+        });
+        return resp.data;
     }
 
     /**

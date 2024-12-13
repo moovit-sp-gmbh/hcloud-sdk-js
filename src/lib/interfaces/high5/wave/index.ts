@@ -21,8 +21,8 @@ export interface EngineRegistry {
 export interface Wildcard {
     name: string;
     description: string;
-    example: string;
-    resolved: string;
+    pattern: string;
+    output: string;
 }
 
 export interface WildcardRegistry {

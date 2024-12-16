@@ -28,6 +28,23 @@ export class DevBundle extends Base {
         return resp.data;
     }
 
+    async getCurrentVersion(): Promise<string> {
+        const resp = await this.axios.get(this.getEndpoint("/v1/bundle/version"));
+        return resp.data;
+    }
+
+    async setCurrentVersion(version: string): Promise<void> {
+        await this.axios.put(
+            this.getEndpoint("/v1/bundle/version"),
+            { version },
+            { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
+        );
+    }
+
+    async restart(): Promise<void> {
+        await this.axios.post(this.getEndpoint("/v1/bundle/restart"));
+    }
+
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/agent${endpoint}`;
     }

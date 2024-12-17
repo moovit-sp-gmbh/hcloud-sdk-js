@@ -1,9 +1,9 @@
-import { AxiosInstance } from "axios"
-import Base, { Options } from "../../../../Base"
-import { createPaginatedResponse } from "../../../../helper/paginatedResponseHelper"
-import { SearchFilterDTO } from "../../../../helper/searchFilter"
-import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../interfaces/global"
-import { Pool, PoolChange, PoolTargetPatch } from "../../../../interfaces/high5/space/pool"
+import { AxiosInstance } from "axios";
+import Base, { Options } from "../../../../Base";
+import { createPaginatedResponse } from "../../../../helper/paginatedResponseHelper";
+import { SearchFilterDTO } from "../../../../helper/searchFilter";
+import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../interfaces/global";
+import { Pool, PoolChange, PoolTargetPatch } from "../../../../interfaces/high5/space/pool";
 
 export default class High5Pool extends Base {
     constructor(options: Options, axios: AxiosInstance) {

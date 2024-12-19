@@ -5,6 +5,11 @@ import { StreamNodeSpecificationInputType, StreamNodeSpecificationOutputType } f
 export enum NodeCategory {
     CUSTOM = "CUSTOM",
 }
+
+export enum NodeType {
+    CUSTOM = "CUSTOM",
+    CATALOG = "CATALOG",
+}
 export interface Node {
     _id: string;
     secret: string;
@@ -71,6 +76,8 @@ type NodeInfo = {
         url: string;
         version: string;
     };
+    color?: string;
+    nodeType?: NodeType;
 };
 
 export interface StreamNodeAdditionalConnector {

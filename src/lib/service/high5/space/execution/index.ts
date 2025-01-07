@@ -128,6 +128,21 @@ export class High5SpaceExecute extends Base {
         await this.axios.post<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execute/${executionId}`), command);
     }
 
+    /**
+     * Log an execution crash to High5
+     *
+     * Useful when regular logging is not possible.
+     *
+     * @param orgName    the organizations's name
+     * @param spaceName  the spaces's name
+     * @param streamId   the id of the stream
+     * @param secret     the secret of the stream execution object
+     * @param message    crash log
+     */
+    async logExecutionCrash(orgName: string, spaceName: string, secret: string, message?: string): Promise<void> {
+        await this.axios.patch<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execution/streams/${secret}/crash`), { message });
+    }
+
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/high5${endpoint}`;
     }

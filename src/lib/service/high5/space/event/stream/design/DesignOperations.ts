@@ -1,5 +1,5 @@
-import Base from "../../../../../../Base"
-import { Design } from "../../../../../../interfaces/high5"
+import Base from "../../../../../../Base";
+import { Design } from "../../../../../../interfaces/high5";
 import {
     AddNode,
     DeleteNode,
@@ -11,8 +11,8 @@ import {
     NodeOperation,
     OperationTarget,
     UnlinkNodes,
-} from "../../../../../../interfaces/high5/space/event/stream/design/DesignOperation"
-import { DesignerNode } from "../../../../../../interfaces/high5/space/event/stream/design/StreamDesign"
+} from "../../../../../../interfaces/high5/space/event/stream/design/DesignOperation";
+import { DesignerNode } from "../../../../../../interfaces/high5/space/event/stream/design/StreamDesign";
 
 export default class DesignOperations extends Base {
     public async send(

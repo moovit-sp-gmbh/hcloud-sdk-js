@@ -18,6 +18,17 @@ export class High5OrganizationExecute extends Base {
     }
     private _status?: High5OrganizationExecutionStates;
 
+    /**
+     * Cancel stream execution
+     * @param orgName Name of the Organization
+     * @param spaceName Name of the Space
+     * @param high5ExecutionId ID of the stream execution
+     * @returns 204 No Content
+     */
+    async cancelExecution(orgName: string, spaceName: string, high5ExecutionId: string): Promise<void> {
+        await this.axios.get<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execution/${high5ExecutionId}/cancel`));
+    }
+
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/high5${endpoint}`;
     }

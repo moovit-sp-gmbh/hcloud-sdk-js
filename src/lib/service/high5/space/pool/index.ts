@@ -3,7 +3,7 @@ import Base, { Options } from "../../../../Base";
 import { createPaginatedResponse } from "../../../../helper/paginatedResponseHelper";
 import { SearchFilterDTO } from "../../../../helper/searchFilter";
 import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../interfaces/global";
-import { Pool, PoolChange, PoolTargetPatch } from "../../../../interfaces/high5/space/pool";
+import { Pool, PoolChange, PoolQueryOptions, PoolTargetPatch } from "../../../../interfaces/high5/space/pool";
 import { OrganizationMember } from "../../../../interfaces/idp";
 
 export default class High5Pool extends Base {
@@ -93,16 +93,25 @@ export default class High5Pool extends Base {
         spaceName,
         filters,
         sorting,
+        options,
         limit = 25,
         page = 0,
-    }: SearchParams & { orgName: string; spaceName: string }): Promise<PaginatedResponse<Pool>> {
+    }: SearchParams & { orgName: string; spaceName: string; options?: PoolQueryOptions }): Promise<PaginatedResponse<Pool>> {
         const filtersDTO = filters?.map((f: SearchFilter) => new SearchFilterDTO(f));
 
         const resp = await this.axios.post<Pool[]>(
-            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/pools/search?page=${page}&limit=${limit}`),
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/pools/search`),
             {
                 filters: filtersDTO,
                 sorting: sorting,
+            },
+            {
+                params: {
+                    limit,
+                    page,
+                    totalTargetCount: options?.getTotalTargetCount,
+                    targetsSample: options?.getTargetsSample,
+                },
             }
         );
 

@@ -8,7 +8,9 @@ export type Pool = {
     creator: ReducedUser;
 
     name: string;
-    targets: string[];
+
+    numberOfTargets?: number;
+    targetSample?: ReducedUser[];
 };
 
 export type PoolChange = Pool & { invalidTargets: { notMember: string[] } };
@@ -23,3 +25,8 @@ export enum ArrayOperation {
     REPLACE = "REPLACE",
     REMOVE = "REMOVE",
 }
+
+export type PoolQueryOptions = {
+    getTargetsSample?: number; // Number of targets to return
+    getTotalTargetCount?: boolean;
+};

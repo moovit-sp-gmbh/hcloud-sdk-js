@@ -11,7 +11,7 @@ export type Pool = {
     targets: string[];
 };
 
-export type PoolChange = Pool & { invalidTargets: { notMember: string[]; notExecutionTarget: string[] } };
+export type PoolChange = Pool & { invalidTargets: { notMember: string[] } };
 
 export type PoolTargetPatch = {
     identifiers: string[];

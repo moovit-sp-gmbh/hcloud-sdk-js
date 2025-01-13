@@ -4,6 +4,7 @@ import { createPaginatedResponse } from "../../../../helper/paginatedResponseHel
 import { SearchFilterDTO } from "../../../../helper/searchFilter";
 import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../interfaces/global";
 import { Pool, PoolChange, PoolTargetPatch } from "../../../../interfaces/high5/space/pool";
+import { OrganizationMember } from "../../../../interfaces/idp";
 
 export default class High5Pool extends Base {
     constructor(options: Options, axios: AxiosInstance) {
@@ -132,6 +133,46 @@ export default class High5Pool extends Base {
         const resp = await this.axios.get<Pool[]>(this.getEndpoint("/v1/pools"));
 
         return resp.data;
+    }
+
+    /**
+     * Retrieves all targets of a pool which match the provided search filter(s). Will return all targets of the pool if no filter is provided.
+     *
+     * @param orgName Name of the Organization
+     * @param spaceName Name of the Space
+     * @param poolName Name of the pool
+     * @param filters (optional) Array of search filters
+     * @param sorting (optional) Sorting object
+     * @param limit (optional) Max number of results (1-100; defaults to 25)
+     * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
+     * @returns Object containing an array of OrganizationMember and the total number of results found in the database (independent of limit and page)
+     */
+    async searchTargetsOfPool({
+        orgName,
+        spaceName,
+        poolName,
+        filters,
+        sorting,
+        limit = 25,
+        page = 0,
+    }: SearchParams & { orgName: string; spaceName: string; poolName: string }): Promise<PaginatedResponse<OrganizationMember>> {
+        const filtersDTO = filters?.map((f: SearchFilter) => new SearchFilterDTO(f));
+
+        const resp = await this.axios.post<OrganizationMember[]>(
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/pools/${poolName}/targets/search`),
+            {
+                filters: filtersDTO,
+                sorting: sorting,
+            },
+            {
+                params: {
+                    page,
+                    limit,
+                },
+            }
+        );
+
+        return createPaginatedResponse(resp) as PaginatedResponse<OrganizationMember>;
     }
 
     protected getEndpoint(endpoint: string): string {

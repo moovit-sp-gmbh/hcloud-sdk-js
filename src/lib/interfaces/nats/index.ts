@@ -12,6 +12,7 @@ enum NatsSubject {
     IDP_USER_SECURITY_PATS = "hcloud.idp.user.${userId}.security.pats",
     IDP_USER_SECURITY_GENERAL = "hcloud.idp.user.${userId}.security.general",
     IDP_USER_LICENSE = "hcloud.idp.user.${userId}.license",
+    IDP_USER_SETTINGS_OAUTH_REVOKE = "hcloud.idp.user.${userId}.settings.oauth.${oAuthAppId}.revoke",
 
     IDP_ORGANIZATION = "hcloud.idp.organization.${base64orgName}",
     IDP_ORGANIZATION_INVITATIONS = "hcloud.idp.organization.${base64orgName}.invitations",
@@ -20,6 +21,7 @@ enum NatsSubject {
     IDP_ORGANIZATION_TEAMS = "hcloud.idp.organization.${base64orgName}.teams",
     IDP_ORGANIZATION_TEAM_MEMBERS = "hcloud.idp.organization.${base64orgName}.teams.${base64teamName}.members",
     IDP_ORGANIZATION_LICENSE = "hcloud.idp.organization.${base64orgName}.license",
+    IDP_ORGANIZATION_SETTINGS_OAUTHAPP = "hcloud.idp.organization.${base64orgName}.settings.oauthapp.${oAuthAppId}",
 
     HIGH5_SPACES = "hcloud.high5.organization.${base64orgName}.spaces",
     HIGH5_SPACE_PERMISSIONS = "hcloud.high5.organization.${base64orgName}.spaces.${base64spaceName}.permissions",
@@ -67,6 +69,7 @@ type NatsSubjectReplacements = {
     teamName?: string;
     poolName?: string;
     poolId?: string;
+    oAuthAppId?: string;
 };
 
 enum NatsMessageType {
@@ -234,6 +237,16 @@ class NatsSubjects {
                     return NatsSubjects.replace(NatsSubject.IDP_USER_SECURITY_GENERAL, { userId });
                 };
             };
+
+            static Settings = (userId: string) => {
+                return {
+                    OAuth: {
+                        REVOKE: (oAuthAppId: string) => {
+                            return NatsSubjects.replace(NatsSubject.IDP_USER_SETTINGS_OAUTH_REVOKE, { userId, oAuthAppId });
+                        },
+                    },
+                };
+            };
         };
         static ORGANIZATION = (organizationName: string) => {
             return NatsSubjects.replace(NatsSubject.IDP_ORGANIZATION, { organizationName });
@@ -269,6 +282,13 @@ class NatsSubjects {
             };
             static LICENSE = (organizationName: string) => {
                 return NatsSubjects.replace(NatsSubject.IDP_ORGANIZATION_LICENSE, { organizationName });
+            };
+            static Settings = (organizationName: string) => {
+                return {
+                    OAuthApp: (oAuthAppId: string) => {
+                        return NatsSubjects.replace(NatsSubject.IDP_ORGANIZATION_SETTINGS_OAUTHAPP, { organizationName, oAuthAppId });
+                    },
+                };
             };
         };
     };

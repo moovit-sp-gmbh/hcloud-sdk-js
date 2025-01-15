@@ -1,7 +1,7 @@
 import Base from "../../../Base";
 import { AvatarCreated } from "../../../interfaces/dali";
 
-export class DaliHigh5 extends Base {
+export class DaliHigh5Space extends Base {
     /**
      * Creates a default avatar for the specified High5 space.
      * @param orgName Name of the organization

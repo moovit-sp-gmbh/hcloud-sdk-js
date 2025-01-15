@@ -1,7 +1,7 @@
 import Base from "../../../Base";
 import { AvatarCreated } from "../../../interfaces/dali";
 
-export class DaliFuse extends Base {
+export class DaliFuseSpace extends Base {
     /**
      * Creates a default avatar for the specified Fuse space.
      * @param orgName Name of the organization

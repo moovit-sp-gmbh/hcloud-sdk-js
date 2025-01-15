@@ -1,6 +1,7 @@
 import Base from "../../Base";
-import { DaliFuse } from "./avatar/DaliFuseSpace";
-import { DaliHigh5 } from "./avatar/DaliHigh5Space";
+import { DaliFuseSpace } from "./avatar/DaliFuseSpace";
+import { DaliHigh5Pool } from "./avatar/DaliHigh5Pool";
+import { DaliHigh5Space } from "./avatar/DaliHigh5Space";
 import { DaliOAuthApp } from "./avatar/DaliOAuthApp";
 import { DaliOrganization } from "./avatar/DaliOrganization";
 import { DaliTeam } from "./avatar/DaliTeam";
@@ -43,24 +44,35 @@ export class DaliAvatar extends Base {
     /**
      * Handles everything around high5 spaces avatars
      */
-    public get high5Space(): DaliHigh5 {
+    public get high5Space(): DaliHigh5Space {
         if (this._high5Space === undefined) {
-            this._high5Space = new DaliHigh5(this.options, this.axios);
+            this._high5Space = new DaliHigh5Space(this.options, this.axios);
         }
         return this._high5Space;
     }
-    private _high5Space?: DaliHigh5;
+    private _high5Space?: DaliHigh5Space;
+
+    /**
+     * Handles everything around high5 pools avatars
+     */
+    public get high5Pool(): DaliHigh5Pool {
+        if (this._high5Pool === undefined) {
+            this._high5Pool = new DaliHigh5Pool(this.options, this.axios);
+        }
+        return this._high5Pool;
+    }
+    private _high5Pool?: DaliHigh5Pool;
 
     /**
      * Handles everything around fuse spaces avatars
      */
-    public get fuseSpace(): DaliFuse {
+    public get fuseSpace(): DaliFuseSpace {
         if (this._fuseSpace === undefined) {
-            this._fuseSpace = new DaliFuse(this.options, this.axios);
+            this._fuseSpace = new DaliFuseSpace(this.options, this.axios);
         }
         return this._fuseSpace;
     }
-    private _fuseSpace?: DaliFuse;
+    private _fuseSpace?: DaliFuseSpace;
 
     /**
      * Handles everything around OAuth applications avatars

@@ -8,6 +8,7 @@ export type Pool = {
     creator: ReducedUser;
 
     name: string;
+    avatarUrl: string;
 
     numberOfTargets?: number;
     targetSample?: ReducedUser[];

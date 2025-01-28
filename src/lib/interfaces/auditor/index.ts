@@ -1,4 +1,4 @@
-import { Organization } from "../idp";
+import { LicenseTier, Organization } from "../idp";
 
 export enum Level {
     INFO = "info",
@@ -69,7 +69,7 @@ export interface AuditLog {
 export interface AuditLogCreate {
     level: Level;
     origin: Origin;
-    organization: Pick<Organization, "_id" | "name">;
+    organization: Pick<Organization, "_id" | "name"> & { license?: LicenseTier };
     event: Event;
     space?: string;
     type?: Type;

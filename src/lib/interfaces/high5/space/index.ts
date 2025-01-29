@@ -4,6 +4,7 @@ import { ReducedOrganization } from "../../idp";
 export interface High5Space extends Space {
     highestPermissionOfUser: High5SpacePermission;
     waveEngine: string;
+    enableDev?: boolean;
 }
 export interface High5SpaceEntityPermission {
     organization: ReducedOrganization;

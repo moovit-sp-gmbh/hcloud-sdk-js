@@ -134,10 +134,11 @@ export class High5Space extends Base {
      * Creates a new High5 Space in the specified Organization.
      * @param orgName Name of the Organization
      * @param name Name for the new Space
+     * @param enableDev (optional) Specifies to the front-end whether to display the versions in the development of Wave Engines and Node Catalogs
      * @returns The created Space
      */
-    async createSpace(orgName: string, name: string): Promise<Space> {
-        const resp = await this.axios.post<Space>(this.getEndpoint(`/v1/org/${orgName}/spaces`), { name: name });
+    async createSpace(orgName: string, name: string, enableDev?: boolean): Promise<Space> {
+        const resp = await this.axios.post<Space>(this.getEndpoint(`/v1/org/${orgName}/spaces`), { name, enableDev: Boolean(enableDev) });
 
         return resp.data;
     }
@@ -224,13 +225,29 @@ export class High5Space extends Base {
     /**
      * Updates the name of a space.
      * @param orgName Name of the organization
-     * @param newSpaceName Current name of the space
-     * @param newName New name for the space
+     * @param spaceName Current name of the space
+     * @param newSpaceName New name for the space
      * @returns The updated space
      */
     async renameSpace(orgName: string, spaceName: string, newSpaceName: string): Promise<Space> {
-        const resp = await this.axios.patch<Space>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/name`), {
+        const resp = await this.axios.patch<Space>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}`), {
             newSpaceName,
+        });
+
+        return resp.data;
+    }
+
+    /**
+     * Specifies to the front-end whether to display the versions under development of Wave Engines and Node Catalogs.
+     * @param orgName Name of the organization
+     * @param spaceName Current name of the space
+     * @param enableDev Specifies to the front-end whether to display the versions under development of Wave Engines and Node Catalogs
+     * @returns The updated space
+     */
+    async enableDev(orgName: string, spaceName: string, enableDev: boolean): Promise<Space> {
+        const resp = await this.axios.patch<Space>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}`), {
+            newSpaceName: spaceName,
+            enableDev,
         });
 
         return resp.data;

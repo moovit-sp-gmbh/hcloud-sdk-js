@@ -68,11 +68,25 @@ export interface High5ExecutionPackage {
 type StreamInfo = {
     target: string;
     webhook?: WebhookInfo;
+    triggerDetails?: TriggerDetails;
 };
 
 type WebhookInfo = {
     callbackUrl: string;
 };
+
+type TriggerDetails = {
+    source: string;
+    ip: string;
+    country: TriggerSource;
+};
+
+enum TriggerSource {
+    webhook = 'webhook',
+    api = 'api',
+    sdk = 'sdk',
+    stream = 'stream',
+}
 
 export interface ExtendedHigh5ExecutionPackage extends High5ExecutionPackage {
     hcl: HCloud;

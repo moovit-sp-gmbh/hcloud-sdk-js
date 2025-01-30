@@ -39,8 +39,12 @@ export class High5SpaceExecute extends Base {
         streamId: string,
         high5ExecutionRequest: High5ExecutionRequest,
         design = false,
-        debug = false
+        debug = false,
+        overrideUserAgent = false
     ): Promise<High5ExecutionResponse> {
+        if (overrideUserAgent) {
+            this.axios.defaults.headers.common["User-Agent"] = "hcloud-stream";
+        }
         const resp = await this.axios.post<High5ExecutionResponse>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execute/stream/id/${streamId}`),
             high5ExecutionRequest,

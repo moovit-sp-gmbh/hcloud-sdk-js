@@ -230,7 +230,7 @@ export class High5Space extends Base {
      * @returns The updated space
      */
     async renameSpace(orgName: string, spaceName: string, newSpaceName: string): Promise<Space> {
-        const resp = await this.axios.patch<Space>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}`), {
+        const resp = await this.axios.patch<Space>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/name`), {
             newSpaceName,
         });
 
@@ -240,13 +240,12 @@ export class High5Space extends Base {
     /**
      * Specifies to the front-end whether to display the versions under development of Wave Engines and Node Catalogs.
      * @param orgName Name of the organization
-     * @param spaceName Current name of the space
+     * @param spaceName Name of the space
      * @param enableDev Specifies to the front-end whether to display the versions under development of Wave Engines and Node Catalogs
      * @returns The updated space
      */
     async enableDev(orgName: string, spaceName: string, enableDev: boolean): Promise<Space> {
-        const resp = await this.axios.patch<Space>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}`), {
-            newSpaceName: spaceName,
+        const resp = await this.axios.patch<Space>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/dev`), {
             enableDev,
         });
 

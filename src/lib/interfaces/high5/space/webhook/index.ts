@@ -58,13 +58,18 @@ export interface Webhook {
         statusCode: number;
         error?: string;
     };
+    callbackEnabled: boolean;
 }
 
-export type WebhookCreate = Pick<Webhook, "name" | "target" | "type" | "sub" | "webhookEncryptionSettings" | "securityHeaders" | "networkSettings">;
+export type WebhookCreate = Pick<
+    Webhook,
+    "name" | "target" | "type" | "sub" | "webhookEncryptionSettings" | "securityHeaders" | "networkSettings" | "callbackEnabled"
+>;
 
 export type WebhookUpdate = Partial<WebhookCreate> & {
     deleteWebhookEncryptionSettings?: boolean;
     deleteSecurityHeaders?: boolean;
+    callbackEnabled?: boolean;
 };
 
 export interface WebhookLog {

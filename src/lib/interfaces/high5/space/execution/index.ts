@@ -76,16 +76,16 @@ type WebhookInfo = {
 };
 
 type TriggerDetails = {
-    source: string;
+    source: TriggerSource;
     ip: string;
-    country: TriggerSource;
+    country: string;
 };
 
 enum TriggerSource {
-    webhook = 'webhook',
-    api = 'api',
-    sdk = 'sdk',
-    stream = 'stream',
+    webhook = "webhook",
+    api = "api",
+    sdk = "sdk",
+    stream = "stream",
 }
 
 export interface ExtendedHigh5ExecutionPackage extends High5ExecutionPackage {

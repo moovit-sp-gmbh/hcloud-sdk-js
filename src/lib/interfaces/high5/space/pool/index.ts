@@ -1,5 +1,5 @@
 import { ReducedSpace } from "../../../global";
-import { ReducedOrganization, ReducedUser } from "../../../idp";
+import { ReducedOrganization, ReducedUser, TeamUsersPatchOperation } from "../../../idp";
 
 export type Pool = {
     _id: string;
@@ -12,20 +12,17 @@ export type Pool = {
 
     numberOfTargets?: number;
     targetSample?: ReducedUser[];
+
+    createDate: number;
+    modifyDate: number;
 };
 
-export type PoolChange = Pool & { invalidTargets: { notMember: string[] } };
+export type PoolChange = Pool & { targets: ReducedUser[]; invalidTargets: { notMember: string[] } };
 
 export type PoolTargetPatch = {
     identifiers: string[];
-    operation: ArrayOperation;
+    operation: TeamUsersPatchOperation;
 };
-
-export enum ArrayOperation {
-    ADD = "ADD",
-    REPLACE = "REPLACE",
-    REMOVE = "REMOVE",
-}
 
 export type PoolQueryOptions = {
     getTargetsSample?: number; // Number of targets to return

@@ -31,6 +31,9 @@ export class High5SpaceExecute extends Base {
      * @param spaceName the spaces's name
      * @param streamId to identify the stream
      * @param high5ExecutionRequest the stream execution request, containing the data, target, wait boolean and timeout
+     * @param design if true the stream will execute the current design rather than the published design build
+     * @param debug if true the stream will execute in debug mode and consider breakpoints
+     * @param overrideUserAgent if true the User-Agent header will be overwritten with "hcloud-stream" to identify this execution got triggered from within a stream with the TriggerStreamAction node
      * @returns the stream result
      */
     async executeHigh5Stream(

@@ -5,6 +5,11 @@ import { StreamNodeSpecificationInputType, StreamNodeSpecificationOutputType } f
 export enum NodeCategory {
     CUSTOM = "CUSTOM",
 }
+
+export enum NodeType {
+    CUSTOM = "CUSTOM",
+    CATALOG = "CATALOG",
+}
 export interface Node {
     _id: string;
     secret: string;
@@ -23,6 +28,8 @@ export interface Node {
      */
     createDate: number;
     modifyDate: number;
+    color: string;
+    nodeType: NodeType;
 }
 
 export interface StreamNodeResolvedInputs {
@@ -73,6 +80,8 @@ type NodeInfo = {
         url: string;
         version: string;
     };
+    color?: string;
+    nodeType?: NodeType;
 };
 
 export interface StreamNodeAdditionalConnector {

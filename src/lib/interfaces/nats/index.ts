@@ -1,4 +1,4 @@
-import { Msg } from "nats";
+import { Msg } from "@nats-io/nats-core";
 import { Products } from "../global";
 import { High5ExecuteOnAgentRequest, High5ExecutionCancelRequest } from "../high5/space/execution";
 import { LicenseTier } from "../idp";
@@ -499,4 +499,4 @@ const base64Encode = (str: string) => {
     }
 };
 
-export { NatsSubjects, NatsMessageType, NatsObjectType, NatsObject, NatsSubject, NatsMessage, NatsCallback, Msg as RawMsg };
+export { NatsCallback, NatsMessage, NatsMessageType, NatsObject, NatsObjectType, NatsSubject, NatsSubjects, Msg as RawMsg };

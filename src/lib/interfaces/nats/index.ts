@@ -1,7 +1,7 @@
-import { Msg } from "nats";
-import { Products } from "../global";
-import { High5ExecuteOnAgentRequest, High5ExecutionCancelRequest } from "../high5/space/execution";
-import { LicenseTier } from "../idp";
+import { Msg } from "nats"
+import { Products } from "../global"
+import { High5ExecuteOnAgentRequest, High5ExecutionCancelRequest } from "../high5/space/execution"
+import { LicenseTier } from "../idp"
 
 enum NatsSubject {
     IDP_USER_GENERAL = "hcloud.idp.user.${userId}.general",
@@ -41,8 +41,8 @@ enum NatsSubject {
     High5_DESIGN = "hcloud.high5.organization.${base64orgName}.spaces.${base64spaceName}.events.${base64eventName}.streams.${streamId}.design",
     HIGH5_SNAPSHOTS = "hcloud.high5.organization.${base64orgName}.spaces.${base64spaceName}.events.${base64eventName}.streams.${streamId}.snapshots",
     HIGH5_WAVE_ENGINE_LATEST = "hcloud.high5.wave.engine.latest",
-    HIGH5_SPACES_POOLS = "hcloud.high5.organization.${organizationId}.spaces.${spaceId}.pools.>",
-    HIGH5_SPACES_POOL = "hcloud.high5.organization.${organizationId}.spaces.${spaceId}.pools.${poolId}",
+    HIGH5_SPACES_POOLS = "hcloud.high5.organization.${organizationName}.spaces.${spaceName}.pools.>",
+    HIGH5_SPACES_POOL = "hcloud.high5.organization.${organizationName}.spaces.${spaceName}.pools.${poolName}",
 
     FUSE_SPACES = "hcloud.fuse.organization.${base64orgName}.spaces",
     FUSE_SPACE_PERMISSIONS = "hcloud.fuse.organization.${base64orgName}.spaces.${base64spaceName}.permissions",
@@ -352,12 +352,12 @@ class NatsSubjects {
         };
 
         static Space = class {
-            static POOLS = (organizationId: string, spaceId: string) => {
-                return NatsSubjects.replace(NatsSubject.HIGH5_SPACES_POOLS, { organizationId, spaceId });
+            static POOLS = (organizationName: string, spaceName: string) => {
+                return NatsSubjects.replace(NatsSubject.HIGH5_SPACES_POOLS, { organizationName, spaceName });
             };
 
-            static POOL = (organizationId: string, spaceId: string, poolId: string) => {
-                return NatsSubjects.replace(NatsSubject.HIGH5_SPACES_POOL, { organizationId, spaceId, poolId });
+            static POOL = (organizationName: string, spaceName: string, poolName: string) => {
+                return NatsSubjects.replace(NatsSubject.HIGH5_SPACES_POOL, { organizationName, spaceName, poolName });
             };
 
             static PERMISSIONS = (organizationName: string, spaceName: string) => {
@@ -484,6 +484,7 @@ class NatsSubjects {
             replacements.poolName ? (replacements.poolName === "*" ? "*" : base64Encode(replacements.poolName)) : "null"
         );
         subject = subject.replace("${poolId}", replacements.poolId || "null");
+        subject = subject.replace("${poolName}", replacements.poolName || "null");
         subject = subject.replace("${executionId}", replacements.executionId || "null");
         subject = subject.replace("${executionSecret}", replacements.executionSecret || "null");
 
@@ -499,4 +500,5 @@ const base64Encode = (str: string) => {
     }
 };
 
-export { NatsSubjects, NatsMessageType, NatsObjectType, NatsObject, NatsSubject, NatsMessage, NatsCallback, Msg as RawMsg };
+export { NatsCallback, NatsMessage, NatsMessageType, NatsObject, NatsObjectType, NatsSubject, NatsSubjects, Msg as RawMsg }
+

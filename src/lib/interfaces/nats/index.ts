@@ -41,8 +41,8 @@ enum NatsSubject {
     High5_DESIGN = "hcloud.high5.organization.${base64orgName}.spaces.${base64spaceName}.events.${base64eventName}.streams.${streamId}.design",
     HIGH5_SNAPSHOTS = "hcloud.high5.organization.${base64orgName}.spaces.${base64spaceName}.events.${base64eventName}.streams.${streamId}.snapshots",
     HIGH5_WAVE_ENGINE_LATEST = "hcloud.high5.wave.engine.latest",
-    HIGH5_SPACES_POOLS = "hcloud.high5.organization.${organizationName}.spaces.${spaceName}.pools.>",
-    HIGH5_SPACES_POOL = "hcloud.high5.organization.${organizationName}.spaces.${spaceName}.pools.${poolName}",
+    HIGH5_SPACES_POOLS = "hcloud.high5.organization.${base64orgName}.spaces.${base64spaceName}.pools.>",
+    HIGH5_SPACES_POOL = "hcloud.high5.organization.${base64orgName}.spaces.${base64spaceName}.pools.${base64poolName}",
 
     FUSE_SPACES = "hcloud.fuse.organization.${base64orgName}.spaces",
     FUSE_SPACE_PERMISSIONS = "hcloud.fuse.organization.${base64orgName}.spaces.${base64spaceName}.permissions",

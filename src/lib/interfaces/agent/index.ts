@@ -15,6 +15,7 @@ export interface InstallerVersion {
 
 export interface AgentVersions {
     latest: string;
+    latestDev: string;
     versions: Record<string, Version>;
 }
 

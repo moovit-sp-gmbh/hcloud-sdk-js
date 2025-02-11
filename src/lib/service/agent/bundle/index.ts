@@ -23,9 +23,12 @@ export class AgentBundle extends Base {
         return resp.data;
     }
 
-    async getLatestVersion(): Promise<Version> {
+    async getLatestVersion(dev = false): Promise<Version> {
         const resp = await this.getVersions();
 
+        if (dev) {
+            return setDev(resp.versions[resp.latestDev]);
+        }
         return setDev(resp.versions[resp.latest]);
     }
 

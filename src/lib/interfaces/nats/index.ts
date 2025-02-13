@@ -1,7 +1,7 @@
-import { Msg } from "nats"
-import { Products } from "../global"
-import { High5ExecuteOnAgentRequest, High5ExecutionCancelRequest } from "../high5/space/execution"
-import { LicenseTier } from "../idp"
+import { Msg } from "nats";
+import { Products } from "../global";
+import { High5ExecuteOnAgentRequest, High5ExecutionCancelRequest } from "../high5/space/execution";
+import { LicenseTier } from "../idp";
 
 enum NatsSubject {
     IDP_USER_GENERAL = "hcloud.idp.user.${userId}.general",
@@ -500,5 +500,4 @@ const base64Encode = (str: string) => {
     }
 };
 
-export { NatsCallback, NatsMessage, NatsMessageType, NatsObject, NatsObjectType, NatsSubject, NatsSubjects, Msg as RawMsg }
-
+export { NatsCallback, NatsMessage, NatsMessageType, NatsObject, NatsObjectType, NatsSubject, NatsSubjects, Msg as RawMsg };

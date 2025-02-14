@@ -65,6 +65,7 @@ export interface High5ExecutionPackage {
     dry: boolean;
     info: StreamInfo;
     debug: boolean;
+    executionId: string;
 }
 
 type StreamInfo = {

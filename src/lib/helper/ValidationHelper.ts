@@ -26,6 +26,7 @@ interface Details {
     allowedCharacters?: string;
     pattern: RegExp;
     showRegexp: boolean; // Determines whether to display the regexp pattern in the OpenAPI documentation
+    symbols?: RegExp; // Allowed symbols, Normally they are determined automatically by 'pattern' but can be set manually in some cases
     minLength: number;
     maxLength: number;
     example: string;
@@ -90,6 +91,32 @@ class EntityDetails {
             value.length <= this.entity.maxLength &&
             this.entity.pattern.test(value)
         );
+    }
+
+    /**
+     * This function cleans the given string from disallowed characters, removes extra dashes, dots, and spaces at the beginning and end of the string.
+     * The list of allowed characters is determined automatically based on the given regular expression for name validation (property "pattern"),
+     * but for special cases, it can be set manually in the property "symbols" in the entity name definition.
+     * @param value - Incoming string to sanitize
+     * @returns Sanitized string
+     */
+    sanitize(value: string): string {
+        if (typeof value !== "string") return "";
+        if (!this.validate(value)) {
+            if (!this.entity.symbols) {
+                const matches = this.entity.pattern.toString().match(/\[([^\]]+)\]/);
+                this.entity.symbols = new RegExp(matches ? `[${matches[1]}]` : /./i);
+            }
+            value = value
+                .split("")
+                .filter(char => this.entity.symbols!.test(char))
+                .join("")
+                .replace(/^[\s-.]+|[\s-.]+$/g, "")
+                .replace(/-{2,}/g, "-");
+            if (value.length < this.entity.minLength) value = value.concat("x".repeat(this.entity.minLength));
+            return value.slice(0, this.entity.maxLength);
+        }
+        return value;
     }
 }
 
@@ -193,10 +220,11 @@ const entityCollection: Record<Entity, Details> = {
     },
     [Entity.STREAM_NAME]: {
         name: "name",
-        description: "Name of the stream, periods and spaces are allowed only inside a name",
+        description: "Name of the stream, dots and spaces are allowed only inside a name",
         allowedCharacters: "alphanumeric characters, underscores, hyphens, dots and spaces",
         pattern: /^(?![.\s]+)[\w-. ]{1,128}(?<![.\s]+)$/i,
         showRegexp: false,
+        symbols: /[\w-. ]/i,
         minLength: 1,
         maxLength: 128,
         example: "Stream-bandwidth",
@@ -274,6 +302,7 @@ const entityCollection: Record<Entity, Details> = {
         description: "Version of the release",
         pattern: /^\d+\.\d+\.\d+(-dev-\d+)?$/i,
         showRegexp: false,
+        symbols: /[dev0-9-.]/i,
         minLength: 1,
         maxLength: 128,
         example: "1.3.0-dev-147",

@@ -1,13 +1,13 @@
-import Base from "../../../../Base";
-import { DebugCommand } from "../../../../interfaces/high5";
+import Base from "../../../../Base"
+import { DebugCommand } from "../../../../interfaces/high5"
 import {
     High5ExecutionPackage,
     High5ExecutionPatch,
     High5ExecutionRequest,
     High5ExecutionResponse,
-} from "../../../../interfaces/high5/space/execution";
-import { High5SpaceExecutionLogs } from "./log/index";
-import { High5SpaceExecutionStates } from "./status/index";
+} from "../../../../interfaces/high5/space/execution"
+import { High5SpaceExecutionLogs } from "./log/index"
+import { High5SpaceExecutionStates } from "./status/index"
 
 export class High5SpaceExecute extends Base {
     public get high5ExecutionLogs(): High5SpaceExecutionLogs {
@@ -132,7 +132,7 @@ export class High5SpaceExecute extends Base {
      * @param command      DebugCommand to send
      */
     async issueDebugCommand(orgName: string, spaceName: string, executionId: string, command: DebugCommand): Promise<void> {
-        await this.axios.post<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execute/${executionId}`), command);
+        await this.axios.post<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execute/${executionId}/debug`), command);
     }
 
     /**

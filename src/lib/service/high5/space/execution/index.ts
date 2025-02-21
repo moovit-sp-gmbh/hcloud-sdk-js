@@ -1,13 +1,13 @@
-import Base from "../../../../Base"
-import { DebugCommand } from "../../../../interfaces/high5"
+import Base from "../../../../Base";
+import { DebugCommand } from "../../../../interfaces/high5";
 import {
     High5ExecutionPackage,
     High5ExecutionPatch,
     High5ExecutionRequest,
     High5ExecutionResponse,
-} from "../../../../interfaces/high5/space/execution"
-import { High5SpaceExecutionLogs } from "./log/index"
-import { High5SpaceExecutionStates } from "./status/index"
+} from "../../../../interfaces/high5/space/execution";
+import { High5SpaceExecutionLogs } from "./log/index";
+import { High5SpaceExecutionStates } from "./status/index";
 
 export class High5SpaceExecute extends Base {
     public get high5ExecutionLogs(): High5SpaceExecutionLogs {

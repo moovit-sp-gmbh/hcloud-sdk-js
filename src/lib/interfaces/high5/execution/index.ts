@@ -1,4 +1,4 @@
-import { StreamNode } from "../space/execution";
+import { DesignerNode } from "../space/event/stream/design/StreamDesign";
 
 export type DebugCommand = ContinueDebugCommand | StepBackDebugCommand | StepForwardDebugCommand | SetValueDebugCommand | ReplaceNodeDebugCommand;
 
@@ -27,5 +27,5 @@ export type SetValueDebugCommand = {
 };
 export type ReplaceNodeDebugCommand = {
     type: CommandType.REPLACE_NODE;
-    node: StreamNode;
+    node: DesignerNode;
 };

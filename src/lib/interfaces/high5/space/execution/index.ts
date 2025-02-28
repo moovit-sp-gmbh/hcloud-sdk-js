@@ -31,6 +31,7 @@ export interface High5ExecuteAgentResponse {
 export enum High5ExecutionState {
     QUEUED = "QUEUED",
     RUNNING = "RUNNING",
+    WAITING = "WAITING",
     COMPLETED = "COMPLETED",
 }
 
@@ -144,6 +145,7 @@ export interface High5ExecutionStatus {
     createDate: number;
     startDate: number;
     endDate: number;
+    debug?: boolean;
 }
 
 export interface High5ExecutionLog {

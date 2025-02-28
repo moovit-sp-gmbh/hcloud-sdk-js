@@ -1,7 +1,13 @@
 import { DesignerNode } from "../space/event/stream/design/StreamDesign";
 import { StreamNode } from "../space/execution";
 
-export type DebugCommand = ContinueDebugCommand | StepBackDebugCommand | StepForwardDebugCommand | SetValueDebugCommand | ReplaceNodeDebugCommand;
+export type DebugCommand =
+    | ContinueDebugCommand
+    | StepBackDebugCommand
+    | StepForwardDebugCommand
+    | SetValueDebugCommand
+    | ReplaceNodeDebugCommand
+    | RestartDebugCommand;
 
 export enum CommandType {
     CONTINUE = "CONTINUE",
@@ -9,6 +15,7 @@ export enum CommandType {
     STEP_FORWARD = "STEP_FORWARD",
     SET_VALUE = "SET_VALUE",
     REPLACE_NODE = "REPLACE_NODE",
+    RESTART = "RESTART",
 }
 
 export type ContinueDebugCommand = {
@@ -30,6 +37,9 @@ export type ReplaceNodeDebugCommand = {
     type: CommandType.REPLACE_NODE;
     node: DesignerNode;
 };
+export type RestartDebugCommand = {
+    type: CommandType.RESTART;
+};
 
 // issued debug commands are commands after being processed by High5
 export type IssuedDebugCommand =
@@ -37,7 +47,8 @@ export type IssuedDebugCommand =
     | IssuedStepBackDebugCommand
     | IssuedStepForwardDebugCommand
     | IssuedSetValueDebugCommand
-    | IssuedReplaceNodeDebugCommand;
+    | IssuedReplaceNodeDebugCommand
+    | IssuedRestartDebugCommand;
 
 export type IssuedContinueDebugCommand = ContinueDebugCommand;
 export type IssuedStepBackDebugCommand = StepBackDebugCommand;
@@ -47,3 +58,4 @@ export type IssuedReplaceNodeDebugCommand = {
     type: CommandType.REPLACE_NODE;
     node: StreamNode;
 };
+export type IssuedRestartDebugCommand = RestartDebugCommand;

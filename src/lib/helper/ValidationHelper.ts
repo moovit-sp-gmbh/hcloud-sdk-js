@@ -18,6 +18,7 @@ enum Entity {
     FUSE_JOB = "FUSE_JOB",
     WAVE_ENGINE_RELEASE = "WAVE_ENGINE_RELEASE",
     CHALLENGE_STRING = "CHALLENGE_STRING",
+    DATABASE_NAME = "DATABASE_NAME",
 }
 
 interface Details {
@@ -113,7 +114,7 @@ class EntityDetails {
                 .join("")
                 .replace(/^[\s-.]+|[\s-.]+$/g, "")
                 .replace(/-{2,}/g, "-");
-            if (value.length < this.entity.minLength) value = value.concat("x".repeat(this.entity.minLength));
+            if (value.length < this.entity.minLength) value = value.concat("x".repeat(this.entity.minLength - value.length));
             return value.slice(0, this.entity.maxLength);
         }
         return value;
@@ -318,6 +319,16 @@ const entityCollection: Record<Entity, Details> = {
         minLength: 1,
         maxLength: 128,
         example: "Some-random-string-to-validate-the-target-URL-of-a-webhook",
+    },
+    [Entity.DATABASE_NAME]: {
+        name: "dbName",
+        description: "Name of the database",
+        allowedCharacters: "alphanumeric characters, underscores, hyphens and dots",
+        pattern: /^[\w-.]{1,128}$/i,
+        showRegexp: false,
+        minLength: 1,
+        maxLength: 128,
+        example: "Helmut4-Storage",
     },
 };
 

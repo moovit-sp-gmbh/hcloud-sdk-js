@@ -19,6 +19,7 @@ enum Entity {
     WAVE_ENGINE_RELEASE = "WAVE_ENGINE_RELEASE",
     CHALLENGE_STRING = "CHALLENGE_STRING",
     DATABASE_NAME = "DATABASE_NAME",
+    DOCUMENT_KEY = "DOCUMENT_KEY",
 }
 
 interface Details {
@@ -329,6 +330,16 @@ const entityCollection: Record<Entity, Details> = {
         minLength: 1,
         maxLength: 128,
         example: "Helmut4-Storage",
+    },
+    [Entity.DOCUMENT_KEY]: {
+        name: "key",
+        description: "Key of the document",
+        allowedCharacters: "alphanumeric characters, underscores, hyphens and dots",
+        pattern: /^[\w-.]{1,64}$/i,
+        showRegexp: false,
+        minLength: 1,
+        maxLength: 64,
+        example: "My_personal_web-page_address.1",
     },
 };
 

@@ -8,6 +8,7 @@ export interface OrganizationMember {
     role: OrganizationRole;
     executionTarget: boolean;
     lastActive: number;
+    serviceAccount?: boolean;
 }
 
 export interface OrgMemberCreate {

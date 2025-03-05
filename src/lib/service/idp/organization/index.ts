@@ -2,6 +2,7 @@ import Base from "../../../Base";
 import { Organization, OrganizationQueryOptions } from "../../../interfaces/idp/organization";
 import { IdpOrganizationLicense } from "./license";
 import { IdpOrganizationMember } from "./member";
+import IdpOrganizationServiceAccounts from "./service-accounts";
 import IdpOrganizationSettings from "./settings";
 import { IdpOrganizationTeams } from "./team";
 
@@ -49,6 +50,17 @@ export class IdpOrganization extends Base {
         return this._license;
     }
     private _license?: IdpOrganizationLicense;
+
+    /**
+     * Handles everything around organization service accounts
+     */
+    public get serviceAccounts(): IdpOrganizationServiceAccounts {
+        if (this._serviceAccounts === undefined) {
+            this._serviceAccounts = new IdpOrganizationServiceAccounts(this.options, this.axios);
+        }
+        return this._serviceAccounts;
+    }
+    private _serviceAccounts?: IdpOrganizationServiceAccounts;
 
     /**
      * Updates an Organization.

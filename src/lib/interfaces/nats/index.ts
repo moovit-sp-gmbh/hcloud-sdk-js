@@ -22,6 +22,7 @@ enum NatsSubject {
     IDP_ORGANIZATION_TEAM_MEMBERS = "hcloud.idp.organization.${base64orgName}.teams.${base64teamName}.members",
     IDP_ORGANIZATION_LICENSE = "hcloud.idp.organization.${base64orgName}.license",
     IDP_ORGANIZATION_SETTINGS_OAUTHAPP = "hcloud.idp.organization.${base64orgName}.settings.oauthapp.${oAuthAppId}",
+    IDP_ORGANIZATION_SERVICE_ACCOUNTS = "hcloud.idp.organization.${base64orgName}.serviceAccounts",
 
     HIGH5_SPACES = "hcloud.high5.organization.${base64orgName}.spaces",
     HIGH5_SPACE_PERMISSIONS = "hcloud.high5.organization.${base64orgName}.spaces.${base64spaceName}.permissions",
@@ -293,6 +294,9 @@ class NatsSubjects {
                         return NatsSubjects.replace(NatsSubject.IDP_ORGANIZATION_SETTINGS_OAUTHAPP, { organizationName, oAuthAppId });
                     },
                 };
+            };
+            static ServiceAccounts = (organizationName: string) => {
+                return NatsSubjects.replace(NatsSubject.IDP_ORGANIZATION_SERVICE_ACCOUNTS, { organizationName });
             };
         };
     };

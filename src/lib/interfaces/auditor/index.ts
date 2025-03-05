@@ -33,6 +33,7 @@ export enum Event {
     Secret = "secret",
     Agent = "agent",
     Avatar = "avatar",
+    ServiceAccount = "serviceAccount",
 }
 
 export enum Type {

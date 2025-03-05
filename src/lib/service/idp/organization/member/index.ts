@@ -28,10 +28,13 @@ export class IdpOrganizationMember extends Base {
         orgName,
         filters,
         excludeTeamByName,
+        excludeServiceAccounts,
         sorting,
         limit = 25,
         page = 0,
-    }: SearchParams & { orgName: string; excludeTeamByName?: string }): Promise<PaginatedResponse<OrganizationMember>> {
+    }: SearchParams & { orgName: string; excludeTeamByName?: string; excludeServiceAccounts?: boolean }): Promise<
+        PaginatedResponse<OrganizationMember>
+    > {
         const filtersDTO = filters?.map((f: SearchFilter) => {
             return new SearchFilterDTO(f);
         });
@@ -39,6 +42,7 @@ export class IdpOrganizationMember extends Base {
             filters: filtersDTO,
             sorting,
             excludeTeamByName,
+            excludeServiceAccounts,
         });
 
         return createPaginatedResponse(resp) as PaginatedResponse<OrganizationMember>;

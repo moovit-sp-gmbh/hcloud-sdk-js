@@ -90,7 +90,7 @@ export class High5Space extends Base {
     /**
      * Retrieves permissions of a space matching the search filter(s). Will return all permissions of the space if no search filter is provided.
      * @param orgName Name of the organization
-     * @param spaceName Name of the space
+     * @param spaceName Name of the Space
      * @param filters (optional) Array of search filters
      * @param sorting (optional) Sorting object
      * @param limit (optional) Max number of results (1-100; defaults to 25)
@@ -121,7 +121,7 @@ export class High5Space extends Base {
     /**
      * Retrieves a High5 Space by its name.
      * @param orgName Name of the Organization
-     * @param spaceId ID of the High5 Space
+     * @param spaceName Name of the space
      * @returns The requested Space
      */
     async getSpace(orgName: string, spaceName: string): Promise<Space> {
@@ -194,7 +194,7 @@ export class High5Space extends Base {
     /**
      * Retrieves all streams of a space matching the search filter(s). Will return all streams if no search filter is provided.
      * @param orgName Name of the organization
-     * @param orgName Name of the space
+     * @param spaceName Name of the space
      * @param filters (optional) Array of search filters
      * @param sorting (optional) Sorting object
      * @param limit (optional) Max number of results (1-100; defaults to 25)

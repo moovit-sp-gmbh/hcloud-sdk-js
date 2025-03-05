@@ -73,6 +73,17 @@ export type LicenseQuota = {
         };
         secondBaseExecutions: boolean;
     };
+    friday: {
+        spaces: {
+            quota: number;
+            databases: {
+                quota: number;
+                documents: {
+                    quota: number;
+                };
+            };
+        };
+    };
 };
 
 export enum LicenseTier {

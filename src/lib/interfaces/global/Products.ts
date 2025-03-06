@@ -8,4 +8,5 @@ export enum Products {
     client = "client",
     all = "all",
     mothership = "mothership",
+    rush = "rush",
 }

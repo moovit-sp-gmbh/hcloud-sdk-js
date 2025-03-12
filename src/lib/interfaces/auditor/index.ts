@@ -15,6 +15,7 @@ export enum Origin {
     Fuse = "fuse",
     Mothership = "mothership",
     Dali = "dali",
+    Friday = "friday",
 }
 
 export enum Event {

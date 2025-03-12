@@ -50,6 +50,11 @@ enum NatsSubject {
     FUSE_JOBS = "hcloud.fuse.organization.${base64orgName}.spaces.${base64spaceName}.jobs",
     FUSE_JOB_LOGS = "hcloud.fuse.organization.${base64orgName}.spaces.${base64spaceName}.jobs.${jobId}.logs",
 
+    FRIDAY_SPACES = "hcloud.friday.organization.${base64orgName}.spaces",
+    FRIDAY_SPACE_PERMISSIONS = "hcloud.friday.organization.${base64orgName}.spaces.${base64spaceName}.permissions",
+    FRIDAY_DATABASES = "hcloud.friday.organization.${base64orgName}.spaces.${base64spaceName}.databases",
+    FRIDAY_DOCUMENTS = "hcloud.friday.organization.${base64orgName}.spaces.${base64spaceName}.databases.${base64databaseName}.documents",
+
     AUDITOR_LOGS = "hcloud.auditor.organization.${base64orgName}.logs",
 
     DEBUG_NAMESPACE = "hcloud.debug.namespace.${product}",
@@ -75,6 +80,7 @@ type NatsSubjectReplacements = {
     oAuthAppId?: string;
     executionId?: string;
     executionSecret?: string;
+    databaseName?: string;
 };
 
 enum NatsMessageType {
@@ -119,6 +125,9 @@ enum NatsObjectType {
     CRONJOB = "CRONJOB",
     CRONJOB_ID = "CRONJOB_ID",
     CRONJOB_LOG = "CRONJOB_LOG",
+
+    DATABASE = "DATABASE",
+    DOCUMENT = "DOCUMENT",
 }
 
 interface NatsMessage {
@@ -169,6 +178,10 @@ interface NatsObject
     [NatsSubject.FUSE_SPACE_PERMISSIONS]: NatsIdObject;
     [NatsSubject.FUSE_JOBS]: NatsIdObject;
     [NatsSubject.FUSE_JOB_LOGS]: NatsIdObject;
+    [NatsSubject.FRIDAY_SPACES]: NatsNameObject;
+    [NatsSubject.FRIDAY_SPACE_PERMISSIONS]: NatsIdObject;
+    [NatsSubject.FRIDAY_DATABASES]: NatsNameObject;
+    [NatsSubject.FRIDAY_DOCUMENTS]: NatsNameObject;
     [NatsSubject.AUDITOR_LOGS]: NatsIdObject;
     [NatsSubject.DEBUG_NAMESPACE]: string;
 }
@@ -442,6 +455,29 @@ class NatsSubjects {
         };
     };
 
+    static Friday = class {
+        static SPACES = (organizationName: string) => {
+            return NatsSubjects.replace(NatsSubject.FRIDAY_SPACES, { organizationName });
+        };
+        static Space = class {
+            static PERMISSIONS = (organizationName: string, spaceName: string) => {
+                return NatsSubjects.replace(NatsSubject.FRIDAY_SPACE_PERMISSIONS, { organizationName, spaceName });
+            };
+            static DATABASES = (organizationName: string, spaceName: string) => {
+                return NatsSubjects.replace(NatsSubject.FRIDAY_DATABASES, { organizationName, spaceName });
+            };
+            static Database = class {
+                static DOCUMENTS = (organizationName: string, spaceName: string, databaseName: string) => {
+                    return NatsSubjects.replace(NatsSubject.FRIDAY_DOCUMENTS, {
+                        organizationName,
+                        spaceName,
+                        databaseName,
+                    });
+                };
+            };
+        };
+    };
+
     static Auditor = class {
         static LOGS = (organizationName: string) => {
             return NatsSubjects.replace(NatsSubject.AUDITOR_LOGS, { organizationName });
@@ -491,6 +527,10 @@ class NatsSubjects {
         subject = subject.replace("${poolName}", replacements.poolName || "null");
         subject = subject.replace("${executionId}", replacements.executionId || "null");
         subject = subject.replace("${executionSecret}", replacements.executionSecret || "null");
+        subject = subject.replace(
+            "${base64databaseName}",
+            replacements.databaseName ? (replacements.databaseName === "*" ? "*" : base64Encode(replacements.databaseName)) : "null"
+        );
 
         return subject;
     };

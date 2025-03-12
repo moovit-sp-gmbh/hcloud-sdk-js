@@ -34,6 +34,8 @@ export enum Event {
     Agent = "agent",
     Avatar = "avatar",
     ServiceAccount = "serviceAccount",
+    Database = "database",
+    Document = "document",
 }
 
 export enum Type {

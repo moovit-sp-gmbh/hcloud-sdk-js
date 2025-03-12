@@ -1,7 +1,7 @@
-import { connect as connectNode, Msg, NatsConnection, NatsError, PublishOptions, RequestOptions, Subscription, SubscriptionOptions } from "nats";
-import { connect as connectWs } from "nats.ws";
-import Base from "../../Base";
-import { NatsCallback, NatsMessage, NatsMessageType, NatsObject, NatsObjectType, RawMsg } from "../../interfaces/nats";
+import { Msg, NatsConnection, PublishOptions, RequestError, RequestOptions, Subscription, SubscriptionOptions, wsconnect } from "@nats-io/nats-core"
+import { connect } from "@nats-io/transport-node"
+import Base from "../../Base"
+import { NatsCallback, NatsMessage, NatsMessageType, NatsObject, NatsObjectType, RawMsg } from "../../interfaces/nats"
 
 interface SubMapEntry {
     subject: string;
@@ -45,12 +45,12 @@ class Nats extends Base {
     // eslint-disable-next-line no-use-before-define
     private natsConnection: NatsConnection | undefined;
     private subMap = [] as SubMapEntry[];
-    private connection = isBrowser ? connectWs : connectNode;
+    private connection = isBrowser ? wsconnect : connect;
 
     // eslint-disable-next-line complexity
     public async connect(params: ConnectParamsJwt | ConnectParamsPassword): Promise<NatsConnection> {
         if (params.forceWebsocket) {
-            this.connection = connectWs;
+            this.connection = wsconnect;
         }
 
         if (!params.servers) {
@@ -71,7 +71,7 @@ class Nats extends Base {
             user: (params as ConnectParamsJwt).email !== undefined ? (params as ConnectParamsJwt).email : (params as ConnectParamsPassword).username,
             pass: (params as ConnectParamsJwt).jwt !== undefined ? (params as ConnectParamsJwt).jwt : (params as ConnectParamsPassword).password,
         });
-        return this.natsConnection;
+        return this.natsConnection!;
     }
 
     public getConnection = (): NatsConnection | undefined => {
@@ -89,7 +89,7 @@ class Nats extends Base {
         return new Promise<Subscription>((resolve, reject) => {
             const newOptions = {
                 ...options,
-                callback: (err: NatsError | null, msg: Msg) => {
+                callback: (err: RequestError | null, msg: Msg) => {
                     if (err !== null) {
                         try {
                             callback(err);
@@ -114,7 +114,7 @@ class Nats extends Base {
                         // ignore callback errors
                     }
                 },
-            };
+            } as SubscriptionOptions;
 
             setTimeout(() => {
                 if (!this.getConnection() || !this.getConnection()?.isClosed) {

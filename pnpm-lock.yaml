@@ -8,15 +8,15 @@ importers:
 
   .:
     dependencies:
+      '@nats-io/nats-core':
+        specifier: 3.0.0-50
+        version: 3.0.0-50
+      '@nats-io/transport-node':
+        specifier: 3.0.0-35
+        version: 3.0.0-35
       axios:
         specifier: ^1.7.3
         version: 1.7.3
-      nats:
-        specifier: ^2.28.2
-        version: 2.28.2
-      nats.ws:
-        specifier: ^1.29.2
-        version: 1.29.2
     devDependencies:
       '@commitlint/cli':
         specifier: ^18.6.1
@@ -276,6 +276,21 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.9':
     resolution: {integrity: sha512-3Belt6tdc8bPgAtbcmdtNJlirVoTmEb5e2gC94PnkwEW9jI6CAHUeoG85tjWP5WquqfavoMtMwiG4P926ZKKuQ==}
+
+  '@nats-io/nats-core@3.0.0-50':
+    resolution: {integrity: sha512-Kur1/yhzNrpcpu+OhsQ89k9Ge1woEWJd5FV3tpp0BtpRWMlIth3StBiADguynbKSQCkBAOUQ+C0kRnFW8zOIeg==}
+
+  '@nats-io/nkeys@2.0.2':
+    resolution: {integrity: sha512-0JTyVl9P+UJyjUBDWP9589TuUKXJQ8tDkVRgi02X/MMzW997+4FykirvZEkIe6ZAhiLIBN+NpN8ULMMt6mDrbA==}
+    engines: {node: '>=18.0.0'}
+
+  '@nats-io/nuid@2.0.3':
+    resolution: {integrity: sha512-TpA3HEBna/qMVudy+3HZr5M3mo/L1JPofpVT4t0HkFGkz2Cn9wrlrQC8tvR8Md5Oa9//GtGG26eN0qEWF5Vqew==}
+    engines: {node: '>= 18.x'}
+
+  '@nats-io/transport-node@3.0.0-35':
+    resolution: {integrity: sha512-Mx3y2/m7KAUFQtWx2MO0+kxw5JdtUOpdQMSTuAVYJbT8fXlAawH8It7CESoFaeJjhmQ58Li/gOAf+rDGJAOKGQ==}
+    engines: {node: '>= 18.0.0'}
 
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -1122,6 +1137,7 @@ packages:
   eslint@8.57.0:
     resolution: {integrity: sha512-dZ6+mexnaTIbSBZWgou51U6OmzIhYM2VcNdtiTtI7qPNZm35Akpr0f6vtw3w1Kmn5PYo+tZVfh13WrhpS6oLqQ==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
+    deprecated: This version is no longer supported. Please see https://eslint.org/version-support for other options.
     hasBin: true
 
   espree@9.6.1:
@@ -1936,13 +1952,6 @@ packages:
   mz@2.7.0:
     resolution: {integrity: sha512-z81GNO7nnYMEhrGh9LeymoE4+Yr0Wn5McHIZMK5cfQCl+NDX08sCZgUc9/6MHni9IWuFLm1Z3HTCXu2z9fN62Q==}
 
-  nats.ws@1.29.2:
-    resolution: {integrity: sha512-dJf7aWp+5+8LwWEhgoTMc3pvfz5JlhA0yWtXKcTMDxUe43mHvgpvDaPnLyHQNL2LoDpdkjgOG176i5IeHBDlqg==}
-
-  nats@2.28.2:
-    resolution: {integrity: sha512-02cvR8EPach+0BfVaQjPgsbPFn6uMjEQAuvXS2ppg8jiWEm2KYdfmeFmtshiU9b2+kFh3LSEKMEaIfRgk3K8tw==}
-    engines: {node: '>= 14.0.0'}
-
   natural-compare@1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
 
@@ -1951,10 +1960,6 @@ packages:
 
   nerf-dart@1.0.0:
     resolution: {integrity: sha512-EZSPZB70jiVsivaBLYDCyntd5eH8NTSMOn3rB+HxwdmKThGELLdYv8qVIMWvZEFy9w8ZZpW9h9OB32l1rGtj7g==}
-
-  nkeys.js@1.1.0:
-    resolution: {integrity: sha512-tB/a0shZL5UZWSwsoeyqfTszONTt4k2YS0tuQioMOD180+MbombYVgzDUYHlx+gejYK6rgf08n/2Df99WY0Sxg==}
-    engines: {node: '>=10.0.0'}
 
   node-emoji@2.1.3:
     resolution: {integrity: sha512-E2WEOVsgs7O16zsURJ/eH8BqhF029wGpEOnv7Urwdo2wmQanOACwJQh0devF9D9RhoZru0+9JXIS0dBXIAz+lA==}
@@ -3132,6 +3137,23 @@ snapshots:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.4.15
+
+  '@nats-io/nats-core@3.0.0-50':
+    dependencies:
+      '@nats-io/nkeys': 2.0.2
+      '@nats-io/nuid': 2.0.3
+
+  '@nats-io/nkeys@2.0.2':
+    dependencies:
+      tweetnacl: 1.0.3
+
+  '@nats-io/nuid@2.0.3': {}
+
+  '@nats-io/transport-node@3.0.0-35':
+    dependencies:
+      '@nats-io/nats-core': 3.0.0-50
+      '@nats-io/nkeys': 2.0.2
+      '@nats-io/nuid': 2.0.3
 
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
@@ -4997,23 +5019,11 @@ snapshots:
       object-assign: 4.1.1
       thenify-all: 1.6.0
 
-  nats.ws@1.29.2:
-    optionalDependencies:
-      nkeys.js: 1.1.0
-
-  nats@2.28.2:
-    dependencies:
-      nkeys.js: 1.1.0
-
   natural-compare@1.4.0: {}
 
   neo-async@2.6.2: {}
 
   nerf-dart@1.0.0: {}
-
-  nkeys.js@1.1.0:
-    dependencies:
-      tweetnacl: 1.0.3
 
   node-emoji@2.1.3:
     dependencies:

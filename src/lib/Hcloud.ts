@@ -7,6 +7,7 @@ import AgentService from "./service/agent";
 import AuditorService from "./service/auditor";
 import BouncerService from "./service/bouncer";
 import DaliService from "./service/dali";
+import FridayService from "./service/friday";
 import FuseService from "./service/fuse";
 import High5Service from "./service/high5";
 import IdpService from "./service/idp";
@@ -87,6 +88,14 @@ export class HCloud {
         return this._Mothership;
     }
     private _Mothership?: MothershipService;
+
+    public get Friday(): FridayService {
+        if (this._Friday === undefined) {
+            this._Friday = new FridayService(this.options, this.axios);
+        }
+        return this._Friday;
+    }
+    private _Friday?: FridayService;
 
     public get Nats(): NatsService {
         if (this._Nats === undefined) {

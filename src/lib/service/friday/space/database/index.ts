@@ -1,10 +1,19 @@
 import Base from "../../../../Base";
 import { createPaginatedResponse } from "../../../../helper/paginatedResponseHelper";
 import { SearchFilterDTO } from "../../../../helper/searchFilter";
-import { Database } from "../../../../interfaces/friday/space/database";
+import { Database } from "../../../../interfaces/friday";
 import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../interfaces/global";
+import { FridayDocument } from "./document";
 
 export class FridayDatabase extends Base {
+    public get document(): FridayDocument {
+        if (this._document === undefined) {
+            this._document = new FridayDocument(this.options, this.axios);
+        }
+        return this._document;
+    }
+    private _document?: FridayDocument;
+
     /**
      * Retrieves all Databases of a Friday Space which match the provided search filter(s). Will return all Databases of the Space if no filter is provided.
      * @param orgName Name of the Organization
@@ -37,7 +46,7 @@ export class FridayDatabase extends Base {
     }
 
     /**
-     * Retrieves an Database by its name.
+     * Retrieves a Database by its name.
      * @param orgName Name of the Organization
      * @param spaceName Name of the Space
      * @param dbName Name of the Database

@@ -1,9 +1,14 @@
-export interface Database {
+import { ReducedSpace } from "../../../global";
+import { ReducedOrganization } from "../../../idp/organization";
+import { ReducedUser } from "../../../idp/user";
+
+interface Database {
     _id: string;
     name: string;
-    spaceId: string;
-    organizationId: string;
-    creatorId: string;
-    // UTC+0 unix timestamp
+    space: ReducedSpace;
+    organization: ReducedOrganization;
+    creator: ReducedUser;
     createDate: number;
 }
+
+export { Database };

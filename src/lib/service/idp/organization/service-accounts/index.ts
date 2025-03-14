@@ -77,7 +77,7 @@ export default class IdpOrganizationServiceAccounts extends Base {
      * @param id      {string} Service account ID
      * @returns {ServiceAccount}
      */
-    async regenerateToken(orgName: string, id: string): Promise<ServiceAccountNoToken> {
+    async regenerateToken(orgName: string, id: string): Promise<ServiceAccount> {
         const res = await this.axios.patch<ServiceAccount>(this.getEndpoint(`/${orgName}/service-accounts/${id}/regenerate`));
         return res.data;
     }

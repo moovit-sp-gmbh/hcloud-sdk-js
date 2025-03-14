@@ -6,6 +6,7 @@ export * from "./organization/team";
 export * from "./organization/settings/domain";
 export * from "./organization/settings/domain/saml";
 export * from "./organization/settings/oauthApp";
+export * from "./organization/service-accounts";
 export * from "./user/GeneralSettings";
 export * from "./user/Pat";
 export * from "./user/Scopes";

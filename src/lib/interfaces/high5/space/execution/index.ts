@@ -113,6 +113,15 @@ export interface StreamRunningNodePatch {
     message: string;
 }
 
+interface ReducedAgentInfo {
+    bundleVersion?: string;
+    osRelease?: string;
+    osVersion?: string;
+    cpu?: string;
+    cpuArchitecture?: string;
+    ip?: string;
+}
+
 export interface High5ExecutionPatchStatus {
     streamId: string;
     state?: High5ExecutionState;
@@ -121,6 +130,7 @@ export interface High5ExecutionPatchStatus {
     message?: string;
     startDate: number;
     endDate?: number;
+    agentInfo?: ReducedAgentInfo;
 }
 
 export interface High5ExecutionPatch {
@@ -148,6 +158,7 @@ export interface High5ExecutionStatus {
     startDate: number;
     endDate: number;
     debug?: boolean;
+    agentInfo?: ReducedAgentInfo;
 }
 
 export interface High5ExecutionLog {

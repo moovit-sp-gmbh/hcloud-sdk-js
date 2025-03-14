@@ -50,25 +50,24 @@ export default class IdpOrganizationServiceAccounts extends Base {
      * @param page    {number|undefined}  Page number
      * @returns {PaginatedResponse<ServiceAccountNoToken>} A paginated response containing the service accounts that matched the search parameters
      */
-    async search(
-        orgName: string,
-        filters: SearchFilter[],
-        sorting?: Sorting,
-        limit?: number,
-        page?: number
-    ): Promise<PaginatedResponse<ServiceAccountNoToken>> {
+    async search(params: {
+        orgName: string;
+        filters: SearchFilter[];
+        sorting?: Sorting;
+        limit?: number;
+        page?: number;
+    }): Promise<PaginatedResponse<ServiceAccountNoToken>> {
+        const limit = params.limit || 25;
+        const page = params.page || 0;
         const res = await this.axios.post<ServiceAccountNoToken[]>(
-            this.getEndpoint(`/${orgName}/service-accounts/search`),
+            this.getEndpoint(`/${params.orgName}/service-accounts/search?limit=${limit}&page=${page}`),
             {
-                filters: filters.map(f => new SearchFilterDTO(f)),
-                sorting,
-            },
-            {
-                params: { limit, page },
+                filters: params.filters.map(f => new SearchFilterDTO(f)),
+                sorting: params.sorting,
             }
         );
 
-        return createPaginatedResponse(res);
+        return createPaginatedResponse(res) as PaginatedResponse<ServiceAccountNoToken>;
     }
 
     /**

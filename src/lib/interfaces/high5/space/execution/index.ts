@@ -159,6 +159,7 @@ export interface High5ExecutionStatus {
     endDate: number;
     debug?: boolean;
     agentInfo?: ReducedAgentInfo;
+    waveEngineVersion?: string;
 }
 
 export interface High5ExecutionLog {

@@ -160,6 +160,7 @@ export interface High5ExecutionStatus {
     debug?: boolean;
     agentInfo?: ReducedAgentInfo;
     waveEngineVersion?: string;
+    isPoolExecution?: boolean;
 }
 
 export interface High5ExecutionLog {

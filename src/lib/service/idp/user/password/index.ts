@@ -27,7 +27,7 @@ export default class UserPasswordService extends Base {
         let obj;
         try {
             obj = JSON.parse(decoded);
-        } catch (err) {
+        } catch {
             throw new Error(`Token ${token} is poorly formatted. Decoded to ${decoded}.`);
         }
 

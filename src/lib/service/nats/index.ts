@@ -42,12 +42,12 @@ type ConnectParamsPassword = {
 
 const isBrowser = typeof window !== "undefined";
 class Nats extends Base {
-    // eslint-disable-next-line no-use-before-define
+     
     private natsConnection: NatsConnection | undefined;
     private subMap = [] as SubMapEntry[];
     private connection = isBrowser ? connectWs : connectNode;
 
-    // eslint-disable-next-line complexity
+     
     public async connect(params: ConnectParamsJwt | ConnectParamsPassword): Promise<NatsConnection> {
         if (params.forceWebsocket) {
             this.connection = connectWs;
@@ -93,7 +93,7 @@ class Nats extends Base {
                     if (err !== null) {
                         try {
                             callback(err);
-                        } catch (ignored) {
+                        } catch {
                             // ignore callback errors
                         }
                         return;
@@ -110,7 +110,7 @@ class Nats extends Base {
 
                     try {
                         callback(null, parsedData, msg);
-                    } catch (ignored) {
+                    } catch {
                         // ignore callback errors
                     }
                 },

@@ -108,6 +108,7 @@ export class IdpUser extends Base {
      * @param options (optional) Defines query options to retrieve additional properties for the returned Organization objects.
      * @returns Object containing an array of Organizations and the total number of results found in the database (independent of limit and page)
      */
+    // eslint-disable-next-line complexity
     async searchOrganizations(params: {
         filters: SearchFilter[];
         sorting?: Sorting;

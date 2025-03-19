@@ -20,6 +20,24 @@ enum Entity {
     CHALLENGE_STRING = "CHALLENGE_STRING",
     DATABASE_NAME = "DATABASE_NAME",
     DOCUMENT_KEY = "DOCUMENT_KEY",
+    DOMAIN_NAME = "DOMAIN_NAME",
+    USER_ID = "USER_ID",
+    INVITATION_ID = "INVITATION_ID",
+    OAUTH_APP_ID = "OAUTH_APP_ID",
+    PAT_ID = "PAT_ID",
+    STREAM_ID = "STREAM_ID",
+    EXECUTION_SECRET = "EXECUTION_SECRET",
+    HIGH5_EXECUTION_ID = "HIGH5_EXECUTION_ID",
+    STREAM_LOG_ID = "STREAM_LOG_ID",
+    STREAM_STATUS_ID = "STREAM_STATUS_ID",
+    JOIN_TOKEN_ID = "JOIN_TOKEN_ID",
+    NODE_ID = "NODE_ID",
+    SNAPSHOT_ID = "SNAPSHOT_ID",
+    CATALOG_ID = "CATALOG_ID",
+    WEBHOOK_ID = "WEBHOOK_ID",
+    WEBHOOK_TOKEN = "WEBHOOK_TOKEN",
+    CRONJOB_ID = "CRONJOB_ID",
+    CRONJOB_LOG_ID = "CRONJOB_LOG_ID",
 }
 
 interface Details {
@@ -204,6 +222,96 @@ const entityCollection: Record<Entity, Details> = {
         pattern: /^[\w-.]{1,64}$/i,
         minLength: 1,
         maxLength: 64,
+    },
+    [Entity.DOMAIN_NAME]: {
+        pattern: /^(?=.{1,254}$)(?=(^.{1,63}\.|^.{1,63}\.)*)(^([a-zA-Z0-9-]{1,63}\.)+[a-zA-Z]{2,63}$)$/i,
+        minLength: 4,
+        maxLength: 254,
+    },
+    [Entity.USER_ID]: {
+        pattern: /^[a-fA-F0-9]{24}$/i,
+        minLength: 24,
+        maxLength: 24,
+    },
+    [Entity.INVITATION_ID]: {
+        pattern: /^[a-fA-F0-9]{24}$/i,
+        minLength: 24,
+        maxLength: 24,
+    },
+    [Entity.OAUTH_APP_ID]: {
+        pattern: /^[a-fA-F0-9]{24}$/i,
+        minLength: 24,
+        maxLength: 24,
+    },
+    [Entity.PAT_ID]: {
+        pattern: /^[a-fA-F0-9]{24}$/i,
+        minLength: 24,
+        maxLength: 24,
+    },
+    [Entity.STREAM_ID]: {
+        pattern: /^[a-fA-F0-9]{24}$/i,
+        minLength: 24,
+        maxLength: 24,
+    },
+    [Entity.EXECUTION_SECRET]: {
+        pattern: /^[\w-]{3,1024}$/i,
+        minLength: 3,
+        maxLength: 1024,
+    },
+    [Entity.HIGH5_EXECUTION_ID]: {
+        pattern: /^[a-fA-F0-9]{24}$/i,
+        minLength: 24,
+        maxLength: 24,
+    },
+    [Entity.STREAM_LOG_ID]: {
+        pattern: /^[a-fA-F0-9]{24}$/i,
+        minLength: 24,
+        maxLength: 24,
+    },
+    [Entity.STREAM_STATUS_ID]: {
+        pattern: /^[a-fA-F0-9]{24}$/i,
+        minLength: 24,
+        maxLength: 24,
+    },
+    [Entity.JOIN_TOKEN_ID]: {
+        pattern: /^[a-fA-F0-9]{24}$/i,
+        minLength: 24,
+        maxLength: 24,
+    },
+    [Entity.NODE_ID]: {
+        pattern: /^[a-fA-F0-9]{24}$/i,
+        minLength: 24,
+        maxLength: 24,
+    },
+    [Entity.SNAPSHOT_ID]: {
+        pattern: /^[a-fA-F0-9]{24}$/i,
+        minLength: 24,
+        maxLength: 24,
+    },
+    [Entity.CATALOG_ID]: {
+        pattern: /^[a-fA-F0-9]{24}$/i,
+        minLength: 24,
+        maxLength: 24,
+    },
+    [Entity.WEBHOOK_ID]: {
+        pattern: /^[a-fA-F0-9]{24}$/i,
+        minLength: 24,
+        maxLength: 24,
+    },
+    [Entity.WEBHOOK_TOKEN]: {
+        pattern: /^[a-fA-F0-9]{128}$/i,
+        minLength: 128,
+        maxLength: 128,
+    },
+    [Entity.CRONJOB_ID]: {
+        pattern: /^[a-fA-F0-9]{24}$/i,
+        minLength: 24,
+        maxLength: 24,
+    },
+    [Entity.CRONJOB_LOG_ID]: {
+        pattern: /^[a-fA-F0-9]{24}$/i,
+        minLength: 24,
+        maxLength: 24,
     },
 };
 

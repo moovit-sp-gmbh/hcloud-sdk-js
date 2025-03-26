@@ -1,5 +1,5 @@
-import Base from "../../../Base";
-import { Context } from "../../../interfaces/agent/context";
+import Base from "../../../Base"
+import { Context } from "../../../interfaces/agent/context"
 
 export class AgentContext extends Base {
     /**
@@ -21,6 +21,20 @@ export class AgentContext extends Base {
             server,
             email,
             token,
+            enabled,
+        });
+
+        return resp.data;
+    }
+
+    /**
+     * Add a new context by using a service accounts PAT token.
+     * @returns The newly created context
+     */
+    async addServiceAccountContext(server: string, token: string, enabled: boolean): Promise<Context> {
+        const resp = await this.axios.post<Context>(this.getEndpoint(`/v1/context`), {
+            server,
+            token: token.toLowerCase().startsWith("bearer") ? token : `Bearer ${token}`,
             enabled,
         });
 

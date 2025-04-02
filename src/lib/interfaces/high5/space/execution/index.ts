@@ -97,6 +97,7 @@ export interface ExtendedHigh5ExecutionPackage extends High5ExecutionPackage {
     spaceName: string;
     streamId: string;
     secret: string;
+    targetEmail: string;
     poolName?: string;
 }
 

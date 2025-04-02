@@ -107,4 +107,10 @@ export default [
             ],
         },
     },
+    {
+        files: ["*.ts"],
+        languageOptions: {
+            parser: tsParser,
+        },
+    }
 ];

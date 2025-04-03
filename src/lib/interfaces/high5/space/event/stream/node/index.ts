@@ -74,7 +74,7 @@ export interface StreamSingleNodeResult {
 
 type NodeInfo = {
     runTime: number;
-    catalog: {
+    catalog?: {
         name?: string;
         _id?: string;
         url: string;

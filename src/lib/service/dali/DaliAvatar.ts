@@ -4,6 +4,7 @@ import { DaliHigh5Pool } from "./avatar/DaliHigh5Pool";
 import { DaliHigh5Space } from "./avatar/DaliHigh5Space";
 import { DaliOAuthApp } from "./avatar/DaliOAuthApp";
 import { DaliOrganization } from "./avatar/DaliOrganization";
+import { DaliServiceAccount } from "./avatar/DaliServiceAccount";
 import { DaliTeam } from "./avatar/DaliTeam";
 import { DaliUser } from "./avatar/DaliUser";
 
@@ -29,6 +30,17 @@ export class DaliAvatar extends Base {
         return this._team;
     }
     private _team?: DaliTeam;
+
+    /**
+     * Handles everything around service account avatars
+     */
+    public get serviceAccount(): DaliServiceAccount {
+        if (this._serviceAccount === undefined) {
+            this._serviceAccount = new DaliServiceAccount(this.options, this.axios);
+        }
+        return this._serviceAccount;
+    }
+    private _serviceAccount?: DaliServiceAccount;
 
     /**
      * Handles everything around organization avatars

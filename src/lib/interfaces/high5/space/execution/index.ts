@@ -20,6 +20,7 @@ export interface High5ExecutionRequest {
     payload: High5ExecutionPayload;
     target: string;
     dry?: boolean;
+    parentExecutionSecret?: string;
 }
 
 export interface High5ExecuteAgentResponse {

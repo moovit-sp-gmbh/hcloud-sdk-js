@@ -20,7 +20,6 @@ export interface High5ExecutionRequest {
     payload: High5ExecutionPayload;
     target: string;
     dry?: boolean;
-    parents?: string[];
 }
 
 export interface High5ExecuteAgentResponse {
@@ -153,7 +152,6 @@ export interface High5ExecutionStatus {
     runningNodes: StreamRunningNode[];
     target: string;
     dry: boolean;
-    parents?: string[];
     createDate: number;
     startDate: number;
     endDate: number;

@@ -152,6 +152,7 @@ export interface High5ExecutionStatus {
     message: string;
     runningNodes: StreamRunningNode[];
     target: string;
+    triggerSource?: TriggerSource;
     dry: boolean;
     createDate: number;
     startDate: number;

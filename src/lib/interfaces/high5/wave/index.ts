@@ -174,17 +174,23 @@ export interface StreamNodeSpecificationAdditionalConnector {
 export type StreamNodeSpecificationInput = {
     name: string;
     description: string;
-    defaultValue?: any;
     example: any;
     advanced?: boolean;
-    mandatory?: boolean;
 } & (
     | {
-          type: Exclude<StreamNodeSpecificationInputType, StreamNodeSpecificationInputType.STRING_SELECT>;
+          type: Exclude<StreamNodeSpecificationInputType, StreamNodeSpecificationInputType.STRING_SELECT | StreamNodeSpecificationInputType.BOOLEAN>;
+          defaultValue?: any;
+          mandatory?: boolean;
       }
     | {
           type: StreamNodeSpecificationInputType.STRING_SELECT;
           options: Record<string, string | number>;
+          defaultValue?: string;
+          mandatory?: boolean;
+      }
+    | {
+          type: StreamNodeSpecificationInputType.BOOLEAN;
+          defaultValue: boolean;
       }
 );
 

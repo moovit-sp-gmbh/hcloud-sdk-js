@@ -42,12 +42,10 @@ type ConnectParamsPassword = {
 
 const isBrowser = typeof window !== "undefined";
 class Nats extends Base {
-     
     private natsConnection: NatsConnection | undefined;
     private subMap = [] as SubMapEntry[];
     private connection = isBrowser ? connectWs : connectNode;
 
-     
     public async connect(params: ConnectParamsJwt | ConnectParamsPassword): Promise<NatsConnection> {
         if (params.forceWebsocket) {
             this.connection = connectWs;

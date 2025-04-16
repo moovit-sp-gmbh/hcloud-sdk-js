@@ -84,8 +84,7 @@ export class BouncerProvider {
         }
         this.processRefs();
     }
-
-    /* eslint-disable @typescript-eslint/no-non-null-assertion*/
+ 
     private doesMatchRegion(feature: HcloudFeature, context?: BouncerContext): boolean {
         if (feature.regions.length) {
             if (context?.region) {
@@ -99,7 +98,6 @@ export class BouncerProvider {
         return true;
     }
 
-    /* eslint-disable @typescript-eslint/no-non-null-assertion*/
     private doesMatchUser(feature: HcloudFeature, context?: BouncerContext): boolean {
         if (feature.users.length) {
             if (context?.email) {
@@ -112,7 +110,6 @@ export class BouncerProvider {
         return true;
     }
 
-    /* eslint-disable @typescript-eslint/no-non-null-assertion*/
     private doesMatchOrganization(feature: HcloudFeature, context?: BouncerContext): boolean {
         if (feature.organizations.length) {
             if (context?.organization) {

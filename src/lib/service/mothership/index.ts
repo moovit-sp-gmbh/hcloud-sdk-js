@@ -62,7 +62,6 @@ export default class MothershipService extends Base {
      * @param publicKey the public key of the agent that will be used for cryptography. The agent should remember its private key.
      * @return an object holding a secret encrypted with the public key. The agent must decrypt it using its private key in order to use the /hello endpoint.
      */
-    // eslint-disable-next-line complexity
     async register(
         uuid: string,
         info: Pick<Agent, Exclude<keyof Agent, "uuid" | "createDate" | "modifyDate" | "_id" | "ip">>,

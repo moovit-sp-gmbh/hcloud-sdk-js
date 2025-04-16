@@ -1,5 +1,5 @@
-import Base from "../../../../../../Base"
-import { Design } from "../../../../../../interfaces/high5"
+import Base from "../../../../../../Base";
+import { Design } from "../../../../../../interfaces/high5";
 import {
     AddNode,
     DeleteNode,
@@ -11,8 +11,8 @@ import {
     NodeOperation,
     OperationTarget,
     UnlinkNodes,
-} from "../../../../../../interfaces/high5/space/event/stream/design/DesignOperation"
-import { DesignerNode } from "../../../../../../interfaces/high5/space/event/stream/design/StreamDesign"
+} from "../../../../../../interfaces/high5/space/event/stream/design/DesignOperation";
+import { DesignerNode } from "../../../../../../interfaces/high5/space/event/stream/design/StreamDesign";
 
 export default class DesignOperations extends Base {
     public async send(
@@ -79,7 +79,7 @@ export class OperationQueue {
     }
 
     send(orgName: string, spaceName: string, eventName: string, streamId: string, designHash: string): Promise<Design> {
-        const entriesToSend = [ ...this.operations ];
+        const entriesToSend = [...this.operations];
         this.operations = [];
         return this.parent.send(orgName, spaceName, eventName, streamId, designHash, entriesToSend);
     }

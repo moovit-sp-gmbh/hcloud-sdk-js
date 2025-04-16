@@ -1,5 +1,5 @@
-import Base from "../../../Base"
-import { Context } from "../../../interfaces/agent/context"
+import Base from "../../../Base";
+import { Context } from "../../../interfaces/agent/context";
 
 export class AgentContext extends Base {
     /**

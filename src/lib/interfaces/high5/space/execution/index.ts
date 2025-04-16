@@ -205,3 +205,25 @@ export interface High5ExecuteOnAgentRequest {
 export interface High5ExecutionCancelRequest {
     secret: string;
 }
+
+export interface ExecutionTreeNode {
+    executionStatusId: string;
+    orgName: string;
+    spaceName: string;
+    eventName: string;
+    streamName: string;
+    streamId: string;
+    state: High5ExecutionState;
+    outcome: High5ExecutionOutcome;
+    message?: string;
+    runningNodes: StreamRunningNode[];
+    target: string;
+    triggerSource: TriggerSource;
+    startDate: number;
+    endDate: number;
+    children: ExecutionTreeNode[];
+}
+
+export interface ExecutionTree {
+    root: ExecutionTreeNode;
+}

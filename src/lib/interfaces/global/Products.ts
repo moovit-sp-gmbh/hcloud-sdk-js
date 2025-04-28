@@ -8,6 +8,6 @@ export enum Products {
     client = "client",
     all = "all",
     mothership = "mothership",
-    rush = "rush",
+    cosmo = "cosmo",
     friday = "friday",
 }

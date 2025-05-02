@@ -76,7 +76,6 @@ type NodeInfo = {
     runTime: number;
     catalog?: {
         name?: string;
-        _id?: string;
         url: string;
         version: string;
     };

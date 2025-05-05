@@ -33,6 +33,7 @@ export enum Entrypoint {
     DEFAULT = "DEFAULT",
     HIGH5 = "HIGH5",
     FUSE = "FUSE",
+    COSMO = "COSMO",
     LAST_VISITED = "LAST_VISITED",
 }
 

@@ -84,7 +84,7 @@ export class BouncerProvider {
         }
         this.processRefs();
     }
- 
+
     private doesMatchRegion(feature: HcloudFeature, context?: BouncerContext): boolean {
         if (feature.regions.length) {
             if (context?.region) {

@@ -13,6 +13,7 @@ export interface FuseSpaceEntityPermission {
     type: SpaceEntity;
     permission: FuseSpacePermission;
     avatarUrl: string;
+    serviceAccount?: boolean;
 }
 
 export enum FuseSpacePermission {

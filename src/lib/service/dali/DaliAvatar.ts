@@ -1,4 +1,5 @@
 import Base from "../../Base";
+import { DaliCosmoSpace } from "./avatar/DaliCosmoSpace";
 import { DaliFuseSpace } from "./avatar/DaliFuseSpace";
 import { DaliHigh5Pool } from "./avatar/DaliHigh5Pool";
 import { DaliHigh5Space } from "./avatar/DaliHigh5Space";
@@ -85,6 +86,17 @@ export class DaliAvatar extends Base {
         return this._fuseSpace;
     }
     private _fuseSpace?: DaliFuseSpace;
+
+    /**
+     * Handles everything around cosmo spaces avatars
+     */
+    public get cosmoSpace(): DaliCosmoSpace {
+        if (this._cosmoSpace === undefined) {
+            this._cosmoSpace = new DaliCosmoSpace(this.options, this.axios);
+        }
+        return this._cosmoSpace;
+    }
+    private _cosmoSpace?: DaliCosmoSpace;
 
     /**
      * Handles everything around OAuth applications avatars

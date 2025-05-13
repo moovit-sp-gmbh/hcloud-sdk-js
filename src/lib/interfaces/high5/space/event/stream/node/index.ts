@@ -70,6 +70,7 @@ export interface StreamSingleNodeResult {
     nodeResults?: StreamSingleNodeResult[];
     info?: NodeInfo;
     waiting?: boolean;
+    additionalConnectorRoot?: string;
 }
 
 type NodeInfo = {

@@ -1,9 +1,10 @@
-name: Run linting and tests
+name: Run linting and build
 
 on:
   push:
     branches-ignore:
-      - staging # When pushing/merging to branch 'staging' (or later main), buildAndPublish workflow will already do the testing
+      - staging
+      - main
 
 jobs:
   run:
@@ -31,5 +32,5 @@ jobs:
       - name: Lint
         run: make lint
 
-      - name: Test (Unit)
-        run: make test
+      - name: Build
+        run: make build

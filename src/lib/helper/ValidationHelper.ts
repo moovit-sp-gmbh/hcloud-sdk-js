@@ -38,6 +38,7 @@ enum Entity {
     WEBHOOK_TOKEN = "WEBHOOK_TOKEN",
     CRONJOB_ID = "CRONJOB_ID",
     CRONJOB_LOG_ID = "CRONJOB_LOG_ID",
+    NAMESPACE_NAME = "NAMESPACE_NAME",
 }
 
 interface Details {
@@ -313,6 +314,13 @@ const entityCollection: Record<Entity, Details> = {
         minLength: 24,
         maxLength: 24,
     },
+    [Entity.NAMESPACE_NAME]: {
+        // Case-insensitive. No spaces or other special characters allowed. Cannot start with a dash, end with a dash, or contain double dashes
+        pattern: /^(?!-)(?!.*--)[a-zA-Z0-9-.]{3,64}(?<!-)$/i,
+        minLength: 3,
+        maxLength: 64,
+    },
 };
 
-export { Entity, EntityDetails, ValidationHelper };
+export { Entity, EntityDetails, ValidationHelper }
+

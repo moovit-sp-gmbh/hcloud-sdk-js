@@ -40,6 +40,7 @@ enum NatsSubject {
     HIGH5_CATALOGS = "hcloud.high5.organization.${base64orgName}.spaces.${base64spaceName}.catalogs",
     HIGH5_NODES = "hcloud.high5.organization.${base64orgName}.spaces.${base64spaceName}.node",
     High5_DESIGN = "hcloud.high5.organization.${base64orgName}.spaces.${base64spaceName}.events.${base64eventName}.streams.${streamId}.design",
+    High5_DESIGN_DELTA = "hcloud.high5.organization.${base64orgName}.spaces.${base64spaceName}.events.${base64eventName}.streams.${streamId}.design.delta",
     HIGH5_SNAPSHOTS = "hcloud.high5.organization.${base64orgName}.spaces.${base64spaceName}.events.${base64eventName}.streams.${streamId}.snapshots",
     HIGH5_WAVE_ENGINE_LATEST = "hcloud.high5.wave.engine.latest",
     HIGH5_SPACES_POOLS = "hcloud.high5.organization.${base64orgName}.spaces.${base64spaceName}.pools.>",
@@ -60,6 +61,7 @@ enum NatsSubject {
     COSMO_ASSETS = "hcloud.cosmo.organization.${base64orgName}.spaces.${base64spaceName}.assets",
     COSMO_COMMENTS = "hcloud.cosmo.organization.${base64orgName}.spaces.${base64spaceName}.namespaces.${base64namespaceName}.assets.${assetId}.comments",
 
+    MOTHERSHIP_AGENT_CONNECTION = "hcloud.mothership.organization.${base64orgName}.agent.connection",
     AUDITOR_LOGS = "hcloud.auditor.organization.${base64orgName}.logs",
 
     DEBUG_NAMESPACE = "hcloud.debug.namespace.${product}",
@@ -135,6 +137,8 @@ enum NatsObjectType {
 
     DATABASE = "DATABASE",
     DOCUMENT = "DOCUMENT",
+
+    AGENT = "AGENT",
 }
 
 interface NatsMessage {
@@ -151,7 +155,8 @@ interface NatsObject
         High5ExecuteOnAgentRequest,
         High5ExecutionCancelRequest,
         NatsLicenseObject,
-        NatsCustomNodeObject {
+        NatsCustomNodeObject,
+        NatsTargetObject {
     [NatsSubject.IDP_USER_GENERAL]: NatsIdObject;
     [NatsSubject.IDP_USER_PROFILE]: NatsIdObject;
     [NatsSubject.IDP_USER_SECURITY_PATS]: NatsIdObject;
@@ -173,6 +178,7 @@ interface NatsObject
     [NatsSubject.HIGH5_STREAMS]: NatsIdObject;
     [NatsSubject.HIGH5_EVENT_STREAMS]: NatsIdObject;
     [NatsSubject.High5_DESIGN]: NatsIdObject;
+    [NatsSubject.High5_DESIGN_DELTA]: NatsIdObject;
     [NatsSubject.HIGH5_SNAPSHOTS]: NatsIdObject;
     [NatsSubject.HIGH5_NODES]: NatsCustomNodeObject;
     [NatsSubject.HIGH5_SECRETS]: NatsSecretObject;
@@ -189,6 +195,7 @@ interface NatsObject
     [NatsSubject.FRIDAY_SPACE_PERMISSIONS]: NatsIdObject;
     [NatsSubject.FRIDAY_DATABASES]: NatsNameObject;
     [NatsSubject.FRIDAY_DOCUMENTS]: NatsNameObject;
+    [NatsSubject.MOTHERSHIP_AGENT_CONNECTION]: NatsTargetObject;
     [NatsSubject.AUDITOR_LOGS]: NatsIdObject;
     [NatsSubject.DEBUG_NAMESPACE]: string;
 }
@@ -217,14 +224,17 @@ interface NatsLicenseObject {
     newTier: LicenseTier;
 }
 
-interface NatsCustomNodeObject {
-    _id: string;
+interface NatsCustomNodeObject extends NatsIdObject {
     updatedNodeId?: string;
 }
 
 interface NatsPoolObject extends NatsIdObject {
     name: string;
     targets: string[];
+}
+
+interface NatsTargetObject {
+    target: string;
 }
 
 type NatsCallback = (err: Error | null, msg?: NatsMessage, rawMsg?: Msg) => void;
@@ -414,6 +424,14 @@ class NatsSubjects {
                             streamId,
                         });
                     };
+                    static DESIGN_DELTA = (organizationName: string, spaceName: string, eventName: string, streamId: string) => {
+                        return NatsSubjects.replace(NatsSubject.High5_DESIGN_DELTA, {
+                            organizationName,
+                            spaceName,
+                            eventName,
+                            streamId,
+                        });
+                    };
                     static SNAPSHOTS = (organizationName: string, spaceName: string, eventName: string, streamId: string) => {
                         return NatsSubjects.replace(NatsSubject.HIGH5_SNAPSHOTS, {
                             organizationName,
@@ -482,6 +500,12 @@ class NatsSubjects {
                     });
                 };
             };
+        };
+    };
+
+    static Mothership = class {
+        static CONNECTION = (organizationName: string) => {
+            return NatsSubjects.replace(NatsSubject.MOTHERSHIP_AGENT_CONNECTION, { organizationName });
         };
     };
 

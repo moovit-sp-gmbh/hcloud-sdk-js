@@ -55,6 +55,10 @@ enum NatsSubject {
     FRIDAY_DATABASES = "hcloud.friday.organization.${base64orgName}.spaces.${base64spaceName}.databases",
     FRIDAY_DOCUMENTS = "hcloud.friday.organization.${base64orgName}.spaces.${base64spaceName}.databases.${base64databaseName}.documents",
 
+    COSMO_SPACES = "hcloud.cosmo.organization.${base64orgName}.spaces",
+    COSMO_ASSETS = "hcloud.cosmo.organization.${base64orgName}.spaces.${base64spaceName}.assets",
+    COSMO_COMMENTS = "hcloud.cosmo.organization.${base64orgName}.spaces.${base64spaceName}.assets.${assetId}.comments",
+
     AUDITOR_LOGS = "hcloud.auditor.organization.${base64orgName}.logs",
 
     DEBUG_NAMESPACE = "hcloud.debug.namespace.${product}",
@@ -81,6 +85,7 @@ type NatsSubjectReplacements = {
     executionId?: string;
     executionSecret?: string;
     databaseName?: string;
+    assetId?: string;
 };
 
 enum NatsMessageType {
@@ -531,9 +536,39 @@ class NatsSubjects {
             "${base64databaseName}",
             replacements.databaseName ? (replacements.databaseName === "*" ? "*" : base64Encode(replacements.databaseName)) : "null"
         );
+        subject = subject.replace("${assetId}", replacements.assetId || "null");
 
         return subject;
     };
+    static Cosmo = {
+        organization: function (orgName: string) {
+            return {
+                spaces: function (spaceId?: string) {
+                    return objectifyString(NatsSubjects.replace(NatsSubject.COSMO_SPACES, { organizationName: orgName }), {
+                        assets: function (assetId?: string) {
+                            return objectifyString(NatsSubjects.replace(NatsSubject.COSMO_ASSETS, { organizationName: orgName, spaceId }), {
+                                comments: function () {
+                                    return NatsSubjects.replace(NatsSubject.COSMO_COMMENTS, { organizationName: orgName, spaceId, assetId });
+                                },
+                            });
+                        },
+                    });
+                },
+            };
+        },
+    };
+}
+
+// eslint-disable-next-line @typescript-eslint/no-wrapper-object-types
+function objectifyString<O extends object>(s: string, o: O): (String & O) & string {
+    let S = new String(s);
+    for (const k in o) {
+        S = Object.defineProperty(S, k, {
+            value: o[k],
+        });
+    }
+    // eslint-disable-next-line @typescript-eslint/no-wrapper-object-types
+    return S as (String & O) & string;
 }
 
 const base64Encode = (str: string) => {

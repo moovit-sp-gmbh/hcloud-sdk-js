@@ -56,8 +56,9 @@ enum NatsSubject {
     FRIDAY_DOCUMENTS = "hcloud.friday.organization.${base64orgName}.spaces.${base64spaceName}.databases.${base64databaseName}.documents",
 
     COSMO_SPACES = "hcloud.cosmo.organization.${base64orgName}.spaces",
+    COSMO_NAMESPACES = "hcloud.cosmo.organization.${base64orgName}.spaces.${base64spaceName}.namespaces",
     COSMO_ASSETS = "hcloud.cosmo.organization.${base64orgName}.spaces.${base64spaceName}.assets",
-    COSMO_COMMENTS = "hcloud.cosmo.organization.${base64orgName}.spaces.${base64spaceName}.assets.${assetId}.comments",
+    COSMO_COMMENTS = "hcloud.cosmo.organization.${base64orgName}.spaces.${base64spaceName}.namespaces.${base64namespaceName}.assets.${assetId}.comments",
 
     AUDITOR_LOGS = "hcloud.auditor.organization.${base64orgName}.logs",
 
@@ -65,6 +66,7 @@ enum NatsSubject {
 }
 
 type NatsSubjectReplacements = {
+    namespaceName?: string;
     userId?: string;
     organizationName?: string;
     organizationId?: string;
@@ -505,6 +507,10 @@ class NatsSubjects {
             "${base64spaceName}",
             replacements.spaceName ? (replacements.spaceName === "*" ? "*" : base64Encode(replacements.spaceName)) : "null"
         );
+        subject = subject.replace(
+            "${base64namespaceName}",
+            replacements.namespaceName ? (replacements.namespaceName === "*" ? "*" : base64Encode(replacements.namespaceName)) : "null"
+        );
         subject = subject.replace("${spaceId}", replacements.spaceId || "null");
         subject = subject.replace(
             "${base64eventName}",
@@ -543,14 +549,28 @@ class NatsSubjects {
     static Cosmo = {
         organization: function (orgName: string) {
             return {
-                spaces: function (spaceId?: string) {
+                spaces: function (spaceName?: string) {
                     return objectifyString(NatsSubjects.replace(NatsSubject.COSMO_SPACES, { organizationName: orgName }), {
-                        assets: function (assetId?: string) {
-                            return objectifyString(NatsSubjects.replace(NatsSubject.COSMO_ASSETS, { organizationName: orgName, spaceId }), {
-                                comments: function () {
-                                    return NatsSubjects.replace(NatsSubject.COSMO_COMMENTS, { organizationName: orgName, spaceId, assetId });
-                                },
-                            });
+                        assets: function () {
+                            return objectifyString(
+                                NatsSubjects.replace(NatsSubject.COSMO_ASSETS, { organizationName: orgName, spaceName: spaceName }),
+                                {}
+                            );
+                        },
+                        namespaces: function (namespaceName?: string) {
+                            return objectifyString(
+                                NatsSubjects.replace(NatsSubject.COSMO_NAMESPACES, { organizationName: orgName, spaceName: spaceName }),
+                                {
+                                    comments: function (assetId?: string) {
+                                        return NatsSubjects.replace(NatsSubject.COSMO_COMMENTS, {
+                                            organizationName: orgName,
+                                            spaceName: spaceName,
+                                            assetId,
+                                            namespaceName: namespaceName,
+                                        });
+                                    },
+                                }
+                            );
                         },
                     });
                 },

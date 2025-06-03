@@ -1,7 +1,7 @@
-import { Msg } from "nats";
-import { Products } from "../global";
-import { High5ExecuteOnAgentRequest, High5ExecutionCancelRequest } from "../high5/space/execution";
-import { LicenseTier } from "../idp";
+import { Msg } from "nats"
+import { Products } from "../global"
+import { High5ExecuteOnAgentRequest, High5ExecutionCancelRequest } from "../high5/space/execution"
+import { LicenseTier } from "../idp"
 
 enum NatsSubject {
     IDP_USER_GENERAL = "hcloud.idp.user.${userId}.general",
@@ -156,6 +156,7 @@ interface NatsObject
         High5ExecutionCancelRequest,
         NatsLicenseObject,
         NatsCustomNodeObject,
+        NatsAssetObject,
         NatsTargetObject {
     [NatsSubject.IDP_USER_GENERAL]: NatsIdObject;
     [NatsSubject.IDP_USER_PROFILE]: NatsIdObject;
@@ -191,6 +192,7 @@ interface NatsObject
     [NatsSubject.FUSE_SPACE_PERMISSIONS]: NatsIdObject;
     [NatsSubject.FUSE_JOBS]: NatsIdObject;
     [NatsSubject.FUSE_JOB_LOGS]: NatsIdObject;
+    [NatsSubject.COSMO_ASSETS]: NatsAssetObject;
     [NatsSubject.FRIDAY_SPACES]: NatsNameObject;
     [NatsSubject.FRIDAY_SPACE_PERMISSIONS]: NatsIdObject;
     [NatsSubject.FRIDAY_DATABASES]: NatsNameObject;
@@ -206,6 +208,11 @@ interface NatsNameObject {
 }
 interface NatsIdObject {
     _id: string;
+}
+
+interface NatsAssetObject {
+    _id: string;
+    type: "ASSET" | "SPACE" | "PRODUCTION" | "PROJECT" | "FOLDER";
 }
 
 interface NatsMemberObject {
@@ -515,8 +522,23 @@ class NatsSubjects {
         };
     };
 
-    static Logging = (product: Products) => {
-        return NatsSubjects.replace(NatsSubject.DEBUG_NAMESPACE, { product });
+    static Cosmo = class {
+        static SPACES = (organizationName: string) => {
+            return NatsSubjects.replace(NatsSubject.COSMO_SPACES, { organizationName });
+        };
+        static Space = class {
+            static NAMESPACES = (organizationName: string, spaceName: string) => {
+                return NatsSubjects.replace(NatsSubject.COSMO_NAMESPACES, { organizationName, spaceName });
+            };
+            static Comment = class {
+                static COMMENTS = (organizationName: string, spaceName: string, namespaceName: string, assetId: string) => {
+                    return NatsSubjects.replace(NatsSubject.COSMO_COMMENTS, { organizationName, spaceName, namespaceName, assetId });
+                };
+            };
+            static ASSETS = (organizationName: string, spaceName: string) => {
+                return NatsSubjects.replace(NatsSubject.COSMO_ASSETS, { organizationName, spaceName });
+            };
+        };
     };
 
     // eslint-disable-next-line complexity
@@ -570,49 +592,6 @@ class NatsSubjects {
 
         return subject;
     };
-    static Cosmo = {
-        organization: function (orgName: string) {
-            return {
-                spaces: function (spaceName?: string) {
-                    return objectifyString(NatsSubjects.replace(NatsSubject.COSMO_SPACES, { organizationName: orgName }), {
-                        assets: function () {
-                            return objectifyString(
-                                NatsSubjects.replace(NatsSubject.COSMO_ASSETS, { organizationName: orgName, spaceName: spaceName }),
-                                {}
-                            );
-                        },
-                        namespaces: function (namespaceName?: string) {
-                            return objectifyString(
-                                NatsSubjects.replace(NatsSubject.COSMO_NAMESPACES, { organizationName: orgName, spaceName: spaceName }),
-                                {
-                                    comments: function (assetId?: string) {
-                                        return NatsSubjects.replace(NatsSubject.COSMO_COMMENTS, {
-                                            organizationName: orgName,
-                                            spaceName: spaceName,
-                                            assetId,
-                                            namespaceName: namespaceName,
-                                        });
-                                    },
-                                }
-                            );
-                        },
-                    });
-                },
-            };
-        },
-    };
-}
-
-// eslint-disable-next-line @typescript-eslint/no-wrapper-object-types
-function objectifyString<O extends object>(s: string, o: O): (String & O) & string {
-    let S = new String(s);
-    for (const k in o) {
-        S = Object.defineProperty(S, k, {
-            value: o[k],
-        });
-    }
-    // eslint-disable-next-line @typescript-eslint/no-wrapper-object-types
-    return S as (String & O) & string;
 }
 
 const base64Encode = (str: string) => {
@@ -623,4 +602,5 @@ const base64Encode = (str: string) => {
     }
 };
 
-export { NatsCallback, NatsMessage, NatsMessageType, NatsObject, NatsObjectType, NatsSubject, NatsSubjects, Msg as RawMsg };
+export { NatsCallback, NatsMessage, NatsMessageType, NatsObject, NatsObjectType, NatsSubject, NatsSubjects, Msg as RawMsg }
+

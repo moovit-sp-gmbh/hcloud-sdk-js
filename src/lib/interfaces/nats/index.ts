@@ -522,6 +522,10 @@ class NatsSubjects {
         };
     };
 
+    static Logging = (product: Products) => {
+        return NatsSubjects.replace(NatsSubject.DEBUG_NAMESPACE, { product });
+    };
+
     static Cosmo = class {
         static SPACES = (organizationName: string) => {
             return NatsSubjects.replace(NatsSubject.COSMO_SPACES, { organizationName });

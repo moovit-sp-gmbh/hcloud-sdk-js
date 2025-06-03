@@ -530,7 +530,7 @@ class NatsSubjects {
             static NAMESPACES = (organizationName: string, spaceName: string) => {
                 return NatsSubjects.replace(NatsSubject.COSMO_NAMESPACES, { organizationName, spaceName });
             };
-            static Comment = class {
+            static Namespace = class {
                 static COMMENTS = (organizationName: string, spaceName: string, namespaceName: string, assetId: string) => {
                     return NatsSubjects.replace(NatsSubject.COSMO_COMMENTS, { organizationName, spaceName, namespaceName, assetId });
                 };

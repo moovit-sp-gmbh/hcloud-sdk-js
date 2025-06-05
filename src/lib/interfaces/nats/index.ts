@@ -13,6 +13,7 @@ enum NatsSubject {
     IDP_USER_SECURITY_GENERAL = "hcloud.idp.user.${userId}.security.general",
     IDP_USER_LICENSE = "hcloud.idp.user.${userId}.license",
     IDP_USER_SETTINGS_OAUTH_REVOKE = "hcloud.idp.user.${userId}.settings.oauth.${oAuthAppId}.revoke",
+    IDP_USER_MESSAGES = "hcloud.idp.user.${userId}.messages",
 
     IDP_ORGANIZATION = "hcloud.idp.organization.${base64orgName}",
     IDP_ORGANIZATION_INVITATIONS = "hcloud.idp.organization.${base64orgName}.invitations",
@@ -139,6 +140,7 @@ enum NatsObjectType {
     DOCUMENT = "DOCUMENT",
 
     AGENT = "AGENT",
+    MESSAGE = "MESSAGE",
 }
 
 interface NatsMessage {
@@ -288,6 +290,10 @@ class NatsSubjects {
                         },
                     },
                 };
+            };
+
+            static MESSAGES = (userId: string) => {
+                return NatsSubjects.replace(NatsSubject.IDP_USER_MESSAGES, { userId });
             };
         };
         static ORGANIZATION = (organizationName: string) => {

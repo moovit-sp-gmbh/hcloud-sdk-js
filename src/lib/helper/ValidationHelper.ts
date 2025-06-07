@@ -39,6 +39,7 @@ enum Entity {
     CRONJOB_ID = "CRONJOB_ID",
     CRONJOB_LOG_ID = "CRONJOB_LOG_ID",
     NAMESPACE_NAME = "NAMESPACE_NAME",
+    MESSAGE_ID = "MESSAGE_ID",
 }
 
 interface Details {
@@ -319,6 +320,11 @@ const entityCollection: Record<Entity, Details> = {
         pattern: /^(?!-)(?!.*--)[a-zA-Z0-9-.]{3,64}(?<!-)$/i,
         minLength: 3,
         maxLength: 64,
+    },
+    [Entity.MESSAGE_ID]: {
+        pattern: /^[a-fA-F0-9]{24}$/i,
+        minLength: 24,
+        maxLength: 24,
     },
 };
 

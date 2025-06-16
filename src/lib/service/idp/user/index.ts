@@ -6,6 +6,7 @@ import { Organization, OrganizationQueryOptions } from "../../../interfaces/idp/
 import { OrganizationMemberInvitation } from "../../../interfaces/idp/organization/member/invitations";
 import { User, UserPatch } from "../../../interfaces/idp/user";
 import { IdpUserLicense } from "./license";
+import { IdpMessage } from "./message";
 import UserPasswordService from "./password";
 import { IdpSettings } from "./settings";
 
@@ -42,6 +43,17 @@ export class IdpUser extends Base {
         return this._license;
     }
     private _license?: IdpUserLicense;
+
+    /**
+     * Handles everything around a user's messages
+     */
+    public get message(): IdpMessage {
+        if (this._message === undefined) {
+            this._message = new IdpMessage(this.options, this.axios);
+        }
+        return this._message;
+    }
+    private _message?: IdpMessage;
 
     /**
      * Retrieves the User database entry for the requesting user.

@@ -1,7 +1,7 @@
-import axios, { AxiosInstance } from "axios";
-import { version } from "../../../../../package.json";
-import Base, { Options } from "../../../../Base";
-import { disableCacheHeaders } from "../../../../interfaces/axios";
+import axios, { AxiosInstance } from "axios"
+import { version } from "../../../../../package.json"
+import Base, { Options } from "../../../../Base"
+import { disableCacheHeaders } from "../../../../interfaces/axios"
 import {
     Catalog,
     CatalogRegistry,
@@ -10,7 +10,8 @@ import {
     StreamNodeSpecifications,
     StreamNodeSpecificationWrappedWithEngineVersion,
     WildcardRegistry,
-} from "../../../../interfaces/high5";
+} from "../../../../interfaces/high5"
+import { Release } from "../../../../interfaces/high5/wave/changelog"
 
 const sdkVersion = "hcloud-sdk-js/v" + version;
 /**
@@ -28,7 +29,7 @@ export class S3 extends Base {
      */
     async getCatalogRegistry(waveBucketUrl: string): Promise<CatalogRegistry> {
         const resp = await axios.get<CatalogRegistry>(`${waveBucketUrl}/catalogs/registry.json`, {
-            headers: { ...disableCacheHeaders, "x-hcloud-user-agent": sdkVersion },
+            headers: { ...disableCacheHeaders, "x-hcloud-user-agent": sdkVersion, Authorization: undefined },
         });
 
         return resp.data;
@@ -41,7 +42,7 @@ export class S3 extends Base {
      */
     async getEngineRegistry(waveBucketUrl: string): Promise<EngineRegistry> {
         const resp = await axios.get<EngineRegistry>(`${waveBucketUrl}/engines/registry.json`, {
-            headers: { ...disableCacheHeaders, "x-hcloud-user-agent": sdkVersion },
+            headers: { ...disableCacheHeaders, "x-hcloud-user-agent": sdkVersion, Authorization: undefined },
         });
 
         return resp.data;
@@ -53,7 +54,9 @@ export class S3 extends Base {
      * @returns index.json of catalog
      */
     async getCatalog(catalogUrl: string): Promise<Catalog> {
-        const resp = await axios.get<Catalog>(`${catalogUrl}`, { headers: { ...disableCacheHeaders, "x-hcloud-user-agent": sdkVersion } });
+        const resp = await axios.get<Catalog>(`${catalogUrl}`, {
+            headers: { ...disableCacheHeaders, "x-hcloud-user-agent": sdkVersion, Authorization: undefined },
+        });
 
         return resp.data;
     }
@@ -64,7 +67,9 @@ export class S3 extends Base {
      * @returns index.json of catalog
      */
     async getEngine(engineUrl: string): Promise<Engine> {
-        const resp = await axios.get<Engine>(`${engineUrl}`, { headers: { ...disableCacheHeaders, "x-hcloud-user-agent": sdkVersion } });
+        const resp = await axios.get<Engine>(`${engineUrl}`, {
+            headers: { ...disableCacheHeaders, "x-hcloud-user-agent": sdkVersion, Authorization: undefined },
+        });
 
         return resp.data;
     }
@@ -77,7 +82,7 @@ export class S3 extends Base {
      */
     async getWildcardsOfEngine(engineUrl: string, engineVersion: string): Promise<WildcardRegistry> {
         const resp = await axios.get<WildcardRegistry>(`${engineUrl.replace("/index.json", "")}/${engineVersion}/wildcards.json`, {
-            headers: { ...disableCacheHeaders, "x-hcloud-user-agent": sdkVersion },
+            headers: { ...disableCacheHeaders, "x-hcloud-user-agent": sdkVersion, Authorization: undefined },
         });
         return resp.data;
     }
@@ -94,7 +99,7 @@ export class S3 extends Base {
     ): Promise<StreamNodeSpecifications[] | StreamNodeSpecificationWrappedWithEngineVersion> {
         const specificationUrl = catalogUrl.split("/").slice(0, -1).join("/") + "/" + version + "/specification.json";
         const resp = await axios.get<StreamNodeSpecifications[] | StreamNodeSpecificationWrappedWithEngineVersion>(specificationUrl, {
-            headers: { ...disableCacheHeaders, "x-hcloud-user-agent": sdkVersion },
+            headers: { ...disableCacheHeaders, "x-hcloud-user-agent": sdkVersion, Authorization: undefined },
         });
 
         return resp.data;
@@ -108,9 +113,26 @@ export class S3 extends Base {
      */
     async getNodeDocumentation(catalogUrl: string, version: string, nodeName: string): Promise<string> {
         const specificationUrl = catalogUrl.split("/").slice(0, -1).join("/") + `/${version}/docs/${nodeName}.md`;
-        const resp = await axios.get<string>(specificationUrl).catch(err => {
-            throw new Error(`Node documentation not found: ${err}`);
-        });
+        const resp = await axios
+            .get<string>(specificationUrl, { headers: { ...disableCacheHeaders, "x-hcloud-user-agent": sdkVersion, Authorization: undefined } })
+            .catch(err => {
+                throw new Error(`Node documentation not found: ${err}`);
+            });
+
+        return resp.data;
+    }
+
+    /**
+     * Get the catalogs changelog from the S3 bucket
+     * @param catalogUrl Public url of the catalog
+     * @returns string the changelog.json of the node
+     */
+    async getChangelog(catalogUrl: string): Promise<Release[]> {
+        const resp = await axios
+            .get<Release[]>(catalogUrl + "changelog.json", { headers: { ...disableCacheHeaders, "x-hcloud-user-agent": sdkVersion, Authorization: undefined } })
+            .catch(err => {
+                throw new Error(`Node documentation not found: ${err}`);
+            });
 
         return resp.data;
     }

@@ -322,4 +322,5 @@ const entityCollection: Record<Entity, Details> = {
     },
 };
 
-export { Entity, EntityDetails, ValidationHelper };
+export { Entity, EntityDetails, ValidationHelper }
+

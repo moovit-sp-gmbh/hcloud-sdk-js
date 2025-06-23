@@ -1,7 +1,7 @@
-import axios, { AxiosInstance } from "axios"
-import { version } from "../../../../../package.json"
-import Base, { Options } from "../../../../Base"
-import { disableCacheHeaders } from "../../../../interfaces/axios"
+import axios, { AxiosInstance } from "axios";
+import { version } from "../../../../../package.json";
+import Base, { Options } from "../../../../Base";
+import { disableCacheHeaders } from "../../../../interfaces/axios";
 import {
     Catalog,
     CatalogRegistry,
@@ -10,8 +10,8 @@ import {
     StreamNodeSpecifications,
     StreamNodeSpecificationWrappedWithEngineVersion,
     WildcardRegistry,
-} from "../../../../interfaces/high5"
-import { Release } from "../../../../interfaces/high5/wave/changelog"
+} from "../../../../interfaces/high5";
+import { Release } from "../../../../interfaces/high5/wave/changelog";
 
 const sdkVersion = "hcloud-sdk-js/v" + version;
 /**
@@ -129,7 +129,9 @@ export class S3 extends Base {
      */
     async getChangelog(catalogUrl: string): Promise<Release[]> {
         const resp = await axios
-            .get<Release[]>(catalogUrl + "changelog.json", { headers: { ...disableCacheHeaders, "x-hcloud-user-agent": sdkVersion, Authorization: undefined } })
+            .get<
+                Release[]
+            >(catalogUrl + "changelog.json", { headers: { ...disableCacheHeaders, "x-hcloud-user-agent": sdkVersion, Authorization: undefined } })
             .catch(err => {
                 throw new Error(`Node documentation not found: ${err}`);
             });

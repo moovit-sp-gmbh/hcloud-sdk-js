@@ -153,7 +153,7 @@ const entityCollection: Record<Entity, Details> = {
         maxLength: 64,
     },
     [Entity.SPACE_NAME]: {
-        pattern: /^[a-zA-Z0-9-.]{1,32}$/i,
+        pattern: /^[\w-.]{1,32}$/i,
         minLength: 1,
         maxLength: 32,
     },

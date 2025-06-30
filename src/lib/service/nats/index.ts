@@ -61,11 +61,6 @@ class Nats extends Base {
                 params.servers = ["hcloud-nats-0.hcloud-nats:4222", "hcloud-nats-1.hcloud-nats:4222", "hcloud-nats-2.hcloud-nats:4222"];
             }
         }
-
-        if (this.natsConnection && !this.natsConnection.isClosed()) {
-            await this.natsConnection.close();
-        }
-
         this.natsConnection = await this.connection({
             debug: params.debug,
             maxReconnectAttempts: -1,

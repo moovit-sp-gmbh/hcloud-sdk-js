@@ -16,6 +16,7 @@ export enum Origin {
     Mothership = "mothership",
     Dali = "dali",
     Friday = "friday",
+    Cosmo = "cosmo",
 }
 
 export enum Event {
@@ -37,6 +38,10 @@ export enum Event {
     ServiceAccount = "serviceAccount",
     Database = "database",
     Document = "document",
+    Asset = "asset",
+    Share = "share",
+    Role = "role",
+    Group = "group",
 }
 
 export enum Type {

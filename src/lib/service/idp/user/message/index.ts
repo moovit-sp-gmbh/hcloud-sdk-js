@@ -2,7 +2,7 @@ import Base from "../../../../Base";
 import { createPaginatedResponse } from "../../../../helper/paginatedResponseHelper";
 import { SearchFilterDTO } from "../../../../helper/searchFilter";
 import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../interfaces/global";
-import { Message } from "../../../../interfaces/idp/user/Message";
+import { Message, RecipientType } from "../../../../interfaces/idp/user/Message";
 
 export class IdpMessage extends Base {
     /**
@@ -57,6 +57,33 @@ export class IdpMessage extends Base {
      */
     async deleteMessage(messageId: string): Promise<void> {
         await this.axios.delete<void>(this.getEndpoint(`/v1/messages/${messageId}`));
+    }
+
+    /**
+     * Send message to single user or all users of organization or team.
+     *
+     * This is an internal endpoint.
+     *
+     * @param msg Message to send
+     *   - to - should be email, orgName or teamName
+     *   - recipient - enum type USER, ORGANIZATION or TEAM (by default is USER)
+     *   - orgName - should be only specified if recipient===TEAM
+     *   - title - title of the message (max 255 characters)
+     *   - subject - subject of the message (max 255 characters)
+     *   - message - content of the message (max 5000 characters)
+     * @returns the Message object
+     */
+    async sendMessage(msg: {
+        to: string;
+        recipient?: RecipientType;
+        orgName?: string;
+        title?: string;
+        subject?: string;
+        message: string;
+    }): Promise<Message> {
+        const res = await this.axios.post<Message>(this.getEndpoint(`/internal/v1/messages`), msg);
+
+        return res.data;
     }
 
     protected getEndpoint(endpoint: string): string {

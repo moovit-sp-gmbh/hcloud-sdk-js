@@ -46,7 +46,15 @@ class Nats extends Base {
     private subMap = [] as SubMapEntry[];
     private connection = isBrowser ? connectWs : connectNode;
 
+    // eslint-disable-next-line complexity
     public async connect(params: ConnectParamsJwt | ConnectParamsPassword): Promise<NatsConnection> {
+        let previousSubs = [] as SubMapEntry[];
+        if (this.natsConnection && !this.natsConnection.isClosed()) {
+            previousSubs = [...this.subMap];
+            await this.natsConnection.close();
+            this.subMap = [] as SubMapEntry[];
+        }
+
         if (params.forceWebsocket) {
             this.connection = connectWs;
         }
@@ -69,6 +77,13 @@ class Nats extends Base {
             user: (params as ConnectParamsJwt).email !== undefined ? (params as ConnectParamsJwt).email : (params as ConnectParamsPassword).username,
             pass: (params as ConnectParamsJwt).jwt !== undefined ? (params as ConnectParamsJwt).jwt : (params as ConnectParamsPassword).password,
         });
+
+        for (const entry of previousSubs) {
+            await this.sub(entry.subject, (err, data, msg) => {
+                entry.sub.callback?.(err, msg);
+            });
+        }
+
         return this.natsConnection;
     }
 

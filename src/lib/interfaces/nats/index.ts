@@ -159,6 +159,7 @@ interface NatsObject
         NatsLicenseObject,
         NatsCustomNodeObject,
         NatsAssetObject,
+        NatsIdNoUnderscoreObject,
         NatsTargetObject {
     [NatsSubject.IDP_USER_GENERAL]: NatsIdObject;
     [NatsSubject.IDP_USER_PROFILE]: NatsIdObject;
@@ -210,6 +211,9 @@ interface NatsNameObject {
 }
 interface NatsIdObject {
     _id: string;
+}
+interface NatsIdNoUnderscoreObject {
+    id: string;
 }
 
 interface NatsAssetObject {

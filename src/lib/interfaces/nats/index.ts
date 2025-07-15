@@ -1,7 +1,7 @@
-import { Msg } from "nats";
-import { Products } from "../global";
-import { High5ExecuteOnAgentRequest, High5ExecutionCancelRequest } from "../high5/space/execution";
-import { LicenseTier } from "../idp";
+import { Msg } from "nats"
+import { Products } from "../global"
+import { High5ExecuteOnAgentRequest, High5ExecutionCancelRequest } from "../high5/space/execution"
+import { LicenseTier } from "../idp"
 
 enum NatsSubject {
     IDP_USER_GENERAL = "hcloud.idp.user.${userId}.general",
@@ -195,7 +195,7 @@ interface NatsObject
     [NatsSubject.FUSE_SPACE_PERMISSIONS]: NatsIdObject;
     [NatsSubject.FUSE_JOBS]: NatsIdObject;
     [NatsSubject.FUSE_JOB_LOGS]: NatsIdObject;
-    [NatsSubject.COSMO_ASSETS]: NatsAssetObject;
+    [NatsSubject.COSMO_ASSETS]: NatsAssetObject[];
     [NatsSubject.FRIDAY_SPACES]: NatsNameObject;
     [NatsSubject.FRIDAY_SPACE_PERMISSIONS]: NatsIdObject;
     [NatsSubject.FRIDAY_DATABASES]: NatsNameObject;
@@ -616,4 +616,5 @@ const base64Encode = (str: string) => {
     }
 };
 
-export { NatsCallback, NatsMessage, NatsMessageType, NatsObject, NatsObjectType, NatsSubject, NatsSubjects, Msg as RawMsg };
+export { NatsCallback, NatsMessage, NatsMessageType, NatsObject, NatsObjectType, NatsSubject, NatsSubjects, Msg as RawMsg }
+

@@ -97,6 +97,18 @@ export class High5Event extends Base {
         await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}`));
     }
 
+    /**
+     * Triggers a bulk creation of Cosmo Events in the provided Space if not existing.
+     * @param orgName Name of the Organization
+     * @param spaceName Name of the Space
+     * @returns The created Events or an empty array if no events were created because they already exist
+     */
+    async bulkCreateCosmoEvents(orgName: string, spaceName: string): Promise<Event[]> {
+        const resp = await this.axios.post<Event[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/cosmo/bulkAdd`));
+
+        return resp.data;
+    }
+
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/high5${endpoint}`;
     }

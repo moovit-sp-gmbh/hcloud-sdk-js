@@ -1,3 +1,4 @@
+import { SearchFilterComparatorString, SearchFilterType } from "../../global/SearchFilters";
 import { ReducedUser } from "../../idp";
 import { Reference } from "../namespace";
 
@@ -138,4 +139,26 @@ export enum Resolution {
     R1080 = "1080",
     R720 = "720",
     R480 = "480",
+}
+
+export const searchParams = {
+    type: {
+        type: [SearchFilterType.STRING, SearchFilterType.SELECT, SearchFilterType.TYPEAHEAD],
+        comparators: [SearchFilterComparatorString.IS, SearchFilterComparatorString.IS_NOT],
+    },
+    id: {
+        type: [SearchFilterType.STRING],
+        comparators: [SearchFilterComparatorString.IS, SearchFilterComparatorString.IS_NOT],
+    },
+    name: {
+        type: [SearchFilterType.STRING, SearchFilterType.SELECT, SearchFilterType.TYPEAHEAD],
+        comparators: [SearchFilterComparatorString.IS, SearchFilterComparatorString.IS_NOT, SearchFilterComparatorString.CONTAINS],
+    },
+} as const;
+
+export interface AssetFilter {
+    key: keyof typeof searchParams;
+    type: (typeof searchParams)[this["key"]]["type"][number];
+    value: string;
+    operator: (typeof searchParams)[this["key"]]["comparators"][number];
 }

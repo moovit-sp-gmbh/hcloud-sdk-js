@@ -1,6 +1,7 @@
 import Base from "../../Base";
 import { Version } from "../../interfaces/global";
 import { CosmoAsset } from "./asset";
+import { CosmoSpace } from "./space";
 
 export default class CosmoService extends Base {
     public get cosmoAsset(): CosmoAsset {
@@ -10,6 +11,14 @@ export default class CosmoService extends Base {
         return this._cosmoAsset;
     }
     private _cosmoAsset?: CosmoAsset;
+
+    public get cosmoSpace(): CosmoSpace {
+        if (this._cosmoSpace === undefined) {
+            this._cosmoSpace = new CosmoSpace(this.options, this.axios);
+        }
+        return this._cosmoSpace;
+    }
+    private _cosmoSpace?: CosmoSpace;
 
     /**
      * Requests the endpoint version

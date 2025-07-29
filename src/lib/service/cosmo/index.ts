@@ -1,6 +1,7 @@
 import Base from "../../Base";
 import { Version } from "../../interfaces/global";
 import { CosmoAsset } from "./asset";
+import { CosmoLocation } from "./location";
 import { CosmoSpace } from "./space";
 
 export default class CosmoService extends Base {
@@ -19,6 +20,14 @@ export default class CosmoService extends Base {
         return this._cosmoSpace;
     }
     private _cosmoSpace?: CosmoSpace;
+
+    public get cosmoLocation(): CosmoLocation {
+        if (this._cosmoLocation === undefined) {
+            this._cosmoLocation = new CosmoLocation(this.options, this.axios);
+        }
+        return this._cosmoLocation;
+    }
+    private _cosmoLocation?: CosmoLocation;
 
     /**
      * Requests the endpoint version

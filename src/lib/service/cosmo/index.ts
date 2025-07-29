@@ -6,6 +6,7 @@ import { CosmoFolder } from "./folder";
 import { CosmoLocation } from "./location";
 import { CosmoNamespace } from "./namespace";
 import { CosmoProduction } from "./production";
+import { CosmoShare } from "./share";
 import { CosmoSpace } from "./space";
 
 export default class CosmoService extends Base {
@@ -64,6 +65,14 @@ export default class CosmoService extends Base {
         return this._cosmoComment;
     }
     private _cosmoComment?: CosmoComment;
+
+    public get cosmoShare(): CosmoShare {
+        if (this._cosmoShare === undefined) {
+            this._cosmoShare = new CosmoShare(this.options, this.axios);
+        }
+        return this._cosmoShare;
+    }
+    private _cosmoShare?: CosmoShare;
 
     /**
      * Requests the endpoint version

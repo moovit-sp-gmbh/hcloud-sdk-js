@@ -1,6 +1,7 @@
 import Base from "../../Base";
 import { Version } from "../../interfaces/global";
 import { CosmoAsset } from "./asset";
+import { CosmoComment } from "./comment";
 import { CosmoFolder } from "./folder";
 import { CosmoLocation } from "./location";
 import { CosmoNamespace } from "./namespace";
@@ -55,6 +56,14 @@ export default class CosmoService extends Base {
         return this._cosmoNamespace;
     }
     private _cosmoNamespace?: CosmoNamespace;
+
+    public get cosmoComment(): CosmoComment {
+        if (this._cosmoComment === undefined) {
+            this._cosmoComment = new CosmoComment(this.options, this.axios);
+        }
+        return this._cosmoComment;
+    }
+    private _cosmoComment?: CosmoComment;
 
     /**
      * Requests the endpoint version

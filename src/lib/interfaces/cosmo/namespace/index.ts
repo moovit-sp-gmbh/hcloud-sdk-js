@@ -9,3 +9,8 @@ export enum NamespacePermission {
     WRITE_COMMENTS = "WRITE_COMMENTS",
     READ_STATUS = "READ_STATUS",
 }
+
+export interface Namespace {
+    id: string;
+    name: string;
+}

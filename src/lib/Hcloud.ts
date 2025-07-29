@@ -6,6 +6,7 @@ import { disableCacheHeaders } from "./interfaces/axios";
 import AgentService from "./service/agent";
 import AuditorService from "./service/auditor";
 import BouncerService from "./service/bouncer";
+import CosmoService from "./service/cosmo";
 import DaliService from "./service/dali";
 import FridayService from "./service/friday";
 import FuseService from "./service/fuse";
@@ -40,6 +41,14 @@ export class HCloud {
         return this._Bouncer;
     }
     private _Bouncer?: BouncerService;
+
+    public get Cosmo(): CosmoService {
+        if (this._Cosmo === undefined) {
+            this._Cosmo = new CosmoService(this.options, this.axios);
+        }
+        return this._Cosmo;
+    }
+    private _Cosmo?: CosmoService;
 
     public get High5(): High5Service {
         if (this._High5 === undefined) {

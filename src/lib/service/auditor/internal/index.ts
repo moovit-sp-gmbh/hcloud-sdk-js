@@ -46,6 +46,30 @@ export class AuditorInternal extends Base {
         await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgId}/logs`));
     }
 
+    /**
+     * Deletes all audit logs of an Asset by space
+     *
+     * THIS IS AN INTERNAL ENDPOINT AND CAN ONLY BE USED FROM BACKENDS WITHIN THE HCLOUD DEPLOYMENT
+     * @param orgId the organizations's ID
+     * @param spaceName the Space's name
+     * @returns void
+     */
+    async deleteAllAuditLogsOfSpace(orgId: string, spaceName: string): Promise<void> {
+        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgId}/spaces/${spaceName}/logs`));
+    }
+
+    /**
+     * Deletes all audit logs of an Asset
+     *
+     * THIS IS AN INTERNAL ENDPOINT AND CAN ONLY BE USED FROM BACKENDS WITHIN THE HCLOUD DEPLOYMENT
+     * @param orgId the organizations's ID
+     * @param assetId the Asset's ID
+     * @returns void
+     */
+    async deleteAllAuditLogsOfAsset(orgId: string, assetId: string): Promise<void> {
+        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgId}/assets/${assetId}/logs`));
+    }
+
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/auditor/internal${endpoint}`;
     }

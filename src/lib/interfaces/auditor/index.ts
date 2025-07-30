@@ -73,6 +73,7 @@ export interface AuditLog {
     message?: unknown;
     expireAt: Date;
     requestorIp: string;
+    assetId?: string;
 }
 
 export interface AuditLogCreate {
@@ -84,4 +85,5 @@ export interface AuditLogCreate {
     type?: Type;
     message?: unknown;
     requestorIp: string;
+    assetId?: string;
 }

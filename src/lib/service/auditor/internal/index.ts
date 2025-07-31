@@ -4,7 +4,7 @@ import { AuditLogCreate } from "../../../interfaces/auditor";
 export class AuditorInternal extends Base {
     private queueExecutionInterval: number = this.options.auditor?.queue?.executionInterval || 500;
     private logQueue = [] as AuditLogCreate[];
-    private logQueueTimer: ReturnType<typeof setTimeout> | undefined;
+    private logQueueInterval: ReturnType<typeof setInterval> | undefined;
 
     /**
      * Adds log entries to a queue that will be processed periodically.
@@ -16,7 +16,7 @@ export class AuditorInternal extends Base {
      * @param logs array (add multiple logs entries at once)
      */
     async queueAuditLogs(logs: AuditLogCreate[]): Promise<void> {
-        if (!this.logQueueTimer) {
+        if (!this.logQueueInterval) {
             this.startQueue();
         }
 
@@ -24,8 +24,8 @@ export class AuditorInternal extends Base {
     }
 
     private startQueue(): void {
-        if (!this.logQueueTimer) {
-            this.logQueueTimer = setTimeout(() => {
+        if (!this.logQueueInterval) {
+            this.logQueueInterval = setInterval(() => {
                 if (this.logQueue.length > 0) {
                     // DO NOT REMOVE THE IGNORE CATCH AS IT WOULD LEAD TO UNHANDLED PROMISE REJECTION IN OTHER ENDPOINTS AND THEIR CRASH
                     this.axios.post<void>(this.getEndpoint("/v1/logs"), this.logQueue).catch(ignored => ignored);

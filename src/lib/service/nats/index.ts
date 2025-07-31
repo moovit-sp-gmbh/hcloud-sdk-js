@@ -80,7 +80,7 @@ class Nats extends Base {
 
         for (const entry of previousSubs) {
             await this.sub(entry.subject, (err, data, msg) => {
-                entry.sub.callback?.(err, msg);
+                entry.sub.callback?.(err as NatsError, msg ? msg : ({} as Msg));
             });
         }
 

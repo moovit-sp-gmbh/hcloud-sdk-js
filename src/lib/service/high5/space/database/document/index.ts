@@ -1,12 +1,30 @@
 import Base from "../../../../../Base";
 import { createPaginatedResponse } from "../../../../../helper/paginatedResponseHelper";
 import { SearchFilterDTO } from "../../../../../helper/searchFilter";
-import { Document, DocumentCreateDto, DocumentPatchDto } from "../../../../../interfaces/friday";
 import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../../interfaces/global";
+import { Document, DocumentCreateDto, DocumentPatchDto } from "../../../../../interfaces/high5";
+import { High5DocumentArray } from "./array";
+import { High5DocumentNumber } from "./number";
 
-export class FridayDocument extends Base {
+export class High5Document extends Base {
+    public get number(): High5DocumentNumber {
+        if (this._number === undefined) {
+            this._number = new High5DocumentNumber(this.options, this.axios);
+        }
+        return this._number;
+    }
+    private _number?: High5DocumentNumber;
+
+    public get array(): High5DocumentArray {
+        if (this._array === undefined) {
+            this._array = new High5DocumentArray(this.options, this.axios);
+        }
+        return this._array;
+    }
+    private _array?: High5DocumentArray;
+
     /**
-     * Retrieves all Documents of a Friday Database which match the provided search filter(s). Will return all Documents of the Database if no filter is provided.
+     * Retrieves all Documents of a High5 Database which match the provided search filter(s). Will return all Documents of the Database if no filter is provided.
      * @param orgName Name of the Organization
      * @param spaceName Name of the Space
      * @param dbName Name of the Database
@@ -16,7 +34,7 @@ export class FridayDocument extends Base {
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
      * @returns Object containing an array of Documents and the total number of results found in the database (independent of limit and page)
      */
-    async searchDatabases({
+    async searchDocuments({
         orgName,
         spaceName,
         dbName,
@@ -99,6 +117,6 @@ export class FridayDocument extends Base {
     }
 
     protected getEndpoint(endpoint: string): string {
-        return `${this.options.server}/api/friday${endpoint}`;
+        return `${this.options.server}/api/high5${endpoint}`;
     }
 }

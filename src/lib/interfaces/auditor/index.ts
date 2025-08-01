@@ -15,7 +15,6 @@ export enum Origin {
     Fuse = "fuse",
     Mothership = "mothership",
     Dali = "dali",
-    Friday = "friday",
     Cosmo = "cosmo",
 }
 

@@ -46,16 +46,13 @@ enum NatsSubject {
     HIGH5_WAVE_ENGINE_LATEST = "hcloud.high5.wave.engine.latest",
     HIGH5_SPACES_POOLS = "hcloud.high5.organization.${base64orgName}.spaces.${base64spaceName}.pools.>",
     HIGH5_SPACES_POOL = "hcloud.high5.organization.${base64orgName}.spaces.${base64spaceName}.pools.${base64poolName}",
+    HIGH5_DATABASES = "hcloud.high5.organization.${base64orgName}.spaces.${base64spaceName}.databases",
+    HIGH5_DOCUMENTS = "hcloud.high5.organization.${base64orgName}.spaces.${base64spaceName}.databases.${base64databaseName}.documents",
 
     FUSE_SPACES = "hcloud.fuse.organization.${base64orgName}.spaces",
     FUSE_SPACE_PERMISSIONS = "hcloud.fuse.organization.${base64orgName}.spaces.${base64spaceName}.permissions",
     FUSE_JOBS = "hcloud.fuse.organization.${base64orgName}.spaces.${base64spaceName}.jobs",
     FUSE_JOB_LOGS = "hcloud.fuse.organization.${base64orgName}.spaces.${base64spaceName}.jobs.${jobId}.logs",
-
-    FRIDAY_SPACES = "hcloud.friday.organization.${base64orgName}.spaces",
-    FRIDAY_SPACE_PERMISSIONS = "hcloud.friday.organization.${base64orgName}.spaces.${base64spaceName}.permissions",
-    FRIDAY_DATABASES = "hcloud.friday.organization.${base64orgName}.spaces.${base64spaceName}.databases",
-    FRIDAY_DOCUMENTS = "hcloud.friday.organization.${base64orgName}.spaces.${base64spaceName}.databases.${base64databaseName}.documents",
 
     COSMO_SPACES = "hcloud.cosmo.organization.${base64orgName}.spaces",
     COSMO_NAMESPACES = "hcloud.cosmo.organization.${base64orgName}.spaces.${base64spaceName}.namespaces",
@@ -191,15 +188,13 @@ interface NatsObject
     [NatsSubject.HIGH5_SPACES_POOLS]: NatsPoolObject;
     [NatsSubject.HIGH5_WEBHOOK_LOGS]: NatsIdObject;
     [NatsSubject.HIGH5_CATALOGS]: NatsIdObject;
+    [NatsSubject.HIGH5_DATABASES]: NatsNameObject;
+    [NatsSubject.HIGH5_DOCUMENTS]: NatsNameObject;
     [NatsSubject.FUSE_SPACES]: NatsNameObject;
     [NatsSubject.FUSE_SPACE_PERMISSIONS]: NatsIdObject;
     [NatsSubject.FUSE_JOBS]: NatsIdObject;
     [NatsSubject.FUSE_JOB_LOGS]: NatsIdObject;
     [NatsSubject.COSMO_ASSETS]: NatsAssetObject[];
-    [NatsSubject.FRIDAY_SPACES]: NatsNameObject;
-    [NatsSubject.FRIDAY_SPACE_PERMISSIONS]: NatsIdObject;
-    [NatsSubject.FRIDAY_DATABASES]: NatsNameObject;
-    [NatsSubject.FRIDAY_DOCUMENTS]: NatsNameObject;
     [NatsSubject.MOTHERSHIP_AGENT_CONNECTION]: NatsTargetObject;
     [NatsSubject.AUDITOR_LOGS]: NatsIdObject;
     [NatsSubject.DEBUG_NAMESPACE]: string;
@@ -489,33 +484,22 @@ class NatsSubjects {
             static NODES = (organizationName: string, spaceName: string) => {
                 return NatsSubjects.replace(NatsSubject.HIGH5_NODES, { organizationName, spaceName });
             };
-        };
-        static WAVE = class {
-            static ENGINE = class {
-                static LATEST = NatsSubject.HIGH5_WAVE_ENGINE_LATEST;
-            };
-        };
-    };
-
-    static Friday = class {
-        static SPACES = (organizationName: string) => {
-            return NatsSubjects.replace(NatsSubject.FRIDAY_SPACES, { organizationName });
-        };
-        static Space = class {
-            static PERMISSIONS = (organizationName: string, spaceName: string) => {
-                return NatsSubjects.replace(NatsSubject.FRIDAY_SPACE_PERMISSIONS, { organizationName, spaceName });
-            };
             static DATABASES = (organizationName: string, spaceName: string) => {
-                return NatsSubjects.replace(NatsSubject.FRIDAY_DATABASES, { organizationName, spaceName });
+                return NatsSubjects.replace(NatsSubject.HIGH5_DATABASES, { organizationName, spaceName });
             };
             static Database = class {
                 static DOCUMENTS = (organizationName: string, spaceName: string, databaseName: string) => {
-                    return NatsSubjects.replace(NatsSubject.FRIDAY_DOCUMENTS, {
+                    return NatsSubjects.replace(NatsSubject.HIGH5_DOCUMENTS, {
                         organizationName,
                         spaceName,
                         databaseName,
                     });
                 };
+            };
+        };
+        static WAVE = class {
+            static ENGINE = class {
+                static LATEST = NatsSubject.HIGH5_WAVE_ENGINE_LATEST;
             };
         };
     };

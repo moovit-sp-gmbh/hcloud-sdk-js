@@ -56,6 +56,12 @@ export type LicenseQuota = {
                     quota: number;
                 };
             };
+            databases: {
+                quota: number;
+                documents: {
+                    quota: number;
+                };
+            };
         };
         executionsPerMonth: {
             quota: number;
@@ -72,17 +78,6 @@ export type LicenseQuota = {
             };
         };
         secondBaseExecutions: boolean;
-    };
-    friday: {
-        spaces: {
-            quota: number;
-            databases: {
-                quota: number;
-                documents: {
-                    quota: number;
-                };
-            };
-        };
     };
 };
 

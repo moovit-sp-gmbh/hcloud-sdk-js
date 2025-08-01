@@ -8,6 +8,7 @@ import {
     High5SpaceEntityPermission as SpaceEntityPermission,
     High5SpacePermission as SpacePermission,
 } from "../../../interfaces/high5/space";
+import { High5Database } from "./database";
 import { High5Event } from "./event";
 import { High5SpaceExecute } from "./execution";
 import High5Node from "./node";
@@ -66,6 +67,14 @@ export class High5Space extends Base {
         return this._node;
     }
     private _node?: High5Node;
+
+    public get database(): High5Database {
+        if (this._database === undefined) {
+            this._database = new High5Database(this.options, this.axios);
+        }
+        return this._database;
+    }
+    private _database?: High5Database;
 
     /**
      * Retrieves all High5 Spaces of the specified Organization matching the search filter(s). Will return all Spaces if no search filter is provided.

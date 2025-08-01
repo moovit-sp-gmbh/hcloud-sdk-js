@@ -1,21 +1,21 @@
 import Base from "../../../../Base";
 import { createPaginatedResponse } from "../../../../helper/paginatedResponseHelper";
 import { SearchFilterDTO } from "../../../../helper/searchFilter";
-import { Database } from "../../../../interfaces/friday";
 import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../interfaces/global";
-import { FridayDocument } from "./document";
+import { Database } from "../../../../interfaces/high5";
+import { High5Document } from "./document";
 
-export class FridayDatabase extends Base {
-    public get document(): FridayDocument {
+export class High5Database extends Base {
+    public get document(): High5Document {
         if (this._document === undefined) {
-            this._document = new FridayDocument(this.options, this.axios);
+            this._document = new High5Document(this.options, this.axios);
         }
         return this._document;
     }
-    private _document?: FridayDocument;
+    private _document?: High5Document;
 
     /**
-     * Retrieves all Databases of a Friday Space which match the provided search filter(s). Will return all Databases of the Space if no filter is provided.
+     * Retrieves all Databases of a High5 Space which match the provided search filter(s). Will return all Databases of the Space if no filter is provided.
      * @param orgName Name of the Organization
      * @param spaceName Name of the Space
      * @param filters (optional) Array of search filters
@@ -98,6 +98,6 @@ export class FridayDatabase extends Base {
     }
 
     protected getEndpoint(endpoint: string): string {
-        return `${this.options.server}/api/friday${endpoint}`;
+        return `${this.options.server}/api/high5${endpoint}`;
     }
 }

@@ -14,6 +14,7 @@ import IdpService from "./service/idp";
 import MailerService from "./service/mailer";
 import MothershipService from "./service/mothership";
 import NatsService from "./service/nats";
+import ShortsService from "./service/shorts";
 
 // tslint:disable-next-line
 export class HCloud {
@@ -96,6 +97,14 @@ export class HCloud {
         return this._Mothership;
     }
     private _Mothership?: MothershipService;
+
+    public get Shorts(): ShortsService {
+        if (this._Shorts === undefined) {
+            this._Shorts = new ShortsService(this.options, this.axios);
+        }
+        return this._Shorts;
+    }
+    private _Shorts?: ShortsService;
 
     public get Nats(): NatsService {
         if (this._Nats === undefined) {

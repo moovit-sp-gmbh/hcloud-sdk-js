@@ -41,6 +41,7 @@ enum Entity {
     NAMESPACE_NAME = "NAMESPACE_NAME",
     MESSAGE_ID = "MESSAGE_ID",
     ARRAY_INDEX = "ARRAY_INDEX",
+    URL_SLUG = "URL_SLUG",
 }
 
 interface Details {
@@ -331,6 +332,11 @@ const entityCollection: Record<Entity, Details> = {
         pattern: /^\d{1,24}$/i,
         minLength: 1,
         maxLength: 24,
+    },
+    [Entity.URL_SLUG]: {
+        pattern: /^[A-NP-Za-km-z1-9]{6}$/i,
+        minLength: 6,
+        maxLength: 6,
     },
 };
 

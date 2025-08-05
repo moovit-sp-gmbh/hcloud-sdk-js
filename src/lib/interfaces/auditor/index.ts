@@ -86,4 +86,5 @@ export interface AuditLogCreate {
     message?: unknown;
     requestorIp: string;
     assetId?: string;
+    preventTTL?: boolean;
 }

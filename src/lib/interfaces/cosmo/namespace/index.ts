@@ -11,6 +11,6 @@ export enum NamespacePermission {
 }
 
 export interface Namespace {
-    id: string;
+    _id: string;
     name: string;
 }

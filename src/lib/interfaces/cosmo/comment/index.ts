@@ -1,7 +1,6 @@
 import { ReducedUser } from "../../idp";
 
 export interface CreateComment {
-    id: string;
     refId: string;
     text: string;
     timestamp: Timestamp;
@@ -15,8 +14,8 @@ export interface EditComment {
 }
 
 export interface Comment {
+    _id: string;
     text: string;
-    id: string;
     createDate: number;
     timestamp?: Timestamp;
     creator: ReducedUser;

@@ -2,7 +2,7 @@ import { ReducedUser } from "../../idp";
 import { ItemType } from "../asset";
 
 export interface CosmoSpace {
-    id: string;
+    _id: string;
     name: string;
     createDate: number;
     avatarUrl: string;

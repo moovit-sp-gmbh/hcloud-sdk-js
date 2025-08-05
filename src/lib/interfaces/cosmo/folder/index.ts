@@ -1,13 +1,13 @@
 import { ItemType } from "../asset";
 
 export interface Item {
-    id: string;
+    _id: string;
     name: string;
     type: ItemType;
 }
 
 export interface Folder {
-    id: string;
+    _id: string;
     name: string;
     type: ItemType.FOLDER;
     breadcrumb: Item[];

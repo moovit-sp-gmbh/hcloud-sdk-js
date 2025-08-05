@@ -1,7 +1,7 @@
 import { ReducedUser } from "../../idp";
 
 export interface Share {
-    id: string;
+    _id: string;
     name: string;
     creator: ReducedUser;
     createDate: number;

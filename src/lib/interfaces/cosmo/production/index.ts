@@ -1,4 +1,4 @@
 export interface Production {
-    id: string;
+    _id: string;
     name: string;
 }

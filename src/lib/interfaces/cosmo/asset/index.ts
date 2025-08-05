@@ -3,7 +3,7 @@ import { ReducedUser } from "../../idp";
 import { Reference } from "../namespace";
 
 export type Item = {
-    id: string;
+    _id: string;
     name: string;
     type: ItemType;
     breadcrumb?: Item[];
@@ -18,7 +18,7 @@ export enum ItemType {
 }
 
 export interface Asset extends Item {
-    id: string;
+    _id: string;
     name: string;
     assetType: AssetType;
     path: string;
@@ -146,7 +146,7 @@ export const searchParams = {
         type: [SearchFilterType.STRING, SearchFilterType.SELECT, SearchFilterType.TYPEAHEAD],
         comparators: [SearchFilterComparatorString.IS, SearchFilterComparatorString.IS_NOT],
     },
-    id: {
+    _id: {
         type: [SearchFilterType.STRING],
         comparators: [SearchFilterComparatorString.IS, SearchFilterComparatorString.IS_NOT],
     },

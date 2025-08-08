@@ -3,6 +3,7 @@ import { Version } from "../../interfaces/global";
 import { CosmoAsset } from "./asset";
 import { CosmoComment } from "./comment";
 import { CosmoFolder } from "./folder";
+import { CosmoSpaceInternal } from "./internal/space";
 import { CosmoLocation } from "./location";
 import { CosmoNamespace } from "./namespace";
 import { CosmoOrganization } from "./organization";
@@ -82,6 +83,14 @@ export default class CosmoService extends Base {
         return this._cosmoOrganization;
     }
     private _cosmoOrganization?: CosmoOrganization;
+
+    public get cosmoSpaceInternal(): CosmoSpaceInternal {
+        if (this._cosmoSpaceInternal === undefined) {
+            this._cosmoSpaceInternal = new CosmoSpaceInternal(this.options, this.axios);
+        }
+        return this._cosmoSpaceInternal;
+    }
+    private _cosmoSpaceInternal?: CosmoSpaceInternal;
 
     /**
      * Requests the endpoint version

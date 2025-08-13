@@ -5,6 +5,7 @@ export interface NotificationSettings {
     user: ReducedUser;
     organizationInvitationEmail: boolean;
     systemNotifications: boolean;
+    cosmoNotifications: boolean;
 }
 
 export type NotificationSettingsPatch = Partial<Omit<NotificationSettings, "_id" | "user">>;

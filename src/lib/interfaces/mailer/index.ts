@@ -41,6 +41,7 @@ enum MailjetTemplate {
     IDP_RESET_PASSWORD = "IDP_RESET_PASSWORD",
     IDP_REGISTRATION_AND_INVITATION = "IDP_REGISTRATION_AND_INVITATION",
     IDP_USER_LEFT_ORGANIZATION = "IDP_USER_LEFT_ORGANIZATION",
+    COSMO_NEW_SHARE = "COSMO_NEW_SHARE",
 }
 
 interface MailjetTemplateField {
@@ -110,6 +111,14 @@ export class IdpUserLeftOrganizationMailjetMailDTO extends MailjetMailDTO {
             USER_NAME: userName,
             USER_EMAIL: userEmail,
             ORGANIZATION_NAME: organizationName,
+        });
+    }
+}
+
+export class CosmoNewShareMailjetMailDTO extends MailjetMailDTO {
+    constructor(recipients: string[], shareLink: string) {
+        super(recipients, MailjetTemplate.COSMO_NEW_SHARE, {
+            HCLOUD_SHARE_LINK: shareLink,
         });
     }
 }

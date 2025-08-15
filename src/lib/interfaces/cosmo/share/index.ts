@@ -12,4 +12,12 @@ export interface ShareCreate extends Omit<Share, "id" | "createDate" | "creator"
     password?: string;
     expires?: number;
     namespaces?: Map<string, string[]>;
+    /**
+     * Array of emails
+     */
+    users?: string[];
 }
+
+export type ShareWithUsers = Share & {
+    users: ReducedUser[];
+};

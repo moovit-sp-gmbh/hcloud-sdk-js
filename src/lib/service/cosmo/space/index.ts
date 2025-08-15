@@ -90,34 +90,6 @@ export class CosmoSpace extends Base {
     }
 
     /**
-     * Search assets in a Space.
-     * @remarks
-     * ** Under development, breaking changes possible**
-     * @param orgName Name of the Organization
-     * @param spaceName Name of the Space
-     * @param assetFilter Filter for assets in the Space
-     * @param limit Maximum number of assets to return
-     * @param page Page number for pagination
-     * @param recursive Optional flag to search recursively
-     * @returns The updated Space
-     */
-    async searchAssetsInSpace(
-        orgName: string,
-        spaceName: string,
-        assetFilter: AssetFilter[],
-        limit: number,
-        page: number,
-        recursive: boolean = false
-    ): Promise<Asset[]> {
-        const resp = await this.axios.post<Asset[]>(
-            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/search?limit=${limit}&page=${page}&recursive=${recursive}`),
-            { filters: assetFilter }
-        );
-
-        return resp.data;
-    }
-
-    /**
      * Search assets in trash inside a Space.
      * @remarks
      * ** Under development, breaking changes possible**

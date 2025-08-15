@@ -20,15 +20,38 @@ export class CosmoOrganization extends Base {
      * @remarks
      * ** Under development, breaking changes possible**
      * @param orgName Name of the Organization
+     * @param spaceName Name of Space to restrict search space
+     * @param parentId ID of parent (folder, etc.) to restrict search space
      * @param assetFilter Filter criteria for Assets
      * @param limit Maximum number of Assets to return
      * @param page Page number for pagination
+     * @param recursive Flag for searching recursively
      * @returns List of found Assets
      */
-    async searchAssets(orgName: string, assetFilter: AssetFilter, limit: number, page: number): Promise<Asset[]> {
-        const resp = await this.axios.post<Asset[]>(this.getEndpoint(`/v1/org/${orgName}/assets?limit=${limit}&page=${page}`), {
-            filters: assetFilter,
-        });
+    async searchAssets(
+        orgName: string,
+        spaceName: string | undefined,
+        parentId: string | undefined,
+        assetFilter: AssetFilter,
+        limit: number,
+        page: number,
+        recursive: boolean = false
+    ): Promise<Asset[]> {
+        const resp = await this.axios.post<Asset[]>(
+            this.getEndpoint(`/v1/org/${orgName}/assets/search`),
+            {
+                filters: assetFilter,
+            },
+            {
+                params: {
+                    limit,
+                    page,
+                    spaceName,
+                    parentId,
+                    recursive,
+                },
+            }
+        );
 
         return resp.data;
     }

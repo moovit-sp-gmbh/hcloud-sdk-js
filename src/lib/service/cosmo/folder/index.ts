@@ -1,5 +1,4 @@
 import Base from "../../../Base";
-import { Asset, AssetFilter } from "../../../interfaces/cosmo/asset";
 import { Folder } from "../../../interfaces/cosmo/folder";
 
 /**
@@ -96,40 +95,6 @@ export class CosmoFolder extends Base {
         const resp = await this.axios.patch<Folder>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/folders/${folderId}/move`), {
             parentId: newParentId,
         });
-
-        return resp.data;
-    }
-
-    /**
-     * Search assets inside a folder
-     * @remarks
-     * ** Under development, breaking changes possible**
-     * @param orgName Name of the Organization
-     * @param spaceName Name of the Space
-     * @param folderId ID of the Folder to search
-     * @param assetFilter Filter for assets in the folder
-     * @param limit Maximum number of assets to return
-     * @param page Page number for pagination
-     * @param recursive If true, search recursively in subfolders
-     * @returns List of matching assets
-     */
-    async searchAssetsInFolder(
-        orgName: string,
-        spaceName: string,
-        folderId: string,
-        assetFilter: AssetFilter,
-        limit: number,
-        page: number,
-        recursive: boolean = false
-    ): Promise<Asset[]> {
-        const resp = await this.axios.post<Asset[]>(
-            this.getEndpoint(
-                `/v1/org/${orgName}/spaces/${spaceName}/folders/${folderId}/assets/search?limit=${limit}&page=${page}&recursive=${recursive}`
-            ),
-            {
-                filters: assetFilter,
-            }
-        );
 
         return resp.data;
     }

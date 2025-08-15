@@ -1,5 +1,6 @@
 import Base from "../../../Base";
-import { Share, ShareCreate } from "../../../interfaces/cosmo/share";
+import { Share, ShareCreate, ShareWithUsers } from "../../../interfaces/cosmo/share";
+import { SearchFilter, Sorting } from "../../../interfaces/global";
 
 /**
  * @class Share
@@ -80,5 +81,91 @@ export class CosmoShare extends Base {
      */
     async deleteShare(orgName: string, spaceName: string, shareId: string): Promise<void> {
         await this.axios.delete(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/shares/${shareId}`));
+    }
+
+    /**
+     * Searches for shares within a specific space in an organization.
+     *
+     * @param {string} orgName - The name of the organization.
+     * @param {string} spaceName - The name of the space.
+     * @param {{ sorting?: Sorting, filters?: SearchFilter[] }} search - Search criteria including optional sorting and filters.
+     * @param {number} limit - Maximum number of results per page.
+     * @param {number} page - The page number to retrieve.
+     * @returns {Promise<ShareWithUsers[]>} A promise that resolves to a list of shares with their associated users.
+     */
+    async searchSharesOfSpace(
+        orgName: string,
+        spaceName: string,
+        search: { sorting?: Sorting; filters?: SearchFilter[] },
+        limit: number,
+        page: number
+    ): Promise<ShareWithUsers[]> {
+        const resp = await this.axios.post<ShareWithUsers[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/shares/search`), search, {
+            params: {
+                limit,
+                page,
+            },
+        });
+
+        return resp.data;
+    }
+
+    /**
+     * Searches for shares the current user is linked to.
+     *
+     * @param {{ sorting?: Sorting, filters?: SearchFilter[] }} search - Search criteria including optional sorting and filters.
+     * @param {number} limit - Maximum number of results per page.
+     * @param {number} page - The page number to retrieve.
+     * @returns {Promise<Share[]>} A promise that resolves to a list of shares the current user is linked to.
+     */
+    async searchSharesOfUser(search: { sorting?: Sorting; filters?: SearchFilter[] }, limit: number, page: number): Promise<Share[]> {
+        const resp = await this.axios.post<Share[]>(this.getEndpoint(`/v1/user/shares/search`), search, {
+            params: {
+                limit,
+                page,
+            },
+        });
+
+        return resp.data;
+    }
+
+    /**
+     * Unlinks the current user from a specific share in a space.
+     *
+     * @param {string} orgName - The name of the organization.
+     * @param {string} spaceName - The name of the space.
+     * @param {string} shareId - The ID of the share to unlink from.
+     * @returns {Promise<void>} A promise that resolves when the unlinking is complete.
+     */
+    async unlinkSelf(orgName: string, spaceName: string, shareId: string): Promise<void> {
+        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/shares/${shareId}/link`));
+    }
+
+    /**
+     * Unlinks another user from a specific share in a space.
+     *
+     * @param {string} orgName - The name of the organization.
+     * @param {string} spaceName - The name of the space.
+     * @param {string} shareId - The ID of the share to unlink from.
+     * @param {string} userId - The ID of the user to unlink.
+     * @returns {Promise<void>} A promise that resolves when the unlinking is complete.
+     */
+    async unlinkOther(orgName: string, spaceName: string, shareId: string, userId: string): Promise<void> {
+        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/shares/${shareId}/user/${userId}`));
+    }
+
+    /**
+     * Links one or more users (by email) to a specific share in a space.
+     *
+     * @param {string} orgName - The name of the organization.
+     * @param {string} spaceName - The name of the space.
+     * @param {string} shareId - The ID of the share to link to.
+     * @param {string[]} emails - An array of email addresses to link to the share.
+     * @returns {Promise<Share>} A promise that resolves to the updated share object.
+     */
+    async linkOther(orgName: string, spaceName: string, shareId: string, emails: string[]): Promise<Share> {
+        const res = await this.axios.put<Share>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/shares/${shareId}/user`), { users: emails });
+
+        return res.data;
     }
 }

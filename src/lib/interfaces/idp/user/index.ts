@@ -17,7 +17,7 @@ export interface User {
     lastActive: number;
 }
 
-export type ReducedUser = Pick<User, "_id" | "name" | "avatarUrl">;
+export type ReducedUser = Pick<User, "_id" | "name" | "email" | "avatarUrl">;
 
 export interface UserPatch {
     name?: string;

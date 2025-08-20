@@ -1,6 +1,6 @@
-import { SearchFilterComparatorString, SearchFilterType } from "../../global/SearchFilters";
-import { ReducedUser } from "../../idp";
-import { Reference } from "../namespace";
+import { SearchFilterComparatorString, SearchFilterType } from "../../global/SearchFilters"
+import { ReducedUser } from "../../idp"
+import { Reference } from "../namespace"
 
 export type Item = {
     _id: string;
@@ -24,7 +24,7 @@ export interface Asset extends Item {
     path: string;
     status: string;
     createDate: number;
-    type: ItemType.ASSET;
+    type: ItemType;
     breadcrumb?: Item[];
     tags?: string[];
     categories?: string[];

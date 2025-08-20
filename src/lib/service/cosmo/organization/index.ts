@@ -56,7 +56,7 @@ export class CosmoOrganization extends Base {
             this.getEndpoint(`/v1/org/${orgName}/assets/search`),
             {
                 filters: assetFilter ?? [],
-                ...(sorting ? { sorting } : undefined),
+                ...(sorting ? { sorting } : {}),
             },
             {
                 params: {

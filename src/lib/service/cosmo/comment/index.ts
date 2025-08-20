@@ -1,5 +1,5 @@
-import Base from "../../../Base";
-import { Comment, CreateComment, EditComment } from "../../../interfaces/cosmo/comment";
+import Base from "../../../Base"
+import { Comment, CreateComment, EditComment } from "../../../interfaces/cosmo/comment"
 
 /**
  * @class Comment
@@ -58,13 +58,16 @@ export class CosmoComment extends Base {
         orgName: string,
         spaceName: string,
         namespaceName: string,
-        limit: number,
-        page: number,
+        refId: string,
+        limit?: number,
+        page?: number,
         annotation: boolean = false
     ): Promise<Comment[]> {
+        limit = limit ?? 100;
+        page = page ?? 0;
         const resp = await this.axios.get<Comment[]>(
             this.getEndpoint(
-                `/v1/org/${orgName}/spaces/${spaceName}/namespaces/${namespaceName}/comments?limit=${limit}&page=${page}&annotation=${annotation}`
+                `/v1/org/${orgName}/spaces/${spaceName}/namespaces/${namespaceName}/comments?limit=${limit}&page=${page}&annotation=${annotation}&refId=${refId}`
             )
         );
 

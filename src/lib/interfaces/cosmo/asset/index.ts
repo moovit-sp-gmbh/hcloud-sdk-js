@@ -160,5 +160,5 @@ export interface AssetFilter {
     key: keyof typeof searchParams;
     type: (typeof searchParams)[this["key"]]["type"][number];
     value: string;
-    operator: (typeof searchParams)[this["key"]]["comparators"][number];
+    comparator: (typeof searchParams)[this["key"]]["comparators"][number];
 }

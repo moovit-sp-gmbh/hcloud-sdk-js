@@ -24,7 +24,7 @@ export interface Asset extends Item {
     path: string;
     status: string;
     createDate: number;
-    type: ItemType;
+    type: ItemType.ASSET;
     breadcrumb?: Item[];
     tags?: string[];
     categories?: string[];

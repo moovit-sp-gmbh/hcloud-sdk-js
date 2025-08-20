@@ -2,6 +2,7 @@ import Base from "../../Base";
 import { Version } from "../../interfaces/global";
 import { CosmoAsset } from "./asset";
 import { CosmoComment } from "./comment";
+import { CosmoEvent } from "./event";
 import { CosmoFolder } from "./folder";
 import { CosmoSpaceInternal } from "./internal/space";
 import { CosmoLocation } from "./location";
@@ -91,6 +92,14 @@ export default class CosmoService extends Base {
         return this._cosmoSpaceInternal;
     }
     private _cosmoSpaceInternal?: CosmoSpaceInternal;
+
+    public get cosmoEvent(): CosmoEvent {
+        if (this._cosmoEvent === undefined) {
+            this._cosmoEvent = new CosmoEvent(this.options, this.axios);
+        }
+        return this._cosmoEvent;
+    }
+    private _cosmoEvent?: CosmoEvent;
 
     /**
      * Requests the endpoint version

@@ -8,4 +8,11 @@ export interface CosmoSpace {
     avatarUrl: string;
     creator: ReducedUser;
     type: ItemType.SPACE;
+    high5_spaceName?: string;
+    high5_executionTarget?: string;
+}
+
+export interface High5SpaceInfo {
+    high5_spaceName: string;
+    executionTarget: string;
 }

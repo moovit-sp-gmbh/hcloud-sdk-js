@@ -1,6 +1,6 @@
 import Base from "../../../Base";
 import { Asset, AssetFilter } from "../../../interfaces/cosmo/asset";
-import { CosmoSpace as ICosmoSpace } from "../../../interfaces/cosmo/space";
+import { High5SpaceInfo, CosmoSpace as ICosmoSpace } from "../../../interfaces/cosmo/space";
 
 /**
  * @class Space
@@ -114,6 +114,36 @@ export class CosmoSpace extends Base {
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/trash/search?limit=${limit}&page=${page}&recursive=${recursive}`),
             { filters: assetFilter }
         );
+
+        return resp.data;
+    }
+
+    /**
+     * Link a high5 space to a cosmo space.
+     * @remarks
+     * ** Under development, breaking changes possible**
+     * @param orgName Name of the Organization
+     * @param spaceName Name of the Cosmo Space
+     * @param high5SpaceInfo Information about the high5 space
+     * @returns The updated Cosmo Space
+     */
+    async linkSpace(orgName: string, spaceName: string, high5SpaceInfo: High5SpaceInfo): Promise<ICosmoSpace> {
+        const resp = await this.axios.patch<ICosmoSpace>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/high5/link/space`), high5SpaceInfo);
+
+        return resp.data;
+    }
+
+    /**
+     * Link a high5 space to a cosmo space.
+     * @remarks
+     * ** Under development, breaking changes possible**
+     * @param orgName Name of the Organization
+     * @param spaceName Name of the Cosmo Space
+     * @param high5SpaceInfo Information about the high5 space
+     * @returns The updated Cosmo Space
+     */
+    async unlinkSpace(orgName: string, spaceName: string): Promise<ICosmoSpace> {
+        const resp = await this.axios.patch<ICosmoSpace>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/high5/unlink/space`));
 
         return resp.data;
     }

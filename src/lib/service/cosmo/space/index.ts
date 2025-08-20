@@ -1,6 +1,7 @@
-import Base from "../../../Base";
-import { Asset, AssetFilter } from "../../../interfaces/cosmo/asset";
-import { High5SpaceInfo, CosmoSpace as ICosmoSpace } from "../../../interfaces/cosmo/space";
+import Base from "../../../Base"
+import { Asset, AssetFilter } from "../../../interfaces/cosmo/asset"
+import { High5SpaceInfo, CosmoSpace as ICosmoSpace } from "../../../interfaces/cosmo/space"
+import { Sorting } from "../../../interfaces/global"
 
 /**
  * @class Space
@@ -102,17 +103,31 @@ export class CosmoSpace extends Base {
      * @param recursive Optional flag to search recursively
      * @returns The updated Space
      */
-    async searchAssetsInTrashOfSpace(
-        orgName: string,
-        spaceName: string,
-        assetFilter: AssetFilter[],
-        limit: number,
-        page: number,
-        recursive: boolean = false
-    ): Promise<Asset[]> {
+    async searchAssetsInTrashOfSpace({
+        orgName,
+        spaceName,
+        assetFilter,
+        sorting,
+        limit,
+        page,
+        recursive = false,
+    }: {
+        orgName: string;
+        spaceName: string;
+        assetFilter?: AssetFilter[];
+        sorting?: Sorting;
+        limit?: number;
+        page?: number;
+        recursive?: boolean;
+    }): Promise<Asset[]> {
+        limit = limit ?? 100;
+        page = page ?? 0;
         const resp = await this.axios.post<Asset[]>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/trash/search?limit=${limit}&page=${page}&recursive=${recursive}`),
-            { filters: assetFilter }
+            {
+                ...(assetFilter ? { filters: assetFilter } : {}),
+                ...(sorting ? { sorting: sorting } : {}),
+            }
         );
 
         return resp.data;

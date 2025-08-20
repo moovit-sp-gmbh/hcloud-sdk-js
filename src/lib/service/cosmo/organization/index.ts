@@ -1,6 +1,7 @@
 import Base from "../../../Base"
 import { Asset, AssetFilter } from "../../../interfaces/cosmo/asset"
 import { Folder } from "../../../interfaces/cosmo/folder"
+import { Sorting } from "../../../interfaces/global"
 
 /**
  * @class Organization
@@ -34,6 +35,7 @@ export class CosmoOrganization extends Base {
         spaceName,
         parentId,
         assetFilter,
+        sorting,
         limit,
         page,
         recursive = false,
@@ -42,6 +44,7 @@ export class CosmoOrganization extends Base {
         spaceName?: string;
         parentId?: string;
         assetFilter?: AssetFilter[];
+        sorting?: Sorting;
         limit?: number;
         page?: number;
         recursive?: boolean;
@@ -53,6 +56,7 @@ export class CosmoOrganization extends Base {
             this.getEndpoint(`/v1/org/${orgName}/assets/search`),
             {
                 filters: assetFilter ?? [],
+                ...(sorting ? { sorting } : undefined),
             },
             {
                 params: {

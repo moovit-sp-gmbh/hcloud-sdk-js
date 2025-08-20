@@ -1,5 +1,6 @@
 import Base from "../../../Base";
 import { Asset, AssetFilter } from "../../../interfaces/cosmo/asset";
+import { CosmoSpace as ICosmoSpace } from "../../../interfaces/cosmo/space";
 
 /**
  * @class Space
@@ -23,8 +24,8 @@ export class CosmoSpace extends Base {
      * @param noAvatar Optional flag to create the Space without an avatar
      * @returns The created Space
      */
-    async createSpace(orgName: string, spaceName: string, noAvatar?: boolean): Promise<CosmoSpace> {
-        const resp = await this.axios.post<CosmoSpace>(this.getEndpoint(`/v1/org/${orgName}/spaces?noAvatar=${noAvatar ? "true" : "false"}`), {
+    async createSpace(orgName: string, spaceName: string, noAvatar?: boolean): Promise<ICosmoSpace> {
+        const resp = await this.axios.post<ICosmoSpace>(this.getEndpoint(`/v1/org/${orgName}/spaces?noAvatar=${noAvatar ? "true" : "false"}`), {
             name: spaceName,
         });
 
@@ -40,8 +41,8 @@ export class CosmoSpace extends Base {
      * @param page Page number for pagination
      * @returns A list of Spaces in the Organization
      */
-    async listSpaces(orgName: string, limit: number, page: number): Promise<CosmoSpace[]> {
-        const resp = await this.axios.get<CosmoSpace[]>(this.getEndpoint(`/v1/org/${orgName}/spaces?limit=${limit}&page=${page}`));
+    async listSpaces(orgName: string, limit: number, page: number): Promise<ICosmoSpace[]> {
+        const resp = await this.axios.get<ICosmoSpace[]>(this.getEndpoint(`/v1/org/${orgName}/spaces?limit=${limit}&page=${page}`));
 
         return resp.data;
     }
@@ -54,8 +55,8 @@ export class CosmoSpace extends Base {
      * @param spaceName Name of the Space to fetch
      * @returns The requested Space
      */
-    async getSpace(orgName: string, spaceName: string): Promise<CosmoSpace> {
-        const resp = await this.axios.get<CosmoSpace>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}`));
+    async getSpace(orgName: string, spaceName: string): Promise<ICosmoSpace> {
+        const resp = await this.axios.get<ICosmoSpace>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}`));
 
         return resp.data;
     }
@@ -81,8 +82,8 @@ export class CosmoSpace extends Base {
      * @param newName New name for the Space
      * @returns The updated Space
      */
-    async renameSpace(orgName: string, spaceName: string, newName: string): Promise<CosmoSpace> {
-        const resp = await this.axios.patch<CosmoSpace>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}`), {
+    async renameSpace(orgName: string, spaceName: string, newName: string): Promise<ICosmoSpace> {
+        const resp = await this.axios.patch<ICosmoSpace>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}`), {
             name: newName,
         });
 

@@ -1,5 +1,5 @@
-import Base from "../../../Base";
-import { Asset, AssetFilter } from "../../../interfaces/cosmo/asset";
+import Base from "../../../Base"
+import { Asset, AssetFilter } from "../../../interfaces/cosmo/asset"
 
 /**
  * @class Organization
@@ -28,19 +28,30 @@ export class CosmoOrganization extends Base {
      * @param recursive Flag for searching recursively
      * @returns List of found Assets
      */
-    async searchAssets(
-        orgName: string,
-        spaceName: string | undefined,
-        parentId: string | undefined,
-        assetFilter: AssetFilter,
-        limit: number,
-        page: number,
-        recursive: boolean = false
-    ): Promise<Asset[]> {
+    async searchAssets({
+        orgName,
+        spaceName,
+        parentId,
+        assetFilter,
+        limit,
+        page,
+        recursive = false,
+    }: {
+        orgName: string;
+        spaceName?: string;
+        parentId?: string;
+        assetFilter?: AssetFilter;
+        limit?: number;
+        page?: number;
+        recursive: boolean;
+    }): Promise<Asset[]> {
+        limit = limit ?? 100;
+        page = page ?? 0;
+        
         const resp = await this.axios.post<Asset[]>(
             this.getEndpoint(`/v1/org/${orgName}/assets/search`),
             {
-                filters: assetFilter,
+                filters: assetFilter ?? [],
             },
             {
                 params: {

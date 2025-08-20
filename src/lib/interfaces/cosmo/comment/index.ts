@@ -1,16 +1,16 @@
-import { ReducedUser } from "../../idp";
+import { ReducedUser } from "../../idp"
 
 export interface CreateComment {
     refId: string;
     text: string;
-    timestamp: Timestamp;
-    annotation: string;
+    timestamp?: Timestamp;
+    annotation?: string;
 }
 
 export interface EditComment {
     text: string;
-    timestamp: Timestamp;
-    annotation: string;
+    timestamp?: Timestamp;
+    annotation?: string;
 }
 
 export interface Comment {

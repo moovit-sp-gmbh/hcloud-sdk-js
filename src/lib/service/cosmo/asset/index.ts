@@ -1,5 +1,5 @@
-import Base from "../../../Base";
-import { Asset, AssetPermission, CreateAsset, PatchAsset, Resolution } from "../../../interfaces/cosmo/asset";
+import Base from "../../../Base"
+import { Asset, AssetPermission, CreateAsset, PatchAsset, Resolution } from "../../../interfaces/cosmo/asset"
 
 /**
  * @class Asset
@@ -165,7 +165,7 @@ export class CosmoAsset extends Base {
      * @returns The moved assets
      */
     async moveAssetsToTrash(orgName: string, spaceName: string, assetIdList: string[]): Promise<Asset[]> {
-        const resp = await this.axios.put<Asset[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets/trash`), {
+        const resp = await this.axios.put<Asset[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/trash`), {
             assetIds: assetIdList,
         });
 
@@ -217,8 +217,10 @@ export class CosmoAsset extends Base {
      * @returns The moved assets
      */
     async moveAssetsOutOfTrash(orgName: string, spaceName: string, assetIdList: string[]): Promise<Asset[]> {
-        const resp = await this.axios.put<Asset[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets/trash/recover`), {
-            assetIds: assetIdList,
+        const resp = await this.axios.delete<Asset[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/trash`), {
+            data: {
+                assetIds: assetIdList,
+            },
         });
 
         return resp.data;

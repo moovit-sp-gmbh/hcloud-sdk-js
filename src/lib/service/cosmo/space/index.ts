@@ -114,7 +114,7 @@ export class CosmoSpace extends Base {
     }: {
         orgName: string;
         spaceName: string;
-        assetFilter?: AssetFilter[];
+        assetFilter: AssetFilter[];
         sorting?: Sorting;
         limit?: number;
         page?: number;

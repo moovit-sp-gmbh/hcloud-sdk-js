@@ -41,10 +41,10 @@ export class CosmoOrganization extends Base {
         orgName: string;
         spaceName?: string;
         parentId?: string;
-        assetFilter?: AssetFilter;
+        assetFilter?: AssetFilter[];
         limit?: number;
         page?: number;
-        recursive: boolean;
+        recursive?: boolean;
     }): Promise<(Asset | Folder)[]> {
         limit = limit ?? 100;
         page = page ?? 0;

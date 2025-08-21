@@ -6,6 +6,7 @@ export type Item = {
     _id: string;
     name: string;
     creator: ReducedUser;
+    type: ItemType;
     breadcrumb?: Item[];
     createDate: number;
     deletedAt: number;

@@ -1,15 +1,7 @@
-import { ItemType } from "../asset";
+import { Asset, Item, ItemType } from "../asset"
 
-export interface Item {
-    _id: string;
-    name: string;
-    type: ItemType;
-}
 
-export interface Folder {
-    _id: string;
-    name: string;
-    type: ItemType.FOLDER;
-    breadcrumb: Item[];
-    children: Item[];
+export interface Folder extends Item {
+    type: ItemType.FOLDER
+    children: (Asset | Folder)[];
 }

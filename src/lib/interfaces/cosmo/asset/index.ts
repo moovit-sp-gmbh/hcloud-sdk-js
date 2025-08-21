@@ -5,8 +5,10 @@ import { Reference } from "../namespace"
 export type Item = {
     _id: string;
     name: string;
-    type: ItemType;
+    creator: ReducedUser;
     breadcrumb?: Item[];
+    createDate: number;
+    deletedAt: number;
 };
 
 export enum ItemType {
@@ -18,21 +20,16 @@ export enum ItemType {
 }
 
 export interface Asset extends Item {
-    _id: string;
-    name: string;
     assetType: AssetType;
     path: string;
     status: string;
-    createDate: number;
     type: ItemType.ASSET;
-    breadcrumb?: Item[];
     tags?: string[];
     categories?: string[];
     thumbnailUrl?: string;
     previewUrl?: string;
     duration?: number;
     frameRate?: number;
-    creator: ReducedUser;
     media?: Media[];
     upload?: Upload;
 }

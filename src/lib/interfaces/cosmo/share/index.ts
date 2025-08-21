@@ -5,13 +5,13 @@ export interface Share {
     name: string;
     creator: ReducedUser;
     createDate: number;
-    items: { [key: string]: string[] };
+    items: Record<string, string[]>;
 }
 
 export interface ShareCreate extends Omit<Share, "_id" | "createDate" | "creator"> {
     password?: string;
     expires?: number;
-    namespaces?: { [key: string]: string[] };
+    namespaces?: Record<string, string[]>;
     /**
      * Array of emails
      */

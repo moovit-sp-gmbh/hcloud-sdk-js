@@ -26,6 +26,7 @@ export interface Asset extends Item {
     status: string;
     type: ItemType.ASSET;
     tags?: string[];
+    uploadStatus: number;
     categories?: string[];
     thumbnailUrl?: string;
     previewUrl?: string;

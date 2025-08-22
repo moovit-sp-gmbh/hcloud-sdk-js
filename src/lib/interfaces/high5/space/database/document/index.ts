@@ -1,6 +1,6 @@
-import { ReducedSpace } from "../../../../global";
-import { ReducedOrganization } from "../../../../idp/organization";
-import { ReducedUser } from "../../../../idp/user";
+import { ReducedSpace } from "../../../../global"
+import { ReducedOrganization } from "../../../../idp/organization"
+import { ReducedUser } from "../../../../idp/user"
 
 enum DocumentType {
     STRING = "STRING",
@@ -36,4 +36,5 @@ interface DocumentPatchDto {
     value: any;
 }
 
-export { Document, DocumentCreateDto, DocumentPatchDto };
+export { Document, DocumentCreateDto, DocumentPatchDto, DocumentType }
+

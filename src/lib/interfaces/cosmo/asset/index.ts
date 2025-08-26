@@ -68,7 +68,7 @@ export type Media = {
 } & (
     | {
           type: MediaType.VIDEO;
-          metadata: (VideoMetadata | AudioMetadata)[];
+          metadata: VideoMetadata | AudioMetadata[];
       }
     | {
           type: MediaType.AUDIO;

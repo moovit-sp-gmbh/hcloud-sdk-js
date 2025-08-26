@@ -34,6 +34,7 @@ export interface Asset extends Item {
     frameRate?: number;
     media?: Media[];
     upload?: Upload;
+    permissions?: string[];
 }
 
 export interface Upload {

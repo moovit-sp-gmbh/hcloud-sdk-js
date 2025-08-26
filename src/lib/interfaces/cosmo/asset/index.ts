@@ -102,6 +102,7 @@ export interface VideoMetadata {
     pixelFormat: string;
     aspectRatio: string;
     colorSpace: string;
+    fileSize: number;
     width: number;
     height: number;
     fieldOrder: string;

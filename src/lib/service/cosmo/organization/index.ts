@@ -39,6 +39,7 @@ export class CosmoOrganization extends Base {
         limit,
         page,
         recursive = false,
+        namespace,
     }: {
         orgName: string;
         spaceName?: string;
@@ -48,6 +49,7 @@ export class CosmoOrganization extends Base {
         limit?: number;
         page?: number;
         recursive?: boolean;
+        namespace?: string[] | string;
     }): Promise<(Asset | Folder)[]> {
         limit = limit ?? 100;
         page = page ?? 0;
@@ -65,6 +67,7 @@ export class CosmoOrganization extends Base {
                     spaceName,
                     parentId,
                     recursive,
+                    namespace,
                 },
             }
         );

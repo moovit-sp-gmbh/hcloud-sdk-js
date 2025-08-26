@@ -1,7 +1,7 @@
-import Base from "../../../Base"
-import { Asset, AssetFilter } from "../../../interfaces/cosmo/asset"
-import { High5SpaceInfo, CosmoSpace as ICosmoSpace } from "../../../interfaces/cosmo/space"
-import { Sorting } from "../../../interfaces/global"
+import Base from "../../../Base";
+import { Asset, AssetFilter } from "../../../interfaces/cosmo/asset";
+import { High5SpaceInfo, CosmoSpace as ICosmoSpace } from "../../../interfaces/cosmo/space";
+import { Sorting } from "../../../interfaces/global";
 
 /**
  * @class Space

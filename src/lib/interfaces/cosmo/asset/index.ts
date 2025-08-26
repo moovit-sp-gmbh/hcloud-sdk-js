@@ -1,6 +1,6 @@
-import { SearchFilterComparatorString, SearchFilterType } from "../../global/SearchFilters"
-import { ReducedUser } from "../../idp"
-import { Reference } from "../namespace"
+import { SearchFilterComparatorString, SearchFilterType } from "../../global/SearchFilters";
+import { ReducedUser } from "../../idp";
+import { Reference } from "../namespace";
 
 export type Item = {
     _id: string;

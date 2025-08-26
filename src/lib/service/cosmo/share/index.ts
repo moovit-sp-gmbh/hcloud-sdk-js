@@ -1,8 +1,8 @@
-import Base from "../../../Base"
-import { Asset } from "../../../interfaces/cosmo/asset"
-import { Folder } from "../../../interfaces/cosmo/folder"
-import { Share, ShareCreate, ShareWithUsers } from "../../../interfaces/cosmo/share"
-import { SearchFilter, Sorting } from "../../../interfaces/global"
+import Base from "../../../Base";
+import { Asset } from "../../../interfaces/cosmo/asset";
+import { Folder } from "../../../interfaces/cosmo/folder";
+import { Share, ShareCreate, ShareWithUsers } from "../../../interfaces/cosmo/share";
+import { SearchFilter, Sorting } from "../../../interfaces/global";
 
 /**
  * @class Share

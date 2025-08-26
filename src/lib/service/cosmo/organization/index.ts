@@ -1,7 +1,7 @@
-import Base from "../../../Base"
-import { Asset, AssetFilter } from "../../../interfaces/cosmo/asset"
-import { Folder } from "../../../interfaces/cosmo/folder"
-import { Sorting } from "../../../interfaces/global"
+import Base from "../../../Base";
+import { Asset, AssetFilter } from "../../../interfaces/cosmo/asset";
+import { Folder } from "../../../interfaces/cosmo/folder";
+import { Sorting } from "../../../interfaces/global";
 
 /**
  * @class Organization

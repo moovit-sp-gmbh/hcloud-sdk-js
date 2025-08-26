@@ -1,4 +1,4 @@
-import { Scope } from "./Scopes"
+import { Scope } from "./Scopes";
 
 export interface User {
     _id: string;

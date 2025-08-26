@@ -1,5 +1,5 @@
-import Base from "../../../Base"
-import { Asset, AssetPermission, CreateAsset, PatchAsset, Resolution } from "../../../interfaces/cosmo/asset"
+import Base from "../../../Base";
+import { Asset, AssetPermission, CreateAsset, PatchAsset, Resolution } from "../../../interfaces/cosmo/asset";
 
 /**
  * @class Asset

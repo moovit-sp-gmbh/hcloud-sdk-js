@@ -62,10 +62,17 @@ export type LicenseQuota = {
                     quota: number;
                 };
             };
+            jobs: {
+                quota: number;
+                logs: {
+                    quota: number;
+                };
+            };
         };
         executionsPerMonth: {
             quota: number;
         };
+        secondBaseExecutions: boolean;
     };
     fuse: {
         spaces: {

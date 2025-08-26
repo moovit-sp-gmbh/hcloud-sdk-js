@@ -15,7 +15,6 @@ enum Entity {
     SECRET_KEY = "SECRET_KEY",
     SECRET_VALUE = "SECRET_VALUE",
     POOL_NAME = "POOL_NAME",
-    FUSE_JOB = "FUSE_JOB",
     WAVE_ENGINE_RELEASE = "WAVE_ENGINE_RELEASE",
     CHALLENGE_STRING = "CHALLENGE_STRING",
     DATABASE_NAME = "DATABASE_NAME",
@@ -36,6 +35,10 @@ enum Entity {
     CATALOG_ID = "CATALOG_ID",
     WEBHOOK_ID = "WEBHOOK_ID",
     WEBHOOK_TOKEN = "WEBHOOK_TOKEN",
+    JOB = "JOB",
+    JOB_ID = "JOB_ID",
+    JOB_LOG_ID = "JOB_LOG_ID",
+    FUSE_JOB = "FUSE_JOB",
     CRONJOB_ID = "CRONJOB_ID",
     CRONJOB_LOG_ID = "CRONJOB_LOG_ID",
     NAMESPACE_NAME = "NAMESPACE_NAME",
@@ -201,11 +204,6 @@ const entityCollection: Record<Entity, Details> = {
         minLength: 1,
         maxLength: 128,
     },
-    [Entity.FUSE_JOB]: {
-        pattern: /^.{1,64}$/i,
-        minLength: 1,
-        maxLength: 64,
-    },
     [Entity.WAVE_ENGINE_RELEASE]: {
         pattern: /^\d+\.\d+\.\d+(-dev-\d+)?$/i,
         symbols: /[dev0-9-.]/i,
@@ -306,6 +304,26 @@ const entityCollection: Record<Entity, Details> = {
         pattern: /^[a-fA-F0-9]{128}$/i,
         minLength: 128,
         maxLength: 128,
+    },
+    [Entity.JOB]: {
+        pattern: /^.{1,64}$/i,
+        minLength: 1,
+        maxLength: 64,
+    },
+    [Entity.JOB_ID]: {
+        pattern: /^[a-fA-F0-9]{24}$/i,
+        minLength: 24,
+        maxLength: 24,
+    },
+    [Entity.JOB_LOG_ID]: {
+        pattern: /^[a-fA-F0-9]{24}$/i,
+        minLength: 24,
+        maxLength: 24,
+    },
+    [Entity.FUSE_JOB]: {
+        pattern: /^.{1,64}$/i,
+        minLength: 1,
+        maxLength: 64,
     },
     [Entity.CRONJOB_ID]: {
         pattern: /^[a-fA-F0-9]{24}$/i,

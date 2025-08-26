@@ -31,6 +31,7 @@ export enum Event {
     Stream = "stream",
     Mail = "mail",
     Webhook = "webhook",
+    Job = "job",
     Cronjob = "cronjob",
     Secret = "secret",
     Agent = "agent",

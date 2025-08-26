@@ -48,6 +48,8 @@ enum NatsSubject {
     HIGH5_SPACES_POOL = "hcloud.high5.organization.${base64orgName}.spaces.${base64spaceName}.pools.${base64poolName}",
     HIGH5_DATABASES = "hcloud.high5.organization.${base64orgName}.spaces.${base64spaceName}.databases",
     HIGH5_DOCUMENTS = "hcloud.high5.organization.${base64orgName}.spaces.${base64spaceName}.databases.${base64databaseName}.documents",
+    HIGH5_JOBS = "hcloud.high5.organization.${base64orgName}.spaces.${base64spaceName}.jobs",
+    HIGH5_JOB_LOGS = "hcloud.high5.organization.${base64orgName}.spaces.${base64spaceName}.jobs.${jobId}.logs",
 
     FUSE_SPACES = "hcloud.fuse.organization.${base64orgName}.spaces",
     FUSE_SPACE_PERMISSIONS = "hcloud.fuse.organization.${base64orgName}.spaces.${base64spaceName}.permissions",
@@ -129,6 +131,9 @@ enum NatsObjectType {
     AUDIT_LOG = "AUDIT_LOG",
     MAIL = "MAIL",
 
+    JOB = "JOB",
+    JOB_ID = "JOB_ID",
+    JOB_LOG = "JOB_LOG",
     CRONJOB = "CRONJOB",
     CRONJOB_ID = "CRONJOB_ID",
     CRONJOB_LOG = "CRONJOB_LOG",
@@ -190,6 +195,8 @@ interface NatsObject
     [NatsSubject.HIGH5_CATALOGS]: NatsIdObject;
     [NatsSubject.HIGH5_DATABASES]: NatsNameObject;
     [NatsSubject.HIGH5_DOCUMENTS]: NatsNameObject;
+    [NatsSubject.HIGH5_JOBS]: NatsIdObject;
+    [NatsSubject.HIGH5_JOB_LOGS]: NatsIdObject;
     [NatsSubject.FUSE_SPACES]: NatsNameObject;
     [NatsSubject.FUSE_SPACE_PERMISSIONS]: NatsIdObject;
     [NatsSubject.FUSE_JOBS]: NatsIdObject;
@@ -494,6 +501,15 @@ class NatsSubjects {
                         spaceName,
                         databaseName,
                     });
+                };
+            };
+            static Jobs = class {
+                static JOBS = (organizationName: string, spaceName: string) => {
+                    return NatsSubjects.replace(NatsSubject.HIGH5_JOBS, { organizationName, spaceName });
+                };
+
+                static JOB_LOGS = (organizationName: string, spaceName: string, jobId: string) => {
+                    return NatsSubjects.replace(NatsSubject.HIGH5_JOB_LOGS, { organizationName, spaceName, jobId });
                 };
             };
         };

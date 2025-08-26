@@ -11,6 +11,7 @@ import {
 import { High5Database } from "./database";
 import { High5Event } from "./event";
 import { High5SpaceExecute } from "./execution";
+import { High5Job } from "./job";
 import High5Node from "./node";
 import High5Pool from "./pool";
 import High5Secret from "./secret";
@@ -25,6 +26,7 @@ export class High5Space extends Base {
         return this._event;
     }
     private _event?: High5Event;
+
     public get execute(): High5SpaceExecute {
         if (this._execute === undefined) {
             this._execute = new High5SpaceExecute(this.options, this.axios);
@@ -32,6 +34,7 @@ export class High5Space extends Base {
         return this._execute;
     }
     private _execute?: High5SpaceExecute;
+
     public get webhook(): High5Webhook {
         if (this._webhook === undefined) {
             this._webhook = new High5Webhook(this.options, this.axios);
@@ -39,6 +42,7 @@ export class High5Space extends Base {
         return this._webhook;
     }
     private _webhook?: High5Webhook;
+
     public get secret(): High5Secret {
         if (this._secret === undefined) {
             this._secret = new High5Secret(this.options, this.axios);
@@ -46,6 +50,7 @@ export class High5Space extends Base {
         return this._secret;
     }
     private _secret?: High5Secret;
+
     public get pool(): High5Pool {
         if (this._pool === undefined) {
             this._pool = new High5Pool(this.options, this.axios);
@@ -53,6 +58,7 @@ export class High5Space extends Base {
         return this._pool;
     }
     private _pool?: High5Pool;
+
     public get wave(): High5Wave {
         if (this._wave === undefined) {
             this._wave = new High5Wave(this.options, this.axios);
@@ -60,6 +66,7 @@ export class High5Space extends Base {
         return this._wave;
     }
     private _wave?: High5Wave;
+
     public get node(): High5Node {
         if (this._node === undefined) {
             this._node = new High5Node(this.options, this.axios);
@@ -75,6 +82,14 @@ export class High5Space extends Base {
         return this._database;
     }
     private _database?: High5Database;
+
+    public get job(): High5Job {
+        if (this._job === undefined) {
+            this._job = new High5Job(this.options, this.axios);
+        }
+        return this._job;
+    }
+    private _job?: High5Job;
 
     /**
      * Retrieves all High5 Spaces of the specified Organization matching the search filter(s). Will return all Spaces if no search filter is provided.

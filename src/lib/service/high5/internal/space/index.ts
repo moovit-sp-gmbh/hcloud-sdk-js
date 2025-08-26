@@ -1,7 +1,16 @@
 import { AxiosInstance } from "axios";
 import Base, { Options } from "../../../../Base";
+import { High5JobInternal } from "./job";
 
 export class High5SpaceInternal extends Base {
+    public get job(): High5JobInternal {
+        if (this._job === undefined) {
+            this._job = new High5JobInternal(this.options, this.axios);
+        }
+        return this._job;
+    }
+    private _job?: High5JobInternal;
+
     constructor(options: Options, axios: AxiosInstance) {
         super(options, axios);
     }

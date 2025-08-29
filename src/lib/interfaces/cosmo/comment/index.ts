@@ -5,6 +5,7 @@ export interface CreateComment {
     text: string;
     timestamp?: Timestamp;
     annotation?: string;
+    mentionedUsers?: string[];
 }
 
 export interface EditComment {
@@ -20,6 +21,7 @@ export interface Comment {
     timestamp?: Timestamp;
     creator: ReducedUser;
     annotation?: string;
+    mentionedUsers?: Record<string, ReducedUser>;
 }
 
 export interface Timestamp {

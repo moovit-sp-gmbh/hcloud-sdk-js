@@ -1,6 +1,6 @@
-import { SearchFilterComparatorString, SearchFilterType } from "../../global/SearchFilters";
-import { ReducedUser } from "../../idp";
-import { Reference } from "../namespace";
+import { SearchFilterComparatorString, SearchFilterType } from "../../global/SearchFilters"
+import { ReducedUser } from "../../idp"
+import { Reference } from "../namespace"
 
 export type Item = {
     _id: string;
@@ -35,6 +35,7 @@ export interface Asset extends Item {
     media?: Media[];
     upload?: Upload;
     permissions?: string[];
+    namespaces?: Record<string, { status: string }>;
 }
 
 export interface Upload {

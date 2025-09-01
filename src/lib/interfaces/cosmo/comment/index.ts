@@ -21,7 +21,7 @@ export interface Comment {
     timestamp?: Timestamp;
     creator: ReducedUser;
     annotation?: string;
-    mentionedUsers?: Record<string, ReducedUser>;
+    mentions?: ReducedUser[];
 }
 
 export interface Timestamp {

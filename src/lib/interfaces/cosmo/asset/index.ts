@@ -35,7 +35,9 @@ export interface Asset extends Item {
     media?: Media[];
     upload?: Upload;
     permissions?: string[];
-    namespaces?: Record<string, { status: "approved" | "rejected" }>;
+    namespaces?: {
+        rush?: { status?: "approved" | "rejected" | "none" };
+    };
 }
 
 export interface Upload {

@@ -20,6 +20,8 @@ export enum ItemType {
     FOLDER = "FOLDER",
 }
 
+export type NamespaceRushStatus = "approved" | "rejected" | "none";
+
 export interface Asset extends Item {
     assetType: AssetType;
     path: string;
@@ -36,7 +38,7 @@ export interface Asset extends Item {
     upload?: Upload;
     permissions?: string[];
     namespaces?: {
-        rush?: { status?: "approved" | "rejected" | "none" };
+        rush?: { status?: NamespaceRushStatus };
     };
 }
 

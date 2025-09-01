@@ -1,5 +1,6 @@
-import Base from "../../../Base";
-import { Namespace, Reference } from "../../../interfaces/cosmo/namespace";
+import Base from "../../../Base"
+import { NamespaceRushStatus } from "../../../interfaces/cosmo/asset"
+import { Namespace, Reference } from "../../../interfaces/cosmo/namespace"
 
 /**
  * @class Namespace
@@ -43,7 +44,7 @@ export class CosmoNamespace extends Base {
      * @param status New status to set for the reference
      * @returns The updated Reference
      */
-    async changeStatus(orgName: string, spaceName: string, refId: string, namespaceName: string, status: string): Promise<Reference> {
+    async changeStatus(orgName: string, spaceName: string, refId: string, namespaceName: string, status: NamespaceRushStatus): Promise<Reference> {
         const resp = await this.axios.patch<Reference>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/namespaces/${namespaceName}/ref/${refId}/status`),
             {

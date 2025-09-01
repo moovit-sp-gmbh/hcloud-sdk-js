@@ -129,6 +129,7 @@ export class HCloud {
             // also set 'user-agent' header in non-browser environments
             this.axios.defaults.headers.common["user-agent"] = "hcloud-sdk-js/v" + version;
         } else {
+            // eslint-disable-next-line
             this.axios.defaults.headers.common["x-hcloud-origin"] = `${window?.location.protocol}//${window?.location.host}`;
         }
 

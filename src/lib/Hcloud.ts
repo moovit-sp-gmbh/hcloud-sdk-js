@@ -1,20 +1,20 @@
-import axios, { AxiosInstance } from "axios";
-import { version } from "../package.json";
-import { HcloudLogger, Options } from "./Base";
-import wrapError from "./helper/ErrorHelper";
-import { disableCacheHeaders } from "./interfaces/axios";
-import AgentService from "./service/agent";
-import AuditorService from "./service/auditor";
-import BouncerService from "./service/bouncer";
-import CosmoService from "./service/cosmo";
-import DaliService from "./service/dali";
-import FuseService from "./service/fuse";
-import High5Service from "./service/high5";
-import IdpService from "./service/idp";
-import MailerService from "./service/mailer";
-import MothershipService from "./service/mothership";
-import NatsService from "./service/nats";
-import ShortsService from "./service/shorts";
+import axios, { AxiosInstance } from "axios"
+import { version } from "../package.json"
+import { HcloudLogger, Options } from "./Base"
+import wrapError from "./helper/ErrorHelper"
+import { disableCacheHeaders } from "./interfaces/axios"
+import AgentService from "./service/agent"
+import AuditorService from "./service/auditor"
+import BouncerService from "./service/bouncer"
+import CosmoService from "./service/cosmo"
+import DaliService from "./service/dali"
+import FuseService from "./service/fuse"
+import High5Service from "./service/high5"
+import IdpService from "./service/idp"
+import MailerService from "./service/mailer"
+import MothershipService from "./service/mothership"
+import NatsService from "./service/nats"
+import ShortsService from "./service/shorts"
 
 // tslint:disable-next-line
 export class HCloud {
@@ -122,6 +122,12 @@ export class HCloud {
             transformRequest: axios.defaults.transformRequest,
             transformResponse: axios.defaults.transformResponse,
         });
+
+        // set custom origin header if available
+        if (window?.location) {
+            this.axios.defaults.headers.common["x-hcloud-origin"] = `${location.protocol}//${location.host}`;
+        }
+        
         // we set a custom header here as chrome does not allow to set the 'user-agent' header
         this.axios.defaults.headers.common["x-hcloud-user-agent"] = "hcloud-sdk-js/v" + version;
         if (typeof window === "undefined") {

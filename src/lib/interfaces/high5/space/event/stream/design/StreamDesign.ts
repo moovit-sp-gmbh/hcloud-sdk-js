@@ -38,6 +38,7 @@ export type StringMap = {
     [key: string]: string;
 };
 
+
 export type SortedStringMap = {
     id: number;
     value: {

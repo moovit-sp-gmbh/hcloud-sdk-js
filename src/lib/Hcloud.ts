@@ -123,16 +123,13 @@ export class HCloud {
             transformResponse: axios.defaults.transformResponse,
         });
 
-        // set custom origin header if available
-        if (typeof window !== "undefined" && window.location) {
-            this.axios.defaults.headers.common["x-hcloud-origin"] = `${window.location.protocol}//${window.location.host}`;
-        }
-
         // we set a custom header here as chrome does not allow to set the 'user-agent' header
         this.axios.defaults.headers.common["x-hcloud-user-agent"] = "hcloud-sdk-js/v" + version;
         if (typeof window === "undefined") {
             // also set 'user-agent' header in non-browser environments
             this.axios.defaults.headers.common["user-agent"] = "hcloud-sdk-js/v" + version;
+        } else {
+            this.axios.defaults.headers.common["x-hcloud-origin"] = `${window.location.protocol}//${window.location.host}`;
         }
 
         this.axios.interceptors.response.use(

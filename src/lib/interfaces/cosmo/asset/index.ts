@@ -68,25 +68,15 @@ export enum AssetPermission {
     READ_DETAILS = "READ_DETAILS",
 }
 
-export type Media = {
-    name: string;
+type BaseMedia = {
     url?: string;
-} & (
-    | {
-          type: MediaType.VIDEO;
-          metadata: VideoMetadata | AudioMetadata[];
-      }
-    | {
-          type: MediaType.AUDIO;
-          metadata: AudioMetadata[];
-      }
-    | {
-          type: MediaType.IMAGE;
-      }
-    | {
-          type: MediaType.UNKNOWN;
-      }
-);
+};
+
+export type Media =
+    | (BaseMedia & { type: MediaType.VIDEO; name: "original" | string; metadata: VideoMetadata })
+    | (BaseMedia & { type: MediaType.AUDIO; name: string; metadata: AudioMetadata[] })
+    | (BaseMedia & { type: MediaType.IMAGE; name: string })
+    | (BaseMedia & { type: MediaType.UNKNOWN; name: string });
 
 export enum MediaType {
     VIDEO = "VIDEO",

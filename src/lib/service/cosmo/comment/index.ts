@@ -1,5 +1,5 @@
-import Base from "../../../Base";
-import { Comment, CreateComment, EditComment } from "../../../interfaces/cosmo/comment";
+import Base from "../../../Base"
+import { Comment, CreateComment, EditComment } from "../../../interfaces/cosmo/comment"
 
 /**
  * @class Comment
@@ -51,6 +51,7 @@ export class CosmoComment extends Base {
      * @param limit Maximum number of comments to return
      * @param page Page number for pagination
      * @param annotation Whether to include annotations in the response
+     * @param replySample Amount of replies to load
      *
      * @returns A list of Comments
      */
@@ -61,13 +62,14 @@ export class CosmoComment extends Base {
         refId: string,
         limit?: number,
         page?: number,
-        annotation: boolean = false
+        annotation: boolean = false,
+        replySample: number = 0
     ): Promise<Comment[]> {
         limit = limit ?? 100;
         page = page ?? 0;
         const resp = await this.axios.get<Comment[]>(
             this.getEndpoint(
-                `/v1/org/${orgName}/spaces/${spaceName}/namespaces/${namespaceName}/comments?limit=${limit}&page=${page}&annotation=${annotation}&refId=${refId}`
+                `/v1/org/${orgName}/spaces/${spaceName}/namespaces/${namespaceName}/comments?limit=${limit}&page=${page}&annotation=${annotation}&refId=${refId}&replySample=${replySample}`
             )
         );
 

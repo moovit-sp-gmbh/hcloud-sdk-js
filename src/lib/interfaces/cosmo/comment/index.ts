@@ -22,6 +22,15 @@ export interface Comment {
     creator: ReducedUser;
     annotation?: string;
     mentions?: ReducedUser[];
+    replies?: Reply[];
+}
+
+export interface Reply {
+    _id: string;
+    text: string;
+    createDate: number;
+    creator: ReducedUser;
+    mentions?: ReducedUser[];
 }
 
 export interface Timestamp {

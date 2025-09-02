@@ -12,6 +12,7 @@ export interface EditComment {
     text: string;
     timestamp?: Timestamp;
     annotation?: string;
+    mentions?: string[];
 }
 
 export interface Comment {

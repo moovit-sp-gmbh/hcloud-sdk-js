@@ -84,7 +84,7 @@ export class CosmoSpace extends Base {
      * @returns The updated Space
      */
     async renameSpace(orgName: string, spaceName: string, newName: string): Promise<ICosmoSpace> {
-        const resp = await this.axios.patch<ICosmoSpace>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}`), {
+        const resp = await this.axios.patch<ICosmoSpace>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/name`), {
             name: newName,
         });
 

@@ -72,7 +72,7 @@ export class CosmoShare extends Base {
         namespace: string
     ): Promise<(Asset | Folder)[]> {
         const resp = await this.axios.get<(Asset | Folder)[]>(
-            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/shares/${shareId}?limit=${limit}&page=${page}&namespace=${namespace}`)
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/shares/${shareId}/assets?limit=${limit}&page=${page}&namespace=${namespace}`)
         );
 
         return resp.data;

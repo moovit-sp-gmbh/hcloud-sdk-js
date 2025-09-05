@@ -20,15 +20,23 @@ export enum ItemType {
     FOLDER = "FOLDER",
 }
 
+export enum UploadStatus {
+    WAITING = "WAITING",
+    UPLOADING = "UPLOADING",
+    UPLOADED = "UPLOADED",
+    PROCESSING = "PROCESSING",
+    FINISHED = "FINISHED",
+    FAILED = "FAILED",
+}
+
 export type NamespaceRushStatus = "approved" | "rejected" | "none";
 
 export interface Asset extends Item {
     assetType: AssetType;
     path: string;
-    status: string;
+    status: UploadStatus;
     type: ItemType.ASSET;
     tags?: string[];
-    uploadStatus: number;
     categories?: string[];
     thumbnailUrl?: string;
     previewUrl?: string;

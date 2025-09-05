@@ -43,6 +43,7 @@ export enum Event {
     Share = "share",
     Role = "role",
     Group = "group",
+    Tag = "tag",
 }
 
 export enum Type {

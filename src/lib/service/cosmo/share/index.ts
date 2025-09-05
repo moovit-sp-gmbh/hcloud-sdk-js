@@ -1,5 +1,5 @@
 import Base from "../../../Base";
-import { Asset } from "../../../interfaces/cosmo/asset";
+import { Asset, AssetFilter } from "../../../interfaces/cosmo/asset";
 import { Folder } from "../../../interfaces/cosmo/folder";
 import { Share, ShareCreate, ShareDetails, ShareWithUsers } from "../../../interfaces/cosmo/share";
 import { SearchFilter, Sorting } from "../../../interfaces/global";
@@ -73,6 +73,62 @@ export class CosmoShare extends Base {
     ): Promise<(Asset | Folder)[]> {
         const resp = await this.axios.get<(Asset | Folder)[]>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/shares/${shareId}/assets?limit=${limit}&page=${page}&namespace=${namespace}`)
+        );
+
+        return resp.data;
+    }
+
+    /**
+     * Search shared Assets.
+     * @remarks
+     * ** Under development, breaking changes possible**
+     * @param orgName Name of the Organization
+     * @param spaceName Name of the Space
+     * @param shareId The ID of the Share to link
+     * @param assetFilter Filter criteria for Assets
+     * @param sorting Sorting criteria for Assets
+     * @param limit The number of assets to return
+     * @param page The page number to return
+     * @param namespace The namespace to filter by
+     * @param recursive Flag for searching recursively
+     *
+     * @returns The created Share
+     */
+    async searchSharedAssets({
+        orgName,
+        spaceName,
+        shareId,
+        assetFilter,
+        sorting,
+        limit,
+        page,
+        namespace,
+        recursive,
+    }: {
+        orgName: string;
+        spaceName: string;
+        shareId: string;
+        assetFilter?: AssetFilter[];
+        sorting?: Sorting;
+        limit?: number;
+        page?: number;
+        namespace?: string | string[];
+        recursive: boolean;
+    }): Promise<(Asset | Folder)[]> {
+        const resp = await this.axios.post<(Asset | Folder)[]>(
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/shares/${shareId}/assets/search`),
+            {
+                filters: assetFilter ?? [],
+                ...(sorting ? { sorting } : {}),
+            },
+            {
+                params: {
+                    limit,
+                    page,
+                    namespace,
+                    recursive,
+                },
+            }
         );
 
         return resp.data;

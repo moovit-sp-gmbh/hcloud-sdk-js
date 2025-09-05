@@ -44,8 +44,11 @@ export class CosmoShare extends Base {
      *
      * @returns The created Share
      */
-    async linkShare(orgName: string, spaceName: string, shareId: string, password: string): Promise<Share> {
-        const resp = await this.axios.put<Share>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/shares/${shareId}`), { password });
+    async linkShare(orgName: string, spaceName: string, shareId: string, password?: string, shareIdHMAC?: string): Promise<Share> {
+        const resp = await this.axios.put<Share>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/shares/${shareId}`), {
+            password,
+            shareIdHMAC,
+        });
 
         return resp.data;
     }

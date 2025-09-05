@@ -102,7 +102,8 @@ export class CosmoSpace extends Base {
      * @param limit Maximum number of assets to return
      * @param page Page number for pagination
      * @param recursive Optional flag to search recursively
-     * @returns The updated Space
+     * @param namespace Optional Namespaces of which information should be included in the returned object
+     * @returns Filtered assets from the space's trash folder
      */
     async searchAssetsInTrashOfSpace({
         orgName,
@@ -111,6 +112,7 @@ export class CosmoSpace extends Base {
         sorting,
         limit,
         page,
+        namespace,
         recursive = false,
     }: {
         orgName: string;
@@ -120,14 +122,23 @@ export class CosmoSpace extends Base {
         limit?: number;
         page?: number;
         recursive?: boolean;
+        namespace?: string[] | string;
     }): Promise<Asset[]> {
         limit = limit ?? 100;
         page = page ?? 0;
         const resp = await this.axios.post<Asset[]>(
-            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/trash/search?limit=${limit}&page=${page}&recursive=${recursive}`),
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/trash/search`),
             {
                 ...(assetFilter ? { filters: assetFilter } : {}),
                 ...(sorting ? { sorting: sorting } : {}),
+            },
+            {
+                params: {
+                    limit,
+                    page,
+                    recursive,
+                    namespace,
+                },
             }
         );
 

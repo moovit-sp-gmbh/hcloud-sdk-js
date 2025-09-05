@@ -1,4 +1,5 @@
 import { ReducedUser } from "../../idp";
+import { Item } from "../asset";
 
 export interface Share {
     _id: string;
@@ -20,4 +21,8 @@ export interface ShareCreate extends Omit<Share, "_id" | "createDate" | "creator
 
 export type ShareWithUsers = Share & {
     users: ReducedUser[];
+};
+
+export type ShareDetails = Omit<ShareWithUsers, "items"> & {
+    items: Record<string, { item: Pick<Item, "_id" | "name" | "type">; permissions: string[] }>;
 };

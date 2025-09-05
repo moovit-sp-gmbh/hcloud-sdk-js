@@ -2,6 +2,7 @@ import Base from "../../../Base";
 import { Asset, AssetFilter } from "../../../interfaces/cosmo/asset";
 import { High5SpaceInfo, CosmoSpace as ICosmoSpace } from "../../../interfaces/cosmo/space";
 import { Sorting } from "../../../interfaces/global";
+import { ReducedUser } from "../../../interfaces/idp";
 
 /**
  * @class Space
@@ -159,6 +160,18 @@ export class CosmoSpace extends Base {
      */
     async unlinkSpace(orgName: string, spaceName: string): Promise<ICosmoSpace> {
         const resp = await this.axios.patch<ICosmoSpace>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/high5/unlink/space`));
+
+        return resp.data;
+    }
+
+    /**
+     * List all users with access to the given Space.
+     * @param orgName Name of the Organization
+     * @param spaceName Name of the Cosmo Space
+     * @returns The ReducedUser array
+     */
+    async listSpaceUsers(orgName: string, spaceName: string): Promise<ReducedUser[]> {
+        const resp = await this.axios.get<ReducedUser[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/users`));
 
         return resp.data;
     }

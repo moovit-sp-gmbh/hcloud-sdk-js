@@ -87,10 +87,13 @@ export class CosmoAsset extends Base {
      * @param orgName Name of the Organization
      * @param spaceName Name of the Space
      * @param assetId ID of the Asset to be attached
+     * @param namespace Optional Namespaces of which information should be included in the returned object
      * @returns The requested asset
      */
-    async getAsset(orgName: string, spaceName: string, assetId: string): Promise<Asset> {
-        const resp = await this.axios.get<Asset>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets/${assetId}`));
+    async getAsset(orgName: string, spaceName: string, assetId: string, namespace?: string | string[]): Promise<Asset> {
+        const resp = await this.axios.get<Asset>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets/${assetId}`), {
+            params: { namespace },
+        });
         return resp.data;
     }
 

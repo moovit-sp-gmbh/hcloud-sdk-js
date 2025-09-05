@@ -3,6 +3,7 @@ import { Version } from "../../interfaces/global";
 import { PreLoginResponse } from "../../interfaces/idp";
 import { User } from "../../interfaces/idp/user";
 import { SuccessfulAuth } from "../../interfaces/idp/user/SuccessfulAuth";
+import { IdpGuest } from "./guest";
 import { IdpInternal } from "./internal";
 import { IdpOAuth } from "./oauth";
 import { IdpOrganization } from "./organization";
@@ -53,6 +54,17 @@ export default class Idp extends Base {
         return this._user;
     }
     private _user?: IdpUser;
+
+    /**
+     * Handles everything around a guest
+     */
+    public get guest(): IdpGuest {
+        if (this._guest === undefined) {
+            this._guest = new IdpGuest(this.options, this.axios);
+        }
+        return this._guest;
+    }
+    private _guest?: IdpGuest;
 
     /**
      * Handles everything around idp's internal endpoints

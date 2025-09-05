@@ -36,8 +36,6 @@ export interface Asset extends Item {
     path: string;
     status: UploadStatus;
     type: ItemType.ASSET;
-    tags?: string[];
-    categories?: string[];
     thumbnailUrl?: string;
     previewUrl?: string;
     duration?: number;

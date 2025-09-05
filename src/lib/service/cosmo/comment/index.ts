@@ -1,5 +1,5 @@
-import Base from "../../../Base"
-import { Comment, CreateComment, EditComment } from "../../../interfaces/cosmo/comment"
+import Base from "../../../Base";
+import { Comment, CreateComment, EditComment } from "../../../interfaces/cosmo/comment";
 
 /**
  * @class Comment

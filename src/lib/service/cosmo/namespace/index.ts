@@ -1,6 +1,6 @@
-import Base from "../../../Base"
-import { NamespaceRushStatus } from "../../../interfaces/cosmo/asset"
-import { Namespace, Reference } from "../../../interfaces/cosmo/namespace"
+import Base from "../../../Base";
+import { NamespaceRushStatus } from "../../../interfaces/cosmo/asset";
+import { Namespace, Reference } from "../../../interfaces/cosmo/namespace";
 
 /**
  * @class Namespace

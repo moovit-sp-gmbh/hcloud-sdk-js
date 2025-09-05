@@ -1,4 +1,4 @@
-import { StreamCustomNodeSpecification, StreamNodeSpecificationInputType, StreamSemanticVersion } from "../../../../wave"
+import { StreamCustomNodeSpecification, StreamNodeSpecificationInputType, StreamSemanticVersion } from "../../../../wave";
 
 export interface CanvasDimensions {
     width: number;
@@ -37,7 +37,6 @@ export interface DesignerNodeCatalog {
 export type StringMap = {
     [key: string]: string;
 };
-
 
 export type SortedStringMap = {
     id: number;

@@ -88,11 +88,15 @@ export class CosmoAsset extends Base {
      * @param spaceName Name of the Space
      * @param assetId ID of the Asset to be attached
      * @param namespace Optional Namespaces of which information should be included in the returned object
+     * @param includePermissions Whether to include permissions in the result or not
      * @returns The requested asset
      */
-    async getAsset(orgName: string, spaceName: string, assetId: string, namespace?: string | string[]): Promise<Asset> {
+    async getAsset(orgName: string, spaceName: string, assetId: string, namespace?: string | string[], includePermissions = false): Promise<Asset> {
         const resp = await this.axios.get<Asset>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets/${assetId}`), {
-            params: { namespace },
+            params: {
+                namespace,
+                permissions: includePermissions ? "true" : "false"
+            },
         });
         return resp.data;
     }

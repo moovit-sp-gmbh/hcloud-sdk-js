@@ -11,6 +11,7 @@ import { CosmoOrganization } from "./organization";
 import { CosmoProduction } from "./production";
 import { CosmoShare } from "./share";
 import { CosmoSpace } from "./space";
+import { CosmoTag } from "./tag";
 
 export default class CosmoService extends Base {
     public get cosmoAsset(): CosmoAsset {
@@ -100,6 +101,14 @@ export default class CosmoService extends Base {
         return this._cosmoEvent;
     }
     private _cosmoEvent?: CosmoEvent;
+
+    public get cosmoTag(): CosmoTag {
+        if (this._cosmoTag === undefined) {
+            this._cosmoTag = new CosmoTag(this.options, this.axios);
+        }
+        return this._cosmoTag;
+    }
+    private _cosmoTag?: CosmoTag;
 
     /**
      * Requests the endpoint version

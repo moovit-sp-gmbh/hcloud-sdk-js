@@ -7,6 +7,8 @@ export interface Share {
     creator: ReducedUser;
     createDate: number;
     items: Record<string, string[]>;
+    expires?: number;
+    password?: string;
 }
 
 export interface ShareCreate extends Omit<Share, "_id" | "createDate" | "creator"> {
@@ -25,4 +27,9 @@ export type ShareWithUsers = Share & {
 
 export type ShareDetails = Omit<ShareWithUsers, "items"> & {
     items: Record<string, { item: Pick<Item, "_id" | "name" | "type">; permissions: string[] }>;
+};
+
+export type SharePatch = Omit<ShareCreate, "users" | "items" | "namespaces"> & {
+    items?: Record<string, string[] | null>;
+    namespaces?: Record<string, string[] | null>;
 };

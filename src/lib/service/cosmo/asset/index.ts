@@ -95,7 +95,7 @@ export class CosmoAsset extends Base {
         const resp = await this.axios.get<Asset>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets/${assetId}`), {
             params: {
                 namespace,
-                permissions: includePermissions ? "true" : "false"
+                permissions: includePermissions ? "true" : "false",
             },
         });
         return resp.data;

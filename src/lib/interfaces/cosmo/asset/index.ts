@@ -79,7 +79,7 @@ type BaseMedia = {
 };
 
 export type Media =
-    | (BaseMedia & { type: MediaType.VIDEO; name: "original" | string; metadata: (VideoMetadata | AudioMetadata)[] })
+    | (BaseMedia & { type: MediaType.VIDEO; name: "original" | string; fileSize: number; metadata: (VideoMetadata | AudioMetadata)[] })
     | (BaseMedia & { type: MediaType.AUDIO; name: string; metadata: AudioMetadata[] })
     | (BaseMedia & { type: MediaType.IMAGE; name: string })
     | (BaseMedia & { type: MediaType.UNKNOWN; name: string });
@@ -104,7 +104,6 @@ export interface VideoMetadata {
     pixelFormat: string;
     aspectRatio: string;
     colorSpace: string;
-    fileSize: number;
     width: number;
     height: number;
     fieldOrder: string;

@@ -1,7 +1,7 @@
 import Base from "../../../Base";
 import { Asset, AssetFilter } from "../../../interfaces/cosmo/asset";
 import { Folder } from "../../../interfaces/cosmo/folder";
-import { Share, ShareCreate, ShareDetails, ShareWithUsers } from "../../../interfaces/cosmo/share";
+import { Share, ShareCreate, ShareDetails, SharePatch, ShareWithUsers } from "../../../interfaces/cosmo/share";
 import { SearchFilter, Sorting } from "../../../interfaces/global";
 
 /**
@@ -248,5 +248,22 @@ export class CosmoShare extends Base {
         const res = await this.axios.put<Share>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/shares/${shareId}/user`), { users: emails });
 
         return res.data;
+    }
+
+    /**
+     * Patch a Share in the specified Organization and Space.
+     * @remarks
+     * ** Under development, breaking changes possible**
+     * @param orgName Name of the Organization
+     * @param spaceName Name of the Space
+     * @param shareId ID of the Share
+     * @param patchObject An object whose properties will be used to replace the existing Share ones
+     *
+     * @returns The patched Share
+     */
+    async patchShare(orgName: string, spaceName: string, shareId: string, patchObject: SharePatch): Promise<Share> {
+        const resp = await this.axios.patch<Share>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/shares/${shareId}`), patchObject);
+
+        return resp.data;
     }
 }

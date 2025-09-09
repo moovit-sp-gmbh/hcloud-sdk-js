@@ -1,6 +1,7 @@
 import { SearchFilterComparatorString, SearchFilterType } from "../../global/SearchFilters";
 import { ReducedUser } from "../../idp";
 import { Reference } from "../namespace";
+import { Tag } from "../tag/tag";
 
 export type Item = {
     _id: string;
@@ -36,6 +37,10 @@ export interface Asset extends Item {
     path: string;
     status: UploadStatus;
     type: ItemType.ASSET;
+    tags?: string[];
+    tag?: Tag;
+    uploadStatus: number;
+    categories?: string[];
     thumbnailUrl?: string;
     previewUrl?: string;
     duration?: number;
@@ -44,7 +49,7 @@ export interface Asset extends Item {
     upload?: Upload;
     permissions?: string[];
     namespaces?: {
-        rush?: { status?: NamespaceRushStatus };
+        rush?: { status?: NamespaceRushStatus; tag?: Tag };
     };
 }
 

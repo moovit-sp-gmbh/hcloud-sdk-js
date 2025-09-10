@@ -18,6 +18,7 @@ export interface EditComment {
 export interface Comment {
     _id: string;
     text: string;
+    type: "comment";
     createDate: number;
     timestamp?: Timestamp;
     creator: ReducedUser;
@@ -28,6 +29,7 @@ export interface Comment {
 
 export interface Reply {
     _id: string;
+    type: "reply";
     text: string;
     createDate: number;
     creator: ReducedUser;

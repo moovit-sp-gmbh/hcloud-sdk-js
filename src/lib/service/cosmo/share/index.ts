@@ -138,17 +138,19 @@ export class CosmoShare extends Base {
     }
 
     /**
-     * Delete a Share.
+     * Delete Shares by ID.
      * @remarks
      * ** Under development, breaking changes possible**
      * @param orgName Name of the Organization
      * @param spaceName Name of the Space
-     * @param shareId The ID of the Share to link
+     * @param shareIds The IDs of the Shares to delete
      *
      * @returns 204 No Content if successful
      */
-    async deleteShare(orgName: string, spaceName: string, shareId: string): Promise<void> {
-        await this.axios.delete(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/shares/${shareId}`));
+    async deleteShare(orgName: string, spaceName: string, shareIds: string[]): Promise<void> {
+        await this.axios.delete(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/shares`), {
+              data: { shareIds },
+        });
     }
 
     /**

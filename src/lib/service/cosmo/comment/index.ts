@@ -126,18 +126,20 @@ export class CosmoComment extends Base {
     }
 
     /**
-     * Delete a Comment by ID
+     * Delete Comments by ID
      * @remarks
      * ** Under development, breaking changes possible**
      * @param orgName Name of the Organization
      * @param spaceName Name of the Space
      * @param namespaceName Name of the Namespace
-     * @param commentId ID of the Comment to edit
+     * @param commentIds IDs of the Comments to delete
      *
      * @returns 204 No Content on success
      */
-    async deleteComment(orgName: string, spaceName: string, namespaceName: string, commentId: string): Promise<void> {
-        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/namespaces/${namespaceName}/comments/${commentId}`));
+    async deleteComment(orgName: string, spaceName: string, namespaceName: string, commentIds: string[]): Promise<void> {
+        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/namespaces/${namespaceName}/comments`), {
+              data: { commentIds },
+        });
     }
 
     /**

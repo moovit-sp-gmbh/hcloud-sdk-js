@@ -1,6 +1,6 @@
 import Base from "../../../Base";
 import { ReducedUser } from "../../../interfaces/idp/user";
-import { Asset, AssetPermission, CreateAsset, MediaAsset, MediaAsset, PatchAsset, Resolution } from "../../../interfaces/cosmo/asset";
+import { Asset, AssetPermission, CreateAsset, MediaAsset, PatchAsset, Resolution } from "../../../interfaces/cosmo/asset";
 
 /**
  * @class Asset
@@ -104,18 +104,19 @@ export class CosmoAsset extends Base {
     }
 
     /**
-     * Delete an asset permanently by its ID.
+     * Delete multiple assets permanently by their IDs.
      * @remarks
      * ** Under development, breaking changes possible**
      * @param orgName Name of the Organization
      * @param spaceName Name of the Space
-     * @param assetId ID of the Asset to be attached
+     * @param assetIds IDs of the Assets to delete
      * @param force If asset is folder and force is set to false, it will only succeed if the folder is empty. If set to true, it will always succeed, but delete all children in the process
      * @returns 204 No Content if successful
      */
-    async deleteAsset(orgName: string, spaceName: string, assetId: string, force?: boolean): Promise<void> {
-        await this.axios.delete(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets/${assetId}`),
-            { params: { force } }
+    async deleteAssets(orgName: string, spaceName: string, assetIds: string[], force?: boolean): Promise<void> {
+        await this.axios.delete(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets`), {
+             data: { assetIds },
+             params: { force } }
         );
     }
 

@@ -15,12 +15,19 @@ export interface EditComment {
     mentions?: string[];
 }
 
+export enum CommentType {
+    COMMENT = "COMMENT",
+    REPLY = "REPLY",
+}
+
 export interface Comment {
     _id: string;
     text: string;
     createDate: number;
     timestamp?: Timestamp;
     creator: ReducedUser;
+    assetId: string;
+    commentType: CommentType;
     annotation?: string;
     mentions?: ReducedUser[];
     replies?: Reply[];
@@ -29,6 +36,9 @@ export interface Comment {
 export interface Reply {
     _id: string;
     text: string;
+    assetId: string;
+    commentRef: string;
+    commentType: CommentType;
     createDate: number;
     creator: ReducedUser;
     mentions?: ReducedUser[];

@@ -28,6 +28,7 @@ export class CosmoOrganization extends Base {
      * @param limit Maximum number of Assets to return
      * @param page Page number for pagination
      * @param recursive Flag for searching recursively
+     * @param includeTrash Include assets from the trash bin (default: false)
      * @returns List of found Assets
      */
     async searchAssets({
@@ -40,6 +41,7 @@ export class CosmoOrganization extends Base {
         page,
         recursive = false,
         namespace,
+        includeTrash = false,
     }: {
         orgName: string;
         spaceName?: string;
@@ -50,6 +52,7 @@ export class CosmoOrganization extends Base {
         page?: number;
         recursive?: boolean;
         namespace?: string[] | string;
+        includeTrash?: boolean;
     }): Promise<(Asset | Folder)[]> {
         limit = limit ?? 100;
         page = page ?? 0;
@@ -68,6 +71,7 @@ export class CosmoOrganization extends Base {
                     parentId,
                     recursive,
                     namespace,
+                    includeTrash,
                 },
             }
         );

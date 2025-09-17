@@ -170,6 +170,7 @@ export interface High5ExecutionLog {
     payload?: High5ExecutionPayload;
     high5ExecutionId: string;
     nodeResults: StreamSingleNodeResult[];
+    accountName: string;
     createDate: number;
 }
 

@@ -31,19 +31,21 @@ export class CosmoAsset extends Base {
     }
 
     /**
-     * Bulk move multiple assets to a new parent.
+     * Bulk move or copy multiple assets to a new parent.
      * @remarks
      * ** Under development, breaking changes possible**
      * @param orgName Name of the Organization
      * @param spaceName Name of the Space
      * @param newParentId (optional) ID of the new parent Asset to which the assets will be moved. Assets will be moved to the root if not provided.
      * @param assetIdList List of Asset IDs to be moved to trash
+     * @param copy Whether to copy (true) or move (false) the assets
      * @returns The moved assets
      */
-    async bulkMove(orgName: string, spaceName: string, assetIdList: string[], newParentId?: string): Promise<Asset[]> {
-        const resp = await this.axios.put<Asset[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets/bulk-move`), {
+    async bulkMove(orgName: string, spaceName: string, assetIdList: string[], newParentId?: string, copy = false): Promise<Asset[]> {
+        const resp = await this.axios.put<Asset[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets/bulk-move-copy`), {
             assetIds: assetIdList,
             parentId: newParentId,
+            copy: copy,
         });
 
         return resp.data;

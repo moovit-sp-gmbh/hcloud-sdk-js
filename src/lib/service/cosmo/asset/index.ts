@@ -1,5 +1,6 @@
 import Base from "../../../Base";
 import { Asset, AssetPermission, CreateAsset, PatchAsset, Resolution } from "../../../interfaces/cosmo/asset";
+import { ReducedUser } from "../../../interfaces/idp/user";
 
 /**
  * @class Asset
@@ -261,6 +262,23 @@ export class CosmoAsset extends Base {
      */
     async removeTagFromAsset(orgName: string, spaceName: string, assetId: string): Promise<Asset> {
         const resp = await this.axios.delete<Asset>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets/${assetId}/tags`));
+        return resp.data;
+    }
+
+    /**
+     * List users allowed to be mentioned in a comment of an asset.
+     * @param assetId ID of the Asset
+     * @param limit Maximum number of users to return
+     * @param page Page number for pagination
+     * @returns A list of users allowed to be mentioned in a comment of the asset
+     */
+    async listUsersAllowedToMention(orgName: string, spaceName: string, assetId: string, limit?: number, page?: number): Promise<ReducedUser[]> {
+        const resp = await this.axios.get<ReducedUser[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets/${assetId}/users`), {
+            params: {
+                limit,
+                page,
+            },
+        });
         return resp.data;
     }
 }

@@ -9,6 +9,7 @@ export interface OrganizationMember {
     executionTarget: boolean;
     lastActive: number;
     serviceAccount?: boolean;
+    isGuest?: boolean;
 }
 
 export interface OrgMemberCreate {

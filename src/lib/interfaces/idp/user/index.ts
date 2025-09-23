@@ -15,9 +15,10 @@ export interface User {
     activeScopes: Scope[];
     isAgent?: boolean;
     lastActive: number;
+    isGuest?: boolean;
 }
 
-export type ReducedUser = Pick<User, "_id" | "name" | "email" | "avatarUrl">;
+export type ReducedUser = Pick<User, "_id" | "name" | "email" | "avatarUrl" | "isGuest">;
 
 export interface UserPatch {
     name?: string;

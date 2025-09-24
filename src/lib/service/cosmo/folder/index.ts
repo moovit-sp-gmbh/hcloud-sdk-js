@@ -28,7 +28,7 @@ export class CosmoFolder extends Base {
     async createFolder(orgName: string, spaceName: string, folderName: string, parentId?: string): Promise<Folder> {
         const resp = await this.axios.post<Folder>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/folders`), {
             name: folderName,
-            parent: parentId,
+            parentId: parentId,
         });
 
         return resp.data;

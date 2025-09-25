@@ -152,7 +152,7 @@ export interface High5ExecutionStatus {
     outcome: High5ExecutionOutcome;
     message: string;
     runningNodes: StreamRunningNode[];
-    target: string;
+    target: ReducedUser;
     triggerSource?: TriggerSource;
     dry: boolean;
     createDate: number;
@@ -170,7 +170,7 @@ export interface High5ExecutionLog {
     payload?: High5ExecutionPayload;
     high5ExecutionId: string;
     nodeResults: StreamSingleNodeResult[];
-    accountName: string;
+    target: ReducedUser;
     createDate: number;
 }
 

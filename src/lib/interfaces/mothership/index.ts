@@ -1,3 +1,5 @@
+import { ReducedUser } from "../idp";
+
 export enum AgentStatus {
     BUSY = "BUSY",
     IDLE = "IDLE",
@@ -26,5 +28,5 @@ export type Agent = {
 
 export type TargetAgent = Pick<Agent, Exclude<keyof Agent, "uptime">> & {
     connectionUptime: number;
-    targetEmail: string;
+    target: ReducedUser;
 };

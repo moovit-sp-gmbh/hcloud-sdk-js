@@ -1,12 +1,12 @@
 import { ReducedUser } from "../../idp";
-import { Item } from "../asset";
 
 export interface Share {
     _id: string;
     name: string;
     creator: ReducedUser;
     createDate: number;
-    items: Record<string, string[]>;
+    items: string[];
+    permissions: string[];
     expires?: number;
     password?: string;
 }
@@ -25,11 +25,10 @@ export type ShareWithUsers = Share & {
     users: ReducedUser[];
 };
 
-export type ShareDetails = Omit<ShareWithUsers, "items"> & {
-    items: Record<string, { item: Pick<Item, "_id" | "name" | "type">; permissions: string[] }>;
-};
-
-export type SharePatch = Omit<ShareCreate, "users" | "items" | "namespaces"> & {
-    items?: Record<string, string[] | null>;
-    namespaces?: Record<string, string[] | null>;
-};
+export type SharePatch = Partial<
+    Pick<ShareCreate, "name" | "expires" | "password"> & {
+        items: string[];
+        permissions: string[];
+        namespaces: Record<string, string[] | null>;
+    }
+>;

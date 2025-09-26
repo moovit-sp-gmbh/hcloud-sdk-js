@@ -1,7 +1,7 @@
 import Base from "../../../Base";
 import { Asset, AssetFilter } from "../../../interfaces/cosmo/asset";
 import { Folder } from "../../../interfaces/cosmo/folder";
-import { Share, ShareCreate, ShareDetails, SharePatch, ShareWithUsers } from "../../../interfaces/cosmo/share";
+import { Share, ShareCreate, SharePatch, ShareWithUsers } from "../../../interfaces/cosmo/share";
 import { SearchFilter, Sorting } from "../../../interfaces/global";
 
 /**
@@ -159,8 +159,8 @@ export class CosmoShare extends Base {
      *
      * @returns Detailed Share object
      */
-    async fetchShare(orgName: string, spaceName: string, shareId: string): Promise<ShareDetails> {
-        const res = await this.axios.get<ShareDetails>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/shares/${shareId}`));
+    async fetchShare(orgName: string, spaceName: string, shareId: string): Promise<Share> {
+        const res = await this.axios.get<Share>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/shares/${shareId}`));
         return res.data;
     }
 

@@ -8,6 +8,7 @@ import { CosmoSpaceInternal } from "./internal/space";
 import { CosmoLocation } from "./location";
 import { CosmoNamespace } from "./namespace";
 import { CosmoOrganization } from "./organization";
+import { CosmoPermissions } from "./permissions";
 import { CosmoProduction } from "./production";
 import { CosmoShare } from "./share";
 import { CosmoSpace } from "./space";
@@ -109,6 +110,14 @@ export default class CosmoService extends Base {
         return this._cosmoTag;
     }
     private _cosmoTag?: CosmoTag;
+
+    public get cosmoPermissions(): CosmoPermissions {
+        if (this._cosmoPermissions === undefined) {
+            this._cosmoPermissions = new CosmoPermissions(this.options, this.axios);
+        }
+        return this._cosmoPermissions;
+    }
+    private _cosmoPermissions?: CosmoPermissions;
 
     /**
      * Requests the endpoint version

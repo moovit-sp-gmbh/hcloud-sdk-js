@@ -1,6 +1,6 @@
 import Base from "../../../Base";
-import { Asset, AssetPermission, CreateAsset, PatchAsset, Resolution } from "../../../interfaces/cosmo/asset";
 import { ReducedUser } from "../../../interfaces/idp/user";
+import { Asset, AssetPermission, CreateAsset, MediaAsset, PatchAsset, Resolution } from "../../../interfaces/cosmo/asset";
 
 /**
  * @class Asset
@@ -25,9 +25,8 @@ export class CosmoAsset extends Base {
      * @param createAsset The Asset to be created
      * @returns The created asset
      */
-    async createAsset(orgName: string, spaceName: string, createAsset: CreateAsset): Promise<Asset> {
-        const resp = await this.axios.post<Asset>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets`), createAsset);
-
+    async createAsset(orgName: string, spaceName: string, createAsset: CreateAsset): Promise<MediaAsset> {
+        const resp = await this.axios.post<MediaAsset>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets`), createAsset);
         return resp.data;
     }
 
@@ -111,10 +110,13 @@ export class CosmoAsset extends Base {
      * @param orgName Name of the Organization
      * @param spaceName Name of the Space
      * @param assetId ID of the Asset to be attached
+     * @param force If asset is folder and force is set to false, it will only succeed if the folder is empty. If set to true, it will always succeed, but delete all children in the process
      * @returns 204 No Content if successful
      */
-    async deleteAsset(orgName: string, spaceName: string, assetId: string): Promise<void> {
-        await this.axios.delete(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets/${assetId}`));
+    async deleteAsset(orgName: string, spaceName: string, assetId: string, force?: boolean): Promise<void> {
+        await this.axios.delete(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets/${assetId}`),
+            { params: { force } }
+        );
     }
 
     /**

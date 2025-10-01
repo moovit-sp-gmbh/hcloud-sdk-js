@@ -1,6 +1,6 @@
 import Base from "../../../Base";
 import { ReducedUser } from "../../../interfaces/idp/user";
-import { Asset, AssetPermission, CreateAsset, MediaAsset, PatchAsset, Resolution } from "../../../interfaces/cosmo/asset";
+import { Asset, AssetPermission, CreateAsset, MediaAsset, MediaAsset, PatchAsset, Resolution } from "../../../interfaces/cosmo/asset";
 
 /**
  * @class Asset

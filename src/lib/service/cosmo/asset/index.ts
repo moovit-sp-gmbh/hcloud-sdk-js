@@ -234,4 +234,33 @@ export class CosmoAsset extends Base {
 
         return resp.data;
     }
+
+    /**
+     * Attach a tag to an asset or replace an existing one.
+     * @remarks
+     * ** Under development, breaking changes possible**
+     * @param orgName Name of the Organization
+     * @param spaceName Name of the Space
+     * @param assetId ID of the Asset to be attached
+     * @param tagName Name of the tag
+     * @returns The updated asset
+     */
+    async attachTagToAsset(orgName: string, spaceName: string, assetId: string, tagName: string): Promise<Asset> {
+        const resp = await this.axios.patch<Asset>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets/${assetId}/tags/${tagName}`));
+        return resp.data;
+    }
+
+    /**
+     * Remove a tag from an asset.
+     * @remarks
+     * ** Under development, breaking changes possible**
+     * @param orgName Name of the Organization
+     * @param spaceName Name of the Space
+     * @param assetId ID of the Asset to be attached
+     * @returns The updated asset
+     */
+    async removeTagFromAsset(orgName: string, spaceName: string, assetId: string): Promise<Asset> {
+        const resp = await this.axios.delete<Asset>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets/${assetId}/tags`));
+        return resp.data;
+    }
 }

@@ -1,20 +1,18 @@
 import { SearchFilterComparatorString, SearchFilterType } from "../../global/SearchFilters";
-import { ReducedUser } from "../../idp";
+import { ReducedUser } from "../../idp/user";
 import { Reference } from "../namespace";
 import { Tag } from "../tag/tag";
 
 export type Item = {
     _id: string;
     name: string;
-    creator: ReducedUser;
     type: ItemType;
     breadcrumb?: Item[];
-    createDate: number;
-    deletedAt: number;
 };
 
 export enum ItemType {
     ASSET = "ASSET",
+    MEDIA_ASSET = "MEDIA_ASSET",
     SPACE = "SPACE",
     PRODUCTION = "PRODUCTION",
     PROJECT = "PROJECT",
@@ -33,24 +31,31 @@ export enum UploadStatus {
 export type NamespaceRushStatus = "approved" | "rejected" | "none";
 
 export interface Asset extends Item {
+    _id: string;
+    name: string;
+    type: ItemType;
+    createDate: number;
+    modifyDate: number;
+    creator: ReducedUser;
+    permissions?: string[];
+    thumbnailUrl?: string;
+    breadcrumb?: Item[];
+}
+
+export interface MediaAsset extends Asset {
+    extension: string;
     assetType: AssetType;
     path: string;
     status: UploadStatus;
-    type: ItemType.ASSET;
     tags?: string[];
     tag?: Tag;
-    uploadStatus: number;
     categories?: string[];
-    thumbnailUrl?: string;
     previewUrl?: string;
     duration?: number;
     frameRate?: number;
+
     media?: Media[];
-    upload?: Upload;
-    permissions?: string[];
-    namespaces?: {
-        rush?: { status?: NamespaceRushStatus; tag?: Tag };
-    };
+    namespaces?: Record<string, { status: string; tag?: Tag }>;
 }
 
 export interface Upload {

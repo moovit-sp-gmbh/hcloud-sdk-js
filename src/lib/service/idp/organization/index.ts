@@ -4,6 +4,7 @@ import { IdpOrganizationLicense } from "./license";
 import { IdpOrganizationMember } from "./member";
 import IdpOrganizationServiceAccounts from "./service-accounts";
 import IdpOrganizationSettings from "./settings";
+import { IdpOrganizationStat } from "./stat";
 import { IdpOrganizationTeams } from "./team";
 
 export class IdpOrganization extends Base {
@@ -61,6 +62,17 @@ export class IdpOrganization extends Base {
         return this._serviceAccounts;
     }
     private _serviceAccounts?: IdpOrganizationServiceAccounts;
+
+    /**
+     * Handles everything around organization statistics.
+     */
+    public get stat(): IdpOrganizationStat {
+        if (this._stat === undefined) {
+            this._stat = new IdpOrganizationStat(this.options, this.axios);
+        }
+        return this._stat;
+    }
+    private _stat?: IdpOrganizationStat;
 
     /**
      * Updates an Organization.

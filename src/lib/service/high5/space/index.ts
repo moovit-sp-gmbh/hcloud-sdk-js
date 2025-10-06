@@ -15,6 +15,7 @@ import { High5Job } from "./job";
 import High5Node from "./node";
 import High5Pool from "./pool";
 import High5Secret from "./secret";
+import { High5SpaceStat } from "./stat";
 import High5Wave from "./wave";
 import { High5Webhook } from "./webhook";
 
@@ -90,6 +91,14 @@ export class High5Space extends Base {
         return this._job;
     }
     private _job?: High5Job;
+
+    public get stat(): High5SpaceStat {
+        if (this._stat === undefined) {
+            this._stat = new High5SpaceStat(this.options, this.axios);
+        }
+        return this._stat;
+    }
+    private _stat?: High5SpaceStat;
 
     /**
      * Retrieves all High5 Spaces of the specified Organization matching the search filter(s). Will return all Spaces if no search filter is provided.

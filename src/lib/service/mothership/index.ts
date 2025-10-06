@@ -2,7 +2,7 @@ import Base, { MaybeRaw } from "../../Base";
 import { createPaginatedResponse } from "../../helper/paginatedResponseHelper";
 import { SearchFilterDTO } from "../../helper/searchFilter";
 import { PaginatedResponse, SearchFilter, SearchParams, Version } from "../../interfaces/global";
-import { Agent, TargetAgent } from "../../interfaces/mothership";
+import { Agent, Stats, TargetAgent } from "../../interfaces/mothership";
 
 type RecurrentInfo = Pick<Agent, "uptime" | "cpuUtilization" | "memoryUsed" | "status">;
 type HelloInfo = RecurrentInfo & { nickname?: string; bundleVersion: string; installerVersion?: string; ip?: string };
@@ -160,6 +160,17 @@ export default class MothershipService extends Base {
             R,
             PaginatedResponse<TargetAgent>
         >;
+    }
+
+    /**
+     * Retrieves usage statistics for a specific organization.
+     * @param orgName Name of the organization
+     * @returns Statistics information
+     */
+    async getStats(orgName: string): Promise<Stats> {
+        const resp = await this.axios.get<Stats>(this.getEndpoint(`/v1/org/${orgName}/stats`));
+
+        return resp.data;
     }
 
     protected getEndpoint(endpoint: string): string {

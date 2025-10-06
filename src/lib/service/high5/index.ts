@@ -4,6 +4,7 @@ import { High5OrganizationExecute } from "./execution";
 import { High5Internal } from "./internal";
 import { High5JoinToken } from "./joinToken";
 import { High5Space } from "./space";
+import { High5OrgStat } from "./stat";
 import { High5Wave } from "./wave";
 
 export default class High5 extends Base {
@@ -42,6 +43,13 @@ export default class High5 extends Base {
         return this._execution;
     }
     private _execution?: High5OrganizationExecute;
+    public get stat(): High5OrgStat {
+        if (this._stat === undefined) {
+            this._stat = new High5OrgStat(this.options, this.axios);
+        }
+        return this._stat;
+    }
+    private _stat?: High5OrgStat;
 
     /**
      * Requests the endpoint version

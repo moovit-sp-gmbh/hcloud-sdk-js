@@ -13,3 +13,4 @@ export * from "./execution";
 export * from "./joinToken";
 export * from "./space/job";
 export * from "./space/job/JobLog";
+export * from "./stats";

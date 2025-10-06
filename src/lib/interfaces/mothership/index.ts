@@ -30,3 +30,5 @@ export type TargetAgent = Pick<Agent, Exclude<keyof Agent, "uptime">> & {
     connectionUptime: number;
     target: ReducedUser;
 };
+
+export * from "./stats";

@@ -1,5 +1,5 @@
 import Base from "../../../Base";
-import { Asset, AssetFilter } from "../../../interfaces/cosmo/asset";
+import { Asset, AssetFilter, AssetSearchContext } from "../../../interfaces/cosmo/asset";
 import { Sorting } from "../../../interfaces/global";
 
 /**
@@ -21,37 +21,44 @@ export class CosmoOrganization extends Base {
      * @remarks
      * ** Under development, breaking changes possible**
      * @param orgName Name of the Organization
-     * @param spaceName Name of Space to restrict search space
-     * @param parentId ID of parent (folder, etc.) to restrict search space
-     * @param assetFilter Filter criteria for Assets
+     * @param context Context to search in (e.g., ORGANIZATION, TRASH, SHARE)
      * @param limit Maximum number of Assets to return
      * @param page Page number for pagination
      * @param recursive Flag for searching recursively
-     * @param includeTrash Include assets from the trash bin (default: false)
+     * @param spaceName Name of Space to restrict search (mandatory if context is not ORGANIZATION)
+     * @param namespace Name of Namespace to restrict search
+     * @param parentId ID of parent (folder, etc.) to restrict search
+     * @param shareId ID of Share to restrict search (mandatory if context is SHARE)
+     * @param assetFilter Filter criteria for Assets
+     * @param sorting Sorting criteria for the results
      * @returns List of found Assets
      */
     async searchAssets({
         orgName,
-        spaceName,
-        parentId,
-        assetFilter,
-        sorting,
+        context,
         limit,
         page,
         recursive = false,
+        spaceName,
         namespace,
-        includeTrash = false,
+        parentId,
+        shareId,
+
+        assetFilter,
+        sorting,
     }: {
         orgName: string;
-        spaceName?: string;
-        parentId?: string;
-        assetFilter?: AssetFilter[];
-        sorting?: Sorting;
+        context: AssetSearchContext;
         limit?: number;
         page?: number;
         recursive?: boolean;
+        spaceName?: string;
         namespace?: string[] | string;
-        includeTrash?: boolean;
+        parentId?: string;
+        shareId?: string;
+
+        assetFilter?: AssetFilter[];
+        sorting?: Sorting;
     }): Promise<Asset[]> {
         limit = limit ?? 100;
         page = page ?? 0;
@@ -64,13 +71,14 @@ export class CosmoOrganization extends Base {
             },
             {
                 params: {
+                    context,
                     limit,
                     page,
-                    spaceName,
-                    parentId,
                     recursive,
+                    spaceName,
                     namespace,
-                    includeTrash,
+                    parentId,
+                    shareId
                 },
             }
         );

@@ -1,22 +1,65 @@
+import { Space } from "../../global";
 import { SearchFilterComparatorString, SearchFilterType } from "../../global/SearchFilters";
 import { ReducedUser } from "../../idp/user";
-import { Reference } from "../namespace";
 import { Tag } from "../tag/tag";
 
-export type Item = {
-    _id: string;
+export interface BaseAsset {
+    id: string;
     name: string;
     type: ItemType;
-    breadcrumb?: Item[];
-};
+    createDate: number;
+    modifyDate: number;
+    creator: ReducedUser;
+    permissions?: string[];
+    breadcrumb?: (Asset | Space)[];
+}
 
+export type Asset =
+    | (BaseAsset & {
+          type: ItemType.MEDIA_ASSET;
+          extension: string;
+          assetType: AssetType;
+          path: string;
+          status: UploadStatus;
+          tag?: Tag;
+          previewUrl?: string;
+          duration?: number;
+          frameRate?: number;
+          media?: Media[];
+          thumbnailUrl?: string;
+          namespaces?: Record<string, { status: string; tag?: Tag }>;
+      })
+    | (BaseAsset & {
+          type: ItemType.PRODUCTION;
+      })
+    | (BaseAsset & {
+          type: ItemType.FOLDER;
+          children?: Asset[];
+      })
+    | (BaseAsset & {
+          type: ItemType.REFERENCE;
+          reference: { status: string };
+      });
+
+export enum AssetType {
+    VIDEO = "VIDEO",
+    IMAGE = "IMAGE",
+    DOCUMENT = "DOCUMENT",
+    UNKNOWN = "UNKNOWN",
+    FOLDER = "FOLDER",
+}
+
+// These must correlate with the Neo4j labels!
 export enum ItemType {
     ASSET = "ASSET",
     MEDIA_ASSET = "MEDIA_ASSET",
+    REFERENCE = "REFERENCE",
     SPACE = "SPACE",
     PRODUCTION = "PRODUCTION",
     PROJECT = "PROJECT",
     FOLDER = "FOLDER",
+    COMMENT = "COMMENT",
+    TAG = "TAG",
 }
 
 export enum UploadStatus {
@@ -30,51 +73,12 @@ export enum UploadStatus {
 
 export type NamespaceRushStatus = "approved" | "rejected" | "none";
 
-export interface Asset extends Item {
-    _id: string;
-    name: string;
-    type: ItemType;
-    createDate: number;
-    modifyDate: number;
-    creator: ReducedUser;
-    permissions?: string[];
-    thumbnailUrl?: string;
-    breadcrumb?: Item[];
-}
-
-export interface MediaAsset extends Asset {
-    extension: string;
-    assetType: AssetType;
-    path: string;
-    status: UploadStatus;
-    tags?: string[];
-    tag?: Tag;
-    categories?: string[];
-    previewUrl?: string;
-    duration?: number;
-    frameRate?: number;
-
-    media?: Media[];
-    namespaces?: Record<string, { status: string; tag?: Tag }>;
-}
-
 export interface Upload {
     url: string;
     token: string;
     expiration: number;
     libraryId?: string;
     videoId?: string;
-}
-
-export enum AssetType {
-    VIDEO = "VIDEO",
-    IMAGE = "IMAGE",
-    DOCUMENT = "DOCUMENT",
-    UNKNOWN = "UNKNOWN",
-}
-
-export interface AssetReference extends Asset, Reference {
-    reference: { status: string };
 }
 
 export enum AssetPermission {

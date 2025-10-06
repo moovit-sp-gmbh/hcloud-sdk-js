@@ -1,5 +1,5 @@
 import Base from "../../../Base";
-import { Asset, AssetPermission, CreateAsset, MediaAsset, PatchAsset, Resolution } from "../../../interfaces/cosmo/asset";
+import { Asset, AssetPermission, CreateAsset, PatchAsset, Resolution } from "../../../interfaces/cosmo/asset";
 import { ReducedUser } from "../../../interfaces/idp/user";
 
 /**
@@ -25,8 +25,8 @@ export class CosmoAsset extends Base {
      * @param createAsset The Asset to be created
      * @returns The created asset
      */
-    async createAsset(orgName: string, spaceName: string, createAsset: CreateAsset): Promise<MediaAsset> {
-        const resp = await this.axios.post<MediaAsset>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets`), createAsset);
+    async createAsset(orgName: string, spaceName: string, createAsset: CreateAsset): Promise<Asset> {
+        const resp = await this.axios.post<Asset>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets`), createAsset);
         return resp.data;
     }
 

@@ -1,4 +1,3 @@
-import { Space } from "../../global";
 import { SearchFilterComparatorString, SearchFilterType } from "../../global/SearchFilters";
 import { ReducedUser } from "../../idp/user";
 import { CosmoSpace } from "../space";

@@ -3,6 +3,7 @@ import { License } from "./license";
 import { ReducedTeam } from "./team";
 
 export * from "./license";
+export * from "./stats";
 
 export enum OrganizationRole {
     MEMBER = "MEMBER", // Part of org, but cannot change anything

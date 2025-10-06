@@ -1,5 +1,5 @@
 import { ReducedUser } from "../idp";
-import { Item } from "./asset";
+import { BaseAsset } from "./asset";
 
 export type Permission = {
     name: string;
@@ -41,7 +41,7 @@ export type DetailedRole = Role & {
     permissions: Record<
         string,
         {
-            entity: Item;
+            entity: BaseAsset;
             permissions: string[];
         }
     >;

@@ -1,6 +1,5 @@
 import Base from "../../../Base";
 import { Asset, AssetFilter } from "../../../interfaces/cosmo/asset";
-import { Folder } from "../../../interfaces/cosmo/folder";
 import { Sorting } from "../../../interfaces/global";
 
 /**
@@ -53,11 +52,11 @@ export class CosmoOrganization extends Base {
         recursive?: boolean;
         namespace?: string[] | string;
         includeTrash?: boolean;
-    }): Promise<(Asset | Folder)[]> {
+    }): Promise<Asset[]> {
         limit = limit ?? 100;
         page = page ?? 0;
 
-        const resp = await this.axios.post<(Asset | Folder)[]>(
+        const resp = await this.axios.post<Asset[]>(
             this.getEndpoint(`/v1/org/${orgName}/assets/search`),
             {
                 filters: assetFilter ?? [],

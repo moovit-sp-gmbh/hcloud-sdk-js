@@ -1,7 +1,5 @@
 import Base from "../../../Base";
-import { Asset, AssetFilter } from "../../../interfaces/cosmo/asset";
 import { High5SpaceInfo, CosmoSpace as ICosmoSpace } from "../../../interfaces/cosmo/space";
-import { Sorting } from "../../../interfaces/global";
 import { ReducedUser } from "../../../interfaces/idp";
 
 /**
@@ -88,59 +86,6 @@ export class CosmoSpace extends Base {
         const resp = await this.axios.patch<ICosmoSpace>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/name`), {
             name: newName,
         });
-
-        return resp.data;
-    }
-
-    /**
-     * Search assets in trash inside a Space.
-     * @remarks
-     * ** Under development, breaking changes possible**
-     * @param orgName Name of the Organization
-     * @param spaceName Name of the Space
-     * @param assetFilter Filter for assets in the Space
-     * @param limit Maximum number of assets to return
-     * @param page Page number for pagination
-     * @param recursive Optional flag to search recursively
-     * @param namespace Optional Namespaces of which information should be included in the returned object
-     * @returns Filtered assets from the space's trash folder
-     */
-    async searchAssetsInTrashOfSpace({
-        orgName,
-        spaceName,
-        assetFilter,
-        sorting,
-        limit,
-        page,
-        namespace,
-        recursive = false,
-    }: {
-        orgName: string;
-        spaceName: string;
-        assetFilter: AssetFilter[];
-        sorting?: Sorting;
-        limit?: number;
-        page?: number;
-        recursive?: boolean;
-        namespace?: string[] | string;
-    }): Promise<Asset[]> {
-        limit = limit ?? 100;
-        page = page ?? 0;
-        const resp = await this.axios.post<Asset[]>(
-            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/trash/search`),
-            {
-                ...(assetFilter ? { filters: assetFilter } : {}),
-                ...(sorting ? { sorting: sorting } : {}),
-            },
-            {
-                params: {
-                    limit,
-                    page,
-                    recursive,
-                    namespace,
-                },
-            }
-        );
 
         return resp.data;
     }

@@ -183,3 +183,9 @@ export interface AssetFilter {
     value: string;
     comparator: (typeof searchParams)[this["key"]]["comparators"][number];
 }
+
+export enum AssetSearchContext {
+    ORGANIZATION = "ORGANIZATION",
+    TRASH = "TRASH",
+    SHARE = "SHARE",
+}

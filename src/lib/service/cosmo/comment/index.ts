@@ -138,7 +138,7 @@ export class CosmoComment extends Base {
      */
     async deleteComment(orgName: string, spaceName: string, namespaceName: string, commentIds: string[]): Promise<void> {
         await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/namespaces/${namespaceName}/comments`), {
-              data: { commentIds },
+            data: { commentIds },
         });
     }
 

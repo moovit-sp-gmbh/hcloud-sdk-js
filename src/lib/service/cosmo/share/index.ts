@@ -149,7 +149,7 @@ export class CosmoShare extends Base {
      */
     async deleteShare(orgName: string, spaceName: string, shareIds: string[]): Promise<void> {
         await this.axios.delete(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/shares`), {
-              data: { shareIds },
+            data: { shareIds },
         });
     }
 

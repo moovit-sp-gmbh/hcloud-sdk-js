@@ -1,6 +1,6 @@
 import Base from "../../../Base";
-import { ReducedUser } from "../../../interfaces/idp/user";
 import { Asset, AssetPermission, CreateAsset, MediaAsset, PatchAsset, Resolution } from "../../../interfaces/cosmo/asset";
+import { ReducedUser } from "../../../interfaces/idp/user";
 
 /**
  * @class Asset
@@ -115,9 +115,9 @@ export class CosmoAsset extends Base {
      */
     async deleteAssets(orgName: string, spaceName: string, assetIds: string[], force?: boolean): Promise<void> {
         await this.axios.delete(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets`), {
-             data: { assetIds },
-             params: { force } }
-        );
+            data: { assetIds },
+            params: { force },
+        });
     }
 
     /**

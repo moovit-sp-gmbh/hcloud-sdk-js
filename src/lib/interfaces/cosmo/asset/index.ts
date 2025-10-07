@@ -4,7 +4,7 @@ import { ReducedUser } from "../../idp/user";
 import { Tag } from "../tag/tag";
 
 export interface BaseAsset {
-    id: string;
+    _id: string;
     name: string;
     type: ItemType;
     createDate: number;

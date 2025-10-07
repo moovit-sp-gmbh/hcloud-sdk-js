@@ -16,30 +16,36 @@ export interface BaseAsset {
 
 export type Asset =
     | (BaseAsset & {
-          type: ItemType.MEDIA_ASSET;
-          extension: string;
-          assetType: AssetType;
-          path: string;
-          status: UploadStatus;
-          tag?: Tag;
-          previewUrl?: string;
-          duration?: number;
-          frameRate?: number;
-          media?: Media[];
-          thumbnailUrl?: string;
-          namespaces?: Record<string, { status: string; tag?: Tag }>;
-      })
-    | (BaseAsset & {
-          type: ItemType.PRODUCTION;
-      })
-    | (BaseAsset & {
-          type: ItemType.FOLDER;
-          children?: Asset[];
-      })
-    | (BaseAsset & {
-          type: ItemType.REFERENCE;
-          reference: { status: string };
-      });
+        type: ItemType.MEDIA_ASSET;
+        extension: string;
+        assetType: AssetType;
+        path: string;
+        status: UploadStatus;
+        tag?: Tag;
+        previewUrl?: string;
+        duration?: number;
+        frameRate?: number;
+        media?: Media[];
+        thumbnailUrl?: string;
+        namespaces?: Record<string, { status: string; tag?: Tag }>;
+    })
+    | Production
+    | Folder
+    | AssetReference;
+
+export type Production = BaseAsset & {
+    type: ItemType.PRODUCTION;
+};
+
+export type Folder = BaseAsset & {
+    type: ItemType.FOLDER;
+    children?: Asset[];
+};
+
+export type AssetReference = BaseAsset & {
+    type: ItemType.REFERENCE;
+    reference: { status: string };
+};
 
 export enum AssetType {
     VIDEO = "VIDEO",

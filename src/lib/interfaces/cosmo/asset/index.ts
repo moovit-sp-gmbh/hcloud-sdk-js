@@ -16,19 +16,19 @@ export interface BaseAsset {
 
 export type Asset =
     | (BaseAsset & {
-        type: ItemType.MEDIA_ASSET;
-        extension: string;
-        assetType: AssetType;
-        path: string;
-        status: UploadStatus;
-        tag?: Tag;
-        previewUrl?: string;
-        duration?: number;
-        frameRate?: number;
-        media?: Media[];
-        thumbnailUrl?: string;
-        namespaces?: Record<string, { status: string; tag?: Tag }>;
-    })
+          type: ItemType.MEDIA_ASSET;
+          extension: string;
+          assetType: AssetType;
+          path: string;
+          status: UploadStatus;
+          tag?: Tag;
+          previewUrl?: string;
+          duration?: number;
+          frameRate?: number;
+          media?: Media[];
+          thumbnailUrl?: string;
+          namespaces?: Record<string, { status: string; tag?: Tag }>;
+      })
     | Production
     | Folder
     | AssetReference;

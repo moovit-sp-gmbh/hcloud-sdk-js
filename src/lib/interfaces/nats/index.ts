@@ -145,6 +145,14 @@ enum NatsObjectType {
 
     AGENT = "AGENT",
     MESSAGE = "MESSAGE",
+
+    ASSET = "ASSET",
+    COMMENT = "COMMENT",
+    TAG = "TAG",
+    SHARE = "SHARE",
+    PRODUCTION = "PRODUCTION",
+    LOCATION = "LOCATION",
+    FOLDER = "FOLDER",
 }
 
 interface NatsMessage {

@@ -62,6 +62,7 @@ enum NatsSubject {
     COSMO_COMMENTS = "hcloud.cosmo.organization.${base64orgName}.spaces.${base64spaceName}.namespaces.${base64namespaceName}.assets.${assetId}.comments",
     COSMO_SHARE = "hcloud.cosmo.organization.${base64orgName}.spaces.${base64spaceName}.share",
     COSMO_TAGS = "hcloud.cosmo.organization.${base64orgName}.spaces.${base64spaceName}.namespaces.${base64namespaceName}.tags",
+    COSMO_ROLES = "hcloud.cosmo.organization.${base64orgName}.spaces.${base64spaceName}.roles",
 
     MOTHERSHIP_AGENT_CONNECTION = "hcloud.mothership.organization.${base64orgName}.agent.connection",
     AUDITOR_LOGS = "hcloud.auditor.organization.${base64orgName}.logs",
@@ -153,6 +154,7 @@ enum NatsObjectType {
     PRODUCTION = "PRODUCTION",
     LOCATION = "LOCATION",
     FOLDER = "FOLDER",
+    ROLE = "ROLE",
 }
 
 interface NatsMessage {
@@ -213,6 +215,7 @@ interface NatsObject
     [NatsSubject.FUSE_JOB_LOGS]: NatsIdObject;
     [NatsSubject.COSMO_ASSETS]: NatsAssetObject[];
     [NatsSubject.COSMO_SHARE]: NatsIdObject;
+    [NatsSubject.COSMO_ROLES]: NatsIdObject;
     [NatsSubject.MOTHERSHIP_AGENT_CONNECTION]: NatsTargetObject;
     [NatsSubject.AUDITOR_LOGS]: NatsIdObject;
     [NatsSubject.DEBUG_NAMESPACE]: string;
@@ -568,6 +571,9 @@ class NatsSubjects {
             };
             static SHARES = (organizationName: string, spaceName: string) => {
                 return NatsSubjects.replace(NatsSubject.COSMO_SHARE, { organizationName, spaceName });
+            };
+            static ROLES = (organizationName: string, spaceName: string) => {
+                return NatsSubjects.replace(NatsSubject.COSMO_ROLES, { organizationName, spaceName });
             };
         };
     };

@@ -18,7 +18,7 @@ export interface User {
     isGuest?: boolean;
 }
 
-export type ReducedUser = Pick<User, "_id" | "name" | "email" | "avatarUrl" | "isGuest">;
+export type ReducedUser = Pick<User, "_id" | "name" | "email" | "avatarUrl" | "isGuest" | "isAgent">;
 
 export interface UserPatch {
     name?: string;

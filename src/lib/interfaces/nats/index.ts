@@ -63,6 +63,7 @@ enum NatsSubject {
     COSMO_SHARE = "hcloud.cosmo.organization.${base64orgName}.spaces.${base64spaceName}.share",
     COSMO_TAGS = "hcloud.cosmo.organization.${base64orgName}.spaces.${base64spaceName}.namespaces.${base64namespaceName}.tags",
     COSMO_ROLES = "hcloud.cosmo.organization.${base64orgName}.spaces.${base64spaceName}.roles",
+    COSMO_STATUS = "hcloud.cosmo.organization.${base64orgName}.spaces.${base64spaceName}.namespaces.${base64namespaceName}.status",
 
     MOTHERSHIP_AGENT_CONNECTION = "hcloud.mothership.organization.${base64orgName}.agent.connection",
     AUDITOR_LOGS = "hcloud.auditor.organization.${base64orgName}.logs",
@@ -155,6 +156,7 @@ enum NatsObjectType {
     LOCATION = "LOCATION",
     FOLDER = "FOLDER",
     ROLE = "ROLE",
+    STATUS = "STATUS",
 }
 
 interface NatsMessage {
@@ -174,7 +176,8 @@ interface NatsObject
         NatsCustomNodeObject,
         NatsAssetObject,
         NatsIdNoUnderscoreObject,
-        NatsTargetObject {
+        NatsTargetObject,
+        NatsCosmoStatusObject {
     [NatsSubject.IDP_USER_GENERAL]: NatsIdObject;
     [NatsSubject.IDP_USER_PROFILE]: NatsIdObject;
     [NatsSubject.IDP_USER_SECURITY_PATS]: NatsIdObject;
@@ -216,6 +219,7 @@ interface NatsObject
     [NatsSubject.COSMO_ASSETS]: NatsAssetObject[];
     [NatsSubject.COSMO_SHARE]: NatsIdObject;
     [NatsSubject.COSMO_ROLES]: NatsIdObject;
+    [NatsSubject.COSMO_STATUS]: NatsCosmoStatusObject;
     [NatsSubject.MOTHERSHIP_AGENT_CONNECTION]: NatsTargetObject;
     [NatsSubject.AUDITOR_LOGS]: NatsIdObject;
     [NatsSubject.DEBUG_NAMESPACE]: string;
@@ -264,6 +268,10 @@ interface NatsPoolObject extends NatsIdObject {
 
 interface NatsTargetObject {
     target: string;
+}
+interface NatsCosmoStatusObject {
+    refId: string;
+    status: "approved" | "rejected" | "none";
 }
 
 type NatsCallback = (err: Error | null, msg?: NatsMessage, rawMsg?: Msg) => void;
@@ -564,6 +572,9 @@ class NatsSubjects {
                 };
                 static TAGS = (organizationName: string, spaceName: string, namespaceName: string) => {
                     return NatsSubjects.replace(NatsSubject.COSMO_TAGS, { organizationName, spaceName, namespaceName });
+                };
+                static STATUS = (organizationName: string, spaceName: string, namespaceName: string) => {
+                    return NatsSubjects.replace(NatsSubject.COSMO_STATUS, { organizationName, spaceName, namespaceName });
                 };
             };
             static ASSETS = (organizationName: string, spaceName: string) => {

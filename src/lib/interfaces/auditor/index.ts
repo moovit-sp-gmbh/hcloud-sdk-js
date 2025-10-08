@@ -44,6 +44,7 @@ export enum Event {
     Role = "role",
     Group = "group",
     Tag = "tag",
+    Reference = "reference",
 }
 
 export enum Type {

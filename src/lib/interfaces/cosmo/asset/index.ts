@@ -1,6 +1,7 @@
 import { Space } from "../../global";
 import { SearchFilterComparatorString, SearchFilterType } from "../../global/SearchFilters";
 import { ReducedUser } from "../../idp/user";
+import { CosmoSpace } from "../space";
 import { Tag } from "../tag/tag";
 
 export interface BaseAsset {
@@ -11,24 +12,24 @@ export interface BaseAsset {
     modifyDate: number;
     creator: ReducedUser;
     permissions?: string[];
-    breadcrumb?: (Asset | Space)[];
+    breadcrumb?: (Asset | CosmoSpace)[];
 }
 
 export type Asset =
     | (BaseAsset & {
-        type: ItemType.MEDIA_ASSET;
-        extension: string;
-        assetType: AssetType;
-        path: string;
-        status: UploadStatus;
-        tag?: Tag;
-        previewUrl?: string;
-        duration?: number;
-        frameRate?: number;
-        media?: Media[];
-        thumbnailUrl?: string;
-        namespaces?: Record<string, { status: string; tag?: Tag }>;
-    })
+          type: ItemType.MEDIA_ASSET;
+          extension: string;
+          assetType: AssetType;
+          path: string;
+          status: UploadStatus;
+          tag?: Tag;
+          previewUrl?: string;
+          duration?: number;
+          frameRate?: number;
+          media?: Media[];
+          thumbnailUrl?: string;
+          namespaces?: Record<string, { status: string; tag?: Tag }>;
+      })
     | Production
     | Folder
     | AssetReference;

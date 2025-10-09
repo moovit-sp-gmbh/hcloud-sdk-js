@@ -60,6 +60,7 @@ enum NatsSubject {
     COSMO_NAMESPACES = "hcloud.cosmo.organization.${base64orgName}.spaces.${base64spaceName}.namespaces",
     COSMO_ASSETS = "hcloud.cosmo.organization.${base64orgName}.spaces.${base64spaceName}.assets",
     COSMO_COMMENTS = "hcloud.cosmo.organization.${base64orgName}.spaces.${base64spaceName}.namespaces.${base64namespaceName}.assets.${assetId}.comments",
+    COSMO_STATUS = "hcloud.cosmo.organization.${base64orgName}.spaces.${base64spaceName}.namespaces.${base64namespaceName}.assets.${assetId}.status",
     COSMO_SHARE = "hcloud.cosmo.organization.${base64orgName}.spaces.${base64spaceName}.share",
     COSMO_TAGS = "hcloud.cosmo.organization.${base64orgName}.spaces.${base64spaceName}.namespaces.${base64namespaceName}.tags",
 
@@ -548,6 +549,9 @@ class NatsSubjects {
                 return NatsSubjects.replace(NatsSubject.COSMO_NAMESPACES, { organizationName, spaceName });
             };
             static Namespace = class {
+                static STATUS = (organizationName: string, spaceName: string, namespaceName: string, assetId: string) => {
+                    return NatsSubjects.replace(NatsSubject.COSMO_STATUS, { organizationName, spaceName, namespaceName, assetId });
+                };
                 static COMMENTS = (organizationName: string, spaceName: string, namespaceName: string, assetId: string) => {
                     return NatsSubjects.replace(NatsSubject.COSMO_COMMENTS, { organizationName, spaceName, namespaceName, assetId });
                 };

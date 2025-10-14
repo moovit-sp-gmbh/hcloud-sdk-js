@@ -41,7 +41,14 @@ enum MailjetTemplate {
     IDP_RESET_PASSWORD = "IDP_RESET_PASSWORD",
     IDP_REGISTRATION_AND_INVITATION = "IDP_REGISTRATION_AND_INVITATION",
     IDP_USER_LEFT_ORGANIZATION = "IDP_USER_LEFT_ORGANIZATION",
+
     COSMO_NEW_SHARE = "COSMO_NEW_SHARE",
+    COSMO_USER_ADDED_TO_SPACE = "COSMO_USER_ADDED_TO_SPACE",
+    COSMO_USER_REMOVED_FROM_SPACE = "COSMO_USER_REMOVED_FROM_SPACE",
+    COSMO_COMMENT_ADDED = "COSMO_COMMENT_ADDED",
+    COSMO_REPLIED_TO_COMMENT = "COSMO_REPLIED_TO_COMMENT",
+    COSMO_ASSET_STATUS_CHANGED = "COSMO_ASSET_STATUS_CHANGED",
+    COSMO_ASSET_UPLOADED_TO_SHARE = "COSMO_ASSET_UPLOADED_TO_SHARE",
 }
 
 interface MailjetTemplateField {
@@ -119,6 +126,69 @@ export class CosmoNewShareMailjetMailDTO extends MailjetMailDTO {
     constructor(recipients: string[], shareLink: string) {
         super(recipients, MailjetTemplate.COSMO_NEW_SHARE, {
             HCLOUD_SHARE_LINK: shareLink,
+        });
+    }
+}
+
+export class CosmoCommentOrAnnotationAddedMailjetMailDTO extends MailjetMailDTO {
+    constructor(
+        recipients: string[],
+        assetName: string,
+        recipientName: string,
+        actorName: string,
+        commentSnippet: string,
+        spaceName: string,
+        link: string
+    ) {
+        super(recipients, MailjetTemplate.COSMO_COMMENT_ADDED, {
+            ASSET_NAME: assetName,
+            RECIPIENT_NAME: recipientName,
+            ACTOR_NAME: actorName,
+            COMMENT_SNIPPET: commentSnippet,
+            SPACE_NAME: spaceName,
+            LINK: link,
+        });
+    }
+}
+
+export class CosmoRepliedToCommentMailjetMailDTO extends MailjetMailDTO {
+    constructor(
+        recipients: string[],
+        assetName: string,
+        recipientName: string,
+        actorName: string,
+        commentSnippet: string,
+        spaceName: string,
+        link: string
+    ) {
+        super(recipients, MailjetTemplate.COSMO_REPLIED_TO_COMMENT, {
+            ASSET_NAME: assetName,
+            RECIPIENT_NAME: recipientName,
+            ACTOR_NAME: actorName,
+            COMMENT_SNIPPET: commentSnippet,
+            SPACE_NAME: spaceName,
+            LINK: link,
+        });
+    }
+}
+
+export class CosmoAssetStatusChangedMailjetMailDTO extends MailjetMailDTO {
+    constructor(
+        recipients: string[],
+        assetName: string,
+        recipientName: string,
+        actorName: string,
+        newStatus: string,
+        spaceName: string,
+        link: string
+    ) {
+        super(recipients, MailjetTemplate.COSMO_ASSET_STATUS_CHANGED, {
+            ASSET_NAME: assetName,
+            RECIPIENT_NAME: recipientName,
+            ACTOR_NAME: actorName,
+            NEW_STATUS: newStatus,
+            SPACE_NAME: spaceName,
+            LINK: link,
         });
     }
 }

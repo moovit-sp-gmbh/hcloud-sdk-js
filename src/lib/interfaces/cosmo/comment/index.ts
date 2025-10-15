@@ -33,15 +33,8 @@ export interface Comment {
     replies?: Reply[];
 }
 
-export interface Reply {
-    _id: string;
-    text: string;
-    assetId: string;
+export interface Reply extends Omit<Comment, "timestamp" | "replies"> {
     commentRef: string;
-    commentType: CommentType;
-    createDate: number;
-    creator: ReducedUser;
-    mentions?: ReducedUser[];
 }
 
 export interface Timestamp {

@@ -1,5 +1,5 @@
 import Base from "../../../Base";
-import { Comment, CreateComment, EditComment } from "../../../interfaces/cosmo/comment";
+import { Comment, CreateComment, EditComment, Reply } from "../../../interfaces/cosmo/comment";
 
 /**
  * @class Comment
@@ -33,7 +33,7 @@ export class CosmoComment extends Base {
         comment: CreateComment,
         annotation: boolean = false
     ): Promise<Comment> {
-        const resp = await this.axios.post<Comment>(
+        const resp = await this.axios.post<Comment | Reply>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/namespaces/${namespaceName}/comments?annotation=${annotation}`),
             comment
         );
@@ -96,7 +96,7 @@ export class CosmoComment extends Base {
         commentId: string,
         editComment: EditComment,
         annotation: boolean = false
-    ): Promise<Comment> {
+    ): Promise<Comment | Reply> {
         const resp = await this.axios.patch<Comment>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/namespaces/${namespaceName}/comments/${commentId}?annotation=${annotation}`),
             editComment
@@ -117,7 +117,7 @@ export class CosmoComment extends Base {
      *
      * @returns The requested Comment
      */
-    async getComment(orgName: string, spaceName: string, namespaceName: string, commentId: string, annotation: boolean = false): Promise<Comment> {
+    async getComment(orgName: string, spaceName: string, namespaceName: string, commentId: string, annotation: boolean = false): Promise<Comment | Reply> {
         const resp = await this.axios.get<Comment>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/namespaces/${namespaceName}/comments/${commentId}?annotation=${annotation}`)
         );
@@ -162,7 +162,7 @@ export class CosmoComment extends Base {
         commentId: string,
         text: string,
         annotation: boolean = false
-    ): Promise<Comment> {
+    ): Promise<Comment | Reply> {
         const resp = await this.axios.patch<Comment>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/namespaces/${namespaceName}/comments/${commentId}?annotation=${annotation}`),
             { text: text }
@@ -191,7 +191,7 @@ export class CosmoComment extends Base {
         commentId: string,
         newAnnotationContent: string,
         annotation: boolean = false
-    ): Promise<Comment> {
+    ): Promise<Comment | Reply> {
         const resp = await this.axios.patch<Comment>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/namespaces/${namespaceName}/comments/${commentId}?annotation=${annotation}`),
             { annotation: newAnnotationContent }

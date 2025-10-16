@@ -41,7 +41,7 @@ export type DetailedRole = Role & {
     permissions: Record<
         string,
         {
-            entity: BaseAsset;
+            entity: Pick<BaseAsset, "_id" | "type" | "name">;
             permissions: string[];
         }
     >;

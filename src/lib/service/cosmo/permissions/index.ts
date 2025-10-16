@@ -56,8 +56,8 @@ export class CosmoPermissions extends Base {
         sorting?: Sorting;
         limit?: number;
         page?: number;
-    }): Promise<Role[]> {
-        const res = await this.axios.post<Role[]>(
+    }): Promise<DetailedRole[]> {
+        const res = await this.axios.post<DetailedRole[]>(
             `/v1/org/${orgName}/spaces/${spaceName}/roles/search`,
             {
                 filters,

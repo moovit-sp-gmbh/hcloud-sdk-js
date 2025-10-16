@@ -78,7 +78,7 @@ export class CosmoOrganization extends Base {
                     spaceName,
                     namespace,
                     parentId,
-                    shareId
+                    shareId,
                 },
             }
         );

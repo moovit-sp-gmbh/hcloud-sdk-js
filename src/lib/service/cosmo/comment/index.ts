@@ -117,7 +117,13 @@ export class CosmoComment extends Base {
      *
      * @returns The requested Comment
      */
-    async getComment(orgName: string, spaceName: string, namespaceName: string, commentId: string, annotation: boolean = false): Promise<Comment | Reply> {
+    async getComment(
+        orgName: string,
+        spaceName: string,
+        namespaceName: string,
+        commentId: string,
+        annotation: boolean = false
+    ): Promise<Comment | Reply> {
         const resp = await this.axios.get<Comment>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/namespaces/${namespaceName}/comments/${commentId}?annotation=${annotation}`)
         );

@@ -1,4 +1,4 @@
-import { ReducedUser } from "../../idp";
+import { ReducedTeam, ReducedUser } from "../../idp";
 import { ItemType } from "../asset";
 
 export interface CosmoSpace {
@@ -16,3 +16,5 @@ export interface High5SpaceInfo {
     high5_spaceName: string;
     executionTarget: string;
 }
+
+export type SpaceUser = (ReducedUser | ReducedTeam) & { roles: { name: string; _id: string }[]; type: "user" | "team" };

@@ -1,6 +1,5 @@
 import Base from "../../../Base";
-import { High5SpaceInfo, CosmoSpace as ICosmoSpace } from "../../../interfaces/cosmo/space";
-import { ReducedUser } from "../../../interfaces/idp";
+import { High5SpaceInfo, CosmoSpace as ICosmoSpace, SpaceUser } from "../../../interfaces/cosmo/space";
 
 /**
  * @class Space
@@ -124,10 +123,10 @@ export class CosmoSpace extends Base {
      * List all users with access to the given Space.
      * @param orgName Name of the Organization
      * @param spaceName Name of the Cosmo Space
-     * @returns The ReducedUser array
+     * @returns The SpaceUser array
      */
-    async listSpaceUsers(orgName: string, spaceName: string): Promise<ReducedUser[]> {
-        const resp = await this.axios.get<ReducedUser[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/users`));
+    async listSpaceUsers(orgName: string, spaceName: string): Promise<SpaceUser[]> {
+        const resp = await this.axios.get<SpaceUser[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/users`));
 
         return resp.data;
     }

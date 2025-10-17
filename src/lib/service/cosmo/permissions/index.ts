@@ -22,7 +22,7 @@ export class CosmoPermissions extends Base {
      * @returns A promise resolving to the created role object.
      */
     async createRole(orgName: string, spaceName: string, roleName: string, permissions: Record<string, Permission["name"][]>): Promise<Role> {
-        const res = await this.axios.post<Role>(`/v1/org/${orgName}/spaces/${spaceName}/roles`, {
+        const res = await this.axios.post<Role>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/roles`), {
             name: roleName,
             permissions,
         });
@@ -51,14 +51,13 @@ export class CosmoPermissions extends Base {
     }: {
         orgName: string;
         spaceName: string;
-        shareId: string;
         filters?: SearchFilter[];
         sorting?: Sorting;
         limit?: number;
         page?: number;
-    }): Promise<DetailedRole[]> {
-        const res = await this.axios.post<DetailedRole[]>(
-            `/v1/org/${orgName}/spaces/${spaceName}/roles/search`,
+    }): Promise<Role[]> {
+        const res = await this.axios.post<Role[]>(
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/roles/search`),
             {
                 filters,
                 sorting,
@@ -90,7 +89,7 @@ export class CosmoPermissions extends Base {
         newName: string,
         permissions: Record<string, Permission["name"][]>
     ): Promise<Role> {
-        const res = await this.axios.put<Role>(`/v1/org/${orgName}/spaces/${spaceName}/roles/${roleId}`, {
+        const res = await this.axios.put<Role>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/roles/${roleId}`), {
             name: newName,
             permissions,
         });
@@ -106,7 +105,7 @@ export class CosmoPermissions extends Base {
      * @returns A promise resolving to the detailed role object.
      */
     async fetchRole(orgName: string, spaceName: string, roleId: string): Promise<DetailedRole> {
-        const res = await this.axios.get<DetailedRole>(`/v1/org/${orgName}/spaces/${spaceName}/roles/${roleId}`);
+        const res = await this.axios.get<DetailedRole>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/roles/${roleId}`));
         return res.data;
     }
 
@@ -119,7 +118,7 @@ export class CosmoPermissions extends Base {
      * @returns A promise that resolves when the role is deleted.
      */
     async deleteRole(orgName: string, spaceName: string, roleId: string): Promise<void> {
-        await this.axios.delete<DetailedRole>(`/v1/org/${orgName}/spaces/${spaceName}/roles/${roleId}`);
+        await this.axios.delete<DetailedRole>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/roles/${roleId}`));
     }
 
     /**
@@ -132,7 +131,7 @@ export class CosmoPermissions extends Base {
      * @returns A promise that resolves when the assignment is complete.
      */
     async assignUserToRole(orgName: string, spaceName: string, roleId: string, userId: string): Promise<void> {
-        await this.axios.put<void>(`/v1/org/${orgName}/spaces/${spaceName}/roles/${roleId}`, { userId });
+        await this.axios.put<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/roles/${roleId}`), { userId });
     }
 
     /**
@@ -145,7 +144,7 @@ export class CosmoPermissions extends Base {
      * @returns A promise that resolves when the user is removed.
      */
     async unassignUserFromRole(orgName: string, spaceName: string, roleId: string, userId: string): Promise<void> {
-        await this.axios.delete<void>(`/v1/org/${orgName}/spaces/${spaceName}/roles/${roleId}/user/${userId}`);
+        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/roles/${roleId}/user/${userId}`));
     }
 
     /**
@@ -158,7 +157,7 @@ export class CosmoPermissions extends Base {
      * @returns A promise that resolves when the assignment is complete.
      */
     async assignTeamToRole(orgName: string, spaceName: string, roleId: string, teamName: string): Promise<void> {
-        await this.axios.put<void>(`/v1/org/${orgName}/spaces/${spaceName}/roles/${roleId}`, { teamName });
+        await this.axios.put<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/roles/${roleId}`), { teamName });
     }
 
     /**
@@ -171,7 +170,7 @@ export class CosmoPermissions extends Base {
      * @returns A promise that resolves when the team is removed.
      */
     async unassignTeamFromRole(orgName: string, spaceName: string, roleId: string, teamName: string): Promise<void> {
-        await this.axios.delete<void>(`/v1/org/${orgName}/spaces/${spaceName}/roles/${roleId}/team/${teamName}`);
+        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/roles/${roleId}/team/${teamName}`));
     }
 
     protected getEndpoint(endpoint: string): string {

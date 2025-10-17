@@ -30,6 +30,7 @@ export type PermissionDiscovery = {
 };
 
 export type Role = {
+    _id: string;
     name: string;
     createDate: number;
     modifyDate: number;

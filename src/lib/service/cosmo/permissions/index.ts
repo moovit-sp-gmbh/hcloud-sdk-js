@@ -131,7 +131,7 @@ export class CosmoPermissions extends Base {
      * @returns A promise that resolves when the assignment is complete.
      */
     async assignUserToRole(orgName: string, spaceName: string, roleId: string, userId: string): Promise<void> {
-        await this.axios.put<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/roles/${roleId}`), { userId });
+        await this.axios.put<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/roles/${roleId}/user`), { userId });
     }
 
     /**
@@ -157,7 +157,7 @@ export class CosmoPermissions extends Base {
      * @returns A promise that resolves when the assignment is complete.
      */
     async assignTeamToRole(orgName: string, spaceName: string, roleId: string, teamName: string): Promise<void> {
-        await this.axios.put<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/roles/${roleId}`), { teamName });
+        await this.axios.put<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/roles/${roleId}/team`), { teamName });
     }
 
     /**

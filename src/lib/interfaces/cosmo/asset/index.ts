@@ -1,5 +1,7 @@
 import { SearchFilterComparatorString, SearchFilterType } from "../../global/SearchFilters";
 import { ReducedUser } from "../../idp/user";
+import { ReducedOrganization } from "../../idp/organization";
+import { ReducedSpace } from "../../global";
 import { CosmoSpace } from "../space";
 import { Tag } from "../tag/tag";
 
@@ -10,6 +12,8 @@ export interface BaseAsset {
     createDate: number;
     modifyDate: number;
     creator: ReducedUser;
+    organization: ReducedOrganization;
+    space: ReducedSpace;
     permissions?: string[];
     breadcrumb?: (Asset | CosmoSpace)[];
 }

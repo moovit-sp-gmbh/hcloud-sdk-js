@@ -1,7 +1,7 @@
-import { SearchFilterComparatorString, SearchFilterType } from "../../global/SearchFilters";
-import { ReducedUser } from "../../idp/user";
-import { ReducedOrganization } from "../../idp/organization";
 import { ReducedSpace } from "../../global";
+import { SearchFilterComparatorString, SearchFilterType } from "../../global/SearchFilters";
+import { ReducedOrganization } from "../../idp/organization";
+import { ReducedUser } from "../../idp/user";
 import { CosmoSpace } from "../space";
 import { Tag } from "../tag/tag";
 

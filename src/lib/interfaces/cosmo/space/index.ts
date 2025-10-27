@@ -10,6 +10,7 @@ export interface CosmoSpace {
     type: ItemType.SPACE;
     high5_spaceName?: string;
     high5_executionTarget?: string;
+    permissions?: string[];
 }
 
 export interface High5SpaceInfo {

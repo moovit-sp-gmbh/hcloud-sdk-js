@@ -26,7 +26,10 @@ export class CosmoAsset extends Base {
      * @returns The created asset
      */
     async createAsset(orgName: string, spaceName: string, createAsset: CreateAsset): Promise<Asset & { upload: Upload }> {
-        const resp = await this.axios.post<Asset & { upload: Upload }>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets`), createAsset);
+        const resp = await this.axios.post<Asset & { upload: Upload }>(
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets`),
+            createAsset
+        );
         return resp.data;
     }
 

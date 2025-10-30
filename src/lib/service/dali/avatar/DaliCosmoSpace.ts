@@ -1,4 +1,5 @@
 import Base from "../../../Base";
+import { CosmoSpace } from "../../../interfaces/cosmo/space";
 import { AvatarCreated } from "../../../interfaces/dali";
 
 export class DaliCosmoSpace extends Base {
@@ -34,11 +35,11 @@ export class DaliCosmoSpace extends Base {
         const data = new FormData();
         data.append("avatar", file);
 
-        const resp = await this.axios.put<AvatarCreated>(this.getEndpoint(`/v1/avatar/org/${orgName}/spaces/cosmo/${spaceName}`), data, {
+        const resp = await this.axios.patch<CosmoSpace>(`${this.options.server}/api/cosmo/v1/org/${orgName}/spaces/${spaceName}/avatar`, data, {
             headers: { "Content-Type": "multipart/form-data" },
         });
 
-        return resp.data;
+        return { url: resp.data.avatarUrl };
     }
 
     protected getEndpoint(endpoint: string): string {

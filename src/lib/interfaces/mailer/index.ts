@@ -130,6 +130,17 @@ export class CosmoNewShareMailjetMailDTO extends MailjetMailDTO {
     }
 }
 
+export class CosmoUserAddedToSpaceMailjetMailDTO extends MailjetMailDTO {
+    constructor(recipients: string[], actorName: string, recipientName: string, spaceName: string, link: string) {
+        super(recipients, MailjetTemplate.COSMO_USER_ADDED_TO_SPACE, {
+            ACTOR_NAME: actorName,
+            RECIPIENT_NAME: recipientName,
+            SPACE_NAME: spaceName,
+            LINK: link,
+        });
+    }
+}
+
 export class CosmoCommentOrAnnotationAddedMailjetMailDTO extends MailjetMailDTO {
     constructor(
         recipients: string[],

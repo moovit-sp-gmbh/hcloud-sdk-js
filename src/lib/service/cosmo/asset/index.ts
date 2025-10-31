@@ -248,12 +248,15 @@ export class CosmoAsset extends Base {
      * ** Under development, breaking changes possible**
      * @param orgName Name of the Organization
      * @param spaceName Name of the Space
+     * @param namespaceName Name of the namespace
      * @param assetId ID of the Asset to be attached
      * @param tagName Name of the tag
      * @returns The updated asset
      */
-    async attachTagToAsset(orgName: string, spaceName: string, assetId: string, tagName: string): Promise<Asset> {
-        const resp = await this.axios.patch<Asset>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets/${assetId}/tags/${tagName}`));
+    async attachTagToAsset(orgName: string, spaceName: string, namespaceName: string, assetId: string, tagName: string): Promise<Asset> {
+        const resp = await this.axios.patch<Asset>(
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/namespaces/${namespaceName}/assets/${assetId}/tags/${tagName}`)
+        );
         return resp.data;
     }
 
@@ -263,11 +266,14 @@ export class CosmoAsset extends Base {
      * ** Under development, breaking changes possible**
      * @param orgName Name of the Organization
      * @param spaceName Name of the Space
+     * @param namespaceName Name of the Namespace
      * @param assetId ID of the Asset to be attached
      * @returns The updated asset
      */
-    async removeTagFromAsset(orgName: string, spaceName: string, assetId: string): Promise<Asset> {
-        const resp = await this.axios.delete<Asset>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets/${assetId}/tags`));
+    async removeTagFromAsset(orgName: string, spaceName: string, namespaceName: string, assetId: string): Promise<Asset> {
+        const resp = await this.axios.delete<Asset>(
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/namespaces/${namespaceName}/assets/${assetId}/tags`)
+        );
         return resp.data;
     }
 

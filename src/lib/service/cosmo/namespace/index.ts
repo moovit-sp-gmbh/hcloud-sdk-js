@@ -23,11 +23,13 @@ export class CosmoNamespace extends Base {
      * @param orgName Name of the Organization
      * @param spaceName Name of the Space
      * @param namespaceName Name of the Namespace to create
+     * @param defaultStatus Status that asset references within this namespace will have by default
      * @returns The created Namespace
      */
-    async createNamespace(orgName: string, spaceName: string, namespaceName: string): Promise<Namespace> {
+    async createNamespace(orgName: string, spaceName: string, namespaceName: string, defaultStatus = "none"): Promise<Namespace> {
         const resp = await this.axios.post<Namespace>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/namespaces`), {
             name: namespaceName,
+            defaultStatus,
         });
 
         return resp.data;

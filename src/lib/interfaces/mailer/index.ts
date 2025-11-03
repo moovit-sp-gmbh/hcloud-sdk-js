@@ -141,6 +141,16 @@ export class CosmoUserAddedToSpaceMailjetMailDTO extends MailjetMailDTO {
     }
 }
 
+export class CosmoUserRemovedFromSpaceMailjetMailDTO extends MailjetMailDTO {
+    constructor(recipients: string[], actorName: string, recipientName: string, spaceName: string) {
+        super(recipients, MailjetTemplate.COSMO_USER_REMOVED_FROM_SPACE, {
+            ACTOR_NAME: actorName,
+            RECIPIENT_NAME: recipientName,
+            SPACE_NAME: spaceName,
+        });
+    }
+}
+
 export class CosmoCommentOrAnnotationAddedMailjetMailDTO extends MailjetMailDTO {
     constructor(
         recipients: string[],

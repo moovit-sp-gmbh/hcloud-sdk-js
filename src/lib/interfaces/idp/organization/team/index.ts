@@ -5,7 +5,6 @@ export interface Team {
     _id: string;
     name: string;
     organization: ReducedOrganization;
-    users: ReducedUser[];
     avatarUrl: string;
     createDate: number;
     modifyDate: number;

@@ -1,4 +1,5 @@
 import Base from "../../../Base";
+import { AuditLog } from "../../../interfaces/auditor";
 import { Asset, AssetPermission, CreateAsset, PatchAsset, Resolution, Upload } from "../../../interfaces/cosmo/asset";
 import { ReducedUser } from "../../../interfaces/idp/user";
 
@@ -204,6 +205,26 @@ export class CosmoAsset extends Base {
                 assetIds: assetIdList,
             }
         );
+        return resp.data;
+    }
+
+    /**
+     * Fetches the activity log for a specific asset within a given organization and space.
+     *
+     * @param {string} orgName - The name of the organization that owns the space.
+     * @param {string} spaceName - The name of the space containing the asset.
+     * @param {string} assetId - The unique identifier of the asset whose activity is being fetched.
+     * @param {number} limit - The maximum number of audit log entries to retrieve per page.
+     * @param {number} page - The page number to retrieve (for pagination).
+     * @returns {Promise<AuditLog[]>} A promise that resolves to an array of `AuditLog` objects representing the asset’s activity history.
+     */
+    async fetchAssetActivity(orgName: string, spaceName: string, assetId: string, limit: number, page: number): Promise<AuditLog[]> {
+        const resp = await this.axios.get<AuditLog[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets/${assetId}/activity`), {
+            params: {
+                limit,
+                page,
+            },
+        });
         return resp.data;
     }
 

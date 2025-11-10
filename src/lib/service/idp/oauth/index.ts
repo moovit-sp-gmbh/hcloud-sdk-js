@@ -1,5 +1,5 @@
 import Base from "../../../Base"
-import { GrantType, OAuthToken, OAuthTokenRequest } from "../../../interfaces/idp/oauth"
+import { OAuthToken, OAuthTokenRequest } from "../../../interfaces/idp/oauth"
 import { OAuthAppPublicInfo } from "../../../interfaces/idp/organization/settings/oauthApp"
 
 export class IdpOAuth extends Base {
@@ -87,10 +87,7 @@ export class IdpOAuth extends Base {
      * @param tokenRequest contains the code, client_id, client_secret and redirect_uri
      */
     async exchangeCodeForToken(tokenRequest: OAuthTokenRequest): Promise<OAuthToken> {
-        const response = await this.axios.post<OAuthToken>(this.getEndpoint(`/v1/login/oauth/access_token`), {
-            ...tokenRequest,
-            grantType: GrantType.AUTHORIZATION_CODE,
-        });
+        const response = await this.axios.post<OAuthToken>(this.getEndpoint(`/v1/login/oauth/access_token`), tokenRequest);
         return response.data;
     }
 

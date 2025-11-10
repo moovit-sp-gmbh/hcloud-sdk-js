@@ -2,9 +2,10 @@ import { Scope } from "../user/Scopes"
 
 export interface OAuthTokenRequest {
     code: string;
-    clientId: string;
-    clientSecret: string;
-    redirectUri: string;
+    client_id: string;
+    client_secret: string;
+    redirect_uri: string;
+    grant_type: GrantType;
 }
 
 export interface OAuthToken {

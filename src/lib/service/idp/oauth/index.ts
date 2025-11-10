@@ -89,7 +89,7 @@ export class IdpOAuth extends Base {
     async exchangeCodeForToken(tokenRequest: OAuthTokenRequest): Promise<OAuthToken> {
         const response = await this.axios.post<OAuthToken>(this.getEndpoint(`/v1/login/oauth/access_token`), {
             ...tokenRequest,
-            grant_type: GrantType.AUTHORIZATION_CODE,
+            grantType: GrantType.AUTHORIZATION_CODE,
         });
         return response.data;
     }

@@ -1,4 +1,4 @@
-import { Scope } from "../user/Scopes";
+import { Scope } from "../user/Scopes"
 
 export interface OAuthTokenRequest {
     code: string;

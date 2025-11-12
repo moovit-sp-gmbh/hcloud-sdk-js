@@ -1,7 +1,7 @@
-import { connect as connectNode, Msg, NatsConnection, NatsError, PublishOptions, RequestOptions, Subscription, SubscriptionOptions } from "nats";
-import { connect as connectWs } from "nats.ws";
-import Base from "../../Base";
-import { NatsCallback, NatsMessage, NatsMessageType, NatsObject, NatsObjectType, RawMsg } from "../../interfaces/nats";
+import { connect as connectNode, Msg, NatsConnection, NatsError, PublishOptions, RequestOptions, Subscription, SubscriptionOptions } from "nats"
+import { connect as connectWs } from "nats.ws"
+import Base from "../../Base"
+import { NatsCallback, NatsMessage, NatsMessageType, NatsObject, NatsObjectType, RawMsg } from "../../interfaces/nats"
 
 interface SubMapEntry {
     subject: string;
@@ -95,7 +95,7 @@ class Nats extends Base {
         let delay = 0;
 
         if (!this.getConnection() || this.getConnection()?.isClosed()) {
-            delay = 3000;
+            delay = 1000;
         }
 
         // add delay just in case the connection has not been established yet

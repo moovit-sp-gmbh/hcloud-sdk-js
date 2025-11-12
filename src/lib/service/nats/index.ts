@@ -91,58 +91,59 @@ class Nats extends Base {
         return this.natsConnection;
     };
 
-    public sub(subject: string, callback: NatsCallback, options?: SubscriptionOptions): Promise<Subscription> {
-        let delay = 0;
+    public async sub(subject: string, callback: NatsCallback, options?: SubscriptionOptions): Promise<Subscription> {
+        const delay = 500;
+        const trySubscribe = async (): Promise<Subscription> => {
+            const conn = this.getConnection();
 
-        if (!this.getConnection() || this.getConnection()?.isClosed()) {
-            delay = 1000;
-        }
+            // if connection not ready, retry after delay
+            if (!conn || conn.isClosed()) {
+                await new Promise(res => setTimeout(res, delay));
+                return trySubscribe();
+            }
 
-        // add delay just in case the connection has not been established yet
-        return new Promise<Subscription>((resolve, reject) => {
-            const newOptions = {
-                ...options,
-                callback: (err: NatsError | null, msg: Msg) => {
-                    if (err !== null) {
+            try {
+                const newOptions = {
+                    ...options,
+                    callback: (err: NatsError | null, msg: Msg) => {
+                        if (err) {
+                            try {
+                                callback(err);
+                            } catch {
+                                // ignore callback errors
+                            }
+                            return;
+                        }
+
+                        let parsedData: NatsMessage;
                         try {
-                            callback(err);
+                            const data = new TextDecoder("utf-8").decode(msg.data);
+                            parsedData = JSON.parse(data);
+                        } catch (e) {
+                            callback(e as Error);
+                            return;
+                        }
+
+                        try {
+                            callback(null, parsedData, msg);
                         } catch {
                             // ignore callback errors
                         }
-                        return;
-                    }
+                    },
+                };
 
-                    let parsedData: NatsMessage;
-                    try {
-                        const data = new TextDecoder("utf-8").decode(msg.data);
-                        parsedData = JSON.parse(data);
-                    } catch (e) {
-                        callback(e as Error);
-                        return;
-                    }
+                const sub = conn.subscribe(subject, newOptions);
+                this.subMap.push({ subject, sub } as SubMapEntry);
+                return sub;
+            } catch (err) {
+                err;
+                // if subscription fails, retry after delay
+                await new Promise(res => setTimeout(res, delay));
+                return trySubscribe();
+            }
+        };
 
-                    try {
-                        callback(null, parsedData, msg);
-                    } catch {
-                        // ignore callback errors
-                    }
-                },
-            };
-
-            setTimeout(() => {
-                if (!this.getConnection() || !this.getConnection()?.isClosed) {
-                    reject(new Error("connection not established, can not subscribe"));
-                }
-
-                const sub = this.getConnection()?.subscribe(subject, newOptions);
-                if (sub) {
-                    this.subMap.push({ subject, sub: sub } as SubMapEntry);
-                    return resolve(sub);
-                }
-
-                return reject(new Error("could not subscribe"));
-            }, delay);
-        });
+        return trySubscribe();
     }
 
     public unsub(subject: string | Subscription): void {

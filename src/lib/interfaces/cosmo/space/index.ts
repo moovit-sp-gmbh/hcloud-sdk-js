@@ -11,6 +11,7 @@ export interface CosmoSpace {
     high5_spaceName?: string;
     high5_executionTarget?: string;
     permissions?: string[];
+    storageUsed: number;
 }
 
 export interface High5SpaceInfo {

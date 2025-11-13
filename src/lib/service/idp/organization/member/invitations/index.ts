@@ -78,6 +78,33 @@ export default class IdpOrganizationMemberInvitations extends Base {
     }
 
     /**
+     * Invites list of users to an Organization.
+     *
+     * @param orgName Name of the Organization
+     * @param users - List of users to be invited should contain the following data:
+     * - email of the person to be invited
+     * - the role they will have within the organization if they accept the invitation
+     * - allowNonRegisteredUsers Flag to determine if the invitation should go through in the case that the email is not bound to an Helmut Cloud user.
+     *                                If this is set to true and the email is unbound, then an email will be sent asking the person to register.
+     *                                When they do they will automatically join the organization.
+     * - targetUrl Optional url the link in the mail will point to
+     * @returns The list of created invitations
+     */
+    async createList(
+        orgName: string,
+        users: Array<{
+            email: string;
+            role: OrganizationRole;
+            allowNonRegisteredUsers: false;
+            targetUrl?: string;
+        }>
+    ): Promise<OrganizationMemberInvitation[]> {
+        const resp = await this.axios.post<OrganizationMemberInvitation[]>(this.getEndpoint(`/${orgName}/members/invitations-list`), { users });
+
+        return resp.data;
+    }
+
+    /**
      * Accept an invitation.
      *
      * Internally this calls respond.

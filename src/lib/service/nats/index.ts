@@ -1,7 +1,7 @@
-import { connect as connectNode, Msg, NatsConnection, NatsError, PublishOptions, RequestOptions, Subscription, SubscriptionOptions } from "nats"
-import { connect as connectWs } from "nats.ws"
-import Base from "../../Base"
-import { NatsCallback, NatsMessage, NatsMessageType, NatsObject, NatsObjectType, RawMsg } from "../../interfaces/nats"
+import { connect as connectNode, Msg, NatsConnection, NatsError, PublishOptions, RequestOptions, Subscription, SubscriptionOptions } from "nats";
+import { connect as connectWs } from "nats.ws";
+import Base from "../../Base";
+import { NatsCallback, NatsMessage, NatsMessageType, NatsObject, NatsObjectType, RawMsg } from "../../interfaces/nats";
 
 interface SubMapEntry {
     subject: string;
@@ -46,7 +46,6 @@ class Nats extends Base {
     private subMap = [] as SubMapEntry[];
     private connection = isBrowser ? connectWs : connectNode;
 
-    // eslint-disable-next-line complexity
     public async connect(params: ConnectParamsJwt | ConnectParamsPassword): Promise<NatsConnection> {
         let previousSubs = [] as SubMapEntry[];
         if (this.natsConnection && !this.natsConnection.isClosed()) {

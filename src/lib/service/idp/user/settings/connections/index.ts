@@ -1,4 +1,4 @@
-import Base from "../../../../../Base";
+import Base, { MaybeRaw } from "../../../../../Base";
 import { ConnectionSettings } from "../../../../../interfaces/idp/user/ConnectionSettings";
 
 export class IdpConnections extends Base {
@@ -9,10 +9,10 @@ export class IdpConnections extends Base {
      *
      * @returns connection settings for each organization
      */
-    async get(): Promise<ConnectionSettings> {
+    async get<R extends boolean = false>(raw?: { raw: R }): Promise<MaybeRaw<R, ConnectionSettings>> {
         const res = await this.axios.get<ConnectionSettings>(this.getEndpoint());
 
-        return res.data;
+        return (raw?.raw ? res : res.data) as MaybeRaw<R, ConnectionSettings>;
     }
 
     protected getEndpoint(): string {

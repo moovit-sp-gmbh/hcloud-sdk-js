@@ -1,6 +1,6 @@
-import Base from "../../../Base";
-import { Asset, NamespaceRushStatus } from "../../../interfaces/cosmo/asset";
-import { Namespace } from "../../../interfaces/cosmo/namespace";
+import Base, { MaybeRaw } from "../../../Base"
+import { Asset, NamespaceRushStatus } from "../../../interfaces/cosmo/asset"
+import { Namespace } from "../../../interfaces/cosmo/namespace"
 
 /**
  * @class Namespace
@@ -26,13 +26,19 @@ export class CosmoNamespace extends Base {
      * @param defaultStatus Status that asset references within this namespace will have by default
      * @returns The created Namespace
      */
-    async createNamespace(orgName: string, spaceName: string, namespaceName: string, defaultStatus = "none"): Promise<Namespace> {
+    async createNamespace<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        namespaceName: string,
+        defaultStatus = "none",
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Namespace>> {
         const resp = await this.axios.post<Namespace>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/namespaces`), {
             name: namespaceName,
             defaultStatus,
         });
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Namespace>;
     }
 
     /**
@@ -46,14 +52,20 @@ export class CosmoNamespace extends Base {
      * @param status New status to set for the reference
      * @returns The updated Reference
      */
-    async changeStatus(orgName: string, spaceName: string, refId: string, namespaceName: string, status: NamespaceRushStatus): Promise<Asset> {
+    async changeStatus<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        refId: string,
+        namespaceName: string,
+        status: NamespaceRushStatus,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Asset>> {
         const resp = await this.axios.patch<Asset>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/namespaces/${namespaceName}/ref/${refId}/status`),
-            {
-                status: status,
-            }
+            { status }
         );
 
-        return resp.data;
+        // TypeScript can't infer conditional type at runtime, so we assert
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Asset>;
     }
 }

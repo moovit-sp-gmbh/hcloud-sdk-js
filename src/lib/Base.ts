@@ -1,4 +1,4 @@
-import { AxiosInstance } from "axios";
+import { AxiosInstance, AxiosResponse } from "axios";
 
 export interface HcloudLogger {
     info(msg: string, ...args: any): void;
@@ -6,6 +6,8 @@ export interface HcloudLogger {
     warn(msg: string, ...args: any): void;
     error(msg: string, ...args: any): void;
 }
+
+export type MaybeRaw<R extends boolean, T> = R extends true ? AxiosResponse<T> : T;
 
 export interface Options {
     server: string;

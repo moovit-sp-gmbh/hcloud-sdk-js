@@ -1,4 +1,4 @@
-import Base from "../../../Base";
+import Base, { MaybeRaw } from "../../../Base";
 import { AvatarCreated } from "../../../interfaces/dali";
 
 export class DaliOrganization extends Base {
@@ -7,18 +7,19 @@ export class DaliOrganization extends Base {
      * @param orgName Name of the organization
      * @returns Public URL of the created avatar
      */
-    async createAvatar(orgName: string): Promise<AvatarCreated> {
+    async createAvatar<R extends boolean = false>(orgName: string, raw?: { raw: R }): Promise<MaybeRaw<R, AvatarCreated>> {
         const resp = await this.axios.post<AvatarCreated>(this.getEndpoint(`/v1/avatar/org/${orgName}`), {});
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, AvatarCreated>;
     }
 
     /**
      * Deletes the avatar of the organization from cloud storage. If you want to update it, use updateAvatar() instead.
      * @param orgName Name of the organization
      */
-    async deleteAvatar(orgName: string): Promise<void> {
-        await this.axios.delete<string>(this.getEndpoint(`/v1/avatar/org/${orgName}`));
+    async deleteAvatar<R extends boolean = false>(orgName: string, raw?: { raw: R }): Promise<MaybeRaw<R, string>> {
+        const resp = await this.axios.delete<string>(this.getEndpoint(`/v1/avatar/org/${orgName}`));
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, string>;
     }
 
     /**
@@ -27,7 +28,7 @@ export class DaliOrganization extends Base {
      * @param file Image as Javascript File
      * @returns Public URL of the new avatar
      */
-    async updateAvatar(orgName: string, file: File): Promise<AvatarCreated> {
+    async updateAvatar<R extends boolean = false>(orgName: string, file: File, raw?: { raw: R }): Promise<MaybeRaw<R, AvatarCreated>> {
         const data = new FormData();
         data.append("avatar", file);
 
@@ -35,7 +36,7 @@ export class DaliOrganization extends Base {
             headers: { "Content-Type": "multipart/form-data" },
         });
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, AvatarCreated>;
     }
 
     protected getEndpoint(endpoint: string): string {

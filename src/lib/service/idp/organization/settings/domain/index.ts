@@ -1,4 +1,4 @@
-import Base from "../../../../../Base";
+import Base, { MaybeRaw } from "../../../../../Base";
 import { Domain } from "../../../../../interfaces/idp/organization/settings/domain";
 import { IdpSAMLProvider } from "./saml";
 
@@ -19,10 +19,10 @@ export class IdpDomain extends Base {
      * @param orgName Name of Organization
      * @returns Array of Domains
      */
-    async getDomains(orgName: string): Promise<Domain[]> {
+    async getDomains<R extends boolean = false>(orgName: string, raw?: { raw: R }): Promise<MaybeRaw<R, Domain[]>> {
         const resp = await this.axios.get<Domain[]>(this.getEndpoint(`/v1/org/${orgName}/settings/domains`));
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Domain[]>;
     }
 
     /**
@@ -31,12 +31,12 @@ export class IdpDomain extends Base {
      * @param domainName Name of the Domain
      * @returns the created Domain
      */
-    async createDomain(orgName: string, domainName: string): Promise<Domain> {
+    async createDomain<R extends boolean = false>(orgName: string, domainName: string, raw?: { raw: R }): Promise<MaybeRaw<R, Domain>> {
         const resp = await this.axios.post<Domain>(this.getEndpoint(`/v1/org/${orgName}/settings/domains`), {
             name: domainName,
         });
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Domain>;
     }
 
     /**
@@ -45,10 +45,10 @@ export class IdpDomain extends Base {
      * @param domainName Name of the Domain
      * @returns Domain object with domain.verified set to 'true' if verification was succesful.
      */
-    async verifyDomain(orgName: string, domainName: string): Promise<Domain> {
+    async verifyDomain<R extends boolean = false>(orgName: string, domainName: string, raw?: { raw: R }): Promise<MaybeRaw<R, Domain>> {
         const resp = await this.axios.patch<Domain>(this.getEndpoint(`/v1/org/${orgName}/settings/domains/${domainName}/verify`));
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Domain>;
     }
 
     /**
@@ -56,8 +56,9 @@ export class IdpDomain extends Base {
      * @param orgName Name of the organization
      * @param domainName Name of the domain
      */
-    async deleteDomain(orgName: string, domainName: string): Promise<void> {
-        await this.axios.delete(this.getEndpoint(`/v1/org/${orgName}/settings/domains/${domainName}`));
+    async deleteDomain<R extends boolean = false>(orgName: string, domainName: string, raw?: { raw: R }): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.delete(this.getEndpoint(`/v1/org/${orgName}/settings/domains/${domainName}`));
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     protected getEndpoint(endpoint: string): string {

@@ -1,5 +1,5 @@
 import { AxiosInstance } from "axios";
-import Base, { Options } from "../../../Base";
+import Base, { MaybeRaw, Options } from "../../../Base";
 import { AgentVersions, Version } from "../../../interfaces/agent";
 import { disableCacheHeaders } from "../../../interfaces/axios";
 
@@ -11,7 +11,7 @@ export class AgentBundle extends Base {
         this.sourceServer = options.agent?.server || "https://agent.s3.helmut.cloud";
     }
 
-    async getVersions(): Promise<AgentVersions> {
+    async getVersions<R extends boolean = false>(raw?: { raw: R }): Promise<MaybeRaw<R, AgentVersions>> {
         const resp = await this.axios.get<AgentVersions>(this.getEndpoint("/bundles/index.json"), { headers: disableCacheHeaders });
 
         const registry = resp.data;
@@ -20,19 +20,19 @@ export class AgentBundle extends Base {
             setDev(registry.versions[v]);
         }
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, AgentVersions>;
     }
 
-    async getLatestVersion(): Promise<Version> {
+    async getLatestVersion<R extends boolean = false>(raw?: { raw: R }): Promise<MaybeRaw<R, Version>> {
         const resp = await this.getVersions();
 
-        return setDev(resp.versions[resp.latest]);
+        return (raw?.raw ? { ...resp, data: setDev(resp.versions[resp.latest]) } : setDev(resp.versions[resp.latest])) as MaybeRaw<R, Version>;
     }
 
-    async getVersion(version: string): Promise<Version | void> {
+    async getVersion<R extends boolean = false>(version: string, raw?: { raw: R }): Promise<MaybeRaw<R, Version | void>> {
         const resp = await this.getVersions();
 
-        return setDev(resp.versions[version]);
+        return (raw?.raw ? { ...resp, data: setDev(resp.versions[version]) } : setDev(resp.versions[version])) as MaybeRaw<R, Version | void>;
     }
 
     protected getEndpoint(endpoint: string): string {

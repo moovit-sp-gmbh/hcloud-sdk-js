@@ -1,4 +1,4 @@
-import Base from "../../../../../../Base";
+import Base, { MaybeRaw } from "../../../../../../Base";
 import { Document } from "../../../../../../interfaces/high5";
 
 export class High5DocumentNumber extends Base {
@@ -10,12 +10,18 @@ export class High5DocumentNumber extends Base {
      * @param key Key of the Document
      * @returns Updated Document
      */
-    async increment(orgName: string, spaceName: string, dbName: string, key: string): Promise<Document> {
+    async increment<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        dbName: string,
+        key: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Document>> {
         const resp = await this.axios.patch<Document>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/databases/${dbName}/documents/${key}/inc`)
         );
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Document>;
     }
 
     /**
@@ -26,12 +32,18 @@ export class High5DocumentNumber extends Base {
      * @param key Key of the Document
      * @returns Updated Document
      */
-    async decrement(orgName: string, spaceName: string, dbName: string, key: string): Promise<Document> {
+    async decrement<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        dbName: string,
+        key: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Document>> {
         const resp = await this.axios.patch<Document>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/databases/${dbName}/documents/${key}/dec`)
         );
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Document>;
     }
 
     /**
@@ -43,12 +55,19 @@ export class High5DocumentNumber extends Base {
      * @param value Value to be added
      * @returns Updated Document
      */
-    async add(orgName: string, spaceName: string, dbName: string, key: string, value: number): Promise<Document> {
+    async add<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        dbName: string,
+        key: string,
+        value: number,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Document>> {
         const resp = await this.axios.patch<Document>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/databases/${dbName}/documents/${key}/inc/${value}`)
         );
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Document>;
     }
 
     /**
@@ -60,12 +79,19 @@ export class High5DocumentNumber extends Base {
      * @param value Value to be subtracted
      * @returns Updated Document
      */
-    async subtract(orgName: string, spaceName: string, dbName: string, key: string, value: number): Promise<Document> {
+    async subtract<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        dbName: string,
+        key: string,
+        value: number,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Document>> {
         const resp = await this.axios.patch<Document>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/databases/${dbName}/documents/${key}/dec/${value}`)
         );
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Document>;
     }
 
     protected getEndpoint(endpoint: string): string {

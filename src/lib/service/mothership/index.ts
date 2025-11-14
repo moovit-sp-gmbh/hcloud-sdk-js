@@ -1,4 +1,4 @@
-import Base from "../../Base";
+import Base, { MaybeRaw } from "../../Base";
 import { createPaginatedResponse } from "../../helper/paginatedResponseHelper";
 import { SearchFilterDTO } from "../../helper/searchFilter";
 import { PaginatedResponse, SearchFilter, SearchParams, Version } from "../../interfaces/global";
@@ -12,10 +12,10 @@ export default class MothershipService extends Base {
      * Requests the endpoint version
      * @returns Version object
      */
-    async version(): Promise<Version> {
+    async version<R extends boolean = false>(raw?: { raw: R }): Promise<MaybeRaw<R, Version>> {
         const resp = await this.axios.get<Version>(this.getEndpoint("/v1/version"));
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Version>;
     }
 
     /**
@@ -26,14 +26,23 @@ export default class MothershipService extends Base {
      * @param info Information about the agent's uuid, hardware and nickname
      * @return an Agent object
      */
-    async hello(uuid: string, uuidSignature: string, info: HelloInfo): Promise<{ agent: Agent; token: string }> {
+    async hello<R extends boolean = false>(
+        uuid: string,
+        uuidSignature: string,
+        info: HelloInfo,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, { agent: Agent; token: string }>> {
         const resp = await this.axios.post<Agent>(this.getEndpoint("/v1/hello"), info, {
             headers: {
                 Authorization: `Bearer ${uuid}.${uuidSignature}`,
             },
         });
 
-        return { agent: resp.data, token: resp.headers.authorization };
+        return (
+            raw?.raw
+                ? { ...resp, data: { agent: resp.data, token: resp.headers.authorization } }
+                : { agent: resp.data, token: resp.headers.authorization }
+        ) as MaybeRaw<R, { agent: Agent; token: string }>;
     }
 
     /**
@@ -46,10 +55,10 @@ export default class MothershipService extends Base {
      * @param info Information about the agent's system resources.
      * @return an Agent object
      */
-    async helloAgain(info: RecurrentInfo): Promise<Agent> {
+    async helloAgain<R extends boolean = false>(info: RecurrentInfo, raw?: { raw: R }): Promise<MaybeRaw<R, Agent>> {
         const resp = await this.axios.patch<Agent>(this.getEndpoint("/v1/hello/again"), info);
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Agent>;
     }
 
     /**
@@ -62,18 +71,19 @@ export default class MothershipService extends Base {
      * @param publicKey the public key of the agent that will be used for cryptography. The agent should remember its private key.
      * @return an object holding a secret encrypted with the public key. The agent must decrypt it using its private key in order to use the /hello endpoint.
      */
-    async register(
+    async register<R extends boolean = false>(
         uuid: string,
         info: Pick<Agent, Exclude<keyof Agent, "uuid" | "createDate" | "modifyDate" | "_id" | "ip">>,
-        publicKey: string | Buffer
-    ): Promise<{ secret: string }> {
+        publicKey: string | Buffer,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, { secret: string }>> {
         if (typeof publicKey !== "string") {
             publicKey = publicKey.toString("hex");
         }
 
         const resp = await this.axios.post<{ secret: string }>(this.getEndpoint("/v1/register"), { uuid, publicKey, ...info });
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, { secret: string }>;
     }
 
     /**
@@ -87,8 +97,9 @@ export default class MothershipService extends Base {
      * @param memberToken JWT assigned to a member of the organization
      * @param email Email of the user owner of the JWT
      */
-    async connect(orgName: string, memberToken: string, email: string): Promise<void> {
-        await this.axios.post<void>(this.getEndpoint(`/v1/org/${orgName}/connect`), { memberToken, email });
+    async connect<R extends boolean = false>(orgName: string, memberToken: string, email: string, raw?: { raw: R }): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.post<void>(this.getEndpoint(`/v1/org/${orgName}/connect`), { memberToken, email });
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     /**
@@ -101,8 +112,9 @@ export default class MothershipService extends Base {
      * @param orgName Name of the organization
      * @param email Email of the user
      */
-    async disconnect(orgName: string, email: string): Promise<void> {
-        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/connect/${email}`));
+    async disconnect<R extends boolean = false>(orgName: string, email: string, raw?: { raw: R }): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/connect/${email}`));
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     /**
@@ -114,8 +126,9 @@ export default class MothershipService extends Base {
      *
      * @param email Email of the target
      */
-    async disconnectTarget(email: string): Promise<void> {
-        await this.axios.delete<void>(this.getEndpoint(`/v1/connect/${email}`));
+    async disconnectTarget<R extends boolean = false>(email: string, raw?: { raw: R }): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.delete<void>(this.getEndpoint(`/v1/connect/${email}`));
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     /**
@@ -124,13 +137,10 @@ export default class MothershipService extends Base {
      * @param orgName Name of the organization
      * @returns Object containing an array of retrieved agents and the total number of available found in the database (independent of limit and page)
      */
-    async searchAvailableTargets({
-        orgName,
-        filters,
-        sorting,
-        limit = 25,
-        page = 0,
-    }: SearchParams & { orgName: string }): Promise<PaginatedResponse<TargetAgent>> {
+    async searchAvailableTargets<R extends boolean = false>(
+        { orgName, filters, sorting, limit = 25, page = 0 }: SearchParams & { orgName: string },
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, PaginatedResponse<TargetAgent>>> {
         const filtersDTO = filters?.map((f: SearchFilter) => {
             return new SearchFilterDTO(f);
         });
@@ -146,7 +156,10 @@ export default class MothershipService extends Base {
             }
         );
 
-        return createPaginatedResponse(resp) as PaginatedResponse<TargetAgent>;
+        return (raw?.raw ? { ...resp, data: createPaginatedResponse(resp) } : createPaginatedResponse(resp)) as MaybeRaw<
+            R,
+            PaginatedResponse<TargetAgent>
+        >;
     }
 
     protected getEndpoint(endpoint: string): string {

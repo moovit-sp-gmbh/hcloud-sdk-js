@@ -1,4 +1,4 @@
-import Base from "../../../Base";
+import Base, { MaybeRaw } from "../../../Base";
 import { High5SpaceInfo, CosmoSpace as ICosmoSpace, SpaceUser } from "../../../interfaces/cosmo/space";
 
 /**
@@ -23,12 +23,17 @@ export class CosmoSpace extends Base {
      * @param noAvatar Optional flag to create the Space without an avatar
      * @returns The created Space
      */
-    async createSpace(orgName: string, spaceName: string, noAvatar?: boolean): Promise<ICosmoSpace> {
+    async createSpace<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        noAvatar?: boolean,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, ICosmoSpace>> {
         const resp = await this.axios.post<ICosmoSpace>(this.getEndpoint(`/v1/org/${orgName}/spaces?noAvatar=${noAvatar ? "true" : "false"}`), {
             name: spaceName,
         });
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, ICosmoSpace>;
     }
 
     /**
@@ -40,10 +45,10 @@ export class CosmoSpace extends Base {
      * @param page Page number for pagination
      * @returns A list of Spaces in the Organization
      */
-    async listSpaces(orgName: string, limit: number, page: number): Promise<ICosmoSpace[]> {
+    async listSpaces<R extends boolean = false>(orgName: string, limit: number, page: number, raw?: { raw: R }): Promise<MaybeRaw<R, ICosmoSpace[]>> {
         const resp = await this.axios.get<ICosmoSpace[]>(this.getEndpoint(`/v1/org/${orgName}/spaces?limit=${limit}&page=${page}`));
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, ICosmoSpace[]>;
     }
 
     /**
@@ -54,10 +59,10 @@ export class CosmoSpace extends Base {
      * @param spaceName Name of the Space to fetch
      * @returns The requested Space
      */
-    async getSpace(orgName: string, spaceName: string): Promise<ICosmoSpace> {
+    async getSpace<R extends boolean = false>(orgName: string, spaceName: string, raw?: { raw: R }): Promise<MaybeRaw<R, ICosmoSpace>> {
         const resp = await this.axios.get<ICosmoSpace>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}`));
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, ICosmoSpace>;
     }
 
     /**
@@ -68,8 +73,9 @@ export class CosmoSpace extends Base {
      * @param spaceName Name of the Space to delete
      * @returns 204 No Content on success
      */
-    async deleteSpace(orgName: string, spaceName: string): Promise<void> {
-        await this.axios.delete(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}`));
+    async deleteSpace<R extends boolean = false>(orgName: string, spaceName: string, raw?: { raw: R }): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.delete(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}`));
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     /**
@@ -81,12 +87,17 @@ export class CosmoSpace extends Base {
      * @param newName New name for the Space
      * @returns The updated Space
      */
-    async renameSpace(orgName: string, spaceName: string, newName: string): Promise<ICosmoSpace> {
+    async renameSpace<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        newName: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, ICosmoSpace>> {
         const resp = await this.axios.patch<ICosmoSpace>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/name`), {
             name: newName,
         });
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, ICosmoSpace>;
     }
 
     /**
@@ -98,10 +109,15 @@ export class CosmoSpace extends Base {
      * @param high5SpaceInfo Information about the high5 space
      * @returns The updated Cosmo Space
      */
-    async linkSpace(orgName: string, spaceName: string, high5SpaceInfo: High5SpaceInfo): Promise<ICosmoSpace> {
+    async linkSpace<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        high5SpaceInfo: High5SpaceInfo,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, ICosmoSpace>> {
         const resp = await this.axios.patch<ICosmoSpace>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/high5/link/space`), high5SpaceInfo);
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, ICosmoSpace>;
     }
 
     /**
@@ -113,10 +129,10 @@ export class CosmoSpace extends Base {
      * @param high5SpaceInfo Information about the high5 space
      * @returns The updated Cosmo Space
      */
-    async unlinkSpace(orgName: string, spaceName: string): Promise<ICosmoSpace> {
+    async unlinkSpace<R extends boolean = false>(orgName: string, spaceName: string, raw?: { raw: R }): Promise<MaybeRaw<R, ICosmoSpace>> {
         const resp = await this.axios.patch<ICosmoSpace>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/high5/unlink/space`));
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, ICosmoSpace>;
     }
 
     /**
@@ -125,9 +141,9 @@ export class CosmoSpace extends Base {
      * @param spaceName Name of the Cosmo Space
      * @returns The SpaceUser array
      */
-    async listSpaceUsers(orgName: string, spaceName: string): Promise<SpaceUser[]> {
+    async listSpaceUsers<R extends boolean = false>(orgName: string, spaceName: string, raw?: { raw: R }): Promise<MaybeRaw<R, SpaceUser[]>> {
         const resp = await this.axios.get<SpaceUser[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/users`));
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, SpaceUser[]>;
     }
 }

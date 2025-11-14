@@ -1,4 +1,4 @@
-import Base from "../../../../Base";
+import Base, { MaybeRaw } from "../../../../Base";
 import { createPaginatedResponse } from "../../../../helper/paginatedResponseHelper";
 import { SearchFilterDTO } from "../../../../helper/searchFilter";
 import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../interfaces/global";
@@ -31,12 +31,18 @@ export class High5Job extends Base {
      * @param exposeNextExecution (optional) Show the next execution as a Unix timestamp (in milliseconds) in the response object
      * @returns The requested cronjob
      */
-    async getJob(orgName: string, spaceName: string, jobId: string, exposeNextExecution = false): Promise<Job> {
+    async getJob<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        jobId: string,
+        exposeNextExecution = false,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Job>> {
         const resp = await this.axios.get<Job>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs/${jobId}?nextExecution=${exposeNextExecution}`)
         );
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Job>;
     }
 
     /**
@@ -46,10 +52,15 @@ export class High5Job extends Base {
      * @param jobId ID of the cronjob
      * @returns Array of Unix timestamps
      */
-    async getNextCronjobExecutions(orgName: string, spaceName: string, jobId: string): Promise<number[]> {
+    async getNextCronjobExecutions<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        jobId: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, number[]>> {
         const resp = await this.axios.get<number[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs/${jobId}/next`));
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, number[]>;
     }
 
     /**
@@ -60,13 +71,19 @@ export class High5Job extends Base {
      * @param exposeNextExecution (optional) Show the next execution as a Unix timestamp (in milliseconds) in the response object
      * @returns Created cronjob
      */
-    async createJob(orgName: string, spaceName: string, createJob: JobCreate, exposeNextExecution = false): Promise<Job> {
+    async createJob<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        createJob: JobCreate,
+        exposeNextExecution = false,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Job>> {
         const resp = await this.axios.post<Job>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs?nextExecution=${exposeNextExecution}`),
             createJob
         );
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Job>;
     }
 
     /**
@@ -78,13 +95,20 @@ export class High5Job extends Base {
      * @param exposeNextExecution (optional) Show the next execution as a Unix timestamp (in milliseconds) in the response object
      * @returns Updated cronjob
      */
-    async updateJob(orgName: string, spaceName: string, jobId: string, createJob: JobCreate, exposeNextExecution = false): Promise<Job> {
+    async updateJob<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        jobId: string,
+        createJob: JobCreate,
+        exposeNextExecution = false,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Job>> {
         const resp = await this.axios.put<Job>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs/${jobId}?nextExecution=${exposeNextExecution}`),
             createJob
         );
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Job>;
     }
 
     /**
@@ -96,13 +120,20 @@ export class High5Job extends Base {
      * @param exposeNextExecution (optional) Show the next execution as a Unix timestamp (in milliseconds) in the response object
      * @returns The patched cronjob
      */
-    async patchCronjobExpression(orgName: string, spaceName: string, jobId: string, expression: string, exposeNextExecution = false): Promise<Job> {
+    async patchCronjobExpression<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        jobId: string,
+        expression: string,
+        exposeNextExecution = false,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Job>> {
         const resp = await this.axios.patch<Job>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs/${jobId}/expression?nextExecution=${exposeNextExecution}`),
             { expression: expression }
         );
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Job>;
     }
 
     /**
@@ -114,13 +145,20 @@ export class High5Job extends Base {
      * @param exposeNextExecution (optional) Show the next execution as a Unix timestamp (in milliseconds) in the response object
      * @returns The patched cronjob
      */
-    async patchCronjobEnabled(orgName: string, spaceName: string, jobId: string, enabled: boolean, exposeNextExecution = false): Promise<Job> {
+    async patchCronjobEnabled<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        jobId: string,
+        enabled: boolean,
+        exposeNextExecution = false,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Job>> {
         const resp = await this.axios.patch<Job>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs/${jobId}/enabled?nextExecution=${exposeNextExecution}`),
             { enabled }
         );
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Job>;
     }
 
     /**
@@ -134,9 +172,15 @@ export class High5Job extends Base {
      * @param exposeNextExecution (optional) Show the next execution as a Unix timestamp (in milliseconds) in the response object
      * @returns The patched cronjob
      */
-    public enableCronjob = (orgName: string, spaceName: string, jobId: string, exposeNextExecution = false): Promise<Job> => {
-        return this.patchCronjobEnabled(orgName, spaceName, jobId, true, exposeNextExecution);
-    };
+    public enableCronjob<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        jobId: string,
+        exposeNextExecution = false,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Job>> {
+        return this.patchCronjobEnabled(orgName, spaceName, jobId, true, exposeNextExecution, raw);
+    }
 
     /**
      * Disable a cronjob.
@@ -149,9 +193,15 @@ export class High5Job extends Base {
      * @param exposeNextExecution (optional) Show the next execution as a Unix timestamp (in milliseconds) in the response object
      * @returns The patched cronjob
      */
-    public disableCronjob = (orgName: string, spaceName: string, jobId: string, exposeNextExecution = false): Promise<Job> => {
-        return this.patchCronjobEnabled(orgName, spaceName, jobId, false, exposeNextExecution);
-    };
+    public disableCronjob<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        jobId: string,
+        exposeNextExecution = false,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Job>> {
+        return this.patchCronjobEnabled(orgName, spaceName, jobId, false, exposeNextExecution, raw);
+    }
 
     /**
      * Deletes a cronjob by its ID
@@ -159,8 +209,9 @@ export class High5Job extends Base {
      * @param spaceName Name of the space
      * @param jobId ID of the cronjob
      */
-    async deleteJob(orgName: string, spaceName: string, jobId: string): Promise<void> {
-        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs/${jobId}`));
+    async deleteJob<R extends boolean = false>(orgName: string, spaceName: string, jobId: string, raw?: { raw: R }): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs/${jobId}`));
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     /**
@@ -174,15 +225,18 @@ export class High5Job extends Base {
      * @param exposeNextExecution (optional) Show the next execution as a Unix timestamp (in milliseconds) in the returned cronjob objects
      * @returns Object containing an array of filtered cronjobs as well as the total number of results found in the database (independent of limit and page)
      */
-    async searchJobs({
-        orgName,
-        spaceName,
-        filters,
-        sorting,
-        limit = 25,
-        page = 0,
-        exposeNextExecution = false,
-    }: SearchParams & { orgName: string; spaceName: string; exposeNextExecution?: boolean }): Promise<PaginatedResponse<Job>> {
+    async searchJobs<R extends boolean = false>(
+        {
+            orgName,
+            spaceName,
+            filters,
+            sorting,
+            limit = 25,
+            page = 0,
+            exposeNextExecution = false,
+        }: SearchParams & { orgName: string; spaceName: string; exposeNextExecution?: boolean },
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, PaginatedResponse<Job>>> {
         const filtersDTO = filters?.map((f: SearchFilter) => {
             return new SearchFilterDTO(f);
         });
@@ -195,7 +249,7 @@ export class High5Job extends Base {
             }
         );
 
-        return createPaginatedResponse(resp) as PaginatedResponse<Job>;
+        return (raw?.raw ? { ...resp, data: createPaginatedResponse(resp) } : createPaginatedResponse(resp)) as MaybeRaw<R, PaginatedResponse<Job>>;
     }
 
     /**
@@ -205,14 +259,19 @@ export class High5Job extends Base {
      * @param amount The amount of returned execution-dates (limited between 1 and 10, default is 3)
      * @returns Array of Unix timestamps
      */
-    async resolveCronPatternWithTimezone(expression: string, timezone: string, amount = 3): Promise<number[]> {
+    async resolveCronPatternWithTimezone<R extends boolean = false>(
+        expression: string,
+        timezone: string,
+        amount = 3,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, number[]>> {
         const resp = await this.axios.post<number[]>(this.getEndpoint(`/v1/cron/resolve`), {
             expression: expression,
             timezone: timezone,
             amount: amount,
         });
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, number[]>;
     }
 
     protected getEndpoint(endpoint: string): string {

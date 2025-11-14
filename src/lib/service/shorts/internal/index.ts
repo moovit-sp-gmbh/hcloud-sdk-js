@@ -1,4 +1,4 @@
-import Base from "../../../Base";
+import Base, { MaybeRaw } from "../../../Base";
 import { Short } from "../../../interfaces/shorts";
 
 export class ShortsInternal extends Base {
@@ -13,10 +13,16 @@ export class ShortsInternal extends Base {
      * @param visitsLimit Maximum number of times the shortened link can be accessed
      * @returns the created short url
      */
-    async createShort(organizationId: string, spaceId: string, url: string, visitsLimit: number): Promise<Short> {
+    async createShort<R extends boolean = false>(
+        organizationId: string,
+        spaceId: string,
+        url: string,
+        visitsLimit: number,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Short>> {
         const res = await this.axios.post<Short>(this.getEndpoint(`/internal/v1/short`), { url, visitsLimit, organizationId, spaceId });
 
-        return res.data;
+        return (raw?.raw ? res : res.data) as MaybeRaw<R, Short>;
     }
 
     /**
@@ -27,10 +33,10 @@ export class ShortsInternal extends Base {
      * @param slug Unique identifier or alias representing the shortened version of a URL
      * @returns detailed information about this short url slug
      */
-    async getShort(slug: string): Promise<Short> {
+    async getShort<R extends boolean = false>(slug: string, raw?: { raw: R }): Promise<MaybeRaw<R, Short>> {
         const res = await this.axios.get<Short>(this.getEndpoint(`/internal/v1/short/${slug}`));
 
-        return res.data;
+        return (raw?.raw ? res : res.data) as MaybeRaw<R, Short>;
     }
 
     /**
@@ -42,10 +48,10 @@ export class ShortsInternal extends Base {
      * @param visitsLimit New maximum number of allowed visits for this shortened URL
      * @returns The updated Short object with the new visit limit
      */
-    async updateVisitsLimit(slug: string, visitsLimit: number): Promise<Short> {
+    async updateVisitsLimit<R extends boolean = false>(slug: string, visitsLimit: number, raw?: { raw: R }): Promise<MaybeRaw<R, Short>> {
         const resp = await this.axios.patch<Short>(this.getEndpoint(`/internal/v1/short/${slug}/limit`), { visitsLimit });
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Short>;
     }
 
     /**
@@ -55,8 +61,9 @@ export class ShortsInternal extends Base {
      *
      * @param slug Unique identifier representing the shortened version of a URL
      */
-    async deleteShort(slug: string): Promise<void> {
-        await this.axios.delete<void>(this.getEndpoint(`/internal/v1/short/${slug}`));
+    async deleteShort<R extends boolean = false>(slug: string, raw?: { raw: R }): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.delete<void>(this.getEndpoint(`/internal/v1/short/${slug}`));
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     /**
@@ -66,8 +73,9 @@ export class ShortsInternal extends Base {
      *
      * @param spaceId ID of the space whose shortened URLs should be deleted
      */
-    async deleteSpaceShorts(spaceId: string): Promise<void> {
-        await this.axios.delete<void>(this.getEndpoint(`/internal/v1/short/space/${spaceId}`));
+    async deleteSpaceShorts<R extends boolean = false>(spaceId: string, raw?: { raw: R }): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.delete<void>(this.getEndpoint(`/internal/v1/short/space/${spaceId}`));
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     /**
@@ -77,8 +85,9 @@ export class ShortsInternal extends Base {
      *
      * @param orgId ID of the organization whose shortened URLs should be deleted
      */
-    async deleteOrganizationShorts(orgId: string): Promise<void> {
-        await this.axios.delete<void>(this.getEndpoint(`/internal/v1/short/org/${orgId}`));
+    async deleteOrganizationShorts<R extends boolean = false>(orgId: string, raw?: { raw: R }): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.delete<void>(this.getEndpoint(`/internal/v1/short/org/${orgId}`));
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     protected getEndpoint(endpoint: string): string {

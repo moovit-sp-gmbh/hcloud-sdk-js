@@ -1,4 +1,4 @@
-import Base from "../../../Base";
+import Base, { MaybeRaw } from "../../../Base";
 import { High5OrganizationExecutionLogs } from "./log/index";
 import { High5OrganizationExecutionStates } from "./status/index";
 
@@ -25,8 +25,14 @@ export class High5OrganizationExecute extends Base {
      * @param high5ExecutionId ID of the stream execution
      * @returns 204 No Content
      */
-    async cancelExecution(orgName: string, spaceName: string, high5ExecutionId: string): Promise<void> {
-        await this.axios.get<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execution/${high5ExecutionId}/cancel`));
+    async cancelExecution<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        high5ExecutionId: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.get<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execution/${high5ExecutionId}/cancel`));
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     protected getEndpoint(endpoint: string): string {

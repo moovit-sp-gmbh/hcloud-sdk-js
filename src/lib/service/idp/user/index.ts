@@ -1,4 +1,4 @@
-import Base from "../../../Base";
+import Base, { MaybeRaw } from "../../../Base";
 import { createPaginatedResponse } from "../../../helper/paginatedResponseHelper";
 import { SearchFilterDTO } from "../../../helper/searchFilter";
 import { PaginatedResponse, SearchFilter, Sorting } from "../../../interfaces/global";
@@ -59,10 +59,10 @@ export class IdpUser extends Base {
      * Retrieves the User database entry for the requesting user.
      * @returns User object
      */
-    async getUser(): Promise<User> {
+    async getUser<R extends boolean = false>(raw?: { raw: R }): Promise<MaybeRaw<R, User>> {
         const resp = await this.axios.get<User>(this.getEndpoint("/v1/user"));
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, User>;
     }
 
     /**
@@ -70,10 +70,10 @@ export class IdpUser extends Base {
      * @param user UserPatch object holding the new User values
      * @returns User object
      */
-    async patchUser(user: UserPatch): Promise<User> {
+    async patchUser<R extends boolean = false>(user: UserPatch, raw?: { raw: R }): Promise<MaybeRaw<R, User>> {
         const resp = await this.axios.patch<User>(this.getEndpoint(`/v1/user`), user);
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, User>;
     }
 
     /**
@@ -83,7 +83,12 @@ export class IdpUser extends Base {
      * @param token String (optional) object holding the current TOTP token
      * @returns User object
      */
-    async patchUserPassword(oldPassword: string, newPassword: string, totp?: string): Promise<User> {
+    async patchUserPassword<R extends boolean = false>(
+        oldPassword: string,
+        newPassword: string,
+        totp?: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, User>> {
         const t = {
             old: oldPassword,
             new: newPassword,
@@ -94,21 +99,23 @@ export class IdpUser extends Base {
         }
         const resp = await this.axios.patch<User>(this.getEndpoint(`/v1/user/password`), t);
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, User>;
     }
 
     /**
      * Deletes user session and logs him out of HCloud on all devices.
      */
-    async deleteUserSession(): Promise<void> {
-        await this.axios.delete<void>(this.getEndpoint(`/v1/user/sessions`));
+    async deleteUserSession<R extends boolean = false>(raw?: { raw: R }): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.delete<void>(this.getEndpoint(`/v1/user/sessions`));
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     /**
      * Deletes the requesting user.
      */
-    async deleteUser(): Promise<void> {
-        await this.axios.delete<void>(this.getEndpoint(`/v1/user`));
+    async deleteUser<R extends boolean = false>(raw?: { raw: R }): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.delete<void>(this.getEndpoint(`/v1/user`));
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     /**
@@ -121,13 +128,16 @@ export class IdpUser extends Base {
      * @returns Object containing an array of Organizations and the total number of results found in the database (independent of limit and page)
      */
     // eslint-disable-next-line complexity
-    async searchOrganizations(params: {
-        filters: SearchFilter[];
-        sorting?: Sorting;
-        limit?: number;
-        page?: number;
-        options?: OrganizationQueryOptions;
-    }): Promise<PaginatedResponse<Organization>> {
+    async searchOrganizations<R extends boolean = false>(
+        params: {
+            filters: SearchFilter[];
+            sorting?: Sorting;
+            limit?: number;
+            page?: number;
+            options?: OrganizationQueryOptions;
+        },
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, PaginatedResponse<Organization>>> {
         const limit = params.limit || 25;
         const page = params.page || 0;
         const getTeamsOfUser = params.options?.getTeamsOfUser ? `&teamsOfUser=${params.options.getTeamsOfUser}` : "";
@@ -147,7 +157,10 @@ export class IdpUser extends Base {
             }
         );
 
-        return createPaginatedResponse(resp) as PaginatedResponse<Organization>;
+        return (raw?.raw ? { ...resp, data: createPaginatedResponse(resp) } : createPaginatedResponse(resp)) as MaybeRaw<
+            R,
+            PaginatedResponse<Organization>
+        >;
     }
 
     /**
@@ -158,12 +171,15 @@ export class IdpUser extends Base {
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
      * @returns Object containing an array of invitations and the total number of results found in the database (independent of limit and page)
      */
-    async searchInvitations(params: {
-        filters: SearchFilter[];
-        sorting?: Sorting;
-        limit?: number;
-        page?: number;
-    }): Promise<PaginatedResponse<OrganizationMemberInvitation>> {
+    async searchInvitations<R extends boolean = false>(
+        params: {
+            filters: SearchFilter[];
+            sorting?: Sorting;
+            limit?: number;
+            page?: number;
+        },
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, PaginatedResponse<OrganizationMemberInvitation>>> {
         const limit = params.limit || 25;
         const page = params.page || 0;
 
@@ -180,14 +196,18 @@ export class IdpUser extends Base {
             }
         );
 
-        return createPaginatedResponse(resp) as PaginatedResponse<OrganizationMemberInvitation>;
+        return (raw?.raw ? { ...resp, data: createPaginatedResponse(resp) } : createPaginatedResponse(resp)) as MaybeRaw<
+            R,
+            PaginatedResponse<OrganizationMemberInvitation>
+        >;
     }
 
     /**
      * Maintains a user's online status
      */
-    async ping(): Promise<void> {
-        await this.axios.get<void>(this.getEndpoint("/v1/user/ping"));
+    async ping<R extends boolean = false>(raw?: { raw: R }): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.get<void>(this.getEndpoint("/v1/user/ping"));
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     protected getEndpoint(endpoint: string): string {

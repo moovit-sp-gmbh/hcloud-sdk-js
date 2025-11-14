@@ -1,4 +1,4 @@
-import Base from "../../../../../Base";
+import Base, { MaybeRaw } from "../../../../../Base";
 import { createPaginatedResponse } from "../../../../../helper/paginatedResponseHelper";
 import { SearchFilterDTO } from "../../../../../helper/searchFilter";
 import { CronjobLogDto } from "../../../../../interfaces/fuse/space/cronjob/CronjobLog";
@@ -16,15 +16,18 @@ export class FuseCronjobLog extends Base {
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
      * @returns Object containing an array of filtered cronjob logs as well as the total number of results found in the database (independent of limit and page)
      */
-    async searchCronjobLogs({
-        orgName,
-        spaceName,
-        cronjobId,
-        filters,
-        sorting,
-        limit = 25,
-        page = 0,
-    }: SearchParams & { orgName: string; spaceName: string; cronjobId: string }): Promise<PaginatedResponse<CronjobLogDto>> {
+    async searchCronjobLogs<R extends boolean = false>(
+        {
+            orgName,
+            spaceName,
+            cronjobId,
+            filters,
+            sorting,
+            limit = 25,
+            page = 0,
+        }: SearchParams & { orgName: string; spaceName: string; cronjobId: string },
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, PaginatedResponse<CronjobLogDto>>> {
         const filtersDTO = filters?.map((f: SearchFilter) => {
             return new SearchFilterDTO(f);
         });
@@ -37,7 +40,10 @@ export class FuseCronjobLog extends Base {
             }
         );
 
-        return createPaginatedResponse(resp) as PaginatedResponse<CronjobLogDto>;
+        return (raw?.raw ? { ...resp, data: createPaginatedResponse(resp) } : createPaginatedResponse(resp)) as MaybeRaw<
+            R,
+            PaginatedResponse<CronjobLogDto>
+        >;
     }
 
     /**
@@ -48,12 +54,18 @@ export class FuseCronjobLog extends Base {
      * @param cronjobLogId ID of the cronjob log
      * @returns the cronjob log
      */
-    async getCronjobLog(orgName: string, spaceName: string, cronjobId: string, cronjobLogId: string): Promise<CronjobLogDto> {
+    async getCronjobLog<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        cronjobId: string,
+        cronjobLogId: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, CronjobLogDto>> {
         const resp = await this.axios.get<CronjobLogDto>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs/${cronjobId}/logs/${cronjobLogId}`)
         );
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, CronjobLogDto>;
     }
 
     protected getEndpoint(endpoint: string): string {

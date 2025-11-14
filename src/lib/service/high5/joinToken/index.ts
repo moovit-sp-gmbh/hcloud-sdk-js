@@ -1,9 +1,9 @@
-import { AxiosInstance } from "axios";
-import Base, { Options } from "../../../Base";
-import { createPaginatedResponse } from "../../../helper/paginatedResponseHelper";
-import { PaginatedResponse } from "../../../interfaces/global";
-import { JoinToken } from "../../../interfaces/high5/joinToken";
-import { User } from "../../../interfaces/idp";
+import { AxiosInstance } from "axios"
+import Base, { MaybeRaw, Options } from "../../../Base"
+import { createPaginatedResponse } from "../../../helper/paginatedResponseHelper"
+import { PaginatedResponse } from "../../../interfaces/global"
+import { JoinToken } from "../../../interfaces/high5/joinToken"
+import { User } from "../../../interfaces/idp"
 
 export class High5JoinToken extends Base {
     constructor(options: Options, axios: AxiosInstance) {
@@ -17,13 +17,21 @@ export class High5JoinToken extends Base {
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
      * @returns Object containing an array of join tokens and the total number of results found in the database (independent of limit and page)
      */
-    async get(orgName: string, limit?: number, page?: number): Promise<PaginatedResponse<JoinToken>> {
+    async get<R extends boolean = false>(
+        orgName: string,
+        limit?: number,
+        page?: number,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, PaginatedResponse<JoinToken>>> {
         limit = limit || 25;
         page = page || 0;
 
         const resp = await this.axios.get<JoinToken[]>(this.getEndpoint(`/v1/org/${orgName}/join/token?page=${page}&limit=${limit}`));
 
-        return createPaginatedResponse(resp) as PaginatedResponse<JoinToken>;
+        return (raw?.raw ? { ...resp, data: createPaginatedResponse(resp) } : createPaginatedResponse(resp)) as MaybeRaw<
+            R,
+            PaginatedResponse<JoinToken>
+        >;
     }
 
     /**
@@ -32,10 +40,10 @@ export class High5JoinToken extends Base {
      * @param name Name of the Join Token
      * @returns Created join token
      */
-    async create(orgName: string, name: string): Promise<JoinToken> {
+    async create<R extends boolean = false>(orgName: string, name: string, raw?: { raw: R }): Promise<MaybeRaw<R, JoinToken>> {
         const resp = await this.axios.post<JoinToken>(this.getEndpoint(`/v1/org/${orgName}/join/token`), { name });
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, JoinToken>;
     }
 
     /**
@@ -43,8 +51,9 @@ export class High5JoinToken extends Base {
      * @param orgName Name of the Organization
      * @param tokenId ID of the Join Token
      */
-    async revoke(orgName: string, tokenId: string): Promise<void> {
-        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/join/token/${tokenId}`));
+    async revoke<R extends boolean = false>(orgName: string, tokenId: string, raw?: { raw: R }): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/join/token/${tokenId}`));
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     /**
@@ -53,10 +62,12 @@ export class High5JoinToken extends Base {
      * @param joinToken Join token
      * @returns An object containing the User object and the PAT that represents the agent user
      */
-    async exchange(joinToken: string): Promise<{ user: User; pat: string }> {
-        const res = await this.axios.post<User>(this.getEndpoint(`/v1/join/token`), {}, { headers: { Authorization: joinToken } });
+    async exchange<R extends boolean = false>(joinToken: string, raw?: { raw: R }): Promise<MaybeRaw<R, { user: User; pat: string }>> {
+        const resp = await this.axios.post<User>(this.getEndpoint(`/v1/join/token`), {}, { headers: { Authorization: joinToken } });
 
-        return { user: res.data, pat: res.headers.authorization };
+        return (
+            raw?.raw ? { ...resp, data: { user: resp.data, pat: resp.headers.authorization } } : { user: resp.data, pat: resp.headers.authorization }
+        ) as MaybeRaw<R, { user: User; pat: string }>;
     }
 
     protected getEndpoint(endpoint: string): string {

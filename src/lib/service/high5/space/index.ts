@@ -1,4 +1,4 @@
-import Base from "../../../Base";
+import Base, { MaybeRaw } from "../../../Base";
 import { createPaginatedResponse } from "../../../helper/paginatedResponseHelper";
 import { SearchFilterDTO } from "../../../helper/searchFilter";
 import { PaginatedResponse, SearchFilter, SearchParams } from "../../../interfaces/global";
@@ -100,7 +100,10 @@ export class High5Space extends Base {
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
      * @returns Object containing an array of High5 Spaces and the total number of results found in the database (independent of limit and page)
      */
-    async searchSpaces({ orgName, filters, sorting, limit = 25, page = 0 }: SearchParams & { orgName: string }): Promise<PaginatedResponse<Space>> {
+    async searchSpaces<R extends boolean = false>(
+        { orgName, filters, sorting, limit = 25, page = 0 }: SearchParams & { orgName: string },
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, PaginatedResponse<Space>>> {
         const filtersDTO = filters?.map((f: SearchFilter) => new SearchFilterDTO(f));
 
         const resp = await this.axios.post<Space[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/search?page=${page}&limit=${limit}`), {
@@ -108,7 +111,7 @@ export class High5Space extends Base {
             sorting: sorting,
         });
 
-        return createPaginatedResponse(resp) as PaginatedResponse<Space>;
+        return (raw?.raw ? { ...resp, data: createPaginatedResponse(resp) } : createPaginatedResponse(resp)) as MaybeRaw<R, PaginatedResponse<Space>>;
     }
 
     /**
@@ -121,14 +124,10 @@ export class High5Space extends Base {
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
      * @returns Object containing an array of High5 Space Permissions and the total number of results found in the database (independent of limit and page)
      */
-    async searchSpacePermissions({
-        orgName,
-        spaceName,
-        filters,
-        sorting,
-        limit = 25,
-        page = 0,
-    }: SearchParams & { orgName: string; spaceName: string }): Promise<PaginatedResponse<SpaceEntityPermission>> {
+    async searchSpacePermissions<R extends boolean = false>(
+        { orgName, spaceName, filters, sorting, limit = 25, page = 0 }: SearchParams & { orgName: string; spaceName: string },
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, PaginatedResponse<SpaceEntityPermission>>> {
         const filtersDTO = filters?.map((f: SearchFilter) => new SearchFilterDTO(f));
 
         const resp = await this.axios.post<SpaceEntityPermission[]>(
@@ -139,7 +138,10 @@ export class High5Space extends Base {
             }
         );
 
-        return createPaginatedResponse(resp) as PaginatedResponse<SpaceEntityPermission>;
+        return (raw?.raw ? { ...resp, data: createPaginatedResponse(resp) } : createPaginatedResponse(resp)) as MaybeRaw<
+            R,
+            PaginatedResponse<SpaceEntityPermission>
+        >;
     }
 
     /**
@@ -148,10 +150,10 @@ export class High5Space extends Base {
      * @param spaceName Name of the space
      * @returns The requested Space
      */
-    async getSpace(orgName: string, spaceName: string): Promise<Space> {
+    async getSpace<R extends boolean = false>(orgName: string, spaceName: string, raw?: { raw: R }): Promise<MaybeRaw<R, Space>> {
         const resp = await this.axios.get<Space>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}`));
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Space>;
     }
 
     /**
@@ -161,10 +163,10 @@ export class High5Space extends Base {
      * @param enableDev (optional) Specifies to the front-end whether to display the versions in the development of Wave Engines and Node Catalogs
      * @returns The created Space
      */
-    async createSpace(orgName: string, name: string, enableDev?: boolean): Promise<Space> {
+    async createSpace<R extends boolean = false>(orgName: string, name: string, enableDev?: boolean, raw?: { raw: R }): Promise<MaybeRaw<R, Space>> {
         const resp = await this.axios.post<Space>(this.getEndpoint(`/v1/org/${orgName}/spaces`), { name, enableDev: Boolean(enableDev) });
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Space>;
     }
 
     /**
@@ -172,8 +174,9 @@ export class High5Space extends Base {
      * @param orgName Name of the Organization
      * @param spaceName Name of the Space
      */
-    async deleteSpace(orgName: string, spaceName: string): Promise<void> {
-        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}`));
+    async deleteSpace<R extends boolean = false>(orgName: string, spaceName: string, raw?: { raw: R }): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}`));
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     /**
@@ -184,13 +187,19 @@ export class High5Space extends Base {
      * @param permission New permission
      * @returns The Space with updated permissions
      */
-    async updateUserSpacePermission(orgName: string, spaceName: string, userId: string, permission: SpacePermission): Promise<SpaceEntityPermission> {
+    async updateUserSpacePermission<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        userId: string,
+        permission: SpacePermission,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, SpaceEntityPermission>> {
         const resp = await this.axios.put<SpaceEntityPermission>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/permissions/user`), {
             userId,
             permission,
         });
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, SpaceEntityPermission>;
     }
 
     /**
@@ -201,18 +210,19 @@ export class High5Space extends Base {
      * @param permission New permission
      * @returns The Space with updated permissions
      */
-    async updateTeamSpacePermission(
+    async updateTeamSpacePermission<R extends boolean = false>(
         orgName: string,
         spaceName: string,
         teamName: string,
-        permission: SpacePermission
-    ): Promise<SpaceEntityPermission> {
+        permission: SpacePermission,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, SpaceEntityPermission>> {
         const resp = await this.axios.put<SpaceEntityPermission>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/permissions/team`), {
             teamName,
             permission,
         });
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, SpaceEntityPermission>;
     }
 
     /**
@@ -225,14 +235,10 @@ export class High5Space extends Base {
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
      * @returns Object containing an array of streams and the total number of results found in the database (independent of limit and page)
      */
-    async searchStreamsOfSpace({
-        orgName,
-        spaceName,
-        filters,
-        sorting,
-        limit = 25,
-        page = 0,
-    }: SearchParams & { orgName: string; spaceName: string }): Promise<PaginatedResponse<Stream>> {
+    async searchStreamsOfSpace<R extends boolean = false>(
+        { orgName, spaceName, filters, sorting, limit = 25, page = 0 }: SearchParams & { orgName: string; spaceName: string },
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, PaginatedResponse<Stream>>> {
         const filtersDTO = filters?.map((f: SearchFilter) => new SearchFilterDTO(f));
 
         const resp = await this.axios.post<Stream[]>(
@@ -243,7 +249,10 @@ export class High5Space extends Base {
             }
         );
 
-        return createPaginatedResponse(resp) as PaginatedResponse<Stream>;
+        return (raw?.raw ? { ...resp, data: createPaginatedResponse(resp) } : createPaginatedResponse(resp)) as MaybeRaw<
+            R,
+            PaginatedResponse<Stream>
+        >;
     }
 
     /**
@@ -253,12 +262,17 @@ export class High5Space extends Base {
      * @param newSpaceName New name for the space
      * @returns The updated space
      */
-    async renameSpace(orgName: string, spaceName: string, newSpaceName: string): Promise<Space> {
+    async renameSpace<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        newSpaceName: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Space>> {
         const resp = await this.axios.patch<Space>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/name`), {
             newSpaceName,
         });
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Space>;
     }
 
     /**
@@ -268,12 +282,17 @@ export class High5Space extends Base {
      * @param enableDev Specifies to the front-end whether to display the versions under development of Wave Engines and Node Catalogs
      * @returns The updated space
      */
-    async enableDev(orgName: string, spaceName: string, enableDev: boolean): Promise<Space> {
+    async enableDev<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        enableDev: boolean,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Space>> {
         const resp = await this.axios.patch<Space>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/dev`), {
             enableDev,
         });
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Space>;
     }
 
     protected getEndpoint(endpoint: string): string {

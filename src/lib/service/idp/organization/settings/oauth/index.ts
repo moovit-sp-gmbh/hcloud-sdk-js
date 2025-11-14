@@ -1,4 +1,4 @@
-import Base from "../../../../../Base";
+import Base, { MaybeRaw } from "../../../../../Base";
 import { createPaginatedResponse } from "../../../../../helper/paginatedResponseHelper";
 import { SearchFilterDTO } from "../../../../../helper/searchFilter";
 import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../../interfaces/global";
@@ -14,13 +14,10 @@ export class IdpOAuthApp extends Base {
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
      * @returns Object containing an array of OAuth apps and the total number of results found in the database (independent of limit and page)
      */
-    async searchOauthAppsOfOrganization({
-        organizationName,
-        filters,
-        sorting,
-        limit = 25,
-        page = 0,
-    }: SearchParams & { organizationName: string }): Promise<PaginatedResponse<OAuthApp>> {
+    async searchOauthAppsOfOrganization<R extends boolean = false>(
+        { organizationName, filters, sorting, limit = 25, page = 0 }: SearchParams & { organizationName: string },
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, PaginatedResponse<OAuthApp>>> {
         const filtersDTO = filters?.map((f: SearchFilter) => {
             return new SearchFilterDTO(f);
         });
@@ -33,7 +30,10 @@ export class IdpOAuthApp extends Base {
             }
         );
 
-        return createPaginatedResponse(resp) as PaginatedResponse<OAuthApp>;
+        return (raw?.raw ? { ...resp, data: createPaginatedResponse(resp) } : createPaginatedResponse(resp)) as MaybeRaw<
+            R,
+            PaginatedResponse<OAuthApp>
+        >;
     }
 
     /**
@@ -42,10 +42,10 @@ export class IdpOAuthApp extends Base {
      * @param oauthAppId ID of the OAuthApp
      * @returns the requested OAuthApp
      */
-    async getOAuthApp(orgName: string, oauthAppId: string): Promise<OAuthApp> {
+    async getOAuthApp<R extends boolean = false>(orgName: string, oauthAppId: string, raw?: { raw: R }): Promise<MaybeRaw<R, OAuthApp>> {
         const resp = await this.axios.get<OAuthApp>(this.getEndpoint(`/v1/org/${orgName}/settings/applications/oauth/${oauthAppId}`));
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, OAuthApp>;
     }
 
     /**
@@ -54,10 +54,14 @@ export class IdpOAuthApp extends Base {
      * @param oAuthAppCreate Object containing the app's name, secretName, callback and optionally a base64 encoded avatar and a description
      * @returns The created OAuth app
      */
-    async createOAuthApp(orgName: string, oAuthAppCreate: OAuthAppCreate): Promise<OAuthApp> {
+    async createOAuthApp<R extends boolean = false>(
+        orgName: string,
+        oAuthAppCreate: OAuthAppCreate,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, OAuthApp>> {
         const resp = await this.axios.post<OAuthApp>(this.getEndpoint(`/v1/org/${orgName}/settings/applications/oauth`), oAuthAppCreate);
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, OAuthApp>;
     }
 
     /**
@@ -67,10 +71,15 @@ export class IdpOAuthApp extends Base {
      * @param oAuthAppCreate Object containing the app's name, secretName, callback and optionally a base64 encoded avatar and a description
      * @returns the updated OAuth app
      */
-    async updateOAuthApp(orgName: string, oauthAppId: string, oAuthAppCreate: OAuthAppCreate): Promise<OAuthApp> {
+    async updateOAuthApp<R extends boolean = false>(
+        orgName: string,
+        oauthAppId: string,
+        oAuthAppCreate: OAuthAppCreate,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, OAuthApp>> {
         const resp = await this.axios.put<OAuthApp>(this.getEndpoint(`/v1/org/${orgName}/settings/applications/oauth/${oauthAppId}`), oAuthAppCreate);
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, OAuthApp>;
     }
 
     /**
@@ -78,8 +87,9 @@ export class IdpOAuthApp extends Base {
      * @param orgName Name of the Organization
      * @param oauthAppId ID of the OAuthApp
      */
-    async deleteOAuthApp(orgName: string, oauthAppId: string): Promise<void> {
-        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/settings/applications/oauth/${oauthAppId}`));
+    async deleteOAuthApp<R extends boolean = false>(orgName: string, oauthAppId: string, raw?: { raw: R }): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/settings/applications/oauth/${oauthAppId}`));
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     /**
@@ -89,12 +99,17 @@ export class IdpOAuthApp extends Base {
      * @param secretName Name of the Secret
      * @returns the updated OAuth app
      */
-    async createOAuthAppSecret(orgName: string, oauthAppId: string, secretName: string): Promise<OAuthApp> {
+    async createOAuthAppSecret<R extends boolean = false>(
+        orgName: string,
+        oauthAppId: string,
+        secretName: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, OAuthApp>> {
         const resp = await this.axios.post<OAuthApp>(this.getEndpoint(`/v1/org/${orgName}/settings/applications/oauth/${oauthAppId}/secret`), {
             secretName,
         });
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, OAuthApp>;
     }
 
     /**
@@ -104,12 +119,17 @@ export class IdpOAuthApp extends Base {
      * @param secret Name of the secret that shall be deleted
      * @returns the updated OAuthApp
      */
-    async deleteOAuthAppSecret(orgName: string, oauthAppId: string, secret: string): Promise<OAuthApp> {
+    async deleteOAuthAppSecret<R extends boolean = false>(
+        orgName: string,
+        oauthAppId: string,
+        secret: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, OAuthApp>> {
         const resp = await this.axios.delete<OAuthApp>(
             this.getEndpoint(`/v1/org/${orgName}/settings/applications/oauth/${oauthAppId}/secret/${secret}`)
         );
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, OAuthApp>;
     }
 
     protected getEndpoint(endpoint: string): string {

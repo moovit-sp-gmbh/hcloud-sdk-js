@@ -1,4 +1,4 @@
-import Base from "../../../../../../Base";
+import Base, { MaybeRaw } from "../../../../../../Base";
 import { Design } from "../../../../../../interfaces/high5";
 import {
     AddNode,
@@ -15,20 +15,21 @@ import {
 import { DesignerNode } from "../../../../../../interfaces/high5/space/event/stream/design/StreamDesign";
 
 export default class DesignOperations extends Base {
-    public async send(
+    public async send<R extends boolean = false>(
         orgName: string,
         spaceName: string,
         eventName: string,
         streamId: string,
         designHash: string,
-        operations: DesignOperation[]
-    ): Promise<Design> {
+        operations: DesignOperation[],
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Design>> {
         const resp = await this.axios.patch<Design>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/design/operations`),
             { hash: designHash, operations }
         );
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Design>;
     }
 
     public queue(): OperationQueue {

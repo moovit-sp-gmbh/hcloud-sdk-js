@@ -1,4 +1,4 @@
-import Base from "../../../../../Base";
+import Base, { MaybeRaw } from "../../../../../Base";
 import { createPaginatedResponse } from "../../../../../helper/paginatedResponseHelper";
 import { SearchFilterDTO } from "../../../../../helper/searchFilter";
 import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../../interfaces/global";
@@ -13,7 +13,10 @@ export class IdpOAuthApps extends Base {
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
      * @returns Object containing an array of OAuth apps and the total number of results found in the database (independent of limit and page)
      */
-    async searchOAuthApps({ filters, sorting, limit = 25, page = 0 }: SearchParams): Promise<PaginatedResponse<OAuthAppWithConsent>> {
+    async searchOAuthApps<R extends boolean = false>(
+        { filters, sorting, limit = 25, page = 0 }: SearchParams,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, PaginatedResponse<OAuthAppWithConsent>>> {
         const filtersDTO = filters?.map((f: SearchFilter) => {
             return new SearchFilterDTO(f);
         });
@@ -31,15 +34,19 @@ export class IdpOAuthApps extends Base {
             }
         );
 
-        return createPaginatedResponse(resp);
+        return (raw?.raw ? { ...resp, data: createPaginatedResponse(resp) } : createPaginatedResponse(resp)) as MaybeRaw<
+            R,
+            PaginatedResponse<OAuthAppWithConsent>
+        >;
     }
 
     /**
      * Revokes user access from the provided OAuth app.
      * @param oAuthAppId ID of the OAuth app
      */
-    async revokeOAuthAppAccess(oAuthAppId: string): Promise<void> {
-        await this.axios.delete(this.getEndpoint(`/v1/user/settings/oauth/${oAuthAppId}/revoke`));
+    async revokeOAuthAppAccess<R extends boolean = false>(oAuthAppId: string, raw?: { raw: R }): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.delete(this.getEndpoint(`/v1/user/settings/oauth/${oAuthAppId}/revoke`));
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     protected getEndpoint(endpoint: string): string {

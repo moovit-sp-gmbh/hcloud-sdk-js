@@ -1,4 +1,4 @@
-import Base from "../../../Base";
+import Base, { MaybeRaw } from "../../../Base";
 import { SuccessfulAuth, User } from "../../../interfaces/idp";
 
 export class IdpGuest extends Base {
@@ -12,10 +12,19 @@ export class IdpGuest extends Base {
      *   - `user`: The created `User` object.
      *   - `token`: An authorization token returned by the API.
      */
-    async createGuest(email: string, name: string, emailHMAC: string): Promise<SuccessfulAuth> {
-        const res = await this.axios.post<User>(this.getEndpoint("/v1/guest"), { email, name, hmac: emailHMAC });
+    async createGuest<R extends boolean = false>(
+        email: string,
+        name: string,
+        emailHMAC: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, SuccessfulAuth>> {
+        const resp = await this.axios.post<User>(this.getEndpoint("/v1/guest"), { email, name, hmac: emailHMAC });
 
-        return { user: res.data, token: res.headers.authorization };
+        return (
+            raw?.raw
+                ? { ...resp, data: { user: resp.data, token: resp.headers.authorization } }
+                : { user: resp.data, token: resp.headers.authorization }
+        ) as MaybeRaw<R, SuccessfulAuth>;
     }
 
     /**
@@ -27,10 +36,12 @@ export class IdpGuest extends Base {
      *   - `user`: The authenticated `User` object.
      *   - `token`: An authorization token returned by the API.
      */
-    async loginAsGuest(email: string, emailHMAC: string): Promise<SuccessfulAuth> {
+    async loginAsGuest<R extends boolean = false>(email: string, emailHMAC: string, raw?: { raw: R }): Promise<MaybeRaw<R, SuccessfulAuth>> {
         const res = await this.axios.put<User>(this.getEndpoint("/v1/guest"), { email, hmac: emailHMAC });
 
-        return { user: res.data, token: res.headers.authorization };
+        return (
+            raw?.raw ? { ...res, data: { user: res.data, token: res.headers.authorization } } : { user: res.data, token: res.headers.authorization }
+        ) as MaybeRaw<R, SuccessfulAuth>;
     }
 
     /**
@@ -42,10 +53,10 @@ export class IdpGuest extends Base {
      *   - `"not guest"` → A user exists but is not a guest.
      *   - `"guest"` → The email belongs to a guest account.
      */
-    async isGuest(email: string): Promise<"no user" | "not guest" | "guest"> {
+    async isGuest<R extends boolean = false>(email: string, raw?: { raw: R }): Promise<MaybeRaw<R, "no user" | "not guest" | "guest">> {
         const res = await this.axios.get<"no user" | "not guest" | "guest">(this.getEndpoint(`/v1/guest/email/${email}`));
 
-        return res.data;
+        return (raw?.raw ? res : res.data) as MaybeRaw<R, "no user" | "not guest" | "guest">;
     }
 
     protected getEndpoint(endpoint: string): string {

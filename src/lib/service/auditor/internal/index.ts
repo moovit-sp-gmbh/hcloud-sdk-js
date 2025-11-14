@@ -1,4 +1,4 @@
-import Base from "../../../Base";
+import Base, { MaybeRaw } from "../../../Base";
 import { AuditLogCreate } from "../../../interfaces/auditor";
 
 export class AuditorInternal extends Base {
@@ -42,8 +42,9 @@ export class AuditorInternal extends Base {
      * @param orgId the organizations's ID
      * @returns void
      */
-    async deleteAllAuditLogsOfOrganization(orgId: string): Promise<void> {
-        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgId}/logs`));
+    async deleteAllAuditLogsOfOrganization<R extends boolean = false>(orgId: string, raw?: { raw: R }): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgId}/logs`));
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     /**
@@ -54,8 +55,9 @@ export class AuditorInternal extends Base {
      * @param spaceName the Space's name
      * @returns void
      */
-    async deleteAllAuditLogsOfSpace(orgId: string, spaceName: string): Promise<void> {
-        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgId}/spaces/${spaceName}/logs`));
+    async deleteAllAuditLogsOfSpace<R extends boolean = false>(orgId: string, spaceName: string, raw?: { raw: R }): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgId}/spaces/${spaceName}/logs`));
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     /**
@@ -66,8 +68,9 @@ export class AuditorInternal extends Base {
      * @param assetId the Asset's ID
      * @returns void
      */
-    async deleteAllAuditLogsOfAsset(orgId: string, assetId: string): Promise<void> {
-        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgId}/assets/${assetId}/logs`));
+    async deleteAllAuditLogsOfAsset<R extends boolean = false>(orgId: string, assetId: string, raw?: { raw: R }): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgId}/assets/${assetId}/logs`));
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     protected getEndpoint(endpoint: string): string {

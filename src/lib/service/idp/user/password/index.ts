@@ -1,4 +1,4 @@
-import Base from "../../../../Base";
+import Base, { MaybeRaw } from "../../../../Base";
 import { User } from "../../../../interfaces/idp";
 
 export default class UserPasswordService extends Base {
@@ -10,7 +10,13 @@ export default class UserPasswordService extends Base {
      * @param totpToken (Optional) TOTP token in case the user had 2FA enabled
      * @returns User object
      */
-    async resetPassword(email: string, nonce: string, newPassword: string, totpToken?: string) {
+    async resetPassword<R extends boolean = false>(
+        email: string,
+        nonce: string,
+        newPassword: string,
+        totpToken?: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, User>> {
         const res = await this.axios.post<User>(this.getEndpoint("/v1/user/password/reset"), {
             email,
             nonce,
@@ -18,7 +24,7 @@ export default class UserPasswordService extends Base {
             totpToken,
         });
 
-        return res.data;
+        return (raw?.raw ? res : res.data) as MaybeRaw<R, User>;
     }
 
     parseResetPasswordToken(token: string): { email: string; nonce: string; regionId?: string } {

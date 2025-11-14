@@ -1,4 +1,4 @@
-import Base from "../../../Base";
+import Base, { MaybeRaw } from "../../../Base";
 import { Asset } from "../../../interfaces/cosmo/asset";
 import { Share, ShareCreate, SharePatch, ShareWithUsers } from "../../../interfaces/cosmo/share";
 import { SearchFilter, Sorting } from "../../../interfaces/global";
@@ -27,10 +27,15 @@ export class CosmoShare extends Base {
      *
      * @returns The created Share
      */
-    async createShare(orgName: string, spaceName: string, createShare: ShareCreate): Promise<Share> {
+    async createShare<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        createShare: ShareCreate,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Share>> {
         const resp = await this.axios.post<Share>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/shares`), createShare);
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Share>;
     }
 
     /**
@@ -43,13 +48,20 @@ export class CosmoShare extends Base {
      *
      * @returns The created Share
      */
-    async linkShare(orgName: string, spaceName: string, shareId: string, password?: string, shareIdHMAC?: string): Promise<Share> {
+    async linkShare<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        shareId: string,
+        password?: string,
+        shareIdHMAC?: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Share>> {
         const resp = await this.axios.put<Share>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/shares/${shareId}`), {
             password,
             shareIdHMAC,
         });
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Share>;
     }
 
     /**
@@ -65,12 +77,20 @@ export class CosmoShare extends Base {
      *
      * @returns The created Share
      */
-    async fetchSharedAssets(orgName: string, spaceName: string, shareId: string, limit: number, page: number, namespace: string): Promise<Asset[]> {
+    async fetchSharedAssets<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        shareId: string,
+        limit: number,
+        page: number,
+        namespace: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Asset[]>> {
         const resp = await this.axios.get<Asset[]>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/shares/${shareId}/assets?limit=${limit}&page=${page}&namespace=${namespace}`)
         );
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Asset[]>;
     }
 
     /**
@@ -83,10 +103,17 @@ export class CosmoShare extends Base {
      *
      * @returns 204 No Content if successful
      */
-    async deleteShare(orgName: string, spaceName: string, shareIds: string[]): Promise<void> {
-        await this.axios.delete(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/shares`), {
+    async deleteShare<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        shareIds: string[],
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.delete(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/shares`), {
             data: { shareIds },
         });
+
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     /**
@@ -97,9 +124,9 @@ export class CosmoShare extends Base {
      *
      * @returns Detailed Share object
      */
-    async fetchShare(orgName: string, spaceName: string, shareId: string): Promise<Share> {
+    async fetchShare<R extends boolean = false>(orgName: string, spaceName: string, shareId: string, raw?: { raw: R }): Promise<MaybeRaw<R, Share>> {
         const res = await this.axios.get<Share>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/shares/${shareId}`));
-        return res.data;
+        return (raw?.raw ? res : res.data) as MaybeRaw<R, Share>;
     }
 
     /**
@@ -112,13 +139,14 @@ export class CosmoShare extends Base {
      * @param {number} page - The page number to retrieve.
      * @returns {Promise<ShareWithUsers[]>} A promise that resolves to a list of shares with their associated users.
      */
-    async searchSharesOfSpace(
+    async searchSharesOfSpace<R extends boolean = false>(
         orgName: string,
         spaceName: string,
         search: { sorting?: Sorting; filters?: SearchFilter[] },
         limit: number,
-        page: number
-    ): Promise<ShareWithUsers[]> {
+        page: number,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, ShareWithUsers[]>> {
         const resp = await this.axios.post<ShareWithUsers[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/shares/search`), search, {
             params: {
                 limit,
@@ -126,7 +154,7 @@ export class CosmoShare extends Base {
             },
         });
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, ShareWithUsers[]>;
     }
 
     /**
@@ -137,7 +165,12 @@ export class CosmoShare extends Base {
      * @param {number} page - The page number to retrieve.
      * @returns {Promise<Share[]>} A promise that resolves to a list of shares the current user is linked to.
      */
-    async searchSharesOfUser(search: { sorting?: Sorting; filters?: SearchFilter[] }, limit: number, page: number): Promise<Share[]> {
+    async searchSharesOfUser<R extends boolean = false>(
+        search: { sorting?: Sorting; filters?: SearchFilter[] },
+        limit: number,
+        page: number,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Share[]>> {
         const resp = await this.axios.post<Share[]>(this.getEndpoint(`/v1/user/shares/search`), search, {
             params: {
                 limit,
@@ -145,7 +178,7 @@ export class CosmoShare extends Base {
             },
         });
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Share[]>;
     }
 
     /**
@@ -156,8 +189,9 @@ export class CosmoShare extends Base {
      * @param {string} shareId - The ID of the share to unlink from.
      * @returns {Promise<void>} A promise that resolves when the unlinking is complete.
      */
-    async unlinkSelf(orgName: string, spaceName: string, shareId: string): Promise<void> {
-        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/shares/${shareId}/link`));
+    async unlinkSelf<R extends boolean = false>(orgName: string, spaceName: string, shareId: string, raw?: { raw: R }): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/shares/${shareId}/link`));
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     /**
@@ -169,8 +203,15 @@ export class CosmoShare extends Base {
      * @param {string} userId - The ID of the user to unlink.
      * @returns {Promise<void>} A promise that resolves when the unlinking is complete.
      */
-    async unlinkOther(orgName: string, spaceName: string, shareId: string, userId: string): Promise<void> {
-        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/shares/${shareId}/user/${userId}`));
+    async unlinkOther<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        shareId: string,
+        userId: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/shares/${shareId}/user/${userId}`));
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     /**
@@ -182,10 +223,16 @@ export class CosmoShare extends Base {
      * @param {string[]} emails - An array of email addresses to link to the share.
      * @returns {Promise<Share>} A promise that resolves to the updated share object.
      */
-    async linkOther(orgName: string, spaceName: string, shareId: string, emails: string[]): Promise<Share> {
+    async linkOther<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        shareId: string,
+        emails: string[],
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Share>> {
         const res = await this.axios.put<Share>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/shares/${shareId}/user`), { users: emails });
 
-        return res.data;
+        return (raw?.raw ? res : res.data) as MaybeRaw<R, Share>;
     }
 
     /**
@@ -199,9 +246,15 @@ export class CosmoShare extends Base {
      *
      * @returns The patched Share
      */
-    async patchShare(orgName: string, spaceName: string, shareId: string, patchObject: SharePatch): Promise<Share> {
+    async patchShare<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        shareId: string,
+        patchObject: SharePatch,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Share>> {
         const resp = await this.axios.patch<Share>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/shares/${shareId}`), patchObject);
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Share>;
     }
 }

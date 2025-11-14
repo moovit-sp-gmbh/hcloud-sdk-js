@@ -1,4 +1,4 @@
-import Base from "../../../../Base";
+import Base, { MaybeRaw } from "../../../../Base";
 import { Node, NodeCategory } from "../../../../interfaces/high5/space/event/stream/node";
 
 export default class High5Node extends Base {
@@ -10,12 +10,18 @@ export default class High5Node extends Base {
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
      * @returns Array containg the Nodes
      */
-    public async getAllNodes(orgName: string, spaceName: string, limit?: number, page?: number): Promise<Node[]> {
+    public async getAllNodes<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        limit?: number,
+        page?: number,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Node[]>> {
         limit = limit || 25;
         page = page || 0;
         const resp = await this.axios.get<Node[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/nodes?page=${page}&limit=${limit}`));
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Node[]>;
     }
 
     /**
@@ -25,10 +31,15 @@ export default class High5Node extends Base {
      * @param nodeId Id of the Node
      * @returns The requested Node
      */
-    public async getNode(orgName: string, spaceName: string, nodeId: string): Promise<Node> {
+    public async getNode<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        nodeId: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Node>> {
         const resp = await this.axios.get<Node>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/nodes/${nodeId}`));
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Node>;
     }
 
     /**
@@ -40,20 +51,21 @@ export default class High5Node extends Base {
      * @param typescript Typescript code as a base64 string
      * @returns The created Node
      */
-    public async createNode(
+    public async createNode<R extends boolean = false>(
         orgName: string,
         spaceName: string,
         nodeCategory: NodeCategory,
         specification: string,
-        typescript: string
-    ): Promise<Node> {
+        typescript: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Node>> {
         const resp = await this.axios.post<Node>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/nodes`), {
             category: nodeCategory,
             specification: specification,
             typescript: typescript,
         });
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Node>;
     }
 
     /**
@@ -62,8 +74,14 @@ export default class High5Node extends Base {
      * @param spaceName Name of the space
      * @param nodeId Id of the node
      */
-    public async deleteNode(orgName: string, spaceName: string, nodeId: string): Promise<void> {
-        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/nodes/${nodeId}`));
+    public async deleteNode<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        nodeId: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/nodes/${nodeId}`));
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     /**
@@ -76,14 +94,15 @@ export default class High5Node extends Base {
      * @param typescript (optional) Typescript code as a base64 string
      * @return The updated Node
      */
-    public async patchNode(
+    public async patchNode<R extends boolean = false>(
         orgName: string,
         spaceName: string,
         nodeId: string,
         regenerateSecret: boolean,
         specification?: string,
-        typescript?: string
-    ): Promise<Node> {
+        typescript?: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Node>> {
         const patchNode = {
             specification: specification,
             typescript: typescript,
@@ -100,7 +119,7 @@ export default class High5Node extends Base {
             patchNode
         );
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Node>;
     }
 
     /**
@@ -108,12 +127,17 @@ export default class High5Node extends Base {
      * @param orgName Name of the organization
      * @param spaceName Name of the space
      * @param secret Secret of the Node (a unique sha512 hash)
-     * @rerurns Raw javascript representation of the Node's content
+     * @returns Raw javascript representation of the Node's content
      */
-    public async getNodeContent(orgName: string, spaceName: string, secret: string): Promise<string> {
+    public async getNodeContent<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        secret: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, string>> {
         const resp = await this.axios.get<string>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/nodes/content/${secret}`));
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, string>;
     }
 
     protected getEndpoint(endpoint: string): string {

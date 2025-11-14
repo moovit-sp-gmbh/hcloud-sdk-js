@@ -1,4 +1,4 @@
-import Base from "../../../../Base";
+import Base, { MaybeRaw } from "../../../../Base";
 import { SpacePatchWaveCatalog, SpacePatchWaveEngine, WaveCatalog, WaveEngine } from "../../../../interfaces/high5";
 
 export default class High5Wave extends Base {
@@ -9,10 +9,15 @@ export default class High5Wave extends Base {
      * @param spacePatchWaveEngine - Patch wave engine object holding url and version
      * @returns WaveEngine object
      */
-    async patchSpaceWaveEngine(orgName: string, spaceName: string, spacePatchWaveEngine: SpacePatchWaveEngine): Promise<WaveEngine> {
+    async patchSpaceWaveEngine<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        spacePatchWaveEngine: SpacePatchWaveEngine,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, WaveEngine>> {
         const resp = await this.axios.patch<WaveEngine>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/wave/engine`), spacePatchWaveEngine);
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, WaveEngine>;
     }
 
     /**
@@ -21,10 +26,10 @@ export default class High5Wave extends Base {
      * @param spaceName - Name of the space
      * @returns WaveEngine object
      */
-    async getSpaceWaveEngine(orgName: string, spaceName: string): Promise<WaveEngine> {
+    async getSpaceWaveEngine<R extends boolean = false>(orgName: string, spaceName: string, raw?: { raw: R }): Promise<MaybeRaw<R, WaveEngine>> {
         const resp = await this.axios.get<WaveEngine>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/wave/engine`));
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, WaveEngine>;
     }
 
     /**
@@ -34,10 +39,15 @@ export default class High5Wave extends Base {
      * @param spacePatchWaveCatalog - Patch wave catalog object holding url, version and optionally a minimumEngineVersion
      * @returns WaveCatalog object
      */
-    async addUpdateSpaceWaveCatalog(orgName: string, spaceName: string, spacePatchCatalog: SpacePatchWaveCatalog): Promise<WaveCatalog> {
+    async addUpdateSpaceWaveCatalog<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        spacePatchCatalog: SpacePatchWaveCatalog,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, WaveCatalog>> {
         const resp = await this.axios.post<WaveCatalog>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/wave/catalog`), spacePatchCatalog);
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, WaveCatalog>;
     }
 
     /**
@@ -46,14 +56,20 @@ export default class High5Wave extends Base {
      * @param spaceName - Name of the space
      * @returns WaveCatalog array
      */
-    async getSpaceWaveCatalogs(orgName: string, spaceName: string): Promise<WaveCatalog[]> {
+    async getSpaceWaveCatalogs<R extends boolean = false>(orgName: string, spaceName: string, raw?: { raw: R }): Promise<MaybeRaw<R, WaveCatalog[]>> {
         const resp = await this.axios.get<WaveCatalog[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/wave/catalog`));
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, WaveCatalog[]>;
     }
 
-    async deleteSpaceWaveCatalog(orgName: string, spaceName: string, catalogId: string): Promise<void> {
-        await this.axios.delete(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/wave/catalog/${catalogId}`));
+    async deleteSpaceWaveCatalog<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        catalogId: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.delete(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/wave/catalog/${catalogId}`));
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     protected getEndpoint(endpoint: string): string {

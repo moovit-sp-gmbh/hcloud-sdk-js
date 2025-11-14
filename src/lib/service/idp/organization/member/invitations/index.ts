@@ -1,4 +1,4 @@
-import Base from "../../../../../Base";
+import Base, { MaybeRaw } from "../../../../../Base";
 import { createPaginatedResponse } from "../../../../../helper/paginatedResponseHelper";
 import { SearchFilterDTO } from "../../../../../helper/searchFilter";
 import { PaginatedResponse, SearchFilter, Sorting } from "../../../../../interfaces/global";
@@ -15,13 +15,16 @@ export default class IdpOrganizationMemberInvitations extends Base {
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
      * @returns Object containing an array of invitations and the total number of results found in the database (independent of limit and page)
      */
-    async search(params: {
-        orgName: string;
-        filters: SearchFilter[];
-        sorting?: Sorting;
-        limit?: number;
-        page?: number;
-    }): Promise<PaginatedResponse<OrganizationMemberInvitation>> {
+    async search<R extends boolean = false>(
+        params: {
+            orgName: string;
+            filters: SearchFilter[];
+            sorting?: Sorting;
+            limit?: number;
+            page?: number;
+        },
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, PaginatedResponse<OrganizationMemberInvitation>>> {
         const limit = params.limit || 25;
         const page = params.page || 0;
 
@@ -38,7 +41,10 @@ export default class IdpOrganizationMemberInvitations extends Base {
             }
         );
 
-        return createPaginatedResponse(resp) as PaginatedResponse<OrganizationMemberInvitation>;
+        return (raw?.raw ? { ...resp, data: createPaginatedResponse(resp) } : createPaginatedResponse(resp)) as MaybeRaw<
+            R,
+            PaginatedResponse<OrganizationMemberInvitation>
+        >;
     }
 
     /**
@@ -53,13 +59,14 @@ export default class IdpOrganizationMemberInvitations extends Base {
      * @param targetUrl Optional url the link in the mail will point to
      * @returns The created invitation
      */
-    async create(
+    async create<R extends boolean = false>(
         orgName: string,
         email: string,
         role: OrganizationRole,
         allowNonRegisteredUsers = false,
-        targetUrl?: string
-    ): Promise<OrganizationMemberInvitation> {
+        targetUrl?: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, OrganizationMemberInvitation>> {
         const resp = await this.axios.post<OrganizationMemberInvitation>(this.getEndpoint(`/${orgName}/members/invitations`), {
             email,
             role,
@@ -67,7 +74,7 @@ export default class IdpOrganizationMemberInvitations extends Base {
             targetUrl,
         });
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, OrganizationMemberInvitation>;
     }
 
     /**
@@ -79,7 +86,13 @@ export default class IdpOrganizationMemberInvitations extends Base {
      * @param invitationId ID of the invitation
      * @returns The patched invitation
      */
-    public accept = async (orgName: string, invitationId: string): Promise<OrganizationMemberInvitation> => this.respond(orgName, invitationId, true);
+    public async accept<R extends boolean = false>(
+        orgName: string,
+        invitationId: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, OrganizationMemberInvitation>> {
+        return this.respond(orgName, invitationId, true, raw);
+    }
 
     /**
      * Reject an invitation.
@@ -90,8 +103,13 @@ export default class IdpOrganizationMemberInvitations extends Base {
      * @param invitationId ID of the invitation
      * @returns The patched invitation
      */
-    public reject = async (orgName: string, invitationId: string): Promise<OrganizationMemberInvitation> =>
-        this.respond(orgName, invitationId, false);
+    public async reject<R extends boolean = false>(
+        orgName: string,
+        invitationId: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, OrganizationMemberInvitation>> {
+        return this.respond(orgName, invitationId, false, raw);
+    }
 
     /**
      * Respond to an invitation.
@@ -101,7 +119,12 @@ export default class IdpOrganizationMemberInvitations extends Base {
      * @param accept Whether or not to accept the invitation
      * @returns The patched invitation
      */
-    public respond = async (orgName: string, invitationId: string, accept: boolean): Promise<OrganizationMemberInvitation> => {
+    public async respond<R extends boolean = false>(
+        orgName: string,
+        invitationId: string,
+        accept: boolean,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, OrganizationMemberInvitation>> {
         const resp = await this.axios.patch<OrganizationMemberInvitation>(
             this.getEndpoint(`/${orgName}/members/invitations/${invitationId}/approval`),
             {
@@ -109,8 +132,8 @@ export default class IdpOrganizationMemberInvitations extends Base {
             }
         );
 
-        return resp.data;
-    };
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, OrganizationMemberInvitation>;
+    }
 
     /**
      * Resends an invitation email.
@@ -118,9 +141,14 @@ export default class IdpOrganizationMemberInvitations extends Base {
      * @param orgName Name of the Organization
      * @param invitationId ID of the invitation
      */
-    public resendInvitationEmail = async (orgName: string, invitationId: string): Promise<void> => {
-        await this.axios.post<void>(this.getEndpoint(`/${orgName}/members/invitations/${invitationId}/resend`));
-    };
+    public async resendInvitationEmail<R extends boolean = false>(
+        orgName: string,
+        invitationId: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, void>> {
+        const repo = await this.axios.post<void>(this.getEndpoint(`/${orgName}/members/invitations/${invitationId}/resend`));
+        return (raw?.raw ? repo : repo.data) as MaybeRaw<R, void>;
+    }
 
     /**
      * Cancel/Delete an invitation.
@@ -128,9 +156,10 @@ export default class IdpOrganizationMemberInvitations extends Base {
      * @param orgName Name of the Organization
      * @param invitationId ID of the invitation
      */
-    public delete = async (orgName: string, invitationId: string): Promise<void> => {
-        await this.axios.delete(this.getEndpoint(`/${orgName}/members/invitations/${invitationId}`));
-    };
+    public async delete<R extends boolean = false>(orgName: string, invitationId: string, raw?: { raw: R }): Promise<MaybeRaw<R, void>> {
+        const repo = await this.axios.delete(this.getEndpoint(`/${orgName}/members/invitations/${invitationId}`));
+        return (raw?.raw ? repo : repo.data) as MaybeRaw<R, void>;
+    }
 
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/account/v1/org${endpoint}`;

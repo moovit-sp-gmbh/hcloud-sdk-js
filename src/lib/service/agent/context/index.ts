@@ -1,4 +1,4 @@
-import Base from "../../../Base";
+import Base, { MaybeRaw } from "../../../Base";
 import { Context } from "../../../interfaces/agent/context";
 
 export class AgentContext extends Base {
@@ -6,17 +6,23 @@ export class AgentContext extends Base {
      * Retrieves all contexts.
      * @returns The requested contexts
      */
-    async getContexts(): Promise<Context[]> {
+    async getContexts<R extends boolean = false>(raw?: { raw: R }): Promise<MaybeRaw<R, Context[]>> {
         const resp = await this.axios.get<Context[]>(this.getEndpoint(`/v1/context`));
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Context[]>;
     }
 
     /**
      * Add a new context.
      * @returns The newly created context
      */
-    async addContext(server: string, email: string, token: string, enabled: boolean): Promise<Context> {
+    async addContext<R extends boolean = false>(
+        server: string,
+        email: string,
+        token: string,
+        enabled: boolean,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Context>> {
         const resp = await this.axios.post<Context>(this.getEndpoint(`/v1/context`), {
             server,
             email,
@@ -24,28 +30,40 @@ export class AgentContext extends Base {
             enabled,
         });
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Context>;
     }
 
     /**
      * Add a new context by using a service accounts PAT token.
      * @returns The newly created context
      */
-    async addServiceAccountContext(server: string, token: string, enabled: boolean): Promise<Context> {
+    async addServiceAccountContext<R extends boolean = false>(
+        server: string,
+        token: string,
+        enabled: boolean,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Context>> {
         const resp = await this.axios.post<Context>(this.getEndpoint(`/v1/context`), {
             server,
             token: token.toLowerCase().startsWith("bearer") ? token : `Bearer ${token}`,
             enabled,
         });
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Context>;
     }
 
     /**
      * Update an existing context.
      * @returns The updated context
      */
-    async updateContext(uuid: string, server: string, email: string, token: string, enabled: boolean): Promise<Context> {
+    async updateContext<R extends boolean = false>(
+        uuid: string,
+        server: string,
+        email: string,
+        token: string,
+        enabled: boolean,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Context>> {
         const resp = await this.axios.patch<Context>(this.getEndpoint(`/v1/context/${uuid}`), {
             server,
             email,
@@ -53,37 +71,38 @@ export class AgentContext extends Base {
             enabled,
         });
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Context>;
     }
 
     /**
      * Get an existing context.
      * @returns The requested context
      */
-    async getContext(uuid: string): Promise<Context> {
+    async getContext<R extends boolean = false>(uuid: string, raw?: { raw: R }): Promise<MaybeRaw<R, Context>> {
         const resp = await this.axios.get<Context>(this.getEndpoint(`/v1/context/${uuid}`));
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Context>;
     }
 
     /**
      * Delete a context.
      * @returns void
      */
-    async deleteContext(uuid: string): Promise<void> {
-        await this.axios.delete<Context>(this.getEndpoint(`/v1/context/${uuid}`));
+    async deleteContext<R extends boolean = false>(uuid: string, raw?: { raw: R }): Promise<MaybeRaw<R, Context>> {
+        const resp = await this.axios.delete<Context>(this.getEndpoint(`/v1/context/${uuid}`));
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Context>;
     }
 
     /**
      * Patch the enabled property of a Context.
      * @returns Updated Context
      */
-    async patchContextEnabled(uuid: string, enabled: boolean): Promise<Context> {
+    async patchContextEnabled<R extends boolean = false>(uuid: string, enabled: boolean, raw?: { raw: R }): Promise<MaybeRaw<R, Context>> {
         const res = await this.axios.patch<Context>(this.getEndpoint(`/v1/context/${uuid}/enabled`), {
             enabled,
         });
 
-        return res.data;
+        return (raw?.raw ? res : res.data) as MaybeRaw<R, Context>;
     }
 
     protected getEndpoint(endpoint: string): string {

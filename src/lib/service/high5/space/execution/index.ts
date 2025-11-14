@@ -1,4 +1,4 @@
-import Base from "../../../../Base";
+import Base, { MaybeRaw } from "../../../../Base";
 import { DebugCommand } from "../../../../interfaces/high5";
 import {
     High5ExecutionPackage,
@@ -36,15 +36,16 @@ export class High5SpaceExecute extends Base {
      * @param overrideUserAgent if true the User-Agent header will be overwritten with "hcloud-stream" to identify this execution got triggered from within a stream with the TriggerStreamAction node
      * @returns the stream result
      */
-    async executeHigh5Stream(
+    async executeHigh5Stream<R extends boolean = false>(
         orgName: string,
         spaceName: string,
         streamId: string,
         high5ExecutionRequest: High5ExecutionRequest,
         design = false,
         debug = false,
-        overrideUserAgent = false
-    ): Promise<High5ExecutionResponse> {
+        overrideUserAgent = false,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, High5ExecutionResponse>> {
         if (overrideUserAgent) {
             this.axios.defaults.headers.common["User-Agent"] = "hcloud-stream";
         }
@@ -59,7 +60,7 @@ export class High5SpaceExecute extends Base {
             }
         );
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, High5ExecutionResponse>;
     }
 
     /**
@@ -70,18 +71,19 @@ export class High5SpaceExecute extends Base {
      * @param eventExecutionRequest Event execution request containing payload, target and a boolean specifying if it should be a dry run
      * @returns Array of stream results
      */
-    async executeHigh5Event(
+    async executeHigh5Event<R extends boolean = false>(
         orgName: string,
         spaceName: string,
         eventName: string,
-        high5EventExecutionRequest: High5ExecutionRequest
-    ): Promise<High5ExecutionResponse[]> {
+        high5EventExecutionRequest: High5ExecutionRequest,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, High5ExecutionResponse[]>> {
         const resp = await this.axios.post<High5ExecutionResponse[]>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execute/event/name/${eventName}`),
             high5EventExecutionRequest
         );
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, High5ExecutionResponse[]>;
     }
 
     /**
@@ -92,12 +94,18 @@ export class High5SpaceExecute extends Base {
      * @param secret Secret of the Stream execution object
      * @returns StreamExecutionPackage
      */
-    async getStreamExecutionPackage(orgName: string, spaceName: string, streamId: string, secret: string): Promise<High5ExecutionPackage> {
+    async getStreamExecutionPackage<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        streamId: string,
+        secret: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, High5ExecutionPackage>> {
         const resp = await this.axios.get<High5ExecutionPackage>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execute/stream/id/${streamId}/package/${secret}`)
         );
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, High5ExecutionPackage>;
     }
 
     /**
@@ -109,13 +117,18 @@ export class High5SpaceExecute extends Base {
      * @param streamResult the result of the stream
      * @returns StreamLog
      */
-    async high5ExecutionStatusAndLogResponse(
+    async high5ExecutionStatusAndLogResponse<R extends boolean = false>(
         orgName: string,
         spaceName: string,
         secret: string,
-        high5ExecutionResponse: High5ExecutionPatch
-    ): Promise<void> {
-        await this.axios.patch<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execution/streams/${secret}`), high5ExecutionResponse);
+        high5ExecutionResponse: High5ExecutionPatch,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.patch<void>(
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execution/streams/${secret}`),
+            high5ExecutionResponse
+        );
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     /**
@@ -131,8 +144,15 @@ export class High5SpaceExecute extends Base {
      * @param executionId  ID of the execution. Obtained from High5ExecutionResponse
      * @param command      DebugCommand to send
      */
-    async issueDebugCommand(orgName: string, spaceName: string, executionId: string, command: DebugCommand): Promise<void> {
-        await this.axios.post<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execute/${executionId}/debug`), command);
+    async issueDebugCommand<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        executionId: string,
+        command: DebugCommand,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.post<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execute/${executionId}/debug`), command);
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     /**
@@ -146,8 +166,17 @@ export class High5SpaceExecute extends Base {
      * @param secret     the secret of the stream execution object
      * @param message    crash log
      */
-    async logExecutionCrash(orgName: string, spaceName: string, secret: string, message?: string): Promise<void> {
-        await this.axios.patch<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execution/streams/${secret}/crash`), { message });
+    async logExecutionCrash<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        secret: string,
+        message?: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.patch<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execution/streams/${secret}/crash`), {
+            message,
+        });
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     protected getEndpoint(endpoint: string): string {

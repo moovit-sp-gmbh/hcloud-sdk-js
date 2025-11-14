@@ -1,5 +1,5 @@
 import { AxiosInstance } from "axios";
-import Base, { Options } from "../../../Base";
+import Base, { MaybeRaw, Options } from "../../../Base";
 import { HcloudFeature } from "../../../interfaces/bouncer";
 
 export default class BouncerFeatures extends Base {
@@ -7,10 +7,10 @@ export default class BouncerFeatures extends Base {
         super(options, axios);
     }
 
-    async getHcloudFeatures(): Promise<HcloudFeature[]> {
+    async getHcloudFeatures<R extends boolean = false>(raw?: { raw: R }): Promise<MaybeRaw<R, HcloudFeature[]>> {
         const resp = await this.axios.get<HcloudFeature[]>(this.getEndpoint("/default.json"), {});
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, HcloudFeature[]>;
     }
 
     protected getEndpoint(endpoint: string): string {

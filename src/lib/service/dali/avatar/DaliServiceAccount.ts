@@ -1,4 +1,4 @@
-import Base from "../../../Base";
+import Base, { MaybeRaw } from "../../../Base";
 import { AvatarCreated } from "../../../interfaces/dali";
 
 export class DaliServiceAccount extends Base {
@@ -8,10 +8,10 @@ export class DaliServiceAccount extends Base {
      * @param serviceAccountId ID of the service account
      * @returns Public URL of the created avatar
      */
-    async createAvatar(orgName: string, serviceAccountId: string): Promise<AvatarCreated> {
+    async createAvatar<R extends boolean = false>(orgName: string, serviceAccountId: string, raw?: { raw: R }): Promise<MaybeRaw<R, AvatarCreated>> {
         const resp = await this.axios.post<AvatarCreated>(this.getEndpoint(`/v1/avatar/org/${orgName}/service-accounts/${serviceAccountId}`), {});
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, AvatarCreated>;
     }
 
     /**
@@ -19,8 +19,9 @@ export class DaliServiceAccount extends Base {
      * @param orgName Name of the organization
      * @param serviceAccountId ID of the service account
      */
-    async deleteAvatar(orgName: string, serviceAccountId: string): Promise<void> {
-        await this.axios.delete<string>(this.getEndpoint(`/v1/avatar/org/${orgName}/service-accounts/${serviceAccountId}`));
+    async deleteAvatar<R extends boolean = false>(orgName: string, serviceAccountId: string, raw?: { raw: R }): Promise<MaybeRaw<R, string>> {
+        const resp = await this.axios.delete<string>(this.getEndpoint(`/v1/avatar/org/${orgName}/service-accounts/${serviceAccountId}`));
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, string>;
     }
 
     /**
@@ -30,7 +31,12 @@ export class DaliServiceAccount extends Base {
      * @param file Image as Javascript File
      * @returns Public URL of the new avatar
      */
-    async updateAvatar(orgName: string, serviceAccountId: string, file: File): Promise<AvatarCreated> {
+    async updateAvatar<R extends boolean = false>(
+        orgName: string,
+        serviceAccountId: string,
+        file: File,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, AvatarCreated>> {
         const data = new FormData();
         data.append("avatar", file);
 
@@ -38,7 +44,7 @@ export class DaliServiceAccount extends Base {
             headers: { "Content-Type": "multipart/form-data" },
         });
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, AvatarCreated>;
     }
 
     protected getEndpoint(endpoint: string): string {

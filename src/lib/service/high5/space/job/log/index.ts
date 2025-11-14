@@ -1,4 +1,4 @@
-import Base from "../../../../../Base";
+import Base, { MaybeRaw } from "../../../../../Base";
 import { createPaginatedResponse } from "../../../../../helper/paginatedResponseHelper";
 import { SearchFilterDTO } from "../../../../../helper/searchFilter";
 import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../../interfaces/global";
@@ -16,15 +16,10 @@ export class High5JobLog extends Base {
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
      * @returns Object containing an array of filtered cronjob logs as well as the total number of results found in the database (independent of limit and page)
      */
-    async searchJobLogs({
-        orgName,
-        spaceName,
-        jobId,
-        filters,
-        sorting,
-        limit = 25,
-        page = 0,
-    }: SearchParams & { orgName: string; spaceName: string; jobId: string }): Promise<PaginatedResponse<JobLogDto>> {
+    async searchJobLogs<R extends boolean = false>(
+        { orgName, spaceName, jobId, filters, sorting, limit = 25, page = 0 }: SearchParams & { orgName: string; spaceName: string; jobId: string },
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, PaginatedResponse<JobLogDto>>> {
         const filtersDTO = filters?.map((f: SearchFilter) => {
             return new SearchFilterDTO(f);
         });
@@ -37,7 +32,10 @@ export class High5JobLog extends Base {
             }
         );
 
-        return createPaginatedResponse(resp) as PaginatedResponse<JobLogDto>;
+        return (raw?.raw ? { ...resp, data: createPaginatedResponse(resp) } : createPaginatedResponse(resp)) as MaybeRaw<
+            R,
+            PaginatedResponse<JobLogDto>
+        >;
     }
 
     /**
@@ -48,10 +46,16 @@ export class High5JobLog extends Base {
      * @param jobLogId ID of the cronjob log
      * @returns the cronjob log
      */
-    async getJobLog(orgName: string, spaceName: string, jobId: string, jobLogId: string): Promise<JobLogDto> {
+    async getJobLog<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        jobId: string,
+        jobLogId: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, JobLogDto>> {
         const resp = await this.axios.get<JobLogDto>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs/${jobId}/logs/${jobLogId}`));
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, JobLogDto>;
     }
 
     protected getEndpoint(endpoint: string): string {

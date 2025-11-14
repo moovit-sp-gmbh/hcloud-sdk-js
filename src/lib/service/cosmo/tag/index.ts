@@ -1,4 +1,4 @@
-import Base from "../../../Base";
+import Base, { MaybeRaw } from "../../../Base";
 import { CreateTag, PatchTag, Tag } from "../../../interfaces/cosmo/tag/tag";
 
 /**
@@ -25,13 +25,19 @@ export class CosmoTag extends Base {
      * @param createTag The Tag to be created
      * @returns The created tag
      */
-    async createTag(orgName: string, spaceName: string, namespaceName: string, createTag: CreateTag): Promise<Tag> {
+    async createTag<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        namespaceName: string,
+        createTag: CreateTag,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Tag>> {
         const resp = await this.axios.post<Tag>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/namespaces/${namespaceName}/tags`),
             createTag
         );
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Tag>;
     }
 
     /**
@@ -44,10 +50,15 @@ export class CosmoTag extends Base {
      * @param createTag The Tag to be created
      * @returns The created tag
      */
-    async getTags(orgName: string, spaceName: string, namespaceName: string): Promise<Tag[]> {
+    async getTags<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        namespaceName: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Tag[]>> {
         const resp = await this.axios.get<Tag[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/namespaces/${namespaceName}/tags`));
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Tag[]>;
     }
 
     /**
@@ -61,13 +72,20 @@ export class CosmoTag extends Base {
      * @param patchTag The Tag data to be updated
      * @returns The updated tag
      */
-    async updateTag(orgName: string, spaceName: string, namespaceName: string, tagName: string, patchTag: PatchTag): Promise<Tag> {
+    async updateTag<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        namespaceName: string,
+        tagName: string,
+        patchTag: PatchTag,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Tag>> {
         const resp = await this.axios.patch<Tag>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/namespaces/${namespaceName}/tags/${tagName}`),
             patchTag
         );
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Tag>;
     }
 
     /**
@@ -80,7 +98,14 @@ export class CosmoTag extends Base {
      * @param tagName Name of the Tag to be deleted
      * @returns 204 No Content if successful
      */
-    async deleteTag(orgName: string, spaceName: string, namespaceName: string, tagName: string): Promise<void> {
-        await this.axios.delete(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/namespaces/${namespaceName}/tags/${tagName}`));
+    async deleteTag<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        namespaceName: string,
+        tagName: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.delete(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/namespaces/${namespaceName}/tags/${tagName}`));
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 }

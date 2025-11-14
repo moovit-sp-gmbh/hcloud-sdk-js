@@ -1,4 +1,4 @@
-import Base from "../../../Base";
+import Base, { MaybeRaw } from "../../../Base";
 import { AvatarCreated } from "../../../interfaces/dali";
 
 export class DaliUser extends Base {
@@ -6,16 +6,17 @@ export class DaliUser extends Base {
      * Creates a default avatar for the requesting user.
      * @returns Public URL of the created avatar
      */
-    async createAvatar(): Promise<AvatarCreated> {
+    async createAvatar<R extends boolean = false>(raw?: { raw: R }): Promise<MaybeRaw<R, AvatarCreated>> {
         const resp = await this.axios.post<AvatarCreated>(this.getEndpoint(`/v1/avatar/user`), {});
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, AvatarCreated>;
     }
 
     /**
      * Deletes the avatar of the requesting user from cloud storage. If you want to update it instead, use updateAvatar().
      */
-    async deleteAvatar(): Promise<void> {
-        await this.axios.delete<string>(this.getEndpoint(`/v1/avatar/user`));
+    async deleteAvatar<R extends boolean = false>(raw?: { raw: R }): Promise<MaybeRaw<R, string>> {
+        const resp = await this.axios.delete<string>(this.getEndpoint(`/v1/avatar/user`));
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, string>;
     }
 
     /**
@@ -23,7 +24,7 @@ export class DaliUser extends Base {
      * @param file Image as Javascript File
      * @returns Public URL of the new avatar
      */
-    async updateAvatar(file: File): Promise<AvatarCreated> {
+    async updateAvatar<R extends boolean = false>(file: File, raw?: { raw: R }): Promise<MaybeRaw<R, AvatarCreated>> {
         const data = new FormData();
         data.append("avatar", file);
 
@@ -31,7 +32,7 @@ export class DaliUser extends Base {
             headers: { "Content-Type": "multipart/form-data" },
         });
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, AvatarCreated>;
     }
 
     protected getEndpoint(endpoint: string): string {

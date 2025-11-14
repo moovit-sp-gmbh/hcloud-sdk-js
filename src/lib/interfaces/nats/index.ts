@@ -169,18 +169,18 @@ interface NatsMessage {
 }
 interface NatsObject
     extends NatsNameObject,
-        NatsIdObject,
-        NatsMemberObject,
-        NatsSecretObject,
-        NatsExecTargetObject,
-        High5ExecuteOnAgentRequest,
-        High5ExecutionCancelRequest,
-        NatsLicenseObject,
-        NatsCustomNodeObject,
-        NatsAssetObject,
-        NatsIdNoUnderscoreObject,
-        NatsTargetObject,
-        NatsCosmoStatusObject {
+    NatsIdObject,
+    NatsMemberObject,
+    NatsSecretObject,
+    NatsExecTargetObject,
+    High5ExecuteOnAgentRequest,
+    High5ExecutionCancelRequest,
+    NatsLicenseObject,
+    NatsCustomNodeObject,
+    NatsAssetObject,
+    NatsIdNoUnderscoreObject,
+    NatsTargetObject,
+    NatsCosmoStatusObject {
     [NatsSubject.IDP_USER_GENERAL]: NatsIdObject;
     [NatsSubject.IDP_USER_PROFILE]: NatsIdObject;
     [NatsSubject.IDP_USER_SECURITY_PATS]: NatsIdObject;
@@ -573,9 +573,6 @@ class NatsSubjects {
                 return NatsSubjects.replace(NatsSubject.COSMO_NAMESPACES, { organizationName, spaceName });
             };
             static Namespace = class {
-                static COMMENTS = (organizationName: string, spaceName: string, namespaceName: string, assetId: string) => {
-                    return NatsSubjects.replace(NatsSubject.COSMO_COMMENTS, { organizationName, spaceName, namespaceName, assetId });
-                };
                 static TAGS = (organizationName: string, spaceName: string, namespaceName: string) => {
                     return NatsSubjects.replace(NatsSubject.COSMO_TAGS_NAMESPACE, { organizationName, spaceName, namespaceName });
                 };
@@ -593,6 +590,9 @@ class NatsSubjects {
                 return NatsSubjects.replace(NatsSubject.COSMO_ROLES, { organizationName, spaceName });
             };
             static Asset = class {
+                static COMMENTS = (organizationName: string, spaceName: string, namespaceName: string, assetId: string) => {
+                    return NatsSubjects.replace(NatsSubject.COSMO_COMMENTS, { organizationName, spaceName, namespaceName, assetId });
+                };
                 static TAGS = (organizationName: string, spaceName: string, namespaceName: string, assetId: string) => {
                     return NatsSubjects.replace(NatsSubject.COSMO_TAGS_ASSET, { organizationName, spaceName, namespaceName, assetId });
                 };

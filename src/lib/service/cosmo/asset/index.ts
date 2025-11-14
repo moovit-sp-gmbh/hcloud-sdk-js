@@ -201,29 +201,6 @@ export class CosmoAsset extends Base {
     }
 
     /**
-     * Move an asset to a new parent.
-     * @remarks
-     * ** Under development, breaking changes possible**
-     * @param orgName Name of the Organization
-     * @param spaceName Name of the Space
-     * @param assetId ID of the Asset to be moved
-     * @param newParentId (optional) ID of the new parent Asset to which the asset will be moved. The asset will be moved to the root if not provided.
-     * @returns The moved asset
-     */
-    async moveAsset<R extends boolean = false>(
-        orgName: string,
-        spaceName: string,
-        assetId: string,
-        newParentId?: string,
-        raw?: { raw: R }
-    ): Promise<MaybeRaw<R, Asset>> {
-        const resp = await this.axios.put<Asset>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets/${assetId}/move`), {
-            parentId: newParentId,
-        });
-        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Asset>;
-    }
-
-    /**
      * Move assets to the trash bin.
      * @remarks
      * ** Under development, breaking changes possible**

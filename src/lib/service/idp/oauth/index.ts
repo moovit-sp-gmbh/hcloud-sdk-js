@@ -1,4 +1,4 @@
-import Base from "../../../Base"
+import Base, { MaybeRaw } from "../../../Base"
 import { OAuthToken, OAuthTokenRequest } from "../../../interfaces/idp/oauth"
 import { OAuthAppPublicInfo } from "../../../interfaces/idp/organization/settings/oauthApp"
 
@@ -11,7 +11,11 @@ export class IdpOAuth extends Base {
      * redirect_uri, scopes and optionally state.
      * @returns the entire redirect uri including the authorization code if successful
      */
-    async getAuthorizationCodeInsideRedirectUrl(queryString: string, doNotRedirect?: boolean): Promise<string> {
+    async getAuthorizationCodeInsideRedirectUrl<R extends boolean = false>(
+        queryString: string,
+        doNotRedirect?: boolean,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, string>> {
         if (!queryString.startsWith("?")) {
             queryString = `?${queryString}`;
         }
@@ -19,12 +23,12 @@ export class IdpOAuth extends Base {
             queryString += "&no_redirect=true";
         }
 
-        const response = await this.axios.get(this.getEndpoint(`/v1/login/oauth/authorize${queryString}`), { maxRedirects: 0 });
+        const resp = await this.axios.get(this.getEndpoint(`/v1/login/oauth/authorize${queryString}`), { maxRedirects: 0 });
 
         if (doNotRedirect) {
-            return response.data.redirectUrl;
+            return (raw?.raw ? resp : resp.data.redirectUrl) as MaybeRaw<R, string>;
         }
-        return response.headers.location;
+        return (raw?.raw ? resp : resp.headers.location) as MaybeRaw<R, string>;
     }
 
     /**
@@ -39,7 +43,11 @@ export class IdpOAuth extends Base {
      * @returns A string with the redirect URL if the user already consented to the specificied scope. Otherwise, an OAuthApp
      * @see OAuthApp
      */
-    async getInfoOrAuthorizationCodeInsideRedirectUrl(queryString: string, doNotRedirect?: boolean): Promise<string> {
+    async getInfoOrAuthorizationCodeInsideRedirectUrl<R extends boolean = false>(
+        queryString: string,
+        doNotRedirect?: boolean,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, string>> {
         if (!queryString.startsWith("?")) {
             queryString = `?${queryString}`;
         }
@@ -52,10 +60,10 @@ export class IdpOAuth extends Base {
         });
 
         if (response.status < 300) {
-            return response.data.redirectUrl;
+            return (raw?.raw ? response : response.data.redirectUrl) as MaybeRaw<R, string>;
         }
 
-        return response.headers.location;
+        return (raw?.raw ? response : response.headers.location) as MaybeRaw<R, string>;
     }
 
     /**
@@ -66,7 +74,11 @@ export class IdpOAuth extends Base {
      * redirect_uri, scopes and optionally state.
      * @returns the entire redirect uri including the authorization code if successful
      */
-    async createScopesAndGetAuthorizationCodeInsideRedirectUrl(queryString: string, doNotRedirect?: boolean): Promise<string> {
+    async createScopesAndGetAuthorizationCodeInsideRedirectUrl<R extends boolean = false>(
+        queryString: string,
+        doNotRedirect?: boolean,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, string>> {
         if (!queryString.startsWith("?")) {
             queryString = `?${queryString}`;
         }
@@ -74,21 +86,21 @@ export class IdpOAuth extends Base {
             queryString += "&no_redirect=true";
         }
 
-        const response = await this.axios.post(this.getEndpoint(`/v1/login/oauth/authorize${queryString}`));
+        const resp = await this.axios.post(this.getEndpoint(`/v1/login/oauth/authorize${queryString}`));
 
         if (doNotRedirect) {
-            return response.data.redirectUrl;
+            return (raw?.raw ? resp : resp.data.redirectUrl) as MaybeRaw<R, string>;
         }
-        return response.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, string>;
     }
 
     /**
      * A valid code can be used to request a new API token.
      * @param tokenRequest contains the code, client_id, client_secret and redirect_uri
      */
-    async exchangeCodeForToken(tokenRequest: OAuthTokenRequest): Promise<OAuthToken> {
+    async exchangeCodeForToken<R extends boolean = false>(tokenRequest: OAuthTokenRequest, raw?: { raw: R }): Promise<MaybeRaw<R, OAuthToken>> {
         const response = await this.axios.post<OAuthToken>(this.getEndpoint(`/v1/login/oauth/access_token`), tokenRequest);
-        return response.data;
+        return (raw?.raw ? response : response.data) as MaybeRaw<R, OAuthToken>;
     }
 
     /**
@@ -97,10 +109,10 @@ export class IdpOAuth extends Base {
      * @param clientId {string} - Client ID of the OAuth app
      * @returns Public OAuth app information
      */
-    async getOAuthAppInfo(clientId: string): Promise<OAuthAppPublicInfo> {
+    async getOAuthAppInfo<R extends boolean = false>(clientId: string, raw?: { raw: R }): Promise<MaybeRaw<R, OAuthAppPublicInfo>> {
         const response = await this.axios.get<OAuthAppPublicInfo>(this.getEndpoint(`/v1/login/oauth/app/${clientId}`));
 
-        return response.data;
+        return (raw?.raw ? response : response.data) as MaybeRaw<R, OAuthAppPublicInfo>;
     }
 
     protected getEndpoint(endpoint: string): string {

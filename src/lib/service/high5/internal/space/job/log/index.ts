@@ -1,4 +1,4 @@
-import Base from "../../../../../../Base";
+import Base, { MaybeRaw } from "../../../../../../Base";
 import { JobLogCreate, JobLogDto } from "../../../../../../interfaces/high5/space/job/JobLog";
 
 export class High5JobLogInternal extends Base {
@@ -11,10 +11,16 @@ export class High5JobLogInternal extends Base {
      * @param createJobLog Cronjob log to be created
      * @returns the created cronjob log with metadata
      */
-    async createJobLog(orgName: string, spaceName: string, jobId: string, log: JobLogCreate): Promise<JobLogDto> {
+    async createJobLog<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        jobId: string,
+        log: JobLogCreate,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, JobLogDto>> {
         const resp = await this.axios.post<JobLogDto>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs/${jobId}/logs}`), log);
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, JobLogDto>;
     }
 
     protected getEndpoint(endpoint: string): string {

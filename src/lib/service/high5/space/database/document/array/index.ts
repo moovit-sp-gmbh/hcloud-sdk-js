@@ -1,4 +1,4 @@
-import Base from "../../../../../../Base";
+import Base, { MaybeRaw } from "../../../../../../Base";
 import { createPaginatedResponse } from "../../../../../../helper/paginatedResponseHelper";
 import { SearchFilterDTO } from "../../../../../../helper/searchFilter";
 import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../../../interfaces/global";
@@ -17,16 +17,19 @@ export class High5DocumentArray extends Base {
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
      * @returns Object containing an array of items and the total number of results found in the document (independent of limit and page)
      */
-    async searchItems({
-        orgName,
-        spaceName,
-        dbName,
-        key,
-        filters,
-        sorting,
-        limit = 25,
-        page = 0,
-    }: SearchParams & { orgName: string; spaceName: string; dbName: string; key: string }): Promise<PaginatedResponse<object>> {
+    async searchItems<R extends boolean = false>(
+        {
+            orgName,
+            spaceName,
+            dbName,
+            key,
+            filters,
+            sorting,
+            limit = 25,
+            page = 0,
+        }: SearchParams & { orgName: string; spaceName: string; dbName: string; key: string },
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, PaginatedResponse<object>>> {
         const filtersDTO = filters?.map((f: SearchFilter) => new SearchFilterDTO(f));
 
         const resp = await this.axios.post<object[]>(
@@ -37,7 +40,10 @@ export class High5DocumentArray extends Base {
             }
         );
 
-        return createPaginatedResponse(resp) as PaginatedResponse<object>;
+        return (raw?.raw ? { ...resp, data: createPaginatedResponse(resp) } : createPaginatedResponse(resp)) as MaybeRaw<
+            R,
+            PaginatedResponse<object>
+        >;
     }
 
     /**
@@ -49,12 +55,19 @@ export class High5DocumentArray extends Base {
      * @param index Index of the arrays item
      * @returns The requested item of the array
      */
-    async getItem(orgName: string, spaceName: string, dbName: string, key: string, index: number): Promise<object> {
+    async getItem<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        dbName: string,
+        key: string,
+        index: number,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, object>> {
         const resp = await this.axios.get<object>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/databases/${dbName}/documents/${key}/index/${index}`)
         );
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, object>;
     }
 
     /**
@@ -65,8 +78,18 @@ export class High5DocumentArray extends Base {
      * @param key Key of the Document
      * @param index Index of the item of the array
      */
-    async deleteItem(orgName: string, spaceName: string, dbName: string, key: string, index: number): Promise<void> {
-        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/databases/${dbName}/documents/${key}/index/${index}`));
+    async deleteItem<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        dbName: string,
+        key: string,
+        index: number,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.delete<void>(
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/databases/${dbName}/documents/${key}/index/${index}`)
+        );
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     /**
@@ -78,13 +101,20 @@ export class High5DocumentArray extends Base {
      * @param items New array items to be added to the end of the specified array document
      * @returns Updated Document
      */
-    async pushItems(orgName: string, spaceName: string, dbName: string, key: string, items: Array<unknown>): Promise<Document> {
+    async pushItems<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        dbName: string,
+        key: string,
+        items: Array<unknown>,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Document>> {
         const resp = await this.axios.patch<Document>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/databases/${dbName}/documents/${key}/push`),
             { value: items }
         );
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Document>;
     }
 
     /**
@@ -96,13 +126,20 @@ export class High5DocumentArray extends Base {
      * @param items New array items to be inserted to the beginning of the specified array document
      * @returns Updated Document
      */
-    async unshiftItems(orgName: string, spaceName: string, dbName: string, key: string, items: Array<unknown>): Promise<Document> {
+    async unshiftItems<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        dbName: string,
+        key: string,
+        items: Array<unknown>,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Document>> {
         const resp = await this.axios.patch<Document>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/databases/${dbName}/documents/${key}/unshift`),
             { value: items }
         );
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Document>;
     }
 
     protected getEndpoint(endpoint: string): string {

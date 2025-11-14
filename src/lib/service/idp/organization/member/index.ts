@@ -1,4 +1,4 @@
-import Base from "../../../../Base";
+import Base, { MaybeRaw } from "../../../../Base";
 import { createPaginatedResponse } from "../../../../helper/paginatedResponseHelper";
 import { SearchFilterDTO } from "../../../../helper/searchFilter";
 import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../interfaces/global";
@@ -24,17 +24,18 @@ export class IdpOrganizationMember extends Base {
      * @param page (optional) Page number to skip the first (page * limit) results (defaults to 0)
      * @returns Object containing an array of Organization Members and the total number of results found in the database (independent of limit and page)
      */
-    async searchOrganizationMembers({
-        orgName,
-        filters,
-        excludeTeamByName,
-        excludeServiceAccounts,
-        sorting,
-        limit = 25,
-        page = 0,
-    }: SearchParams & { orgName: string; excludeTeamByName?: string; excludeServiceAccounts?: boolean }): Promise<
-        PaginatedResponse<OrganizationMember>
-    > {
+    async searchOrganizationMembers<R extends boolean = false>(
+        {
+            orgName,
+            filters,
+            excludeTeamByName,
+            excludeServiceAccounts,
+            sorting,
+            limit = 25,
+            page = 0,
+        }: SearchParams & { orgName: string; excludeTeamByName?: string; excludeServiceAccounts?: boolean },
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, PaginatedResponse<OrganizationMember>>> {
         const filtersDTO = filters?.map((f: SearchFilter) => {
             return new SearchFilterDTO(f);
         });
@@ -45,7 +46,10 @@ export class IdpOrganizationMember extends Base {
             excludeServiceAccounts,
         });
 
-        return createPaginatedResponse(resp) as PaginatedResponse<OrganizationMember>;
+        return (raw?.raw ? { ...resp, data: createPaginatedResponse(resp) } : createPaginatedResponse(resp)) as MaybeRaw<
+            R,
+            PaginatedResponse<OrganizationMember>
+        >;
     }
 
     /**
@@ -54,10 +58,14 @@ export class IdpOrganizationMember extends Base {
      * @param userId ID of the user
      * @returns The requested Organization Member
      */
-    async getOrganizationMember(orgName: string, userId: string): Promise<OrganizationMember> {
+    async getOrganizationMember<R extends boolean = false>(
+        orgName: string,
+        userId: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, OrganizationMember>> {
         const resp = await this.axios.get<OrganizationMember>(this.getEndpoint(`/${orgName}/members/${userId}`));
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, OrganizationMember>;
     }
 
     /**
@@ -67,10 +75,15 @@ export class IdpOrganizationMember extends Base {
      * @param orgMemberPatch New role
      * @returns The updated OrganizationMember
      */
-    async patchOrganizationMemberRole(orgName: string, userId: string, orgMemberPatch: OrgMemberPatch): Promise<OrganizationMember> {
+    async patchOrganizationMemberRole<R extends boolean = false>(
+        orgName: string,
+        userId: string,
+        orgMemberPatch: OrgMemberPatch,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, OrganizationMember>> {
         const resp = await this.axios.patch<OrganizationMember>(this.getEndpoint(`/${orgName}/members/${userId}/role`), orgMemberPatch);
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, OrganizationMember>;
     }
 
     /**
@@ -80,12 +93,17 @@ export class IdpOrganizationMember extends Base {
      * @param executionTarget Boolean value to set
      * @returns The updated OrganizationMember
      */
-    async patchOrganizationExecutionTarget(orgName: string, userId: string, executionTarget: boolean): Promise<OrganizationMember> {
+    async patchOrganizationExecutionTarget<R extends boolean = false>(
+        orgName: string,
+        userId: string,
+        executionTarget: boolean,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, OrganizationMember>> {
         const resp = await this.axios.patch<OrganizationMember>(this.getEndpoint(`/${orgName}/members/${userId}/executionTarget`), {
             executionTarget,
         });
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, OrganizationMember>;
     }
 
     /**
@@ -93,16 +111,18 @@ export class IdpOrganizationMember extends Base {
      * @param orgName Name of the Organization
      * @param userId ID of the User
      */
-    async removeOrganizationMember(orgName: string, userId: string): Promise<void> {
-        await this.axios.delete<void>(this.getEndpoint(`/${orgName}/members/${userId}`));
+    async removeOrganizationMember<R extends boolean = false>(orgName: string, userId: string, raw?: { raw: R }): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.delete<void>(this.getEndpoint(`/${orgName}/members/${userId}`));
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     /**
      * Member leaves the organization independently.
      * @param orgName Name of the Organization
      */
-    async leaveOrganization(orgName: string): Promise<void> {
-        await this.axios.delete<void>(this.getEndpoint(`/${orgName}/members`));
+    async leaveOrganization<R extends boolean = false>(orgName: string, raw?: { raw: R }): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.delete<void>(this.getEndpoint(`/${orgName}/members`));
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     protected getEndpoint(endpoint: string): string {

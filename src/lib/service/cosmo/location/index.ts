@@ -1,4 +1,4 @@
-import Base from "../../../Base";
+import Base, { MaybeRaw } from "../../../Base";
 import { Asset, AssetFilter } from "../../../interfaces/cosmo/asset";
 import { Location } from "../../../interfaces/cosmo/location";
 
@@ -25,12 +25,17 @@ export class CosmoLocation extends Base {
      * @param locationName Name of the Location to create
      * @returns The created Location
      */
-    async createLocation(orgName: string, spaceName: string, locationName: string): Promise<Location> {
+    async createLocation<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        locationName: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Location>> {
         const resp = await this.axios.post<Location>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/locations`), {
             name: locationName,
         });
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Location>;
     }
 
     /**
@@ -43,11 +48,17 @@ export class CosmoLocation extends Base {
      * @param assetFilter Filter for assets in the Space
      * @returns The found Assets
      */
-    async searchAssetsOfLocation(orgName: string, spaceName: string, locationId: string, assetFilter: AssetFilter[]): Promise<Asset[]> {
+    async searchAssetsOfLocation<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        locationId: string,
+        assetFilter: AssetFilter[],
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Asset[]>> {
         const resp = await this.axios.post<Asset[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/locations/${locationId}/assets`), {
             filters: assetFilter,
         });
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Asset[]>;
     }
 }

@@ -1,4 +1,4 @@
-import Base from "../../../Base";
+import Base, { MaybeRaw } from "../../../Base";
 import { Comment, CreateComment, EditComment, Reply } from "../../../interfaces/cosmo/comment";
 
 /**
@@ -26,19 +26,20 @@ export class CosmoComment extends Base {
      * @param annotation Whether to include annotations in the response
      * @returns The created Comment
      */
-    async createComment(
+    async createComment<R extends boolean = false>(
         orgName: string,
         spaceName: string,
         namespaceName: string,
         comment: CreateComment,
-        annotation: boolean = false
-    ): Promise<Comment> {
+        annotation: boolean = false,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Comment | Reply>> {
         const resp = await this.axios.post<Comment | Reply>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/namespaces/${namespaceName}/comments?annotation=${annotation}`),
             comment
         );
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Comment | Reply>;
     }
 
     /**
@@ -55,7 +56,7 @@ export class CosmoComment extends Base {
      *
      * @returns A list of Comments
      */
-    async listComments(
+    async listComments<R extends boolean = false>(
         orgName: string,
         spaceName: string,
         namespaceName: string,
@@ -63,8 +64,9 @@ export class CosmoComment extends Base {
         limit?: number,
         page?: number,
         annotation: boolean = false,
-        replySample: number = 0
-    ): Promise<Comment[]> {
+        replySample: number = 0,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Comment[]>> {
         limit = limit ?? 100;
         page = page ?? 0;
         const resp = await this.axios.get<Comment[]>(
@@ -73,7 +75,7 @@ export class CosmoComment extends Base {
             )
         );
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Comment[]>;
     }
 
     /**
@@ -89,20 +91,21 @@ export class CosmoComment extends Base {
      *
      * @returns The edited Comment
      */
-    async editComment(
+    async editComment<R extends boolean = false>(
         orgName: string,
         spaceName: string,
         namespaceName: string,
         commentId: string,
         editComment: EditComment,
-        annotation: boolean = false
-    ): Promise<Comment | Reply> {
+        annotation: boolean = false,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Comment | Reply>> {
         const resp = await this.axios.patch<Comment>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/namespaces/${namespaceName}/comments/${commentId}?annotation=${annotation}`),
             editComment
         );
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Comment | Reply>;
     }
 
     /**
@@ -117,18 +120,19 @@ export class CosmoComment extends Base {
      *
      * @returns The requested Comment
      */
-    async getComment(
+    async getComment<R extends boolean = false>(
         orgName: string,
         spaceName: string,
         namespaceName: string,
         commentId: string,
-        annotation: boolean = false
-    ): Promise<Comment | Reply> {
+        annotation: boolean = false,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Comment | Reply>> {
         const resp = await this.axios.get<Comment>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/namespaces/${namespaceName}/comments/${commentId}?annotation=${annotation}`)
         );
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Comment | Reply>;
     }
 
     /**
@@ -142,10 +146,17 @@ export class CosmoComment extends Base {
      *
      * @returns 204 No Content on success
      */
-    async deleteComment(orgName: string, spaceName: string, namespaceName: string, commentIds: string[]): Promise<void> {
-        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/namespaces/${namespaceName}/comments`), {
+    async deleteComment<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        namespaceName: string,
+        commentIds: string[],
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/namespaces/${namespaceName}/comments`), {
             data: { commentIds },
         });
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     /**
@@ -161,20 +172,21 @@ export class CosmoComment extends Base {
      *
      * @returns The edited Comment
      */
-    async editCommentText(
+    async editCommentText<R extends boolean = false>(
         orgName: string,
         spaceName: string,
         namespaceName: string,
         commentId: string,
         text: string,
-        annotation: boolean = false
-    ): Promise<Comment | Reply> {
+        annotation: boolean = false,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Comment | Reply>> {
         const resp = await this.axios.patch<Comment>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/namespaces/${namespaceName}/comments/${commentId}?annotation=${annotation}`),
             { text: text }
         );
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Comment | Reply>;
     }
 
     /**
@@ -190,19 +202,20 @@ export class CosmoComment extends Base {
      *
      * @returns The edited Comment
      */
-    async editCommentAnnotation(
+    async editCommentAnnotation<R extends boolean = false>(
         orgName: string,
         spaceName: string,
         namespaceName: string,
         commentId: string,
         newAnnotationContent: string,
-        annotation: boolean = false
-    ): Promise<Comment | Reply> {
+        annotation: boolean = false,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Comment | Reply>> {
         const resp = await this.axios.patch<Comment>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/namespaces/${namespaceName}/comments/${commentId}?annotation=${annotation}`),
             { annotation: newAnnotationContent }
         );
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Comment | Reply>;
     }
 }

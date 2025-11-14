@@ -1,4 +1,4 @@
-import Base from "../../../Base";
+import Base, { MaybeRaw } from "../../../Base";
 import { Organization, OrganizationQueryOptions } from "../../../interfaces/idp/organization";
 import { IdpOrganizationLicense } from "./license";
 import { IdpOrganizationMember } from "./member";
@@ -69,11 +69,16 @@ export class IdpOrganization extends Base {
      * @param company (optional) New company name
      * @returns The updated Organization
      */
-    async updateOrganization(orgName: string, newName: string, company?: string): Promise<Organization> {
+    async updateOrganization<R extends boolean = false>(
+        orgName: string,
+        newName: string,
+        company?: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Organization>> {
         const organization = { name: newName, company: company } as Organization;
         const resp = await this.axios.patch<Organization>(this.getEndpoint(`/v1/org/${orgName}`), organization);
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Organization>;
     }
 
     /**
@@ -82,11 +87,11 @@ export class IdpOrganization extends Base {
      * @param company (optional) Company name for the new Organization
      * @returns The created Organization
      */
-    async createOrganization(name: string, company?: string): Promise<Organization> {
+    async createOrganization<R extends boolean = false>(name: string, company?: string, raw?: { raw: R }): Promise<MaybeRaw<R, Organization>> {
         const organization = { name: name, company: company } as Organization;
         const resp = await this.axios.post<Organization>(this.getEndpoint(`/v1/org`), organization);
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Organization>;
     }
 
     /**
@@ -95,7 +100,11 @@ export class IdpOrganization extends Base {
      * @param options Defines query options to retrieve additional properties in the response
      * @returns The requested Organization
      */
-    public async getOrganization(orgName: string, options?: OrganizationQueryOptions): Promise<Organization> {
+    public async getOrganization<R extends boolean = false>(
+        orgName: string,
+        options?: OrganizationQueryOptions,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Organization>> {
         const resp = await this.axios.get<Organization>(this.getEndpoint(`/v1/org/${orgName}`), {
             params: {
                 teamsOfUser: options?.getTeamsOfUser,
@@ -105,15 +114,16 @@ export class IdpOrganization extends Base {
             },
         });
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Organization>;
     }
 
     /**
      * Deletes an Organization. This will also delete all dependencies that the Organization has (Teams, Spaces, apps, ...).
      * @param orgName Name of the Organization to be deleted
      */
-    async deleteOrganization(orgName: string): Promise<void> {
-        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}`));
+    async deleteOrganization<R extends boolean = false>(orgName: string, raw?: { raw: R }): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}`));
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     protected getEndpoint(endpoint: string): string {

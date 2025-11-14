@@ -1,4 +1,4 @@
-import Base from "../../../../../Base";
+import Base, { MaybeRaw } from "../../../../../Base";
 import { createPaginatedResponse } from "../../../../../helper/paginatedResponseHelper";
 import { SearchFilterDTO } from "../../../../../helper/searchFilter";
 import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../../interfaces/global";
@@ -25,19 +25,22 @@ export class High5Stream extends Base {
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
      * @returns Object containing an array of streams as well as the total number of results found in the database (independent of limit and page)
      */
-    async searchStreams({
-        orgName,
-        spaceName,
-        eventName,
-        filters,
-        sorting,
-        limit = 25,
-        page = 0,
-    }: SearchParams & {
-        orgName: string;
-        spaceName: string;
-        eventName: string;
-    }): Promise<PaginatedResponse<Stream>> {
+    async searchStreams<R extends boolean = false>(
+        {
+            orgName,
+            spaceName,
+            eventName,
+            filters,
+            sorting,
+            limit = 25,
+            page = 0,
+        }: SearchParams & {
+            orgName: string;
+            spaceName: string;
+            eventName: string;
+        },
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, PaginatedResponse<Stream>>> {
         const filtersDTO = filters?.map((f: SearchFilter) => new SearchFilterDTO(f));
 
         const resp = await this.axios.post<Stream[]>(
@@ -48,7 +51,10 @@ export class High5Stream extends Base {
             }
         );
 
-        return createPaginatedResponse(resp) as PaginatedResponse<Stream>;
+        return (raw?.raw ? { ...resp, data: createPaginatedResponse(resp) } : createPaginatedResponse(resp)) as MaybeRaw<
+            R,
+            PaginatedResponse<Stream>
+        >;
     }
 
     /**
@@ -59,10 +65,16 @@ export class High5Stream extends Base {
      * @param streamId ID of the stream
      * @returns The requested stream
      */
-    async getStream(orgName: string, spaceName: string, eventName: string, streamId: string): Promise<Stream> {
+    async getStream<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        eventName: string,
+        streamId: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Stream>> {
         const resp = await this.axios.get<Stream>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}`));
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Stream>;
     }
 
     /**
@@ -73,12 +85,18 @@ export class High5Stream extends Base {
      * @param name Name for the new stream
      * @returns The created stream
      */
-    async createStream(orgName: string, spaceName: string, eventName: string, name: string): Promise<Stream> {
+    async createStream<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        eventName: string,
+        name: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Stream>> {
         const resp = await this.axios.post<Stream>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams`), {
             name: name,
         });
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Stream>;
     }
 
     /**
@@ -90,13 +108,20 @@ export class High5Stream extends Base {
      * @param sourceStreamId ID for the stream to duplicate
      * @returns The created stream
      */
-    async duplicateStream(orgName: string, spaceName: string, eventName: string, name: string, sourceStreamId: string): Promise<Stream> {
+    async duplicateStream<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        eventName: string,
+        name: string,
+        sourceStreamId: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Stream>> {
         const resp = await this.axios.post<Stream>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams`), {
             name: name,
             streamId: sourceStreamId,
         });
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Stream>;
     }
 
     /**
@@ -107,13 +132,19 @@ export class High5Stream extends Base {
      * @param StreamPatchOrder List of all event streams with their new order
      * @returns Array of updated Streams
      */
-    async patchStreamOrderMulti(orgName: string, spaceName: string, eventName: string, streamList: StreamPatchOrder[]): Promise<Stream[]> {
+    async patchStreamOrderMulti<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        eventName: string,
+        streamList: StreamPatchOrder[],
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Stream[]>> {
         const resp = await this.axios.patch<Stream[]>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/order`),
             streamList
         );
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Stream[]>;
     }
 
     /**
@@ -125,19 +156,20 @@ export class High5Stream extends Base {
      * @param StreamPatchActive Object defining if stream should be active or inactive
      * @returns Details of the updated stream
      */
-    async patchStreamState(
+    async patchStreamState<R extends boolean = false>(
         orgName: string,
         spaceName: string,
         eventName: string,
         streamId: string,
-        streamPatchActive: StreamPatchActive
-    ): Promise<Stream> {
+        streamPatchActive: StreamPatchActive,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Stream>> {
         const resp = await this.axios.patch<Stream>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/active`),
             streamPatchActive
         );
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Stream>;
     }
 
     /**
@@ -149,19 +181,20 @@ export class High5Stream extends Base {
      * @param SingleStreamPatchOrder Object defining if stream should move up or down
      * @returns Array of updated Streams
      */
-    async patchStreamOrder(
+    async patchStreamOrder<R extends boolean = false>(
         orgName: string,
         spaceName: string,
         eventName: string,
         streamId: string,
-        singleStreamPatchOrder: SingleStreamPatchOrder
-    ): Promise<Stream[]> {
+        singleStreamPatchOrder: SingleStreamPatchOrder,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Stream[]>> {
         const resp = await this.axios.patch<Stream[]>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/order`),
             singleStreamPatchOrder
         );
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Stream[]>;
     }
 
     /**
@@ -173,13 +206,20 @@ export class High5Stream extends Base {
      * @param name New name of the stream
      * @returns Updated stream
      */
-    async renameStream(orgName: string, spaceName: string, eventName: string, streamId: string, name: string): Promise<Stream> {
+    async renameStream<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        eventName: string,
+        streamId: string,
+        name: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Stream>> {
         const resp = await this.axios.patch<Stream>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/name`),
             { name }
         );
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Stream>;
     }
 
     /**
@@ -194,21 +234,22 @@ export class High5Stream extends Base {
      * @param [order] (optional) Order the stream should have in the new event
      * @returns Updated Stream
      */
-    async moveStream(
+    async moveStream<R extends boolean = false>(
         orgName: string,
         spaceName: string,
         eventName: string,
         streamId: string,
         newEventName: string,
         name?: string,
-        order?: number
-    ): Promise<Stream> {
+        order?: number,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Stream>> {
         const resp = await this.axios.patch<Stream>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/event`),
             { eventName: newEventName, name, order }
         );
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Stream>;
     }
 
     /**
@@ -218,8 +259,17 @@ export class High5Stream extends Base {
      * @param eventName Name of the event
      * @param streamId ID of the stream
      */
-    async deleteStream(orgName: string, spaceName: string, eventName: string, streamId: string): Promise<void> {
-        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}`));
+    async deleteStream<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        eventName: string,
+        streamId: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.delete<void>(
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}`)
+        );
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     protected getEndpoint(endpoint: string): string {

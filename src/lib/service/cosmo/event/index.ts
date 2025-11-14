@@ -1,4 +1,4 @@
-import Base from "../../../Base";
+import Base, { MaybeRaw } from "../../../Base";
 import { CosmoEvents as ICosmoEvents } from "../../../interfaces/cosmo/event";
 
 /**
@@ -21,9 +21,9 @@ export class CosmoEvent extends Base {
      * ** Under development, breaking changes possible**
      * @returns An Object holding all cosmo events sorted
      */
-    async getCosmoEvents(): Promise<ICosmoEvents> {
+    async getCosmoEvents<R extends boolean = false>(raw?: { raw: R }): Promise<MaybeRaw<R, ICosmoEvents>> {
         const resp = await this.axios.get<ICosmoEvents>(this.getEndpoint(`/v1/events`));
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, ICosmoEvents>;
     }
 }

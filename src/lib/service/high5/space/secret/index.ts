@@ -1,5 +1,5 @@
 import { AxiosInstance } from "axios";
-import Base, { Options } from "../../../../Base";
+import Base, { MaybeRaw, Options } from "../../../../Base";
 import { createPaginatedResponse } from "../../../../helper/paginatedResponseHelper";
 import { SearchFilterDTO } from "../../../../helper/searchFilter";
 import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../interfaces/global";
@@ -23,14 +23,10 @@ export default class High5Secret extends Base {
      * @param encrypted - (optional) Whether to get all secret values only in encrypted form.
      * @returns Object containing an array of secret keys as well as the total number of results found in the database (independent of limit and page)
      */
-    async searchSecrets({
-        orgName,
-        spaceName,
-        filters,
-        sorting,
-        limit = 25,
-        page = 0,
-    }: SearchParams & { orgName: string; spaceName: string }): Promise<PaginatedResponse<Secret>> {
+    async searchSecrets<R extends boolean = false>(
+        { orgName, spaceName, filters, sorting, limit = 25, page = 0 }: SearchParams & { orgName: string; spaceName: string },
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, PaginatedResponse<Secret>>> {
         const filtersDTO = filters?.map((f: SearchFilter) => {
             return new SearchFilterDTO(f);
         });
@@ -43,7 +39,10 @@ export default class High5Secret extends Base {
             }
         );
 
-        return createPaginatedResponse(resp) as PaginatedResponse<Secret>;
+        return (raw?.raw ? { ...resp, data: createPaginatedResponse(resp) } : createPaginatedResponse(resp)) as MaybeRaw<
+            R,
+            PaginatedResponse<Secret>
+        >;
     }
 
     /**
@@ -55,10 +54,15 @@ export default class High5Secret extends Base {
      * @param encrypted - (optional) Boolean defining if the value should be stored encrypted (defaults to false).
      * @returns The created Secret
      */
-    async addSecret(orgName: string, spaceName: string, secret: CreateSecret): Promise<Secret> {
+    async addSecret<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        secret: CreateSecret,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Secret>> {
         const resp = await this.axios.post<Secret>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/secrets`), secret);
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Secret>;
     }
 
     /**
@@ -70,10 +74,16 @@ export default class High5Secret extends Base {
      * @param encrypted - (optional) Boolean defining if the value should be stored encrypted (defaults to false).
      * @returns The updated Secret
      */
-    async updateSecret(orgName: string, spaceName: string, key: string, secret: UpdateSecret): Promise<Secret> {
+    async updateSecret<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        key: string,
+        secret: UpdateSecret,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Secret>> {
         const resp = await this.axios.put<Secret>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/secrets/${key}`), secret);
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Secret>;
     }
 
     /**
@@ -82,8 +92,9 @@ export default class High5Secret extends Base {
      * @param spaceName - Name of the space
      * @param key - Key of the key-value pair
      */
-    async deleteSecret(orgName: string, spaceName: string, key: string): Promise<void> {
-        await this.axios.delete(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/secrets/${key}`));
+    async deleteSecret<R extends boolean = false>(orgName: string, spaceName: string, key: string, raw?: { raw: R }): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.delete(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/secrets/${key}`));
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     /**
@@ -93,10 +104,10 @@ export default class High5Secret extends Base {
      * @param key - Key of the key-value pair
      * @returns Secret details
      */
-    async getSecret(orgName: string, spaceName: string, key: string): Promise<Secret> {
+    async getSecret<R extends boolean = false>(orgName: string, spaceName: string, key: string, raw?: { raw: R }): Promise<MaybeRaw<R, Secret>> {
         const resp = await this.axios.get(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/secrets/${key}`));
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Secret>;
     }
 
     protected getEndpoint(endpoint: string): string {

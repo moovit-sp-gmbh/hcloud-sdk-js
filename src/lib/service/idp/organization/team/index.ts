@@ -1,4 +1,4 @@
-import Base from "../../../../Base";
+import Base, { MaybeRaw } from "../../../../Base";
 import { createPaginatedResponse } from "../../../../helper/paginatedResponseHelper";
 import { SearchFilterDTO } from "../../../../helper/searchFilter";
 import { PaginatedResponse, SearchFilter, SearchParams, Sorting } from "../../../../interfaces/global";
@@ -13,10 +13,10 @@ export class IdpOrganizationTeams extends Base {
      * @param userIds List of User IDs to be added to the Team
      * @returns The created Team
      */
-    async createTeam(orgName: string, teamName: string, userIds: string[]): Promise<Team> {
+    async createTeam<R extends boolean = false>(orgName: string, teamName: string, userIds: string[], raw?: { raw: R }): Promise<MaybeRaw<R, Team>> {
         const resp = await this.axios.post<Team>(this.getEndpoint(`/${orgName}/teams`), { name: teamName, userIds: userIds });
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Team>;
     }
 
     /**
@@ -24,8 +24,9 @@ export class IdpOrganizationTeams extends Base {
      * @param orgName Name of the Organization
      * @param teamName Name of the Team
      */
-    async deleteTeam(orgName: string, teamName: string): Promise<void> {
-        await this.axios.delete<void>(this.getEndpoint(`/${orgName}/teams/${teamName}`));
+    async deleteTeam<R extends boolean = false>(orgName: string, teamName: string, raw?: { raw: R }): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.delete<void>(this.getEndpoint(`/${orgName}/teams/${teamName}`));
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     /**
@@ -37,20 +38,21 @@ export class IdpOrganizationTeams extends Base {
      * @param teamUsersPatchOperation (optional) Enum describing what operation shall be executed: Add, set or remove
      * @returns The updated Team object
      */
-    async patchTeam(
+    async patchTeam<R extends boolean = false>(
         orgName: string,
         teamName: string,
         newName?: string,
         userIds?: string[],
-        teamUsersPatchOperation?: TeamUsersPatchOperation
-    ): Promise<Team> {
+        teamUsersPatchOperation?: TeamUsersPatchOperation,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Team>> {
         const resp = await this.axios.patch<Team>(this.getEndpoint(`/${orgName}/teams/${teamName}`), {
             name: newName,
             userIds: userIds,
             usersOperation: teamUsersPatchOperation,
         });
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Team>;
     }
 
     /**
@@ -59,10 +61,10 @@ export class IdpOrganizationTeams extends Base {
      * @param teamName Name of the Team
      * @returns The requested Team
      */
-    async getTeam(orgName: string, teamName: string): Promise<Team> {
+    async getTeam<R extends boolean = false>(orgName: string, teamName: string, raw?: { raw: R }): Promise<MaybeRaw<R, Team>> {
         const resp = await this.axios.get<Team>(this.getEndpoint(`/${orgName}/teams/${teamName}`));
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Team>;
     }
 
     /**
@@ -75,14 +77,17 @@ export class IdpOrganizationTeams extends Base {
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
      * @returns Object containing an array of Teams and the total number of results found in the database (independent of limit and page)
      */
-    async searchTeams(params: {
-        organizationName: string;
-        filters: SearchFilter[];
-        sorting?: Sorting;
-        options?: TeamQueryOptions;
-        limit?: number;
-        page?: number;
-    }): Promise<PaginatedResponse<Team>> {
+    async searchTeams<R extends boolean = false>(
+        params: {
+            organizationName: string;
+            filters: SearchFilter[];
+            sorting?: Sorting;
+            options?: TeamQueryOptions;
+            limit?: number;
+            page?: number;
+        },
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, PaginatedResponse<Team>>> {
         const limit = params.limit || 25;
         const page = params.page || 0;
         const getTotalMemberCount = params.options?.getTotalMemberCount ? `&totalMemberCount=${params.options.getTotalMemberCount}` : "";
@@ -100,7 +105,7 @@ export class IdpOrganizationTeams extends Base {
             }
         );
 
-        return createPaginatedResponse(resp) as PaginatedResponse<Team>;
+        return (raw?.raw ? { ...resp, data: createPaginatedResponse(resp) } : createPaginatedResponse(resp)) as MaybeRaw<R, PaginatedResponse<Team>>;
     }
 
     /**
@@ -113,14 +118,10 @@ export class IdpOrganizationTeams extends Base {
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
      * @returns Object containing an array of Team members and the total number of results found in the database (independent of limit and page)
      */
-    async searchTeamMembers({
-        organizationName,
-        teamName,
-        filters,
-        sorting,
-        limit = 25,
-        page = 0,
-    }: SearchParams & { organizationName: string; teamName: string }): Promise<PaginatedResponse<ReducedUser & { email: string }>> {
+    async searchTeamMembers<R extends boolean = false>(
+        { organizationName, teamName, filters, sorting, limit = 25, page = 0 }: SearchParams & { organizationName: string; teamName: string },
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, PaginatedResponse<ReducedUser & { email: string }>>> {
         const filtersDTO = filters?.map((f: SearchFilter) => {
             return new SearchFilterDTO(f);
         });
@@ -133,7 +134,10 @@ export class IdpOrganizationTeams extends Base {
             }
         );
 
-        return createPaginatedResponse(resp) as PaginatedResponse<ReducedUser & { email: string }>;
+        return (raw?.raw ? { ...resp, data: createPaginatedResponse(resp) } : createPaginatedResponse(resp)) as MaybeRaw<
+            R,
+            PaginatedResponse<ReducedUser & { email: string }>
+        >;
     }
 
     protected getEndpoint(endpoint: string): string {

@@ -1,4 +1,4 @@
-import Base from "../../../../../Base";
+import Base, { MaybeRaw } from "../../../../../Base";
 import { createPaginatedResponse } from "../../../../../helper/paginatedResponseHelper";
 import { SearchFilterDTO } from "../../../../../helper/searchFilter";
 import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../../interfaces/global";
@@ -9,7 +9,10 @@ export class IdpPat extends Base {
      * Search all personal access tokens (PATs) of the requesting user.
      * @returns Paginated response of PAT objects
      */
-    async searchPats({ filters, sorting, limit = 25, page = 0 }: SearchParams): Promise<PaginatedResponse<Pat>> {
+    async searchPats<R extends boolean = false>(
+        { filters, sorting, limit = 25, page = 0 }: SearchParams,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, PaginatedResponse<Pat>>> {
         const filtersDTO = filters?.map((f: SearchFilter) => {
             return new SearchFilterDTO(f);
         });
@@ -25,7 +28,7 @@ export class IdpPat extends Base {
             }
         );
 
-        return createPaginatedResponse(resp) as PaginatedResponse<Pat>;
+        return (raw?.raw ? { ...resp, data: createPaginatedResponse(resp) } : createPaginatedResponse(resp)) as MaybeRaw<R, PaginatedResponse<Pat>>;
     }
 
     /**
@@ -33,10 +36,10 @@ export class IdpPat extends Base {
      * @param patId ID of the PAT
      * @returns The requested PAT object
      */
-    async getPat(patId: string): Promise<Pat> {
+    async getPat<R extends boolean = false>(patId: string, raw?: { raw: R }): Promise<MaybeRaw<R, Pat>> {
         const resp = await this.axios.get<Pat>(this.getEndpoint(`/v1/user/settings/pats/${patId}`));
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Pat>;
     }
 
     /**
@@ -44,10 +47,10 @@ export class IdpPat extends Base {
      * @param patId ID of the PAT
      * @returns PAT object holding the updated token
      */
-    async regeneratePat(patId: string, token?: string): Promise<Pat> {
+    async regeneratePat<R extends boolean = false>(patId: string, token?: string, raw?: { raw: R }): Promise<MaybeRaw<R, Pat>> {
         const resp = await this.axios.patch<Pat>(this.getEndpoint(`/v1/user/settings/pats/${patId}/regenerate`), { token });
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Pat>;
     }
 
     /**
@@ -55,10 +58,10 @@ export class IdpPat extends Base {
      * @param patCreate Object with informations needed to create a PAT: Name, expiration and scopes
      * @returns the created PAT object
      */
-    async generatePat(patCreate: PatCreate): Promise<Pat> {
+    async generatePat<R extends boolean = false>(patCreate: PatCreate, raw?: { raw: R }): Promise<MaybeRaw<R, Pat>> {
         const resp = await this.axios.post<Pat>(this.getEndpoint(`/v1/user/settings/pats`), patCreate);
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Pat>;
     }
 
     /**
@@ -70,25 +73,27 @@ export class IdpPat extends Base {
      * @param patUpdate Object containing new name, expiration and scopes
      * @returns the updated PAT object
      */
-    async updatePat(patId: string, patUpdate: PatUpdate): Promise<Pat> {
+    async updatePat<R extends boolean = false>(patId: string, patUpdate: PatUpdate, raw?: { raw: R }): Promise<MaybeRaw<R, Pat>> {
         const resp = await this.axios.patch<Pat>(this.getEndpoint(`/v1/user/settings/pats/${patId}`), patUpdate);
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Pat>;
     }
 
     /**
      * Deletes a personal access token (PAT) of the requesting User.
      * @param patId Id of the PAT
      */
-    async deletePat(patId: string): Promise<void> {
-        await this.axios.delete<void>(this.getEndpoint(`/v1/user/settings/pats/${patId}`));
+    async deletePat<R extends boolean = false>(patId: string, raw?: { raw: R }): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.delete<void>(this.getEndpoint(`/v1/user/settings/pats/${patId}`));
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     /**
      * Deletes all personal access tokens (PATs) of the requesting User.
      */
-    async deleteAllPats(): Promise<void> {
-        await this.axios.delete<void>(this.getEndpoint(`/v1/user/settings/pats`));
+    async deleteAllPats<R extends boolean = false>(raw?: { raw: R }): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.delete<void>(this.getEndpoint(`/v1/user/settings/pats`));
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     protected getEndpoint(endpoint: string): string {

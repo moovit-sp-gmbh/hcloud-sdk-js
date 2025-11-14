@@ -1,4 +1,4 @@
-import Base from "../../../Base";
+import Base, { MaybeRaw } from "../../../Base";
 import { HtmlMail, MailjetMailDTO, MustacheMail, TemplateMail } from "../../../interfaces/mailer";
 
 export default class MailerInternal extends Base {
@@ -8,10 +8,10 @@ export default class MailerInternal extends Base {
      * THIS IS AN INTERNAL ENDPOINT AND CAN ONLY BE USED FROM BACKENDS WITHIN THE HCLOUD DEPLOYMENT
      * @param mail MailjetMailDTO
      */
-    async sendMailMailjet(mail: MailjetMailDTO): Promise<void> {
+    async sendMailMailjet<R extends boolean = false>(mail: MailjetMailDTO, raw?: { raw: R }): Promise<MaybeRaw<R, void>> {
         const resp = await this.axios.post<void>(this.getEndpoint("/v1/send/mailjet"), mail);
 
-        return resp.data;
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     /**
@@ -21,10 +21,10 @@ export default class MailerInternal extends Base {
      * @param mail TemplateMail
      * @deprecated in favor of sendMailMailjet
      */
-    async sendMailMustache(mail: MustacheMail): Promise<void> {
+    async sendMailMustache<R extends boolean = false>(mail: MustacheMail, raw?: { raw: R }): Promise<MaybeRaw<R, void>> {
         const resp = await this.axios.post<void>(this.getEndpoint("/v1/send/mustache"), mail);
 
-        return resp.data;
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     /**
@@ -34,10 +34,10 @@ export default class MailerInternal extends Base {
      * @param mail TemplateMail
      * @deprecated in favor of sendMailMailjet
      */
-    async sendMailHtml(mail: HtmlMail): Promise<void> {
+    async sendMailHtml<R extends boolean = false>(mail: HtmlMail, raw?: { raw: R }): Promise<MaybeRaw<R, void>> {
         const resp = await this.axios.post<void>(this.getEndpoint("/v1/send/html"), mail);
 
-        return resp.data;
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     /**
@@ -47,10 +47,10 @@ export default class MailerInternal extends Base {
      * @param mail TemplateMail
      * @deprecated in favor of sendMailMailjet
      */
-    async sendMailTemplate(mail: TemplateMail): Promise<void> {
+    async sendMailTemplate<R extends boolean = false>(mail: TemplateMail, raw?: { raw: R }): Promise<MaybeRaw<R, void>> {
         const resp = await this.axios.post<void>(this.getEndpoint("/v1/send/template"), mail);
 
-        return resp.data;
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     protected getEndpoint(endpoint: string): string {

@@ -1,4 +1,4 @@
-import Base from "../../../Base";
+import Base, { MaybeRaw } from "../../../Base";
 import { CosmoSpace } from "../../../interfaces/cosmo/space";
 import { AvatarCreated } from "../../../interfaces/dali";
 
@@ -9,10 +9,10 @@ export class DaliCosmoSpace extends Base {
      * @param spaceName Name of the space
      * @returns Public URL of the created avatar
      */
-    async createAvatar(orgName: string, spaceName: string): Promise<AvatarCreated> {
+    async createAvatar<R extends boolean = false>(orgName: string, spaceName: string, raw?: { raw: R }): Promise<MaybeRaw<R, AvatarCreated>> {
         const resp = await this.axios.post<AvatarCreated>(this.getEndpoint(`/v1/avatar/org/${orgName}/spaces/cosmo/${spaceName}`), {});
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, AvatarCreated>;
     }
 
     /**
@@ -20,8 +20,9 @@ export class DaliCosmoSpace extends Base {
      * @param orgName Name of the organization
      * @param spaceName Name of the space
      */
-    async deleteAvatar(orgName: string, spaceName: string): Promise<void> {
-        await this.axios.delete<string>(this.getEndpoint(`/v1/avatar/org/${orgName}/spaces/cosmo/${spaceName}`));
+    async deleteAvatar<R extends boolean = false>(orgName: string, spaceName: string, raw?: { raw: R }): Promise<MaybeRaw<R, string>> {
+        const resp = await this.axios.delete<string>(this.getEndpoint(`/v1/avatar/org/${orgName}/spaces/cosmo/${spaceName}`));
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, string>;
     }
 
     /**
@@ -31,7 +32,12 @@ export class DaliCosmoSpace extends Base {
      * @param file Image as Javascript File
      * @returns Public URL of the new avatar
      */
-    async updateAvatar(orgName: string, spaceName: string, file: File): Promise<AvatarCreated> {
+    async updateAvatar<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        file: File,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, AvatarCreated>> {
         const data = new FormData();
         data.append("avatar", file);
 
@@ -39,7 +45,7 @@ export class DaliCosmoSpace extends Base {
             headers: { "Content-Type": "multipart/form-data" },
         });
 
-        return { url: resp.data.avatarUrl };
+        return (raw?.raw ? resp : { url: resp.data.avatarUrl }) as MaybeRaw<R, AvatarCreated>;
     }
 
     protected getEndpoint(endpoint: string): string {

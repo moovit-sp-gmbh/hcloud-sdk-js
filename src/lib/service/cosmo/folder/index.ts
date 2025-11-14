@@ -1,4 +1,4 @@
-import Base from "../../../Base";
+import Base, { MaybeRaw } from "../../../Base";
 import { Asset } from "../../../interfaces/cosmo/asset";
 
 /**
@@ -25,12 +25,18 @@ export class CosmoFolder extends Base {
      * @param parentId Optional ID of the parent Folder. If not provided, the Folder will be created at the root level.
      * @returns The created Folder
      */
-    async createFolder(orgName: string, spaceName: string, folderName: string, parentId?: string): Promise<Asset> {
+    async createFolder<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        folderName: string,
+        parentId?: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Asset>> {
         const resp = await this.axios.post<Asset>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/folders`), {
             name: folderName,
             parentId: parentId,
         });
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Asset>;
     }
 }

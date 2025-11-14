@@ -1,4 +1,4 @@
-import Base from "../../../../../../Base";
+import Base, { MaybeRaw } from "../../../../../../Base";
 import { CronjobLogCreate, CronjobLogDto } from "../../../../../../interfaces/fuse/space/cronjob/CronjobLog";
 
 export class FuseCronjobLogInternal extends Base {
@@ -11,10 +11,16 @@ export class FuseCronjobLogInternal extends Base {
      * @param createCronjob Cronjob log to be created
      * @returns the created cronjob log with metadata
      */
-    async createCronjobLog(orgName: string, spaceName: string, cronjobId: string, log: CronjobLogCreate): Promise<CronjobLogDto> {
+    async createCronjobLog<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        cronjobId: string,
+        log: CronjobLogCreate,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, CronjobLogDto>> {
         const resp = await this.axios.post<CronjobLogDto>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs/${cronjobId}/logs}`), log);
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, CronjobLogDto>;
     }
 
     protected getEndpoint(endpoint: string): string {

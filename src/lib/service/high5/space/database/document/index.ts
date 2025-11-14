@@ -1,4 +1,4 @@
-import Base from "../../../../../Base";
+import Base, { MaybeRaw } from "../../../../../Base";
 import { createPaginatedResponse } from "../../../../../helper/paginatedResponseHelper";
 import { SearchFilterDTO } from "../../../../../helper/searchFilter";
 import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../../interfaces/global";
@@ -34,15 +34,10 @@ export class High5Document extends Base {
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
      * @returns Object containing an array of Documents and the total number of results found in the database (independent of limit and page)
      */
-    async searchDocuments({
-        orgName,
-        spaceName,
-        dbName,
-        filters,
-        sorting,
-        limit = 25,
-        page = 0,
-    }: SearchParams & { orgName: string; spaceName: string; dbName: string }): Promise<PaginatedResponse<Document>> {
+    async searchDocuments<R extends boolean = false>(
+        { orgName, spaceName, dbName, filters, sorting, limit = 25, page = 0 }: SearchParams & { orgName: string; spaceName: string; dbName: string },
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, PaginatedResponse<Document>>> {
         const filtersDTO = filters?.map((f: SearchFilter) => new SearchFilterDTO(f));
 
         const resp = await this.axios.post<Document[]>(
@@ -53,7 +48,10 @@ export class High5Document extends Base {
             }
         );
 
-        return createPaginatedResponse(resp) as PaginatedResponse<Document>;
+        return (raw?.raw ? { ...resp, data: createPaginatedResponse(resp) } : createPaginatedResponse(resp)) as MaybeRaw<
+            R,
+            PaginatedResponse<Document>
+        >;
     }
 
     /**
@@ -64,10 +62,16 @@ export class High5Document extends Base {
      * @param key Key of the Document
      * @returns The requested Document
      */
-    async getDocument(orgName: string, spaceName: string, dbName: string, key: string): Promise<Document> {
+    async getDocument<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        dbName: string,
+        key: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Document>> {
         const resp = await this.axios.get<Document>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/databases/${dbName}/documents/${key}`));
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Document>;
     }
 
     /**
@@ -78,13 +82,19 @@ export class High5Document extends Base {
      * @param document New document details
      * @returns The created Document
      */
-    async createDocument(orgName: string, spaceName: string, dbName: string, document: DocumentCreateDto): Promise<Document> {
+    async createDocument<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        dbName: string,
+        document: DocumentCreateDto,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Document>> {
         const resp = await this.axios.post<Document>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/databases/${dbName}/documents`),
             document
         );
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Document>;
     }
 
     /**
@@ -96,13 +106,20 @@ export class High5Document extends Base {
      * @param document New value to update the Document
      * @returns Updated Document
      */
-    async updateDocument(orgName: string, spaceName: string, dbName: string, key: string, document: DocumentPatchDto): Promise<Document> {
+    async updateDocument<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        dbName: string,
+        key: string,
+        document: DocumentPatchDto,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Document>> {
         const resp = await this.axios.patch<Document>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/databases/${dbName}/documents/${key}`),
             document
         );
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Document>;
     }
 
     /**
@@ -112,8 +129,15 @@ export class High5Document extends Base {
      * @param dbName Name of the Database
      * @param key Key of the Document
      */
-    async deleteDocument(orgName: string, spaceName: string, dbName: string, key: string): Promise<void> {
-        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/databases/${dbName}/documents/${key}`));
+    async deleteDocument<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        dbName: string,
+        key: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/databases/${dbName}/documents/${key}`));
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     protected getEndpoint(endpoint: string): string {

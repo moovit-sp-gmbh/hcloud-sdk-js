@@ -1,5 +1,5 @@
 import { AxiosInstance } from "axios";
-import Base, { Options } from "../../../../Base";
+import Base, { MaybeRaw, Options } from "../../../../Base";
 import { createPaginatedResponse } from "../../../../helper/paginatedResponseHelper";
 import { SearchFilterDTO } from "../../../../helper/searchFilter";
 import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../interfaces/global";
@@ -19,10 +19,10 @@ export default class High5Pool extends Base {
      * @param name      - Name of the pool
      * @returns Pool
      */
-    async getPool(orgName: string, spaceName: string, name: string): Promise<Pool> {
+    async getPool<R extends boolean = false>(orgName: string, spaceName: string, name: string, raw?: { raw: R }): Promise<MaybeRaw<R, Pool>> {
         const resp = await this.axios.get<Pool>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/pools/${name}`));
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Pool>;
     }
 
     /**
@@ -35,13 +35,20 @@ export default class High5Pool extends Base {
      * @param targets   - Execution targets that compromise the pool
      * @returns The new Pool
      */
-    async replacePool(orgName: string, spaceName: string, poolName: string, name: string, targets: string[]): Promise<PoolChange> {
+    async replacePool<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        poolName: string,
+        name: string,
+        targets: string[],
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, PoolChange>> {
         const resp = await this.axios.put<PoolChange>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/pools/${poolName}`), {
             name,
             targets,
         });
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, PoolChange>;
     }
 
     /**
@@ -54,7 +61,14 @@ export default class High5Pool extends Base {
      * @param targets   - Execution targets that compromise the pool
      * @returns The patched Pool
      */
-    async patchPool(orgName: string, spaceName: string, poolName: string, name?: string, targets?: PoolTargetPatch): Promise<PoolChange> {
+    async patchPool<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        poolName: string,
+        name?: string,
+        targets?: PoolTargetPatch,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, PoolChange>> {
         if (name === undefined && targets === undefined) {
             throw new Error("unable to patch pool when there are no arguments to send");
         }
@@ -63,7 +77,7 @@ export default class High5Pool extends Base {
             targets,
         });
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, PoolChange>;
     }
 
     /**
@@ -73,8 +87,9 @@ export default class High5Pool extends Base {
      * @param spaceName - Name of the space
      * @param poolName  - Name of the pool
      */
-    async deletePool(orgName: string, spaceName: string, poolName: string): Promise<void> {
-        await this.axios.delete<Pool>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/pools/${poolName}`));
+    async deletePool<R extends boolean = false>(orgName: string, spaceName: string, poolName: string, raw?: { raw: R }): Promise<MaybeRaw<R, Pool>> {
+        const resp = await this.axios.delete<Pool>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/pools/${poolName}`));
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Pool>;
     }
 
     /**
@@ -88,15 +103,18 @@ export default class High5Pool extends Base {
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
      * @returns Object containing an array of Pool and the total number of results found in the database (independent of limit and page)
      */
-    async searchPools({
-        orgName,
-        spaceName,
-        filters,
-        sorting,
-        options,
-        limit = 25,
-        page = 0,
-    }: SearchParams & { orgName: string; spaceName: string; options?: PoolQueryOptions }): Promise<PaginatedResponse<Pool>> {
+    async searchPools<R extends boolean = false>(
+        {
+            orgName,
+            spaceName,
+            filters,
+            sorting,
+            options,
+            limit = 25,
+            page = 0,
+        }: SearchParams & { orgName: string; spaceName: string; options?: PoolQueryOptions },
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, PaginatedResponse<Pool>>> {
         const filtersDTO = filters?.map((f: SearchFilter) => new SearchFilterDTO(f));
 
         const resp = await this.axios.post<Pool[]>(
@@ -115,7 +133,7 @@ export default class High5Pool extends Base {
             }
         );
 
-        return createPaginatedResponse(resp) as PaginatedResponse<Pool>;
+        return (raw?.raw ? { ...resp, data: createPaginatedResponse(resp) } : createPaginatedResponse(resp)) as MaybeRaw<R, PaginatedResponse<Pool>>;
     }
 
     /**
@@ -127,10 +145,16 @@ export default class High5Pool extends Base {
      * @param targets   - Execution targets that compromise the pool
      * @returns The created Pool
      */
-    async addPool(orgName: string, spaceName: string, name: string, targets: string[]): Promise<PoolChange> {
+    async addPool<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        name: string,
+        targets: string[],
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, PoolChange>> {
         const resp = await this.axios.post<PoolChange>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/pools`), { name, targets });
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, PoolChange>;
     }
 
     /**
@@ -138,10 +162,10 @@ export default class High5Pool extends Base {
      *
      * @returns Array of pools the user is assigned to as execution target
      */
-    async getPools(): Promise<Pool[]> {
+    async getPools<R extends boolean = false>(raw?: { raw: R }): Promise<MaybeRaw<R, Pool[]>> {
         const resp = await this.axios.get<Pool[]>(this.getEndpoint("/v1/pools"));
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Pool[]>;
     }
 
     /**
@@ -156,15 +180,18 @@ export default class High5Pool extends Base {
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
      * @returns Object containing an array of OrganizationMember and the total number of results found in the database (independent of limit and page)
      */
-    async searchTargetsOfPool({
-        orgName,
-        spaceName,
-        poolName,
-        filters,
-        sorting,
-        limit = 25,
-        page = 0,
-    }: SearchParams & { orgName: string; spaceName: string; poolName: string }): Promise<PaginatedResponse<OrganizationMember>> {
+    async searchTargetsOfPool<R extends boolean = false>(
+        {
+            orgName,
+            spaceName,
+            poolName,
+            filters,
+            sorting,
+            limit = 25,
+            page = 0,
+        }: SearchParams & { orgName: string; spaceName: string; poolName: string },
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, PaginatedResponse<OrganizationMember>>> {
         const filtersDTO = filters?.map((f: SearchFilter) => new SearchFilterDTO(f));
 
         const resp = await this.axios.post<OrganizationMember[]>(
@@ -181,7 +208,10 @@ export default class High5Pool extends Base {
             }
         );
 
-        return createPaginatedResponse(resp) as PaginatedResponse<OrganizationMember>;
+        return (raw?.raw ? { ...resp, data: createPaginatedResponse(resp) } : createPaginatedResponse(resp)) as MaybeRaw<
+            R,
+            PaginatedResponse<OrganizationMember>
+        >;
     }
 
     protected getEndpoint(endpoint: string): string {

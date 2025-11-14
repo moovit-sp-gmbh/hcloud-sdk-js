@@ -1,4 +1,4 @@
-import Base from "../../../../Base";
+import Base, { MaybeRaw } from "../../../../Base";
 import { createPaginatedResponse } from "../../../../helper/paginatedResponseHelper";
 import { SearchFilterDTO } from "../../../../helper/searchFilter";
 import { PaginatedResponse, SearchFilter, Sorting } from "../../../../interfaces/global";
@@ -12,9 +12,9 @@ export default class IdpOrganizationServiceAccounts extends Base {
      * @param name    {string} Name for the service account
      * @returns {ServiceAccount} Created service account
      */
-    async create(orgName: string, name: string): Promise<ServiceAccount> {
+    async create<R extends boolean = false>(orgName: string, name: string, raw?: { raw: R }): Promise<MaybeRaw<R, ServiceAccount>> {
         const res = await this.axios.post<ServiceAccount>(this.getEndpoint(`/${orgName}/service-accounts`), { name });
-        return res.data;
+        return (raw?.raw ? res : res.data) as MaybeRaw<R, ServiceAccount>;
     }
 
     /**
@@ -24,8 +24,9 @@ export default class IdpOrganizationServiceAccounts extends Base {
      * @param id      {string} Service account ID
      * @returns {void}
      */
-    async delete(orgName: string, id: string): Promise<void> {
-        await this.axios.delete<ServiceAccountNoToken>(this.getEndpoint(`/${orgName}/service-accounts/${id}`));
+    async delete<R extends boolean = false>(orgName: string, id: string, raw?: { raw: R }): Promise<MaybeRaw<R, ServiceAccountNoToken>> {
+        const repo = await this.axios.delete<ServiceAccountNoToken>(this.getEndpoint(`/${orgName}/service-accounts/${id}`));
+        return (raw?.raw ? repo : repo.data) as MaybeRaw<R, ServiceAccountNoToken>;
     }
 
     /**
@@ -35,9 +36,9 @@ export default class IdpOrganizationServiceAccounts extends Base {
      * @param id      {string} Service account ID
      * @returns {ServiceAccountNoToken} The service account's token is only visible on creation or token regeneration
      */
-    async get(orgName: string, id: string): Promise<ServiceAccountNoToken> {
+    async get<R extends boolean = false>(orgName: string, id: string, raw?: { raw: R }): Promise<MaybeRaw<R, ServiceAccountNoToken>> {
         const res = await this.axios.get<ServiceAccountNoToken>(this.getEndpoint(`/${orgName}/service-accounts/${id}`));
-        return res.data;
+        return (raw?.raw ? res : res.data) as MaybeRaw<R, ServiceAccountNoToken>;
     }
 
     /**
@@ -50,13 +51,16 @@ export default class IdpOrganizationServiceAccounts extends Base {
      * @param page    {number|undefined}  Page number
      * @returns {PaginatedResponse<ServiceAccountNoToken>} A paginated response containing the service accounts that matched the search parameters
      */
-    async search(params: {
-        orgName: string;
-        filters: SearchFilter[];
-        sorting?: Sorting;
-        limit?: number;
-        page?: number;
-    }): Promise<PaginatedResponse<ServiceAccountNoToken>> {
+    async search<R extends boolean = false>(
+        params: {
+            orgName: string;
+            filters: SearchFilter[];
+            sorting?: Sorting;
+            limit?: number;
+            page?: number;
+        },
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, PaginatedResponse<ServiceAccountNoToken>>> {
         const limit = params.limit || 25;
         const page = params.page || 0;
         const res = await this.axios.post<ServiceAccountNoToken[]>(
@@ -67,7 +71,10 @@ export default class IdpOrganizationServiceAccounts extends Base {
             }
         );
 
-        return createPaginatedResponse(res) as PaginatedResponse<ServiceAccountNoToken>;
+        return (raw?.raw ? { ...res, data: createPaginatedResponse(res) } : createPaginatedResponse(res)) as MaybeRaw<
+            R,
+            PaginatedResponse<ServiceAccountNoToken>
+        >;
     }
 
     /**
@@ -77,9 +84,9 @@ export default class IdpOrganizationServiceAccounts extends Base {
      * @param id      {string} Service account ID
      * @returns {ServiceAccount}
      */
-    async regenerateToken(orgName: string, id: string): Promise<ServiceAccount> {
+    async regenerateToken<R extends boolean = false>(orgName: string, id: string, raw?: { raw: R }): Promise<MaybeRaw<R, ServiceAccount>> {
         const res = await this.axios.patch<ServiceAccount>(this.getEndpoint(`/${orgName}/service-accounts/${id}/regenerate`));
-        return res.data;
+        return (raw?.raw ? res : res.data) as MaybeRaw<R, ServiceAccount>;
     }
 
     /**
@@ -90,11 +97,16 @@ export default class IdpOrganizationServiceAccounts extends Base {
      * @param newName {string} Service account's new name
      * @returns {ServiceAccountNoToken}
      */
-    async rename(orgName: string, id: string, newName: string): Promise<ServiceAccountNoToken> {
+    async rename<R extends boolean = false>(
+        orgName: string,
+        id: string,
+        newName: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, ServiceAccountNoToken>> {
         const res = await this.axios.patch<ServiceAccountNoToken>(this.getEndpoint(`/${orgName}/service-accounts/${id}/name`), {
             name: newName,
         });
-        return res.data;
+        return (raw?.raw ? res : res.data) as MaybeRaw<R, ServiceAccountNoToken>;
     }
 
     protected getEndpoint(endpoint: string): string {

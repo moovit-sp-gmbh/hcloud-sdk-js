@@ -1,4 +1,4 @@
-import Base from "../../Base";
+import Base, { MaybeRaw } from "../../Base";
 import { Version } from "../../interfaces/global";
 import { FuseInternal } from "./internal";
 import { FuseSpaceInternal } from "./internal/space";
@@ -30,10 +30,10 @@ export default class Fuse extends Base {
     /**
      * @returns Object containing the version as a string
      */
-    async version(): Promise<Version> {
+    async version<R extends boolean = false>(raw?: { raw: R }): Promise<MaybeRaw<R, Version>> {
         const resp = await this.axios.get<Version>(this.getEndpoint("/v1/version"), {});
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Version>;
     }
 
     protected getEndpoint(endpoint: string): string {

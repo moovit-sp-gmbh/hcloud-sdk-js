@@ -1,4 +1,4 @@
-import Base from "../../../Base";
+import Base, { MaybeRaw } from "../../../Base";
 import { Asset, AssetFilter, AssetSearchContext } from "../../../interfaces/cosmo/asset";
 import { Sorting } from "../../../interfaces/global";
 
@@ -33,33 +33,34 @@ export class CosmoOrganization extends Base {
      * @param sorting Sorting criteria for the results
      * @returns List of found Assets
      */
-    async searchAssets({
-        orgName,
-        context,
-        limit,
-        page,
-        recursive = false,
-        spaceName,
-        namespace,
-        parentId,
-        shareId,
-
-        assetFilter,
-        sorting,
-    }: {
-        orgName: string;
-        context: AssetSearchContext;
-        limit?: number;
-        page?: number;
-        recursive?: boolean;
-        spaceName?: string;
-        namespace?: string[] | string;
-        parentId?: string;
-        shareId?: string;
-
-        assetFilter?: AssetFilter[];
-        sorting?: Sorting;
-    }): Promise<Asset[]> {
+    async searchAssets<R extends boolean = false>(
+        {
+            orgName,
+            context,
+            limit,
+            page,
+            recursive = false,
+            spaceName,
+            namespace,
+            parentId,
+            shareId,
+            assetFilter,
+            sorting,
+        }: {
+            orgName: string;
+            context: AssetSearchContext;
+            limit?: number;
+            page?: number;
+            recursive?: boolean;
+            spaceName?: string;
+            namespace?: string[] | string;
+            parentId?: string;
+            shareId?: string;
+            assetFilter?: AssetFilter[];
+            sorting?: Sorting;
+        },
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Asset[]>> {
         limit = limit ?? 100;
         page = page ?? 0;
 
@@ -83,6 +84,6 @@ export class CosmoOrganization extends Base {
             }
         );
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Asset[]>;
     }
 }

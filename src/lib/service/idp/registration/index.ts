@@ -1,4 +1,4 @@
-import Base from "../../../Base";
+import Base, { MaybeRaw } from "../../../Base";
 import { User } from "../../../interfaces/idp/user";
 import { SuccessfulAuth } from "../../../interfaces/idp/user/SuccessfulAuth";
 
@@ -15,7 +15,7 @@ export class IdpRegistration extends Base {
      * @param regionId - Optional region id
      * @param targetUrl Optional url the link in the mail will point to
      */
-    async register(
+    async register<R extends boolean = false>(
         name: string,
         email: string,
         password: string,
@@ -23,9 +23,10 @@ export class IdpRegistration extends Base {
         company?: string,
         regionId?: string,
         targetUrl?: string,
-        validationCode?: string
-    ): Promise<void> {
-        await this.axios.post<void>(
+        validationCode?: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.post<void>(
             this.getEndpoint("/v1/register"),
             {
                 name: name,
@@ -38,6 +39,8 @@ export class IdpRegistration extends Base {
             },
             { params: { validationCode } }
         );
+
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     /**
@@ -50,16 +53,17 @@ export class IdpRegistration extends Base {
      * @param regionId - Optional region id
      * @param targetUrl Optional url the link in the mail will point to
      */
-    async resendRegistrationMail(
+    async resendRegistrationMail<R extends boolean = false>(
         name: string,
         email: string,
         password: string,
         captcha: string,
         company?: string,
         regionId?: string,
-        targetUrl?: string
-    ): Promise<void> {
-        await this.axios.patch<void>(this.getEndpoint("/v1/register/resendRegistrationEmail"), {
+        targetUrl?: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.patch<void>(this.getEndpoint("/v1/register/resendRegistrationEmail"), {
             name: name,
             email: email,
             password: password,
@@ -68,6 +72,7 @@ export class IdpRegistration extends Base {
             regionId,
             targetUrl,
         });
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     /**
@@ -77,16 +82,30 @@ export class IdpRegistration extends Base {
      * @param regionId - Optional region id
      * @returns Bearer Token and User object
      */
-    async validateRegistration(email: string, verificationCode: string): Promise<SuccessfulAuth> {
+    async validateRegistration<R extends boolean = false>(
+        email: string,
+        verificationCode: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, SuccessfulAuth>> {
         const resp = await this.axios.patch<User>(this.getEndpoint("/v1/register/verify"), {
             email,
             verificationCode,
         });
 
-        return {
-            token: resp.headers["authorization"]?.toString() || "",
-            user: resp.data,
-        } as SuccessfulAuth;
+        return (
+            raw?.raw
+                ? {
+                      ...resp,
+                      data: {
+                          token: resp.headers["authorization"]?.toString() || "",
+                          user: resp.data,
+                      },
+                  }
+                : {
+                      token: resp.headers["authorization"]?.toString() || "",
+                      user: resp.data,
+                  }
+        ) as MaybeRaw<R, SuccessfulAuth>;
     }
 
     protected getEndpoint(endpoint: string): string {

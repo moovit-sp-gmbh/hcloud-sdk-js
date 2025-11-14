@@ -1,4 +1,4 @@
-import Base from "../../../../Base";
+import Base, { MaybeRaw } from "../../../../Base";
 import { createPaginatedResponse } from "../../../../helper/paginatedResponseHelper";
 import { SearchFilterDTO } from "../../../../helper/searchFilter";
 import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../interfaces/global";
@@ -24,14 +24,10 @@ export class High5Event extends Base {
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
      * @returns Object containing an array of Events and the total number of results found in the database (independent of limit and page)
      */
-    async searchEvents({
-        orgName,
-        spaceName,
-        filters,
-        sorting,
-        limit = 25,
-        page = 0,
-    }: SearchParams & { orgName: string; spaceName: string }): Promise<PaginatedResponse<Event>> {
+    async searchEvents<R extends boolean = false>(
+        { orgName, spaceName, filters, sorting, limit = 25, page = 0 }: SearchParams & { orgName: string; spaceName: string },
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, PaginatedResponse<Event>>> {
         const filtersDTO = filters?.map((f: SearchFilter) => new SearchFilterDTO(f));
 
         const resp = await this.axios.post<Event[]>(
@@ -42,7 +38,7 @@ export class High5Event extends Base {
             }
         );
 
-        return createPaginatedResponse(resp) as PaginatedResponse<Event>;
+        return (raw?.raw ? { ...resp, data: createPaginatedResponse(resp) } : createPaginatedResponse(resp)) as MaybeRaw<R, PaginatedResponse<Event>>;
     }
 
     /**
@@ -52,10 +48,10 @@ export class High5Event extends Base {
      * @param eventName Name of the Event
      * @returns The requested Event
      */
-    async getEvent(orgName: string, spaceName: string, eventName: string): Promise<Event> {
+    async getEvent<R extends boolean = false>(orgName: string, spaceName: string, eventName: string, raw?: { raw: R }): Promise<MaybeRaw<R, Event>> {
         const resp = await this.axios.get<Event>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}`));
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Event>;
     }
 
     /**
@@ -65,10 +61,10 @@ export class High5Event extends Base {
      * @param name Name of the new Event
      * @returns The created Event
      */
-    async createEvent(orgName: string, spaceName: string, name: string): Promise<Event> {
+    async createEvent<R extends boolean = false>(orgName: string, spaceName: string, name: string, raw?: { raw: R }): Promise<MaybeRaw<R, Event>> {
         const resp = await this.axios.post<Event>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events`), { name: name });
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Event>;
     }
 
     /**
@@ -79,12 +75,18 @@ export class High5Event extends Base {
      * @param name New name of the Event
      * @returns Updated Event
      */
-    async renameEvent(orgName: string, spaceName: string, eventName: string, name: string): Promise<Event> {
+    async renameEvent<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        eventName: string,
+        name: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Event>> {
         const resp = await this.axios.patch<Event>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/name`), {
             name: name,
         });
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Event>;
     }
 
     /**
@@ -93,8 +95,14 @@ export class High5Event extends Base {
      * @param spaceName Name of the Space
      * @param eventName Name of the Event
      */
-    async deleteEvent(orgName: string, spaceName: string, eventName: string): Promise<void> {
-        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}`));
+    async deleteEvent<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        eventName: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}`));
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     protected getEndpoint(endpoint: string): string {

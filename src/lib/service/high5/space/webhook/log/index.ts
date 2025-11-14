@@ -1,4 +1,4 @@
-import Base from "../../../../../Base";
+import Base, { MaybeRaw } from "../../../../../Base";
 import { createPaginatedResponse } from "../../../../../helper/paginatedResponseHelper";
 import { PaginatedResponse } from "../../../../../interfaces/global";
 import { WebhookLog } from "../../../../../interfaces/high5/space/webhook";
@@ -13,13 +13,14 @@ export class High5WebhookLog extends Base {
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
      * @returns Object containing an array of Webhook logs and the total number of results found in the database (independent of limit and page)
      */
-    async getWebhookLogs(
+    async getWebhookLogs<R extends boolean = false>(
         orgName: string,
         spaceName: string,
         webhookId: string,
         limit?: number,
-        page?: number
-    ): Promise<PaginatedResponse<WebhookLog>> {
+        page?: number,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, PaginatedResponse<WebhookLog>>> {
         limit = limit || 25;
         page = page || 0;
 
@@ -27,7 +28,10 @@ export class High5WebhookLog extends Base {
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/webhooks/${webhookId}/logs?limit=${limit}&page=${page}`)
         );
 
-        return createPaginatedResponse(resp) as PaginatedResponse<WebhookLog>;
+        return (raw?.raw ? { ...resp, data: createPaginatedResponse(resp) } : createPaginatedResponse(resp)) as MaybeRaw<
+            R,
+            PaginatedResponse<WebhookLog>
+        >;
     }
 
     protected getEndpoint(endpoint: string): string {

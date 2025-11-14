@@ -1,4 +1,4 @@
-import Base from "../../../Base";
+import Base, { MaybeRaw } from "../../../Base";
 import { Asset } from "../../../interfaces/cosmo/asset";
 
 /**
@@ -24,11 +24,16 @@ export class CosmoProduction extends Base {
      * @param productionName Name of the Production to create
      * @returns The created Production
      */
-    async createProduction(orgName: string, spaceName: string, productionName: string): Promise<Asset> {
+    async createProduction<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        productionName: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Asset>> {
         const resp = await this.axios.post<Asset>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/productions`), {
             name: productionName,
         });
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Asset>;
     }
 }

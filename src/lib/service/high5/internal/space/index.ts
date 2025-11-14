@@ -1,5 +1,5 @@
 import { AxiosInstance } from "axios";
-import Base, { Options } from "../../../../Base";
+import Base, { MaybeRaw, Options } from "../../../../Base";
 import { High5JobInternal } from "./job";
 
 export class High5SpaceInternal extends Base {
@@ -21,8 +21,9 @@ export class High5SpaceInternal extends Base {
      * THIS IS AN INTERNAL ENDPOINT AND CAN ONLY BE USED FROM BACKENDS WITHIN THE HCLOUD DEPLOYMENT
      * @param orgName Name of the organization
      */
-    async deleteAllSpacesOfOrganization(orgName: string): Promise<void> {
-        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}`));
+    async deleteAllSpacesOfOrganization<R extends boolean = false>(orgName: string, raw?: { raw: R }): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}`));
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     /**
@@ -32,8 +33,13 @@ export class High5SpaceInternal extends Base {
      * @param orgName Name of the organization
      * @param userId ID of the user
      */
-    async removeUserFromAllSpacesOfOrganization(orgName: string, userId: string): Promise<void> {
-        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/user/${userId}`));
+    async removeUserFromAllSpacesOfOrganization<R extends boolean = false>(
+        orgName: string,
+        userId: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/user/${userId}`));
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     protected getEndpoint(endpoint: string): string {

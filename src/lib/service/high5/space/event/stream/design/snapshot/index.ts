@@ -1,4 +1,4 @@
-import Base from "../../../../../../../Base";
+import Base, { MaybeRaw } from "../../../../../../../Base";
 import { createPaginatedResponse } from "../../../../../../../helper/paginatedResponseHelper";
 import { SearchFilterDTO } from "../../../../../../../helper/searchFilter";
 import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../../../../interfaces/global";
@@ -18,14 +18,15 @@ export default class High5DesignSnapshots extends Base {
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
      * @returns Object containing an array of snapshots of the stream design and the total number of results found in the database (independent of limit and page)
      */
-    async search(
+    async search<R extends boolean = false>(
         orgName: string,
         spaceName: string,
         eventName: string,
         streamId: string,
         content = false,
-        { filters, sorting, limit = 25, page = 0 }: SearchParams
-    ): Promise<PaginatedResponse<DesignSnapshot>> {
+        { filters, sorting, limit = 25, page = 0 }: SearchParams,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, PaginatedResponse<DesignSnapshot>>> {
         const filtersDTO = filters?.map((f: SearchFilter) => {
             return new SearchFilterDTO(f);
         });
@@ -41,7 +42,10 @@ export default class High5DesignSnapshots extends Base {
             }
         );
 
-        return createPaginatedResponse(resp) as PaginatedResponse<DesignSnapshot>;
+        return (raw?.raw ? { ...resp, data: createPaginatedResponse(resp) } : createPaginatedResponse(resp)) as MaybeRaw<
+            R,
+            PaginatedResponse<DesignSnapshot>
+        >;
     }
 
     /**
@@ -53,13 +57,20 @@ export default class High5DesignSnapshots extends Base {
      * @param name Name of the snapshot
      * @returns The snapshot
      */
-    async create(orgName: string, spaceName: string, eventName: string, streamId: string, name: string): Promise<DesignSnapshot> {
+    async create<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        eventName: string,
+        streamId: string,
+        name: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, DesignSnapshot>> {
         const resp = await this.axios.post<DesignSnapshot>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/design/snapshots`),
             { name }
         );
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, DesignSnapshot>;
     }
 
     /**
@@ -72,13 +83,21 @@ export default class High5DesignSnapshots extends Base {
      * @param name Name of the snapshot
      * @returns The snapshot
      */
-    async update(orgName: string, spaceName: string, eventName: string, streamId: string, snapshotId: string, name: string): Promise<DesignSnapshot> {
+    async update<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        eventName: string,
+        streamId: string,
+        snapshotId: string,
+        name: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, DesignSnapshot>> {
         const resp = await this.axios.patch<DesignSnapshot>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/design/snapshots/${snapshotId}`),
             { name }
         );
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, DesignSnapshot>;
     }
 
     /**
@@ -89,10 +108,18 @@ export default class High5DesignSnapshots extends Base {
      * @param streamId ID of the stream
      * @param snapshotId ID of the snapshot
      */
-    async delete(orgName: string, spaceName: string, eventName: string, streamId: string, snapshotId: string): Promise<void> {
-        await this.axios.delete<void>(
+    async delete<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        eventName: string,
+        streamId: string,
+        snapshotId: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.delete<void>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/design/snapshots/${snapshotId}`)
         );
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     /**
@@ -106,10 +133,18 @@ export default class High5DesignSnapshots extends Base {
      * @param streamId ID of the stream
      * @param snapshotId ID of the snapshot
      */
-    async restore(orgName: string, spaceName: string, eventName: string, streamId: string, snapshotId: string): Promise<void> {
-        await this.axios.put<void>(
+    async restore<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        eventName: string,
+        streamId: string,
+        snapshotId: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.put<void>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/design/snapshots/${snapshotId}/restore`)
         );
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     protected getEndpoint(endpoint: string): string {

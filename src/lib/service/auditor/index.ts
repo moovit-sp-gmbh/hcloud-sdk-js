@@ -1,4 +1,4 @@
-import Base from "../../Base";
+import Base, { MaybeRaw } from "../../Base";
 import { createPaginatedResponse } from "../../helper/paginatedResponseHelper";
 import { SearchFilterDTO } from "../../helper/searchFilter";
 import { AuditLog } from "../../interfaces/auditor";
@@ -17,10 +17,10 @@ export default class Auditor extends Base {
     /**
      * @returns An object containing the endpoint version as a string
      */
-    async version(): Promise<Version> {
+    async version<R extends boolean = false>(raw?: { raw: R }): Promise<MaybeRaw<R, Version>> {
         const resp = await this.axios.get<Version>(this.getEndpoint("/v1/version"), {});
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Version>;
     }
 
     /**
@@ -32,13 +32,10 @@ export default class Auditor extends Base {
      * @param page (optional) Page number: Skip the first (page * limit) results (defaults to 0)
      * @returns Object containing an array of audit logs and the total number of results found in the database (independent of limit and page)
      */
-    async searchAuditLogs({
-        organizationName,
-        filters,
-        sorting,
-        limit = 25,
-        page = 0,
-    }: SearchParams & { organizationName: string }): Promise<PaginatedResponse<AuditLog>> {
+    async searchAuditLogs<R extends boolean = false>(
+        { organizationName, filters, sorting, limit = 25, page = 0 }: SearchParams & { organizationName: string },
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, PaginatedResponse<AuditLog>>> {
         const filtersDTO = filters?.map((f: SearchFilter) => new SearchFilterDTO(f));
 
         const resp = await this.axios.post<AuditLog[]>(this.getEndpoint(`/v1/org/${organizationName}/logs/search?page=${page}&limit=${limit}`), {
@@ -46,7 +43,10 @@ export default class Auditor extends Base {
             sorting: sorting,
         });
 
-        return createPaginatedResponse(resp) as PaginatedResponse<AuditLog>;
+        return (raw?.raw ? { ...resp, data: createPaginatedResponse(resp) } : createPaginatedResponse(resp)) as MaybeRaw<
+            R,
+            PaginatedResponse<AuditLog>
+        >;
     }
 
     protected getEndpoint(endpoint: string): string {

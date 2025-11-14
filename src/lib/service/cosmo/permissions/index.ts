@@ -1,4 +1,4 @@
-import Base from "../../../Base";
+import Base, { MaybeRaw } from "../../../Base";
 import { DetailedRole, Permission, PermissionDiscovery, Role } from "../../../interfaces/cosmo/permissions";
 import { SearchFilter, Sorting } from "../../../interfaces/global";
 
@@ -8,9 +8,9 @@ export class CosmoPermissions extends Base {
      *
      * @returns A promise resolving to the permission discovery metadata.
      */
-    async listAllPermissions(): Promise<PermissionDiscovery> {
+    async listAllPermissions<R extends boolean = false>(raw?: { raw: R }): Promise<MaybeRaw<R, PermissionDiscovery>> {
         const res = await this.axios.get<PermissionDiscovery>(`/v1/permissions/discovery`);
-        return res.data;
+        return (raw?.raw ? res : res.data) as MaybeRaw<R, PermissionDiscovery>;
     }
     /**
      * Creates a new role within a specified organization and space.
@@ -21,12 +21,18 @@ export class CosmoPermissions extends Base {
      * @param permissions - A record of resource keys to arrays of permission names.
      * @returns A promise resolving to the created role object.
      */
-    async createRole(orgName: string, spaceName: string, roleName: string, permissions: Record<string, Permission["name"][]>): Promise<Role> {
+    async createRole<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        roleName: string,
+        permissions: Record<string, Permission["name"][]>,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Role>> {
         const res = await this.axios.post<Role>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/roles`), {
             name: roleName,
             permissions,
         });
-        return res.data;
+        return (raw?.raw ? res : res.data) as MaybeRaw<R, Role>;
     }
 
     /**
@@ -41,21 +47,24 @@ export class CosmoPermissions extends Base {
      * @param options.page - Optional page number for pagination.
      * @returns A promise resolving to a list of matching role objects.
      */
-    async searchRoles({
-        orgName,
-        spaceName,
-        filters,
-        sorting,
-        limit,
-        page,
-    }: {
-        orgName: string;
-        spaceName: string;
-        filters?: SearchFilter[];
-        sorting?: Sorting;
-        limit?: number;
-        page?: number;
-    }): Promise<Role[]> {
+    async searchRoles<R extends boolean = false>(
+        {
+            orgName,
+            spaceName,
+            filters,
+            sorting,
+            limit,
+            page,
+        }: {
+            orgName: string;
+            spaceName: string;
+            filters?: SearchFilter[];
+            sorting?: Sorting;
+            limit?: number;
+            page?: number;
+        },
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Role[]>> {
         const res = await this.axios.post<Role[]>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/roles/search`),
             {
@@ -69,7 +78,7 @@ export class CosmoPermissions extends Base {
                 },
             }
         );
-        return res.data;
+        return (raw?.raw ? res : res.data) as MaybeRaw<R, Role[]>;
     }
 
     /**
@@ -82,18 +91,19 @@ export class CosmoPermissions extends Base {
      * @param permissions - The updated permissions mapping.
      * @returns A promise resolving to the updated role.
      */
-    async updateRole(
+    async updateRole<R extends boolean = false>(
         orgName: string,
         spaceName: string,
         roleId: string,
         newName: string,
-        permissions: Record<string, Permission["name"][]>
-    ): Promise<Role> {
+        permissions: Record<string, Permission["name"][]>,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Role>> {
         const res = await this.axios.put<Role>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/roles/${roleId}`), {
             name: newName,
             permissions,
         });
-        return res.data;
+        return (raw?.raw ? res : res.data) as MaybeRaw<R, Role>;
     }
 
     /**
@@ -104,9 +114,14 @@ export class CosmoPermissions extends Base {
      * @param roleId - The ID of the role to retrieve.
      * @returns A promise resolving to the detailed role object.
      */
-    async fetchRole(orgName: string, spaceName: string, roleId: string): Promise<DetailedRole> {
+    async fetchRole<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        roleId: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, DetailedRole>> {
         const res = await this.axios.get<DetailedRole>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/roles/${roleId}`));
-        return res.data;
+        return (raw?.raw ? res : res.data) as MaybeRaw<R, DetailedRole>;
     }
 
     /**
@@ -117,8 +132,14 @@ export class CosmoPermissions extends Base {
      * @param roleId - The ID of the role to delete.
      * @returns A promise that resolves when the role is deleted.
      */
-    async deleteRole(orgName: string, spaceName: string, roleId: string): Promise<void> {
-        await this.axios.delete<DetailedRole>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/roles/${roleId}`));
+    async deleteRole<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        roleId: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, DetailedRole>> {
+        const resp = await this.axios.delete<DetailedRole>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/roles/${roleId}`));
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, DetailedRole>;
     }
 
     /**
@@ -130,8 +151,15 @@ export class CosmoPermissions extends Base {
      * @param userId - The ID of the user to assign.
      * @returns A promise that resolves when the assignment is complete.
      */
-    async assignUserToRole(orgName: string, spaceName: string, roleId: string, userId: string): Promise<void> {
-        await this.axios.put<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/roles/${roleId}/user`), { userId });
+    async assignUserToRole<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        roleId: string,
+        userId: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.put<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/roles/${roleId}/user`), { userId });
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     /**
@@ -143,8 +171,15 @@ export class CosmoPermissions extends Base {
      * @param userId - The ID of the user to unassign.
      * @returns A promise that resolves when the user is removed.
      */
-    async unassignUserFromRole(orgName: string, spaceName: string, roleId: string, userId: string): Promise<void> {
-        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/roles/${roleId}/user/${userId}`));
+    async unassignUserFromRole<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        roleId: string,
+        userId: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/roles/${roleId}/user/${userId}`));
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     /**
@@ -156,8 +191,15 @@ export class CosmoPermissions extends Base {
      * @param teamName - The name of the team to assign.
      * @returns A promise that resolves when the assignment is complete.
      */
-    async assignTeamToRole(orgName: string, spaceName: string, roleId: string, teamName: string): Promise<void> {
-        await this.axios.put<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/roles/${roleId}/team`), { teamName });
+    async assignTeamToRole<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        roleId: string,
+        teamName: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.put<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/roles/${roleId}/team`), { teamName });
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     /**
@@ -169,8 +211,15 @@ export class CosmoPermissions extends Base {
      * @param teamName - The name of the team to unassign.
      * @returns A promise that resolves when the team is removed.
      */
-    async unassignTeamFromRole(orgName: string, spaceName: string, roleId: string, teamName: string): Promise<void> {
-        await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/roles/${roleId}/team/${teamName}`));
+    async unassignTeamFromRole<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        roleId: string,
+        teamName: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/roles/${roleId}/team/${teamName}`));
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     protected getEndpoint(endpoint: string): string {

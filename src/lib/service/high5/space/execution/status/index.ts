@@ -1,5 +1,5 @@
 import { AxiosInstance } from "axios";
-import Base, { Options } from "../../../../../Base";
+import Base, { MaybeRaw, Options } from "../../../../../Base";
 import { ExecutionTree, High5ExecutionStatus } from "../../../../../interfaces/high5/space/execution";
 
 export class High5SpaceExecutionStates extends Base {
@@ -14,12 +14,17 @@ export class High5SpaceExecutionStates extends Base {
      * @param executionStatusId ID of the execution status
      * @returns High5ExecutionStatus
      */
-    async getStreamExecutionStatus(orgName: string, spaceName: string, executionStatusId: string): Promise<High5ExecutionStatus> {
+    async getStreamExecutionStatus<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        executionStatusId: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, High5ExecutionStatus>> {
         const resp = await this.axios.get<High5ExecutionStatus>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execution/streams/status/${executionStatusId}`)
         );
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, High5ExecutionStatus>;
     }
 
     /**
@@ -29,12 +34,17 @@ export class High5SpaceExecutionStates extends Base {
      * @param executionStatusId ID of the execution status
      * @returns ExecutionTree
      */
-    async getExecutionTree(orgName: string, spaceName: string, executionStatusId: string): Promise<ExecutionTree> {
+    async getExecutionTree<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        executionStatusId: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, ExecutionTree>> {
         const resp = await this.axios.get<ExecutionTree>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execution/streams/executionTree/${executionStatusId}`)
         );
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, ExecutionTree>;
     }
 
     protected getEndpoint(endpoint: string): string {

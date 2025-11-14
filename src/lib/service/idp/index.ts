@@ -1,14 +1,14 @@
-import Base from "../../Base";
-import { Version } from "../../interfaces/global";
-import { PreLoginResponse } from "../../interfaces/idp";
-import { User } from "../../interfaces/idp/user";
-import { SuccessfulAuth } from "../../interfaces/idp/user/SuccessfulAuth";
-import { IdpGuest } from "./guest";
-import { IdpInternal } from "./internal";
-import { IdpOAuth } from "./oauth";
-import { IdpOrganization } from "./organization";
-import { IdpRegistration } from "./registration";
-import { IdpUser } from "./user";
+import Base, { MaybeRaw } from "../../Base"
+import { Version } from "../../interfaces/global"
+import { PreLoginResponse } from "../../interfaces/idp"
+import { User } from "../../interfaces/idp/user"
+import { SuccessfulAuth } from "../../interfaces/idp/user/SuccessfulAuth"
+import { IdpGuest } from "./guest"
+import { IdpInternal } from "./internal"
+import { IdpOAuth } from "./oauth"
+import { IdpOrganization } from "./organization"
+import { IdpRegistration } from "./registration"
+import { IdpUser } from "./user"
 
 export default class Idp extends Base {
     /**
@@ -81,10 +81,10 @@ export default class Idp extends Base {
      * Requests the endpoint version
      * @returns Version object
      */
-    async version(): Promise<Version> {
+    async version<R extends boolean = false>(raw?: { raw: R }): Promise<MaybeRaw<R, Version>> {
         const resp = await this.axios.get<Version>(this.getEndpoint("/v1/version"));
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Version>;
     }
 
     /**
@@ -94,7 +94,7 @@ export default class Idp extends Base {
      * @param token (optional) token if 2FA-TOTP is enabled
      * @returns SuccessfulAuth object holding the token and the user
      */
-    async login(email: string, password: string, token?: string): Promise<SuccessfulAuth> {
+    async login<R extends boolean = false>(email: string, password: string, token?: string, raw?: { raw: R }): Promise<MaybeRaw<R, SuccessfulAuth>> {
         let body = { email: email, password: password };
         if (token) {
             body = { ...body, ...{ token: token } };
@@ -105,7 +105,7 @@ export default class Idp extends Base {
             token: resp.headers["authorization"]?.toString() || "",
             user: resp.data,
         };
-        return authed;
+        return (raw?.raw ? { ...resp, data: authed } : authed) as MaybeRaw<R, SuccessfulAuth>;
     }
 
     /**
@@ -116,7 +116,12 @@ export default class Idp extends Base {
      * @param hint Valid email address of the user that wants to login. Hint must be defined when provider is not.
      * @returns URL that must be accessed via a browser to continue the login process.
      */
-    async loginWithOIDC(origin: string, oidcProvider?: string, hint?: string): Promise<string> {
+    async loginWithOIDC<R extends boolean = false>(
+        origin: string,
+        oidcProvider?: string,
+        hint?: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, string>> {
         const resp = await this.axios.get(this.getEndpoint("/v1/login/oidc"), {
             params: {
                 origin,
@@ -132,7 +137,7 @@ export default class Idp extends Base {
         if (!location) {
             throw new Error("Location header is undefined.");
         }
-        return location;
+        return (raw?.raw ? resp : location) as MaybeRaw<R, string>;
     }
 
     /**
@@ -141,7 +146,7 @@ export default class Idp extends Base {
      * @param email  Email of the user. The email domain will be used to determine the appropriate SAML 2.0 provider to use going forward.
      * @returns URL that must be accessed via a browser to continue the login process.
      */
-    async loginWithSAML(origin: string, email: string): Promise<string> {
+    async loginWithSAML<R extends boolean = false>(origin: string, email: string, raw?: { raw: R }): Promise<MaybeRaw<R, string>> {
         const resp = await this.axios.get(this.getEndpoint("/v1/login/saml"), {
             params: {
                 origin,
@@ -156,7 +161,7 @@ export default class Idp extends Base {
         if (!location) {
             throw new Error("Location header is undefined.");
         }
-        return location;
+        return (raw?.raw ? resp : location) as MaybeRaw<R, string>;
     }
 
     /**
@@ -168,14 +173,14 @@ export default class Idp extends Base {
      * @returns object that dictates if: the user needs to REGISTER; the user needs to VERIFY_EMAIL; the user can LOGIN using this email;
      *          or the authentication process should continue via an EXTERNAL provider that can be found via the location property.
      */
-    async preLogin(email: string, origin: string): Promise<PreLoginResponse> {
+    async preLogin<R extends boolean = false>(email: string, origin: string, raw?: { raw: R }): Promise<MaybeRaw<R, PreLoginResponse>> {
         const resp = await this.axios.get<PreLoginResponse>(this.getEndpoint("/v1/login/pre"), {
             params: {
                 origin,
                 email,
             },
         });
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, PreLoginResponse>;
     }
 
     /**
@@ -185,8 +190,9 @@ export default class Idp extends Base {
      * @param captcha Valid google reCAPTCHAV2
      * @param targetUrl Optional url the link in the mail will point to
      */
-    async resetPassword(email: string, captcha: string, targetUrl?: string): Promise<void> {
-        await this.axios.post<void>(this.getEndpoint("/v1/login/forgot_password"), { email, captcha, targetUrl });
+    async resetPassword<R extends boolean = false>(email: string, captcha: string, targetUrl?: string, raw?: { raw: R }): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.post<void>(this.getEndpoint("/v1/login/forgot_password"), { email, captcha, targetUrl });
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     protected getEndpoint(endpoint: string): string {

@@ -1,4 +1,4 @@
-import Base from "../../../Base";
+import Base, { MaybeRaw } from "../../../Base";
 import { AuditLog } from "../../../interfaces/auditor";
 import { Asset, AssetPermission, CreateAsset, PatchAsset, Resolution, Upload } from "../../../interfaces/cosmo/asset";
 import { ReducedUser } from "../../../interfaces/idp/user";
@@ -26,12 +26,17 @@ export class CosmoAsset extends Base {
      * @param createAsset The Asset to be created
      * @returns The created asset
      */
-    async createAsset(orgName: string, spaceName: string, createAsset: CreateAsset): Promise<Asset & { upload: Upload }> {
+    async createAsset<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        createAsset: CreateAsset,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Asset & { upload: Upload }>> {
         const resp = await this.axios.post<Asset & { upload: Upload }>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets`),
             createAsset
         );
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Asset & { upload: Upload }>;
     }
 
     /**
@@ -45,14 +50,21 @@ export class CosmoAsset extends Base {
      * @param copy Whether to copy (true) or move (false) the assets
      * @returns The moved assets
      */
-    async bulkMove(orgName: string, spaceName: string, assetIdList: string[], newParentId?: string, copy = false): Promise<Asset[]> {
+    async bulkMove<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        assetIdList: string[],
+        newParentId?: string,
+        copy = false,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Asset[]>> {
         const resp = await this.axios.put<Asset[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets/bulk-move-copy`), {
             assetIds: assetIdList,
             parentId: newParentId,
             copy: copy,
         });
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Asset[]>;
     }
 
     /**
@@ -65,10 +77,17 @@ export class CosmoAsset extends Base {
      * @param locationId ID of the Location to which the Asset will be attached to
      * @returns 204 No Content if successful
      */
-    async attachAssetToLocation(orgName: string, spaceName: string, assetId: string, locationId: string): Promise<void> {
-        await this.axios.patch(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets/${assetId}/location`), {
+    async attachAssetToLocation<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        assetId: string,
+        locationId: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.patch(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets/${assetId}/location`), {
             locationId: locationId,
         });
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     /**
@@ -81,9 +100,15 @@ export class CosmoAsset extends Base {
      * @param patchAsset The Asset to be patched
      * @returns The patched asset
      */
-    async patchAsset(orgName: string, spaceName: string, assetId: string, patchAsset: PatchAsset): Promise<Asset> {
+    async patchAsset<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        assetId: string,
+        patchAsset: PatchAsset,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Asset>> {
         const resp = await this.axios.patch<Asset>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets/${assetId}`), patchAsset);
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Asset>;
     }
 
     /**
@@ -97,14 +122,21 @@ export class CosmoAsset extends Base {
      * @param includePermissions Whether to include permissions in the result or not
      * @returns The requested asset
      */
-    async getAsset(orgName: string, spaceName: string, assetId: string, namespace?: string | string[], includePermissions = false): Promise<Asset> {
+    async getAsset<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        assetId: string,
+        namespace?: string | string[],
+        includePermissions = false,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Asset>> {
         const resp = await this.axios.get<Asset>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets/${assetId}`), {
             params: {
                 namespace,
                 permissions: includePermissions ? "true" : "false",
             },
         });
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Asset>;
     }
 
     /**
@@ -117,11 +149,18 @@ export class CosmoAsset extends Base {
      * @param force If asset is folder and force is set to false, it will only succeed if the folder is empty. If set to true, it will always succeed, but delete all children in the process
      * @returns 204 No Content if successful
      */
-    async deleteAssets(orgName: string, spaceName: string, assetIds: string[], force?: boolean): Promise<void> {
-        await this.axios.delete(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets`), {
+    async deleteAssets<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        assetIds: string[],
+        force?: boolean,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.delete(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets`), {
             data: { assetIds },
             params: { force },
         });
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     /**
@@ -134,12 +173,18 @@ export class CosmoAsset extends Base {
      * @param resolution The desired resolution for the download URLs
      * @returns A map of Asset IDs to their download URLs
      */
-    async requestDownloadUrls(orgName: string, spaceName: string, assetIdList: string[], resolution: Resolution): Promise<Record<string, string>> {
+    async requestDownloadUrls<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        assetIdList: string[],
+        resolution: Resolution,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Record<string, string>>> {
         const resp = await this.axios.post<Record<string, string>>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets/downloadUrls`), {
             assetIds: assetIdList,
             resolution: resolution,
         });
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Record<string, string>>;
     }
 
     /**
@@ -150,9 +195,9 @@ export class CosmoAsset extends Base {
      * @param token An upload token for the asset
      * @returns The uploaded asset
      */
-    async uploadAsset(token: string): Promise<Asset> {
+    async uploadAsset<R extends boolean = false>(token: string, raw?: { raw: R }): Promise<MaybeRaw<R, Asset>> {
         const resp = await this.axios.put<Asset>(this.getEndpoint(`/v1/assets/upload?${token}`));
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Asset>;
     }
 
     /**
@@ -165,11 +210,17 @@ export class CosmoAsset extends Base {
      * @param newParentId (optional) ID of the new parent Asset to which the asset will be moved. The asset will be moved to the root if not provided.
      * @returns The moved asset
      */
-    async moveAsset(orgName: string, spaceName: string, assetId: string, newParentId?: string): Promise<Asset> {
+    async moveAsset<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        assetId: string,
+        newParentId?: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Asset>> {
         const resp = await this.axios.put<Asset>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets/${assetId}/move`), {
             parentId: newParentId,
         });
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Asset>;
     }
 
     /**
@@ -181,12 +232,17 @@ export class CosmoAsset extends Base {
      * @param assetIdList List of Asset IDs to be moved to trash
      * @returns The moved assets
      */
-    async moveAssetsToTrash(orgName: string, spaceName: string, assetIdList: string[]): Promise<Asset[]> {
+    async moveAssetsToTrash<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        assetIdList: string[],
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Asset[]>> {
         const resp = await this.axios.put<Asset[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/trash`), {
             assetIds: assetIdList,
         });
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Asset[]>;
     }
 
     /**
@@ -198,14 +254,19 @@ export class CosmoAsset extends Base {
      * @param assetIdList List of Asset IDs to be moved to trash
      * @returns A map of Asset IDs to their permissions
      */
-    async fetchAssetPermissions(orgName: string, spaceName: string, assetIdList: string[]): Promise<Record<string, AssetPermission[]>> {
+    async fetchAssetPermissions<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        assetIdList: string[],
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Record<string, AssetPermission[]>>> {
         const resp = await this.axios.post<Record<string, AssetPermission[]>>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets/permissions`),
             {
                 assetIds: assetIdList,
             }
         );
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Record<string, AssetPermission[]>>;
     }
 
     /**
@@ -218,14 +279,21 @@ export class CosmoAsset extends Base {
      * @param {number} page - The page number to retrieve (for pagination).
      * @returns {Promise<AuditLog[]>} A promise that resolves to an array of `AuditLog` objects representing the asset’s activity history.
      */
-    async fetchAssetActivity(orgName: string, spaceName: string, assetId: string, limit: number, page: number): Promise<AuditLog[]> {
+    async fetchAssetActivity<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        assetId: string,
+        limit: number,
+        page: number,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, AuditLog[]>> {
         const resp = await this.axios.get<AuditLog[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets/${assetId}/activity`), {
             params: {
                 limit,
                 page,
             },
         });
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, AuditLog[]>;
     }
 
     /**
@@ -237,11 +305,17 @@ export class CosmoAsset extends Base {
      * @param assetId ID of the Asset to be renamed
      * @returns The renamed asset
      */
-    async renameAsset(orgName: string, spaceName: string, assetId: string, newName: string): Promise<Asset> {
+    async renameAsset<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        assetId: string,
+        newName: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Asset>> {
         const resp = await this.axios.patch<Asset>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets/${assetId}/name`), {
             name: newName,
         });
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Asset>;
     }
 
     /**
@@ -253,14 +327,19 @@ export class CosmoAsset extends Base {
      * @param assetIdList List of Asset IDs to be moved out of trash
      * @returns The moved assets
      */
-    async moveAssetsOutOfTrash(orgName: string, spaceName: string, assetIdList: string[]): Promise<Asset[]> {
+    async moveAssetsOutOfTrash<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        assetIdList: string[],
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Asset[]>> {
         const resp = await this.axios.delete<Asset[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/trash`), {
             data: {
                 assetIds: assetIdList,
             },
         });
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Asset[]>;
     }
 
     /**
@@ -274,11 +353,18 @@ export class CosmoAsset extends Base {
      * @param tagName Name of the tag
      * @returns The updated asset
      */
-    async attachTagToAsset(orgName: string, spaceName: string, namespaceName: string, assetId: string, tagName: string): Promise<Asset> {
+    async attachTagToAsset<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        namespaceName: string,
+        assetId: string,
+        tagName: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Asset>> {
         const resp = await this.axios.patch<Asset>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/namespaces/${namespaceName}/assets/${assetId}/tags/${tagName}`)
         );
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Asset>;
     }
 
     /**
@@ -291,11 +377,17 @@ export class CosmoAsset extends Base {
      * @param assetId ID of the Asset to be attached
      * @returns The updated asset
      */
-    async removeTagFromAsset(orgName: string, spaceName: string, namespaceName: string, assetId: string): Promise<Asset> {
+    async removeTagFromAsset<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        namespaceName: string,
+        assetId: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Asset>> {
         const resp = await this.axios.delete<Asset>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/namespaces/${namespaceName}/assets/${assetId}/tags`)
         );
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Asset>;
     }
 
     /**
@@ -305,13 +397,20 @@ export class CosmoAsset extends Base {
      * @param page Page number for pagination
      * @returns A list of users allowed to be mentioned in a comment of the asset
      */
-    async listUsersAllowedToMention(orgName: string, spaceName: string, assetId: string, limit?: number, page?: number): Promise<ReducedUser[]> {
+    async listUsersAllowedToMention<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        assetId: string,
+        limit?: number,
+        page?: number,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, ReducedUser[]>> {
         const resp = await this.axios.get<ReducedUser[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets/${assetId}/users`), {
             params: {
                 limit,
                 page,
             },
         });
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, ReducedUser[]>;
     }
 }

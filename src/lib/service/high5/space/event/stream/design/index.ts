@@ -1,4 +1,4 @@
-import Base from "../../../../../../Base";
+import Base, { MaybeRaw } from "../../../../../../Base";
 import { Design } from "../../../../../../interfaces/high5/space/event/stream/design";
 import { DesignContent } from "../../../../../../interfaces/high5/space/event/stream/design/StreamDesign";
 import DesignOperations from "./DesignOperations";
@@ -35,12 +35,18 @@ export class High5Design extends Base {
      * @param streamId ID of the stream
      * @returns The requested design
      */
-    async getDesign(orgName: string, spaceName: string, eventName: string, streamId: string): Promise<Design> {
+    async getDesign<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        eventName: string,
+        streamId: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Design>> {
         const resp = await this.axios.get<Design>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/design`)
         );
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Design>;
     }
 
     /**
@@ -55,14 +61,15 @@ export class High5Design extends Base {
      * @param content Design as Json payload (schema created by Stream Designer Studio)
      * @returns The created design
      */
-    async createDesign(
+    async createDesign<R extends boolean = false>(
         orgName: string,
         spaceName: string,
         eventName: string,
         streamId: string,
         name: string,
-        content: DesignContent
-    ): Promise<Design> {
+        content: DesignContent,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Design>> {
         const resp = await this.axios.put<Design>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/design`),
             {
@@ -71,7 +78,7 @@ export class High5Design extends Base {
             }
         );
 
-        return resp.data;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Design>;
     }
 
     /**
@@ -86,8 +93,17 @@ export class High5Design extends Base {
      * @param content Design as Json payload (schema created by Stream Designer Studio)
      * @returns The created design
      */
-    async publishDesign(orgName: string, spaceName: string, eventName: string, streamId: string): Promise<void> {
-        await this.axios.put<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/design/publish`));
+    async publishDesign<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        eventName: string,
+        streamId: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.put<void>(
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}/streams/${streamId}/design/publish`)
+        );
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     protected getEndpoint(endpoint: string): string {

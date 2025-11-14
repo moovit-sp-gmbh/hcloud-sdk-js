@@ -1,4 +1,4 @@
-import Base from "../../../Base";
+import Base, { MaybeRaw } from "../../../Base";
 import { FuseSpaceInternal } from "./space";
 
 export class FuseInternal extends Base {
@@ -10,8 +10,9 @@ export class FuseInternal extends Base {
     }
     private _space?: FuseSpaceInternal;
 
-    async deleteUsers(userIds: string[]): Promise<void> {
-        await this.axios.delete(this.getEndpoint("/v1/users"), { data: { userIds } });
+    async deleteUsers<R extends boolean = false>(userIds: string[], raw?: { raw: R }): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.delete(this.getEndpoint("/v1/users"), { data: { userIds } });
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 
     protected getEndpoint(endpoint: string): string {

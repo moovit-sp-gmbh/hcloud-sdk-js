@@ -166,6 +166,8 @@ export enum Resolution {
     R480 = "480",
 }
 
+export const supportedFormats = [".mp4", ".mov", ".mkv", ".mxf"];
+
 export const searchParams = {
     type: {
         type: [SearchFilterType.STRING, SearchFilterType.SELECT, SearchFilterType.TYPEAHEAD],

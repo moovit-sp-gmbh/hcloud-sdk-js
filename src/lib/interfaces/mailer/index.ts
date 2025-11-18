@@ -49,6 +49,7 @@ enum MailjetTemplate {
     COSMO_REPLIED_TO_COMMENT = "COSMO_REPLIED_TO_COMMENT",
     COSMO_ASSET_STATUS_CHANGED = "COSMO_ASSET_STATUS_CHANGED",
     COSMO_ASSET_UPLOADED_TO_SHARE = "COSMO_ASSET_UPLOADED_TO_SHARE",
+    COSMO_SHARE_PASSWORD_CHANGED = "COSMO_SHARE_PASSWORD_CHANGED",
 }
 
 interface MailjetTemplateField {
@@ -210,6 +211,16 @@ export class CosmoAssetStatusChangedMailjetMailDTO extends MailjetMailDTO {
             NEW_STATUS: newStatus,
             SPACE_NAME: spaceName,
             LINK: link,
+        });
+    }
+}
+
+export class CosmoSharePasswordChangedMailjetMailDTO extends MailjetMailDTO {
+    constructor(recipients: string[], recipientName: string, shareName: string, shareLink: string) {
+        super(recipients, MailjetTemplate.COSMO_SHARE_PASSWORD_CHANGED, {
+            RECIPIENT_NAME: recipientName,
+            SHARE_NAME: shareName,
+            HCLOUD_SHARE_LINK: shareLink,
         });
     }
 }

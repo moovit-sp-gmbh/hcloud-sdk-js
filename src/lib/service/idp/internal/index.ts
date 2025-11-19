@@ -1,5 +1,5 @@
-import Base, { MaybeRaw } from "../../../Base"
-import { User } from "../../../interfaces/idp/user"
+import Base, { MaybeRaw } from "../../../Base";
+import { User } from "../../../interfaces/idp/user";
 
 export class IdpInternal extends Base {
     /**

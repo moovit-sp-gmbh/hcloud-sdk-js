@@ -1,14 +1,14 @@
-import Base, { MaybeRaw } from "../../Base"
-import { Version } from "../../interfaces/global"
-import { PreLoginResponse } from "../../interfaces/idp"
-import { User } from "../../interfaces/idp/user"
-import { SuccessfulAuth } from "../../interfaces/idp/user/SuccessfulAuth"
-import { IdpGuest } from "./guest"
-import { IdpInternal } from "./internal"
-import { IdpOAuth } from "./oauth"
-import { IdpOrganization } from "./organization"
-import { IdpRegistration } from "./registration"
-import { IdpUser } from "./user"
+import Base, { MaybeRaw } from "../../Base";
+import { Version } from "../../interfaces/global";
+import { PreLoginResponse } from "../../interfaces/idp";
+import { User } from "../../interfaces/idp/user";
+import { SuccessfulAuth } from "../../interfaces/idp/user/SuccessfulAuth";
+import { IdpGuest } from "./guest";
+import { IdpInternal } from "./internal";
+import { IdpOAuth } from "./oauth";
+import { IdpOrganization } from "./organization";
+import { IdpRegistration } from "./registration";
+import { IdpUser } from "./user";
 
 export default class Idp extends Base {
     /**

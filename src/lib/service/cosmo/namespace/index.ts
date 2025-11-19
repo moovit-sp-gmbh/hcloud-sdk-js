@@ -1,6 +1,6 @@
-import Base, { MaybeRaw } from "../../../Base"
-import { Asset, NamespaceRushStatus } from "../../../interfaces/cosmo/asset"
-import { Namespace } from "../../../interfaces/cosmo/namespace"
+import Base, { MaybeRaw } from "../../../Base";
+import { Asset, NamespaceRushStatus } from "../../../interfaces/cosmo/asset";
+import { Namespace } from "../../../interfaces/cosmo/namespace";
 
 /**
  * @class Namespace

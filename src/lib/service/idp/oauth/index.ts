@@ -1,6 +1,6 @@
-import Base, { MaybeRaw } from "../../../Base"
-import { OAuthToken, OAuthTokenRequest } from "../../../interfaces/idp/oauth"
-import { OAuthAppPublicInfo } from "../../../interfaces/idp/organization/settings/oauthApp"
+import Base, { MaybeRaw } from "../../../Base";
+import { OAuthToken, OAuthTokenRequest } from "../../../interfaces/idp/oauth";
+import { OAuthAppPublicInfo } from "../../../interfaces/idp/organization/settings/oauthApp";
 
 export class IdpOAuth extends Base {
     /**

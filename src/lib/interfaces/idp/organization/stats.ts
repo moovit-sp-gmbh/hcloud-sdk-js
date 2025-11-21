@@ -4,5 +4,4 @@ export type Stats = {
     usersOnline: number;
     teams: number;
     serviceAccounts: number;
-    date: number;
 };

@@ -16,5 +16,4 @@ export interface Stats {
             };
         };
     };
-    date: number;
 }

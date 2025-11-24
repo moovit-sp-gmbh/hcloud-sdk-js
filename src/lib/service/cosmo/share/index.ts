@@ -1,5 +1,4 @@
 import Base, { MaybeRaw } from "../../../Base";
-import { Asset } from "../../../interfaces/cosmo/asset";
 import { Share, ShareCreate, SharePatch, ShareWithUsers } from "../../../interfaces/cosmo/share";
 import { SearchFilter, Sorting } from "../../../interfaces/global";
 
@@ -62,35 +61,6 @@ export class CosmoShare extends Base {
         });
 
         return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Share>;
-    }
-
-    /**
-     * Fetch shared Assets.
-     * @remarks
-     * ** Under development, breaking changes possible**
-     * @param orgName Name of the Organization
-     * @param spaceName Name of the Space
-     * @param shareId The ID of the Share to link
-     * @param limit The number of assets to return
-     * @param page The page number to return
-     * @param namespace The namespace to filter by
-     *
-     * @returns The created Share
-     */
-    async fetchSharedAssets<R extends boolean = false>(
-        orgName: string,
-        spaceName: string,
-        shareId: string,
-        limit: number,
-        page: number,
-        namespace: string,
-        raw?: { raw: R }
-    ): Promise<MaybeRaw<R, Asset[]>> {
-        const resp = await this.axios.get<Asset[]>(
-            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/shares/${shareId}/assets?limit=${limit}&page=${page}&namespace=${namespace}`)
-        );
-
-        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Asset[]>;
     }
 
     /**

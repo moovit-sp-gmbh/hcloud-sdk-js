@@ -21,4 +21,5 @@ export interface Message {
     read: boolean;
     type: MessageType;
     createDate: number;
+    link?: string;
 }

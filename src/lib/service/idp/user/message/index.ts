@@ -88,6 +88,7 @@ export class IdpMessage extends Base {
             title?: string;
             subject?: string;
             message: string;
+            link?: string;
         },
         raw?: { raw: R }
     ): Promise<MaybeRaw<R, Message>> {

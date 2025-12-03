@@ -2,6 +2,7 @@ import Base, { MaybeRaw } from "../../../../Base";
 import { createPaginatedResponse } from "../../../../helper/paginatedResponseHelper";
 import { SearchFilterDTO } from "../../../../helper/searchFilter";
 import { PaginatedResponse, SearchFilter, Sorting } from "../../../../interfaces/global";
+import { High5SpacePermission } from "../../../../interfaces/high5";
 import { ServiceAccount, ServiceAccountNoToken } from "../../../../interfaces/idp/organization/service-accounts";
 
 export default class IdpOrganizationServiceAccounts extends Base {
@@ -87,6 +88,27 @@ export default class IdpOrganizationServiceAccounts extends Base {
     async regenerateToken<R extends boolean = false>(orgName: string, id: string, raw?: { raw: R }): Promise<MaybeRaw<R, ServiceAccount>> {
         const res = await this.axios.patch<ServiceAccount>(this.getEndpoint(`/${orgName}/service-accounts/${id}/regenerate`));
         return (raw?.raw ? res : res.data) as MaybeRaw<R, ServiceAccount>;
+    }
+
+    /**
+     * Update scopes for a service account according to High5 space permissions
+     *
+     * @param orgName {string} Organization name
+     * @param id      {string} Service account ID
+     * @param permission {High5SpacePermission} New permission for the service account
+     *
+     * @returns {ServiceAccountNoToken}
+     */
+    async updateScopes<R extends boolean = false>(
+        orgName: string,
+        id: string,
+        permission: High5SpacePermission,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, ServiceAccountNoToken>> {
+        const res = await this.axios.patch<ServiceAccountNoToken>(this.getEndpoint(`/${orgName}/service-accounts/${id}/scopes/permission`), {
+            permission: permission,
+        });
+        return (raw?.raw ? res : res.data) as MaybeRaw<R, ServiceAccountNoToken>;
     }
 
     /**

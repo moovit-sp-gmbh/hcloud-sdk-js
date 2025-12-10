@@ -195,3 +195,5 @@ export enum AssetSearchContext {
     TRASH = "TRASH",
     SHARE = "SHARE",
 }
+
+export type NamespaceMetadata = Record<string, string | number | boolean | (string | number | boolean)[]>;

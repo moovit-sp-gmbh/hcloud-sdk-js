@@ -56,6 +56,22 @@ interface MailjetTemplateField {
     [key: string]: string;
 }
 
+export type MailjetResponse = {
+    Messages: [
+        {
+            Status: string;
+            To: [
+                {
+                    Email: string;
+                    MessageUUID: string;
+                    MessageID: string | number;
+                    MessageHref: string;
+                },
+            ];
+        },
+    ];
+};
+
 export abstract class MailjetMailDTO {
     public recipients: string[];
     public template: MailjetTemplate;

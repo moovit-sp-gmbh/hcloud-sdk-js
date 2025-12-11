@@ -1,5 +1,5 @@
 import Base, { MaybeRaw } from "../../../Base";
-import { HtmlMail, MailjetMailDTO, MustacheMail, TemplateMail } from "../../../interfaces/mailer";
+import { HtmlMail, MailjetMailDTO, MailjetResponse, MustacheMail, TemplateMail } from "../../../interfaces/mailer";
 
 export default class MailerInternal extends Base {
     /**
@@ -8,10 +8,10 @@ export default class MailerInternal extends Base {
      * THIS IS AN INTERNAL ENDPOINT AND CAN ONLY BE USED FROM BACKENDS WITHIN THE HCLOUD DEPLOYMENT
      * @param mail MailjetMailDTO
      */
-    async sendMailMailjet<R extends boolean = false>(mail: MailjetMailDTO, raw?: { raw: R }): Promise<MaybeRaw<R, void>> {
-        const resp = await this.axios.post<void>(this.getEndpoint("/v1/send/mailjet"), mail);
+    async sendMailMailjet<R extends boolean = false>(mail: MailjetMailDTO, raw?: { raw: R }): Promise<MaybeRaw<R, MailjetResponse>> {
+        const resp = await this.axios.post<MailjetResponse>(this.getEndpoint("/v1/send/mailjet"), mail);
 
-        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, MailjetResponse>;
     }
 
     /**

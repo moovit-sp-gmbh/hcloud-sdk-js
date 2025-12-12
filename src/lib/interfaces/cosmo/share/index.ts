@@ -7,6 +7,7 @@ export interface Share {
     createDate: number;
     items: string[];
     permissions: string[];
+    namespaces?: Record<string, string[]>;
     expires?: number;
     password?: string;
 }

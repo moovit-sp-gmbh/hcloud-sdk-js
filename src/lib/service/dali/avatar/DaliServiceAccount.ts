@@ -24,29 +24,6 @@ export class DaliServiceAccount extends Base {
         return (raw?.raw ? resp : resp.data) as MaybeRaw<R, string>;
     }
 
-    /**
-     * Updates the avatar of the specified service account.
-     * @param orgName Name of the organization
-     * @param serviceAccountId ID of the service account
-     * @param file Image as Javascript File
-     * @returns Public URL of the new avatar
-     */
-    async updateAvatar<R extends boolean = false>(
-        orgName: string,
-        serviceAccountId: string,
-        file: File,
-        raw?: { raw: R }
-    ): Promise<MaybeRaw<R, AvatarCreated>> {
-        const data = new FormData();
-        data.append("avatar", file);
-
-        const resp = await this.axios.put<AvatarCreated>(this.getEndpoint(`/v1/avatar/org/${orgName}/service-accounts/${serviceAccountId}`), data, {
-            headers: { "Content-Type": "multipart/form-data" },
-        });
-
-        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, AvatarCreated>;
-    }
-
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/dali${endpoint}`;
     }

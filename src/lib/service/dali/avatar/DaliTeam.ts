@@ -24,29 +24,6 @@ export class DaliTeam extends Base {
         return (raw?.raw ? resp : resp.data) as MaybeRaw<R, string>;
     }
 
-    /**
-     * Updates the avatar of the specified team.
-     * @param orgName Name of the organization
-     * @param teamName Name of the team
-     * @param file Image as Javascript File
-     * @returns Public URL of the new avatar
-     */
-    async updateAvatar<R extends boolean = false>(
-        orgName: string,
-        teamName: string,
-        file: File,
-        raw?: { raw: R }
-    ): Promise<MaybeRaw<R, AvatarCreated>> {
-        const data = new FormData();
-        data.append("avatar", file);
-
-        const resp = await this.axios.put<AvatarCreated>(this.getEndpoint(`/v1/avatar/org/${orgName}/teams/${teamName}`), data, {
-            headers: { "Content-Type": "multipart/form-data" },
-        });
-
-        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, AvatarCreated>;
-    }
-
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/dali${endpoint}`;
     }

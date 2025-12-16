@@ -1,8 +1,17 @@
 import Base, { MaybeRaw } from "../../../Base";
 import { OAuthToken, OAuthTokenRequest } from "../../../interfaces/idp/oauth";
 import { OAuthAppPublicInfo } from "../../../interfaces/idp/organization/settings/oauthApp";
+import IdpOAuthDevice from "./device";
 
 export class IdpOAuth extends Base {
+    public get device(): IdpOAuthDevice {
+        if (this._device === undefined) {
+            this._device = new IdpOAuthDevice(this.options, this.axios);
+        }
+        return this._device;
+    }
+    private _device?: IdpOAuthDevice;
+
     /**
      * getAuthorizationCodeInsideRedirectUrl throws for an invalid request (query params do not match OAuthApp).
      * It returns the redirect URL with the code, which is used to redirect to the client application,

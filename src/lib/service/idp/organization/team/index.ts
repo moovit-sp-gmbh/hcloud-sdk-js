@@ -140,6 +140,24 @@ export class IdpOrganizationTeams extends Base {
         >;
     }
 
+    /**
+     * Updates the avatar of the specified team
+     * @param orgName Name of the organization
+     * @param teamName Name of the Team
+     * @param file Image as Javascript File
+     * @returns Team details with updated avatar
+     */
+    async updateAvatar<R extends boolean = false>(orgName: string, teamName: string, file: File, raw?: { raw: R }): Promise<MaybeRaw<R, Team>> {
+        const data = new FormData();
+        data.append("avatar", file);
+
+        const resp = await this.axios.patch<Team>(this.getEndpoint(`/${orgName}/teams/${teamName}/avatar`), data, {
+            headers: { "Content-Type": "multipart/form-data" },
+        });
+
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Team>;
+    }
+
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/account/v1/org${endpoint}`;
     }

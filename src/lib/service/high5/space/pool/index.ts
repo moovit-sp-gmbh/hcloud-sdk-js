@@ -214,6 +214,31 @@ export default class High5Pool extends Base {
         >;
     }
 
+    /**
+     * Updates the avatar of the specified pool
+     * @param orgName Name of the organization
+     * @param spaceName Name of the space
+     * @param name Name of the pool
+     * @param file Image as Javascript File
+     * @returns Pool details with updated avatar
+     */
+    async updateAvatar<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        name: string,
+        file: File,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Pool>> {
+        const data = new FormData();
+        data.append("avatar", file);
+
+        const resp = await this.axios.patch<Pool>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/pools/${name}/avatar`), data, {
+            headers: { "Content-Type": "multipart/form-data" },
+        });
+
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Pool>;
+    }
+
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/high5${endpoint}`;
     }

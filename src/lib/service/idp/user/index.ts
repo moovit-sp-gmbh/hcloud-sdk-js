@@ -119,6 +119,22 @@ export class IdpUser extends Base {
     }
 
     /**
+     * Updates user's avatar
+     * @param file Image as Javascript File
+     * @returns User details with updated avatar
+     */
+    async updateAvatar<R extends boolean = false>(file: File, raw?: { raw: R }): Promise<MaybeRaw<R, User>> {
+        const data = new FormData();
+        data.append("avatar", file);
+
+        const resp = await this.axios.patch<User>(this.getEndpoint(`/v1/user/avatar`), data, {
+            headers: { "Content-Type": "multipart/form-data" },
+        });
+
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, User>;
+    }
+
+    /**
      * Retrieves all Organizations of a user that match the provided search filter(s). Returns all Organizations of the user if no search filter is provided.
      * @param filters (optional) Array of search filters
      * @param sorting (optional) Sorting object

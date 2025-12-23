@@ -132,6 +132,24 @@ export class IdpOAuthApp extends Base {
         return (raw?.raw ? resp : resp.data) as MaybeRaw<R, OAuthApp>;
     }
 
+    /**
+     * Updates the avatar of the specified OAuth App
+     * @param orgName Name of the organization
+     * @param oauthAppId ID of the OAuthApp
+     * @param file Image as Javascript File
+     * @returns OAuth App details with updated avatar
+     */
+    async updateAvatar<R extends boolean = false>(orgName: string, oauthAppId: string, file: File, raw?: { raw: R }): Promise<MaybeRaw<R, OAuthApp>> {
+        const data = new FormData();
+        data.append("avatar", file);
+
+        const resp = await this.axios.patch<OAuthApp>(this.getEndpoint(`/v1/org/${orgName}/settings/applications/oauth/${oauthAppId}/avatar`), data, {
+            headers: { "Content-Type": "multipart/form-data" },
+        });
+
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, OAuthApp>;
+    }
+
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/account${endpoint}`;
     }

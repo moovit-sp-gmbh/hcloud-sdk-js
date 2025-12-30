@@ -169,18 +169,18 @@ interface NatsMessage {
 }
 interface NatsObject
     extends NatsNameObject,
-    NatsIdObject,
-    NatsMemberObject,
-    NatsSecretObject,
-    NatsExecTargetObject,
-    High5ExecuteOnAgentRequest,
-    High5ExecutionCancelRequest,
-    NatsLicenseObject,
-    NatsCustomNodeObject,
-    NatsAssetObject,
-    NatsIdNoUnderscoreObject,
-    NatsTargetObject,
-    NatsCosmoStatusObject {
+        NatsIdObject,
+        NatsMemberObject,
+        NatsSecretObject,
+        NatsExecTargetObject,
+        High5ExecuteOnAgentRequest,
+        High5ExecutionCancelRequest,
+        NatsLicenseObject,
+        NatsCustomNodeObject,
+        NatsAssetObject,
+        NatsIdNoUnderscoreObject,
+        NatsTargetObject,
+        NatsCosmoStatusObject {
     [NatsSubject.IDP_USER_GENERAL]: NatsIdObject;
     [NatsSubject.IDP_USER_PROFILE]: NatsIdObject;
     [NatsSubject.IDP_USER_SECURITY_PATS]: NatsIdObject;

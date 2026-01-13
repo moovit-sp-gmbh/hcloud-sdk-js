@@ -1,5 +1,6 @@
 import Base, { MaybeRaw } from "../../../Base";
 import { AvatarCreated } from "../../../interfaces/dali";
+import { Pool } from "../../../interfaces/high5/space/pool";
 
 export class DaliHigh5Pool extends Base {
     /**
@@ -37,6 +38,35 @@ export class DaliHigh5Pool extends Base {
     ): Promise<MaybeRaw<R, string>> {
         const resp = await this.axios.delete<string>(this.getEndpoint(`/v1/avatar/org/${orgName}/spaces/high5/${spaceName}/pools/${poolName}`));
         return (raw?.raw ? resp : resp.data) as MaybeRaw<R, string>;
+    }
+
+    /**
+     * Updates the avatar of the specified High5 pool
+     * @param orgName Name of the organization
+     * @param spaceName Name of the space
+     * @param poolName Name of the pool
+     * @param file Image as Javascript File
+     * @returns Public URL of the new avatar
+     */
+    async updateAvatar<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        poolName: string,
+        file: File,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Pool>> {
+        const data = new FormData();
+        data.append("avatar", file);
+
+        const resp = await this.axios.patch<Pool>(
+            `${this.options.server}/api/high5/v1/org/${orgName}/spaces/${spaceName}/pools/${poolName}/avatar`,
+            data,
+            {
+                headers: { "Content-Type": "multipart/form-data" },
+            }
+        );
+
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Pool>;
     }
 
     protected getEndpoint(endpoint: string): string {

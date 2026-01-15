@@ -390,4 +390,27 @@ export class CosmoAsset extends Base {
         });
         return (raw?.raw ? resp : resp.data) as MaybeRaw<R, ReducedUser[]>;
     }
+
+    /**
+     * Clone one or more assets within a space.
+     *
+     * This operation creates copies of the specified assets in the same organization and space.
+     *
+     *
+     * @param orgName Name of the Organization
+     * @param spaceName Name of the Space
+     * @param history This flag determines whether to also clone the asset's history. This includes comments, status and tags. Cloning with history is only possible for non-folder assets.
+     * @param assetIds List of Asset IDs to be cloned. If folder IDs are specified, they will be recursively cloned.
+     * @returns The cloned assets
+     */
+    async cloneAsset<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        history: boolean,
+        assetIds: string[],
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Asset[]>> {
+        const resp = await this.axios.put<Asset[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets/clone`), { assetIds, history });
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Asset[]>;
+    }
 }

@@ -169,4 +169,17 @@ export class CosmoSpace extends Base {
 
         return (raw?.raw ? resp : resp.data) as MaybeRaw<R, ICosmoSpace>;
     }
+
+    /**
+     * Permanently deletes all items in the trash of the specified Cosmo space
+     * @param orgName Name of the organization
+     * @param spaceName Name of the space
+     * @returns 204 No Content on success
+     */
+    async emptyTrash(
+        orgName: string,
+        spaceName: string,
+    ): Promise<void> {
+        await this.axios.post<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/trash`));
+    }
 }

@@ -87,5 +87,5 @@ export interface Job {
 }
 
 export type JobCreate = Pick<Job, "name" | "expression" | "payload" | "enabled" | "description" | "lastStatus" | "lastTriggered" | "time"> & {
-    targetEventId: string;
+    targetEvent: string;
 };

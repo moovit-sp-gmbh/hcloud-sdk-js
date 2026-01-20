@@ -51,11 +51,6 @@ enum NatsSubject {
     HIGH5_JOBS = "hcloud.high5.organization.${base64orgName}.spaces.${base64spaceName}.jobs",
     HIGH5_JOB_LOGS = "hcloud.high5.organization.${base64orgName}.spaces.${base64spaceName}.jobs.${jobId}.logs",
 
-    FUSE_SPACES = "hcloud.fuse.organization.${base64orgName}.spaces",
-    FUSE_SPACE_PERMISSIONS = "hcloud.fuse.organization.${base64orgName}.spaces.${base64spaceName}.permissions",
-    FUSE_JOBS = "hcloud.fuse.organization.${base64orgName}.spaces.${base64spaceName}.jobs",
-    FUSE_JOB_LOGS = "hcloud.fuse.organization.${base64orgName}.spaces.${base64spaceName}.jobs.${jobId}.logs",
-
     COSMO_SPACES = "hcloud.cosmo.organization.${base64orgName}.spaces",
     COSMO_NAMESPACES = "hcloud.cosmo.organization.${base64orgName}.spaces.${base64spaceName}.namespaces",
     COSMO_ASSETS = "hcloud.cosmo.organization.${base64orgName}.spaces.${base64spaceName}.assets",
@@ -140,9 +135,6 @@ enum NatsObjectType {
     JOB = "JOB",
     JOB_ID = "JOB_ID",
     JOB_LOG = "JOB_LOG",
-    CRONJOB = "CRONJOB",
-    CRONJOB_ID = "CRONJOB_ID",
-    CRONJOB_LOG = "CRONJOB_LOG",
 
     DATABASE = "DATABASE",
     DOCUMENT = "DOCUMENT",
@@ -215,10 +207,6 @@ interface NatsObject
     [NatsSubject.HIGH5_DOCUMENTS]: NatsNameObject;
     [NatsSubject.HIGH5_JOBS]: NatsIdObject;
     [NatsSubject.HIGH5_JOB_LOGS]: NatsIdObject;
-    [NatsSubject.FUSE_SPACES]: NatsNameObject;
-    [NatsSubject.FUSE_SPACE_PERMISSIONS]: NatsIdObject;
-    [NatsSubject.FUSE_JOBS]: NatsIdObject;
-    [NatsSubject.FUSE_JOB_LOGS]: NatsIdObject;
     [NatsSubject.COSMO_ASSETS]: NatsAssetObject[];
     [NatsSubject.COSMO_SHARE]: NatsIdObject;
     [NatsSubject.COSMO_ROLES]: NatsIdObject;
@@ -374,26 +362,6 @@ class NatsSubjects {
             };
             static ServiceAccounts = (organizationName: string) => {
                 return NatsSubjects.replace(NatsSubject.IDP_ORGANIZATION_SERVICE_ACCOUNTS, { organizationName });
-            };
-        };
-    };
-
-    static Fuse = class {
-        static SPACES = (organizationName: string) => {
-            return NatsSubjects.replace(NatsSubject.FUSE_SPACES, { organizationName });
-        };
-        static Space = class {
-            static PERMISSIONS = (organizationName: string, spaceName: string) => {
-                return NatsSubjects.replace(NatsSubject.FUSE_SPACE_PERMISSIONS, { organizationName, spaceName });
-            };
-            static Jobs = class {
-                static JOBS = (organizationName: string, spaceName: string) => {
-                    return NatsSubjects.replace(NatsSubject.FUSE_JOBS, { organizationName, spaceName });
-                };
-
-                static JOB_LOGS = (organizationName: string, spaceName: string, jobId: string) => {
-                    return NatsSubjects.replace(NatsSubject.FUSE_JOB_LOGS, { organizationName, spaceName, jobId });
-                };
             };
         };
     };

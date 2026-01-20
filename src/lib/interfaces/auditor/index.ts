@@ -12,7 +12,6 @@ export enum Origin {
     High5 = "high5",
     Auditor = "auditor",
     Mailer = "mailer",
-    Fuse = "fuse",
     Mothership = "mothership",
     Dali = "dali",
     Shorts = "shorts",

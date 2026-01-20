@@ -8,7 +8,6 @@ import AuditorService from "./service/auditor";
 import BouncerService from "./service/bouncer";
 import CosmoService from "./service/cosmo";
 import DaliService from "./service/dali";
-import FuseService from "./service/fuse";
 import High5Service from "./service/high5";
 import IdpService from "./service/idp";
 import MailerService from "./service/mailer";
@@ -65,14 +64,6 @@ export class HCloud {
         return this._Idp;
     }
     private _Idp?: IdpService;
-
-    public get Fuse(): FuseService {
-        if (this._Fuse === undefined) {
-            this._Fuse = new FuseService(this.options, this.axios);
-        }
-        return this._Fuse;
-    }
-    private _Fuse?: FuseService;
 
     public get Dali(): DaliService {
         if (this._Dali === undefined) {

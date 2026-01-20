@@ -38,9 +38,6 @@ enum Entity {
     JOB = "JOB",
     JOB_ID = "JOB_ID",
     JOB_LOG_ID = "JOB_LOG_ID",
-    FUSE_JOB = "FUSE_JOB",
-    CRONJOB_ID = "CRONJOB_ID",
-    CRONJOB_LOG_ID = "CRONJOB_LOG_ID",
     NAMESPACE_NAME = "NAMESPACE_NAME",
     MESSAGE_ID = "MESSAGE_ID",
     ARRAY_INDEX = "ARRAY_INDEX",
@@ -318,21 +315,6 @@ const entityCollection: Record<Entity, Details> = {
         maxLength: 24,
     },
     [Entity.JOB_LOG_ID]: {
-        pattern: /^[a-fA-F0-9]{24}$/i,
-        minLength: 24,
-        maxLength: 24,
-    },
-    [Entity.FUSE_JOB]: {
-        pattern: /^.{1,64}$/i,
-        minLength: 1,
-        maxLength: 64,
-    },
-    [Entity.CRONJOB_ID]: {
-        pattern: /^[a-fA-F0-9]{24}$/i,
-        minLength: 24,
-        maxLength: 24,
-    },
-    [Entity.CRONJOB_LOG_ID]: {
         pattern: /^[a-fA-F0-9]{24}$/i,
         minLength: 24,
         maxLength: 24,

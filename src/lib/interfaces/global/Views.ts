@@ -4,6 +4,5 @@ export enum Views {
     high5 = "/high5",
     auditor = "/auditor",
     mailer = "/mailer",
-    fuse = "/fuse",
     cosmo = "/cosmo",
 }

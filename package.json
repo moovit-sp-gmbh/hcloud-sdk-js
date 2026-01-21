@@ -50,7 +50,7 @@
         "typescript": "^5.8.3"
     },
     "dependencies": {
-        "axios": "^1.9.0",
+        "axios": "^1.13.2",
         "nats": "^2.29.3",
         "nats.ws": "^1.30.3"
     }

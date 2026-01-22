@@ -44,6 +44,7 @@ enum Entity {
     URL_SLUG = "URL_SLUG",
     TAG_NAME = "TAG_NAME",
     TAG_COLOR = "TAG_COLOR",
+    MODULE_NAME = "MODULE_NAME",
 }
 
 interface Details {
@@ -349,6 +350,11 @@ const entityCollection: Record<Entity, Details> = {
         pattern: /^#([a-fA-F0-9]{3}|[a-fA-F0-9]{6})$/i,
         minLength: 7,
         maxLength: 7,
+    },
+    [Entity.MODULE_NAME]: {
+        pattern: /^[\w-.]{3,64}$/i,
+        minLength: 3,
+        maxLength: 64,
     },
 };
 

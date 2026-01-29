@@ -10,5 +10,6 @@ export interface CreateTag {
 }
 
 export interface PatchTag {
-    color: string;
+    name?: string;
+    color?: string;
 }

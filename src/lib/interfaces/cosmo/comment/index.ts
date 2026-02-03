@@ -1,4 +1,4 @@
-import { ReducedUser } from "../../idp";
+import { ReducedTeam, ReducedUser } from "../../idp"
 
 export interface CreateComment {
     refId: string;
@@ -6,6 +6,7 @@ export interface CreateComment {
     timestamp?: Timestamp;
     annotation?: string;
     mentions?: string[];
+    mentionsTeams?: string[];
 }
 
 export interface EditComment {
@@ -13,6 +14,7 @@ export interface EditComment {
     timestamp?: Timestamp;
     annotation?: string;
     mentions?: string[];
+    mentionsTeams?: string[];
 }
 
 export enum CommentType {
@@ -30,6 +32,7 @@ export interface Comment {
     commentType: CommentType;
     annotation?: string;
     mentions?: ReducedUser[];
+    mentionsTeams?: ReducedTeam[];
     replies?: Reply[];
 }
 

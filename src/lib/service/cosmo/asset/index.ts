@@ -1,7 +1,8 @@
-import Base, { MaybeRaw } from "../../../Base";
-import { AuditLog } from "../../../interfaces/auditor";
-import { Asset, AssetPermission, CreateAsset, PatchAsset, Resolution, Upload } from "../../../interfaces/cosmo/asset";
-import { ReducedUser } from "../../../interfaces/idp/user";
+import Base, { MaybeRaw } from "../../../Base"
+import { AuditLog } from "../../../interfaces/auditor"
+import { Asset, AssetPermission, CreateAsset, PatchAsset, Resolution, Upload } from "../../../interfaces/cosmo/asset"
+import { ReducedTeam } from "../../../interfaces/idp"
+import { ReducedUser } from "../../../interfaces/idp/user"
 
 /**
  * @class Asset
@@ -12,6 +13,9 @@ import { ReducedUser } from "../../../interfaces/idp/user";
  *
  * Represents an Asset resource in Cosmo, providing methods to interact with the Asset API.
  */
+
+type Mentionable = (ReducedUser & { type: "user" }) | (ReducedTeam & { type: "team" });
+
 export class CosmoAsset extends Base {
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/cosmo${endpoint}`;
@@ -374,6 +378,7 @@ export class CosmoAsset extends Base {
      * @param page Page number for pagination
      * @returns A list of users allowed to be mentioned in a comment of the asset
      */
+
     async listUsersAllowedToMention<R extends boolean = false>(
         orgName: string,
         spaceName: string,
@@ -381,14 +386,12 @@ export class CosmoAsset extends Base {
         limit?: number,
         page?: number,
         raw?: { raw: R }
-    ): Promise<MaybeRaw<R, ReducedUser[]>> {
-        const resp = await this.axios.get<ReducedUser[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets/${assetId}/users`), {
-            params: {
-                limit,
-                page,
-            },
+    ): Promise<MaybeRaw<R, Mentionable[]>> {
+        const resp = await this.axios.get<Mentionable[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets/${assetId}/users`), {
+            params: { limit, page },
         });
-        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, ReducedUser[]>;
+
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Mentionable[]>;
     }
 
     /**

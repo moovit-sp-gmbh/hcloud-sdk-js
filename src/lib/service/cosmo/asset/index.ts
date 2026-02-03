@@ -1,8 +1,6 @@
 import Base, { MaybeRaw } from "../../../Base"
 import { AuditLog } from "../../../interfaces/auditor"
-import { Asset, AssetPermission, CreateAsset, PatchAsset, Resolution, Upload } from "../../../interfaces/cosmo/asset"
-import { ReducedTeam } from "../../../interfaces/idp"
-import { ReducedUser } from "../../../interfaces/idp/user"
+import { Asset, AssetPermission, CreateAsset, Mentionable, PatchAsset, Resolution, Upload } from "../../../interfaces/cosmo/asset"
 
 /**
  * @class Asset
@@ -13,8 +11,6 @@ import { ReducedUser } from "../../../interfaces/idp/user"
  *
  * Represents an Asset resource in Cosmo, providing methods to interact with the Asset API.
  */
-
-type Mentionable = (ReducedUser & { type: "user" }) | (ReducedTeam & { type: "team" });
 
 export class CosmoAsset extends Base {
     protected getEndpoint(endpoint: string): string {

@@ -32,7 +32,7 @@ export type Asset =
           frameRate?: number;
           media?: Media[];
           thumbnailUrl?: string;
-          namespaces?: Record<string, { status: string; tag?: Tag }>;
+          namespaces?: Record<string, { status: string; tag?: Tag; metadata?: NamespaceMetadata }>;
       })
     | Production
     | Folder

@@ -1,5 +1,5 @@
 import Base, { MaybeRaw } from "../../../Base";
-import { Short } from "../../../interfaces/shorts";
+import { Short, ShortType } from "../../../interfaces/shorts";
 
 export class ShortsInternal extends Base {
     /**
@@ -10,17 +10,29 @@ export class ShortsInternal extends Base {
      * @param organizationId ID of the organization
      * @param spaceId ID of the space
      * @param url Original long URL that needs to be shortened
-     * @param visitsLimit Maximum number of times the shortened link can be accessed
+     * @param type Type of the short URL, can be GENERIC or COSMO
+     * @param visitsLimit Optional maximum number of times the shortened link can be accessed, after which it will become inactive (max 100 for GENERIC type)
+     * @param expireDate Optional expiration date for the shortened URL, represented as a timestamp in milliseconds
+     *
      * @returns the created short url
      */
     async createShort<R extends boolean = false>(
         organizationId: string,
         spaceId: string,
         url: string,
-        visitsLimit: number,
+        type: ShortType = ShortType.GENERIC,
+        visitsLimit?: number,
+        expireDate?: number,
         raw?: { raw: R }
     ): Promise<MaybeRaw<R, Short>> {
-        const res = await this.axios.post<Short>(this.getEndpoint(`/internal/v1/short`), { url, visitsLimit, organizationId, spaceId });
+        const res = await this.axios.post<Short>(this.getEndpoint(`/internal/v1/short`), {
+            organizationId,
+            spaceId,
+            url,
+            type,
+            visitsLimit,
+            expireDate,
+        });
 
         return (raw?.raw ? res : res.data) as MaybeRaw<R, Short>;
     }

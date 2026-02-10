@@ -42,6 +42,7 @@ enum Entity {
     MESSAGE_ID = "MESSAGE_ID",
     ARRAY_INDEX = "ARRAY_INDEX",
     URL_SLUG = "URL_SLUG",
+    LONG_URL_SLUG = "LONG_URL_SLUG",
     TAG_NAME = "TAG_NAME",
     TAG_COLOR = "TAG_COLOR",
     MODULE_NAME = "MODULE_NAME",
@@ -340,6 +341,11 @@ const entityCollection: Record<Entity, Details> = {
         pattern: /^[A-NP-Za-km-z1-9]{6}$/i,
         minLength: 6,
         maxLength: 6,
+    },
+    [Entity.LONG_URL_SLUG]: {
+        pattern: /^[A-NP-Za-km-z1-9]{34}$/i,
+        minLength: 34,
+        maxLength: 34,
     },
     [Entity.TAG_NAME]: {
         pattern: /^[a-zA-Z0-9 ]{1,20}$/i,

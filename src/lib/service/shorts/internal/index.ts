@@ -103,6 +103,6 @@ export class ShortsInternal extends Base {
     }
 
     protected getEndpoint(endpoint: string): string {
-        return `${this.options.server}/api/account${endpoint}`;
+        return `${this.options.server}/api/shorts${endpoint}`;
     }
 }

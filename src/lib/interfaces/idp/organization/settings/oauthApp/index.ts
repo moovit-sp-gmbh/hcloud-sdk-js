@@ -27,6 +27,8 @@ export interface OAuthApp {
     patId?: string;
     createDate: number;
     modifyDate: number;
+    allowAuthoizationCodeFlow: boolean;
+    allowDeviceFlow: boolean;
 }
 
 export type OAuthAppWithConsent = OAuthApp &
@@ -41,4 +43,7 @@ export interface OAuthAppCreate {
     description?: string;
     homepage?: string;
     callback: string[];
+
+    allowAuthoizationCodeFlow?: boolean;
+    allowDeviceFlow?: boolean;
 }

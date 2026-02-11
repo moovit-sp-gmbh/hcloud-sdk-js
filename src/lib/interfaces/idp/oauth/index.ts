@@ -6,6 +6,11 @@ export interface OAuthTokenRequest {
     client_secret: string;
     redirect_uri: string;
     grant_type: GrantType;
+
+    /**
+     * @see https://datatracker.ietf.org/doc/html/rfc7636#section-4.5
+     */
+    code_verifier?: string;
 }
 
 export interface OAuthToken {

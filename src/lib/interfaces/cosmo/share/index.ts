@@ -6,8 +6,10 @@ export interface Share {
     creator: ReducedUser;
     createDate: number;
     items: string[];
-    permissions: string[];
+    permissions?: string[];
+    assetPermissionGroups?: string[];
     namespaces?: Record<string, string[]>;
+    namespaceGroups?: Record<string, string[]>;
     expires?: number;
     password?: string;
 }
@@ -29,7 +31,9 @@ export type ShareWithUsers = Share & {
 export type SharePatch = Partial<
     Pick<ShareCreate, "name" | "expires" | "password"> & {
         items: string[];
-        permissions: string[];
-        namespaces: Record<string, string[] | null>;
+        permissions?: string[];
+        assetPermissionGroups?: string[];
+        namespaces?: Record<string, string[] | null>;
+        namespaceGroups?: Record<string, string[] | null>;
     }
 >;

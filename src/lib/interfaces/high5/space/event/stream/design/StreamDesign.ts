@@ -1,4 +1,4 @@
-import { StreamCustomNodeSpecification, StreamNodeSpecificationInputType, StreamSemanticVersion } from "../../../../wave";
+import { StreamCustomNodeSpecification, StreamNodeSpecificationInputType, StreamSemanticVersion } from "../../../../wave"
 
 export interface CanvasDimensions {
     width: number;
@@ -53,6 +53,7 @@ export interface DesignerNodeInput {
     advanced?: boolean;
     type: StreamNodeSpecificationInputType;
     selectedLanguage?: StringMap;
+    expression?: boolean;
     example: string | number | boolean | string[] | StringMap | StringMap[] | SortedStringMap[]; // type string can have placeholders (represented as input placeholders in web)
     value?: string | number | boolean | string[] | StringMap | StringMap[] | SortedStringMap[]; // the entered value
     mandatory?: boolean;

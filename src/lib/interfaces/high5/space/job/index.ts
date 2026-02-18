@@ -1,7 +1,7 @@
-import { ReducedSpace } from "../../../global";
-import { ReducedOrganization } from "../../../idp/organization";
-import { ReducedUser } from "../../../idp/user";
-import { ReducedEvent } from "../event";
+import { ReducedSpace } from "../../../global"
+import { ReducedOrganization } from "../../../idp/organization"
+import { ReducedUser } from "../../../idp/user"
+import { ReducedEvent } from "../event"
 
 enum IntervalType {
     MINUTE = "minute",
@@ -87,6 +87,9 @@ export interface Job {
     time?: CronjobType;
 }
 
-export type JobCreate = Pick<Job, "name" | "expression" | "payload" | "enabled" | "description" | "lastStatus" | "lastTriggered" | "time"> & {
+export type JobCreate = Pick<
+    Job,
+    "name" | "expression" | "payload" | "target" | "enabled" | "description" | "lastStatus" | "lastTriggered" | "time"
+> & {
     targetEvent: string;
 };

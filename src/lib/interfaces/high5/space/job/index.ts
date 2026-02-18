@@ -1,7 +1,7 @@
-import { ReducedSpace } from "../../../global"
-import { ReducedOrganization } from "../../../idp/organization"
-import { ReducedUser } from "../../../idp/user"
-import { ReducedEvent } from "../event"
+import { ReducedSpace } from "../../../global";
+import { ReducedOrganization } from "../../../idp/organization";
+import { ReducedUser } from "../../../idp/user";
+import { ReducedEvent } from "../event";
 
 enum IntervalType {
     MINUTE = "minute",

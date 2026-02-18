@@ -78,6 +78,7 @@ export interface Job {
     description?: string;
     payload?: string;
     enabled?: boolean;
+    target: string;
     createDate: number;
     modifyDate: number;
     nextExecution?: number[];

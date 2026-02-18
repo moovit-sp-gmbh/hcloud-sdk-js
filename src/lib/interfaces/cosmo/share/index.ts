@@ -1,4 +1,4 @@
-import { ReducedUser } from "../../idp";
+import { ReducedUser } from "../../idp"
 
 export interface Share {
     _id: string;
@@ -7,7 +7,7 @@ export interface Share {
     createDate: number;
     items: string[];
     permissions?: string[];
-    assetPermissionGroups?: ShareAssetPermissionGroup[];
+    permissionGroups?: ShareAssetPermissionGroup[];
     namespaces?: Record<string, string[]>;
     namespaceGroups?: Record<string, ShareNamespacePermissionGroup[]>;
     expires?: number;
@@ -38,7 +38,6 @@ export type SharePatch = Partial<
     }
 >;
 
-
 export enum ShareAssetPermissionGroup {
     VIEW_ASSETS_ONLY = "VIEW_ASSETS_ONLY",
     BASE = "BASE",
@@ -47,7 +46,6 @@ export enum ShareAssetPermissionGroup {
     ENABLE_ACTIVITY = "ENABLE_ACTIVITY",
     ENABLE_DELETION = "ENABLE_DELETION",
 }
-
 
 export enum ShareNamespacePermissionGroup {
     ENABLE_COMMENTS = "ENABLE_COMMENTS",
@@ -58,4 +56,3 @@ export enum ShareNamespacePermissionGroup {
     ENABLE_TAGS = "ENABLE_TAGS",
     VIEW_ASSET_METADATA = "VIEW_ASSET_METADATA",
 }
-

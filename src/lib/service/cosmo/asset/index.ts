@@ -1,6 +1,6 @@
-import Base, { MaybeRaw } from "../../../Base"
-import { AuditLog } from "../../../interfaces/auditor"
-import { Asset, AssetPermission, CreateAsset, Mentionable, PatchAsset, Resolution, Upload } from "../../../interfaces/cosmo/asset"
+import Base, { MaybeRaw } from "../../../Base";
+import { AuditLog } from "../../../interfaces/auditor";
+import { Asset, AssetPermission, CreateAsset, Mentionable, PatchAsset, Resolution, Upload } from "../../../interfaces/cosmo/asset";
 
 /**
  * @class Asset

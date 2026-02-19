@@ -1,4 +1,4 @@
-import { ReducedTeam, ReducedUser } from "../../idp";
+import { ReducedTeam, ReducedUser } from "../../idp"
 
 export interface CreateComment {
     refId: string;
@@ -32,7 +32,7 @@ export interface Comment {
     commentType: CommentType;
     annotation?: string;
     mentions?: ReducedUser[];
-    mentionsTeams?: ReducedTeam[];
+    mentionedTeams?: ReducedTeam[];
     replies?: Reply[];
 }
 

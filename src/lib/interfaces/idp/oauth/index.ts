@@ -1,17 +1,30 @@
 import { Scope } from "../user/Scopes";
 
-export interface OAuthTokenRequest {
-    code: string;
-    client_id: string;
-    client_secret: string;
-    redirect_uri: string;
-    grant_type: GrantType;
-
-    /**
-     * @see https://datatracker.ietf.org/doc/html/rfc7636#section-4.5
-     */
-    code_verifier?: string;
-}
+export type OAuthTokenRequest =
+    | ({
+          code: string;
+          client_id: string;
+          redirect_uri: string;
+          grant_type: GrantType.AUTHORIZATION_CODE;
+      } & (
+          | {
+                client_secret: string;
+                /**
+                 * @see https://datatracker.ietf.org/doc/html/rfc7636#section-4.5
+                 */
+                code_verifier?: string;
+            }
+          | {
+                /**
+                 * @see https://datatracker.ietf.org/doc/html/rfc7636#section-4.5
+                 */
+                code_verifier: string;
+            }
+      ))
+    | {
+          grant_type: GrantType.REFRESH_TOKEN;
+          refresh_token: string;
+      };
 
 export interface OAuthToken {
     id_token?: string;

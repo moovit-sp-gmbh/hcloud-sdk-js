@@ -3,6 +3,7 @@ import { AgentBundle } from "./bundle";
 import { DevBundle } from "./bundle/dev";
 import { AgentContext } from "./context";
 import { AgentInstaller } from "./installer";
+import { AgentLogging } from "./logging";
 
 export default class Agent extends Base {
     public get context(): AgentContext {
@@ -33,6 +34,13 @@ export default class Agent extends Base {
         return this._installer;
     }
     private _installer?: AgentInstaller;
+    public get logging(): AgentLogging {
+        if (this._logging === undefined) {
+            this._logging = new AgentLogging(this.options, this.axios);
+        }
+        return this._logging;
+    }
+    private _logging?: AgentLogging;
 
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/agent${endpoint}`;

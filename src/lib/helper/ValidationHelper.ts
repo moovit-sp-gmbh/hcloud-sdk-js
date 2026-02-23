@@ -46,6 +46,7 @@ enum Entity {
     TAG_NAME = "TAG_NAME",
     TAG_COLOR = "TAG_COLOR",
     MODULE_NAME = "MODULE_NAME",
+    LOG_COLLECTOR_NAME = "LOG_COLLECTOR_NAME",
 }
 
 interface Details {
@@ -360,6 +361,11 @@ const entityCollection: Record<Entity, Details> = {
     [Entity.MODULE_NAME]: {
         pattern: /^[\w-.]{3,64}$/i,
         minLength: 3,
+        maxLength: 64,
+    },
+    [Entity.LOG_COLLECTOR_NAME]: {
+        pattern: /^[\w-.]{1,64}$/i,
+        minLength: 1,
         maxLength: 64,
     },
 };

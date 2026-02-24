@@ -4,6 +4,7 @@ import { DevBundle } from "./bundle/dev";
 import { AgentContext } from "./context";
 import { AgentInstaller } from "./installer";
 import { AgentLogging } from "./logging";
+import { AgentModule } from "./module";
 
 export default class Agent extends Base {
     public get context(): AgentContext {
@@ -13,6 +14,7 @@ export default class Agent extends Base {
         return this._context;
     }
     private _context?: AgentContext;
+
     public get bundle(): AgentBundle {
         if (this._bundle === undefined) {
             this._bundle = new AgentBundle(this.options, this.axios);
@@ -20,6 +22,7 @@ export default class Agent extends Base {
         return this._bundle;
     }
     private _bundle?: AgentBundle;
+
     public get devBundle(): DevBundle {
         if (this._devBundle === undefined) {
             this._devBundle = new DevBundle(this.options, this.axios);
@@ -27,6 +30,7 @@ export default class Agent extends Base {
         return this._devBundle;
     }
     private _devBundle?: DevBundle;
+
     public get installer(): AgentInstaller {
         if (this._installer === undefined) {
             this._installer = new AgentInstaller(this.options, this.axios);
@@ -34,6 +38,7 @@ export default class Agent extends Base {
         return this._installer;
     }
     private _installer?: AgentInstaller;
+
     public get logging(): AgentLogging {
         if (this._logging === undefined) {
             this._logging = new AgentLogging(this.options, this.axios);
@@ -41,6 +46,14 @@ export default class Agent extends Base {
         return this._logging;
     }
     private _logging?: AgentLogging;
+
+    public get module(): AgentModule {
+        if (this._module === undefined) {
+            this._module = new AgentModule(this.options, this.axios);
+        }
+        return this._module;
+    }
+    private _module?: AgentModule;
 
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/agent${endpoint}`;

@@ -39,7 +39,6 @@ export interface Share {
     publicLink?: PublicLink;
 }
 
-
 /**
  * Represents the payload for creating a new share.
  * Omits _id, createDate, and creator from Share.

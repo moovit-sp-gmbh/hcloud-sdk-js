@@ -62,6 +62,23 @@ export class AgentLogging extends Base {
         });
     }
 
+    /**
+     * Updates the activation status of a specific log collector,
+     * this toggles log forwarding to the destination without removing its configuration.
+     * @param name - Unique identifier of the external log collector
+     * @param enabled - Flag to enable or disable the collector
+     * @returns The updated log collector details
+     */
+    async patchLogCollectorEnabled<R extends boolean = false>(
+        name: string,
+        enabled: boolean,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, LogCollectorDto>> {
+        const resp = await this.axios.patch<LogCollectorDto>(this.getEndpoint(`/v1/log-collectors/${name}/enabled`), { enabled });
+
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, LogCollectorDto>;
+    }
+
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/agent${endpoint}`;
     }

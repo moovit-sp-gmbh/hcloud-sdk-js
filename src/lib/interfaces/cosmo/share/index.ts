@@ -1,5 +1,29 @@
 import { ReducedUser } from "../../idp";
 
+/**
+ * Represents a public link for sharing.
+ * @property link - The URL of the public link.
+ * @property visitsLimit - (Optional) The maximum number of allowed visits for the link.
+ */
+export interface PublicLink {
+    link: string;
+    visitsLimit?: number;
+}
+/**
+ * Represents a share entity containing shared items and permissions.
+ * @property _id - Unique identifier for the share.
+ * @property name - Name of the share.
+ * @property creator - The user who created the share.
+ * @property createDate - Timestamp of when the share was created (in milliseconds since epoch).
+ * @property items - Array of item IDs included in the share.
+ * @property permissions - (Optional) Array of permission strings for the share.
+ * @property permissionGroups - (Optional) Array of asset permission groups applied to the share.
+ * @property namespaces - (Optional) Mapping of namespace names to arrays of item IDs.
+ * @property namespaceGroups - (Optional) Mapping of namespace names to arrays of namespace permission groups.
+ * @property expires - (Optional) Expiration timestamp for the share (in milliseconds since epoch).
+ * @property password - (Optional) Password required to access the share.
+ * @property publicLink - (Optional) Public link information for the share.
+ */
 export interface Share {
     _id: string;
     name: string;
@@ -12,8 +36,20 @@ export interface Share {
     namespaceGroups?: Record<string, ShareNamespacePermissionGroup[]>;
     expires?: number;
     password?: string;
+    publicLink?: PublicLink;
 }
 
+
+/**
+ * Represents the payload for creating a new share.
+ * Omits _id, createDate, and creator from Share.
+ * @property password - (Optional) Password for the share.
+ * @property expires - (Optional) Expiration timestamp for the share (in milliseconds since epoch).
+ * @property namespaces - (Optional) Mapping of namespace names to arrays of item IDs.
+ * @property users - (Optional) Array of user emails to share with.
+ * @property public - (Optional) Whether the share is public.
+ * @property visitsLimit - (Optional) Maximum number of allowed visits for the share (only applicable for public shares).
+ */
 export interface ShareCreate extends Omit<Share, "_id" | "createDate" | "creator"> {
     password?: string;
     expires?: number;
@@ -22,12 +58,27 @@ export interface ShareCreate extends Omit<Share, "_id" | "createDate" | "creator
      * Array of emails
      */
     users?: string[];
+    public?: boolean;
+    visitsLimit?: number;
 }
 
 export type ShareWithUsers = Share & {
     users: ReducedUser[];
 };
 
+/**
+ * Represents a patch (partial update) for a share.
+ * @property name - (Optional) New name for the share.
+ * @property expires - (Optional) New expiration timestamp.
+ * @property password - (Optional) New password for the share.
+ * @property items - (Optional) New array of item IDs.
+ * @property permissions - (Optional) New array of permission strings.
+ * @property assetPermissionGroups - (Optional) New array of asset permission groups.
+ * @property namespaces - (Optional) New mapping of namespace names to arrays of item IDs or null.
+ * @property namespaceGroups - (Optional) New mapping of namespace names to arrays of namespace permission groups or null.
+ * @property public - (Optional) Whether the share is public.
+ * @property visitsLimit - (Optional) New maximum number of allowed visits (only applicable for public shares).
+ */
 export type SharePatch = Partial<
     Pick<ShareCreate, "name" | "expires" | "password"> & {
         items: string[];
@@ -35,6 +86,8 @@ export type SharePatch = Partial<
         assetPermissionGroups?: ShareAssetPermissionGroup[];
         namespaces?: Record<string, string[] | null>;
         namespaceGroups?: Record<string, ShareNamespacePermissionGroup[] | null>;
+        public?: boolean;
+        visitsLimit?: number;
     }
 >;
 

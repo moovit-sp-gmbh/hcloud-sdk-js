@@ -28,6 +28,7 @@ export type Asset =
           status: UploadStatus;
           tag?: Tag;
           previewUrl?: string;
+          tilePreviewVttUrl?: string;
           duration?: number;
           frameRate?: number;
           media?: Media[];
@@ -109,6 +110,7 @@ export type Media =
     | (BaseMedia & { type: MediaType.VIDEO; name: "original" | string; fileSize: number; metadata: (VideoMetadata | AudioMetadata)[] })
     | (BaseMedia & { type: MediaType.AUDIO; name: string; metadata: AudioMetadata[] })
     | (BaseMedia & { type: MediaType.IMAGE; name: string })
+    | (BaseMedia & { type: MediaType.VTT; name: string })
     | (BaseMedia & { type: MediaType.UNKNOWN; name: string });
 
 export enum MediaType {
@@ -116,6 +118,7 @@ export enum MediaType {
     AUDIO = "AUDIO",
     IMAGE = "IMAGE",
     UNKNOWN = "UNKNOWN",
+    VTT = "VTT",
 }
 
 export enum MetadataType {

@@ -186,6 +186,20 @@ class Nats extends Base {
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/ws/nats${endpoint}`;
     }
+
+    /**
+     * Gracefully closes the NATS connection.
+     * * This method uses 'drain' to ensure that all outgoing messages are sent
+     * and all buffered incoming messages are processed by their respective subscribers before the connection is physically closed
+     * * @returns {Promise<void>} A promise that resolves when the connection is fully drained and closed
+     */
+    public async disconnect(): Promise<void> {
+        if (this.natsConnection && !this.natsConnection.isClosed()) {
+            await this.natsConnection.drain();
+            this.natsConnection = undefined;
+            this.subMap = [];
+        }
+    }
 }
 
 export default Nats;

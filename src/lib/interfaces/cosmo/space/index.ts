@@ -8,6 +8,8 @@ export interface CosmoSpace {
     avatarUrl: string;
     creator: ReducedUser;
     type: ItemType.SPACE;
+    trashAutoDelete: boolean;
+    trashAutoDeleteTTL: number | null;
     high5_spaceName?: string;
     high5_executionTarget?: string;
     permissions?: string[];
@@ -20,3 +22,8 @@ export interface High5SpaceInfo {
 }
 
 export type SpaceUser = (ReducedUser | ReducedTeam) & { roles: { name: string; _id: string }[]; type: "user" | "team" };
+
+export interface TrashPolicy {
+    enabled: boolean;
+    ttlDays?: number;
+}

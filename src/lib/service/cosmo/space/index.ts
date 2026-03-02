@@ -1,5 +1,5 @@
 import Base, { MaybeRaw } from "../../../Base";
-import { High5SpaceInfo, CosmoSpace as ICosmoSpace, SpaceUser } from "../../../interfaces/cosmo/space";
+import { High5SpaceInfo, CosmoSpace as ICosmoSpace, SpaceUser, TrashPolicy } from "../../../interfaces/cosmo/space";
 
 /**
  * @class Space
@@ -178,5 +178,23 @@ export class CosmoSpace extends Base {
      */
     async emptyTrash(orgName: string, spaceName: string): Promise<void> {
         await this.axios.post<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/trash`));
+    }
+
+    /**
+     * Updates the trashbin auto-delete policy for the specified Cosmo space.
+     * @param orgName Name of the organization
+     * @param spaceName Name of the space
+     * @param policy Trash policy to apply. When `enabled` is `true`, `ttlDays` (1–365) must be provided. When `enabled` is `false`, `ttlDays` must be omitted.
+     * @returns The updated Space
+     */
+    async updateTrashbinPolicy<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        policy: TrashPolicy,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, ICosmoSpace>> {
+        const resp = await this.axios.patch<ICosmoSpace>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/trash/policy`), policy);
+
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, ICosmoSpace>;
     }
 }

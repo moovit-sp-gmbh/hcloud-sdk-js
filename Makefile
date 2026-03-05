@@ -14,7 +14,7 @@ debug_build:
 	rm -rf build/
 	pnpm build
 
-build: format lint
+build: test format lint
 	rm -rf build/
 	pnpm build
 
@@ -26,3 +26,6 @@ preparePublish:
 scan:
 	docker pull opensecurity/njsscan
 	docker run -v  $(shell pwd)/src/:/src opensecurity/njsscan /src
+
+test:
+	node --test -r ts-node/register test/**/*.test.ts

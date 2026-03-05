@@ -58,6 +58,7 @@ export interface StreamSingleNodeResult {
     uuid: string;
     nodeUuid: string;
     failed: boolean;
+    streamId?: string;
     startTimestamp: number;
     endTimestamp?: number;
     name: string;

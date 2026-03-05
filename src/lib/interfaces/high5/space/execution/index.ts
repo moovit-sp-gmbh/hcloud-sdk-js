@@ -194,6 +194,7 @@ export interface StreamNode {
     breakpoint?: boolean;
     color?: string;
     nodeType?: NodeType;
+    streamId?: string;
 }
 
 export interface High5ExecuteOnAgentRequest {

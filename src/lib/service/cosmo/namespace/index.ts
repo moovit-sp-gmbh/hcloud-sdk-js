@@ -1,6 +1,6 @@
-import Base, { MaybeRaw } from "../../../Base";
-import { Asset, NamespaceMetadata, NamespaceRushStatus } from "../../../interfaces/cosmo/asset";
-import { Namespace } from "../../../interfaces/cosmo/namespace";
+import Base, { MaybeRaw } from "../../../Base"
+import { Asset, NamespaceMetadata, NamespaceRushStatus } from "../../../interfaces/cosmo/asset"
+import { Namespace } from "../../../interfaces/cosmo/namespace"
 
 /**
  * @class Namespace
@@ -90,7 +90,7 @@ export class CosmoNamespace extends Base {
     ): Promise<MaybeRaw<R, Asset>> {
         const resp = await this.axios.put<Asset>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/namespaces/${namespaceName}/ref/${refId}/metadata`),
-            { metadata }
+            metadata
         );
 
         return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Asset>;

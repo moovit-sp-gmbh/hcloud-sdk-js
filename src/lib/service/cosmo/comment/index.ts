@@ -169,6 +169,8 @@ export class CosmoComment extends Base {
      * @param commentId ID of the Comment to edit
      * @param text New text for the Comment
      * @param annotation Whether to include annotations in the response
+     * @param mentions List of user handles to mention
+     * @param mentionsTeams List of team handles to mention
      *
      * @returns The edited Comment
      */
@@ -179,11 +181,13 @@ export class CosmoComment extends Base {
         commentId: string,
         text: string,
         annotation: boolean = false,
+        mentions?: string[],
+        mentionsTeams?: string[],
         raw?: { raw: R }
     ): Promise<MaybeRaw<R, Comment | Reply>> {
         const resp = await this.axios.patch<Comment>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/namespaces/${namespaceName}/comments/${commentId}?annotation=${annotation}`),
-            { text: text }
+            { text, mentions, mentionsTeams }
         );
 
         return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Comment | Reply>;

@@ -49,7 +49,7 @@ export interface Share {
  * @property public - (Optional) Whether the share is public.
  * @property visitsLimit - (Optional) Maximum number of allowed visits for the share (only applicable for public shares).
  */
-export interface ShareCreate extends Omit<Share, "_id" | "createDate" | "creator" | "permissionGroups"> {
+export interface ShareCreate extends Omit<Share, "_id" | "createDate" | "creator" | "permissionGroups" | "users"> {
     password?: string;
     expires?: number;
     namespaces?: Record<string, string[]>;
@@ -80,7 +80,7 @@ export type ShareWithUsers = Share & {
  * @property visitsLimit - (Optional) New maximum number of allowed visits (only applicable for public shares).
  */
 export type SharePatch = Partial<
-    Pick<ShareCreate, "name" | "expires" | "password"> & {
+    Pick<ShareCreate, "name" | "expires" | "password" | "users"> & {
         items: string[];
         permissions?: string[];
         assetPermissionGroups?: ShareAssetPermissionGroup[];

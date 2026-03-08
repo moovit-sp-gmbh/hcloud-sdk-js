@@ -158,5 +158,4 @@ export class CosmoComment extends Base {
         });
         return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
-
 }

@@ -1,4 +1,4 @@
-import { ReducedUser } from "../../idp"
+import { ReducedUser, ShareReducedUnlinkedUser, User } from "../../idp";
 
 /**
  * Represents a public link for sharing.
@@ -37,6 +37,7 @@ export interface Share {
     expires?: number;
     password?: string;
     publicLink?: PublicLink;
+    users?: (User | ReducedUser | ShareReducedUnlinkedUser)[];
 }
 
 /**

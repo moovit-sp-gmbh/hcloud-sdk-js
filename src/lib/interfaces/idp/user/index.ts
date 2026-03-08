@@ -18,7 +18,8 @@ export interface User {
     isGuest?: boolean;
 }
 
-export type ReducedUser = Pick<User, "_id" | "name" | "email" | "avatarUrl" | "isGuest" | "isAgent">;
+export type ReducedUser = Pick<User, "_id" | "name" | "email" | "avatarUrl" | "isGuest" | "isAgent"> & { linkedToShare?: boolean };
+export type ShareReducedUnlinkedUser = Pick<ReducedUser, "email" | "linkedToShare">;
 
 export interface UserPatch {
     name?: string;

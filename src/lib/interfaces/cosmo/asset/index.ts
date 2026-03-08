@@ -1,10 +1,10 @@
-import { ReducedSpace } from "../../global"
-import { SearchFilterComparatorString, SearchFilterType } from "../../global/SearchFilters"
-import { ReducedTeam } from "../../idp"
-import { ReducedOrganization } from "../../idp/organization"
-import { ReducedUser } from "../../idp/user"
-import { CosmoSpace } from "../space"
-import { Tag } from "../tag/tag"
+import { ReducedSpace } from "../../global";
+import { SearchFilterComparatorString, SearchFilterType } from "../../global/SearchFilters";
+import { ReducedTeam } from "../../idp";
+import { ReducedOrganization } from "../../idp/organization";
+import { ReducedUser } from "../../idp/user";
+import { CosmoSpace } from "../space";
+import { Tag } from "../tag/tag";
 
 export interface BaseAsset {
     _id: string;

@@ -3,3 +3,9 @@ export const disableCacheHeaders = {
     Pragma: "no-cache",
     Expires: "0",
 };
+
+export type RefreshToken = {
+    token: string;
+    expiresAt: number;
+    callback?: (newAccessToken: string, newRefreshToken: RefreshToken) => void;
+};

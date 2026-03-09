@@ -1,7 +1,8 @@
 import { Msg } from "nats";
-import { Products } from "../global";
+import { Products, Space } from "../global";
 import { High5ExecuteOnAgentRequest, High5ExecutionCancelRequest } from "../high5/space/execution";
 import { LicenseTier } from "../idp";
+import { Asset, UploadStatus } from "../cosmo/asset";
 
 enum NatsSubject {
     IDP_USER_GENERAL = "hcloud.idp.user.${userId}.general",
@@ -235,7 +236,10 @@ interface NatsAssetObject {
         name: string;
         type: "ASSET" | "SPACE" | "PRODUCTION" | "PROJECT" | "FOLDER";
     };
-    type: "ASSET" | "SPACE" | "PRODUCTION" | "PROJECT" | "FOLDER";
+    type?: "ASSET" | "SPACE" | "PRODUCTION" | "PROJECT" | "FOLDER";
+    progress?: number;
+    uploadStatus?: UploadStatus;
+    breadcrumb?: (Asset | Space)[] | undefined;
 }
 
 interface NatsMemberObject {

@@ -398,15 +398,17 @@ export class CosmoAsset extends Base {
      * @param orgName Name of the Organization
      * @param spaceName Name of the Space
      * @param assetIds List of Asset IDs to be cloned. If folder IDs are specified, they will be recursively cloned.
+     * @param parentId (optional) Id of parent asset of the newly cloned asset. If undefined will default to space as parent.
      * @returns The cloned assets
      */
     async cloneAsset<R extends boolean = false>(
         orgName: string,
         spaceName: string,
         assetIds: string[],
+        parentId?: string,
         raw?: { raw: R }
     ): Promise<MaybeRaw<R, Asset[]>> {
-        const resp = await this.axios.put<Asset[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets/clone`), { assetIds });
+        const resp = await this.axios.put<Asset[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets/clone`), { assetIds, parentId });
         return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Asset[]>;
     }
 }

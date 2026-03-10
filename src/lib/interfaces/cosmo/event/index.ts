@@ -31,34 +31,34 @@ export enum CosmoEventName {
 
 export interface CosmoEvents {
     Space: {
-        "Space rename": CosmoEventName.HCLOUD_COSMO_SPACE_RENAME,
-        "Space delete": CosmoEventName.HCLOUD_COSMO_SPACE_DELETE,
-        "Space member add": CosmoEventName.HCLOUD_COSMO_SPACE_MEMBER_ADD,
-        "Space member remove": CosmoEventName.HCLOUD_COSMO_SPACE_MEMBER_REMOVE,
-        "Space member update": CosmoEventName.HCLOUD_COSMO_SPACE_MEMBER_UPDATE,
-    },
+        "Space rename": CosmoEventName.HCLOUD_COSMO_SPACE_RENAME;
+        "Space delete": CosmoEventName.HCLOUD_COSMO_SPACE_DELETE;
+        "Space member add": CosmoEventName.HCLOUD_COSMO_SPACE_MEMBER_ADD;
+        "Space member remove": CosmoEventName.HCLOUD_COSMO_SPACE_MEMBER_REMOVE;
+        "Space member update": CosmoEventName.HCLOUD_COSMO_SPACE_MEMBER_UPDATE;
+    };
     Asset: {
-        "Asset create": CosmoEventName.HCLOUD_COSMO_SPACE_ASSET_ADD,
-        "Asset upload started": CosmoEventName.HCLOUD_COSMO_SPACE_ASSET_UPLOAD_STARTED,
-        "Asset ready": CosmoEventName.HCLOUD_COSMO_SPACE_ASSET_READY,
-        "Asset rename": CosmoEventName.HCLOUD_COSMO_SPACE_ASSET_RENAME,
-        "Asset update tag": CosmoEventName.HCLOUD_COSMO_SPACE_ASSET_UPDATE_TAG,
-        "Asset update status": CosmoEventName.HCLOUD_COSMO_SPACE_ASSET_UPDATE_STATUS,
-        "Asset trashed": CosmoEventName.HCLOUD_COSMO_SPACE_ASSET_TRASHED,
-        "Asset recovered": CosmoEventName.HCLOUD_COSMO_SPACE_ASSET_RECOVERED,
-        "Asset Move": CosmoEventName.HCLOUD_COSMO_SPACE_ASSET_MOVE,
-        "Asset Copy": CosmoEventName.HCLOUD_COSMO_SPACE_ASSET_COPY,
-        "Asset Delete": CosmoEventName.HCLOUD_COSMO_SPACE_ASSET_DELETE,
-        "Asset remove tag": CosmoEventName.HCLOUD_COSMO_SPACE_ASSET_REMOVE_TAG,
-    },
+        "Asset create": CosmoEventName.HCLOUD_COSMO_SPACE_ASSET_ADD;
+        "Asset upload started": CosmoEventName.HCLOUD_COSMO_SPACE_ASSET_UPLOAD_STARTED;
+        "Asset ready": CosmoEventName.HCLOUD_COSMO_SPACE_ASSET_READY;
+        "Asset rename": CosmoEventName.HCLOUD_COSMO_SPACE_ASSET_RENAME;
+        "Asset update tag": CosmoEventName.HCLOUD_COSMO_SPACE_ASSET_UPDATE_TAG;
+        "Asset update status": CosmoEventName.HCLOUD_COSMO_SPACE_ASSET_UPDATE_STATUS;
+        "Asset trashed": CosmoEventName.HCLOUD_COSMO_SPACE_ASSET_TRASHED;
+        "Asset recovered": CosmoEventName.HCLOUD_COSMO_SPACE_ASSET_RECOVERED;
+        "Asset Move": CosmoEventName.HCLOUD_COSMO_SPACE_ASSET_MOVE;
+        "Asset Copy": CosmoEventName.HCLOUD_COSMO_SPACE_ASSET_COPY;
+        "Asset Delete": CosmoEventName.HCLOUD_COSMO_SPACE_ASSET_DELETE;
+        "Asset remove tag": CosmoEventName.HCLOUD_COSMO_SPACE_ASSET_REMOVE_TAG;
+    };
     Comment: {
-        "Comment create": CosmoEventName.HCLOUD_COSMO_SPACE_ASSET_COMMENT_ADD,
-        "Comment update": CosmoEventName.HCLOUD_COSMO_SPACE_ASSET_COMMENT_UPDATE,
-        "Comment delete": CosmoEventName.HCLOUD_COSMO_SPACE_ASSET_COMMENT_DELETE,
-    },
+        "Comment create": CosmoEventName.HCLOUD_COSMO_SPACE_ASSET_COMMENT_ADD;
+        "Comment update": CosmoEventName.HCLOUD_COSMO_SPACE_ASSET_COMMENT_UPDATE;
+        "Comment delete": CosmoEventName.HCLOUD_COSMO_SPACE_ASSET_COMMENT_DELETE;
+    };
     Tag: {
-        "Tag create": CosmoEventName.HCLOUD_COSMO_SPACE_TAG_ADD,
-        "Tag update": CosmoEventName.HCLOUD_COSMO_SPACE_TAG_UPDATE,
-        "Tag delete": CosmoEventName.HCLOUD_COSMO_SPACE_TAG_DELETE,
-    },
-};
+        "Tag create": CosmoEventName.HCLOUD_COSMO_SPACE_TAG_ADD;
+        "Tag update": CosmoEventName.HCLOUD_COSMO_SPACE_TAG_UPDATE;
+        "Tag delete": CosmoEventName.HCLOUD_COSMO_SPACE_TAG_DELETE;
+    };
+}

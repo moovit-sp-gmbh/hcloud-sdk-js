@@ -1,4 +1,4 @@
-import { ReducedUser } from "../../idp";
+import { ReducedUser } from "../../idp"
 
 /**
  * Represents a public link for sharing.
@@ -49,10 +49,11 @@ export interface Share {
  * @property public - (Optional) Whether the share is public.
  * @property visitsLimit - (Optional) Maximum number of allowed visits for the share (only applicable for public shares).
  */
-export interface ShareCreate extends Omit<Share, "_id" | "createDate" | "creator"> {
+export interface ShareCreate extends Omit<Share, "_id" | "createDate" | "creator" | "permissionGroups"> {
     password?: string;
     expires?: number;
     namespaces?: Record<string, string[]>;
+    assetPermissionGroups?: ShareAssetPermissionGroup[];
     /**
      * Array of emails
      */

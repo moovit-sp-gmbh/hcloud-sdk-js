@@ -1,5 +1,5 @@
 import Base, { MaybeRaw } from "../../../Base";
-import { AddLogCollectorDto, LogCollectorDto } from "../../../interfaces/agent/logging";
+import { AddCloudWatchDto, AddLogCollectorDto, CloudWatchDto, LogCollectorDto } from "../../../interfaces/agent/logging";
 
 export class AgentLogging extends Base {
     /**
@@ -7,7 +7,7 @@ export class AgentLogging extends Base {
      * @returns List of active external log collector configurations
      */
     async getLogCollectors<R extends boolean = false>(raw?: { raw: R }): Promise<MaybeRaw<R, LogCollectorDto[]>> {
-        const resp = await this.axios.get<LogCollectorDto[]>(this.getEndpoint(`/v1/log-collectors`));
+        const resp = await this.axios.get<LogCollectorDto[]>(this.getEndpoint(`/v1/log/collectors`));
 
         return (raw?.raw ? resp : resp.data) as MaybeRaw<R, LogCollectorDto[]>;
     }
@@ -18,7 +18,7 @@ export class AgentLogging extends Base {
      * @returns The newly created log collector details
      */
     async addLogCollector<R extends boolean = false>(collector: AddLogCollectorDto, raw?: { raw: R }): Promise<MaybeRaw<R, LogCollectorDto>> {
-        const resp = await this.axios.post<LogCollectorDto>(this.getEndpoint(`/v1/log-collectors`), collector);
+        const resp = await this.axios.post<LogCollectorDto>(this.getEndpoint(`/v1/log/collectors`), collector);
 
         return (raw?.raw ? resp : resp.data) as MaybeRaw<R, LogCollectorDto>;
     }
@@ -29,7 +29,7 @@ export class AgentLogging extends Base {
      * @returns The requested log collector details
      */
     async getLogCollector<R extends boolean = false>(name: string, raw?: { raw: R }): Promise<MaybeRaw<R, LogCollectorDto>> {
-        const resp = await this.axios.get<LogCollectorDto>(this.getEndpoint(`/v1/log-collectors/${name}`));
+        const resp = await this.axios.get<LogCollectorDto>(this.getEndpoint(`/v1/log/collectors/${name}`));
 
         return (raw?.raw ? resp : resp.data) as MaybeRaw<R, LogCollectorDto>;
     }
@@ -40,7 +40,45 @@ export class AgentLogging extends Base {
      * @returns void (or raw response)
      */
     async deleteLogCollector<R extends boolean = false>(name: string, raw?: { raw: R }): Promise<MaybeRaw<R, void>> {
-        const resp = await this.axios.delete<void>(this.getEndpoint(`/v1/log-collectors/${name}`));
+        const resp = await this.axios.delete<void>(this.getEndpoint(`/v1/log/collectors/${name}`));
+
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, void>;
+    }
+
+    /**
+     * Updates the activation status of a specific log collector,
+     * this toggles log forwarding to the destination without removing its configuration.
+     * @param name - Unique identifier of the external log collector
+     * @param enabled - Flag to enable or disable the collector
+     * @returns The updated log collector details
+     */
+    async patchLogCollectorEnabled<R extends boolean = false>(
+        name: string,
+        enabled: boolean,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, LogCollectorDto>> {
+        const resp = await this.axios.patch<LogCollectorDto>(this.getEndpoint(`/v1/log/collectors/${name}/enabled`), { enabled });
+
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, LogCollectorDto>;
+    }
+
+    /**
+     * Registers and initializes a new Amazon CloudWatch transport for log forwarding
+     * @param options - AWS credentials and CloudWatch group/stream configuration
+     * @returns The registered CloudWatch collector details
+     */
+    async addCloudWatch<R extends boolean = false>(options: AddCloudWatchDto, raw?: { raw: R }): Promise<MaybeRaw<R, CloudWatchDto>> {
+        const resp = await this.axios.post<CloudWatchDto>(this.getEndpoint(`/v1/log/cloudwatch`), options);
+
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, CloudWatchDto>;
+    }
+
+    /**
+     * Removes the Amazon CloudWatch logging destination and terminates its Winston transport
+     * @returns void (or raw response)
+     */
+    async deleteCloudWatch<R extends boolean = false>(raw?: { raw: R }): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.delete<void>(this.getEndpoint(`/v1/log/cloudwatch`));
 
         return (raw?.raw ? resp : resp.data) as MaybeRaw<R, void>;
     }
@@ -60,23 +98,6 @@ export class AgentLogging extends Base {
                 Accept: "text/event-stream",
             },
         });
-    }
-
-    /**
-     * Updates the activation status of a specific log collector,
-     * this toggles log forwarding to the destination without removing its configuration.
-     * @param name - Unique identifier of the external log collector
-     * @param enabled - Flag to enable or disable the collector
-     * @returns The updated log collector details
-     */
-    async patchLogCollectorEnabled<R extends boolean = false>(
-        name: string,
-        enabled: boolean,
-        raw?: { raw: R }
-    ): Promise<MaybeRaw<R, LogCollectorDto>> {
-        const resp = await this.axios.patch<LogCollectorDto>(this.getEndpoint(`/v1/log-collectors/${name}/enabled`), { enabled });
-
-        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, LogCollectorDto>;
     }
 
     protected getEndpoint(endpoint: string): string {

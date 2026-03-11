@@ -15,6 +15,7 @@ export interface EditComment {
     annotation?: string;
     mentions?: string[];
     mentionsTeams?: string[];
+    completed?: boolean;
 }
 
 export enum CommentType {
@@ -46,6 +47,9 @@ export interface Comment {
     mentions?: ReducedUser[];
     mentionedTeams?: ReducedTeam[];
     replies?: Reply[];
+    completed: boolean;
+    completedBy?: ReducedUser;
+    completedAt?: number;
 }
 
 export interface Reply extends Omit<Comment, "timestamp" | "replies"> {

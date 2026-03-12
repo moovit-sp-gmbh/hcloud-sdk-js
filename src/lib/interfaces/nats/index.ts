@@ -1,8 +1,8 @@
-import { Msg } from "nats";
-import { Products, Space } from "../global";
-import { High5ExecuteOnAgentRequest, High5ExecutionCancelRequest } from "../high5/space/execution";
-import { LicenseTier } from "../idp";
-import { Asset, UploadStatus } from "../cosmo/asset";
+import { Msg } from "nats"
+import { Asset, UploadStatus } from "../cosmo/asset"
+import { Products, Space } from "../global"
+import { High5ExecuteOnAgentRequest, High5ExecutionCancelRequest } from "../high5/space/execution"
+import { LicenseTier } from "../idp"
 
 enum NatsSubject {
     IDP_USER_GENERAL = "hcloud.idp.user.${userId}.general",
@@ -55,6 +55,7 @@ enum NatsSubject {
     COSMO_SPACES = "hcloud.cosmo.organization.${base64orgName}.spaces",
     COSMO_NAMESPACES = "hcloud.cosmo.organization.${base64orgName}.spaces.${base64spaceName}.namespaces",
     COSMO_ASSETS = "hcloud.cosmo.organization.${base64orgName}.spaces.${base64spaceName}.assets",
+    COSMO_CROSS_SPACES_ASSETS = "hcloud.cosmo.organization.${base64orgName}.spaces.*.assets",
     COSMO_COMMENTS = "hcloud.cosmo.organization.${base64orgName}.spaces.${base64spaceName}.namespaces.${base64namespaceName}.assets.${assetId}.comments",
     COSMO_SHARE = "hcloud.cosmo.organization.${base64orgName}.spaces.${base64spaceName}.share",
     COSMO_TAGS_NAMESPACE = "hcloud.cosmo.organization.${base64orgName}.spaces.${base64spaceName}.namespaces.${base64namespaceName}.tags",
@@ -578,6 +579,9 @@ class NatsSubjects {
                 };
             };
         };
+        static ASSETS = (organizationName: string) => {
+            return NatsSubjects.replace(NatsSubject.COSMO_CROSS_SPACES_ASSETS, { organizationName });
+        };
     };
 
     // eslint-disable-next-line complexity
@@ -641,4 +645,5 @@ const base64Encode = (str: string) => {
     }
 };
 
-export { NatsCallback, NatsMessage, NatsMessageType, NatsObject, NatsObjectType, NatsSubject, NatsSubjects, Msg as RawMsg };
+export { NatsCallback, NatsMessage, NatsMessageType, NatsObject, NatsObjectType, NatsSubject, NatsSubjects, Msg as RawMsg }
+

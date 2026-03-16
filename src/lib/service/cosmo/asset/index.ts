@@ -1,7 +1,7 @@
-import { AxiosResponse } from "axios";
-import Base, { MaybeRaw } from "../../../Base";
-import { AuditLog } from "../../../interfaces/auditor";
-import { Asset, AssetPermission, CreateAsset, Mentionable, PatchAsset, Resolution, Upload } from "../../../interfaces/cosmo/asset";
+import { AxiosResponse } from "axios"
+import Base, { MaybeRaw } from "../../../Base"
+import { AuditLog } from "../../../interfaces/auditor"
+import { Asset, AssetPermission, CreateAsset, Mentionable, PatchAsset, Resolution, Upload, VTTThumbnail } from "../../../interfaces/cosmo/asset"
 
 /**
  * @class Asset
@@ -272,6 +272,58 @@ export class CosmoAsset extends Base {
             },
         });
         return (raw?.raw ? resp : resp.data) as MaybeRaw<R, AuditLog[]>;
+    }
+
+    /**
+     * Fetches an assets VTT file and parses it to return an array of VTTThumbnail objects.
+     *
+     * @param {string} url - The URL of the VTT file to fetch and parse.
+     * @returns {Promise<VTTThumbnail[]>} A promise that resolves to an array of `VTTThumbnail` objects representing the asset’s thumbnails.
+     */
+    async fetchAndParseAssetVTT<R extends boolean = false>(url: string, raw?: { raw: R }): Promise<MaybeRaw<R, VTTThumbnail[]>> {
+        const resp = await this.axios.get<string>(url);
+
+        const parseTimestamp = (ts: string) => {
+            const parts = ts.split(":").map(Number);
+            if (parts.length === 3) {
+                return parts[0] * 3600 + parts[1] * 60 + parts[2];
+            }
+            return parts[0] * 60 + parts[1];
+        };
+
+        const lines = resp.data.split(/\r?\n/);
+        const thumbnails = [] as VTTThumbnail[];
+
+        for (let i = 0; i < lines.length; i++) {
+            const timeMatch = lines[i].match(/(\d{2}:\d{2}:\d{2}\.\d{3})\s-->\s(\d{2}:\d{2}:\d{2}\.\d{3})/);
+
+            if (timeMatch) {
+                const start = parseTimestamp(timeMatch[1]);
+                const end = parseTimestamp(timeMatch[2]);
+                const imageLine = lines[i + 1]?.trim();
+
+                if (!imageLine) continue;
+
+                const [url, fragment] = imageLine.split("#");
+
+                let xywh = undefined;
+
+                if (fragment?.startsWith("xywh=")) {
+                    const [x, y, w, h] = fragment.replace("xywh=", "").split(",").map(Number);
+
+                    xywh = { x, y, w, h };
+                }
+
+                thumbnails.push({
+                    start,
+                    end,
+                    url,
+                    xywh,
+                });
+            }
+        }
+
+        return (raw?.raw ? resp : thumbnails) as MaybeRaw<R, VTTThumbnail[]>;
     }
 
     /**

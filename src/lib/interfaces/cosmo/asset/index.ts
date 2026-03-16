@@ -204,3 +204,10 @@ export enum AssetSearchContext {
 }
 
 export type NamespaceMetadata = Record<string, string | number | boolean | (string | number | boolean)[]>;
+
+export type VTTThumbnail = {
+    start: number;
+    end: number;
+    url: string;
+    xywh?: { x: number; y: number; w: number; h: number };
+};

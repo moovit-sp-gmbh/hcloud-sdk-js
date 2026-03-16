@@ -1,6 +1,7 @@
 import { AxiosResponse } from "axios"
 import Base, { MaybeRaw } from "../../../Base"
 import { AuditLog } from "../../../interfaces/auditor"
+import { disableCacheHeaders } from "../../../interfaces/axios"
 import { Asset, AssetPermission, CreateAsset, Mentionable, PatchAsset, Resolution, Upload, VTTThumbnail } from "../../../interfaces/cosmo/asset"
 
 /**
@@ -281,7 +282,9 @@ export class CosmoAsset extends Base {
      * @returns {Promise<VTTThumbnail[]>} A promise that resolves to an array of `VTTThumbnail` objects representing the asset’s thumbnails.
      */
     async fetchAndParseAssetVTT<R extends boolean = false>(url: string, raw?: { raw: R }): Promise<MaybeRaw<R, VTTThumbnail[]>> {
-        const resp = await this.axios.get<string>(url);
+        const resp = await this.axios.get<string>(url, {
+            headers: { ...disableCacheHeaders, Authorization: undefined },
+        });
 
         const parseTimestamp = (ts: string) => {
             const parts = ts.split(":").map(Number);

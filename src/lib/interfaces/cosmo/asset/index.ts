@@ -19,37 +19,39 @@ export interface BaseAsset {
     breadcrumb?: (Asset | CosmoSpace)[];
 }
 
-export type Asset =
-    | (BaseAsset & {
-          type: ItemType.MEDIA_ASSET;
-          extension: string;
-          assetType: AssetType;
-          path: string;
-          status: UploadStatus;
-          progress: number;
-          tag?: Tag;
-          previewUrl?: string;
-          tilePreviewVttUrl?: string;
-          duration?: number;
-          frameRate?: number;
-          media?: Media[];
-          thumbnailUrl?: string;
-          namespaces?: Record<string, { status: string; tag?: Tag; metadata?: NamespaceMetadata }>;
-      })
-    | Production
-    | Folder
-    | AssetReference;
+export type Asset = BaseAsset &
+    (
+        | {
+              type: ItemType.MEDIA_ASSET;
+              extension: string;
+              assetType: AssetType;
+              path: string;
+              status: UploadStatus;
+              progress: number;
+              tag?: Tag;
+              previewUrl?: string;
+              tilePreviewVttUrl?: string;
+              duration?: number;
+              frameRate?: number;
+              media?: Media[];
+              thumbnailUrl?: string;
+              namespaces?: Record<string, { status: string; tag?: Tag; metadata?: NamespaceMetadata }>;
+          }
+        | Production
+        | Folder
+        | AssetReference
+    );
 
-export type Production = BaseAsset & {
+export type Production = {
     type: ItemType.PRODUCTION;
 };
 
-export type Folder = BaseAsset & {
+export type Folder = {
     type: ItemType.FOLDER;
     children?: Asset[];
 };
 
-export type AssetReference = BaseAsset & {
+export type AssetReference = {
     type: ItemType.REFERENCE;
     reference: { status: string };
 };

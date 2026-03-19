@@ -1,4 +1,4 @@
-import { ReducedUser, ShareReducedUnlinkedUser, User } from "../../idp";
+import { ReducedUser, ShareReducedUnlinkedUser, User } from "../../idp"
 
 /**
  * Represents a public link for sharing.
@@ -64,7 +64,7 @@ export interface ShareCreate extends Omit<Share, "_id" | "createDate" | "creator
 }
 
 export type ShareWithUsers = Share & {
-    users: ReducedUser[];
+    users: ((ReducedUser | Pick<ReducedUser, "email">) & { linkedToShare: boolean })[];
 };
 
 /**
@@ -89,6 +89,7 @@ export type SharePatch = Partial<
         namespaceGroups?: Record<string, ShareNamespacePermissionGroup[] | null>;
         public?: boolean;
         visitsLimit?: number;
+        users?: string[];
     }
 >;
 

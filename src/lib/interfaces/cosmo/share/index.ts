@@ -1,4 +1,4 @@
-import { ReducedUser, ShareReducedUnlinkedUser, User } from "../../idp"
+import { ReducedUser, ShareReducedUnlinkedUser, User } from "../../idp";
 
 /**
  * Represents a public link for sharing.

@@ -1,8 +1,8 @@
-import { AxiosResponse } from "axios"
-import Base, { MaybeRaw } from "../../../Base"
-import { AuditLog } from "../../../interfaces/auditor"
-import { disableCacheHeaders } from "../../../interfaces/axios"
-import { Asset, AssetPermission, CreateAsset, Mentionable, PatchAsset, Resolution, Upload, VTTThumbnail } from "../../../interfaces/cosmo/asset"
+import { AxiosResponse } from "axios";
+import Base, { MaybeRaw } from "../../../Base";
+import { AuditLog } from "../../../interfaces/auditor";
+import { disableCacheHeaders } from "../../../interfaces/axios";
+import { Asset, AssetPermission, CreateAsset, Mentionable, PatchAsset, Resolution, Upload, VTTThumbnail } from "../../../interfaces/cosmo/asset";
 
 /**
  * @class Asset

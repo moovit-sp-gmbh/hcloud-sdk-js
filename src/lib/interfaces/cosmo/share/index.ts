@@ -38,6 +38,7 @@ export interface Share {
     password?: string;
     publicLink?: PublicLink;
     users?: (User | ReducedUser | ShareReducedUnlinkedUser)[];
+    waiting: boolean;
 }
 
 /**
@@ -61,6 +62,7 @@ export interface ShareCreate extends Omit<Share, "_id" | "createDate" | "creator
     users?: string[];
     public?: boolean;
     visitsLimit?: number;
+    deferred?: boolean;
 }
 
 export type ShareWithUsers = Share & {

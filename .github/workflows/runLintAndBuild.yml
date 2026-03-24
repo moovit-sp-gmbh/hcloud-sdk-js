@@ -34,3 +34,6 @@ jobs:
 
       - name: Build
         run: make build
+
+      - name: Check for changes from formatting
+        run: git diff --quiet HEAD || { echo "Diff found in \n$(git status -s)" && exit 1; }

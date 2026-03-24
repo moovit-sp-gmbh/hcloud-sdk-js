@@ -39,6 +39,8 @@ export type Asset = BaseAsset &
                   string,
                   { status: string; statusAuthor?: ReducedUser; canWriteStatus?: boolean; tag?: Tag; metadata?: NamespaceMetadata }
               >;
+              queuePosition?: number;
+              queueTotal?: number;
           }
         | Production
         | Folder

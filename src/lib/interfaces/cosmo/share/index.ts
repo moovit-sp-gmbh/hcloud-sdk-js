@@ -105,6 +105,7 @@ export enum ShareAssetPermissionGroup {
 }
 
 export enum ShareNamespacePermissionGroup {
+    BASE = "BASE",
     ENABLE_COMMENTS = "ENABLE_COMMENTS",
     ENABLE_COMMENT_DELETION = "ENABLE_COMMENT_DELETION",
     ENABLE_APPROVAL = "ENABLE_APPROVAL",

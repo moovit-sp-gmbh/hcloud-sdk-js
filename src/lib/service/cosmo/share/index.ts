@@ -185,27 +185,6 @@ export class CosmoShare extends Base {
     }
 
     /**
-     * Links one or more users (by email) to a specific share in a space.
-     *
-     * @param {string} orgName - The name of the organization.
-     * @param {string} spaceName - The name of the space.
-     * @param {string} shareId - The ID of the share to link to.
-     * @param {string[]} emails - An array of email addresses to link to the share.
-     * @returns {Promise<Share>} A promise that resolves to the updated share object.
-     */
-    async linkOther<R extends boolean = false>(
-        orgName: string,
-        spaceName: string,
-        shareId: string,
-        emails: string[],
-        raw?: { raw: R }
-    ): Promise<MaybeRaw<R, Share>> {
-        const res = await this.axios.put<Share>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/shares/${shareId}/user`), { users: emails });
-
-        return (raw?.raw ? res : res.data) as MaybeRaw<R, Share>;
-    }
-
-    /**
      * Patch a Share in the specified Organization and Space.
      * @remarks
      * ** Under development, breaking changes possible**

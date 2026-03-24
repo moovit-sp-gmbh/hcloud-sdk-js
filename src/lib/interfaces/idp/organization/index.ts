@@ -1,9 +1,9 @@
-import { ReducedUser } from "../user"
-import { License } from "./license"
-import { ReducedTeam } from "./team"
+import { ReducedUser } from "../user";
+import { License } from "./license";
+import { ReducedTeam } from "./team";
 
-export * from "./license"
-export * from "./stats"
+export * from "./license";
+export * from "./stats";
 
 export enum OrganizationRole {
     MAYBE_GUEST = "MAYBE_GUEST", // Role used for guests that have actually (or maybe) no access to an org

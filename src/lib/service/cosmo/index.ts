@@ -12,6 +12,7 @@ import { CosmoPermissions } from "./permissions";
 import { CosmoProduction } from "./production";
 import { CosmoShare } from "./share";
 import { CosmoSpace } from "./space";
+import { CosmoStats } from "./stats";
 import { CosmoTag } from "./tag";
 
 export default class CosmoService extends Base {
@@ -118,6 +119,14 @@ export default class CosmoService extends Base {
         return this._cosmoPermissions;
     }
     private _cosmoPermissions?: CosmoPermissions;
+
+    public get cosmoStats(): CosmoStats {
+        if (this._cosmoStats === undefined) {
+            this._cosmoStats = new CosmoStats(this.options, this.axios);
+        }
+        return this._cosmoStats;
+    }
+    private _cosmoStats?: CosmoStats;
 
     /**
      * Requests the endpoint version

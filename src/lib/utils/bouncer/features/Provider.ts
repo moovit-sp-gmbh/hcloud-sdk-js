@@ -24,7 +24,6 @@ export class BouncerProvider {
         this.logger = logger;
     }
 
-    /* eslint-disable complexity */
     isEnabled(featureName: string, defaultValue: boolean, context?: BouncerContext): boolean {
         const feature = this.features.find(f => f.name === featureName);
         let result = defaultValue;

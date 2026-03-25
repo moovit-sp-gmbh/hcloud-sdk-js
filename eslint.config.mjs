@@ -81,7 +81,7 @@ export default [
                 },
             ],
 
-            complexity: ["warn", 9],
+            complexity: ["warn", 15],
             "consistent-return": 2,
             "default-case": 1,
             eqeqeq: 1,

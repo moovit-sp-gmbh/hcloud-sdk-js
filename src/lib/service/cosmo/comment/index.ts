@@ -49,14 +49,17 @@ export class CosmoComment extends Base {
      * @param orgName Name of the Organization
      * @param spaceName Name of the Space
      * @param namespaceName Name of the Namespace
-     * @param limit Maximum number of comments to return
+     * @param limit Maximum number of comments to return, user -1 for no limit
      * @param page Page number for pagination
      * @param annotation Whether to include annotations in the response
      * @param replySample Amount of replies to load
-     *
+     * @param accept The Accept header value, either "application/json" (comments response as json)
+     *                  or "application/mediacomposer+xml" (comments response as media composer xml as download)
+     *                  or "application/fcp+xml" (comments response as fcp xml as download => i.e. for Adobe Premiere Pro)
+     *                  or "text/edl" (comments response as edl as download => i.e. for Davinci Resolve)
      * @returns A list of Comments
      */
-    async listComments<R extends boolean = false>(
+    async listComments<R extends boolean = false, A extends string = "application/json">(
         orgName: string,
         spaceName: string,
         namespaceName: string,
@@ -65,17 +68,32 @@ export class CosmoComment extends Base {
         page?: number,
         annotation: boolean = false,
         replySample: number = 0,
+        accept?: A,
         raw?: { raw: R }
-    ): Promise<MaybeRaw<R, Comment[]>> {
+    ): Promise<A extends "application/mediacomposer+xml" | "application/fcp+xml" | "text/edl" ? ArrayBuffer : MaybeRaw<R, Comment[]>> {
         limit = limit ?? 100;
         page = page ?? 0;
-        const resp = await this.axios.get<Comment[]>(
+
+        const fileDownloadTypes = new Set<string>(["application/mediacomposer+xml", "application/fcp+xml", "text/edl"]);
+        const isFileDownload = accept !== undefined && fileDownloadTypes.has(accept);
+
+        const resp = await this.axios.get(
             this.getEndpoint(
                 `/v1/org/${orgName}/spaces/${spaceName}/namespaces/${namespaceName}/comments?limit=${limit}&page=${page}&annotation=${annotation}&refId=${refId}&replySample=${replySample}`
-            )
+            ),
+            {
+                headers: {
+                    Accept: accept ?? "application/json",
+                },
+                ...(isFileDownload && { responseType: "arraybuffer" }),
+            }
         );
 
-        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Comment[]>;
+        if (isFileDownload) {
+            return resp.data as any;
+        }
+
+        return (raw?.raw ? resp : resp.data) as any;
     }
 
     /**

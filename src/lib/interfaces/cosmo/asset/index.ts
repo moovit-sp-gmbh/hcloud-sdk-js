@@ -84,6 +84,7 @@ export enum UploadStatus {
     PROCESSING = "PROCESSING",
     FINISHED = "FINISHED",
     FAILED = "FAILED",
+    POST_PROCESSING = "POST_PROCESSING",
 }
 
 export type NamespaceRushStatus = "approved" | "rejected" | "none";

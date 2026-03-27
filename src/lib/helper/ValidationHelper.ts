@@ -1,6 +1,7 @@
 enum Entity {
     USER_NAME = "USER_NAME",
     USER_PASSWORD = "USER_PASSWORD",
+    OAUTH_SECRET_NAME = "OAUTH_SECRET_NAME",
     ORGANIZATION_NAME = "ORGANIZATION_NAME",
     USER_ORGANIZATION_NAME = "USER_ORGANIZATION_NAME",
     TEAM_NAME = "TEAM_NAME",
@@ -132,6 +133,11 @@ const entityCollection: Record<Entity, Details> = {
     [Entity.USER_PASSWORD]: {
         pattern: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,255}$/i,
         minLength: 8,
+        maxLength: 255,
+    },
+    [Entity.OAUTH_SECRET_NAME]: {
+        pattern: /^[\w\-.]{1,255}$/i,
+        minLength: 1,
         maxLength: 255,
     },
     [Entity.ORGANIZATION_NAME]: {

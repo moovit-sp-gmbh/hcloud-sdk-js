@@ -1,5 +1,6 @@
 enum Entity {
     USER_NAME = "USER_NAME",
+    USER_PASSWORD = "USER_PASSWORD",
     ORGANIZATION_NAME = "ORGANIZATION_NAME",
     USER_ORGANIZATION_NAME = "USER_ORGANIZATION_NAME",
     TEAM_NAME = "TEAM_NAME",
@@ -126,6 +127,11 @@ const entityCollection: Record<Entity, Details> = {
         // Case-insensitive. Must contain at least 3 character. Allows letters, numbers, underscores, hyphens, dots, and spaces. Cannot start with a dash, end with a dash, or contain double dashes
         pattern: /^(?!-)(?!.*--)[\w-. ]{3,255}(?<!-)$/i,
         minLength: 3,
+        maxLength: 255,
+    },
+    [Entity.USER_PASSWORD]: {
+        pattern: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,255}$/i,
+        minLength: 8,
         maxLength: 255,
     },
     [Entity.ORGANIZATION_NAME]: {

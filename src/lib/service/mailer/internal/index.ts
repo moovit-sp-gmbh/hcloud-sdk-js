@@ -1,14 +1,14 @@
 import Base, { MaybeRaw } from "../../../Base";
-import { HtmlMail, MailjetMailDTO, MailjetResponse, MustacheMail, TemplateMail } from "../../../interfaces/mailer";
+import { HtmlMail, MailDTO, MailjetResponse, MustacheMail, ResendResponse, TemplateMail } from "../../../interfaces/mailer";
 
 export default class MailerInternal extends Base {
     /**
      * Sends a new mail based on a mailjet template.
      *
      * THIS IS AN INTERNAL ENDPOINT AND CAN ONLY BE USED FROM BACKENDS WITHIN THE HCLOUD DEPLOYMENT
-     * @param mail MailjetMailDTO
+     * @param mail MailDTO
      */
-    async sendMailMailjet<R extends boolean = false>(mail: MailjetMailDTO, raw?: { raw: R }): Promise<MaybeRaw<R, MailjetResponse>> {
+    async sendMailMailjet<R extends boolean = false>(mail: MailDTO, raw?: { raw: R }): Promise<MaybeRaw<R, MailjetResponse>> {
         const resp = await this.axios.post<MailjetResponse>(this.getEndpoint("/v1/send/mailjet"), mail);
 
         return (raw?.raw ? resp : resp.data) as MaybeRaw<R, MailjetResponse>;
@@ -51,6 +51,18 @@ export default class MailerInternal extends Base {
         const resp = await this.axios.post<void>(this.getEndpoint("/v1/send/template"), mail);
 
         return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
+    }
+
+    /**
+     * Sends a new mail based on an existing react-mail template using resend.com
+     *
+     * THIS IS AN INTERNAL ENDPOINT AND CAN ONLY BE USED FROM BACKENDS WITHIN THE HCLOUD DEPLOYMENT
+     * @param mail MailDTO
+     */
+    async sendMailResend<R extends boolean = false>(mail: MailDTO, raw?: { raw: R }): Promise<MaybeRaw<R, ResendResponse>> {
+        const resp = await this.axios.post<ResendResponse>(this.getEndpoint("/v1/send/resend"), mail);
+
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, ResendResponse>;
     }
 
     protected getEndpoint(endpoint: string): string {

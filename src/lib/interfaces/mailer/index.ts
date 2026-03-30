@@ -34,9 +34,10 @@ export interface MustacheMail extends Mail {
     replacements: MailReplacement[];
 }
 
-enum MailjetTemplate {
+export enum MailTemplate {
     IDP_NEW_REGISTRATION = "IDP_NEW_REGISTRATION",
     IDP_NEW_REGISTRATION_CUSTOMER = "IDP_NEW_REGISTRATION_CUSTOMER",
+    IDP_NEW_CLOSED_REGISTRATION = "IDP_NEW_CLOSED_REGISTRATION",
     IDP_INVITE_TO_ORGANIZATION = "IDP_INVITE_TO_ORGANIZATION",
     IDP_RESET_PASSWORD = "IDP_RESET_PASSWORD",
     IDP_REGISTRATION_AND_INVITATION = "IDP_REGISTRATION_AND_INVITATION",
@@ -53,7 +54,7 @@ enum MailjetTemplate {
     COSMO_SHARE_PASSWORD_CHANGED = "COSMO_SHARE_PASSWORD_CHANGED",
 }
 
-interface MailjetTemplateField {
+interface MailTemplateField {
     [key: string]: string;
 }
 
@@ -73,21 +74,26 @@ export type MailjetResponse = {
     ];
 };
 
-export abstract class MailjetMailDTO {
-    public recipients: string[];
-    public template: MailjetTemplate;
-    public fields: MailjetTemplateField;
+export interface ResendResponse {
+    emailId: string;
+}
 
-    constructor(recipients: string[], template: MailjetTemplate, fields: MailjetTemplateField) {
+export abstract class MailDTO {
+    public recipients: string[];
+    public template: MailTemplate;
+    public fields: MailTemplateField;
+
+    constructor(recipients: string[], template: MailTemplate, fields: MailTemplateField) {
         this.recipients = recipients;
         this.template = template;
         this.fields = fields;
     }
 }
 
-export class IdpNewRegistrationMailjetMailDTO extends MailjetMailDTO {
+// Mailjet templates
+export class IdpNewRegistrationMailjetMailDTO extends MailDTO {
     constructor(recipients: string[], verifyLink: string, hcloudOriginalEmail: string, name: string, company: string) {
-        super(recipients, MailjetTemplate.IDP_NEW_REGISTRATION, {
+        super(recipients, MailTemplate.IDP_NEW_REGISTRATION, {
             HCLOUD_VERIFY_LINK: verifyLink,
             HCLOUD_ORIGINAL_EMAIL: hcloudOriginalEmail,
             HCLOUD_NAME: name,
@@ -96,25 +102,25 @@ export class IdpNewRegistrationMailjetMailDTO extends MailjetMailDTO {
     }
 }
 
-export class IdpNewRegistrationMailjetMailToCustomerDTO extends MailjetMailDTO {
+export class IdpNewRegistrationMailjetMailToCustomerDTO extends MailDTO {
     constructor(recipients: string[], username: string) {
-        super(recipients, MailjetTemplate.IDP_NEW_REGISTRATION_CUSTOMER, {
+        super(recipients, MailTemplate.IDP_NEW_REGISTRATION_CUSTOMER, {
             USERNAME: username,
         });
     }
 }
 
-export class IdpResetPasswordMailjetMailDTO extends MailjetMailDTO {
+export class IdpResetPasswordMailjetMailDTO extends MailDTO {
     constructor(recipients: string[], resetPasswordLink: string) {
-        super(recipients, MailjetTemplate.IDP_RESET_PASSWORD, {
+        super(recipients, MailTemplate.IDP_RESET_PASSWORD, {
             HCLOUD_RESET_PASSWORD_LINK: resetPasswordLink,
         });
     }
 }
 
-export class IdpInviteToOrganizationMailjetMailDto extends MailjetMailDTO {
+export class IdpInviteToOrganizationMailjetMailDto extends MailDTO {
     constructor(recipients: string[], approvalLink: string, inviteFromPerson: string, inviteToOrganization: string) {
-        super(recipients, MailjetTemplate.IDP_INVITE_TO_ORGANIZATION, {
+        super(recipients, MailTemplate.IDP_INVITE_TO_ORGANIZATION, {
             HCLOUD_INVITE_FROM: inviteFromPerson,
             HCLOUD_INVITE_ORGANIZATION: inviteToOrganization,
             HCLOUD_APPROVAL_LINK: approvalLink,
@@ -122,9 +128,9 @@ export class IdpInviteToOrganizationMailjetMailDto extends MailjetMailDTO {
     }
 }
 
-export class IdpRegisterAndInviteToOrganizationMailjetMailDto extends MailjetMailDTO {
+export class IdpRegisterAndInviteToOrganizationMailjetMailDto extends MailDTO {
     constructor(recipients: string[], registerLink: string, inviteFromPerson: string, inviteToOrganization: string) {
-        super(recipients, MailjetTemplate.IDP_REGISTRATION_AND_INVITATION, {
+        super(recipients, MailTemplate.IDP_REGISTRATION_AND_INVITATION, {
             HCLOUD_INVITE_FROM: inviteFromPerson,
             HCLOUD_INVITE_ORGANIZATION: inviteToOrganization,
             HCLOUD_REGISTER_LINK: registerLink,
@@ -132,9 +138,9 @@ export class IdpRegisterAndInviteToOrganizationMailjetMailDto extends MailjetMai
     }
 }
 
-export class IdpUserLeftOrganizationMailjetMailDTO extends MailjetMailDTO {
+export class IdpUserLeftOrganizationMailjetMailDTO extends MailDTO {
     constructor(recipients: string[], userName: string, userEmail: string, organizationName: string) {
-        super(recipients, MailjetTemplate.IDP_USER_LEFT_ORGANIZATION, {
+        super(recipients, MailTemplate.IDP_USER_LEFT_ORGANIZATION, {
             USER_NAME: userName,
             USER_EMAIL: userEmail,
             ORGANIZATION_NAME: organizationName,
@@ -142,26 +148,26 @@ export class IdpUserLeftOrganizationMailjetMailDTO extends MailjetMailDTO {
     }
 }
 
-export class IdpAccountApprovedMailjetMailDTO extends MailjetMailDTO {
+export class IdpAccountApprovedMailjetMailDTO extends MailDTO {
     constructor(recipients: string[], username: string, signInLink: string) {
-        super(recipients, MailjetTemplate.IDP_ACCOUNT_APPROVED, {
+        super(recipients, MailTemplate.IDP_ACCOUNT_APPROVED, {
             USERNAME: username,
             HCLOUD_SIGN_IN_LINK: signInLink,
         });
     }
 }
 
-export class CosmoNewShareMailjetMailDTO extends MailjetMailDTO {
+export class CosmoNewShareMailjetMailDTO extends MailDTO {
     constructor(recipients: string[], shareLink: string) {
-        super(recipients, MailjetTemplate.COSMO_NEW_SHARE, {
+        super(recipients, MailTemplate.COSMO_NEW_SHARE, {
             HCLOUD_SHARE_LINK: shareLink,
         });
     }
 }
 
-export class CosmoUserAddedToSpaceMailjetMailDTO extends MailjetMailDTO {
+export class CosmoUserAddedToSpaceMailjetMailDTO extends MailDTO {
     constructor(recipients: string[], actorName: string, recipientName: string, spaceName: string, link: string) {
-        super(recipients, MailjetTemplate.COSMO_USER_ADDED_TO_SPACE, {
+        super(recipients, MailTemplate.COSMO_USER_ADDED_TO_SPACE, {
             ACTOR_NAME: actorName,
             RECIPIENT_NAME: recipientName,
             SPACE_NAME: spaceName,
@@ -170,9 +176,9 @@ export class CosmoUserAddedToSpaceMailjetMailDTO extends MailjetMailDTO {
     }
 }
 
-export class CosmoUserRemovedFromSpaceMailjetMailDTO extends MailjetMailDTO {
+export class CosmoUserRemovedFromSpaceMailjetMailDTO extends MailDTO {
     constructor(recipients: string[], actorName: string, recipientName: string, spaceName: string) {
-        super(recipients, MailjetTemplate.COSMO_USER_REMOVED_FROM_SPACE, {
+        super(recipients, MailTemplate.COSMO_USER_REMOVED_FROM_SPACE, {
             ACTOR_NAME: actorName,
             RECIPIENT_NAME: recipientName,
             SPACE_NAME: spaceName,
@@ -180,7 +186,7 @@ export class CosmoUserRemovedFromSpaceMailjetMailDTO extends MailjetMailDTO {
     }
 }
 
-export class CosmoCommentOrAnnotationAddedMailjetMailDTO extends MailjetMailDTO {
+export class CosmoCommentOrAnnotationAddedMailjetMailDTO extends MailDTO {
     constructor(
         recipients: string[],
         assetName: string,
@@ -190,7 +196,7 @@ export class CosmoCommentOrAnnotationAddedMailjetMailDTO extends MailjetMailDTO 
         spaceName: string,
         link: string
     ) {
-        super(recipients, MailjetTemplate.COSMO_COMMENT_ADDED, {
+        super(recipients, MailTemplate.COSMO_COMMENT_ADDED, {
             ASSET_NAME: assetName,
             RECIPIENT_NAME: recipientName,
             ACTOR_NAME: actorName,
@@ -201,7 +207,7 @@ export class CosmoCommentOrAnnotationAddedMailjetMailDTO extends MailjetMailDTO 
     }
 }
 
-export class CosmoRepliedToCommentMailjetMailDTO extends MailjetMailDTO {
+export class CosmoRepliedToCommentMailjetMailDTO extends MailDTO {
     constructor(
         recipients: string[],
         assetName: string,
@@ -211,7 +217,7 @@ export class CosmoRepliedToCommentMailjetMailDTO extends MailjetMailDTO {
         spaceName: string,
         link: string
     ) {
-        super(recipients, MailjetTemplate.COSMO_REPLIED_TO_COMMENT, {
+        super(recipients, MailTemplate.COSMO_REPLIED_TO_COMMENT, {
             ASSET_NAME: assetName,
             RECIPIENT_NAME: recipientName,
             ACTOR_NAME: actorName,
@@ -222,7 +228,7 @@ export class CosmoRepliedToCommentMailjetMailDTO extends MailjetMailDTO {
     }
 }
 
-export class CosmoAssetStatusChangedMailjetMailDTO extends MailjetMailDTO {
+export class CosmoAssetStatusChangedMailjetMailDTO extends MailDTO {
     constructor(
         recipients: string[],
         assetName: string,
@@ -232,7 +238,7 @@ export class CosmoAssetStatusChangedMailjetMailDTO extends MailjetMailDTO {
         spaceName: string,
         link: string
     ) {
-        super(recipients, MailjetTemplate.COSMO_ASSET_STATUS_CHANGED, {
+        super(recipients, MailTemplate.COSMO_ASSET_STATUS_CHANGED, {
             ASSET_NAME: assetName,
             RECIPIENT_NAME: recipientName,
             ACTOR_NAME: actorName,
@@ -243,12 +249,205 @@ export class CosmoAssetStatusChangedMailjetMailDTO extends MailjetMailDTO {
     }
 }
 
-export class CosmoSharePasswordChangedMailjetMailDTO extends MailjetMailDTO {
+export class CosmoSharePasswordChangedMailjetMailDTO extends MailDTO {
     constructor(recipients: string[], recipientName: string, shareName: string, shareLink: string) {
-        super(recipients, MailjetTemplate.COSMO_SHARE_PASSWORD_CHANGED, {
+        super(recipients, MailTemplate.COSMO_SHARE_PASSWORD_CHANGED, {
             RECIPIENT_NAME: recipientName,
             SHARE_NAME: shareName,
             HCLOUD_SHARE_LINK: shareLink,
+        });
+    }
+}
+
+// Resend templates
+
+export class IdpNewRegistrationResendMailDTO extends MailDTO {
+    constructor(recipients: string[], name: string, email: string, company: string, link: string) {
+        super(recipients, MailTemplate.IDP_NEW_REGISTRATION, {
+            NAME: name,
+            EMAIL: email,
+            COMPANY: company,
+            LINK: link,
+        });
+    }
+}
+
+export class IdpNewRegistrationResendMailToCustomerDTO extends MailDTO {
+    constructor(recipients: string[], username: string) {
+        super(recipients, MailTemplate.IDP_NEW_REGISTRATION_CUSTOMER, {
+            USERNAME: username,
+        });
+    }
+}
+
+export class IdpNewClosedRegistrationResendMailDTO extends MailDTO {
+    constructor(recipients: string[], name: string, email: string) {
+        super(recipients, MailTemplate.IDP_NEW_CLOSED_REGISTRATION, {
+            NAME: name,
+            EMAIL: email,
+        });
+    }
+}
+
+export class IdpResetPasswordResendMailDTO extends MailDTO {
+    constructor(recipients: string[], email: string, resetPasswordLink: string) {
+        super(recipients, MailTemplate.IDP_RESET_PASSWORD, {
+            EMAIL: email,
+            LINK: resetPasswordLink,
+        });
+    }
+}
+
+export class IdpInviteToOrganizationResendMailDto extends MailDTO {
+    constructor(recipients: string[], name: string, email: string, inviteFromPerson: string, inviteToOrganization: string, link: string) {
+        super(recipients, MailTemplate.IDP_INVITE_TO_ORGANIZATION, {
+            NAME: name,
+            EMAIL: email,
+            HCLOUD_INVITE_FROM: inviteFromPerson,
+            HCLOUD_INVITE_ORGANIZATION: inviteToOrganization,
+            LINK: link,
+        });
+    }
+}
+
+export class IdpRegisterAndInviteToOrganizationResendMailDto extends MailDTO {
+    constructor(recipients: string[], email: string, inviteFromPerson: string, inviteToOrganization: string, link: string) {
+        super(recipients, MailTemplate.IDP_REGISTRATION_AND_INVITATION, {
+            EMAIL: email,
+            INVITE_FROM: inviteFromPerson,
+            INVITE_ORGANIZATION: inviteToOrganization,
+            LINK: link,
+        });
+    }
+}
+
+export class IdpUserLeftOrganizationResendMailDTO extends MailDTO {
+    constructor(recipients: string[], name: string, email: string, organizationName: string) {
+        super(recipients, MailTemplate.IDP_USER_LEFT_ORGANIZATION, {
+            NAME: name,
+            EMAIL: email,
+            HCLOUD_ORGANIZATION_NAME: organizationName,
+        });
+    }
+}
+
+export class IdpAccountApprovedResendMailDTO extends MailDTO {
+    constructor(recipients: string[], username: string, signInLink: string) {
+        super(recipients, MailTemplate.IDP_ACCOUNT_APPROVED, {
+            USERNAME: username,
+            HCLOUD_SIGN_IN_LINK: signInLink,
+        });
+    }
+}
+
+export class CosmoNewShareResendMailDTO extends MailDTO {
+    constructor(recipients: string[], recipientEmail: string, shareLink: string) {
+        super(recipients, MailTemplate.COSMO_NEW_SHARE, {
+            RECIPIENT_EMAIL: recipientEmail,
+            LINK: shareLink,
+        });
+    }
+}
+
+export class CosmoUserAddedToSpaceResendMailDTO extends MailDTO {
+    constructor(recipients: string[], actorName: string, recipientName: string, recipientEmail: string, spaceName: string, link: string) {
+        super(recipients, MailTemplate.COSMO_USER_ADDED_TO_SPACE, {
+            ACTOR_NAME: actorName,
+            RECIPIENT_NAME: recipientName,
+            RECIPIENT_EMAIL: recipientEmail,
+            SPACE_NAME: spaceName,
+            LINK: link,
+        });
+    }
+}
+
+export class CosmoUserRemovedFromSpaceResendMailDTO extends MailDTO {
+    constructor(recipients: string[], actorName: string, recipientName: string, recipientEmail: string, spaceName: string) {
+        super(recipients, MailTemplate.COSMO_USER_REMOVED_FROM_SPACE, {
+            ACTOR_NAME: actorName,
+            RECIPIENT_NAME: recipientName,
+            RECIPIENT_EMAIL: recipientEmail,
+            SPACE_NAME: spaceName,
+        });
+    }
+}
+
+export class CosmoCommentOrAnnotationAddedResendMailDTO extends MailDTO {
+    constructor(
+        recipients: string[],
+        assetName: string,
+        recipientName: string,
+        recipientEmail: string,
+        actorName: string,
+        commentSnippet: string,
+        spaceName: string,
+        link: string
+    ) {
+        super(recipients, MailTemplate.COSMO_COMMENT_ADDED, {
+            ASSET_NAME: assetName,
+            RECIPIENT_NAME: recipientName,
+            RECIPIENT_EMAIL: recipientEmail,
+            ACTOR_NAME: actorName,
+            COMMENT_SNIPPET: commentSnippet,
+            SPACE_NAME: spaceName,
+            LINK: link,
+        });
+    }
+}
+
+export class CosmoRepliedToCommentResendMailDTO extends MailDTO {
+    constructor(
+        recipients: string[],
+        assetName: string,
+        recipientName: string,
+        recipientEmail: string,
+        actorName: string,
+        commentSnippet: string,
+        spaceName: string,
+        link: string
+    ) {
+        super(recipients, MailTemplate.COSMO_REPLIED_TO_COMMENT, {
+            ASSET_NAME: assetName,
+            RECIPIENT_NAME: recipientName,
+            RECIPIENT_EMAIL: recipientEmail,
+            ACTOR_NAME: actorName,
+            COMMENT_SNIPPET: commentSnippet,
+            SPACE_NAME: spaceName,
+            LINK: link,
+        });
+    }
+}
+
+export class CosmoAssetStatusChangedResendMailDTO extends MailDTO {
+    constructor(
+        recipients: string[],
+        assetName: string,
+        recipientName: string,
+        recipientEmail: string,
+        actorName: string,
+        newStatus: string,
+        spaceName: string,
+        link: string
+    ) {
+        super(recipients, MailTemplate.COSMO_ASSET_STATUS_CHANGED, {
+            ASSET_NAME: assetName,
+            RECIPIENT_NAME: recipientName,
+            RECIPIENT_EMAIL: recipientEmail,
+            ACTOR_NAME: actorName,
+            NEW_STATUS: newStatus,
+            SPACE_NAME: spaceName,
+            LINK: link,
+        });
+    }
+}
+
+export class CosmoSharePasswordChangedResendMailDTO extends MailDTO {
+    constructor(recipients: string[], recipientName: string, recipientEmail: string, shareName: string, shareLink: string) {
+        super(recipients, MailTemplate.COSMO_SHARE_PASSWORD_CHANGED, {
+            RECIPIENT_NAME: recipientName,
+            RECIPIENT_EMAIL: recipientEmail,
+            SHARE_NAME: shareName,
+            LINK: shareLink,
         });
     }
 }

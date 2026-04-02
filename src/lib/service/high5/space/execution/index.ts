@@ -92,6 +92,7 @@ export class High5SpaceExecute extends Base {
      * @param spaceName Name of the Space
      * @param streamId ID of the Stream
      * @param secret Secret of the Stream execution object
+     * @param hash (Optional) SHA-256 hash of the cached design to prevent redundant downloads
      * @returns StreamExecutionPackage
      */
     async getStreamExecutionPackage<R extends boolean = false>(
@@ -99,10 +100,12 @@ export class High5SpaceExecute extends Base {
         spaceName: string,
         streamId: string,
         secret: string,
+        hash?: string,
         raw?: { raw: R }
     ): Promise<MaybeRaw<R, High5ExecutionPackage>> {
         const resp = await this.axios.get<High5ExecutionPackage>(
-            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execute/stream/id/${streamId}/package/${secret}`)
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execute/stream/id/${streamId}/package/${secret}`),
+            { params: { hash } }
         );
 
         return (raw?.raw ? resp : resp.data) as MaybeRaw<R, High5ExecutionPackage>;

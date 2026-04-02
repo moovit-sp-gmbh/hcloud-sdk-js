@@ -58,7 +58,7 @@ export interface EventExecutionResult {
 }
 
 export interface High5ExecutionPackage {
-    design: DesignBuild;
+    design?: DesignBuild;
     payload: High5ExecutionPayload;
     waveCatalogs: WaveCatalog[];
     waveEngine: WaveEngine;

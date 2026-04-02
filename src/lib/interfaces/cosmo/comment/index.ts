@@ -22,6 +22,18 @@ export enum CommentType {
     REPLY = "REPLY",
 }
 
+export enum CommentSortField {
+    TIMECODE = "TIMECODE",
+    CREATOR = "CREATOR",
+    NEWEST = "NEWEST",
+    OLDEST = "OLDEST",
+}
+
+export enum CommentSortDirection {
+    ASC = "ASC",
+    DESC = "DESC",
+}
+
 export interface Comment {
     _id: string;
     text: string;

@@ -1,5 +1,5 @@
 import Base, { MaybeRaw } from "../../../Base";
-import { Comment, CreateComment, EditComment, Reply } from "../../../interfaces/cosmo/comment";
+import { Comment, CommentSortDirection, CommentSortField, CreateComment, EditComment, Reply } from "../../../interfaces/cosmo/comment";
 
 /**
  * @class Comment
@@ -53,6 +53,8 @@ export class CosmoComment extends Base {
      * @param page Page number for pagination
      * @param annotation Whether to include annotations in the response
      * @param replySample Amount of replies to load
+     * @param sortField Field to sort comments by
+     * @param sortDirection Sort direction for comments
      * @param accept The Accept header value, either "application/json" (comments response as json)
      *                  or "application/mediacomposer+xml" (comments response as media composer xml as download)
      *                  or "application/fcp+xml" (comments response as fcp xml as download => i.e. for Adobe Premiere Pro)
@@ -68,6 +70,8 @@ export class CosmoComment extends Base {
         page?: number,
         annotation: boolean = false,
         replySample: number = 0,
+        sortField?: CommentSortField,
+        sortDirection?: CommentSortDirection,
         accept?: A,
         raw?: { raw: R }
     ): Promise<A extends "application/mediacomposer+xml" | "application/fcp+xml" | "text/edl" ? ArrayBuffer : MaybeRaw<R, Comment[]>> {
@@ -79,7 +83,7 @@ export class CosmoComment extends Base {
 
         const resp = await this.axios.get(
             this.getEndpoint(
-                `/v1/org/${orgName}/spaces/${spaceName}/namespaces/${namespaceName}/comments?limit=${limit}&page=${page}&annotation=${annotation}&refId=${refId}&replySample=${replySample}`
+                `/v1/org/${orgName}/spaces/${spaceName}/namespaces/${namespaceName}/comments?limit=${limit}&page=${page}&annotation=${annotation}&refId=${refId}&replySample=${replySample}${sortField !== undefined ? `&sort_field=${sortField}` : ""}${sortDirection !== undefined ? `&sort_direction=${sortDirection}` : ""}`
             ),
             {
                 headers: {

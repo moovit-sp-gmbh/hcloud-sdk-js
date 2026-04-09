@@ -94,7 +94,9 @@ enum TriggerSource {
 export interface ExtendedHigh5ExecutionPackage extends High5ExecutionPackage {
     hcl: HCloud;
     orgName: string;
+    orgId: string;
     spaceName: string;
+    spaceId: string;
     streamId: string;
     secret: string;
     targetEmail: string;
@@ -200,6 +202,7 @@ export interface StreamNode {
 export interface High5ExecuteOnAgentRequest {
     organizationName: string;
     spaceName: string;
+    spaceId: string;
     streamId: string;
     secret: string;
     subject: string;

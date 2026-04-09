@@ -206,6 +206,12 @@ export enum AssetSearchContext {
     SHARE = "SHARE",
 }
 
+export enum SubscriptionFilter {
+    STATUS = "status",
+    TAGS = "tags",
+    COMMENTS = "comments",
+}
+
 export type NamespaceMetadata = Record<string, string | number | boolean | (string | number | boolean)[]>;
 
 export type VTTThumbnail = {

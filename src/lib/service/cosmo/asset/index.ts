@@ -2,7 +2,17 @@ import { AxiosResponse } from "axios";
 import Base, { MaybeRaw } from "../../../Base";
 import { AuditLog } from "../../../interfaces/auditor";
 import { disableCacheHeaders } from "../../../interfaces/axios";
-import { Asset, AssetPermission, CreateAsset, Mentionable, PatchAsset, Resolution, Upload, VTTThumbnail } from "../../../interfaces/cosmo/asset";
+import {
+    Asset,
+    AssetPermission,
+    CreateAsset,
+    Mentionable,
+    PatchAsset,
+    Resolution,
+    SubscriptionFilter,
+    Upload,
+    VTTThumbnail,
+} from "../../../interfaces/cosmo/asset";
 
 /**
  * @class Asset
@@ -474,14 +484,22 @@ export class CosmoAsset extends Base {
      * @param orgName Name of the Organization
      * @param spaceName Name of the Space
      * @param assetId (optional) ID of the Asset to subscribe to. If not provided, subscribes to the space.
+     * @param filters (optional) Subscription configuration. If 'filters' is omitted or empty, all notification types will be sent.
+     * @param raw
      * @returns 204 No Content if successful
      */
-    async subscribe<R extends boolean = false>(orgName: string, spaceName: string, assetId?: string, raw?: { raw: R }): Promise<MaybeRaw<R, void>> {
+    async subscribe<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        assetId?: string,
+        filters?: SubscriptionFilter[],
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, void>> {
         let resp: AxiosResponse;
         if (assetId) {
-            resp = await this.axios.put<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets/${assetId}/subscribe`));
+            resp = await this.axios.put<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets/${assetId}/subscribe`), { filters });
         } else {
-            resp = await this.axios.put<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets/subscribe`));
+            resp = await this.axios.put<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets/subscribe`), { filters });
         }
         return (raw?.raw ? resp : resp.data) as MaybeRaw<R, void>;
     }

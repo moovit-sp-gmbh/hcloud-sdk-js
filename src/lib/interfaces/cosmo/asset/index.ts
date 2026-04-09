@@ -142,8 +142,8 @@ export interface VideoMetadata {
     height: number;
     fieldOrder: string;
     duration: number;
-    tcIn: string;
-    tcOut: string;
+    tcIn: number;
+    tcOut: number;
     noOfFrames: number;
     formatLongName: string;
 }

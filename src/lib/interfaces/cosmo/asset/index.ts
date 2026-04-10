@@ -35,6 +35,7 @@ export type Asset = BaseAsset &
               frameRate?: number;
               media?: Media[];
               thumbnailUrl?: string;
+              posterUrl?: string;
               namespaces?: Record<
                   string,
                   { status: string; statusAuthor?: ReducedUser; canWriteStatus?: boolean; tag?: Tag; metadata?: NamespaceMetadata }

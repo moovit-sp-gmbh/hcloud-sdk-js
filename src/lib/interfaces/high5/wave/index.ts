@@ -1,3 +1,5 @@
+import { FieldCondition, InputObject, Primitive, Query } from "./dependentInputs";
+
 export interface RegistryCatalog {
     name: string;
     description: string;
@@ -102,7 +104,7 @@ export interface StreamNodeSpecificationV1 extends StreamNodeSpecification {
     version: StreamSemanticVersion;
     author: StreamNodeSpecificationAuthor;
     tag?: StreamNodeSpecificationTag;
-    inputs?: StreamNodeSpecificationInput[];
+    inputs?: StreamNodeSpecificationInput[] | StreamNodeSpecificationConditionalInput[];
     outputs?: StreamNodeSpecificationOutput[];
     additionalConnectors?: StreamNodeSpecificationAdditionalConnector[];
     path?: string;
@@ -116,7 +118,7 @@ export interface StreamNodeSpecificationV2 extends StreamNodeSpecification {
     version: StreamSemanticVersion;
     author: StreamNodeSpecificationAuthor;
     tag?: StreamNodeSpecificationTag[];
-    inputs?: StreamNodeSpecificationInput[];
+    inputs?: StreamNodeSpecificationInput[] | StreamNodeSpecificationConditionalInput[];
     outputs?: StreamNodeSpecificationOutputV2[];
     additionalConnectors?: StreamNodeSpecificationAdditionalConnector[];
     path?: string;
@@ -193,6 +195,10 @@ export type StreamNodeSpecificationInput = {
           defaultValue: boolean;
       }
 );
+
+export type StreamNodeSpecificationDependentInput = StreamNodeSpecificationInput & {
+    if?: Primitive | InputObject | FieldCondition | Query;
+};
 
 export interface StreamNodeSpecificationOutput {
     name: string;

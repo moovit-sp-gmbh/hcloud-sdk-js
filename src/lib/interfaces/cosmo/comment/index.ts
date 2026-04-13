@@ -12,6 +12,7 @@ export interface CreateComment {
     mentionsTeams?: string[];
     metadata?: Record<string, Primitive | Primitive[]>;
     visibility?: CommentVisibility;
+    metadata?: Record<string, Primitive | Primitive[]>;
 }
 
 export interface EditComment {
@@ -24,6 +25,7 @@ export interface EditComment {
     completed?: boolean;
     metadata?: Record<string, Primitive | Primitive[]>;
     visibility?: CommentVisibility;
+    metadata?: Record<string, Primitive | Primitive[]>;
 }
 
 export enum CommentType {
@@ -66,6 +68,7 @@ export interface Comment {
     completedAt?: number;
     metadata?: Record<string, Primitive | Primitive[]>;
     visibility?: CommentVisibility;
+    metadata?: Record<string, Primitive | Primitive[]>;
 }
 
 export interface Reply extends Omit<Comment, "timestamp" | "replies"> {

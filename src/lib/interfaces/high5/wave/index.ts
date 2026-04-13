@@ -1,4 +1,4 @@
-import { FieldCondition, InputObject, Primitive, Query } from "./dependentInputs";
+import { InputObject, Query } from "./dependentInputs";
 
 export interface RegistryCatalog {
     name: string;
@@ -104,7 +104,7 @@ export interface StreamNodeSpecificationV1 extends StreamNodeSpecification {
     version: StreamSemanticVersion;
     author: StreamNodeSpecificationAuthor;
     tag?: StreamNodeSpecificationTag;
-    inputs?: StreamNodeSpecificationInput[] | StreamNodeSpecificationConditionalInput[];
+    inputs?: StreamNodeSpecificationInput[];
     outputs?: StreamNodeSpecificationOutput[];
     additionalConnectors?: StreamNodeSpecificationAdditionalConnector[];
     path?: string;
@@ -118,7 +118,7 @@ export interface StreamNodeSpecificationV2 extends StreamNodeSpecification {
     version: StreamSemanticVersion;
     author: StreamNodeSpecificationAuthor;
     tag?: StreamNodeSpecificationTag[];
-    inputs?: StreamNodeSpecificationInput[] | StreamNodeSpecificationConditionalInput[];
+    inputs?: StreamNodeSpecificationInput[];
     outputs?: StreamNodeSpecificationOutputV2[];
     additionalConnectors?: StreamNodeSpecificationAdditionalConnector[];
     path?: string;
@@ -128,6 +128,10 @@ export interface StreamNodeSpecificationV2 extends StreamNodeSpecification {
 export type StreamNodeSpecificationV3 = Omit<StreamNodeSpecificationV2, "specVersion"> & {
     specVersion: 3;
     deprecated: boolean;
+};
+export type StreamNodeSpecificationV4<T extends InputObject = InputObject> = Omit<StreamNodeSpecificationV3, "specVersion" | "inputs"> & {
+    specVersion: 4;
+    inputs?: StreamNodeSpecificationDependendInput<T>[];
 };
 /**
  * This functions will return true when the specVersion is undefined to account for older catalogs/nodes
@@ -142,6 +146,9 @@ export function isStreamNodeSpecificationV2(s: StreamNodeSpecification): s is St
 }
 export function isStreamNodeSpecificationV3(s: StreamNodeSpecification): s is StreamNodeSpecificationV3 {
     return s.specVersion === 3;
+}
+export function isStreamNodeSpecificationV4<T extends InputObject = InputObject>(s: StreamNodeSpecification): s is StreamNodeSpecificationV4<T> {
+    return s.specVersion === 4;
 }
 
 export interface StreamCustomNodeSpecification {
@@ -196,8 +203,8 @@ export type StreamNodeSpecificationInput = {
       }
 );
 
-export type StreamNodeSpecificationDependentInput = StreamNodeSpecificationInput & {
-    if?: Primitive | InputObject | FieldCondition | Query;
+export type StreamNodeSpecificationDependendInput<T extends InputObject = InputObject> = StreamNodeSpecificationInput & {
+    if?: Query<T>;
 };
 
 export interface StreamNodeSpecificationOutput {

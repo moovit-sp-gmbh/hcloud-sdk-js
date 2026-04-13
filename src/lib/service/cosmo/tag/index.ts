@@ -89,6 +89,29 @@ export class CosmoTag extends Base {
     }
 
     /**
+     * Reorder Tags in Cosmo inside the specified Organization, Space and Namespace.
+     * @remarks
+     * ** Under development, breaking changes possible**
+     * @param orgName Name of the Organization
+     * @param spaceName Name of the Space
+     * @param namespaceName Name of the Namespace
+     * @param tagIds Ordered array of tag IDs representing the desired sort order
+     * @returns 204 No Content if successful
+     */
+    async reorderTags<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        namespaceName: string,
+        tagIds: string[],
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.put(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/namespaces/${namespaceName}/tags/reorder`), {
+            tagIds,
+        });
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
+    }
+
+    /**
      * Delete a Tag in Cosmo inside the specified Organization, Space and Namespace.
      * @remarks
      * ** Under development, breaking changes possible**

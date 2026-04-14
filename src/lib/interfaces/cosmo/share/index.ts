@@ -39,6 +39,7 @@ export interface Share {
     publicLink?: PublicLink;
     users?: (User | ReducedUser | ShareReducedUnlinkedUser)[];
     waiting: boolean;
+    thumbnails?: string[];
 }
 
 /**

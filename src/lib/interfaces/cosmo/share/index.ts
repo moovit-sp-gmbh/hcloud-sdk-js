@@ -1,4 +1,5 @@
 import { ReducedUser, ShareReducedUnlinkedUser, User } from "../../idp";
+import { ItemType } from "../asset";
 
 /**
  * Represents a public link for sharing.
@@ -29,7 +30,7 @@ export interface Share {
     name: string;
     creator: ReducedUser;
     createDate: number;
-    items: string[];
+    items?: ({ _id: string; name: string; type: ItemType.FOLDER } | { _id: string; name: string; type: ItemType.MEDIA_ASSET; thumbnail: string })[];
     permissions?: string[];
     permissionGroups?: ShareAssetPermissionGroup[];
     namespaces?: Record<string, string[]>;
@@ -39,7 +40,6 @@ export interface Share {
     publicLink?: PublicLink;
     users?: (User | ReducedUser | ShareReducedUnlinkedUser)[];
     waiting: boolean;
-    thumbnails?: string[];
 }
 
 /**

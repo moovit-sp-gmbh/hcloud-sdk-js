@@ -70,10 +70,10 @@ export interface Job {
     _id: string;
     name: string;
     expression: string;
+    targetEvent: ReducedEvent;
+    space: ReducedSpace;
     organization: ReducedOrganization;
     creator: ReducedUser;
-    space: ReducedSpace;
-    targetEvent: ReducedEvent;
     timezone: string;
     description?: string;
     payload?: string;

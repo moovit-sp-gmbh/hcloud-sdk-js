@@ -12,6 +12,7 @@ export interface CreateComment {
     metadata?: Record<string, Primitive | Primitive[]>;
     visibility?: CommentVisibility;
     metadata?: Record<string, Primitive | Primitive[]>;
+    visibility?: CommentVisibility;
 }
 
 export interface EditComment {
@@ -24,6 +25,7 @@ export interface EditComment {
     metadata?: Record<string, Primitive | Primitive[]>;
     visibility?: CommentVisibility;
     metadata?: Record<string, Primitive | Primitive[]>;
+    visibility?: CommentVisibility;
 }
 
 export enum CommentType {
@@ -66,6 +68,7 @@ export interface Comment {
     metadata?: Record<string, Primitive | Primitive[]>;
     visibility?: CommentVisibility;
     metadata?: Record<string, Primitive | Primitive[]>;
+    visibility?: CommentVisibility;
 }
 
 export interface Reply extends Omit<Comment, "timestamp" | "replies"> {

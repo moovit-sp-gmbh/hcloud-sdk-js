@@ -7,6 +7,7 @@ export interface CreateComment {
     annotation?: string;
     mentions?: string[];
     mentionsTeams?: string[];
+    visibility?: CommentVisibility;
 }
 
 export interface EditComment {
@@ -16,6 +17,7 @@ export interface EditComment {
     mentions?: string[];
     mentionsTeams?: string[];
     completed?: boolean;
+    visibility?: CommentVisibility;
 }
 
 export enum CommentType {
@@ -35,6 +37,11 @@ export enum CommentSortDirection {
     DESC = "DESC",
 }
 
+export enum CommentVisibility {
+    INTERNAL = "internal",
+    EXTERNAL = "external",
+}
+
 export interface Comment {
     _id: string;
     text: string;
@@ -50,6 +57,7 @@ export interface Comment {
     completed: boolean;
     completedBy?: ReducedUser;
     completedAt?: number;
+    visibility?: CommentVisibility;
 }
 
 export interface Reply extends Omit<Comment, "timestamp" | "replies"> {

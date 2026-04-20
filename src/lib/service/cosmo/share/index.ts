@@ -260,4 +260,35 @@ export class CosmoShare extends Base {
 
         return (raw?.raw ? resp : undefined) as MaybeRaw<R, undefined>;
     }
+
+    /**
+     * Sends a share email to a **specific recipient** after he clicks a public link.
+     *
+     *
+     * @typeParam R - When `true`, the raw Axios response is returned instead of `undefined`
+     *
+     * @param orgName   - The organization identifier
+     * @param spaceName - The space identifier within the organization
+     * @param shareId   - The share ID whose emails should be resent
+     * @param email     - The email address of the recipient
+     * @param shareIdHMAC - The HMAC of the share ID
+     * @param raw       - Optional flag to return the raw Axios response
+     *
+     * @returns `undefined` by default, or the raw Axios response when `raw.raw` is `true`
+     */
+    async sendShareEmailAfterPublicLinkClick<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        shareId: string,
+        email: string,
+        shareIdHMAC: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, undefined>> {
+        const resp = await this.axios.post(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/shares/${shareId}/email/publicLink`), {
+            email,
+            shareIdHMAC,
+        });
+
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, undefined>;
+    }
 }

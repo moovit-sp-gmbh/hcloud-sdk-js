@@ -30,7 +30,10 @@ export interface Share {
     name: string;
     creator: ReducedUser;
     createDate: number;
-    items?: ({ _id: string; name: string; type: ItemType.FOLDER } | { _id: string; name: string; type: ItemType.MEDIA_ASSET; thumbnail: string })[];
+    items?: (
+        | { _id: string; name: string; type: ItemType.FOLDER }
+        | { _id: string; name: string; type: ItemType.MEDIA_ASSET; thumbnailUrl: string }
+    )[];
     permissions?: string[];
     permissionGroups?: ShareAssetPermissionGroup[];
     namespaces?: Record<string, string[]>;

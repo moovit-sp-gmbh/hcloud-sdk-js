@@ -10,6 +10,7 @@ export interface InstallerVersion {
     published_date: number; // unix timestamp
     version: string;
     os: "darwin" | "windows";
+    arch?: "x64" | "arm64";
     dev: boolean;
 }
 

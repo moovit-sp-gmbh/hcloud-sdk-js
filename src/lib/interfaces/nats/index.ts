@@ -2,6 +2,7 @@ import { Msg } from "nats";
 import { Asset, UploadStatus } from "../cosmo/asset";
 import { Products, Space } from "../global";
 import { High5ExecuteOnAgentRequest, High5ExecutionCancelRequest } from "../high5/space/execution";
+import { CapturedRequest } from "../high5/space/request";
 import { LicenseTier } from "../idp";
 
 enum NatsSubject {
@@ -51,6 +52,7 @@ enum NatsSubject {
     HIGH5_DOCUMENTS = "hcloud.high5.organization.${base64orgName}.spaces.${base64spaceName}.databases.${base64databaseName}.documents",
     HIGH5_JOBS = "hcloud.high5.organization.${base64orgName}.spaces.${base64spaceName}.jobs",
     HIGH5_JOB_LOGS = "hcloud.high5.organization.${base64orgName}.spaces.${base64spaceName}.jobs.${jobId}.logs",
+    HIGH5_CAPTURED_REQUEST = "hcloud.high5.organization.${base64orgName}.spaces.${base64spaceName}.request.catch",
 
     COSMO_SPACES = "hcloud.cosmo.organization.${base64orgName}.spaces",
     COSMO_NAMESPACES = "hcloud.cosmo.organization.${base64orgName}.spaces.${base64spaceName}.namespaces",
@@ -154,6 +156,7 @@ enum NatsObjectType {
     ROLE = "ROLE",
     STATUS = "STATUS",
     REFERENCE = "REFERENCE",
+    REQUEST = "REQUEST",
 }
 
 interface NatsMessage {
@@ -169,6 +172,7 @@ interface NatsObject
         NatsExecTargetObject,
         High5ExecuteOnAgentRequest,
         High5ExecutionCancelRequest,
+        CapturedRequest,
         NatsLicenseObject,
         NatsCustomNodeObject,
         NatsAssetObject,
@@ -209,6 +213,7 @@ interface NatsObject
     [NatsSubject.HIGH5_DOCUMENTS]: NatsNameObject;
     [NatsSubject.HIGH5_JOBS]: NatsIdObject;
     [NatsSubject.HIGH5_JOB_LOGS]: NatsIdObject;
+    [NatsSubject.HIGH5_CAPTURED_REQUEST]: CapturedRequest;
     [NatsSubject.COSMO_ASSETS]: NatsAssetObject[];
     [NatsSubject.COSMO_SHARE]: NatsIdObject;
     [NatsSubject.COSMO_ROLES]: NatsIdObject;
@@ -517,6 +522,9 @@ class NatsSubjects {
                 static JOB_LOGS = (organizationName: string, spaceName: string, jobId: string) => {
                     return NatsSubjects.replace(NatsSubject.HIGH5_JOB_LOGS, { organizationName, spaceName, jobId });
                 };
+            };
+            static CAPTURED_REQUEST = (organizationName: string, spaceName: string) => {
+                return NatsSubjects.replace(NatsSubject.HIGH5_CAPTURED_REQUEST, { organizationName, spaceName });
             };
         };
         static WAVE = class {

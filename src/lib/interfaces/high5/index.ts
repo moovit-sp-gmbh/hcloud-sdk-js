@@ -7,6 +7,7 @@ export * from "./space/event/stream/node";
 export * from "./space/webhook";
 export * from "./space/secret";
 export * from "./space/pool";
+export * from "./space/request";
 export * from "./space/database";
 export * from "./space/database/document";
 export * from "./execution";

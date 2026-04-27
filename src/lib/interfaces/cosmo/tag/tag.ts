@@ -2,6 +2,7 @@ export interface Tag {
     _id: string;
     name: string;
     color: string;
+    position: number;
 }
 
 export interface CreateTag {

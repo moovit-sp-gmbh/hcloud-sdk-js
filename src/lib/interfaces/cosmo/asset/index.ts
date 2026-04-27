@@ -21,34 +21,27 @@ export interface BaseAsset {
     deletedAt?: number;
 }
 
-export type Asset = BaseAsset &
-    (
-        | {
-              type: ItemType.MEDIA_ASSET;
-              extension: string;
-              assetType: AssetType;
-              path: string;
-              status: UploadStatus;
-              progress: number;
-              tag?: Tag;
-              previewUrl?: string;
-              tilePreviewVttUrl?: string;
-              duration?: number;
-              frameRate?: number;
-              media?: Media[];
-              thumbnailUrl?: string;
-              posterUrl?: string;
-              namespaces?: Record<
-                  string,
-                  { status: string; statusAuthor?: ReducedUser; canWriteStatus?: boolean; tag?: Tag; metadata?: NamespaceMetadata }
-              >;
-              queuePosition?: number;
-              queueTotal?: number;
-          }
-        | Production
-        | Folder
-        | AssetReference
-    );
+export type Asset = BaseAsset & (MediaAsset | Production | Folder | AssetReference);
+
+export type MediaAsset = {
+    type: ItemType.MEDIA_ASSET;
+    extension: string;
+    assetType: AssetType;
+    path: string;
+    status: UploadStatus;
+    progress: number;
+    tag?: Tag;
+    previewUrl?: string;
+    tilePreviewVttUrl?: string;
+    duration?: number;
+    frameRate?: number;
+    media?: Media[];
+    thumbnailUrl?: string;
+    posterUrl?: string;
+    namespaces?: Record<string, { status: string; statusAuthor?: ReducedUser; canWriteStatus?: boolean; tag?: Tag; metadata?: NamespaceMetadata }>;
+    queuePosition?: number;
+    queueTotal?: number;
+};
 
 export type Production = {
     type: ItemType.PRODUCTION;
@@ -62,6 +55,11 @@ export type Folder = {
 export type AssetReference = {
     type: ItemType.REFERENCE;
     reference: { status: string };
+};
+
+export type Stack = Omit<MediaAsset, "type"> & {
+    type: ItemType.STACK;
+    stack: { version: number; assetId: string }[];
 };
 
 export enum AssetType {
@@ -83,6 +81,7 @@ export enum ItemType {
     FOLDER = "FOLDER",
     COMMENT = "COMMENT",
     TAG = "TAG",
+    STACK = "STACK",
 }
 
 export enum UploadStatus {

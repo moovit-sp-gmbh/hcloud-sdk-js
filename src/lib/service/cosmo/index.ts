@@ -12,6 +12,7 @@ import { CosmoPermissions } from "./permissions";
 import { CosmoProduction } from "./production";
 import { CosmoShare } from "./share";
 import { CosmoSpace } from "./space";
+import { CosmoStack } from "./stack";
 import { CosmoStats } from "./stats";
 import { CosmoTag } from "./tag";
 
@@ -111,6 +112,14 @@ export default class CosmoService extends Base {
         return this._cosmoTag;
     }
     private _cosmoTag?: CosmoTag;
+
+    public get cosmoStack(): CosmoStack {
+        if (this._cosmoStack === undefined) {
+            this._cosmoStack = new CosmoStack(this.options, this.axios);
+        }
+        return this._cosmoStack;
+    }
+    private _cosmoStack?: CosmoStack;
 
     public get cosmoPermissions(): CosmoPermissions {
         if (this._cosmoPermissions === undefined) {

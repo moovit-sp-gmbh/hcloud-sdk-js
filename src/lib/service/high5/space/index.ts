@@ -1,13 +1,14 @@
 import Base, { MaybeRaw } from "../../../Base";
 import { createPaginatedResponse } from "../../../helper/paginatedResponseHelper";
 import { SearchFilterDTO } from "../../../helper/searchFilter";
-import { PaginatedResponse, SearchFilter, SearchParams } from "../../../interfaces/global";
+import { HttpMethod, PaginatedResponse, SearchFilter, SearchParams } from "../../../interfaces/global";
 import { Stream } from "../../../interfaces/high5";
 import {
     High5Space as Space,
     High5SpaceEntityPermission as SpaceEntityPermission,
     High5SpacePermission as SpacePermission,
 } from "../../../interfaces/high5/space";
+import { CapturedRequest } from "../../../interfaces/high5/space/request";
 import { High5Database } from "./database";
 import { High5Event } from "./event";
 import { High5SpaceExecute } from "./execution";
@@ -320,6 +321,34 @@ export class High5Space extends Base {
         });
 
         return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Space>;
+    }
+
+    /**
+     * Captures and forwards an HTTP request to NATS for the specified space
+     * This endpoint accepts any HTTP method and persists headers and body
+     * @param method HTTP method to use (GET, POST, PUT, etc.)
+     * @param orgName Name of the Organization
+     * @param spaceName Name of the Space
+     * @param data (optional) The body of the request
+     * @param headers (optional) Additional headers to forward
+     * @returns Captured request details
+     */
+    async capturedRequest<R extends boolean = false>(
+        method: HttpMethod,
+        orgName: string,
+        spaceName: string,
+        data?: any,
+        headers?: Record<string, string>,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, CapturedRequest>> {
+        const resp = await this.axios.request<CapturedRequest>({
+            method,
+            url: this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/request/catch`),
+            data,
+            headers,
+        });
+
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, CapturedRequest>;
     }
 
     protected getEndpoint(endpoint: string): string {

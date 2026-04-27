@@ -20,6 +20,7 @@ enum Entity {
     WAVE_ENGINE_RELEASE = "WAVE_ENGINE_RELEASE",
     CHALLENGE_STRING = "CHALLENGE_STRING",
     DATABASE_NAME = "DATABASE_NAME",
+    DATABASE_API_KEY = "DATABASE_API_KEY",
     DOCUMENT_KEY = "DOCUMENT_KEY",
     DOMAIN_NAME = "DOMAIN_NAME",
     USER_ID = "USER_ID",
@@ -233,6 +234,11 @@ const entityCollection: Record<Entity, Details> = {
         pattern: /^[\w-.]{1,128}$/i,
         minLength: 1,
         maxLength: 128,
+    },
+    [Entity.DATABASE_API_KEY]: {
+        pattern: /^[\w-]{3,64}$/i,
+        minLength: 3,
+        maxLength: 64,
     },
     [Entity.DOCUMENT_KEY]: {
         pattern: /^[\w-.]{1,64}$/i,

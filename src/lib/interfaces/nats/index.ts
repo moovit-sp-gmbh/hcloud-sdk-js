@@ -57,6 +57,7 @@ enum NatsSubject {
     COSMO_SPACES = "hcloud.cosmo.organization.${base64orgName}.spaces",
     COSMO_NAMESPACES = "hcloud.cosmo.organization.${base64orgName}.spaces.${base64spaceName}.namespaces",
     COSMO_ASSETS = "hcloud.cosmo.organization.${base64orgName}.spaces.${base64spaceName}.assets",
+    COSMO_STACKS = "hcloud.cosmo.organization.${base64orgName}.spaces.${base64spaceName}.stacks",
     COSMO_CROSS_SPACES_ASSETS = "hcloud.cosmo.organization.${base64orgName}.spaces.*.assets",
     COSMO_COMMENTS = "hcloud.cosmo.organization.${base64orgName}.spaces.${base64spaceName}.namespaces.${base64namespaceName}.assets.${assetId}.comments",
     COSMO_SHARE = "hcloud.cosmo.organization.${base64orgName}.spaces.${base64spaceName}.share",
@@ -147,6 +148,7 @@ enum NatsObjectType {
     MESSAGE = "MESSAGE",
 
     ASSET = "ASSET",
+    STACK = "STACK",
     COMMENT = "COMMENT",
     TAG = "TAG",
     SHARE = "SHARE",
@@ -215,6 +217,7 @@ interface NatsObject
     [NatsSubject.HIGH5_JOB_LOGS]: NatsIdObject;
     [NatsSubject.HIGH5_CAPTURED_REQUEST]: CapturedRequest;
     [NatsSubject.COSMO_ASSETS]: NatsAssetObject[];
+    [NatsSubject.COSMO_STACKS]: NatsAssetObject[];
     [NatsSubject.COSMO_SHARE]: NatsIdObject;
     [NatsSubject.COSMO_ROLES]: NatsIdObject;
     [NatsSubject.COSMO_STATUS]: NatsCosmoStatusObject;
@@ -568,6 +571,9 @@ class NatsSubjects {
             };
             static ASSETS = (organizationName: string, spaceName: string) => {
                 return NatsSubjects.replace(NatsSubject.COSMO_ASSETS, { organizationName, spaceName });
+            };
+            static STACKS = (organizationName: string, spaceName: string) => {
+                return NatsSubjects.replace(NatsSubject.COSMO_STACKS, { organizationName, spaceName });
             };
             static SHARES = (organizationName: string, spaceName: string) => {
                 return NatsSubjects.replace(NatsSubject.COSMO_SHARE, { organizationName, spaceName });

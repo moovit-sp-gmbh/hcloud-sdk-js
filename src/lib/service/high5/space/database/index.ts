@@ -2,7 +2,7 @@ import Base, { MaybeRaw } from "../../../../Base";
 import { createPaginatedResponse } from "../../../../helper/paginatedResponseHelper";
 import { SearchFilterDTO } from "../../../../helper/searchFilter";
 import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../interfaces/global";
-import { Database } from "../../../../interfaces/high5";
+import { ApiKey, ApiKeyPermission, Database } from "../../../../interfaces/high5";
 import { High5Document } from "./document";
 
 export class High5Database extends Base {
@@ -115,6 +115,50 @@ export class High5Database extends Base {
         raw?: { raw: R }
     ): Promise<MaybeRaw<R, void>> {
         const resp = await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/databases/${dbName}`));
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
+    }
+
+    /**
+     * Generates a new API key for a specific database within the space
+     * @param orgName Name of the Organization
+     * @param spaceName Name of the Space
+     * @param dbName Name of the Database
+     * @param name Name of the API key
+     * @param permission Permission level for the API key
+     * @returns The created API key details
+     */
+    async createDatabaseApiKey<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        dbName: string,
+        name: string,
+        permission: ApiKeyPermission,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, ApiKey>> {
+        const resp = await this.axios.post<ApiKey>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/databases/${dbName}/apikey`), {
+            name,
+            permission,
+        });
+
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, ApiKey>;
+    }
+
+    /**
+     * Removes an existing API key by its name, revoking access to the database
+     * @param orgName Name of the Organization
+     * @param spaceName Name of the Space
+     * @param dbName Name of the Database
+     * @param keyName Name of the API key to delete
+     */
+    async deleteDatabaseApiKey<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        dbName: string,
+        keyName: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/databases/${dbName}/apikey/${keyName}`));
+
         return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 

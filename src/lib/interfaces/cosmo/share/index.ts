@@ -87,7 +87,7 @@ export type ShareWithUsers = Share & {
  * @property visitsLimit - (Optional) New maximum number of allowed visits (only applicable for public shares).
  */
 export type SharePatch = Partial<
-    Pick<ShareCreate, "name" | "expires" | "password" | "users"> & {
+    Pick<ShareCreate, "name" | "users"> & {
         items: string[];
         permissions?: string[];
         assetPermissionGroups?: ShareAssetPermissionGroup[];
@@ -96,6 +96,8 @@ export type SharePatch = Partial<
         public?: boolean;
         visitsLimit?: number;
         users?: string[];
+        expires?: number | null;
+        password?: string | null;
     }
 >;
 

@@ -1,5 +1,5 @@
-import { ReducedUser, ShareReducedUnlinkedUser, User } from "../../idp"
-import { ItemType } from "../asset"
+import { ReducedUser, ShareReducedUnlinkedUser, User } from "../../idp";
+import { ItemType } from "../asset";
 
 /**
  * Represents a public link for sharing.

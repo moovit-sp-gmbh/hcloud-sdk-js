@@ -3,7 +3,7 @@ import { ReducedOrganization } from "../../../idp/organization";
 import { ReducedUser } from "../../../idp/user";
 import { ReducedEvent } from "../event";
 
-enum IntervalType {
+export enum IntervalType {
     MINUTE = "minute",
     HOUR = "hour",
     DAY = "day",
@@ -12,21 +12,21 @@ enum IntervalType {
     CUSTOM = "custom",
 }
 
-interface MinuteCronjob {
+export interface MinuteCronjob {
     type: IntervalType.MINUTE;
     values: {
         minute: number;
     };
 }
 
-interface HourCronjob {
+export interface HourCronjob {
     type: IntervalType.HOUR;
     values: {
         hour: number;
     };
 }
 
-interface DayCronjob {
+export interface DayCronjob {
     type: IntervalType.DAY;
     values: {
         hour: number;
@@ -34,7 +34,7 @@ interface DayCronjob {
     };
 }
 
-interface MonthCronjob {
+export interface MonthCronjob {
     type: IntervalType.MONTH;
     values: {
         day: number;
@@ -43,7 +43,7 @@ interface MonthCronjob {
     };
 }
 
-interface YearCronjob {
+export interface YearCronjob {
     type: IntervalType.YEAR;
     values: {
         month: number;
@@ -53,7 +53,7 @@ interface YearCronjob {
     };
 }
 
-interface CustomCronjob {
+export interface CustomCronjob {
     type: IntervalType.CUSTOM;
     values: {
         year: number;
@@ -64,7 +64,7 @@ interface CustomCronjob {
     };
 }
 
-type CronjobType = MinuteCronjob | HourCronjob | DayCronjob | MonthCronjob | YearCronjob | CustomCronjob;
+export type CronjobType = MinuteCronjob | HourCronjob | DayCronjob | MonthCronjob | YearCronjob | CustomCronjob;
 
 export interface Job {
     _id: string;
@@ -89,7 +89,7 @@ export interface Job {
 
 export type JobCreate = Pick<
     Job,
-    "name" | "expression" | "payload" | "target" | "enabled" | "description" | "lastStatus" | "lastTriggered" | "time"
+    "name" | "expression" | "timezone" | "payload" | "enabled" | "description" | "target" | "lastStatus" | "lastTriggered" | "time"
 > & {
     targetEvent: string;
 };

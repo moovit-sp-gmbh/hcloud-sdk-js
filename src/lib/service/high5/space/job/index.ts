@@ -2,7 +2,7 @@ import Base, { MaybeRaw } from "../../../../Base";
 import { createPaginatedResponse } from "../../../../helper/paginatedResponseHelper";
 import { SearchFilterDTO } from "../../../../helper/searchFilter";
 import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../interfaces/global";
-import { Job, JobCreate } from "../../../../interfaces/high5/space/job";
+import { CronjobType, Job, JobCreate } from "../../../../interfaces/high5/space/job";
 import { High5JobLogInternal } from "../../internal/space/job/log";
 import { High5JobLog } from "./log";
 
@@ -118,6 +118,7 @@ export class High5Job extends Base {
      * @param jobId ID of the cronjob
      * @param expression New cron expression
      * @param exposeNextExecution (optional) Show the next execution as a Unix timestamp (in milliseconds) in the response object
+     * @param time (optional) Schedule selection preset used on frontend
      * @returns The patched cronjob
      */
     async patchCronjobExpression<R extends boolean = false>(
@@ -126,11 +127,12 @@ export class High5Job extends Base {
         jobId: string,
         expression: string,
         exposeNextExecution = false,
+        time?: CronjobType,
         raw?: { raw: R }
     ): Promise<MaybeRaw<R, Job>> {
         const resp = await this.axios.patch<Job>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/jobs/${jobId}/expression?nextExecution=${exposeNextExecution}`),
-            { expression: expression }
+            { expression, time }
         );
 
         return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Job>;

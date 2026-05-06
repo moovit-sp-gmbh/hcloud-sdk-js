@@ -100,7 +100,7 @@ class EntityDetails {
      * @param value - Incoming string to sanitize
      * @returns Sanitized string
      */
-    sanitize(value: string): string {
+    sanitize(value: string, delimiter?: string): string {
         if (typeof value !== "string") return "";
         if (!this.validate(value)) {
             if (!this.entity.symbols) {
@@ -111,8 +111,8 @@ class EntityDetails {
                 .split("")
                 .filter(char => this.entity.symbols!.test(char))
                 .join("")
-                .replace(/^[\s-.]+|[\s-.]+$/g, "")
-                .replace(/-{2,}/g, "-");
+                .replace(/^[\s-.]+|[\s-.]+$/g, delimiter ?? "")
+                .replace(/-_.{2,}/g, "-");
             if (value.length < this.entity.minLength) value = value.concat("x".repeat(this.entity.minLength - value.length));
             return value.slice(0, this.entity.maxLength);
         }

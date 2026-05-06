@@ -159,9 +159,10 @@ export class IdpAccountApprovedMailjetMailDTO extends MailDTO {
 }
 
 export class CosmoNewShareMailjetMailDTO extends MailDTO {
-    constructor(recipients: string[], shareLink: string) {
+    constructor(recipients: string[], shareLink: string, shareMessage: string) {
         super(recipients, MailTemplate.COSMO_NEW_SHARE, {
             HCLOUD_SHARE_LINK: shareLink,
+            HCLOUD_SHARE_MESSAGE: shareMessage,
         });
     }
 }
@@ -363,10 +364,11 @@ export class IdpAccountApprovedResendMailDTO extends MailDTO {
 }
 
 export class CosmoNewShareResendMailDTO extends MailDTO {
-    constructor(recipients: string[], recipientEmail: string, shareLink: string) {
+    constructor(recipients: string[], recipientEmail: string, shareLink: string, shareMessage: string) {
         super(recipients, MailTemplate.COSMO_NEW_SHARE, {
             RECIPIENT_EMAIL: recipientEmail,
             LINK: shareLink,
+            HCLOUD_SHARE_MESSAGE: shareMessage,
         });
     }
 }

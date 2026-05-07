@@ -6,7 +6,7 @@ export * from "./license";
 export * from "./stats";
 
 export enum OrganizationRole {
-    MAYBE_GUEST = "MAYBE_GUEST", // Role used for guests that have actually (or maybe) no access to an org
+    GUEST = "GUEST", // Role used for guests that have actually no access to an org
     MEMBER = "MEMBER", // Part of org, but cannot change anything
     MANAGER = "MANAGER", // Can update members
     ADMIN = "ADMIN", // Can update org and members

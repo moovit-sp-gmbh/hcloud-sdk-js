@@ -1,5 +1,5 @@
 import Base, { MaybeRaw } from "../../../Base";
-import { OAuthToken, OAuthTokenRequest } from "../../../interfaces/idp/oauth";
+import { OAuthMetadata, OAuthToken, OAuthTokenRequest } from "../../../interfaces/idp/oauth";
 import { OAuthAppPublicInfo } from "../../../interfaces/idp/organization/settings/oauthApp";
 import IdpOAuthDevice from "./device";
 
@@ -122,6 +122,17 @@ export class IdpOAuth extends Base {
         const response = await this.axios.get<OAuthAppPublicInfo>(this.getEndpoint(`/v1/login/oauth/app/${clientId}`));
 
         return (raw?.raw ? response : response.data) as MaybeRaw<R, OAuthAppPublicInfo>;
+    }
+
+    /**
+     * Retrieves the OAuth 2.0 authorization server metadata
+     * This method enables dynamic discovery of endpoint locations and server capabilities as defined in RFC 8414
+     * @returns Authorization server metadata
+     */
+    async getMetadata<R extends boolean = false>(raw?: { raw: R }): Promise<MaybeRaw<R, OAuthMetadata>> {
+        const response = await this.axios.get<OAuthMetadata>(this.getEndpoint("/v1/.well-known/oauth-authorization-server"));
+
+        return (raw?.raw ? response : response.data) as MaybeRaw<R, OAuthMetadata>;
     }
 
     protected getEndpoint(endpoint: string): string {

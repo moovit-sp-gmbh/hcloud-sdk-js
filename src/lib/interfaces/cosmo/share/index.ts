@@ -55,7 +55,7 @@ export interface Share {
  * @property public - (Optional) Whether the share is public.
  * @property visitsLimit - (Optional) Maximum number of allowed visits for the share (only applicable for public shares).
  */
-export interface ShareCreate extends Omit<Share, "_id" | "createDate" | "creator" | "permissionGroups" | "users" | "items"> {
+export interface ShareCreate extends Omit<Share, "_id" | "createDate" | "creator" | "permissionGroups" | "users" | "items" | "waiting"> {
     password?: string;
     expires?: number;
     namespaces?: Record<string, string[]>;

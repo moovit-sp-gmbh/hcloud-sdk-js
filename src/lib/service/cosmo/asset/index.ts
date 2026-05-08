@@ -289,11 +289,19 @@ export class CosmoAsset extends Base {
      * Fetches an assets VTT file and parses it to return an array of VTTThumbnail objects.
      *
      * @param {string} url - The URL of the VTT file to fetch and parse.
+     * @param {string} keepAuthHeader - Keep the current set Authorization header. Otherwise it will be unset since S3 denies it.
      * @returns {Promise<VTTThumbnail[]>} A promise that resolves to an array of `VTTThumbnail` objects representing the asset’s thumbnails.
      */
-    async fetchAndParseAssetVTT<R extends boolean = false>(url: string, raw?: { raw: R }): Promise<MaybeRaw<R, VTTThumbnail[]>> {
+    async fetchAndParseAssetVTT<R extends boolean = false>(
+        url: string,
+        keepAuthHeader?: boolean,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, VTTThumbnail[]>> {
         const resp = await this.axios.get<string>(url, {
-            headers: { ...disableCacheHeaders, Authorization: undefined },
+            headers: {
+                ...disableCacheHeaders,
+                ...(keepAuthHeader ? {} : { Authorization: undefined }),
+            },
         });
 
         const parseTimestamp = (ts: string) => {

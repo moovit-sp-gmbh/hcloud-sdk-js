@@ -43,6 +43,19 @@ export interface Share {
     publicLink?: PublicLink;
     users?: (User | ReducedUser | ShareReducedUnlinkedUser)[];
     waiting: boolean;
+    emailStatus?: { email: string; status: EmailStatus }[];
+}
+
+export enum EmailStatus {
+    OPENED = "OPENED",
+    SENT = "SENT",
+    CLICKED = "CLICKED",
+    FAILED = "FAILED",
+    BOUNCED = "BOUNCED",
+    BLOCKED = "BLOCKED",
+    NOT_SENT = "NOT_SENT",
+    SPAM = "SPAM",
+    UNKNOWN = "UNKNOWN",
 }
 
 /**

@@ -17,6 +17,7 @@ export interface BaseAsset {
     space: ReducedSpace;
     permissions?: string[];
     breadcrumb?: (Asset | CosmoSpace)[];
+    purgeDate?: number;
 }
 
 export type Asset = BaseAsset &

@@ -61,8 +61,19 @@ export interface Reply extends Omit<Comment, "timestamp" | "replies"> {
     commentRef: string;
 }
 
+export enum CommentColor {
+    BLUE = "BLUE",
+    CYAN = "CYAN",
+    GREEN = "GREEN",
+    YELLOW = "YELLOW",
+    RED = "RED",
+    ORANGE = "ORANGE",
+    LAVENDER = "LAVENDER",
+    WHITE = "WHITE",
+}
+
 export interface Timestamp {
     in: number;
     out: number;
-    color: string;
+    color: CommentColor;
 }

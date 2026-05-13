@@ -50,6 +50,7 @@ enum Entity {
     TAG_COLOR = "TAG_COLOR",
     MODULE_NAME = "MODULE_NAME",
     LOG_COLLECTOR_NAME = "LOG_COLLECTOR_NAME",
+    WATCH_FOLDER_NAME = "WATCH_FOLDER_NAME",
 }
 
 interface Details {
@@ -385,6 +386,11 @@ const entityCollection: Record<Entity, Details> = {
         pattern: /^[\w-.]{1,64}$/i,
         minLength: 1,
         maxLength: 64,
+    },
+    [Entity.WATCH_FOLDER_NAME]: {
+        pattern: /^[\w-.]{2,128}$/i,
+        minLength: 2,
+        maxLength: 128,
     },
 };
 

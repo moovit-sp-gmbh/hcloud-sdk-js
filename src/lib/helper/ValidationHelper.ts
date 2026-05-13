@@ -52,6 +52,7 @@ enum Entity {
     MODULE_NAME = "MODULE_NAME",
     LOG_COLLECTOR_NAME = "LOG_COLLECTOR_NAME",
     PASSKEY_NAME = "PASSKEY_NAME",
+    WATCH_FOLDER_NAME = "WATCH_FOLDER_NAME",
 }
 
 interface Details {
@@ -401,6 +402,11 @@ const entityCollection: Record<Entity, Details> = {
     [Entity.PASSKEY_NAME]: {
         pattern: /^[\w-.@ ]{3,128}$/i,
         minLength: 3,
+        maxLength: 128,
+    },
+    [Entity.WATCH_FOLDER_NAME]: {
+        pattern: /^[\w-.]{2,128}$/i,
+        minLength: 2,
         maxLength: 128,
     },
 };

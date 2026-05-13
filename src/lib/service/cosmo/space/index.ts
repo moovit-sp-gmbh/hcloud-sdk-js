@@ -184,7 +184,7 @@ export class CosmoSpace extends Base {
      * Updates the trashbin auto-delete policy for the specified Cosmo space.
      * @param orgName Name of the organization
      * @param spaceName Name of the space
-     * @param policy Trash policy to apply. When `enabled` is `true`, `ttlDays` (1–365) must be provided. When `enabled` is `false`, `ttlDays` must be omitted.
+     * @param policy Trash policy to apply. If enabled, items in the trash will be automatically deleted after the specified TTL (in days).
      * @returns The updated Space
      */
     async updateTrashbinPolicy<R extends boolean = false>(

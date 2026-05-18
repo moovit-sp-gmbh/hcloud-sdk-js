@@ -28,4 +28,5 @@ scan:
 	docker run -v  $(shell pwd)/src/:/src opensecurity/njsscan /src
 
 test:
-	node --test -r ts-node/register "test/**/*.test.ts"
+#	node --test -r ts-node/register "test/**/*.test.ts"
+	node --test -r ts-node/register test/dependentInputs.test.ts

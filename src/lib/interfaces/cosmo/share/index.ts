@@ -14,6 +14,7 @@ export interface PublicLink {
  * Represents a share entity containing shared items and permissions.
  * @property _id - Unique identifier for the share.
  * @property name - Name of the share.
+ * @property active - Whether the share is currently active.
  * @property creator - The user who created the share.
  * @property createDate - Timestamp of when the share was created (in milliseconds since epoch).
  * @property items - Array of item IDs included in the share.
@@ -28,6 +29,7 @@ export interface PublicLink {
 export interface Share {
     _id: string;
     name: string;
+    active: boolean;
     creator: ReducedUser;
     createDate: number;
     items?: (
@@ -88,7 +90,7 @@ export type ShareWithUsers = Share & {
  * @property visitsLimit - (Optional) New maximum number of allowed visits (only applicable for public shares).
  */
 export type SharePatch = Partial<
-    Pick<ShareCreate, "name" | "users"> & {
+    Pick<ShareCreate, "name" | "users" | "active"> & {
         items: string[];
         permissions?: string[];
         assetPermissionGroups?: ShareAssetPermissionGroup[];

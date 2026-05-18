@@ -4,7 +4,9 @@ import { AuditLog } from "../../../interfaces/auditor";
 import { disableCacheHeaders } from "../../../interfaces/axios";
 import {
     Asset,
+    AssetFilter,
     AssetPermission,
+    AssetSearchContext,
     CreateAsset,
     Mentionable,
     PatchAsset,
@@ -13,6 +15,7 @@ import {
     Upload,
     VTTThumbnail,
 } from "../../../interfaces/cosmo/asset";
+import { Sorting } from "../../../interfaces/global";
 
 /**
  * @class Asset
@@ -27,6 +30,73 @@ import {
 export class CosmoAsset extends Base {
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/cosmo${endpoint}`;
+    }
+
+    /**
+     * Browse assets
+     *
+     * @param orgName Name of the Organization
+     * @param spaceName Name of the Space
+     * @param context Context to search in (e.g., ORGANIZATION, TRASH, SHARE)
+     * @param limit Maximum number of Assets to return
+     * @param page Page number for pagination
+     * @param spaceName Name of Space to restrict search (mandatory if context is not ORGANIZATION)
+     * @param namespace Name of Namespace to restrict search
+     * @param parentId ID of parent (folder, etc.) to restrict search
+     * @param shareId ID of Share to restrict search (mandatory if context is SHARE)
+     * @param assetFilter Filter criteria for Assets
+     * @param sorting Sorting criteria for the results
+     * @returns List of found Assets
+     */
+    async browse<R extends boolean = false>(
+        {
+            orgName,
+            spaceName,
+            context,
+            limit,
+            page,
+            namespace,
+            parentId,
+            shareId,
+            assetFilter,
+            sorting,
+        }: {
+            orgName: string;
+            spaceName: string;
+            context: AssetSearchContext;
+            limit?: number;
+            page?: number;
+            namespace?: string[] | string;
+            parentId?: string;
+            shareId?: string;
+            assetFilter?: AssetFilter[];
+            sorting?: Sorting;
+        },
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Asset[]>> {
+        limit = limit ?? 100;
+        page = page ?? 0;
+
+        const resp = await this.axios.post<Asset[]>(
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets/browse`),
+            {
+                filters: assetFilter ?? [],
+                ...(sorting ? { sorting } : {}),
+            },
+            {
+                params: {
+                    context,
+                    limit,
+                    page,
+                    spaceName,
+                    namespace,
+                    parentId,
+                    shareId,
+                },
+            }
+        );
+
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Asset[]>;
     }
 
     /**

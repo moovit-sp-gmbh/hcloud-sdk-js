@@ -152,9 +152,10 @@ export class IdpAccountApprovedMailjetMailDTO extends MailjetMailDTO {
 }
 
 export class CosmoNewShareMailjetMailDTO extends MailjetMailDTO {
-    constructor(recipients: string[], shareLink: string) {
+    constructor(recipients: string[], shareLink: string, shareMessage: string) {
         super(recipients, MailjetTemplate.COSMO_NEW_SHARE, {
             HCLOUD_SHARE_LINK: shareLink,
+            HCLOUD_SHARE_MESSAGE: shareMessage,
         });
     }
 }

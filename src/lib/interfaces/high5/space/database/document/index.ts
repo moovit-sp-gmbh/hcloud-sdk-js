@@ -11,6 +11,7 @@ enum DocumentType {
     BOOLEAN_LIST = "BOOLEAN_LIST",
     OBJECT = "OBJECT",
     ARRAY = "ARRAY",
+    ANY = "ANY",
 }
 
 interface Document {

@@ -23,6 +23,7 @@ interface Document {
     creator: ReducedUser;
     type: DocumentType;
     value: any;
+    ttl?: number;
     createDate: number;
     modifyDate: number;
 }
@@ -31,10 +32,12 @@ interface DocumentCreateDto {
     key: string;
     type: DocumentType;
     value: any;
+    ttl?: number;
 }
 
 interface DocumentPatchDto {
     value: any;
+    ttl?: number;
 }
 
 export { Document, DocumentCreateDto, DocumentPatchDto, DocumentType };

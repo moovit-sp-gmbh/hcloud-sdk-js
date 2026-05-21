@@ -7,6 +7,7 @@ import {
     AssetFilter,
     AssetPermission,
     AssetSearchContext,
+    AudioWaveformItem,
     CreateAsset,
     Mentionable,
     PatchAsset,
@@ -554,6 +555,24 @@ export class CosmoAsset extends Base {
     ): Promise<MaybeRaw<R, Asset[]>> {
         const resp = await this.axios.put<Asset[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets/clone`), { assetIds, parentId });
         return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Asset[]>;
+    }
+
+    /**
+     * Get audio waveform of an asset.
+     *
+     * @param orgName Name of the Organization
+     * @param spaceName Name of the Space
+     * @param assetId List of Asset IDs to be cloned. If folder IDs are specified, they will be recursively cloned.
+     * @returns the waveform array
+     */
+    async getAssetWaveform<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        assetId: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, AudioWaveformItem>> {
+        const resp = await this.axios.get<AudioWaveformItem>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets/${assetId}/waveform`));
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, AudioWaveformItem>;
     }
 
     /**

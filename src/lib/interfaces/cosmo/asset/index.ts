@@ -227,3 +227,8 @@ export type VTTThumbnail = {
     url: string;
     xywh?: { x: number; y: number; w: number; h: number };
 };
+
+export type AudioWaveformItem = {
+    assetId: string;
+    channels: number[][];
+};

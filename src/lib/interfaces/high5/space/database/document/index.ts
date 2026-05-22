@@ -39,3 +39,9 @@ export interface DocumentPatchDto {
     value: any;
     ttl?: number;
 }
+
+export interface DocumentUpsertDto extends DocumentPatchDto {
+    key?: string;
+    type?: DocumentType;
+    ttl?: number;
+}

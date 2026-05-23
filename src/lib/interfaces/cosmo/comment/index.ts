@@ -69,6 +69,6 @@ export enum CommentColor {
 
 export interface Timestamp {
     in: number;
-    out: number;
+    out?: number;
     color: CommentColor;
 }

@@ -1,5 +1,6 @@
 import Base from "../../Base";
 import { Version } from "../../interfaces/global";
+import { CosmoAddressBook } from "./addressBook";
 import { CosmoAsset } from "./asset";
 import { CosmoComment } from "./comment";
 import { CosmoEvent } from "./event";
@@ -17,6 +18,14 @@ import { CosmoStats } from "./stats";
 import { CosmoTag } from "./tag";
 
 export default class CosmoService extends Base {
+    public get cosmoAddressBook(): CosmoAddressBook {
+        if (this._cosmoAddressBook === undefined) {
+            this._cosmoAddressBook = new CosmoAddressBook(this.options, this.axios);
+        }
+        return this._cosmoAddressBook;
+    }
+    private _cosmoAddressBook?: CosmoAddressBook;
+
     public get cosmoAsset(): CosmoAsset {
         if (this._cosmoAsset === undefined) {
             this._cosmoAsset = new CosmoAsset(this.options, this.axios);

@@ -2,7 +2,7 @@ import { ReducedSpace } from "../../../../global";
 import { ReducedOrganization } from "../../../../idp/organization";
 import { ReducedUser } from "../../../../idp/user";
 
-enum DocumentType {
+export enum DocumentType {
     STRING = "STRING",
     NUMBER = "NUMBER",
     BOOLEAN = "BOOLEAN",
@@ -14,7 +14,7 @@ enum DocumentType {
     ANY = "ANY",
 }
 
-interface Document {
+export interface Document {
     _id: string;
     key: string;
     database: string;
@@ -28,16 +28,14 @@ interface Document {
     modifyDate: number;
 }
 
-interface DocumentCreateDto {
+export interface DocumentCreateDto {
     key: string;
     type: DocumentType;
     value: any;
     ttl?: number;
 }
 
-interface DocumentPatchDto {
+export interface DocumentPatchDto {
     value: any;
     ttl?: number;
 }
-
-export { Document, DocumentCreateDto, DocumentPatchDto, DocumentType };

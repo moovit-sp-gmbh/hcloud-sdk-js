@@ -3,7 +3,7 @@ import { createPaginatedResponse } from "../../../../../helper/paginatedResponse
 import { SearchFilterDTO } from "../../../../../helper/searchFilter";
 import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../../interfaces/global";
 import { Document, DocumentCreateDto, DocumentPatchDto } from "../../../../../interfaces/high5";
-import { High5DocumentArray } from "./array";
+import { High5DocumentCollection } from "./collection";
 import { High5DocumentNumber } from "./number";
 
 export class High5Document extends Base {
@@ -15,13 +15,13 @@ export class High5Document extends Base {
     }
     private _number?: High5DocumentNumber;
 
-    public get array(): High5DocumentArray {
-        if (this._array === undefined) {
-            this._array = new High5DocumentArray(this.options, this.axios);
+    public get collection(): High5DocumentCollection {
+        if (this._collection === undefined) {
+            this._collection = new High5DocumentCollection(this.options, this.axios);
         }
-        return this._array;
+        return this._collection;
     }
-    private _array?: High5DocumentArray;
+    private _collection?: High5DocumentCollection;
 
     /**
      * Retrieves all Documents of a High5 Database which match the provided search filter(s). Will return all Documents of the Database if no filter is provided.

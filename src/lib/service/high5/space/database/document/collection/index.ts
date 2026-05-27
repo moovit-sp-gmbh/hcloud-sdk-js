@@ -4,7 +4,7 @@ import { SearchFilterDTO } from "../../../../../../helper/searchFilter";
 import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../../../interfaces/global";
 import { Document } from "../../../../../../interfaces/high5";
 
-export class High5DocumentArray extends Base {
+export class High5DocumentCollection extends Base {
     /**
      * Retrieves all items of a specified array document which match the provided search filter(s). Will return all items of the array if no filter is provided.
      * @param orgName Name of the Organization
@@ -140,6 +140,56 @@ export class High5DocumentArray extends Base {
         );
 
         return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Document>;
+    }
+
+    /**
+     * Add or update one or more key/value pairs inside an object document without replacing the entire value.
+     * @param orgName Name of the Organization
+     * @param spaceName Name of the Space
+     * @param dbName Name of the Database
+     * @param key Key of the Document
+     * @param pairs Key/value pairs to upsert into the object document
+     * @returns Updated Document
+     */
+    async upsertObjectPairs<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        dbName: string,
+        key: string,
+        pairs: Record<string, any>,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Document>> {
+        const resp = await this.axios.patch<Document>(
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/databases/${dbName}/documents/${key}/partial`),
+            { pairs }
+        );
+
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Document>;
+    }
+
+    /**
+     * Remove one or more keys from an object document.
+     * @param orgName Name of the Organization
+     * @param spaceName Name of the Space
+     * @param dbName Name of the Database
+     * @param key Key of the Document
+     * @param keys List of keys to remove from the object document
+     * @returns Updated Document
+     */
+    async deleteObjectKeys<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        dbName: string,
+        key: string,
+        keys: string[],
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Document>> {
+        const resp = await this.axios.patch<Document>(
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/databases/${dbName}/documents/${key}/keys`),
+            { keys }
+        );
+
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, Document>;
     }
 
     protected getEndpoint(endpoint: string): string {

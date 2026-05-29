@@ -45,6 +45,7 @@ export enum Event {
     Tag = "tag",
     Reference = "reference",
     Storage = "storage",
+    WatchFolder = "WatchFolder",
 }
 
 export enum Type {

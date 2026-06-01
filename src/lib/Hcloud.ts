@@ -11,6 +11,7 @@ import CosmoService from "./service/cosmo";
 import DaliService from "./service/dali";
 import High5Service from "./service/high5";
 import IdpService from "./service/idp";
+import PanelService from "./service/panel";
 import MailerService from "./service/mailer";
 import MothershipService from "./service/mothership";
 import NatsService from "./service/nats";
@@ -81,6 +82,14 @@ export class HCloud {
         return this._Mailer;
     }
     private _Mailer?: MailerService;
+
+    public get Panels(): PanelService {
+        if (this._Panels === undefined) {
+            this._Panels = new PanelService(this.options, this.axios);
+        }
+        return this._Panels;
+    }
+    private _Panels?: PanelService;
 
     public get Mothership(): MothershipService {
         if (this._Mothership === undefined) {

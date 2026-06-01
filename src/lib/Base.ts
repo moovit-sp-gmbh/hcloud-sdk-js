@@ -19,6 +19,9 @@ export interface Options {
     agent?: {
         server: string;
     };
+    panel?: {
+        server: string;
+    };
     logger?: HcloudLogger;
 }
 

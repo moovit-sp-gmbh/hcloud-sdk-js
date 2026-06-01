@@ -11,10 +11,10 @@ import CosmoService from "./service/cosmo";
 import DaliService from "./service/dali";
 import High5Service from "./service/high5";
 import IdpService from "./service/idp";
-import PanelService from "./service/panel";
 import MailerService from "./service/mailer";
 import MothershipService from "./service/mothership";
 import NatsService from "./service/nats";
+import PanelService from "./service/panel";
 import ShortsService from "./service/shorts";
 
 // tslint:disable-next-line

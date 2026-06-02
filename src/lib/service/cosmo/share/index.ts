@@ -1,5 +1,5 @@
 import Base, { MaybeRaw } from "../../../Base";
-import { Share, ShareCreate, SharePatch, ShareWithUsers } from "../../../interfaces/cosmo/share";
+import { EmailCooldown, Share, ShareCreate, SharePatch, ShareWithUsers } from "../../../interfaces/cosmo/share";
 import { SearchFilter, Sorting } from "../../../interfaces/global";
 
 /**
@@ -213,24 +213,28 @@ export class CosmoShare extends Base {
      * This will trigger the backend to re-send the share notification email
      * to every email address that has previously been invited to the share.
      *
-     * @typeParam R - When `true`, the raw Axios response is returned instead of `undefined`
+     * Returns `undefined` when all emails were sent (204), or an {@link EmailCooldown}
+     * object when some recipients were skipped due to cooldown (200).
+     *
+     * @typeParam R - When `true`, the raw Axios response is returned instead of the parsed result
      *
      * @param orgName   - The organization identifier
      * @param spaceName - The space identifier within the organization
      * @param shareId   - The share ID whose emails should be resent
      * @param raw       - Optional flag to return the raw Axios response
      *
-     * @returns `undefined` by default, or the raw Axios response when `raw.raw` is `true`
+     * @returns `EmailCooldown` when some emails were skipped, `undefined` when all were sent,
+     *          or the raw Axios response when `raw.raw` is `true`
      */
     async resendAllEmails<R extends boolean = false>(
         orgName: string,
         spaceName: string,
         shareId: string,
         raw?: { raw: R }
-    ): Promise<MaybeRaw<R, undefined>> {
-        const resp = await this.axios.post(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/shares/${shareId}/email/all`));
+    ): Promise<MaybeRaw<R, EmailCooldown | undefined>> {
+        const resp = await this.axios.post<EmailCooldown>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/shares/${shareId}/email/all`));
 
-        return (raw?.raw ? resp : undefined) as MaybeRaw<R, undefined>;
+        return (raw?.raw ? resp : resp.status === 200 ? resp.data : undefined) as MaybeRaw<R, EmailCooldown | undefined>;
     }
 
     /**
@@ -239,7 +243,10 @@ export class CosmoShare extends Base {
      * Only the provided email addresses will receive a new share notification.
      * At least one email address must be provided.
      *
-     * @typeParam R - When `true`, the raw Axios response is returned instead of `undefined`
+     * Returns `undefined` when all emails were sent (204), or an {@link EmailCooldown}
+     * object when some recipients were skipped due to cooldown (200).
+     *
+     * @typeParam R - When `true`, the raw Axios response is returned instead of the parsed result
      *
      * @param orgName   - The organization identifier
      * @param spaceName - The space identifier within the organization
@@ -247,7 +254,8 @@ export class CosmoShare extends Base {
      * @param emails    - A non-empty list of email addresses to resend the share to
      * @param raw       - Optional flag to return the raw Axios response
      *
-     * @returns `undefined` by default, or the raw Axios response when `raw.raw` is `true`
+     * @returns `EmailCooldown` when some emails were skipped, `undefined` when all were sent,
+     *          or the raw Axios response when `raw.raw` is `true`
      */
     async resendEmails<R extends boolean = false>(
         orgName: string,
@@ -255,10 +263,12 @@ export class CosmoShare extends Base {
         shareId: string,
         emails: [string, ...string[]],
         raw?: { raw: R }
-    ): Promise<MaybeRaw<R, undefined>> {
-        const resp = await this.axios.post(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/shares/${shareId}/email`), { emails });
+    ): Promise<MaybeRaw<R, EmailCooldown | undefined>> {
+        const resp = await this.axios.post<EmailCooldown>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/shares/${shareId}/email`), {
+            emails,
+        });
 
-        return (raw?.raw ? resp : undefined) as MaybeRaw<R, undefined>;
+        return (raw?.raw ? resp : resp.status === 200 ? resp.data : undefined) as MaybeRaw<R, EmailCooldown | undefined>;
     }
 
     /**

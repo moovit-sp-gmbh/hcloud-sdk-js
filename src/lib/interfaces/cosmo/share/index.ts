@@ -30,6 +30,7 @@ export interface Share {
     _id: string;
     name: string;
     active: boolean;
+    invalidLink: boolean;
     creator: ReducedUser;
     createDate: number;
     items?: (

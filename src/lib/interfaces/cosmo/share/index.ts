@@ -136,3 +136,8 @@ export enum ShareNamespacePermissionGroup {
     ENABLE_TAGS = "ENABLE_TAGS",
     VIEW_ASSET_METADATA = "VIEW_ASSET_METADATA",
 }
+
+export interface EmailCooldown {
+    message: "Some emails were in cooldown and were not resent";
+    emailsInCooldown: string[];
+}

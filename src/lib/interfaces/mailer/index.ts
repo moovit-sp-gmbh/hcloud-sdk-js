@@ -48,7 +48,6 @@ export enum MailTemplate {
     COSMO_USER_ADDED_TO_SPACE = "COSMO_USER_ADDED_TO_SPACE",
     COSMO_USER_REMOVED_FROM_SPACE = "COSMO_USER_REMOVED_FROM_SPACE",
     COSMO_COMMENT_ADDED = "COSMO_COMMENT_ADDED",
-    COSMO_COMMENT_MENTION = "COSMO_COMMENT_MENTION",
     COSMO_REPLIED_TO_COMMENT = "COSMO_REPLIED_TO_COMMENT",
     COSMO_ASSET_STATUS_CHANGED = "COSMO_ASSET_STATUS_CHANGED",
     COSMO_ASSET_UPLOADED_TO_SHARE = "COSMO_ASSET_UPLOADED_TO_SHARE",
@@ -198,27 +197,6 @@ export class CosmoCommentOrAnnotationAddedMailjetMailDTO extends MailDTO {
         link: string
     ) {
         super(recipients, MailTemplate.COSMO_COMMENT_ADDED, {
-            ASSET_NAME: assetName,
-            RECIPIENT_NAME: recipientName,
-            ACTOR_NAME: actorName,
-            COMMENT_SNIPPET: commentSnippet,
-            SPACE_NAME: spaceName,
-            LINK: link,
-        });
-    }
-}
-
-export class CosmoCommentMentionMailjetMailDTO extends MailDTO {
-    constructor(
-        recipients: string[],
-        assetName: string,
-        recipientName: string,
-        actorName: string,
-        commentSnippet: string,
-        spaceName: string,
-        link: string
-    ) {
-        super(recipients, MailTemplate.COSMO_COMMENT_MENTION, {
             ASSET_NAME: assetName,
             RECIPIENT_NAME: recipientName,
             ACTOR_NAME: actorName,
@@ -406,29 +384,6 @@ export class CosmoCommentOrAnnotationAddedResendMailDTO extends MailDTO {
         link: string
     ) {
         super(recipients, MailTemplate.COSMO_COMMENT_ADDED, {
-            ASSET_NAME: assetName,
-            RECIPIENT_NAME: recipientName,
-            RECIPIENT_EMAIL: recipientEmail,
-            ACTOR_NAME: actorName,
-            COMMENT_SNIPPET: commentSnippet,
-            SPACE_NAME: spaceName,
-            LINK: link,
-        });
-    }
-}
-
-export class CosmoCommentMentionResendMailDTO extends MailDTO {
-    constructor(
-        recipients: string[],
-        assetName: string,
-        recipientName: string,
-        recipientEmail: string,
-        actorName: string,
-        commentSnippet: string,
-        spaceName: string,
-        link: string
-    ) {
-        super(recipients, MailTemplate.COSMO_COMMENT_MENTION, {
             ASSET_NAME: assetName,
             RECIPIENT_NAME: recipientName,
             RECIPIENT_EMAIL: recipientEmail,

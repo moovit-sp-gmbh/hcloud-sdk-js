@@ -14,6 +14,7 @@ export interface CosmoSpace {
     high5_executionTarget?: string;
     permissions?: string[];
     storageUsed: number;
+    storage: ReducedStorage;
 }
 
 export interface High5SpaceInfo {
@@ -27,3 +28,39 @@ export interface TrashPolicy {
     enabled: boolean;
     ttlDays?: number;
 }
+
+export enum StorageType {
+    S3 = "S3",
+    TAMS = "TAMS",
+}
+
+export type ReducedStorage = {
+    name: string;
+    type: StorageType;
+    bucket: string;
+    valid: boolean;
+    error?: string;
+    default: boolean;
+};
+
+export type Storage = ReducedStorage & {
+    region: string;
+    endpoint: string;
+    accessKeyId: string;
+    secretAccessKey: string;
+};
+
+export type SpacePatchStorageDto = {
+    name: string;
+    endpoint: string;
+    bucket: string;
+    region: string;
+    type: StorageType;
+    accessKeyId: string;
+    secretAccessKey: string;
+};
+
+export type SpacePatchStorageValidationDto = {
+    valid: boolean;
+    error: string;
+};

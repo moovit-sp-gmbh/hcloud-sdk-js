@@ -356,6 +356,24 @@ export class CosmoAsset extends Base {
     }
 
     /**
+     * Fetches the assets vtt as plain text
+     *
+     * @param {string} orgName - The name of the organization that owns the space.
+     * @param {string} spaceName - The name of the space containing the asset.
+     * @param {string} assetId - The unique identifier of the asset whose VTT file is being fetched.
+     * @returns {Promise<string>} The assets VTT file as plain text.
+     */
+    async fetchAssetVtt<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        assetId: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, string>> {
+        const resp = await this.axios.get<string>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets/${assetId}/vtt`));
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, string>;
+    }
+
+    /**
      * Fetches an assets VTT file and parses it to return an array of VTTThumbnail objects.
      *
      * @param {string} url - The URL of the VTT file to fetch and parse.

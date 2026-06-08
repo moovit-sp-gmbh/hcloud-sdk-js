@@ -72,6 +72,12 @@ export type LicenseQuota = {
         executionsPerMonth: {
             quota: number;
         };
+        executionLogPeriodInDays: {
+            quota: number;
+        };
+        executionLogMaxLimit: {
+            quota: number;
+        };
         secondBaseExecutions: boolean;
     };
     fuse: {

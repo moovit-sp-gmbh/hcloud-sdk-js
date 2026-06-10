@@ -11,8 +11,6 @@ export interface CreateComment {
     mentionsTeams?: string[];
     metadata?: Record<string, Primitive | Primitive[]>;
     visibility?: CommentVisibility;
-    metadata?: Record<string, Primitive | Primitive[]>;
-    visibility?: CommentVisibility;
 }
 
 export interface EditComment {
@@ -22,8 +20,6 @@ export interface EditComment {
     mentions?: string[];
     mentionsTeams?: string[];
     completed?: boolean;
-    metadata?: Record<string, Primitive | Primitive[]>;
-    visibility?: CommentVisibility;
     metadata?: Record<string, Primitive | Primitive[]>;
     visibility?: CommentVisibility;
 }
@@ -65,8 +61,6 @@ export interface Comment {
     completed: boolean;
     completedBy?: ReducedUser;
     completedAt?: number;
-    metadata?: Record<string, Primitive | Primitive[]>;
-    visibility?: CommentVisibility;
     metadata?: Record<string, Primitive | Primitive[]>;
     visibility?: CommentVisibility;
 }

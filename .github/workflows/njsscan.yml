@@ -4,17 +4,14 @@ on:
     branches:
       - main
       - dev
-      - staging
   push:
     branches:
       - main
       - dev
-      - staging
   pull_request:
     branches:
       - main
       - dev
-      - staging
     types: 
       - ready_for_review
       - review_requested

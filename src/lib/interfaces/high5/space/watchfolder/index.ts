@@ -32,7 +32,7 @@ export interface WatchFolder {
     resourceType: WatchFolderResourceType;
     path: string;
     interval: number;
-    streamId: string;
+    eventName: string;
     credentials: WatchFolderCredentials;
 }
 
@@ -42,7 +42,7 @@ export interface CreateWatchFolder {
     resourceType: WatchFolderResourceType;
     path: string;
     interval: number;
-    streamId: string;
+    eventName: string;
     credentials: WatchFolderCredentials;
 }
 
@@ -52,7 +52,7 @@ export interface PatchWatchFolder {
     resourceType?: WatchFolderResourceType;
     path?: string;
     interval?: number;
-    streamId?: string;
+    eventName?: string;
     credentials?: WatchFolderCredentials;
 }
 

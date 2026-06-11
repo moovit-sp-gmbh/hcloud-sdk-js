@@ -1,5 +1,12 @@
 import Base, { MaybeRaw } from "../../../Base";
-import { High5SpaceInfo, CosmoSpace as ICosmoSpace, SpaceUser, TrashPolicy } from "../../../interfaces/cosmo/space";
+import {
+    High5SpaceInfo,
+    CosmoSpace as ICosmoSpace,
+    SpacePatchStorageDto,
+    SpacePatchStorageValidationDto,
+    SpaceUser,
+    TrashPolicy,
+} from "../../../interfaces/cosmo/space";
 
 /**
  * @class Space
@@ -194,6 +201,46 @@ export class CosmoSpace extends Base {
         raw?: { raw: R }
     ): Promise<MaybeRaw<R, ICosmoSpace>> {
         const resp = await this.axios.patch<ICosmoSpace>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/trash/policy`), policy);
+
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, ICosmoSpace>;
+    }
+
+    /**
+     * Update the storage configuration of a Space.
+     * @remarks
+     * ** Under development, breaking changes possible**
+     * @param orgName Name of the Organization
+     * @param spaceName Name of the Space
+     * @param storage New storage configuration for the Space
+     * @returns The updated Space
+     */
+    async patchStorage<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        storage: SpacePatchStorageDto,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, ICosmoSpace>> {
+        const resp = await this.axios.patch<ICosmoSpace>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/storage`), storage);
+
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, ICosmoSpace>;
+    }
+
+    /**
+     * Sets storage as valid or unvalid with errors.
+     * @remarks
+     * ** Under development, breaking changes possible**
+     * @param orgName Name of the Organization
+     * @param spaceName Name of the Space
+     * @param storage Storage validation
+     * @returns The updated Space
+     */
+    async patchStorageValid<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        storage: SpacePatchStorageValidationDto,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, ICosmoSpace>> {
+        const resp = await this.axios.patch<ICosmoSpace>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/storage/valid`), storage);
 
         return (raw?.raw ? resp : resp.data) as MaybeRaw<R, ICosmoSpace>;
     }

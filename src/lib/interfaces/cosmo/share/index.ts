@@ -45,6 +45,19 @@ export interface Share {
     publicLink?: PublicLink;
     users?: (User | ReducedUser | ShareReducedUnlinkedUser)[];
     waiting: boolean;
+    emailStatus?: { email: string; status: EmailStatus }[];
+}
+
+export enum EmailStatus {
+    OPENED = "OPENED",
+    SENT = "SENT",
+    CLICKED = "CLICKED",
+    FAILED = "FAILED",
+    BOUNCED = "BOUNCED",
+    BLOCKED = "BLOCKED",
+    NOT_SENT = "NOT_SENT",
+    SPAM = "SPAM",
+    UNKNOWN = "UNKNOWN",
 }
 
 /**
@@ -122,4 +135,9 @@ export enum ShareNamespacePermissionGroup {
     ENABLE_METADATA_EDITING = "ENABLE_METADATA_EDITING",
     ENABLE_TAGS = "ENABLE_TAGS",
     VIEW_ASSET_METADATA = "VIEW_ASSET_METADATA",
+}
+
+export interface EmailCooldown {
+    message: "Some emails were in cooldown and were not resent";
+    emailsInCooldown: string[];
 }

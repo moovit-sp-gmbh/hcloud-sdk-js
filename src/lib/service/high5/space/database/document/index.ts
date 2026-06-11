@@ -2,8 +2,8 @@ import Base, { MaybeRaw } from "../../../../../Base";
 import { createPaginatedResponse } from "../../../../../helper/paginatedResponseHelper";
 import { SearchFilterDTO } from "../../../../../helper/searchFilter";
 import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../../interfaces/global";
-import { Document, DocumentCreateDto, DocumentPatchDto } from "../../../../../interfaces/high5";
-import { High5DocumentArray } from "./array";
+import { Document, DocumentCreateDto, DocumentPatchDto, DocumentUpsertDto } from "../../../../../interfaces/high5";
+import { High5DocumentCollection } from "./collection";
 import { High5DocumentNumber } from "./number";
 
 export class High5Document extends Base {
@@ -15,13 +15,13 @@ export class High5Document extends Base {
     }
     private _number?: High5DocumentNumber;
 
-    public get array(): High5DocumentArray {
-        if (this._array === undefined) {
-            this._array = new High5DocumentArray(this.options, this.axios);
+    public get collection(): High5DocumentCollection {
+        if (this._collection === undefined) {
+            this._collection = new High5DocumentCollection(this.options, this.axios);
         }
-        return this._array;
+        return this._collection;
     }
-    private _array?: High5DocumentArray;
+    private _collection?: High5DocumentCollection;
 
     /**
      * Retrieves all Documents of a High5 Database which match the provided search filter(s). Will return all Documents of the Database if no filter is provided.
@@ -115,6 +115,31 @@ export class High5Document extends Base {
         raw?: { raw: R }
     ): Promise<MaybeRaw<R, Document>> {
         const resp = await this.axios.patch<Document>(
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/databases/${dbName}/documents/${key}`),
+            document
+        );
+
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Document>;
+    }
+
+    /**
+     * Creates the document if it does not exist, or updates it if it does
+     * @param orgName Name of the Organization
+     * @param spaceName Name of the Space
+     * @param dbName Name of the Database
+     * @param key Key of the Document
+     * @param document New value to upsert the Document
+     * @returns Updated or created Document
+     */
+    async upsertDocument<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        dbName: string,
+        key: string,
+        document: DocumentUpsertDto,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Document>> {
+        const resp = await this.axios.put<Document>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/databases/${dbName}/documents/${key}`),
             document
         );

@@ -367,7 +367,7 @@ const entityCollection: Record<Entity, Details> = {
         maxLength: 34,
     },
     [Entity.TAG_NAME]: {
-        pattern: /^[a-zA-Z0-9 ]{1,20}$/i,
+        pattern: /^[a-zA-Z0-9- ]{1,20}$/i,
         minLength: 1,
         maxLength: 20,
     },

@@ -103,6 +103,7 @@ export interface Upload {
     expiration: number;
     libraryId?: string;
     videoId?: string;
+    fetchUrl?: string;
 }
 
 export enum AssetPermission {

@@ -49,7 +49,7 @@ export class CosmoComment extends Base {
      * @param orgName Name of the Organization
      * @param spaceName Name of the Space
      * @param namespaceName Name of the Namespace
-     * @param limit Maximum number of comments to return, user -1 for no limit
+     * @param limit Maximum number of comments to return, use -1 for no limit
      * @param page Page number for pagination
      * @param annotation Whether to include annotations in the response
      * @param replySample Amount of replies to load
@@ -137,7 +137,7 @@ export class CosmoComment extends Base {
      * @param orgName Name of the Organization
      * @param spaceName Name of the Space
      * @param namespaceName Name of the Namespace
-     * @param commentId ID of the Comment to edit
+     * @param commentId ID of the Comment to get
      * @param annotation Whether to include annotations in the response
      *
      * @returns The requested Comment

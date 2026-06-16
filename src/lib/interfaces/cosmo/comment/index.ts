@@ -6,6 +6,7 @@ export interface CreateComment {
     refId: string;
     text: string;
     timestamp?: Timestamp;
+    color?: CommentColor;
     annotation?: string;
     mentions?: string[];
     mentionsTeams?: string[];
@@ -16,6 +17,7 @@ export interface CreateComment {
 export interface EditComment {
     text: string;
     timestamp?: Timestamp;
+    color?: CommentColor;
     annotation?: string;
     mentions?: string[];
     mentionsTeams?: string[];
@@ -51,6 +53,7 @@ export interface Comment {
     text: string;
     createDate: number;
     timestamp?: Timestamp;
+    color?: CommentColor;
     creator: ReducedUser;
     assetId: string;
     commentType: CommentType;
@@ -83,5 +86,4 @@ export enum CommentColor {
 export interface Timestamp {
     in: number;
     out?: number;
-    color: CommentColor;
 }

@@ -1,5 +1,5 @@
 import Base, { MaybeRaw } from "../../../../../../Base";
-import { FullOIDCProvider, OIDCProvider, OIDCProviderCreateDto } from "../../../../../../interfaces/idp/organization/settings/domain/oidc";
+import { OIDCProvider, OIDCProviderCreateDto } from "../../../../../../interfaces/idp/organization/settings/domain/oidc";
 
 export class IdpOIDCProvider extends Base {
     /**
@@ -7,10 +7,10 @@ export class IdpOIDCProvider extends Base {
      * @param orgName Name of the Organization
      * @returns Array of OIDC providers
      */
-    async getAllOIDCProvidersOfOrganization<R extends boolean = false>(orgName: string, raw?: { raw: R }): Promise<MaybeRaw<R, FullOIDCProvider[]>> {
-        const resp = await this.axios.get<FullOIDCProvider[]>(this.getEndpoint(`/v1/org/${orgName}/settings/domains/oidc`));
+    async getAllOIDCProvidersOfOrganization<R extends boolean = false>(orgName: string, raw?: { raw: R }): Promise<MaybeRaw<R, OIDCProvider[]>> {
+        const resp = await this.axios.get<OIDCProvider[]>(this.getEndpoint(`/v1/org/${orgName}/settings/domains/oidc`));
 
-        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, FullOIDCProvider[]>;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, OIDCProvider[]>;
     }
 
     /**

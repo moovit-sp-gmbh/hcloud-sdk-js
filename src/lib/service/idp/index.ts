@@ -173,11 +173,17 @@ export default class Idp extends Base {
      * @returns object that dictates if: the user needs to REGISTER; the user needs to VERIFY_EMAIL; the user can LOGIN using this email;
      *          or the authentication process should continue via an EXTERNAL provider that can be found via the location property.
      */
-    async preLogin<R extends boolean = false>(email: string, origin: string, raw?: { raw: R }): Promise<MaybeRaw<R, PreLoginResponse>> {
+    async preLogin<R extends boolean = false>(
+        email: string,
+        origin: string,
+        redirect?: "true" | "false",
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, PreLoginResponse>> {
         const resp = await this.axios.get<PreLoginResponse>(this.getEndpoint("/v1/login/pre"), {
             params: {
                 origin,
                 email,
+                redirect,
             },
         });
         return (raw?.raw ? resp : resp.data) as MaybeRaw<R, PreLoginResponse>;

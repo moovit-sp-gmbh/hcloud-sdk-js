@@ -3,6 +3,7 @@ enum Entity {
     USER_PASSWORD = "USER_PASSWORD",
     OAUTH_SECRET_NAME = "OAUTH_SECRET_NAME",
     ORGANIZATION_NAME = "ORGANIZATION_NAME",
+    STORAGE_NAME = "STORAGE_NAME",
     USER_ORGANIZATION_NAME = "USER_ORGANIZATION_NAME",
     TEAM_NAME = "TEAM_NAME",
     COMPANY_NAME = "COMPANY_NAME",
@@ -148,6 +149,11 @@ const entityCollection: Record<Entity, Details> = {
         pattern: /^(?!-)(?!.*--)[a-zA-Z0-9-.]{3,64}(?<!-)$/i,
         minLength: 3,
         maxLength: 64,
+    },
+    [Entity.STORAGE_NAME]: {
+        pattern: /^[\w-.]{1,32}$/i,
+        minLength: 1,
+        maxLength: 32,
     },
     [Entity.USER_ORGANIZATION_NAME]: {
         pattern: /^[\w-+@.]{3,255}$/i,

@@ -5,6 +5,7 @@ import { IdpOrganizationMember } from "./member";
 import IdpOrganizationServiceAccounts from "./service-accounts";
 import IdpOrganizationSettings from "./settings";
 import { IdpOrganizationStat } from "./stat";
+import { IdpOrganizationStorages } from "./storage";
 import { IdpOrganizationTeams } from "./team";
 
 export class IdpOrganization extends Base {
@@ -73,6 +74,17 @@ export class IdpOrganization extends Base {
         return this._stat;
     }
     private _stat?: IdpOrganizationStat;
+
+    /**
+     * Handles everything around storage of organizations.
+     */
+    public get storages(): IdpOrganizationStorages {
+        if (this._storages === undefined) {
+            this._storages = new IdpOrganizationStorages(this.options, this.axios);
+        }
+        return this._storages;
+    }
+    private _storages?: IdpOrganizationStorages;
 
     /**
      * Updates an Organization.

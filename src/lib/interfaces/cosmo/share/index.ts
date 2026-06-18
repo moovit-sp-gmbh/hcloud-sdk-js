@@ -46,6 +46,7 @@ export interface Share {
     users?: (User | ReducedUser | ShareReducedUnlinkedUser)[];
     waiting: boolean;
     emailStatus?: { email: string; status: EmailStatus }[];
+    message?: string;
 }
 
 export enum EmailStatus {
@@ -114,6 +115,7 @@ export type SharePatch = Partial<
         users?: string[];
         expires?: number | null;
         password?: string | null;
+        message?: string;
     }
 >;
 

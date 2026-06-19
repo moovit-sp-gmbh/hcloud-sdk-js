@@ -114,13 +114,12 @@ class Nats extends Base {
                             return;
                         }
 
-                        let parsedData: NatsMessage;
+                        let parsedData: NatsMessage | undefined = undefined;
                         try {
                             const data = new TextDecoder("utf-8").decode(msg.data);
                             parsedData = JSON.parse(data);
-                        } catch (e) {
-                            callback(e as Error);
-                            return;
+                        } catch {
+                            // if the message is not JSON just pass the raw message
                         }
 
                         try {

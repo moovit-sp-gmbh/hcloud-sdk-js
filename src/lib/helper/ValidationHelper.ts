@@ -126,8 +126,8 @@ function ValidationHelper(name: Entity): EntityDetails {
 
 const entityCollection: Record<Entity, Details> = {
     [Entity.USER_NAME]: {
-        // Case-insensitive. Must contain at least 3 character. Allows letters, numbers, underscores, hyphens, dots, and spaces. Cannot start with a dash, end with a dash, or contain double dashes
-        pattern: /^(?!-)(?!.*--)[\w-. ]{3,255}(?<!-)$/i,
+        // Must contain at least 3 characters. Allows any Unicode character (UTF-8) except line terminators. Cannot start with a dash, end with a dash, or contain double dashes
+        pattern: /^(?!-)(?!.*--).{3,255}(?<!-)$/u,
         minLength: 3,
         maxLength: 255,
     },

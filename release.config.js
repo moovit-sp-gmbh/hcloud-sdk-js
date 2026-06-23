@@ -29,9 +29,24 @@ module.exports = {
             },
         ],
         [
-            "@semantic-release/npm",
+            "@semantic-release/exec",
             {
-                pkgRoot: "build",
+                "prepareCmd": "cp build/changelog.md build-github/changelog.md"
+            }
+        ],
+        [
+            "@amanda-mitchell/semantic-release-npm-multiple",
+            {
+                registries: {
+                    npmjs: {
+                        pkgRoot: "build",
+                        npmPublish: true,
+                    },
+                    github: {
+                        pkgRoot: "build-github",
+                        npmPublish: true,
+                    },
+                },
             },
         ],
         [

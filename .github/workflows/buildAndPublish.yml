@@ -13,6 +13,7 @@ jobs:
     strategy:
       matrix:
         node-version: [24.14.0]
+        pnpm-version: [11]
 
     steps:
       - name: Checkout repository
@@ -20,10 +21,13 @@ jobs:
         with:
           fetch-depth: 0 # Needed for semantic-release to work in case tags have been modified manually (for example when testing)
 
+      - name: Fetch all tags
+        run: git fetch --tags --force
+
       - name: Setup pnpm
         uses: pnpm/action-setup@v6
         with:
-          version: 11
+          version: ${{ matrix.pnpm-version }}
 
       - name: Setup node version needed for build
         uses: actions/setup-node@v6
@@ -39,43 +43,31 @@ jobs:
       - name: Check for changes from formatting
         run: git diff --quiet HEAD || { echo "Diff found in \n$(git status -s)" && exit 1; }
 
-      - name: Remove scope from package.json name
-        run: |
-          jq '. += { name: "hcloud-sdk" }' package.json > package.publish.json
-          mv package.publish.json package.json
-
       - run: make preparePublish
+
+      - name: Prepare npmjs build (remove scope from name)
+        run: |
+          jq '.name = "hcloud-sdk"' build/package.json > build/pkg.tmp.json
+          mv build/pkg.tmp.json build/package.json
+
+      - name: Prepare GitHub Packages build
+        run: |
+          cp -r build build-github
+          jq '.name = "@moovit-sp-gmbh/hcloud-sdk" | .publishConfig = {"registry": "https://npm.pkg.github.com"}' \
+            build/package.json > build-github/package.json
 
       - name: Setup node for semantic-release
         uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name:
-          Publish package and generate changelog with semantic-release. The specific tasks executed by this package are defined in release.config.js
+      - name: Publish to npmjs and GitHub Packages via semantic-release
         run: pnpx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPMJS_NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPMJS_NPM_CONFIG_REGISTRY: "https://registry.npmjs.org"
+          GITHUB_NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_NPM_CONFIG_REGISTRY: "https://npm.pkg.github.com/"
           TELEGRAM_BOT_ID: ${{ secrets.TELEGRAM_BOT_ID }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-
-      # ── Publish to GitHub Packages (legacy) ───────────────────────────────
-
-      - name: Patch build/package.json for GitHub Packages
-        run: |
-          jq '. += { name: "@moovit-sp-gmbh/hcloud-sdk", publishConfig: { registry: "https://npm.pkg.github.com" }}' build/package.json > build/package.publish.json
-          mv build/package.publish.json build/package.json
-
-      - name: Setup node for GitHub Packages publish
-        uses: actions/setup-node@v6
-        with:
-          node-version: ${{ matrix.node-version }}
-          registry-url: "https://npm.pkg.github.com"
-          scope: "@moovit-sp-gmbh"
-
-      - name: Publish to GitHub Packages (legacy)
-        run: cd build && npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

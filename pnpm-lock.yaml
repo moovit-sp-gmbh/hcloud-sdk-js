@@ -18,6 +18,9 @@ importers:
         specifier: ^1.30.3
         version: 1.30.3
     devDependencies:
+      '@amanda-mitchell/semantic-release-npm-multiple':
+        specifier: ^3.17.0
+        version: 3.17.0(semantic-release@25.0.5(typescript@5.8.3))
       '@commitlint/cli':
         specifier: ^19.8.1
         version: 19.8.1(@types/node@22.15.19)(typescript@5.8.3)
@@ -95,6 +98,11 @@ packages:
 
   '@actions/io@3.0.2':
     resolution: {integrity: sha512-nRBchcMM+QK1pdjO7/idu86rbJI5YHUKCvKs0KxnSYbVe3F51UfGxuZX4Qy/fWlp6l7gWFwIkrOzN+oUK03kfw==}
+
+  '@amanda-mitchell/semantic-release-npm-multiple@3.17.0':
+    resolution: {integrity: sha512-mVgs2bI9Kf//TVp6yTFGOPXWBC6q5/07eShYaxINOkJkaLDnRF53z9TwO5FaoRNyl2snlBx9kmYYGeU7ggqwyw==}
+    peerDependencies:
+      semantic-release: ^19.x
 
   '@babel/code-frame@7.27.1':
     resolution: {integrity: sha512-cjQ7ZlQ0Mv3b47hABuTevyTuYN4i+loJKGeV9flcCgIK37cCXRh+L1bd3iBHlynerhQ7BhCkn2BPbQUL+rGqFg==}
@@ -2813,6 +2821,11 @@ snapshots:
       undici: 6.26.0
 
   '@actions/io@3.0.2': {}
+
+  '@amanda-mitchell/semantic-release-npm-multiple@3.17.0(semantic-release@25.0.5(typescript@5.8.3))':
+    dependencies:
+      '@semantic-release/npm': 13.1.5(semantic-release@25.0.5(typescript@5.8.3))
+      semantic-release: 25.0.5(typescript@5.8.3)
 
   '@babel/code-frame@7.27.1':
     dependencies:

@@ -1,3 +1,4 @@
+import { StorageConfiguration } from "../../global/Storage";
 import { ReducedUser, ShareReducedUnlinkedUser, User } from "../../idp";
 import { ItemType } from "../asset";
 
@@ -34,7 +35,7 @@ export interface Share {
     createDate: number;
     items?: (
         | { _id: string; name: string; type: ItemType.FOLDER }
-        | { _id: string; name: string; type: ItemType.MEDIA_ASSET; thumbnailUrl: string }
+        | { _id: string; name: string; type: ItemType.MEDIA_ASSET; thumbnailUrl: string; storage: StorageConfiguration }
     )[];
     permissions?: string[];
     permissionGroups?: ShareAssetPermissionGroup[];

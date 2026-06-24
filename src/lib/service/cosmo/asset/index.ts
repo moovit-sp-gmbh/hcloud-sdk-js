@@ -14,6 +14,7 @@ import {
     Upload,
     VTTThumbnail,
 } from "../../../interfaces/cosmo/asset";
+import { StorageConfiguration } from "../../../interfaces/global/Storage";
 
 /**
  * @class Asset
@@ -44,12 +45,12 @@ export class CosmoAsset extends Base {
         spaceName: string,
         createAsset: CreateAsset,
         raw?: { raw: R }
-    ): Promise<MaybeRaw<R, Asset & { upload: Upload }>> {
-        const resp = await this.axios.post<Asset & { upload: Upload }>(
+    ): Promise<MaybeRaw<R, Asset & { upload: Upload; storage: StorageConfiguration }>> {
+        const resp = await this.axios.post<Asset & { upload: Upload; storage: StorageConfiguration }>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets`),
             createAsset
         );
-        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Asset & { upload: Upload }>;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Asset & { upload: Upload; storage: StorageConfiguration }>;
     }
 
     /**
@@ -142,14 +143,17 @@ export class CosmoAsset extends Base {
         namespace?: string | string[],
         includePermissions = false,
         raw?: { raw: R }
-    ): Promise<MaybeRaw<R, Asset>> {
-        const resp = await this.axios.get<Asset>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets/${assetId}`), {
-            params: {
-                namespace,
-                permissions: includePermissions ? "true" : "false",
-            },
-        });
-        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Asset>;
+    ): Promise<MaybeRaw<R, Asset & { storage: StorageConfiguration }>> {
+        const resp = await this.axios.get<Asset & { storage: StorageConfiguration }>(
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets/${assetId}`),
+            {
+                params: {
+                    namespace,
+                    permissions: includePermissions ? "true" : "false",
+                },
+            }
+        );
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Asset & { storage: StorageConfiguration }>;
     }
 
     /**

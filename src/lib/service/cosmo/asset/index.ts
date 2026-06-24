@@ -79,7 +79,7 @@ export class CosmoAsset extends Base {
         page = page ?? 0;
 
         const resp = await this.axios.post<Asset[]>(
-            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets/browse`),
+            this.getEndpoint(`/v1/org/${orgName}/assets/browse`),
             {
                 filters: assetFilter ?? [],
                 ...(sorting ? { sorting } : {}),

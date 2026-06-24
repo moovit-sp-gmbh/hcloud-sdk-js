@@ -44,3 +44,5 @@ export type StorageDto = Storage & {
     signedUrl?: string;
     testBucketName?: string;
 };
+
+export type ReducedStorage = Pick<Storage, "_id" | "name" | "isDefault">;

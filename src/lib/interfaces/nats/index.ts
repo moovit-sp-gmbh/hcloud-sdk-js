@@ -68,6 +68,9 @@ enum NatsSubject {
     COSMO_METADATA = "hcloud.cosmo.organization.${base64orgName}.spaces.${base64spaceName}.namespaces.${base64namespaceName}.metadata",
 
     MOTHERSHIP_AGENT_CONNECTION = "hcloud.mothership.organization.${base64orgName}.agent.connection",
+    MOTHERSHIP_CLIENT_PING = "hcloud.mothership.organization.${base64orgName}.agent.${agentUuid}.ping",
+    AGENT_DISCONNECT = "hcloud.agent.disconnect",
+
     AUDITOR_LOGS = "hcloud.auditor.organization.${base64orgName}.logs",
 
     DEBUG_NAMESPACE = "hcloud.debug.namespace.${product}",
@@ -96,6 +99,7 @@ type NatsSubjectReplacements = {
     executionSecret?: string;
     databaseName?: string;
     assetId?: string;
+    agentUuid?: string;
 };
 
 enum NatsMessageType {
@@ -180,6 +184,7 @@ interface NatsObject
         NatsAssetObject,
         NatsIdNoUnderscoreObject,
         NatsTargetObject,
+        NatsAgentConnectionObject,
         NatsCosmoStatusObject {
     [NatsSubject.IDP_USER_GENERAL]: NatsIdObject;
     [NatsSubject.IDP_USER_PROFILE]: NatsIdObject;
@@ -223,6 +228,8 @@ interface NatsObject
     [NatsSubject.COSMO_STATUS]: NatsCosmoStatusObject;
     [NatsSubject.COSMO_METADATA]: NatsCosmoReferenceObject;
     [NatsSubject.MOTHERSHIP_AGENT_CONNECTION]: NatsTargetObject;
+    [NatsSubject.MOTHERSHIP_CLIENT_PING]: Record<string, never>;
+    [NatsSubject.AGENT_DISCONNECT]: NatsAgentConnectionObject;
     [NatsSubject.AUDITOR_LOGS]: NatsIdObject;
     [NatsSubject.DEBUG_NAMESPACE]: string;
 }
@@ -279,6 +286,11 @@ interface NatsPoolObject extends NatsIdObject {
 interface NatsTargetObject {
     target: string;
 }
+
+interface NatsAgentConnectionObject extends NatsTargetObject {
+    orgName: string;
+}
+
 interface NatsCosmoReferenceObject {
     refId: string;
 }
@@ -541,6 +553,13 @@ class NatsSubjects {
         static CONNECTION = (organizationName: string) => {
             return NatsSubjects.replace(NatsSubject.MOTHERSHIP_AGENT_CONNECTION, { organizationName });
         };
+        static AGENT_PING = (organizationName: string, agentUuid: string) => {
+            return NatsSubjects.replace(NatsSubject.MOTHERSHIP_CLIENT_PING, { organizationName, agentUuid });
+        };
+    };
+
+    static Agent = class {
+        static DISCONNECT = NatsSubject.AGENT_DISCONNECT;
     };
 
     static Auditor = class {
@@ -646,6 +665,7 @@ class NatsSubjects {
             replacements.databaseName ? (replacements.databaseName === "*" ? "*" : base64Encode(replacements.databaseName)) : "null"
         );
         subject = subject.replace("${assetId}", replacements.assetId || "null");
+        subject = subject.replace("${agentUuid}", replacements.agentUuid || "null");
 
         return subject;
     };

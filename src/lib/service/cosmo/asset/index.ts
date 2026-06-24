@@ -542,13 +542,19 @@ export class CosmoAsset extends Base {
         orgName: string,
         spaceName: string,
         assetId: string,
+        search?: string,
         limit?: number,
         page?: number,
         raw?: { raw: R }
     ): Promise<MaybeRaw<R, Mentionable[]>> {
-        const resp = await this.axios.get<Mentionable[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets/${assetId}/users`), {
-            params: { limit, page },
-        });
+        const resp = await this.axios.get<Mentionable[]>(
+            this.getEndpoint(
+                `/v1/org/${orgName}/spaces/${spaceName}/assets/${assetId}/users${search?.length ? `?search=${encodeURIComponent(search)}` : ""}`
+            ),
+            {
+                params: { limit, page },
+            }
+        );
 
         return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Mentionable[]>;
     }

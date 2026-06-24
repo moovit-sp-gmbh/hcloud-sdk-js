@@ -21,6 +21,16 @@ export interface High5ExecutionRequest {
     target: string;
     dry?: boolean;
     parentExecutionSecret?: string;
+    queued?: boolean;
+    blocking?: boolean;
+    priority?: number;
+    retryCount?: number;
+    startTime?: number;
+}
+
+export interface High5QueuePollRequest {
+    blocking: boolean;
+    limit?: number;
 }
 
 export interface High5ExecuteAgentResponse {

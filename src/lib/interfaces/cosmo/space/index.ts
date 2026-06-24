@@ -1,3 +1,4 @@
+import { ReducedStorage } from "../../global/Storage";
 import { ReducedTeam, ReducedUser } from "../../idp";
 import { ItemType } from "../asset";
 
@@ -14,6 +15,7 @@ export interface CosmoSpace {
     high5_executionTarget?: string;
     permissions?: string[];
     storageUsed: number;
+    storage: ReducedStorage;
 }
 
 export interface High5SpaceInfo {

@@ -1,5 +1,6 @@
 import Base, { MaybeRaw } from "../../../Base";
 import { Comment, CommentSortDirection, CommentSortField, CreateComment, EditComment, Reply } from "../../../interfaces/cosmo/comment";
+import { SearchFilter, Sorting } from "../../../interfaces/global";
 
 /**
  * @class Comment
@@ -98,6 +99,53 @@ export class CosmoComment extends Base {
         }
 
         return (raw?.raw ? resp : resp.data) as any;
+    }
+
+    /**
+     * Search Comments referring to a specific entity, applying filters and sorting.
+     * @remarks
+     * ** Under development, breaking changes possible**
+     *
+     * The total number of matching Comments (independent of `limit` and `page`) is returned in the `total`
+     * response header. Pass `{ raw: true }` to access it via `resp.headers["total"]` for pagination.
+     * @param orgName Name of the Organization
+     * @param spaceName Name of the Space
+     * @param namespaceName Name of the Namespace
+     * @param refId ID of the entity the Comments refer to
+     * @param search Search criteria including optional sorting and filters
+     * @param limit Maximum number of Comments to return (1-100; defaults to 25)
+     * @param page Page number to skip the first (page * limit) results (defaults to 0)
+     * @param annotation Whether to include annotations in the response
+     * @returns The page of matching Comments
+     */
+    async searchComments<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        namespaceName: string,
+        refId: string,
+        search: { sorting?: Sorting; filters?: SearchFilter[] },
+        limit?: number,
+        page?: number,
+        annotation: boolean = false,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Comment[]>> {
+        limit = limit ?? 25;
+        page = page ?? 0;
+
+        const resp = await this.axios.post<Comment[]>(
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/namespaces/${namespaceName}/comments/search`),
+            search,
+            {
+                params: {
+                    refId,
+                    limit,
+                    page,
+                    annotation,
+                },
+            }
+        );
+
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Comment[]>;
     }
 
     /**

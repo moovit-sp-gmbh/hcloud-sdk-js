@@ -156,7 +156,10 @@ const entityCollection: Record<Entity, Details> = {
         maxLength: 32,
     },
     [Entity.USER_ORGANIZATION_NAME]: {
-        pattern: /^[\w-+@.]{3,255}$/i,
+        // Allows Unicode letters (incl. ß, é, …) so email-style values like staßburg@test.de are accepted, plus combining marks, numbers, underscores, plus, at, dots, and hyphens
+        pattern: /^[\p{L}\p{M}0-9_+@.-]{3,255}$/u,
+        // Set explicitly because the auto-derivation in sanitize() rebuilds the char class without the /u flag, which breaks the \p{…} Unicode property escapes
+        symbols: /[\p{L}\p{M}0-9_+@.-]/u,
         minLength: 3,
         maxLength: 255,
     },

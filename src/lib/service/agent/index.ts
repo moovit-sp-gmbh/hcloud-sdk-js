@@ -1,6 +1,7 @@
 import Base from "../../Base";
 import { AgentBundle } from "./bundle";
 import { DevBundle } from "./bundle/dev";
+import { AgentCache } from "./cache";
 import { AgentContext } from "./context";
 import { AgentInstaller } from "./installer";
 import { AgentLogging } from "./logging";
@@ -54,6 +55,14 @@ export default class Agent extends Base {
         return this._module;
     }
     private _module?: AgentModule;
+
+    public get cache(): AgentCache {
+        if (this._cache === undefined) {
+            this._cache = new AgentCache(this.options, this.axios);
+        }
+        return this._cache;
+    }
+    private _cache?: AgentCache;
 
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/agent${endpoint}`;

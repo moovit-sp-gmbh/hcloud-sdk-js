@@ -2,7 +2,7 @@ import Base, { MaybeRaw } from "../../../../Base";
 import { createPaginatedResponse } from "../../../../helper/paginatedResponseHelper";
 import { SearchFilterDTO } from "../../../../helper/searchFilter";
 import { PaginatedResponse, SearchFilter, SearchParams } from "../../../../interfaces/global";
-import { Message, RecipientType } from "../../../../interfaces/idp/user/Message";
+import { Message, MessageLevel, MessageSource, MessageType, RecipientType } from "../../../../interfaces/idp/user/Message";
 
 export class IdpMessage extends Base {
     /**
@@ -58,6 +58,36 @@ export class IdpMessage extends Base {
     }
 
     /**
+     * Bulk-update the read status of multiple messages by ID.
+     *
+     * @param ids IDs of the messages to update
+     * @param read Read status to apply to all specified messages
+     * @returns The number of messages that were modified
+     */
+    async bulkReadMessages<R extends boolean = false>(
+        ids: string[],
+        read: boolean,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, { modifiedCount: number }>> {
+        const resp = await this.axios.patch<{ modifiedCount: number }>(this.getEndpoint(`/v1/messages/bulk-read`), { ids, read });
+
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, { modifiedCount: number }>;
+    }
+
+    /**
+     * Set the soft-delete state of a received message.
+     *
+     * @param messageId ID of the Message object
+     * @param deleted Whether the message should be soft-deleted (true) or restored (false)
+     * @returns the updated Message object
+     */
+    async softDeleteMessage<R extends boolean = false>(messageId: string, deleted: boolean, raw?: { raw: R }): Promise<MaybeRaw<R, Message>> {
+        const resp = await this.axios.patch<Message>(this.getEndpoint(`/v1/messages/${messageId}/deleted`), { deleted });
+
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Message>;
+    }
+
+    /**
      * Deletes a message of the requesting User.
      * @param messageId Id of the Message
      */
@@ -75,9 +105,11 @@ export class IdpMessage extends Base {
      *   - to - should be email, orgName or teamName
      *   - recipient - enum type USER, ORGANIZATION or TEAM (by default is USER)
      *   - orgName - should be only specified if recipient===TEAM
-     *   - title - title of the message (max 255 characters)
-     *   - subject - subject of the message (max 255 characters)
-     *   - message - content of the message (max 5000 characters)
+     *   - source - the system or service that originated this message
+     *   - type - the specific type of message, scoped to its source
+     *   - properties - payload specific to the message source and type
+     *   - level - severity level of the message (defaults to "info")
+     *   - group - optional UUID to group related messages
      * @returns the Message object
      */
     async sendMessage<R extends boolean = false>(
@@ -85,10 +117,11 @@ export class IdpMessage extends Base {
             to: string;
             recipient?: RecipientType;
             orgName?: string;
-            title?: string;
-            subject?: string;
-            message: string;
-            link?: string;
+            source: MessageSource;
+            type: MessageType;
+            properties: Record<string, unknown>;
+            level?: MessageLevel;
+            group?: string;
         },
         raw?: { raw: R }
     ): Promise<MaybeRaw<R, Message>> {

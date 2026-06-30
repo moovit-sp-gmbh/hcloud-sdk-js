@@ -7,5 +7,4 @@ export interface CapturedRequest {
     body: any;
     spaceId: string;
     organizationId: string;
-    creatorId: string;
 }

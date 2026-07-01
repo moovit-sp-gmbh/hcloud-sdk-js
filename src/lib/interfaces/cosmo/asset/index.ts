@@ -41,6 +41,7 @@ export type MediaAsset = {
     namespaces?: Record<string, { status: string; statusAuthor?: ReducedUser; canWriteStatus?: boolean; tag?: Tag; metadata?: NamespaceMetadata }>;
     queuePosition?: number;
     queueTotal?: number;
+    stack: { version: number; stack: { _id: string; name: string; creator: ReducedUser; thumbnail?: { url: string } } };
 };
 
 export type Production = {
@@ -57,9 +58,9 @@ export type AssetReference = {
     reference: { status: string };
 };
 
-export type Stack = Omit<MediaAsset, "type"> & {
+export type Stack = Omit<MediaAsset, "type" | "stack"> & {
     type: ItemType.STACK;
-    stack: { version: number; assetId: string }[];
+    stack: { version: number; asset: { _id: string; name: string; creator: ReducedUser; thumbnail?: { url: string } } }[];
 };
 
 export enum AssetType {

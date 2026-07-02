@@ -66,6 +66,8 @@ export interface High5ExecutionPackage {
     info: StreamInfo;
     debug: boolean;
     executionId: string;
+    streamName: string;
+    eventName: string;
 }
 
 type StreamInfo = {

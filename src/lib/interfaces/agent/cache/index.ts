@@ -2,6 +2,8 @@ export interface StreamCacheMetadata {
     streamId: string;
     orgName: string;
     spaceName: string;
+    eventName: string;
+    streamName: string;
     hash: string;
     hits: number;
     createdAt: number;

@@ -45,10 +45,15 @@ export class CosmoSpace extends Base {
      * @param page Page number for pagination
      * @returns A list of Spaces in the Organization
      */
-    async listSpaces<R extends boolean = false>(orgName: string, limit: number, page: number, raw?: { raw: R }): Promise<MaybeRaw<R, ICosmoSpace[]>> {
+    async listSpaces<R extends boolean = false>(
+        orgName: string,
+        limit: number,
+        page: number,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, (ICosmoSpace & { hasMediaAssets: boolean })[]>> {
         const resp = await this.axios.get<ICosmoSpace[]>(this.getEndpoint(`/v1/org/${orgName}/spaces?limit=${limit}&page=${page}`));
 
-        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, ICosmoSpace[]>;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, (ICosmoSpace & { hasMediaAssets: boolean })[]>;
     }
 
     /**

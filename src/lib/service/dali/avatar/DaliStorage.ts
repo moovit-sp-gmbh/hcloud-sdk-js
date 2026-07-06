@@ -32,7 +32,12 @@ export class DaliStorage extends Base {
      * @param file Image as Javascript File
      * @returns Public URL of the new avatar
      */
-    async updateAvatar<R extends boolean = false>(orgName: string, storageName: string, file: File, raw?: { raw: R }): Promise<MaybeRaw<R, StorageDto>> {
+    async updateAvatar<R extends boolean = false>(
+        orgName: string,
+        storageName: string,
+        file: File,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, StorageDto>> {
         const data = new FormData();
         data.append("avatar", file);
 

@@ -102,6 +102,29 @@ export class IdpOrganizationStorages extends Base {
         return (raw?.raw ? resp : resp.data) as MaybeRaw<R, StorageConfiguration>;
     }
 
+    /**
+     * Updates the avatar of the specified storage
+     * @param orgName Name of the organization
+     * @param storageId ID of the storage
+     * @param file Image as Javascript File
+     * @returns Storage with updated avatarUrl
+     */
+    async updateAvatar<R extends boolean = false>(
+        orgName: string,
+        storageId: string,
+        file: File,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, StorageDto>> {
+        const data = new FormData();
+        data.append("avatar", file);
+
+        const resp = await this.axios.patch<StorageDto>(this.getEndpoint(`/${orgName}/storage/${storageId}/avatar`), data, {
+            headers: { "Content-Type": "multipart/form-data" },
+        });
+
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, StorageDto>;
+    }
+
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/account/v1/org${endpoint}`;
     }

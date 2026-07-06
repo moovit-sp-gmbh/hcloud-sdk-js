@@ -59,6 +59,7 @@ export enum EmailStatus {
     BLOCKED = "BLOCKED",
     NOT_SENT = "NOT_SENT",
     SPAM = "SPAM",
+    PENDING = "PENDING",
     UNKNOWN = "UNKNOWN",
 }
 

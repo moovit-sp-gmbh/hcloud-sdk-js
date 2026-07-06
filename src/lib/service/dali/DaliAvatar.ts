@@ -5,6 +5,7 @@ import { DaliHigh5Space } from "./avatar/DaliHigh5Space";
 import { DaliOAuthApp } from "./avatar/DaliOAuthApp";
 import { DaliOrganization } from "./avatar/DaliOrganization";
 import { DaliServiceAccount } from "./avatar/DaliServiceAccount";
+import { DaliStorage } from "./avatar/DaliStorage";
 import { DaliTeam } from "./avatar/DaliTeam";
 import { DaliUser } from "./avatar/DaliUser";
 
@@ -96,6 +97,17 @@ export class DaliAvatar extends Base {
         return this._oauth;
     }
     private _oauth?: DaliOAuthApp;
+
+    /**
+     * Handles everything around storage avatars
+     */
+    public get storage(): DaliStorage {
+        if (this._storage === undefined) {
+            this._storage = new DaliStorage(this.options, this.axios);
+        }
+        return this._storage;
+    }
+    private _storage?: DaliStorage;
 
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/dali${endpoint}`;

@@ -112,21 +112,35 @@ export class CosmoComment extends Base {
      * @param spaceName Name of the Space
      * @param namespaceName Name of the Namespace
      * @param refId ID of the entity the Comments refer to
-     * @param search Search criteria including optional sorting and filters
+     * @param filters Filter criteria for the Comments
+     * @param sorting Sorting criteria for the results
      * @param limit Maximum number of Comments to return (1-100; defaults to 25)
      * @param page Page number to skip the first (page * limit) results (defaults to 0)
      * @param annotation Whether to include annotations in the response
      * @returns The page of matching Comments
      */
     async searchComments<R extends boolean = false>(
-        orgName: string,
-        spaceName: string,
-        namespaceName: string,
-        refId: string,
-        search: { sorting?: Sorting; filters?: SearchFilter[] },
-        limit?: number,
-        page?: number,
-        annotation: boolean = false,
+        {
+            orgName,
+            spaceName,
+            namespaceName,
+            refId,
+            filters,
+            sorting,
+            limit,
+            page,
+            annotation = false,
+        }: {
+            orgName: string;
+            spaceName: string;
+            namespaceName: string;
+            refId: string;
+            filters?: SearchFilter[];
+            sorting?: Sorting;
+            limit?: number;
+            page?: number;
+            annotation?: boolean;
+        },
         raw?: { raw: R }
     ): Promise<MaybeRaw<R, Comment[]>> {
         limit = limit ?? 25;
@@ -134,7 +148,10 @@ export class CosmoComment extends Base {
 
         const resp = await this.axios.post<Comment[]>(
             this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/namespaces/${namespaceName}/comments/search`),
-            search,
+            {
+                filters: filters ?? [],
+                ...(sorting ? { sorting } : {}),
+            },
             {
                 params: {
                     refId,

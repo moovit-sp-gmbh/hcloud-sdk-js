@@ -83,6 +83,17 @@ export enum CommentColor {
     WHITE = "WHITE",
 }
 
+export const CommentColorMap: Record<CommentColor, string> = {
+    [CommentColor.RED]: "#FD665D",
+    [CommentColor.ORANGE]: "#F1AC5C",
+    [CommentColor.YELLOW]: "#FFFD6D",
+    [CommentColor.GREEN]: "#3CC34A",
+    [CommentColor.BLUE]: "#2674DC",
+    [CommentColor.CYAN]: "#35D7D8",
+    [CommentColor.LAVENDER]: "#C69ADD",
+    [CommentColor.WHITE]: "#F3E8DD",
+};
+
 export interface Timestamp {
     in: number;
     out?: number;

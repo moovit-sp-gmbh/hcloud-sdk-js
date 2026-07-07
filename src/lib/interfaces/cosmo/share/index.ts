@@ -143,7 +143,10 @@ export enum ShareNamespacePermissionGroup {
     VIEW_ASSET_METADATA = "VIEW_ASSET_METADATA",
 }
 
+interface EmailsInCooldown {
+    email: string;
+    remainingCooldownInSeconds: number;
+}
 export interface EmailCooldown {
-    message: "Some emails were in cooldown and were not resent";
-    emailsInCooldown: string[];
+    emailsInCooldown: EmailsInCooldown[];
 }

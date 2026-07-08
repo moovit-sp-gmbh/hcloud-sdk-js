@@ -534,6 +534,24 @@ export class CosmoAsset extends Base {
     }
 
     /**
+     * Get a thumbnail of a video asset at a specific timecode.
+     *
+     * @param orgName Name of the Organization
+     * @param spaceName Name of the Space
+     * @param assetId ID of the video asset
+     * @param thumbnailTime Time in milliseconds to grab the thumbnail from
+     * @returns the thumbnail image as an ArrayBuffer (application/octet-stream)
+     */
+    async getThumbnailWithTimecode(orgName: string, spaceName: string, assetId: string, thumbnailTime: number): Promise<ArrayBuffer> {
+        const resp = await this.axios.post(
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets/${assetId}/thumbnail`),
+            { thumbnailTime },
+            { responseType: "arraybuffer" }
+        );
+        return resp.data as ArrayBuffer;
+    }
+
+    /**
      * Subscribe to notifications for a specific asset or all assets in a space.
      *
      * @param orgName Name of the Organization

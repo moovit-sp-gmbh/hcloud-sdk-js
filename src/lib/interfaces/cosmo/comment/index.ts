@@ -15,7 +15,7 @@ export interface CreateComment {
 }
 
 export interface EditComment {
-    text: string;
+    text?: string;
     timestamp?: Timestamp;
     color?: CommentColor;
     annotation?: string;

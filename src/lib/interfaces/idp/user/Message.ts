@@ -1,10 +1,10 @@
 import { ReducedUser } from ".";
 
 export enum MessageSource {
-    GLOBAL,
-    COSMO,
-    HIGH5,
-    IDP,
+    GLOBAL = "GLOBAL",
+    COSMO = "COSMO",
+    HIGH5 = "HIGH5",
+    IDP = "IDP",
 }
 
 export enum MessageType {

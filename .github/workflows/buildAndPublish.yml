@@ -12,8 +12,8 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [24.14.0]
-        pnpm-version: [11.7.0]
+        node-version: [24.18.0]
+        pnpm-version: [11]
 
     steps:
       - name: Checkout repository

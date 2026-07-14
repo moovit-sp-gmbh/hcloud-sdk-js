@@ -54,7 +54,7 @@ export class CosmoStack extends Base {
      * @param stackId ID of the Stack
      * @param assetIds Array of Asset IDs to detach
      * @param raw (optional) If true, returns the raw Axios response
-     * @returns The updated Stack
+     * @returns The updated Stack, or 204 No Content if the Stack is empty after detachment (disbanded)
      */
     async detachAssetsFromStack<R extends boolean = false>(
         organizationName: string,
@@ -62,12 +62,15 @@ export class CosmoStack extends Base {
         stackId: string,
         assetIds: string[],
         raw?: { raw: R }
-    ): Promise<MaybeRaw<R, Stack>> {
-        const resp = await this.axios.post<Stack>(this.getEndpoint(`/v1/org/${organizationName}/spaces/${spaceName}/stacks/${stackId}/assets/remove`), {
-            assetIds: assetIds,
-        });
+    ): Promise<MaybeRaw<R, Stack | undefined>> {
+        const resp = await this.axios.post<Stack>(
+            this.getEndpoint(`/v1/org/${organizationName}/spaces/${spaceName}/stacks/${stackId}/assets/remove`),
+            {
+                assetIds: assetIds,
+            }
+        );
 
-        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Stack>;
+        return (raw?.raw ? resp : resp.status === 200 ? resp.data : undefined) as MaybeRaw<R, Stack | undefined>;
     }
 
     /**

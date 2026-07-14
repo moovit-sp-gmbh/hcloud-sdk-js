@@ -94,12 +94,23 @@ export default class Idp extends Base {
      * @param token (optional) token if 2FA-TOTP is enabled
      * @returns SuccessfulAuth object holding the token and the user
      */
-    async login<R extends boolean = false>(email: string, password: string, token?: string, raw?: { raw: R }): Promise<MaybeRaw<R, SuccessfulAuth>> {
+    async login<R extends boolean = false>(
+        email: string,
+        password: string,
+        token?: string,
+        authorizationHeaderToken?: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, SuccessfulAuth>> {
         let body = { email: email, password: password };
         if (token) {
             body = { ...body, ...{ token: token } };
         }
-        const resp = await this.axios.post<User>(this.getEndpoint("/v1/login"), body);
+        if (authorizationHeaderToken && !authorizationHeaderToken.includes("Bearer ")) {
+            authorizationHeaderToken = `Bearer ${authorizationHeaderToken}`;
+        }
+        const resp = await this.axios.post<User>(this.getEndpoint("/v1/login"), body, {
+            headers: authorizationHeaderToken ? { authorization: authorizationHeaderToken } : undefined,
+        });
 
         const authed: SuccessfulAuth = {
             token: resp.headers["authorization"]?.toString() || "",

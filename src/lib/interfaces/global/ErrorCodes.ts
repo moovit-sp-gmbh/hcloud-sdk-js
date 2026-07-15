@@ -777,6 +777,11 @@ export const ErrorCodes = [
         message: "Given cronjob log not found"
     },
     {
+        code: "002.020.0004",
+        error: "cronjob.timestamp.in.past",
+        message: "The provided timestamp is in the past - a scheduled event must be created with a future timestamp"
+    },
+    {
         code: "002.023.0001",
         error: "search.invalid.filter",
         message: "The value of the filter property 'field' is invalid"

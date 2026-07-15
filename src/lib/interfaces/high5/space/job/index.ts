@@ -89,7 +89,9 @@ export interface Job {
 
 export type JobCreate = Pick<
     Job,
-    "name" | "expression" | "timezone" | "payload" | "enabled" | "description" | "target" | "lastStatus" | "lastTriggered" | "time"
+    "name" | "timezone" | "payload" | "enabled" | "description" | "target" | "lastStatus" | "lastTriggered" | "time"
 > & {
+    expression?: string;
+    timestamp?: string;
     targetEvent: string;
 };

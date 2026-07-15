@@ -99,9 +99,13 @@ export class High5Event extends Base {
         orgName: string,
         spaceName: string,
         eventName: string,
+        options?: { deleteLinkedJobs: boolean },
         raw?: { raw: R }
     ): Promise<MaybeRaw<R, void>> {
-        const resp = await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}`));
+        const deleteLinkedJobs = options?.deleteLinkedJobs ? true : false;
+        const resp = await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/events/${eventName}`), {
+            params: { deleteLinkedJobs },
+        });
         return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 

@@ -32,14 +32,18 @@ export class AgentInstaller extends Base {
         releases.sort((r1, r2) => r2.published_date - r1.published_date);
 
         const windowsInstaller = releases.find(r => r.os === "windows");
-        const macInstaller = releases.find(r => r.os === "darwin");
+        const macInstallerIntel = releases.find(r => r.arch === "x64" && r.os === "darwin");
+        const macInstallerArm = releases.find(r => r.arch === "arm64" && r.os === "darwin");
 
         const installers = [];
         if (windowsInstaller) {
             installers.push(windowsInstaller);
         }
-        if (macInstaller) {
-            installers.push(macInstaller);
+        if (macInstallerIntel) {
+            installers.push(macInstallerIntel);
+        }
+        if (macInstallerArm) {
+            installers.push(macInstallerArm);
         }
 
         return installers;

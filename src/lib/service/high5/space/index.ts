@@ -306,6 +306,26 @@ export class High5Space extends Base {
     }
 
     /**
+     * Updates the execution target used when this space executes its own internal events.
+     * @param orgName Name of the organization
+     * @param spaceName Name of the space
+     * @param eventExecutionTarget New execution target: a user email or a pool name
+     * @returns The updated space
+     */
+    async setEventExecutionTarget<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        eventExecutionTarget: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Space>> {
+        const resp = await this.axios.patch<Space>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/target`), {
+            eventExecutionTarget,
+        });
+
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Space>;
+    }
+
+    /**
      * Updates the avatar of the specified High5 space
      * @param orgName Name of the organization
      * @param spaceName Name of the space

@@ -637,7 +637,7 @@ export const ErrorCodes = [
         message: "Given stream not found"
     },
     {
-        code: "002.014.0003",
+        code: "002.014.0002",
         error: "stream.invalid.order",
         message: "The stream order provided is invalid. It should be sequential, incremental by 1, starting from 1 and not exceeding total events stream count."
     },
@@ -1070,6 +1070,11 @@ export const ErrorCodes = [
         code: "005.001.0004",
         error: "insufficient.rights",
         message: "You have not enough rights to access/manipulate this resource"
+    },
+    {
+        code: "005.014.0003",
+        error: "stream.cache.not.found",
+        message: "Stream cache entry not found"
     },
     {
         code: "005.023.0001",
@@ -1670,6 +1675,16 @@ export const ErrorCodes = [
         code: "009.055.0004",
         error: "storage.invalid",
         message: "Invalid storage configuration. Please run test in idp in order to validate. If still invalid, please recheck the storage configuration and/or contact your cloud storage administrator."
+    },
+    {
+        code: "009.057.0001",
+        error: "address-book.not.found",
+        message: "Address book not found"
+    },
+    {
+        code: "009.057.0002",
+        error: "address-book.name.in.use",
+        message: "An address book with this name already exists in the space"
     },
     {
         code: "010.000.0002",

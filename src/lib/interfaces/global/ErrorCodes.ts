@@ -1677,16 +1677,6 @@ export const ErrorCodes = [
         message: "Invalid storage configuration. Please run test in idp in order to validate. If still invalid, please recheck the storage configuration and/or contact your cloud storage administrator."
     },
     {
-        code: "009.057.0001",
-        error: "address-book.not.found",
-        message: "Address book not found"
-    },
-    {
-        code: "009.057.0002",
-        error: "address-book.name.in.use",
-        message: "An address book with this name already exists in the space"
-    },
-    {
         code: "010.000.0002",
         error: "internal.server.error",
         message: "Specific message describing the problem"

@@ -53,6 +53,9 @@ enum NatsSubject {
     HIGH5_JOBS = "hcloud.high5.organization.${base64orgName}.spaces.${base64spaceName}.jobs",
     HIGH5_JOB_LOGS = "hcloud.high5.organization.${base64orgName}.spaces.${base64spaceName}.jobs.${jobId}.logs",
     HIGH5_CAPTURED_REQUEST = "hcloud.high5.organization.${base64orgName}.spaces.${base64spaceName}.request.catch",
+    HIGH5_WATCH_FOLDERS = "hcloud.high5.organization.${base64orgName}.spaces.${base64spaceName}.watchfolders.>",
+    HIGH5_WATCH_FOLDER = "hcloud.high5.organization.${base64orgName}.spaces.${base64spaceName}.watchfolders.${base64watchFolderName}",
+    HIGH5_WATCHFOLDER_SCAN = "hcloud.high5.organization.${organizationId}.watchfolder.${watchFolderId}.scan",
 
     COSMO_SPACES = "hcloud.cosmo.organization.${base64orgName}.spaces",
     COSMO_NAMESPACES = "hcloud.cosmo.organization.${base64orgName}.spaces.${base64spaceName}.namespaces",
@@ -96,6 +99,8 @@ type NatsSubjectReplacements = {
     executionSecret?: string;
     databaseName?: string;
     assetId?: string;
+    watchFolderName?: string;
+    watchFolderId?: string;
 };
 
 enum NatsMessageType {
@@ -133,6 +138,8 @@ enum NatsObjectType {
     SECRET = "SECRET",
     CATALOG = "CATALOG",
     POOL = "POOL",
+    WATCH_FOLDER = "WATCH_FOLDER",
+    WATCH_FOLDER_SCAN = "WATCH_FOLDER_SCAN",
 
     AUDIT_LOG = "AUDIT_LOG",
     MAIL = "MAIL",
@@ -216,6 +223,9 @@ interface NatsObject
     [NatsSubject.HIGH5_JOBS]: NatsIdObject;
     [NatsSubject.HIGH5_JOB_LOGS]: NatsIdObject;
     [NatsSubject.HIGH5_CAPTURED_REQUEST]: CapturedRequest;
+    [NatsSubject.HIGH5_WATCH_FOLDERS]: NatsIdObject;
+    [NatsSubject.HIGH5_WATCH_FOLDER]: NatsWatchFolderObject;
+    [NatsSubject.HIGH5_WATCHFOLDER_SCAN]: NatsIdObject;
     [NatsSubject.COSMO_ASSETS]: NatsAssetObject[];
     [NatsSubject.COSMO_STACKS]: NatsAssetObject[];
     [NatsSubject.COSMO_SHARE]: NatsIdObject;
@@ -279,9 +289,16 @@ interface NatsPoolObject extends NatsIdObject {
 interface NatsTargetObject {
     target: string;
 }
+
+interface NatsWatchFolderObject extends NatsIdObject {
+    name: string;
+    target: string;
+}
+
 interface NatsCosmoReferenceObject {
     refId: string;
 }
+
 interface NatsCosmoStatusObject extends NatsCosmoReferenceObject {
     status: "approved" | "rejected" | "none";
 }
@@ -529,10 +546,23 @@ class NatsSubjects {
             static CAPTURED_REQUEST = (organizationName: string, spaceName: string) => {
                 return NatsSubjects.replace(NatsSubject.HIGH5_CAPTURED_REQUEST, { organizationName, spaceName });
             };
+            static WATCH_FOLDERS = (organizationName: string, spaceName: string) => {
+                return NatsSubjects.replace(NatsSubject.HIGH5_WATCH_FOLDERS, { organizationName, spaceName });
+            };
+            static WATCH_FOLDER = (organizationName: string, spaceName: string, watchFolderName: string) => {
+                return NatsSubjects.replace(NatsSubject.HIGH5_WATCH_FOLDER, { organizationName, spaceName, watchFolderName });
+            };
         };
+
         static WAVE = class {
             static ENGINE = class {
                 static LATEST = NatsSubject.HIGH5_WAVE_ENGINE_LATEST;
+            };
+        };
+
+        static WatchFolder = class {
+            static SCAN = (organizationId: string, watchFolderId: string) => {
+                return NatsSubjects.replace(NatsSubject.HIGH5_WATCHFOLDER_SCAN, { organizationId, watchFolderId });
             };
         };
     };
@@ -646,6 +676,11 @@ class NatsSubjects {
             replacements.databaseName ? (replacements.databaseName === "*" ? "*" : base64Encode(replacements.databaseName)) : "null"
         );
         subject = subject.replace("${assetId}", replacements.assetId || "null");
+        subject = subject.replace(
+            "${base64watchFolderName}",
+            replacements.watchFolderName ? (replacements.watchFolderName === "*" ? "*" : base64Encode(replacements.watchFolderName)) : "null"
+        );
+        subject = subject.replace("${watchFolderId}", replacements.watchFolderId || "null");
 
         return subject;
     };

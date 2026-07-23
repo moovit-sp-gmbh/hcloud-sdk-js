@@ -17,6 +17,7 @@ import High5Node from "./node";
 import High5Pool from "./pool";
 import High5Secret from "./secret";
 import { High5SpaceStat } from "./stat";
+import { High5WatchFolder } from "./watchfolder";
 import High5Wave from "./wave";
 import { High5Webhook } from "./webhook";
 
@@ -100,6 +101,14 @@ export class High5Space extends Base {
         return this._stat;
     }
     private _stat?: High5SpaceStat;
+
+    public get watchfolder(): High5WatchFolder {
+        if (this._watchfolder === undefined) {
+            this._watchfolder = new High5WatchFolder(this.options, this.axios);
+        }
+        return this._watchfolder;
+    }
+    private _watchfolder?: High5WatchFolder;
 
     /**
      * Retrieves all High5 Spaces of the specified Organization matching the search filter(s). Will return all Spaces if no search filter is provided.

@@ -5,6 +5,7 @@ export interface High5Space extends Space {
     highestPermissionOfUser: High5SpacePermission;
     waveEngine: string;
     enableDev?: boolean;
+    eventExecutionTarget?: string;
 }
 export interface High5SpaceEntityPermission {
     organization: ReducedOrganization;

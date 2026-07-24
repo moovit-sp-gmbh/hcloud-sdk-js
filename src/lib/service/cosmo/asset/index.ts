@@ -205,6 +205,30 @@ export class CosmoAsset extends Base {
     }
 
     /**
+     * Request download URLs for every asset inside a folder, recursively including nested subfolders (capped at 100).
+     * @remarks
+     * ** Under development, breaking changes possible**
+     * @param orgName Name of the Organization
+     * @param spaceName Name of the Space
+     * @param folderId ID of the Folder to collect assets from
+     * @param resolution The desired resolution for the download URLs
+     * @returns A map of Asset IDs to their download URLs
+     */
+    async requestFolderDownloadUrls<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        folderId: string,
+        resolution: Resolution,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Record<string, string>>> {
+        const resp = await this.axios.post<Record<string, string>>(
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets/folder/${folderId}/downloadUrls`),
+            { resolution: resolution }
+        );
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Record<string, string>>;
+    }
+
+    /**
      * Upload an asset.
      * @remarks
      * ** Under development, breaking changes possible**

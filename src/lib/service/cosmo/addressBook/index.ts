@@ -1,5 +1,13 @@
 import Base, { MaybeRaw } from "../../../Base";
-import { AddressBook, AddressBookCreate, AddressBookMemberRequest, AddressBookUpdate } from "../../../interfaces/cosmo/addressBook";
+import {
+    AddressBook,
+    AddressBookCreate,
+    AddressBookMemberAddRequest,
+    AddressBookMemberRemoveRequest,
+    AddressBookMembers,
+    AddressBookTeamRequest,
+    AddressBookUpdate,
+} from "../../../interfaces/cosmo/addressBook";
 import { SearchFilter, Sorting } from "../../../interfaces/global/SearchFilters";
 
 /**
@@ -126,23 +134,23 @@ export class CosmoAddressBook extends Base {
     }
 
     /**
-     * Add one or more members (by e-mail) to an Address Book.
+     * Add one or more members to an Address Book.
      * @remarks
      * **Under development, breaking changes possible**
      * @param orgName Name of the Organization
      * @param spaceName Name of the Space
      * @param bookId ID of the Address Book
-     * @param emails List of e-mail addresses to add (min 1)
+     * @param members Members to add (e-mail -> optional display name)
      * @returns The updated AddressBook
      */
     async addAddressBookMembers<R extends boolean = false>(
         orgName: string,
         spaceName: string,
         bookId: string,
-        emails: string[],
+        members: AddressBookMembers,
         raw?: { raw: R }
     ): Promise<MaybeRaw<R, AddressBook>> {
-        const payload: AddressBookMemberRequest = { emails };
+        const payload: AddressBookMemberAddRequest = { members };
         const resp = await this.axios.post<AddressBook>(this.getEndpoint(`${this.basePath(orgName, spaceName)}/${bookId}/members`), payload);
         return (raw?.raw ? resp : resp.data) as MaybeRaw<R, AddressBook>;
     }
@@ -164,8 +172,55 @@ export class CosmoAddressBook extends Base {
         emails: string[],
         raw?: { raw: R }
     ): Promise<MaybeRaw<R, AddressBook>> {
-        const payload: AddressBookMemberRequest = { emails };
+        const payload: AddressBookMemberRemoveRequest = { emails };
         const resp = await this.axios.delete<AddressBook>(this.getEndpoint(`${this.basePath(orgName, spaceName)}/${bookId}/members`), {
+            data: payload,
+        });
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, AddressBook>;
+    }
+
+    /**
+     * Add one or more internal team references to an Address Book. Team membership stays live: changes to a
+     * referenced team are reflected in the address book's recipients.
+     * @remarks
+     * **Under development, breaking changes possible**
+     * @param orgName Name of the Organization
+     * @param spaceName Name of the Space
+     * @param bookId ID of the Address Book
+     * @param teamIds List of internal team IDs to add (min 1)
+     * @returns The updated AddressBook
+     */
+    async addAddressBookTeams<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        bookId: string,
+        teamIds: string[],
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, AddressBook>> {
+        const payload: AddressBookTeamRequest = { teamIds };
+        const resp = await this.axios.post<AddressBook>(this.getEndpoint(`${this.basePath(orgName, spaceName)}/${bookId}/teams`), payload);
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, AddressBook>;
+    }
+
+    /**
+     * Remove one or more internal team references from an Address Book.
+     * @remarks
+     * **Under development, breaking changes possible**
+     * @param orgName Name of the Organization
+     * @param spaceName Name of the Space
+     * @param bookId ID of the Address Book
+     * @param teamIds List of internal team IDs to remove (min 1)
+     * @returns The updated AddressBook
+     */
+    async removeAddressBookTeams<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        bookId: string,
+        teamIds: string[],
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, AddressBook>> {
+        const payload: AddressBookTeamRequest = { teamIds };
+        const resp = await this.axios.delete<AddressBook>(this.getEndpoint(`${this.basePath(orgName, spaceName)}/${bookId}/teams`), {
             data: payload,
         });
         return (raw?.raw ? resp : resp.data) as MaybeRaw<R, AddressBook>;

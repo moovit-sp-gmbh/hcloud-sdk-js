@@ -1579,12 +1579,17 @@ export const ErrorCodes = [
     {
         code: "009.045.0008",
         error: "share.not.available",
-        message: "Share not avaiable yet"
+        message: "Share not available yet"
     },
     {
         code: "009.045.0009",
         error: "share.inactive",
         message: "Share is inactive"
+    },
+    {
+        code: "009.045.0010",
+        error: "share.link.invalid",
+        message: "Share link is no longer valid because the space was renamed"
     },
     {
         code: "009.047.0001",
@@ -1675,6 +1680,16 @@ export const ErrorCodes = [
         code: "009.055.0004",
         error: "storage.invalid",
         message: "Invalid storage configuration. Please run test in idp in order to validate. If still invalid, please recheck the storage configuration and/or contact your cloud storage administrator."
+    },
+    {
+        code: "009.057.0001",
+        error: "address-book.not.found",
+        message: "Address book not found"
+    },
+    {
+        code: "009.057.0002",
+        error: "address-book.name.in.use",
+        message: "An address book with this name already exists in the space"
     },
     {
         code: "010.000.0002",

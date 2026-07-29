@@ -83,6 +83,8 @@ class Nats extends Base {
             });
         }
 
+        this.natsConnection.reconnect();
+
         return this.natsConnection;
     }
 
@@ -184,6 +186,15 @@ class Nats extends Base {
 
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/ws/nats${endpoint}`;
+    }
+
+    /**
+     * Gracefully reconnect the NATS connection (experimental).
+     */
+    public async reconnect(): Promise<void> {
+        if (this.natsConnection && !this.natsConnection.isClosed()) {
+            await this.natsConnection.reconnect();
+        }
     }
 
     /**

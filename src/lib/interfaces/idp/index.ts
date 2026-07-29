@@ -9,6 +9,7 @@ export * from "./organization/settings/oauthApp";
 export * from "./organization/team";
 export * from "./user";
 export * from "./user/GeneralSettings";
+export * from "./user/Passkey";
 export * from "./user/Pat";
 export * from "./user/Scopes";
 export * from "./user/SuccessfulAuth";

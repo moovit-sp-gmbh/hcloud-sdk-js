@@ -7,6 +7,7 @@ import { IdpGuest } from "./guest";
 import { IdpInternal } from "./internal";
 import { IdpOAuth } from "./oauth";
 import { IdpOrganization } from "./organization";
+import { IdpPasskey } from "./passkey";
 import { IdpRegistration } from "./registration";
 import { IdpUser } from "./user";
 
@@ -32,6 +33,17 @@ export default class Idp extends Base {
         return this._registration;
     }
     private _registration?: IdpRegistration;
+
+    /**
+     * Handles everything around passkey (WebAuthn) registration and login
+     */
+    public get passkey(): IdpPasskey {
+        if (this._passkey === undefined) {
+            this._passkey = new IdpPasskey(this.options, this.axios);
+        }
+        return this._passkey;
+    }
+    private _passkey?: IdpPasskey;
 
     /**
      * Handles everything around open authorization and openId requests

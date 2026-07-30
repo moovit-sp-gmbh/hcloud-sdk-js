@@ -15,8 +15,8 @@ export class IdpInternal extends Base {
 
         return (
             raw?.raw
-                ? { ...resp, data: { user: resp.data, pat: resp.headers["x-pat-token"] ?? "" } }
-                : { user: resp.data, pat: resp.headers["x-pat-token"] ?? "" }
+                ? { ...resp, data: { user: resp.data, pat: resp.headers["Authorization"] ?? "" } }
+                : { user: resp.data, pat: resp.headers["Authorization"] ?? "" }
         ) as MaybeRaw<R, { user: User; pat: string }>;
     }
 

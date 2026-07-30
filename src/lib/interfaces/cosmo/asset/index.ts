@@ -209,6 +209,31 @@ export interface AssetFilter {
     comparator: (typeof searchParams)[this["key"]]["comparators"][number];
 }
 
+export enum AssetBulkDeleteMode {
+    TRASHBIN = "TRASHBIN",
+    PERMANENT = "PERMANENT",
+}
+
+export interface AssetBulkDeleteByFilterDto {
+    /**
+     * Filters to select the assets to delete. Reuses the asset search filter type.
+     * Must contain at least one filter. All filters must match (AND). To match one
+     * of several values for the same field, pass an array as that filter's value.
+     */
+    filters: [AssetFilter, ...AssetFilter[]];
+    /**
+     * TRASHBIN (default) moves matching assets to the space's trash bin,
+     * PERMANENT deletes them non-recoverably.
+     */
+    mode?: AssetBulkDeleteMode;
+}
+
+export interface AssetBulkDeleteResultDto {
+    mode: AssetBulkDeleteMode;
+    count: number;
+    assetIds: string[];
+}
+
 export enum AssetSearchContext {
     ORGANIZATION = "ORGANIZATION",
     TRASH = "TRASH",

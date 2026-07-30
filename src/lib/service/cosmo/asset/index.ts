@@ -4,6 +4,8 @@ import { AuditLog } from "../../../interfaces/auditor";
 import { disableCacheHeaders } from "../../../interfaces/axios";
 import {
     Asset,
+    AssetBulkDeleteByFilterDto,
+    AssetBulkDeleteResultDto,
     AssetPermission,
     AudioWaveformItem,
     CreateAsset,
@@ -178,6 +180,37 @@ export class CosmoAsset extends Base {
             params: { force },
         });
         return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
+    }
+
+    /**
+     * Bulk-delete assets matching a filter.
+     * @remarks
+     * ** Under development, breaking changes possible**
+     *
+     * All filters must match for an asset to be deleted (AND combination). Folders are never deleted,
+     * assets already in the trash bin are ignored, and stacks are deleted as a whole (all versions).
+     * A filter matching no assets is not an error: it returns count 0 and an empty assetIds array.
+     * @param orgName Name of the Organization
+     * @param spaceName Name of the Space
+     * @param body Filters selecting the assets to delete and the delete mode (defaults to TRASHBIN)
+     * @param namespace Optional Namespaces to scope the filter to
+     * @returns The applied mode, the number of deleted assets and their IDs
+     */
+    async bulkDeleteAssetsByFilter<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        body: AssetBulkDeleteByFilterDto,
+        namespace?: string | string[],
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, AssetBulkDeleteResultDto>> {
+        const resp = await this.axios.delete<AssetBulkDeleteResultDto>(
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets/bulk-delete`),
+            {
+                data: body,
+                params: { namespace },
+            }
+        );
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, AssetBulkDeleteResultDto>;
     }
 
     /**

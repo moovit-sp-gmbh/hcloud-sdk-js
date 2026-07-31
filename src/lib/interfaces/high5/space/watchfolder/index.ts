@@ -3,7 +3,7 @@ import { ReducedOrganization, ReducedUser } from "../../../idp";
 
 export enum WatchFolderResourceType {
     S3 = "S3",
-    SMB = "SMB",
+    LOCAL = "LOCAL",
 }
 
 interface S3WatchFolderCredentials {
@@ -15,11 +15,11 @@ interface S3WatchFolderCredentials {
     bucket: string;
 }
 
-interface SmbWatchFolderCredentials {
-    resourceType: WatchFolderResourceType.SMB;
+interface LocalWatchFolderCredentials {
+    resourceType: WatchFolderResourceType.LOCAL;
 }
 
-export type WatchFolderCredentials = S3WatchFolderCredentials | SmbWatchFolderCredentials;
+export type WatchFolderCredentials = S3WatchFolderCredentials | LocalWatchFolderCredentials;
 
 export interface WatchFolder {
     _id: string;
@@ -32,7 +32,7 @@ export interface WatchFolder {
     resourceType: WatchFolderResourceType;
     path: string;
     interval: number;
-    streamId: string;
+    eventName: string;
     credentials: WatchFolderCredentials;
 }
 
@@ -42,7 +42,7 @@ export interface CreateWatchFolder {
     resourceType: WatchFolderResourceType;
     path: string;
     interval: number;
-    streamId: string;
+    eventName: string;
     credentials: WatchFolderCredentials;
 }
 
@@ -52,16 +52,17 @@ export interface PatchWatchFolder {
     resourceType?: WatchFolderResourceType;
     path?: string;
     interval?: number;
-    streamId?: string;
+    eventName?: string;
     credentials?: WatchFolderCredentials;
 }
 
 export enum WatchFolderFileStatus {
-    NEW = "new",
-    GROWING = "growing",
-    STABLE = "stable",
-    PROCESSING = "processing",
-    PROCESSED = "processed",
+    NEW = "NEW",
+    GROWING = "GROWING",
+    STABLE = "STABLE",
+    PROCESSING = "PROCESSING",
+    PROCESSED = "PROCESSED",
+    MISSING = "MISSING",
 }
 
 export interface WatchFolderFile {
@@ -78,4 +79,14 @@ export interface WatchFolderFile {
 
 export interface WatchFolderScanReport {
     files: { path: string; size: number }[];
+}
+
+export interface WatchFolderScanConfig {
+    path: string;
+    credentials: WatchFolderCredentials;
+}
+
+export interface WatchFolderTarget {
+    _id: string;
+    organizationId: string;
 }

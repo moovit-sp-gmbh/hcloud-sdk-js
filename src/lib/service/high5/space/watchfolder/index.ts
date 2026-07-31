@@ -5,12 +5,25 @@ import {
     PatchWatchFolder,
     WatchFolder,
     WatchFolderFile,
+    WatchFolderScanConfig,
     WatchFolderScanReport,
+    WatchFolderTarget,
 } from "../../../../interfaces/high5/space/watchfolder";
 
 export class High5WatchFolder extends Base {
     constructor(options: Options, axios: AxiosInstance) {
         super(options, axios);
+    }
+
+    /**
+     * Retrieves all watch folders the current user is assigned to as target, directly or
+     * through a pool. Used mostly by idp to compute NATS permissions and by the agent
+     * @returns Array of minimal watch folder identities
+     */
+    async getWatchFolders<R extends boolean = false>(raw?: { raw: R }): Promise<MaybeRaw<R, WatchFolderTarget[]>> {
+        const resp = await this.axios.get<WatchFolderTarget[]>(this.getEndpoint("/v1/watchfolders"));
+
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, WatchFolderTarget[]>;
     }
 
     /**
@@ -90,21 +103,46 @@ export class High5WatchFolder extends Base {
     }
 
     /**
+     * Retrieves the scan configuration (including decrypted credentials) for the agent that
+     * received this watch folder's scan dispatch
+     * @param orgName Name of the organization
+     * @param spaceName Name of the space
+     * @param watchFolderId Database ID of the watch folder
+     * @param scanSecret One-time secret handed out with the scan's NATS dispatch
+     * @returns Scan configuration
+     */
+    async getWatchFolderScanConfig<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        watchFolderId: string,
+        scanSecret: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, WatchFolderScanConfig>> {
+        const resp = await this.axios.get<WatchFolderScanConfig>(
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/watchfolders/${watchFolderId}/scan/${scanSecret}`)
+        );
+
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, WatchFolderScanConfig>;
+    }
+
+    /**
      * Submits a scan report with the list of files discovered by the agent
      * @param orgName Name of the organization
      * @param spaceName Name of the space
      * @param watchFolderId Database ID of the watch folder
+     * @param scanSecret One-time secret handed out with the scan's NATS dispatch
      * @param report Scan report containing the list of discovered files
      */
     async submitScanReport<R extends boolean = false>(
         orgName: string,
         spaceName: string,
         watchFolderId: string,
+        scanSecret: string,
         report: WatchFolderScanReport,
         raw?: { raw: R }
     ): Promise<MaybeRaw<R, void>> {
         const resp = await this.axios.post<void>(
-            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/watchfolders/${watchFolderId}/scan`),
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/watchfolders/${watchFolderId}/scan/${scanSecret}`),
             report
         );
 

@@ -225,7 +225,7 @@ interface NatsObject
     [NatsSubject.HIGH5_CAPTURED_REQUEST]: CapturedRequest;
     [NatsSubject.HIGH5_WATCH_FOLDERS]: NatsIdObject;
     [NatsSubject.HIGH5_WATCH_FOLDER]: NatsWatchFolderObject;
-    [NatsSubject.HIGH5_WATCHFOLDER_SCAN]: NatsIdObject;
+    [NatsSubject.HIGH5_WATCHFOLDER_SCAN]: NatsWatchFolderScanObject;
     [NatsSubject.COSMO_ASSETS]: NatsAssetObject[];
     [NatsSubject.COSMO_STACKS]: NatsAssetObject[];
     [NatsSubject.COSMO_SHARE]: NatsIdObject;
@@ -293,6 +293,10 @@ interface NatsTargetObject {
 interface NatsWatchFolderObject extends NatsIdObject {
     name: string;
     target: string;
+}
+
+interface NatsWatchFolderScanObject extends NatsIdObject {
+    secret: string;
 }
 
 interface NatsCosmoReferenceObject {

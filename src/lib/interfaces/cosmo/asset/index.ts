@@ -25,6 +25,7 @@ export type Asset = BaseAsset & (MediaAsset | Stack | Production | Folder | Asse
 
 export type MediaAsset = {
     type: ItemType.MEDIA_ASSET;
+    commentCount: number;
     extension: string;
     assetType: AssetType;
     path: string;

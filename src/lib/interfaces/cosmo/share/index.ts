@@ -37,6 +37,7 @@ export interface Share {
     items?: (
         | { _id: string; name: string; type: ItemType.FOLDER }
         | { _id: string; name: string; type: ItemType.MEDIA_ASSET; thumbnailUrl: string; storage: StorageConfiguration }
+        | { _id: string; name: string; type: ItemType.STACK; thumbnailUrl: string; storage: StorageConfiguration }
     )[];
     permissions?: string[];
     permissionGroups?: ShareAssetPermissionGroup[];

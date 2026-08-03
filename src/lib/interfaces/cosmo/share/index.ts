@@ -1,4 +1,3 @@
-import { StorageConfiguration } from "../../global/Storage";
 import { ReducedUser, ShareReducedUnlinkedUser, User } from "../../idp";
 import { ItemType } from "../asset";
 

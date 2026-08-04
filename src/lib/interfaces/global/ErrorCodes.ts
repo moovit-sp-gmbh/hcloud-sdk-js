@@ -462,6 +462,21 @@ export const ErrorCodes = [
         message: "Cannot link oidc provider to an unverified domain."
     },
     {
+        code: "001.058.0001",
+        error: "passkey.challenge.expired",
+        message: "The passkey challenge is invalid, expired or has already been used"
+    },
+    {
+        code: "001.058.0002",
+        error: "passkey.not.found",
+        message: "The specified passkey does not exist"
+    },
+    {
+        code: "001.058.0003",
+        error: "passkey.verification.failed",
+        message: "Failed to verify the given passkey response"
+    },
+    {
         code: "002.000.0002",
         error: "internal.server.error",
         message: "Specific message describing the problem"

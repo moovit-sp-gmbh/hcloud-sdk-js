@@ -1087,6 +1087,16 @@ export const ErrorCodes = [
         message: "You have not enough rights to access/manipulate this resource"
     },
     {
+        code: "005.013.0001",
+        error: "wave.engine.not.cached",
+        message: "Wave Engine ::version:: was not found in cache"
+    },
+    {
+        code: "005.013.0002",
+        error: "wave.catalog.not.cached",
+        message: "Requested Wave Catalog with hash ::hash:: is missing from the cache"
+    },
+    {
         code: "005.014.0003",
         error: "stream.cache.not.found",
         message: "Stream cache entry not found"

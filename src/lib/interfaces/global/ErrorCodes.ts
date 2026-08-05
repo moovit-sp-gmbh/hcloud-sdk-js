@@ -1708,12 +1708,12 @@ export const ErrorCodes = [
     },
     {
         code: "009.057.0001",
-        error: "address-book.not.found",
+        error: "address.book.not.found",
         message: "Address book not found"
     },
     {
         code: "009.057.0002",
-        error: "address-book.name.in.use",
+        error: "address.book.name.in.use",
         message: "An address book with this name already exists in the space"
     },
     {

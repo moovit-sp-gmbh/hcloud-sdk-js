@@ -399,7 +399,7 @@ const entityCollection: Record<Entity, Details> = {
         maxLength: 64,
     },
     [Entity.PASSKEY_NAME]: {
-        pattern: /^[\w-. ]{3,128}$/i,
+        pattern: /^[\w-.@ ]{3,128}$/i,
         minLength: 3,
         maxLength: 128,
     },

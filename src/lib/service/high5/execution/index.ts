@@ -1,5 +1,5 @@
 import Base, { MaybeRaw } from "../../../Base";
-import { High5QueuePollRequest } from "../../../interfaces/high5/space/execution";
+import { High5QueuePollRequest } from "../../../interfaces/high5/execution";
 import { High5OrganizationExecutionLogs } from "./log/index";
 import { High5OrganizationExecutionStates } from "./status/index";
 
@@ -20,13 +20,12 @@ export class High5OrganizationExecute extends Base {
     private _status?: High5OrganizationExecutionStates;
 
     /**
-     * Poll the execution queue across all spaces of the given organization
-     * @param orgName Name of the Organization
-     * @param dto Request body containing blocking flag and optional limit
+     * Poll the global execution queue across the given organizations
+     * @param dto Request body containing organizationIds, blocking flag and optional limit
      * @returns 204 No Content
      */
-    async pollQueue<R extends boolean = false>(orgName: string, dto: High5QueuePollRequest, raw?: { raw: R }): Promise<MaybeRaw<R, void>> {
-        const resp = await this.axios.post<void>(this.getEndpoint(`/v1/org/${orgName}/execute/queue`), dto);
+    async pollQueue<R extends boolean = false>(dto: High5QueuePollRequest, raw?: { raw: R }): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.post<void>(this.getEndpoint(`/v1/execute/queue`), dto);
         return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
     }
 

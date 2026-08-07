@@ -59,3 +59,9 @@ export type IssuedReplaceNodeDebugCommand = {
     node: StreamNode;
 };
 export type IssuedRestartDebugCommand = RestartDebugCommand;
+
+export interface High5QueuePollRequest {
+    organizationIds: string[];
+    blocking: boolean;
+    limit?: number;
+}

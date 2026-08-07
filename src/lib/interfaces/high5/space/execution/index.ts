@@ -28,11 +28,6 @@ export interface High5ExecutionRequest {
     startTime?: number;
 }
 
-export interface High5QueuePollRequest {
-    blocking: boolean;
-    limit?: number;
-}
-
 export interface High5ExecuteAgentResponse {
     failed: boolean;
     message: string;

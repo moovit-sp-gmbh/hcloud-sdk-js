@@ -6,6 +6,7 @@ import { CapturedRequest } from "../high5/space/request";
 import { LicenseTier } from "../idp";
 
 enum NatsSubject {
+    IDP_USER = "hcloud.idp.user.${userId}",
     IDP_USER_GENERAL = "hcloud.idp.user.${userId}.general",
     IDP_USER_PROFILE = "hcloud.idp.user.${userId}.profile",
     IDP_USER_NOTIFICATIONS = "hcloud.idp.user.${userId}.notifications",
@@ -82,6 +83,7 @@ enum NatsSubject {
 type NatsSubjectReplacements = {
     namespaceName?: string;
     userId?: string;
+    msg?: string;
     organizationName?: string;
     organizationId?: string;
     spaceName?: string;
@@ -181,6 +183,7 @@ interface NatsObject
     extends
         NatsNameObject,
         NatsIdObject,
+        NatsUserInformObject,
         NatsMemberObject,
         NatsSecretObject,
         NatsExecTargetObject,
@@ -195,6 +198,7 @@ interface NatsObject
         NatsAgentConnectionObject,
         NatsCosmoStatusObject {
     [NatsSubject.IDP_USER_GENERAL]: NatsIdObject;
+    [NatsSubject.IDP_USER]: NatsUserInformObject;
     [NatsSubject.IDP_USER_PROFILE]: NatsIdObject;
     [NatsSubject.IDP_USER_SECURITY_PATS]: NatsIdObject;
     [NatsSubject.IDP_USER_SECURITY_GENERAL]: unknown;
@@ -254,6 +258,10 @@ interface NatsIdObject {
 }
 interface NatsIdNoUnderscoreObject {
     id: string;
+}
+
+interface NatsUserInformObject extends NatsIdObject {
+    msg: string;
 }
 
 interface NatsAssetObject {
@@ -326,6 +334,9 @@ type NatsCallback = (err: Error | null, msg?: NatsMessage, rawMsg?: Msg) => void
  */
 class NatsSubjects {
     static IDP = class {
+        static USER = (userId: string, msg: string) => {
+            return NatsSubjects.replace(NatsSubject.IDP_USER, { userId, msg });
+        };
         static User = class {
             static GENERAL = (userId: string) => {
                 return NatsSubjects.replace(NatsSubject.IDP_USER_GENERAL, { userId });
@@ -705,6 +716,7 @@ class NatsSubjects {
         );
         subject = subject.replace("${watchFolderId}", replacements.watchFolderId || "null");
         subject = subject.replace("${agentUuid}", replacements.agentUuid || "null");
+        subject = subject.replace("${msg}", replacements.msg || "null");
 
         return subject;
     };

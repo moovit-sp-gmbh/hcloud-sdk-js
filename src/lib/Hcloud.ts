@@ -5,6 +5,7 @@ import wrapError from "./helper/ErrorHelper";
 import { disableCacheHeaders, RefreshToken } from "./interfaces/axios";
 import { GrantType, OAuthToken, OAuthTokenRequest } from "./interfaces/idp";
 import AgentService from "./service/agent";
+import AIService from "./service/ai";
 import AuditorService from "./service/auditor";
 import BouncerService from "./service/bouncer";
 import CosmoService from "./service/cosmo";
@@ -19,6 +20,14 @@ import ShortsService from "./service/shorts";
 
 // tslint:disable-next-line
 export class HCloud {
+    public get AI(): AIService {
+        if (this._AI === undefined) {
+            this._AI = new AIService(this.options, this.axios);
+        }
+        return this._AI;
+    }
+    private _AI?: AIService;
+
     public get Agent(): AgentService {
         if (this._Agent === undefined) {
             this._Agent = new AgentService(this.options, this.axios);

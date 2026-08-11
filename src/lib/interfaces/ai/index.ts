@@ -21,7 +21,7 @@ export type AIHigh5StreamEvent =
       }
     | {
           type: "done";
-          response: Omit<AIHigh5StreamResponse, "message">;
+          response: AIHigh5StreamResponse;
       }
     | {
           type: "error";

@@ -71,7 +71,6 @@ export class AIHigh5Stream extends Base {
         const decoder = new TextDecoder();
 
         let buffer = "";
-        let response: AIHigh5StreamResponse | undefined;
 
         while (true) {
             const { done, value } = await reader.read();
@@ -94,34 +93,7 @@ export class AIHigh5Stream extends Base {
 
                 const parsed = JSON.parse(data.slice("data:".length).trim()) as AIHigh5StreamEvent;
 
-                switch (parsed.type) {
-                    case "start":
-                        response = parsed.response;
-                        onMessage({ type: "start", response });
-                        break;
-
-                    case "chunk":
-                        if (!response) {
-                            throw new Error("Received chunk before start");
-                        }
-
-                        response.message += parsed.message;
-                        onMessage({ type: "chunk", message: parsed.message });
-                        break;
-
-                    case "done":
-                        if (!response) {
-                            throw new Error("Received done before start");
-                        }
-
-                        onMessage({ type: "done", response });
-                        return;
-
-                    case "error":
-                        throw new Error(parsed.message);
-                    default:
-                        throw new Error("Unknown event type");
-                }
+                onMessage(parsed);
             }
         }
     }

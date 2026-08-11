@@ -30,7 +30,7 @@ export type AIHigh5StreamEvent =
 
 export type AIHigh5StreamResponse = {
     _id: string;
-    
+
     message: string;
     type: AIHigh5StreamPayloadType;
 

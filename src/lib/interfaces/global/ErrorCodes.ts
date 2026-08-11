@@ -1780,6 +1780,66 @@ export const ErrorCodes = [
         code: "010.046.0001",
         error: "short.not.found",
         message: "Given short URL not found"
+    },
+    {
+        code: "011.000.0002",
+        error: "internal.server.error",
+        message: "Specific message describing the problem"
+    },
+    {
+        code: "011.000.0003",
+        error: "invalid.parameter",
+        message: "Failed to validate 'type' parameter 'paramKey' - specificMessage"
+    },
+    {
+        code: "011.000.0004",
+        error: "invalid.body",
+        message: "Detailed message"
+    },
+    {
+        code: "011.000.0005",
+        error: "payload.too.large",
+        message: "Payload sent is too large. Maximum is {{maxSize}}"
+    },
+    {
+        code: "011.000.0006",
+        error: "not.implemented",
+        message: "Feature not implemented"
+    },
+    {
+        code: "011.000.0007",
+        error: "empty.update",
+        message: "Update with no changes attempted"
+    },
+    {
+        code: "011.000.0008",
+        error: "unsupported",
+        message: "Unsupported: {{message}}"
+    },
+    {
+        code: "011.001.0001",
+        error: "unauthorized",
+        message: "You're not authorized"
+    },
+    {
+        code: "011.001.0002",
+        error: "missing.auth.token",
+        message: "Expected an authentication token that has not been provided"
+    },
+    {
+        code: "011.001.0003",
+        error: "wrong.auth.token",
+        message: "Your authentication token is invalid"
+    },
+    {
+        code: "011.001.0004",
+        error: "insufficient.rights",
+        message: "You have not enough rights to access/manipulate this resource"
+    },
+    {
+        code: "011.023.0001",
+        error: "search.invalid.filter",
+        message: "The value of the filter property 'field' is invalid"
     }
 ] as const;
 

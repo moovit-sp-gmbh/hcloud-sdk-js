@@ -9,4 +9,5 @@ export enum Products {
     mothership = "mothership",
     shorts = "shorts",
     cosmo = "cosmo",
+    ai = "ai",
 }

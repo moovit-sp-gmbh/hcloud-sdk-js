@@ -75,6 +75,7 @@ class Nats extends Base {
             name: params.name,
             debug: params.debug,
             maxReconnectAttempts: -1,
+            ignoreAuthErrorAbort: true,
             servers: params.servers,
             pingInterval: 55 * 1000, //ping every 55 seconds
             user: (params as ConnectParamsJwt).email !== undefined ? (params as ConnectParamsJwt).email : (params as ConnectParamsPassword).username,

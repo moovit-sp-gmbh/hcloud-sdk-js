@@ -71,6 +71,7 @@ class Nats extends Base {
         this.natsConnection = await this.connection({
             debug: params.debug,
             maxReconnectAttempts: -1,
+            ignoreAuthErrorAbort: true,
             servers: params.servers,
             pingInterval: 55 * 1000, //ping every 55 seconds
             user: (params as ConnectParamsJwt).email !== undefined ? (params as ConnectParamsJwt).email : (params as ConnectParamsPassword).username,
@@ -82,8 +83,6 @@ class Nats extends Base {
                 entry.sub.callback?.(err as NatsError, msg ? msg : ({} as Msg));
             });
         }
-
-        this.natsConnection.reconnect();
 
         return this.natsConnection;
     }

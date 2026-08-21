@@ -128,6 +128,7 @@ interface ReducedAgentInfo {
 }
 
 export interface High5ExecutionPatchStatus {
+    executor?: string;
     streamId: string;
     state?: High5ExecutionState;
     outcome?: High5ExecutionOutcome;

@@ -6,6 +6,7 @@ import { NatsCallback, NatsMessage, NatsMessageType, NatsObject, NatsObjectType,
 interface SubMapEntry {
     subject: string;
     sub: Subscription;
+    options?: SubscriptionOptions;
 }
 
 /**
@@ -81,13 +82,19 @@ class Nats extends Base {
         });
 
         for (const entry of previousSubs) {
-            await this.sub(entry.subject, (err, data, msg) => {
-                entry.sub.callback?.(err as NatsError, msg ? msg : ({} as Msg));
-            });
+            await this.sub(
+                entry.subject,
+                (err, data, msg) => {
+                    entry.sub.callback?.(err as NatsError, msg ? msg : ({} as Msg));
+                },
+                entry.options
+            );
         }
 
-        this.natsConnection.reconnect();
-
+        // Do NOT call this.natsConnection.reconnect() here. A previous revision did this unconditionally on every connect() (including the very first one),
+        // which forced an immediate, un-awaited disconnect/redial right after the connection above was established and its subscriptions restored - creating a window
+        // where a request could be delivered but its reply never made it back (NatsError TIMEOUT), and afterwards NATS core would no longer see any subscriber at all (NatsError 503/"no responders").
+        // The connection returned above is already fully connected; forcing another reconnect here serves no purpose and only reintroduces that instability.
         return this.natsConnection;
     }
 
@@ -136,7 +143,7 @@ class Nats extends Base {
                 };
 
                 const sub = conn.subscribe(subject, newOptions);
-                this.subMap.push({ subject, sub } as SubMapEntry);
+                this.subMap.push({ subject, sub, options } as SubMapEntry);
                 return sub;
             } catch (err) {
                 err;

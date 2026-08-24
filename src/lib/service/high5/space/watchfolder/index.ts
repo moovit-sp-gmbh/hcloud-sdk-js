@@ -7,7 +7,6 @@ import {
     WatchFolderFile,
     WatchFolderScanConfig,
     WatchFolderScanReport,
-    WatchFolderTarget,
 } from "../../../../interfaces/high5/space/watchfolder";
 
 export class High5WatchFolder extends Base {
@@ -17,13 +16,14 @@ export class High5WatchFolder extends Base {
 
     /**
      * Retrieves all watch folders the current user is assigned to as target, directly or
-     * through a pool. Used mostly by idp to compute NATS permissions and by the agent
-     * @returns Array of minimal watch folder identities
+     * through a pool. Used mostly by idp to compute NATS permissions and by the agent to join
+     * the watch folders it is already assigned to on startup/reconnect
+     * @returns Array of watch folders
      */
-    async getWatchFolders<R extends boolean = false>(raw?: { raw: R }): Promise<MaybeRaw<R, WatchFolderTarget[]>> {
-        const resp = await this.axios.get<WatchFolderTarget[]>(this.getEndpoint("/v1/watchfolders"));
+    async getWatchFolders<R extends boolean = false>(raw?: { raw: R }): Promise<MaybeRaw<R, WatchFolder[]>> {
+        const resp = await this.axios.get<WatchFolder[]>(this.getEndpoint("/v1/watchfolders"));
 
-        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, WatchFolderTarget[]>;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, WatchFolder[]>;
     }
 
     /**

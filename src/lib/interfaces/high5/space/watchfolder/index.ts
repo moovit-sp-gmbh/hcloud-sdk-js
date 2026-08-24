@@ -85,8 +85,3 @@ export interface WatchFolderScanConfig {
     path: string;
     credentials: WatchFolderCredentials;
 }
-
-export interface WatchFolderTarget {
-    _id: string;
-    organizationId: string;
-}

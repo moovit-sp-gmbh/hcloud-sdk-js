@@ -17,6 +17,7 @@ interface SubMapEntry {
  * Object.assign(global, { WebSocket: WebSocket });
  */
 type ConnectParamsJwt = {
+    name?: string;
     email: string;
     jwt: string;
     servers?: string[];
@@ -33,6 +34,7 @@ type ConnectParamsJwt = {
  * Object.assign(global, { WebSocket: WebSocket });
  */
 type ConnectParamsPassword = {
+    name?: string;
     username: string;
     password: string;
     servers?: string[];
@@ -69,6 +71,7 @@ class Nats extends Base {
             }
         }
         this.natsConnection = await this.connection({
+            name: params.name,
             debug: params.debug,
             maxReconnectAttempts: -1,
             servers: params.servers,

@@ -902,6 +902,16 @@ export const ErrorCodes = [
         message: "Given API key name is already in use"
     },
     {
+        code: "002.059.0001",
+        error: "watchFolder.not.found",
+        message: "The requested watch folder could not be found"
+    },
+    {
+        code: "002.059.0002",
+        error: "watchFolder.name.in.use",
+        message: "The provided watch folder name is already in use in this space"
+    },
+    {
         code: "003.000.0002",
         error: "internal.server.error",
         message: "Specific message describing the problem"

@@ -171,6 +171,12 @@ export interface High5ExecutionStatus {
     agentInfo?: ReducedAgentInfo;
     waveEngineVersion?: string;
     isPoolExecution?: boolean;
+    queued?: boolean;
+    blocking?: boolean;
+    priority?: number;
+    startTime?: number;
+    currentRetry?: number;
+    assignedClient?: string;
 }
 
 export interface High5ExecutionLog {

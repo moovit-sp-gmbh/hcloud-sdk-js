@@ -71,7 +71,7 @@ enum NatsSubject {
     COSMO_METADATA = "hcloud.cosmo.organization.${base64orgName}.spaces.${base64spaceName}.namespaces.${base64namespaceName}.metadata",
 
     MOTHERSHIP_AGENT_CONNECTION = "hcloud.mothership.organization.${base64orgName}.agent.connection",
-    MOTHERSHIP_CLIENT_PING = "hcloud.mothership.organization.${base64orgName}.agent.${agentUuid}.ping",
+    MOTHERSHIP_AGENT_PING = "hcloud.mothership.agent.${agentUuid}.ping",
     AGENT_DISCONNECT = "hcloud.agent.disconnect",
 
     AUDITOR_LOGS = "hcloud.auditor.organization.${base64orgName}.logs",
@@ -238,7 +238,7 @@ interface NatsObject
     [NatsSubject.COSMO_STATUS]: NatsCosmoStatusObject;
     [NatsSubject.COSMO_METADATA]: NatsCosmoReferenceObject;
     [NatsSubject.MOTHERSHIP_AGENT_CONNECTION]: NatsTargetObject;
-    [NatsSubject.MOTHERSHIP_CLIENT_PING]: Record<string, never>;
+    [NatsSubject.MOTHERSHIP_AGENT_PING]: Record<string, never>;
     [NatsSubject.AGENT_DISCONNECT]: NatsAgentConnectionObject;
     [NatsSubject.AUDITOR_LOGS]: NatsIdObject;
     [NatsSubject.DEBUG_NAMESPACE]: string;
@@ -586,8 +586,8 @@ class NatsSubjects {
         static CONNECTION = (organizationName: string) => {
             return NatsSubjects.replace(NatsSubject.MOTHERSHIP_AGENT_CONNECTION, { organizationName });
         };
-        static AGENT_PING = (organizationName: string, agentUuid: string) => {
-            return NatsSubjects.replace(NatsSubject.MOTHERSHIP_CLIENT_PING, { organizationName, agentUuid });
+        static PING = (agentUuid: string) => {
+            return NatsSubjects.replace(NatsSubject.MOTHERSHIP_AGENT_PING, { agentUuid });
         };
     };
 

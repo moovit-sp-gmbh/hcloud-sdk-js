@@ -139,9 +139,9 @@ export class S3 extends Base {
      */
     async getChangelog<R extends boolean = false>(catalogUrl: string, raw?: { raw: R }): Promise<MaybeRaw<R, Release[]>> {
         const resp = await axios
-            .get<
-                Release[]
-            >(catalogUrl + "changelog.json", { headers: { ...disableCacheHeaders, "x-hcloud-user-agent": sdkVersion, Authorization: undefined } })
+            .get<Release[]>(catalogUrl + "changelog.json", {
+                headers: { ...disableCacheHeaders, "x-hcloud-user-agent": sdkVersion, Authorization: undefined },
+            })
             .catch(err => {
                 throw new Error(`Node documentation not found: ${err}`);
             });

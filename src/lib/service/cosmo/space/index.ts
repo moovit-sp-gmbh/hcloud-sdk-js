@@ -136,7 +136,6 @@ export class CosmoSpace extends Base {
      */
     async unlinkSpace<R extends boolean = false>(orgName: string, spaceName: string, raw?: { raw: R }): Promise<MaybeRaw<R, ICosmoSpace>> {
         const resp = await this.axios.patch<ICosmoSpace>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/high5/unlink/space`));
-
         return (raw?.raw ? resp : resp.data) as MaybeRaw<R, ICosmoSpace>;
     }
 
@@ -144,10 +143,18 @@ export class CosmoSpace extends Base {
      * List all users with access to the given Space.
      * @param orgName Name of the Organization
      * @param spaceName Name of the Cosmo Space
+     * @param limit Number of users to return per page (default is 25)
+     * @param page Page number to return (default is 0)
      * @returns The SpaceUser array
      */
-    async listSpaceUsers<R extends boolean = false>(orgName: string, spaceName: string, raw?: { raw: R }): Promise<MaybeRaw<R, SpaceUser[]>> {
-        const resp = await this.axios.get<SpaceUser[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/users`));
+    async listSpaceUsers<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        limit: number = 25,
+        page: number = 0,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, SpaceUser[]>> {
+        const resp = await this.axios.get<SpaceUser[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/users?limit=${limit}&page=${page}`));
 
         return (raw?.raw ? resp : resp.data) as MaybeRaw<R, SpaceUser[]>;
     }

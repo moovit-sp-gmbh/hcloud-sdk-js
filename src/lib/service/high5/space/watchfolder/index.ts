@@ -5,6 +5,7 @@ import {
     PatchWatchFolder,
     WatchFolder,
     WatchFolderFile,
+    WatchFolderFileReset,
     WatchFolderScanConfig,
     WatchFolderScanReport,
 } from "../../../../interfaces/high5/space/watchfolder";
@@ -167,6 +168,31 @@ export class High5WatchFolder extends Base {
         );
 
         return (raw?.raw ? resp : resp.data) as MaybeRaw<R, WatchFolderFile[]>;
+    }
+
+    /**
+     * Signals that the watch folder file behind the current stream execution is not actually complete yet and
+     * should not be marked as processed - it becomes eligible again on a later watch folder scan. Callable from
+     * within the stream execution itself (e.g. by a node that performed a vendor-specific completeness check),
+     * authenticated purely via the execution's secret, same as High5SpaceExecute.high5ExecutionStatusAndLogResponse.
+     * @param orgName    the organizations's name
+     * @param spaceName  the spaces's name
+     * @param secret     the secret of the stream execution object
+     * @param reset      optional reason describing why the file is considered incomplete
+     * @returns the reset watch folder file
+     */
+    async resetWatchFolderFile<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        secret: string,
+        reset?: WatchFolderFileReset,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, WatchFolderFile>> {
+        const resp = await this.axios.post<WatchFolderFile>(
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execution/streams/${secret}/watchfolder/reset`),
+            reset ?? {}
+        );
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, WatchFolderFile>;
     }
 
     protected getEndpoint(endpoint: string): string {

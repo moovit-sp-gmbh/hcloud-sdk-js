@@ -34,6 +34,7 @@ export interface WatchFolder {
     interval: number;
     eventName: string;
     credentials: WatchFolderCredentials;
+    maxFileResetAttempts: number; // Maximum number of times a single file may be reset back to STABLE by a stream execution before further reset requests are rejected
 }
 
 export interface CreateWatchFolder {
@@ -44,6 +45,7 @@ export interface CreateWatchFolder {
     interval: number;
     eventName: string;
     credentials: WatchFolderCredentials;
+    maxFileResetAttempts?: number;
 }
 
 export interface PatchWatchFolder {
@@ -54,6 +56,7 @@ export interface PatchWatchFolder {
     interval?: number;
     eventName?: string;
     credentials?: WatchFolderCredentials;
+    maxFileResetAttempts?: number;
 }
 
 export enum WatchFolderFileStatus {
@@ -75,6 +78,13 @@ export interface WatchFolderFile {
     status: WatchFolderFileStatus;
     lastSeen: number;
     createDate: number;
+    lastResetReason?: string; // Reason given by the stream execution that last reset this file instead of letting it complete
+    lastResetAt?: number; // Unix timestamp of the last reset requested by a stream execution
+    resetCount?: number; // Number of times this file has been reset back to STABLE by a stream execution
+}
+
+export interface WatchFolderFileReset {
+    reason?: string; // Why the currently executing stream considers this watch folder file not actually complete yet
 }
 
 export interface WatchFolderScanReport {

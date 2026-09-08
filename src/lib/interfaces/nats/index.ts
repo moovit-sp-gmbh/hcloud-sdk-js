@@ -178,8 +178,7 @@ interface NatsMessage {
     objectType: NatsObjectType;
 }
 interface NatsObject
-    extends
-        NatsNameObject,
+    extends NatsNameObject,
         NatsIdObject,
         NatsMemberObject,
         NatsSecretObject,

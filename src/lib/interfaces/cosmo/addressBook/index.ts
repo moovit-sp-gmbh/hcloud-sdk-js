@@ -12,6 +12,7 @@ export type AddressBook = {
     teamIds: string[];
     createDate: number;
     modifyDate: number;
+    avatarUrl: string;
     creator: ReducedUser;
 };
 

@@ -105,6 +105,7 @@ type NatsSubjectReplacements = {
     watchFolderName?: string;
     watchFolderId?: string;
     agentUuid?: string;
+    msg?: string;
 };
 
 enum NatsMessageType {
@@ -192,8 +193,9 @@ interface NatsObject
         NatsIdNoUnderscoreObject,
         NatsTargetObject,
         NatsAgentConnectionObject,
-        NatsCosmoStatusObject {
-    [NatsSubject.IDP_USER_GENERAL]: NatsIdObject;
+        NatsCosmoStatusObject,
+        NatsMessageObject {
+    [NatsSubject.IDP_USER_GENERAL]: NatsMessageObject;
     [NatsSubject.IDP_USER_PROFILE]: NatsIdObject;
     [NatsSubject.IDP_USER_SECURITY_PATS]: NatsIdObject;
     [NatsSubject.IDP_USER_SECURITY_GENERAL]: unknown;
@@ -251,6 +253,11 @@ interface NatsNameObject {
 interface NatsIdObject {
     _id: string;
 }
+
+interface NatsMessageObject extends NatsIdObject {
+    msg?: string;
+}
+
 interface NatsIdNoUnderscoreObject {
     id: string;
 }
@@ -704,6 +711,7 @@ class NatsSubjects {
         );
         subject = subject.replace("${watchFolderId}", replacements.watchFolderId || "null");
         subject = subject.replace("${agentUuid}", replacements.agentUuid || "null");
+        subject = subject.replace("${msg}", replacements.msg || "null");
 
         return subject;
     };

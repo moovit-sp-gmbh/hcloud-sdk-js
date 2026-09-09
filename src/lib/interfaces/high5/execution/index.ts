@@ -2,12 +2,7 @@ import { DesignerNode } from "../space/event/stream/design/StreamDesign";
 import { StreamNode } from "../space/execution";
 
 export type DebugCommand =
-    | ContinueDebugCommand
-    | StepBackDebugCommand
-    | StepForwardDebugCommand
-    | SetValueDebugCommand
-    | ReplaceNodeDebugCommand
-    | RestartDebugCommand;
+    ContinueDebugCommand | StepBackDebugCommand | StepForwardDebugCommand | SetValueDebugCommand | ReplaceNodeDebugCommand | RestartDebugCommand;
 
 export enum CommandType {
     CONTINUE = "CONTINUE",

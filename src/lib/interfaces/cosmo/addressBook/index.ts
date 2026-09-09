@@ -7,6 +7,7 @@ export type AddressBook = {
     members: string[];
     createDate: number;
     modifyDate: number;
+    avatarUrl: string;
     creator: ReducedUser;
 };
 

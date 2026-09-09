@@ -170,4 +170,31 @@ export class CosmoAddressBook extends Base {
         });
         return (raw?.raw ? resp : resp.data) as MaybeRaw<R, AddressBook>;
     }
+
+    /**
+     * Updates the avatar of the specified Address Book.
+     * @remarks
+     * **Under development, breaking changes possible**
+     * @param orgName Name of the Organization
+     * @param spaceName Name of the Space
+     * @param bookId ID of the Address Book
+     * @param file Image as Javascript File
+     * @returns AddressBook details with updated avatar
+     */
+    async updateAvatar<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        bookId: string,
+        file: File,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, AddressBook>> {
+        const data = new FormData();
+        data.append("avatar", file);
+
+        const resp = await this.axios.patch<AddressBook>(this.getEndpoint(`${this.basePath(orgName, spaceName)}/${bookId}/avatar`), data, {
+            headers: { "Content-Type": "multipart/form-data" },
+        });
+
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, AddressBook>;
+    }
 }

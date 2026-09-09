@@ -1,4 +1,5 @@
 import Base from "../../Base";
+import { DaliAddressBook } from "./avatar/DaliAddressBook";
 import { DaliCosmoSpace } from "./avatar/DaliCosmoSpace";
 import { DaliHigh5Pool } from "./avatar/DaliHigh5Pool";
 import { DaliHigh5Space } from "./avatar/DaliHigh5Space";
@@ -86,6 +87,17 @@ export class DaliAvatar extends Base {
         return this._cosmoSpace;
     }
     private _cosmoSpace?: DaliCosmoSpace;
+
+    /**
+     * Handles everything around address book avatars
+     */
+    public get addressBook(): DaliAddressBook {
+        if (this._addressBook === undefined) {
+            this._addressBook = new DaliAddressBook(this.options, this.axios);
+        }
+        return this._addressBook;
+    }
+    private _addressBook?: DaliAddressBook;
 
     /**
      * Handles everything around OAuth applications avatars

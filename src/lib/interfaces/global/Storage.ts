@@ -1,5 +1,4 @@
 import { ReducedOrganization, ReducedUser } from "../idp";
-import { ReducedSpace } from "./Space";
 
 export type Storage = {
     _id: string;
@@ -16,8 +15,6 @@ export type Storage = {
     region: string;
     accessKeyId: string;
     secretAccessKey: string;
-
-    spaces: ReducedSpace[];
 
     valid: boolean;
     errorMessage?: string;
@@ -36,6 +33,8 @@ export type StorageConfiguration = {
 };
 
 export type StorageCreateDto = Pick<Storage, "name" | "endpoint" | "bucket" | "region"> & { accessKeyId: string; secretAccessKey: string };
-export type StoragePatchDto = Partial<Pick<Storage, "name" | "endpoint" | "bucket" | "region"> & { accessKeyId: string; secretAccessKey: string }>;
+export type StoragePatchDto = Partial<
+    Pick<Storage, "name" | "endpoint" | "bucket" | "region"> & { accessKeyId: string; secretAccessKey: string }
+>;
 
 export type ReducedStorage = Pick<Storage, "_id" | "name" | "isDefault">;

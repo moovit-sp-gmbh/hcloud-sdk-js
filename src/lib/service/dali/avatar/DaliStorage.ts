@@ -1,6 +1,6 @@
 import Base, { MaybeRaw } from "../../../Base";
 import { AvatarCreated } from "../../../interfaces/dali";
-import { StorageDto } from "../../../interfaces/global/Storage";
+import { Storage } from "../../../interfaces/global/Storage";
 
 export class DaliStorage extends Base {
     /**
@@ -32,20 +32,15 @@ export class DaliStorage extends Base {
      * @param file Image as Javascript File
      * @returns Public URL of the new avatar
      */
-    async updateAvatar<R extends boolean = false>(
-        orgName: string,
-        storageName: string,
-        file: File,
-        raw?: { raw: R }
-    ): Promise<MaybeRaw<R, StorageDto>> {
+    async updateAvatar<R extends boolean = false>(orgName: string, storageName: string, file: File, raw?: { raw: R }): Promise<MaybeRaw<R, Storage>> {
         const data = new FormData();
         data.append("avatar", file);
 
-        const resp = await this.axios.patch<StorageDto>(this.getEndpoint(`/v1/avatar/org/${orgName}/storages/${storageName}`), data, {
+        const resp = await this.axios.patch<Storage>(this.getEndpoint(`/v1/avatar/org/${orgName}/storages/${storageName}`), data, {
             headers: { "Content-Type": "multipart/form-data" },
         });
 
-        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, StorageDto>;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Storage>;
     }
 
     protected getEndpoint(endpoint: string): string {

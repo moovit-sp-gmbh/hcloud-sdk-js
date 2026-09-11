@@ -2,7 +2,7 @@ import Base, { MaybeRaw } from "../../../../Base";
 import { createPaginatedResponse } from "../../../../helper/paginatedResponseHelper";
 import { SearchFilterDTO } from "../../../../helper/searchFilter";
 import { PaginatedResponse, SearchFilter, Sorting } from "../../../../interfaces/global";
-import { StorageConfiguration, StorageCreateDto, StorageDto, StoragePatchDto } from "../../../../interfaces/global/Storage";
+import { Storage, StorageConfiguration, StorageCreateDto, StoragePatchDto } from "../../../../interfaces/global/Storage";
 
 export class IdpOrganizationStorages extends Base {
     /**
@@ -15,10 +15,10 @@ export class IdpOrganizationStorages extends Base {
         orgName: string,
         storageCreate: StorageCreateDto,
         raw?: { raw: R }
-    ): Promise<MaybeRaw<R, StorageDto>> {
-        const resp = await this.axios.post<StorageDto>(this.getEndpoint(`/${orgName}/storage`), storageCreate);
+    ): Promise<MaybeRaw<R, Storage>> {
+        const resp = await this.axios.post<Storage>(this.getEndpoint(`/${orgName}/storage`), storageCreate);
 
-        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, StorageDto>;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Storage>;
     }
 
     /**
@@ -34,10 +34,54 @@ export class IdpOrganizationStorages extends Base {
         storageId: string,
         storagePatchDto: StoragePatchDto,
         raw?: { raw: R }
-    ): Promise<MaybeRaw<R, StorageDto>> {
-        const resp = await this.axios.patch<StorageDto>(this.getEndpoint(`/${orgName}/storage/${storageId}`), storagePatchDto);
+    ): Promise<MaybeRaw<R, Storage>> {
+        const resp = await this.axios.patch<Storage>(this.getEndpoint(`/${orgName}/storage/${storageId}`), storagePatchDto);
 
-        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, StorageDto>;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Storage>;
+    }
+
+    /**
+     * Updates the avatar of the specified storage
+     * @param orgName Name of the organization
+     * @param storageId ID of the storage
+     * @param file Image as Javascript File
+     * @returns Storage with updated avatarUrl
+     */
+    async updateAvatar<R extends boolean = false>(orgName: string, storageId: string, file: File, raw?: { raw: R }): Promise<MaybeRaw<R, Storage>> {
+        const data = new FormData();
+        data.append("avatar", file);
+
+        const resp = await this.axios.patch<Storage>(this.getEndpoint(`/${orgName}/storage/${storageId}/avatar`), data, {
+            headers: { "Content-Type": "multipart/form-data" },
+        });
+
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Storage>;
+    }
+
+    /**
+     * Deletes the specified Storage.
+     * @param orgName Name of the organization
+     * @param storageId ID of the storage
+     * @param raw (optional) If true, returns the raw Axios response instead of undefined
+     * @returns void
+     */
+    async deleteStorage<R extends boolean = false>(orgName: string, storageId: string, raw?: { raw: R }): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.delete<void>(this.getEndpoint(`/${orgName}/storage/${storageId}`));
+
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
+    }
+
+    /**
+     * Tests the specified Storage.
+     * @param orgName Name of the organization
+     * @param storageId ID of the storage
+     * @param raw (optional) If true, returns the raw Axios response instead of undefined
+     * @returns void
+     */
+    async testStorage<R extends boolean = false>(orgName: string, storageId: string, raw?: { raw: R }): Promise<MaybeRaw<R, Storage>> {
+        const resp = await this.axios.get<Storage>(this.getEndpoint(`/${orgName}/storage/${storageId}/test`));
+
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Storage>;
     }
 
     /**
@@ -58,7 +102,7 @@ export class IdpOrganizationStorages extends Base {
             page?: number;
         },
         raw?: { raw: R }
-    ): Promise<MaybeRaw<R, PaginatedResponse<StorageDto>>> {
+    ): Promise<MaybeRaw<R, PaginatedResponse<Storage>>> {
         const limit = params.limit || 25;
         const page = params.page || 0;
 
@@ -66,14 +110,14 @@ export class IdpOrganizationStorages extends Base {
             return new SearchFilterDTO(f);
         });
 
-        const resp = await this.axios.post<StorageDto[]>(this.getEndpoint(`/${params.orgName}/storage/search?limit=${limit}&page=${page}`), {
+        const resp = await this.axios.post<Storage[]>(this.getEndpoint(`/${params.orgName}/storage/search?limit=${limit}&page=${page}`), {
             filters: filtersDTO,
             sorting: params.sorting,
         });
 
         return (raw?.raw ? { ...resp, data: createPaginatedResponse(resp) } : createPaginatedResponse(resp)) as MaybeRaw<
             R,
-            PaginatedResponse<StorageDto>
+            PaginatedResponse<Storage>
         >;
     }
 
@@ -100,29 +144,6 @@ export class IdpOrganizationStorages extends Base {
         });
 
         return (raw?.raw ? resp : resp.data) as MaybeRaw<R, StorageConfiguration>;
-    }
-
-    /**
-     * Updates the avatar of the specified storage
-     * @param orgName Name of the organization
-     * @param storageId ID of the storage
-     * @param file Image as Javascript File
-     * @returns Storage with updated avatarUrl
-     */
-    async updateAvatar<R extends boolean = false>(
-        orgName: string,
-        storageId: string,
-        file: File,
-        raw?: { raw: R }
-    ): Promise<MaybeRaw<R, StorageDto>> {
-        const data = new FormData();
-        data.append("avatar", file);
-
-        const resp = await this.axios.patch<StorageDto>(this.getEndpoint(`/${orgName}/storage/${storageId}/avatar`), data, {
-            headers: { "Content-Type": "multipart/form-data" },
-        });
-
-        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, StorageDto>;
     }
 
     protected getEndpoint(endpoint: string): string {

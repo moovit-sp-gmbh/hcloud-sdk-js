@@ -17,7 +17,8 @@ export type Storage = {
     accessKeyId: string;
     secretAccessKey: string;
 
-    spaces: ReducedSpace[];
+    spaces: (ReducedSpace & { storageUsed: number })[];
+    storageUsed: number;
 
     valid: boolean;
     errorMessage?: string;

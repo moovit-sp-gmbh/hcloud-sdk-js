@@ -1,6 +1,6 @@
 import Base, { MaybeRaw } from "../../../Base";
 import { Asset, AssetFilter, AssetSearchContext } from "../../../interfaces/cosmo/asset";
-import { Sorting } from "../../../interfaces/global";
+import { SearchFilter, Sorting } from "../../../interfaces/global";
 
 /**
  * @class Organization
@@ -99,7 +99,7 @@ export class CosmoOrganization extends Base {
      * @param namespace Name of Namespace to restrict search
      * @param parentId ID of parent (folder, etc.) to restrict search
      * @param shareId ID of Share to restrict search (mandatory if context is SHARE)
-     * @param assetFilter Filter criteria for Assets
+     * @param assetFilter Filter criteria for Assets. Accepts the full asset search filter set (e.g. type, size, creator, namespace fields), not just identity fields.
      * @param sorting Sorting criteria for the results
      * @returns List of found Assets
      */
@@ -124,7 +124,7 @@ export class CosmoOrganization extends Base {
             namespace?: string[] | string;
             parentId?: string;
             shareId?: string;
-            assetFilter?: AssetFilter[];
+            assetFilter?: SearchFilter[];
             sorting?: Sorting;
         },
         raw?: { raw: R }

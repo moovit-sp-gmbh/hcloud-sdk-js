@@ -62,7 +62,8 @@ export type LicenseQuota = {
                     quota: number;
                 };
             };
-            jobs: {
+            /** Formerly under `fuse.spaces.jobs`. Absent on older licenses that still carry it under `fuse`. */
+            jobs?: {
                 quota: number;
                 logs: {
                     quota: number;
@@ -78,9 +79,11 @@ export type LicenseQuota = {
         executionLogMaxLimit: {
             quota: number;
         };
-        secondBaseExecutions: boolean;
+        /** Formerly under `fuse.secondBaseExecutions`. Absent on older licenses that still carry it under `fuse`. */
+        secondBaseExecutions?: boolean;
     };
-    fuse: {
+    /** Legacy quota for what is now the cronjob-related part of High5. Absent on licenses issued after the Fuse-to-High5 merge. */
+    fuse?: {
         spaces: {
             quota: number;
             jobs: {

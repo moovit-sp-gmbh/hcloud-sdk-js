@@ -1,13 +1,31 @@
-import { ReducedUser } from "../../idp/user";
+import { ReducedUser } from "../../idp";
 
-/** Members as key-value pairs: mandatory e-mail address -> optional display name */
+/** Members as key-value pairs: mandatory e-mail address -> optional display name (used for create/add input) */
 export type AddressBookMembers = Record<string, string | undefined>;
+
+export enum AddressBookMemberType {
+    /** Existing helmut.cloud user */
+    INTERNAL = "INTERNAL",
+    /** Email-only recipient without a helmut.cloud account */
+    EXTERNAL = "EXTERNAL",
+}
+
+export type AddressBookMember = {
+    /** Mandatory e-mail address */
+    email: string;
+    /** Optional display name */
+    name?: string;
+    /** Timestamp in milliseconds when the member was added */
+    addedDate: number;
+    /** Whether the member is an existing helmut.cloud user (INTERNAL) or an email-only recipient (EXTERNAL) */
+    type: AddressBookMemberType;
+};
 
 export type AddressBook = {
     _id: string;
     name: string;
     description?: string;
-    members: AddressBookMembers;
+    members: AddressBookMember[];
     /** IDs of internal teams referenced by the address book */
     teamIds: string[];
     createDate: number;

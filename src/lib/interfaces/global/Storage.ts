@@ -9,13 +9,11 @@ export type Storage = {
     createDate: number;
     modifyDate: number;
     isDefault: boolean;
-    organization: ReducedOrganization;
+    organization?: ReducedOrganization;
 
     endpoint: string;
     bucket: string;
     region: string;
-    accessKeyId: string;
-    secretAccessKey: string;
 
     spaces: ReducedSpace[];
 

@@ -2,7 +2,7 @@ import Base, { MaybeRaw } from "../../../../Base";
 import { createPaginatedResponse } from "../../../../helper/paginatedResponseHelper";
 import { SearchFilterDTO } from "../../../../helper/searchFilter";
 import { PaginatedResponse, SearchFilter, Sorting } from "../../../../interfaces/global";
-import { Storage, StorageConfiguration, StorageCreateDto, StoragePatchDto } from "../../../../interfaces/global/Storage";
+import { StorageDto as Storage, StorageConfiguration, StorageCreateDto, StoragePatchDto } from "../../../../interfaces/global/Storage";
 
 export class IdpOrganizationStorages extends Base {
     /**

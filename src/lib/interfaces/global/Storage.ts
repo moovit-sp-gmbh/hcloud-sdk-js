@@ -14,6 +14,8 @@ export type Storage = {
     endpoint: string;
     bucket: string;
     region: string;
+    accessKeyId: string;
+    secretAccessKey: string;
 
     spaces: ReducedSpace[];
 
@@ -32,6 +34,8 @@ export type StorageConfiguration = {
     isDefault: boolean;
     valid: boolean;
 };
+
+export type StorageDto = Omit<Storage, "accessKeyId" | "secretAccessKey">;
 
 export type StorageCreateDto = Pick<Storage, "name" | "endpoint" | "bucket" | "region"> & { accessKeyId: string; secretAccessKey: string };
 export type StoragePatchDto = Partial<Pick<Storage, "name" | "endpoint" | "bucket" | "region"> & { accessKeyId: string; secretAccessKey: string }>;

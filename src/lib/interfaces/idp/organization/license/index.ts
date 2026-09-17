@@ -11,7 +11,7 @@ export type License = {
     createDate: number;
 };
 
-export type LicenseQuota = {
+type LicenseQuotaBase = {
     idp: {
         organization: {
             members: {
@@ -29,73 +29,87 @@ export type LicenseQuota = {
             logPeriodInDays: number;
         };
     };
-    high5: {
-        spaces: {
-            quota: number;
-            catalogs: {
-                quota: number;
-            };
-            customCatalogs: {
-                quota: number;
-            };
-            customNodes: {
-                quota: number;
-            };
-            webhooks: {
-                quota: number;
-                logs: {
-                    quota: number;
-                };
-            };
-            secrets: {
-                quota: number;
-            };
-            events: {
-                quota: number;
-                streams: {
-                    quota: number;
-                };
-            };
-            databases: {
-                quota: number;
-                documents: {
-                    quota: number;
-                };
-            };
-            /** Formerly under `fuse.spaces.jobs`. Absent on older licenses that still carry it under `fuse`. */
-            jobs?: {
-                quota: number;
-                logs: {
-                    quota: number;
-                };
-            };
-        };
-        executionsPerMonth: {
-            quota: number;
-        };
-        executionLogPeriodInDays: {
-            quota: number;
-        };
-        executionLogMaxLimit: {
-            quota: number;
-        };
-        /** Formerly under `fuse.secondBaseExecutions`. Absent on older licenses that still carry it under `fuse`. */
-        secondBaseExecutions?: boolean;
+};
+
+type High5SpacesQuota = {
+    quota: number;
+    catalogs: {
+        quota: number;
     };
-    /** Legacy quota for what is now the cronjob-related part of High5. Absent on licenses issued after the Fuse-to-High5 merge. */
-    fuse?: {
+    customCatalogs: {
+        quota: number;
+    };
+    customNodes: {
+        quota: number;
+    };
+    webhooks: {
+        quota: number;
+        logs: {
+            quota: number;
+        };
+    };
+    secrets: {
+        quota: number;
+    };
+    events: {
+        quota: number;
+        streams: {
+            quota: number;
+        };
+    };
+    databases: {
+        quota: number;
+        documents: {
+            quota: number;
+        };
+    };
+};
+
+type High5CommonQuota = {
+    executionsPerMonth: {
+        quota: number;
+    };
+    executionLogPeriodInDays: {
+        quota: number;
+    };
+    executionLogMaxLimit: {
+        quota: number;
+    };
+};
+
+type CronjobQuota = {
+    quota: number;
+    logs: {
+        quota: number;
+    };
+};
+
+/** Current shape: cronjob quota lives under high5, post Fuse-to-High5 merge. */
+type LicenseQuotaHigh5Jobs = LicenseQuotaBase & {
+    high5: High5CommonQuota & {
+        spaces: High5SpacesQuota & {
+            jobs: CronjobQuota;
+        };
+        secondBaseExecutions: boolean;
+    };
+    fuse?: never;
+};
+
+/** Legacy shape: cronjob quota still lives under the (now removed) fuse product. Present only on licenses issued before the Fuse-to-High5 merge. */
+type LicenseQuotaFuseJobs = LicenseQuotaBase & {
+    high5: High5CommonQuota & {
+        spaces: High5SpacesQuota;
+    };
+    fuse: {
         spaces: {
             quota: number;
-            jobs: {
-                quota: number;
-                logs: {
-                    quota: number;
-                };
-            };
+            jobs: CronjobQuota;
         };
         secondBaseExecutions: boolean;
     };
 };
+
+export type LicenseQuota = LicenseQuotaHigh5Jobs | LicenseQuotaFuseJobs;
 
 export enum LicenseTier {
     FREE = "FREE",

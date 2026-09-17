@@ -912,6 +912,16 @@ export const ErrorCodes = [
         message: "The provided watch folder name is already in use in this space"
     },
     {
+        code: "002.059.0003",
+        error: "watchFolder.file.not.found",
+        message: "No watch folder file matching the given execution was found"
+    },
+    {
+        code: "002.059.0004",
+        error: "watchFolder.file.reset.limit.exceeded",
+        message: "This file has already reached the maximum number of allowed resets"
+    },
+    {
         code: "003.000.0002",
         error: "internal.server.error",
         message: "Specific message describing the problem"

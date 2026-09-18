@@ -170,6 +170,7 @@ export interface High5ExecutionStatus {
     endDate: number;
     debug?: boolean;
     agentInfo?: ReducedAgentInfo;
+    executor?: ReducedUser;
     waveEngineVersion?: string;
     isPoolExecution?: boolean;
     queued?: boolean;

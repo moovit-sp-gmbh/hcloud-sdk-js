@@ -68,6 +68,7 @@ enum NatsSubject {
     COSMO_TAGS_NAMESPACE = "hcloud.cosmo.organization.${base64orgName}.spaces.${base64spaceName}.namespaces.${base64namespaceName}.tags",
     COSMO_TAGS_ASSET = "hcloud.cosmo.organization.${base64orgName}.spaces.${base64spaceName}.namespaces.${base64namespaceName}.assets.${assetId}.tags",
     COSMO_ROLES = "hcloud.cosmo.organization.${base64orgName}.spaces.${base64spaceName}.roles",
+    COSMO_ADDRESS_BOOKS = "hcloud.cosmo.organization.${base64orgName}.spaces.${base64spaceName}.addressbooks",
     COSMO_STATUS = "hcloud.cosmo.organization.${base64orgName}.spaces.${base64spaceName}.namespaces.${base64namespaceName}.assets.${assetId}.status",
     COSMO_METADATA = "hcloud.cosmo.organization.${base64orgName}.spaces.${base64spaceName}.namespaces.${base64namespaceName}.metadata",
 
@@ -170,6 +171,7 @@ enum NatsObjectType {
     LOCATION = "LOCATION",
     FOLDER = "FOLDER",
     ROLE = "ROLE",
+    ADDRESS_BOOK = "ADDRESS_BOOK",
     STATUS = "STATUS",
     REFERENCE = "REFERENCE",
     REQUEST = "REQUEST",
@@ -241,6 +243,7 @@ interface NatsObject
     [NatsSubject.COSMO_STACKS]: NatsAssetObject[];
     [NatsSubject.COSMO_SHARE]: NatsIdObject;
     [NatsSubject.COSMO_ROLES]: NatsIdObject;
+    [NatsSubject.COSMO_ADDRESS_BOOKS]: NatsIdObject;
     [NatsSubject.COSMO_STATUS]: NatsCosmoStatusObject;
     [NatsSubject.COSMO_METADATA]: NatsCosmoReferenceObject;
     [NatsSubject.MOTHERSHIP_AGENT_CONNECTION]: NatsTargetObject;
@@ -646,6 +649,9 @@ class NatsSubjects {
             };
             static ROLES = (organizationName: string, spaceName: string) => {
                 return NatsSubjects.replace(NatsSubject.COSMO_ROLES, { organizationName, spaceName });
+            };
+            static ADDRESS_BOOKS = (organizationName: string, spaceName: string) => {
+                return NatsSubjects.replace(NatsSubject.COSMO_ADDRESS_BOOKS, { organizationName, spaceName });
             };
             static Asset = class {
                 static COMMENTS = (organizationName: string, spaceName: string, namespaceName: string, assetId: string) => {

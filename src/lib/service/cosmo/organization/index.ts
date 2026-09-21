@@ -110,6 +110,7 @@ export class CosmoOrganization extends Base {
             context,
             limit,
             page,
+            recursive = false,
             namespace,
             parentId,
             shareId,
@@ -121,6 +122,7 @@ export class CosmoOrganization extends Base {
             context: AssetSearchContext;
             limit?: number;
             page?: number;
+            recursive?: boolean;
             namespace?: string[] | string;
             parentId?: string;
             shareId?: string;
@@ -143,6 +145,7 @@ export class CosmoOrganization extends Base {
                     context,
                     limit,
                     page,
+                    recursive,
                     spaceName,
                     namespace,
                     parentId,

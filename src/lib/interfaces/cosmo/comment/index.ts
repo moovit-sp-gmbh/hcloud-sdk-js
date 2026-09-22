@@ -36,6 +36,7 @@ export enum CommentSortField {
     CREATOR = "CREATOR",
     NEWEST = "NEWEST",
     OLDEST = "OLDEST",
+    INCOMPLETE = "INCOMPLETE",
 }
 
 export enum CommentSortDirection {

@@ -5,6 +5,4 @@ export interface CapturedRequest {
     method: HttpMethod;
     headers: IncomingHttpHeaders;
     body: any;
-    spaceId: string;
-    organizationId: string;
 }

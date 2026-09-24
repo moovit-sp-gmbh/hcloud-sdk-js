@@ -87,9 +87,9 @@ export default class High5Pool extends Base {
      * @param spaceName - Name of the space
      * @param poolName  - Name of the pool
      */
-    async deletePool<R extends boolean = false>(orgName: string, spaceName: string, poolName: string, raw?: { raw: R }): Promise<MaybeRaw<R, Pool>> {
-        const resp = await this.axios.delete<Pool>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/pools/${poolName}`));
-        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Pool>;
+    async deletePool<R extends boolean = false>(orgName: string, spaceName: string, poolName: string, raw?: { raw: R }): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/pools/${poolName}`));
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, void>;
     }
 
     /**

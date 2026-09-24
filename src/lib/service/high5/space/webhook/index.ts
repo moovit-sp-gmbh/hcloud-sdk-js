@@ -129,9 +129,9 @@ export class High5Webhook extends Base {
         spaceName: string,
         webhookId: string,
         raw?: { raw: R }
-    ): Promise<MaybeRaw<R, Webhook[]>> {
-        const resp = await this.axios.delete<Webhook[]>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/webhooks/${webhookId}`));
-        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Webhook[]>;
+    ): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.delete<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/webhooks/${webhookId}`));
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, void>;
     }
 
     /**

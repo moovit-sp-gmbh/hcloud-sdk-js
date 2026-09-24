@@ -447,6 +447,11 @@ export const ErrorCodes = [
         message: "Storage does not fulfill requirements: '{{msg}}'"
     },
     {
+        code: "001.055.0005",
+        error: "storage.protected",
+        message: "This storage is protected"
+    },
+    {
         code: "001.056.0001",
         error: "oidc.provider.already.exists",
         message: "oidc provider already exists for the specified domain."

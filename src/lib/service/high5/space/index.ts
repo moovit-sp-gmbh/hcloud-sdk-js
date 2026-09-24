@@ -8,7 +8,6 @@ import {
     High5SpaceEntityPermission as SpaceEntityPermission,
     High5SpacePermission as SpacePermission,
 } from "../../../interfaces/high5/space";
-import { CapturedRequest } from "../../../interfaces/high5/space/request";
 import { High5Database } from "./database";
 import { High5Event } from "./event";
 import { High5SpaceExecute } from "./execution";
@@ -360,7 +359,6 @@ export class High5Space extends Base {
      * @param spaceName Name of the Space
      * @param data (optional) The body of the request
      * @param headers (optional) Additional headers to forward
-     * @returns Captured request details
      */
     async capturedRequest<R extends boolean = false>(
         method: HttpMethod,
@@ -369,15 +367,15 @@ export class High5Space extends Base {
         data?: any,
         headers?: Record<string, string>,
         raw?: { raw: R }
-    ): Promise<MaybeRaw<R, CapturedRequest>> {
-        const resp = await this.axios.request<CapturedRequest>({
+    ): Promise<MaybeRaw<R, void>> {
+        const resp = await this.axios.request<void>({
             method,
             url: this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/request/catch`),
             data,
             headers,
         });
 
-        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, CapturedRequest>;
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, void>;
     }
 
     protected getEndpoint(endpoint: string): string {

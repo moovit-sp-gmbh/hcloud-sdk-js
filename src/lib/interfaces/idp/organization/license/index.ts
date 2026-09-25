@@ -26,6 +26,12 @@ type LicenseQuotaBase = {
             domains: {
                 quota: number;
             };
+            /** Bring your own storage quota. Absent on older licenses, in which case own storages are not allowed. */
+            storages?: {
+                byos: boolean;
+                quota: number;
+                capacityInGB: number;
+            };
             logPeriodInDays: number;
         };
     };

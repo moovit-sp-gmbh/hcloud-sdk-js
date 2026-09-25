@@ -36,6 +36,19 @@ export type StorageConfiguration = {
     valid: boolean;
 };
 
+export type StorageCapacity = {
+    storageId: string;
+    organizationId: string;
+    /** Whether the license of the organization allows own storages */
+    byos: boolean;
+    /** Licensed capacity across all own storages of the organization in bytes. Absent for the default storage. */
+    capacityBytes?: number;
+    /** Current usage across all own storages of the organization in bytes. Absent for the default storage. */
+    usedBytes?: number;
+    /** Whether an upload of the requested size would exceed the licensed capacity */
+    exceeded: boolean;
+};
+
 export type StorageDto = Omit<Storage, "accessKeyId" | "secretAccessKey">;
 
 export type StorageCreateDto = Pick<Storage, "name" | "endpoint" | "bucket" | "region"> & { accessKeyId: string; secretAccessKey: string };

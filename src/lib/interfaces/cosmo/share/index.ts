@@ -45,7 +45,11 @@ export interface Share {
     expires?: number;
     password?: string;
     publicLink?: PublicLink;
-    users?: (User | ReducedUser | ShareReducedUnlinkedUser)[];
+    /**
+     * Only present when searching shares of a space.
+     * `remainingCooldownInSeconds` is set for users whose share email is in cooldown and cannot be resent yet.
+     */
+    users?: ((User | ReducedUser | ShareReducedUnlinkedUser) & { remainingCooldownInSeconds?: number })[];
     waiting: boolean;
     emailStatus?: { email: string; status: EmailStatus }[];
     message?: string;

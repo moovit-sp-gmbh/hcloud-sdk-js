@@ -2,7 +2,13 @@ import Base, { MaybeRaw } from "../../../../Base";
 import { createPaginatedResponse } from "../../../../helper/paginatedResponseHelper";
 import { SearchFilterDTO } from "../../../../helper/searchFilter";
 import { PaginatedResponse, SearchFilter, Sorting } from "../../../../interfaces/global";
-import { StorageDto as Storage, StorageConfiguration, StorageCreateDto, StoragePatchDto } from "../../../../interfaces/global/Storage";
+import {
+    StorageDto as Storage,
+    StorageCapacity,
+    StorageConfiguration,
+    StorageCreateDto,
+    StoragePatchDto,
+} from "../../../../interfaces/global/Storage";
 
 export class IdpOrganizationStorages extends Base {
     /**
@@ -144,6 +150,33 @@ export class IdpOrganizationStorages extends Base {
         });
 
         return (raw?.raw ? resp : resp.data) as MaybeRaw<R, StorageConfiguration>;
+    }
+
+    /**
+     * Checks whether the specified Storage can take an upload of the given size according to the license of its Organization.
+     * The default Storage is never limited. Requires a Personal Access Token (PAT) with appropriate permissions.
+     *
+     * @param pat Personal Access Token
+     * @param storageId (optional) ID of storage. If not provided or "default", the default storage is checked.
+     * @param uploadSize (optional) Size of the upload that is about to start in bytes. If omitted, it is checked whether the capacity is already reached.
+     * @param raw (optional) If true, returns the raw Axios response instead of the data
+     * @returns The Storage capacity
+     */
+    async getStorageCapacity<R extends boolean = false>(
+        pat: string,
+        storageId = "default",
+        uploadSize?: number,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, StorageCapacity>> {
+        const resp = await this.axios.get<StorageCapacity>(`${this.options.server}/api/account/v1/storage/${storageId}/capacity`, {
+            params: uploadSize !== undefined ? { uploadSize } : undefined,
+            headers: {
+                Authorization: `Bearer ${pat}`,
+                "x-hcloud-login-enforce": "true",
+            },
+        });
+
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, StorageCapacity>;
     }
 
     protected getEndpoint(endpoint: string): string {

@@ -1,8 +1,5 @@
 import { ReducedUser } from "../../idp";
 
-/** Members as key-value pairs: mandatory e-mail address -> optional display name (used for create/add input) */
-export type AddressBookMembers = Record<string, string | undefined>;
-
 export enum AddressBookMemberType {
     /** Existing helmut.cloud user */
     INTERNAL = "INTERNAL",
@@ -39,8 +36,8 @@ export type AddressBookCreate = {
     name: string;
     /** Optional description (max 512 chars) */
     description?: string;
-    /** Initial members (e-mail -> optional display name) */
-    members?: AddressBookMembers;
+    /** Initial members */
+    members?: AddressBookMemberInput[];
     /** Initial list of internal team IDs to reference */
     teamIds?: string[];
 };
@@ -52,14 +49,11 @@ export type AddressBookUpdate = {
     description?: string;
 };
 
-export type AddressBookMemberAddRequest = {
+export type AddressBookMemberInput = {
+    /** Mandatory e-mail address */
     email: string;
+    /** Optional display name */
     name?: string;
-};
-
-export type AddressBookMemberRemoveRequest = {
-    /** List of email addresses to remove (min 1) */
-    emails: string[];
 };
 
 export type AddressBookTeamRequest = {

@@ -92,6 +92,6 @@ export type JobCreate = Pick<
     "name" | "timezone" | "payload" | "enabled" | "description" | "target" | "lastStatus" | "lastTriggered" | "time"
 > & {
     expression?: string;
-    timestamp?: string;
+    timestamp?: number;
     targetEvent: string;
 };

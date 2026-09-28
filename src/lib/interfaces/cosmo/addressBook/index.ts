@@ -53,8 +53,8 @@ export type AddressBookUpdate = {
 };
 
 export type AddressBookMemberAddRequest = {
-    /** Members to add (e-mail -> optional display name, min 1) */
-    members: AddressBookMembers;
+    email: string;
+    name?: string;
 };
 
 export type AddressBookMemberRemoveRequest = {

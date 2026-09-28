@@ -4,7 +4,6 @@ import {
     AddressBookCreate,
     AddressBookMemberAddRequest,
     AddressBookMemberRemoveRequest,
-    AddressBookMembers,
     AddressBookTeamRequest,
     AddressBookUpdate,
 } from "../../../interfaces/cosmo/addressBook";
@@ -147,11 +146,10 @@ export class CosmoAddressBook extends Base {
         orgName: string,
         spaceName: string,
         bookId: string,
-        members: AddressBookMembers,
+        members: AddressBookMemberAddRequest[],
         raw?: { raw: R }
     ): Promise<MaybeRaw<R, AddressBook>> {
-        const payload: AddressBookMemberAddRequest = { members };
-        const resp = await this.axios.post<AddressBook>(this.getEndpoint(`${this.basePath(orgName, spaceName)}/${bookId}/members`), payload);
+        const resp = await this.axios.post<AddressBook>(this.getEndpoint(`${this.basePath(orgName, spaceName)}/${bookId}/members`), members);
         return (raw?.raw ? resp : resp.data) as MaybeRaw<R, AddressBook>;
     }
 

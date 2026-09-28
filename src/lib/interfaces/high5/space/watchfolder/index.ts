@@ -21,6 +21,16 @@ interface LocalWatchFolderCredentials {
 
 export type WatchFolderCredentials = S3WatchFolderCredentials | LocalWatchFolderCredentials;
 
+export enum WatchFolderScanStatus {
+    SUCCESSFUL = "SUCCESSFUL",
+    FAILED = "FAILED",
+}
+
+export interface WatchFolderScanError {
+    message: string; // Description of why the most recent scan failed
+    since: number; // Unix timestamp of the first failed scan in the current, uninterrupted series of failures
+}
+
 export interface WatchFolder {
     _id: string;
     name: string;
@@ -35,6 +45,8 @@ export interface WatchFolder {
     eventName: string;
     credentials: WatchFolderCredentials;
     maxFileResetAttempts: number; // Maximum number of times a single file may be reset back to STABLE by a stream execution before further reset requests are rejected
+    status?: WatchFolderScanStatus; // Outcome of the most recent scan; undefined until the watch folder has been scanned for the first time
+    error?: WatchFolderScanError; // Only set while status is FAILED
 }
 
 export interface CreateWatchFolder {
@@ -89,6 +101,7 @@ export interface WatchFolderFileReset {
 
 export interface WatchFolderScanReport {
     files: { path: string; size: number }[];
+    errorMessage?: string; // Set by the agent when the scan could not be performed, e.g. the path does not exist
 }
 
 export interface WatchFolderScanConfig {

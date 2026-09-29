@@ -18,7 +18,13 @@ export type Storage = {
     secretAccessKey: string;
 
     spaces: (ReducedSpace & { storageUsed: number })[];
+    /** Total bytes used across all spaces assigned to this storage. For the default storage only the spaces of the requesting organization. */
     storageUsed: number;
+    /**
+     * Licensed maximum capacity in GB (1 GB = 1024³ bytes). For the default storage the default storage quota of the organization.
+     * For own storages the storages quota of the organization, shared across all of its own storages (0 if own storages are not allowed).
+     */
+    capacityInGB: number;
 
     valid: boolean;
     errorMessage?: string;

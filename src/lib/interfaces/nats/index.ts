@@ -31,6 +31,7 @@ enum NatsSubject {
     HIGH5_SPACES = "hcloud.high5.organization.${base64orgName}.spaces",
     HIGH5_SPACE_PERMISSIONS = "hcloud.high5.organization.${base64orgName}.spaces.${base64spaceName}.permissions",
     HIGH5_STREAM_EXECUTE = "hcloud.high5.organization.${organizationId}.stream.execute.${base64email}",
+    HIGH5_STREAM_EXECUTE_POOL = "hcloud.high5.organization.${organizationId}.spaces.${spaceId}.stream.execute.pool.${base64poolName}",
     HIGH5_STREAM_CANCEL = "hcloud.high5.organization.${organizationId}.stream.execute.${base64email}", // eslint-disable-line @typescript-eslint/no-duplicate-enum-values
     HIGH5_STREAM_DEBUG_STOPPED = "hcloud.high5.organization.${organizationId}.stream.execute.${base64email}.${executionId}.stopped",
     HIGH5_STREAM_DEBUG_COMMAND = "hcloud.high5.organization.${organizationId}.stream.execute.${base64email}.${executionSecret}.command",
@@ -217,6 +218,7 @@ interface NatsObject
     [NatsSubject.HIGH5_SPACES]: NatsNameObject;
     [NatsSubject.HIGH5_SPACE_PERMISSIONS]: NatsIdObject;
     [NatsSubject.HIGH5_STREAM_EXECUTE]: High5ExecuteOnAgentRequest | High5ExecutionCancelRequest;
+    [NatsSubject.HIGH5_STREAM_EXECUTE_POOL]: High5ExecuteOnAgentRequest | High5ExecutionCancelRequest;
     [NatsSubject.HIGH5_STREAM_CANCEL]: High5ExecuteOnAgentRequest | High5ExecutionCancelRequest;
     [NatsSubject.HIGH5_EVENTS]: NatsNameObject;
     [NatsSubject.HIGH5_STREAMS]: NatsIdObject;
@@ -437,6 +439,9 @@ class NatsSubjects {
         static Execution = class {
             static EXECUTE = (organizationId: string, email: string) => {
                 return NatsSubjects.replace(NatsSubject.HIGH5_STREAM_EXECUTE, { organizationId, email });
+            };
+            static EXECUTE_POOL = (organizationId: string, spaceId: string, poolName: string) => {
+                return NatsSubjects.replace(NatsSubject.HIGH5_STREAM_EXECUTE_POOL, { organizationId, spaceId, poolName });
             };
 
             static CANCEL = (organizationId: string, email: string) => {

@@ -153,12 +153,14 @@ export class IdpOrganizationStorages extends Base {
     }
 
     /**
-     * Checks whether the specified Storage can take an upload of the given size according to the license of its Organization.
-     * The default Storage is never limited. Requires a Personal Access Token (PAT) with appropriate permissions.
+     * Checks whether the specified Storage can take an upload of the given size according to the license of an Organization.
+     * Own Storages are limited by the storages quota of the owning Organization, the default Storage by the default storage quota
+     * of the given Organization (counting only its Spaces). Requires a Personal Access Token (PAT) with appropriate permissions.
      *
      * @param pat Personal Access Token
      * @param storageId (optional) ID of storage. If not provided or "default", the default storage is checked.
      * @param uploadSize (optional) Size of the upload that is about to start in bytes. If omitted, it is checked whether the capacity is already reached.
+     * @param orgName (optional) Name of the Organization the upload belongs to. Required for the default storage, must be the owner for own storages.
      * @param raw (optional) If true, returns the raw Axios response instead of the data
      * @returns The Storage capacity
      */
@@ -166,10 +168,14 @@ export class IdpOrganizationStorages extends Base {
         pat: string,
         storageId = "default",
         uploadSize?: number,
+        orgName?: string,
         raw?: { raw: R }
     ): Promise<MaybeRaw<R, StorageCapacity>> {
         const resp = await this.axios.get<StorageCapacity>(`${this.options.server}/api/account/v1/storage/${storageId}/capacity`, {
-            params: uploadSize !== undefined ? { uploadSize } : undefined,
+            params: {
+                ...(uploadSize !== undefined ? { uploadSize } : {}),
+                ...(orgName !== undefined ? { orgName } : {}),
+            },
             headers: {
                 Authorization: `Bearer ${pat}`,
                 "x-hcloud-login-enforce": "true",

@@ -59,12 +59,15 @@ export interface Webhook {
         error?: string;
     };
     callbackEnabled: boolean;
+    /** If true, the execution target can be overwritten per request via '?target=<pool name or user email>' */
+    targetOverrideEnabled: boolean;
 }
 
 export type WebhookCreate = Pick<
     Webhook,
     "name" | "target" | "type" | "sub" | "webhookEncryptionSettings" | "securityHeaders" | "networkSettings" | "callbackEnabled"
->;
+> &
+    Partial<Pick<Webhook, "targetOverrideEnabled">>;
 
 export type WebhookUpdate = Partial<WebhookCreate> & {
     deleteWebhookEncryptionSettings?: boolean;

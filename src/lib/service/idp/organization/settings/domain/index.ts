@@ -1,5 +1,5 @@
 import Base, { MaybeRaw } from "../../../../../Base";
-import { Domain } from "../../../../../interfaces/idp/organization/settings/domain";
+import { Domain, SSOProvider } from "../../../../../interfaces/idp/organization/settings/domain";
 import { IdpSAMLProvider } from "./saml";
 
 export class IdpDomain extends Base {
@@ -49,6 +49,18 @@ export class IdpDomain extends Base {
         const resp = await this.axios.patch<Domain>(this.getEndpoint(`/v1/org/${orgName}/settings/domains/${domainName}/verify`));
 
         return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Domain>;
+    }
+
+    /**
+     * Retrieves the SSO provider of a Domain.
+     * @param orgName Name of the organization
+     * @param domainName Name of the Domain
+     * @returns The SAML or OIDC provider of the Domain (check `type`), or null if it has none
+     */
+    async getProvider<R extends boolean = false>(orgName: string, domainName: string, raw?: { raw: R }): Promise<MaybeRaw<R, SSOProvider | null>> {
+        const resp = await this.axios.get<SSOProvider | null>(this.getEndpoint(`/v1/org/${orgName}/settings/domains/${domainName}/provider`));
+
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, SSOProvider | null>;
     }
 
     /**

@@ -1,7 +1,9 @@
 import { ReducedOrganization } from "../..";
 import { ReducedUser } from "../../../user";
+import { OIDCProvider } from "./oidc";
+import { FullSAMLProvider } from "./saml";
 
-enum VerificationStatus {
+export enum VerificationStatus {
     verified = "verified",
     waiting = "waiting",
     error = "error",
@@ -18,3 +20,5 @@ export interface Domain {
     createDate: number;
     modifyDate: number;
 }
+
+export type SSOProvider = (FullSAMLProvider & { type: "saml" }) | (OIDCProvider & { type: "oidc" });

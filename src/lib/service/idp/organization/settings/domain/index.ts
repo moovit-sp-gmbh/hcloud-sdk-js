@@ -52,6 +52,26 @@ export class IdpDomain extends Base {
     }
 
     /**
+     * Renames a Domain. The renamed Domain is no longer verified and has to be verified again with the same uuid.
+     * @param orgName Name of the organization
+     * @param domainName Current name of the Domain
+     * @param newDomainName New name of the Domain
+     * @returns the renamed Domain
+     */
+    async renameDomain<R extends boolean = false>(
+        orgName: string,
+        domainName: string,
+        newDomainName: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Domain>> {
+        const resp = await this.axios.patch<Domain>(this.getEndpoint(`/v1/org/${orgName}/settings/domains/${domainName}`), {
+            name: newDomainName,
+        });
+
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Domain>;
+    }
+
+    /**
      * Deletes a domain.
      * @param orgName Name of the organization
      * @param domainName Name of the domain

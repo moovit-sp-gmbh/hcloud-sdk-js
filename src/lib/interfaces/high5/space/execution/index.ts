@@ -1,5 +1,5 @@
 import { HCloud } from "../../../../Hcloud";
-import { ReducedSpace } from "../../../global";
+import { PaginatedResponse, ReducedSpace } from "../../../global";
 import { ReducedOrganization, ReducedUser } from "../../../idp";
 import { WaveCatalog, WaveEngine } from "../../wave";
 import { ReducedEvent } from "../event";
@@ -179,6 +179,29 @@ export interface High5ExecutionStatus {
     startTime?: number;
     currentRetry?: number;
     assignedClient?: string;
+    /**
+     * Plaintext payload data of the execution, only set when searching execution states by payload
+     * (filter keys "payload" or "payload.<path>"). JSON payloads are returned as JSON value, generic payloads as string.
+     */
+    payload?: unknown;
+}
+
+/**
+ * Response of an execution state search. Searches with payload filters count at most 1000 matches,
+ * a higher number of matches is reported with total = 1000 and totalCapped = true.
+ */
+export interface High5ExecutionStatusSearchResponse extends PaginatedResponse<High5ExecutionStatus> {
+    /** True if total holds the capped count of a payload search instead of the exact number of matches */
+    totalCapped: boolean;
+}
+
+/**
+ * Response of a full execution state search by payload, which considers all executions but skips the count
+ */
+export interface High5ExecutionStatusFullSearchResponse {
+    items: High5ExecutionStatus[];
+    /** True if a next page exists */
+    hasMore: boolean;
 }
 
 export interface High5ExecutionLog {

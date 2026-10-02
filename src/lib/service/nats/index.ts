@@ -1,4 +1,15 @@
-import { connect as connectNode, Msg, NatsConnection, NatsError, PublishOptions, RequestOptions, Subscription, SubscriptionOptions } from "nats";
+import {
+    connect as connectNode,
+    ErrorCode,
+    Events,
+    Msg,
+    NatsConnection,
+    NatsError,
+    PublishOptions,
+    RequestOptions,
+    Subscription,
+    SubscriptionOptions,
+} from "nats";
 import { connect as connectWs } from "nats.ws";
 import Base from "../../Base";
 import { NatsCallback, NatsMessage, NatsMessageType, NatsObject, NatsObjectType, RawMsg } from "../../interfaces/nats";
@@ -8,6 +19,16 @@ interface SubMapEntry {
     sub: Subscription;
     options?: SubscriptionOptions;
 }
+
+/**
+ * Called on every consecutive 'Authorization Violation' the NATS server answers a (re)connect with.
+ * Return false to close the connection and stop reconnecting (e.g. once the token turned out to be invalid),
+ * true to keep reconnecting with an increasing delay.
+ *
+ * Note: the server reports a failing or unreachable auth service with the same error, so only give up once
+ * the credentials are known to be invalid, e.g. because an HTTP request with the same token is rejected with 401.
+ */
+export type NatsAuthErrorHandler = (consecutiveAuthErrors: number) => boolean | Promise<boolean>;
 
 /**
  * Connect and authenticate using email and jwt
@@ -24,6 +45,7 @@ type ConnectParamsJwt = {
     servers?: string[];
     debug?: boolean;
     forceWebsocket?: boolean;
+    onAuthError?: NatsAuthErrorHandler;
 };
 /**
  * Connect and authenticate using username and password
@@ -41,9 +63,24 @@ type ConnectParamsPassword = {
     servers?: string[];
     debug?: boolean;
     forceWebsocket?: boolean;
+    onAuthError?: NatsAuthErrorHandler;
 };
 
 const isBrowser = typeof window !== "undefined";
+
+const RECONNECT_TIME_WAIT_MS = 2 * 1000;
+const RECONNECT_JITTER_MS = 1000;
+const AUTH_ERROR_RECONNECT_MAX_WAIT_MS = 5 * 60 * 1000;
+
+/**
+ * Delay before the next reconnect attempt: the usual 2s, doubled for every consecutive authorization error
+ * (4s, 8s, ... up to 5min), so clients with rejected credentials don't hammer the server (and its auth callout).
+ */
+export function reconnectDelay(consecutiveAuthErrors: number): number {
+    const wait = Math.min(RECONNECT_TIME_WAIT_MS * 2 ** consecutiveAuthErrors, AUTH_ERROR_RECONNECT_MAX_WAIT_MS);
+    return wait + Math.floor(Math.random() * RECONNECT_JITTER_MS);
+}
+
 class Nats extends Base {
     private natsConnection: NatsConnection | undefined;
     private subMap = [] as SubMapEntry[];
@@ -71,16 +108,21 @@ class Nats extends Base {
                 params.servers = ["hcloud-nats-0.hcloud-nats:4222", "hcloud-nats-1.hcloud-nats:4222", "hcloud-nats-2.hcloud-nats:4222"];
             }
         }
+        // Authorization errors are not fatal on their own (the server also reports a failing auth service that way),
+        // so keep reconnecting, but back off and let onAuthError decide when to give up.
+        const authErrors = { consecutive: 0 };
         this.natsConnection = await this.connection({
             name: params.name,
             debug: params.debug,
             maxReconnectAttempts: -1,
             ignoreAuthErrorAbort: true,
+            reconnectDelayHandler: () => reconnectDelay(authErrors.consecutive),
             servers: params.servers,
             pingInterval: 55 * 1000, //ping every 55 seconds
             user: (params as ConnectParamsJwt).email !== undefined ? (params as ConnectParamsJwt).email : (params as ConnectParamsPassword).username,
             pass: (params as ConnectParamsJwt).jwt !== undefined ? (params as ConnectParamsJwt).jwt : (params as ConnectParamsPassword).password,
         });
+        void this.watchAuthErrors(this.natsConnection, authErrors, params.onAuthError);
 
         for (const entry of previousSubs) {
             await this.sub(
@@ -97,6 +139,37 @@ class Nats extends Base {
         // where a request could be delivered but its reply never made it back (NatsError TIMEOUT), and afterwards NATS core would no longer see any subscriber at all (NatsError 503/"no responders").
         // The connection returned above is already fully connected; forcing another reconnect here serves no purpose and only reintroduces that instability.
         return this.natsConnection;
+    }
+
+    /**
+     * Counts consecutive authorization errors of a connection (reset by a successful reconnect) and closes it
+     * once onAuthError asks to stop.
+     */
+    private async watchAuthErrors(
+        connection: NatsConnection,
+        authErrors: { consecutive: number },
+        onAuthError?: NatsAuthErrorHandler
+    ): Promise<void> {
+        try {
+            for await (const status of connection.status()) {
+                if (status.type === Events.Reconnect) {
+                    authErrors.consecutive = 0;
+                } else if (status.type === Events.Error && status.data === ErrorCode.AuthorizationViolation) {
+                    authErrors.consecutive++;
+                    this.logger?.warn(
+                        `NATS authorization failed (${authErrors.consecutive} in a row), retrying in about ${reconnectDelay(authErrors.consecutive) / 1000}s`
+                    );
+
+                    if (onAuthError && !(await onAuthError(authErrors.consecutive))) {
+                        this.logger?.error("NATS authorization failed permanently, closing the connection");
+                        await connection.close();
+                        return;
+                    }
+                }
+            }
+        } catch (err) {
+            this.logger?.error(`Unable to watch NATS connection status: ${String(err)}`);
+        }
     }
 
     public getConnection = (): NatsConnection | undefined => {

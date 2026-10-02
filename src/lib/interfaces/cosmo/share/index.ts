@@ -97,7 +97,10 @@ export interface ShareCreate extends Omit<
 }
 
 export type ShareWithUsers = Share & {
-    users: ((ReducedUser | Pick<ReducedUser, "email">) & { linkedToShare: boolean })[];
+    /**
+     * `remainingCooldownInSeconds` is set for users whose share email is in cooldown and cannot be resent yet.
+     */
+    users: ((ReducedUser | Pick<ReducedUser, "email">) & { linkedToShare: boolean; remainingCooldownInSeconds?: number })[];
 };
 
 /**

@@ -26,6 +26,17 @@ type LicenseQuotaBase = {
             domains: {
                 quota: number;
             };
+            /** Bring your own storage quota. Absent on older licenses, in which case own storages are not allowed. */
+            storages?: {
+                byos: boolean;
+                quota: number;
+                capacityInGB: number;
+            };
+            /** Default (hcloud provided) storage quota. Absent on older licenses, in which case a capacity of 1 GB applies. */
+            defaultStorage?: {
+                /** Maximum usage of the default storage in GB (1 GB = 1024³ bytes). */
+                capacityInGB: number;
+            };
             logPeriodInDays: number;
         };
     };

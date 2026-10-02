@@ -29,4 +29,4 @@ scan:
 
 test:
 #	node --test -r ts-node/register "test/**/*.test.ts"
-	node --test -r ts-node/register test/dependentInputs.test.ts test/nats.test.ts test/clone.test.ts
+	node --test -r ts-node/register test/dependentInputs.test.ts test/nats.test.ts test/clone.test.ts test/natsAuthErrors.test.ts

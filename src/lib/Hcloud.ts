@@ -195,6 +195,20 @@ export class HCloud {
     }
 
     /**
+     * Returns an independent copy of this instance that shares its NATS connection.
+     * Options (e.g. server) and default request headers (e.g. auth token, correlationID) are copied, so calling
+     * setServer, setAuthToken, setCorrelationId, ... on the copy never affects this instance and vice versa.
+     * Use it whenever a long-lived, shared instance has to be adjusted for a single call.
+     * A refresh token or a custom axios instance set via setAxios is not carried over.
+     */
+    clone(): HCloud {
+        const copy = new HCloud({ ...this.options });
+        copy.axios.defaults.headers.common = { ...this.axios.defaults.headers.common };
+        copy._Nats = this.Nats;
+        return copy;
+    }
+
+    /**
      * Sets the server url that the SDK shall do a request to.
      */
     setServer(server: string): HCloud {

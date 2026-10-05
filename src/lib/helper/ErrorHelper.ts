@@ -8,7 +8,8 @@ export default function wrapError<T>(error: T): T | HCloudError {
             error.response.statusText,
             error.response.data.code,
             error.response.data.error,
-            error.response.data.message
+            error.response.data.message,
+            error.response.data.shortMessage
         );
     }
     return error;

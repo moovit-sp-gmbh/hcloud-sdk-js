@@ -4,8 +4,9 @@ export default class HCloudError extends Error {
     code: string;
     error: string;
     message: string;
+    shortMessage?: string;
 
-    constructor(status: number, statusText: string, code: string, error: string, message: string) {
+    constructor(status: number, statusText: string, code: string, error: string, message: string, shortMessage?: string) {
         super(message);
 
         this.status = status;
@@ -13,5 +14,6 @@ export default class HCloudError extends Error {
         this.code = code;
         this.error = error;
         this.message = message;
+        this.shortMessage = shortMessage;
     }
 }

@@ -1,5 +1,6 @@
 import Base, { MaybeRaw } from "../../../Base";
 import { High5QueuePollRequest } from "../../../interfaces/high5/execution";
+import { High5ExecutionResponse } from "../../../interfaces/high5/space/execution";
 import { High5OrganizationExecutionLogs } from "./log/index";
 import { High5OrganizationExecutionStates } from "./status/index";
 
@@ -44,6 +45,25 @@ export class High5OrganizationExecute extends Base {
     ): Promise<MaybeRaw<R, void>> {
         const resp = await this.axios.get<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execution/${high5ExecutionId}/cancel`));
         return (raw?.raw ? resp : undefined) as MaybeRaw<R, void>;
+    }
+
+    /**
+     * Rerun a stream execution with the same payload
+     * @param orgName Name of the Organization
+     * @param spaceName Name of the Space
+     * @param high5ExecutionId ID of the stream execution
+     * @returns 200 High5ExecutionResponse
+     */
+    async rerunExecution<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        high5ExecutionId: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, High5ExecutionResponse>> {
+        const resp = await this.axios.post<High5ExecutionResponse>(
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/execution/${high5ExecutionId}/rerun`)
+        );
+        return (raw?.raw ? resp : undefined) as MaybeRaw<R, High5ExecutionResponse>;
     }
 
     protected getEndpoint(endpoint: string): string {

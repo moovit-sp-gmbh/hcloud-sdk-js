@@ -5,6 +5,7 @@ export interface OIDCProvider {
     discoveryEndpoint?: string;
 }
 
-export type OIDCProviderCreateDto = OIDCProvider & {
-    clientSecret: string;
-};
+export type OIDCProviderCreateDto = Pick<OIDCProvider, "clientId"> & { clientSecret: string } & (
+        | { discoveryEndpoint: string; authorizationEndpoint?: never; tokenEndpoint?: never }
+        | { authorizationEndpoint: string; tokenEndpoint: string; discoveryEndpoint?: never }
+    );

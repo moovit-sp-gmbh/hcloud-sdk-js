@@ -1,5 +1,6 @@
 import Base, { MaybeRaw } from "../../../../../Base";
 import { Domain, SSOProvider } from "../../../../../interfaces/idp/organization/settings/domain";
+import { IdpOIDCProvider } from "./oidc";
 import { IdpSAMLProvider } from "./saml";
 
 export class IdpDomain extends Base {
@@ -13,6 +14,17 @@ export class IdpDomain extends Base {
         return this._samlProvider;
     }
     private _samlProvider?: IdpSAMLProvider;
+
+    /**
+     * Handles everything around an OIDC provider of a domain.
+     */
+    public get oidcProvider(): IdpOIDCProvider {
+        if (this._oidcProvider === undefined) {
+            this._oidcProvider = new IdpOIDCProvider(this.options, this.axios);
+        }
+        return this._oidcProvider;
+    }
+    private _oidcProvider?: IdpOIDCProvider;
 
     /**
      * Retrieves all the Domains associated with a given Organization.

@@ -23,7 +23,9 @@ export type WatchFolderCredentials = S3WatchFolderCredentials | LocalWatchFolder
 
 export enum WatchFolderScanStatus {
     SUCCESSFUL = "SUCCESSFUL",
-    FAILED = "FAILED",
+    PATH_NOT_FOUND = "PATH_NOT_FOUND", // The path (or S3 bucket) to scan does not exist
+    NO_AGENT_AVAILABLE = "NO_AGENT_AVAILABLE", // No agent assigned to the watch folder's target is connected
+    FAILED = "FAILED", // Any other reason the scan could not be performed
 }
 
 export interface WatchFolderScanError {
@@ -46,7 +48,7 @@ export interface WatchFolder {
     credentials: WatchFolderCredentials;
     maxFileResetAttempts: number; // Maximum number of times a single file may be reset back to STABLE by a stream execution before further reset requests are rejected
     status?: WatchFolderScanStatus; // Outcome of the most recent scan; undefined until the watch folder has been scanned for the first time
-    error?: WatchFolderScanError; // Only set while status is FAILED
+    error?: WatchFolderScanError; // Set for any status other than SUCCESSFUL
 }
 
 export interface CreateWatchFolder {
@@ -102,6 +104,7 @@ export interface WatchFolderFileReset {
 export interface WatchFolderScanReport {
     files: { path: string; size: number }[];
     errorMessage?: string; // Set by the agent when the scan could not be performed, e.g. the path does not exist
+    status?: WatchFolderScanStatus.PATH_NOT_FOUND | WatchFolderScanStatus.FAILED; // Reason of the failed scan, only together with errorMessage (defaults to FAILED)
 }
 
 export interface WatchFolderScanConfig {

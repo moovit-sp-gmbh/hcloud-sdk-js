@@ -20,6 +20,8 @@ export class CosmoSpace extends Base {
      * @remarks
      * ** Under development, breaking changes possible**
      * @param orgName Name of the Organization
+     * @param spaceName Name of the Space to create
+     * @param storageId ID of the Storage to associate with the Space
      * @param noAvatar Optional flag to create the Space without an avatar
      * @returns The created Space
      */
@@ -27,10 +29,12 @@ export class CosmoSpace extends Base {
         orgName: string,
         spaceName: string,
         noAvatar?: boolean,
+        storageId?: string,
         raw?: { raw: R }
     ): Promise<MaybeRaw<R, ICosmoSpace>> {
         const resp = await this.axios.post<ICosmoSpace>(this.getEndpoint(`/v1/org/${orgName}/spaces?noAvatar=${noAvatar ? "true" : "false"}`), {
             name: spaceName,
+            storageId,
         });
 
         return (raw?.raw ? resp : resp.data) as MaybeRaw<R, ICosmoSpace>;

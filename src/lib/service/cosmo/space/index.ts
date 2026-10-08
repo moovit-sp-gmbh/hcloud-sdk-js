@@ -213,4 +213,24 @@ export class CosmoSpace extends Base {
 
         return (raw?.raw ? resp : resp.data) as MaybeRaw<R, ICosmoSpace>;
     }
+
+    /**
+     * Change the Storage of a Space. Only possible as long as the Space contains no media assets.
+     * @remarks
+     * ** Under development, breaking changes possible**
+     * @param orgName Name of the Organization
+     * @param spaceName Name of the Space
+     * @param storageId ID of the Storage to use for the Space, or "default" for the default Storage
+     * @returns The updated Space
+     */
+    async updateStorage<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        storageId: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, ICosmoSpace>> {
+        const resp = await this.axios.patch<ICosmoSpace>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/storage/${storageId}`));
+
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, ICosmoSpace>;
+    }
 }

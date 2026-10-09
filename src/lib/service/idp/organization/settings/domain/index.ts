@@ -1,31 +1,7 @@
 import Base, { MaybeRaw } from "../../../../../Base";
-import { Domain, SSOProvider } from "../../../../../interfaces/idp/organization/settings/domain";
-import { IdpOIDCProvider } from "./oidc";
-import { IdpSAMLProvider } from "./saml";
+import { Domain, DomainPatch, DomainSSOConfig } from "../../../../../interfaces/idp/organization/settings/domain";
 
 export class IdpDomain extends Base {
-    /**
-     * Handles everything around a SAML provider of a domain.
-     */
-    public get samlProvider(): IdpSAMLProvider {
-        if (this._samlProvider === undefined) {
-            this._samlProvider = new IdpSAMLProvider(this.options, this.axios);
-        }
-        return this._samlProvider;
-    }
-    private _samlProvider?: IdpSAMLProvider;
-
-    /**
-     * Handles everything around an OIDC provider of a domain.
-     */
-    public get oidcProvider(): IdpOIDCProvider {
-        if (this._oidcProvider === undefined) {
-            this._oidcProvider = new IdpOIDCProvider(this.options, this.axios);
-        }
-        return this._oidcProvider;
-    }
-    private _oidcProvider?: IdpOIDCProvider;
-
     /**
      * Retrieves all the Domains associated with a given Organization.
      * @param orgName Name of Organization
@@ -41,11 +17,18 @@ export class IdpDomain extends Base {
      * Creates a new Domain for the given Organization
      * @param orgName Name of the Organization
      * @param domainName Name of the Domain
+     * @param sso Optional single sign-on configuration, only used for login once the Domain is verified
      * @returns the created Domain
      */
-    async createDomain<R extends boolean = false>(orgName: string, domainName: string, raw?: { raw: R }): Promise<MaybeRaw<R, Domain>> {
+    async createDomain<R extends boolean = false>(
+        orgName: string,
+        domainName: string,
+        sso?: DomainSSOConfig,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Domain>> {
         const resp = await this.axios.post<Domain>(this.getEndpoint(`/v1/org/${orgName}/settings/domains`), {
             name: domainName,
+            sso,
         });
 
         return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Domain>;
@@ -64,35 +47,23 @@ export class IdpDomain extends Base {
     }
 
     /**
-     * Renames a Domain. The renamed Domain is no longer verified and has to be verified again with the same uuid.
+     * Renames a Domain and/or changes its single sign-on configuration.
+     * A renamed Domain is no longer verified and has to be verified again with the same uuid, its SSO configuration is kept.
+     * Setting `sso` replaces the whole configuration, `null` removes it. A left out OIDC `clientSecret` keeps the stored one.
      * @param orgName Name of the organization
      * @param domainName Current name of the Domain
-     * @param newDomainName New name of the Domain
-     * @returns the renamed Domain
+     * @param patch New name and/or SSO configuration
+     * @returns the updated Domain
      */
-    async renameDomain<R extends boolean = false>(
+    async patchDomain<R extends boolean = false>(
         orgName: string,
         domainName: string,
-        newDomainName: string,
+        patch: DomainPatch,
         raw?: { raw: R }
     ): Promise<MaybeRaw<R, Domain>> {
-        const resp = await this.axios.patch<Domain>(this.getEndpoint(`/v1/org/${orgName}/settings/domains/${domainName}`), {
-            name: newDomainName,
-        });
+        const resp = await this.axios.patch<Domain>(this.getEndpoint(`/v1/org/${orgName}/settings/domains/${domainName}`), patch);
 
         return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Domain>;
-    }
-
-    /**
-     * Retrieves the SSO provider of a Domain.
-     * @param orgName Name of the organization
-     * @param domainName Name of the Domain
-     * @returns The SAML or OIDC provider of the Domain (check `type`), or null if it has none
-     */
-    async getProvider<R extends boolean = false>(orgName: string, domainName: string, raw?: { raw: R }): Promise<MaybeRaw<R, SSOProvider | null>> {
-        const resp = await this.axios.get<SSOProvider | null>(this.getEndpoint(`/v1/org/${orgName}/settings/domains/${domainName}/provider`));
-
-        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, SSOProvider | null>;
     }
 
     /**

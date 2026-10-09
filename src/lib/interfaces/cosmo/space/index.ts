@@ -15,6 +15,7 @@ export interface CosmoSpace {
     high5_executionTarget?: string;
     permissions?: string[];
     storageUsed: number;
+    assetCount?: number;
     storage: ReducedStorage;
 }
 

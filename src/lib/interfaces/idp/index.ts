@@ -4,7 +4,6 @@ export * from "./organization/member";
 export * from "./organization/member/invitations";
 export * from "./organization/service-accounts";
 export * from "./organization/settings/domain";
-export * from "./organization/settings/domain/saml";
 export * from "./organization/settings/oauthApp";
 export * from "./organization/team";
 export * from "./user";

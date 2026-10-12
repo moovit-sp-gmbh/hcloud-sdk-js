@@ -27,6 +27,7 @@ enum NatsSubject {
     IDP_ORGANIZATION_SETTINGS_OAUTHAPP = "hcloud.idp.organization.${base64orgName}.settings.oauthapp.${oAuthAppId}",
     IDP_ORGANIZATION_SERVICE_ACCOUNTS = "hcloud.idp.organization.${base64orgName}.serviceAccounts",
     IDP_ORGANIZATION_STORAGE = "hcloud.idp.organization.${base64orgName}.storage",
+    IDP_ORGANIZATION_DOMAINS = "hcloud.idp.organization.${base64orgName}.domains",
 
     HIGH5_SPACES = "hcloud.high5.organization.${base64orgName}.spaces",
     HIGH5_SPACE_PERMISSIONS = "hcloud.high5.organization.${base64orgName}.spaces.${base64spaceName}.permissions",
@@ -133,6 +134,7 @@ enum NatsObjectType {
     NOTIFICATIONS = "NOTIFICATIONS",
     GENERAL_SETTINGS = "GENERAL_SETTINGS",
     STORAGE = "STORAGE",
+    DOMAIN = "DOMAIN",
 
     SPACE = "SPACE",
     SPACE_PERMISSION = "SPACE_PERMISSION",
@@ -215,6 +217,7 @@ interface NatsObject
     [NatsSubject.IDP_ORGANIZATION_TEAM_MEMBERS]: NatsIdObject;
     [NatsSubject.IDP_ORGANIZATION_LICENSE]: NatsLicenseObject;
     [NatsSubject.IDP_ORGANIZATION_STORAGE]: NatsIdObject;
+    [NatsSubject.IDP_ORGANIZATION_DOMAINS]: NatsIdObject;
     [NatsSubject.HIGH5_SPACES]: NatsNameObject;
     [NatsSubject.HIGH5_SPACE_PERMISSIONS]: NatsIdObject;
     [NatsSubject.HIGH5_STREAM_EXECUTE]: High5ExecuteOnAgentRequest | High5ExecutionCancelRequest;
@@ -390,6 +393,9 @@ class NatsSubjects {
         static Organization = class {
             static STORAGE = (organizationName: string) => {
                 return NatsSubjects.replace(NatsSubject.IDP_ORGANIZATION_STORAGE, { organizationName });
+            };
+            static DOMAINS = (organizationName: string) => {
+                return NatsSubjects.replace(NatsSubject.IDP_ORGANIZATION_DOMAINS, { organizationName });
             };
             static INVITATIONS = (organizationName: string) => {
                 return NatsSubjects.replace(NatsSubject.IDP_ORGANIZATION_INVITATIONS, { organizationName });

@@ -145,7 +145,6 @@ export class IdpOrganizationStorages extends Base {
         const resp = await this.axios.get<StorageConfiguration>(`${this.options.server}/api/account/v1/storage/${storageId}?decrypt=${decrypt}`, {
             headers: {
                 Authorization: `Bearer ${pat}`,
-                "x-hcloud-login-enforce": "true",
             },
         });
 
@@ -178,7 +177,6 @@ export class IdpOrganizationStorages extends Base {
             },
             headers: {
                 Authorization: `Bearer ${pat}`,
-                "x-hcloud-login-enforce": "true",
             },
         });
 

@@ -77,6 +77,9 @@ type High5SpacesQuota = {
 };
 
 type High5CommonQuota = {
+    concurrentExecutions?: {
+        quota: number;
+    };
     executionsPerMonth: {
         quota: number;
     };

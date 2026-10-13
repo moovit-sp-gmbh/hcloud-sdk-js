@@ -13,7 +13,8 @@ export type Storage = {
 
     endpoint: string;
     bucket: string;
-    region: string;
+    /** Not set for storages without regions (e.g. Cloudflare R2) */
+    region?: string;
     accessKeyId: string;
     secretAccessKey: string;
 
@@ -35,7 +36,8 @@ export type StorageConfiguration = {
     name: string;
     endpoint: string;
     bucket: string;
-    region: string;
+    /** Not set for storages without regions (e.g. Cloudflare R2) */
+    region?: string;
     accessKeyId: string;
     secretAccessKey: string;
     isDefault: boolean;

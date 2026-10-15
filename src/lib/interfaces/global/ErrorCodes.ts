@@ -532,7 +532,7 @@ export const ErrorCodes = [
     {
         code: "001.055.0004",
         error: "storage.does.not.fulfill.requirements",
-        message: "Storage does not fulfill requirements: '{{msg}}'",
+        message: "'{{msg}}'",
         shortMessage: "Storage does not fulfill requirements"
     },
     {

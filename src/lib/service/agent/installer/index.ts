@@ -31,13 +31,17 @@ export class AgentInstaller extends Base {
 
         releases.sort((r1, r2) => r2.published_date - r1.published_date);
 
-        const windowsInstaller = releases.find(r => r.os === "windows");
+        const windowsInstallerIntel = releases.find(r => r.arch === "x64" && r.os === "windows");
+        const windowsInstallerArm = releases.find(r => r.arch === "arm64" && r.os === "windows");
         const macInstallerIntel = releases.find(r => r.arch === "x64" && r.os === "darwin");
         const macInstallerArm = releases.find(r => r.arch === "arm64" && r.os === "darwin");
 
         const installers = [];
-        if (windowsInstaller) {
-            installers.push(windowsInstaller);
+        if (windowsInstallerIntel) {
+            installers.push(windowsInstallerIntel);
+        }
+        if (windowsInstallerArm) {
+            installers.push(windowsInstallerArm);
         }
         if (macInstallerIntel) {
             installers.push(macInstallerIntel);

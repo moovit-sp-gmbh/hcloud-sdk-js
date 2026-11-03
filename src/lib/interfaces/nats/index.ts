@@ -60,6 +60,7 @@ enum NatsSubject {
     HIGH5_WATCH_FOLDER = "hcloud.high5.organization.${base64orgName}.spaces.${base64spaceName}.watchfolders.${base64watchFolderName}",
     HIGH5_WATCHFOLDER_SCAN = "hcloud.high5.organization.${organizationId}.watchfolder.${watchFolderId}.scan",
 
+    COSMO_QUEUE = "hcloud.cosmo.queue",
     COSMO_SPACES = "hcloud.cosmo.organization.${base64orgName}.spaces",
     COSMO_NAMESPACES = "hcloud.cosmo.organization.${base64orgName}.spaces.${base64spaceName}.namespaces",
     COSMO_ASSETS = "hcloud.cosmo.organization.${base64orgName}.spaces.${base64spaceName}.assets",
@@ -165,6 +166,7 @@ enum NatsObjectType {
     AGENT = "AGENT",
     MESSAGE = "MESSAGE",
 
+    QUEUE = "QUEUE",
     ASSET = "ASSET",
     STACK = "STACK",
     COMMENT = "COMMENT",
@@ -634,6 +636,9 @@ class NatsSubjects {
     };
 
     static Cosmo = class {
+        static QUEUE = () => {
+            return NatsSubject.COSMO_QUEUE;
+        };
         static SPACES = (organizationName: string) => {
             return NatsSubjects.replace(NatsSubject.COSMO_SPACES, { organizationName });
         };

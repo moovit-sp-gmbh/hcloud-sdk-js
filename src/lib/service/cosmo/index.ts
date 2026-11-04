@@ -156,6 +156,15 @@ export default class CosmoService extends Base {
         return resp.data;
     }
 
+    async queue(): Promise<{ start: bigint; end: bigint }> {
+        const resp = await this.axios.get<{ start: string; end: string }>(this.getEndpoint("/v1/queue"));
+
+        return {
+            start: BigInt(resp.data.start),
+            end: BigInt(resp.data.end),
+        };
+    }
+
     protected getEndpoint(endpoint: string): string {
         return `${this.options.server}/api/cosmo${endpoint}`;
     }

@@ -40,8 +40,7 @@ export type MediaAsset = {
     thumbnailUrl?: string;
     posterUrl?: string;
     namespaces?: Record<string, { status: string; statusAuthor?: ReducedUser; canWriteStatus?: boolean; tag?: Tag; metadata?: NamespaceMetadata }>;
-    queuePosition?: number;
-    queueTotal?: number;
+    queuePosition?: string;
     stack?: { version: number; stack: { _id: string; name: string; creator: ReducedUser; thumbnail?: { url: string } } };
 };
 

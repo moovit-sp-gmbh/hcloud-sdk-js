@@ -248,6 +248,9 @@ export enum SubscriptionFilter {
 
 export type NamespaceMetadata = Record<string, string | number | boolean | (string | number | boolean)[]>;
 
+/** Partial metadata update: keys set to `null` are removed, all other keys are added or overwritten */
+export type NamespaceMetadataPatch = Record<string, string | number | boolean | string[] | number[] | boolean[] | null>;
+
 export type VTTThumbnail = {
     start: number;
     end: number;

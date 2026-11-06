@@ -95,4 +95,30 @@ export class CosmoNamespace extends Base {
 
         return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Asset>;
     }
+
+    /**
+     * Add or change single metadata keys of a reference (e.g. Asset).
+     * Keys that are not sent stay unchanged. Use {@link updateMetadata} to replace the whole metadata set (e.g. to delete keys).
+     * @param orgName Name of the Organization
+     * @param spaceName Name of the Space
+     * @param refId ID of the reference to change metadata
+     * @param namespaceName Name of the Namespace
+     * @param metadata Metadata keys to add or change
+     * @returns The updated Reference
+     */
+    async patchMetadata<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        refId: string,
+        namespaceName: string,
+        metadata: NamespaceMetadata,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, Asset>> {
+        const resp = await this.axios.patch<Asset>(
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/namespaces/${namespaceName}/ref/${refId}/metadata`),
+            metadata
+        );
+
+        return (raw?.raw ? resp : resp.data) as MaybeRaw<R, Asset>;
+    }
 }

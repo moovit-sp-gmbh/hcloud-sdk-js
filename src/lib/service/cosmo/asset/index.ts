@@ -585,6 +585,25 @@ export class CosmoAsset extends Base {
     }
 
     /**
+     * Generate a full resolution image of a video asset at a specific timecode.
+     * Same as {@link getThumbnailWithTimecode}, but in the original video resolution.
+     *
+     * @param orgName Name of the Organization
+     * @param spaceName Name of the Space
+     * @param assetId ID of the video asset
+     * @param time Time in milliseconds to grab the image from
+     * @returns the image (WebP) as an ArrayBuffer (application/octet-stream)
+     */
+    async generateFullResolutionImageWithTimecode(orgName: string, spaceName: string, assetId: string, time: number): Promise<ArrayBuffer> {
+        const resp = await this.axios.post(
+            this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/assets/${assetId}/full-resolution-image`),
+            { time },
+            { responseType: "arraybuffer" }
+        );
+        return resp.data as ArrayBuffer;
+    }
+
+    /**
      * Subscribe to notifications for a specific asset or all assets in a space.
      *
      * @param orgName Name of the Organization

@@ -301,4 +301,26 @@ export class CosmoShare extends Base {
 
         return (raw?.raw ? resp : undefined) as MaybeRaw<R, undefined>;
     }
+
+    /**
+     * Get a token to interact with a public link share as the anonymous user.
+     *
+     * @param orgName   - The organization identifier
+     * @param spaceName - The space identifier within the organization
+     * @param shareId   - The ID of the share
+     * @param raw       - Optional flag to return the raw Axios response
+     *
+     * @returns The authorization header value (`Bearer <token>`) to be used in further requests,
+     *          or the raw Axios response when `raw.raw` is `true`
+     */
+    async getAnonymousUserToken<R extends boolean = false>(
+        orgName: string,
+        spaceName: string,
+        shareId: string,
+        raw?: { raw: R }
+    ): Promise<MaybeRaw<R, string>> {
+        const resp = await this.axios.get<void>(this.getEndpoint(`/v1/org/${orgName}/spaces/${spaceName}/shares/${shareId}/anonymous`));
+
+        return (raw?.raw ? resp : resp.headers["authorization"]?.toString() || "") as MaybeRaw<R, string>;
+    }
 }

@@ -48,11 +48,22 @@ export interface Share {
     /**
      * Only present when searching shares of a space.
      * `remainingCooldownInSeconds` is set for users whose share email is in cooldown and cannot be resent yet.
+     * `viaAddressBook` is true for users who are recipients only through a linked address book.
      */
-    users?: ((User | ReducedUser | ShareReducedUnlinkedUser) & { remainingCooldownInSeconds?: number })[];
+    users?: ((User | ReducedUser | ShareReducedUnlinkedUser) & { remainingCooldownInSeconds?: number; viaAddressBook?: boolean })[];
+    /**
+     * Address books linked to a private share. Their members are resolved on every share action.
+     */
+    addressBooks?: ShareAddressBook[];
     waiting: boolean;
     emailStatus?: { email: string; status: EmailStatus }[];
     message?: string;
+}
+
+export interface ShareAddressBook {
+    _id: string;
+    name: string;
+    avatarUrl?: string;
 }
 
 export enum EmailStatus {
@@ -80,7 +91,7 @@ export enum EmailStatus {
  */
 export interface ShareCreate extends Omit<
     Share,
-    "_id" | "createDate" | "creator" | "permissionGroups" | "users" | "items" | "waiting" | "invalidLink"
+    "_id" | "createDate" | "creator" | "permissionGroups" | "users" | "items" | "waiting" | "invalidLink" | "addressBooks"
 > {
     password?: string;
     expires?: number;
@@ -91,6 +102,10 @@ export interface ShareCreate extends Omit<
      * Array of emails
      */
     users?: string[];
+    /**
+     * Address books whose members (discrete members and team members) get access. Ignored for public shares.
+     */
+    addressBookIds?: string[];
     public?: boolean;
     visitsLimit?: number;
     deferred?: boolean;
@@ -100,7 +115,11 @@ export type ShareWithUsers = Share & {
     /**
      * `remainingCooldownInSeconds` is set for users whose share email is in cooldown and cannot be resent yet.
      */
-    users: ((ReducedUser | Pick<ReducedUser, "email">) & { linkedToShare: boolean; remainingCooldownInSeconds?: number })[];
+    users: ((ReducedUser | Pick<ReducedUser, "email">) & {
+        linkedToShare: boolean;
+        remainingCooldownInSeconds?: number;
+        viaAddressBook?: boolean;
+    })[];
 };
 
 /**
@@ -126,6 +145,10 @@ export type SharePatch = Partial<
         public?: boolean;
         visitsLimit?: number;
         users?: string[];
+        /**
+         * Replaces the linked address books. An empty array unlinks all.
+         */
+        addressBookIds?: string[];
         expires?: number | null;
         password?: string | null;
         message?: string;

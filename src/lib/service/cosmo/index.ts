@@ -4,6 +4,7 @@ import { CosmoAddressBook } from "./addressBook";
 import { CosmoAsset } from "./asset";
 import { CosmoComment } from "./comment";
 import { CosmoEvent } from "./event";
+import { CosmoExecute } from "./execute";
 import { CosmoFolder } from "./folder";
 import { CosmoSpaceInternal } from "./internal/space";
 import { CosmoLocation } from "./location";
@@ -113,6 +114,14 @@ export default class CosmoService extends Base {
         return this._cosmoEvent;
     }
     private _cosmoEvent?: CosmoEvent;
+
+    public get cosmoExecute(): CosmoExecute {
+        if (this._cosmoExecute === undefined) {
+            this._cosmoExecute = new CosmoExecute(this.options, this.axios);
+        }
+        return this._cosmoExecute;
+    }
+    private _cosmoExecute?: CosmoExecute;
 
     public get cosmoTag(): CosmoTag {
         if (this._cosmoTag === undefined) {
